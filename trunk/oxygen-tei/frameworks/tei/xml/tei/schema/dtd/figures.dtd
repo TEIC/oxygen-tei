@@ -1,0 +1,106 @@
+
+<!--
+DTD module figures. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Tables, formulæ, and figures
+-->
+
+<!ENTITY % cell 'INCLUDE' >
+<![ %cell; [
+
+<!--doc:contains one cell of a table.  -->
+<!ELEMENT %n.cell; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.cell; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.cell;
+ %att.global.attributes;
+ %att.tableDecoration.attributes; >
+]]>
+
+<!ENTITY % figDesc 'INCLUDE' >
+<![ %figDesc; [
+
+<!--doc:(description of figure) contains a brief prose description of the appearance or content
+of a graphic figure, for use when documenting an image without
+displaying it. -->
+<!ELEMENT %n.figDesc; %om.RR; %macro.limitedContent;>
+<!ATTLIST %n.figDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.figDesc;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % figure 'INCLUDE' >
+<![ %figure; [
+
+<!--doc:groups elements representing or containing graphic information such as an illustration or
+    figure. -->
+<!ELEMENT %n.figure; %om.RR; (%model.headLike; |
+ %model.pLike; |
+ %n.figDesc; |
+ %model.graphicLike; |
+ %model.egLike; |
+ %n.floatingText; |
+ %model.global;)*>
+<!ATTLIST %n.figure; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.figure;
+ %att.global.attributes;
+ %att.placement.attributes;
+ %att.typed.attributes; >
+]]>
+
+<!ENTITY % formula 'INCLUDE' >
+<![ %formula; [
+
+<!--doc:contains a mathematical or other formula. -->
+<!ELEMENT %n.formula; %om.RR; ( #PCDATA |
+ %model.graphicLike;)*>
+<!ATTLIST %n.formula; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.formula;
+ %att.global.attributes;
+notation %data.code;  #IMPLIED >
+]]>
+
+<!ENTITY % row 'INCLUDE' >
+<![ %row; [
+
+<!--doc:contains one row of a table.  -->
+<!ELEMENT %n.row; %om.RR; (%n.cell;)+>
+<!ATTLIST %n.row; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.row;
+ %att.global.attributes;
+ %att.tableDecoration.attributes; >
+]]>
+
+<!ENTITY % table 'INCLUDE' >
+<![ %table; [
+
+<!--doc:contains text displayed in tabular form, in rows and columns. -->
+<!ELEMENT %n.table; %om.RR; ((%model.headLike; |
+ %model.global;)*,(%n.row;,(%model.global;)*)+)>
+<!ATTLIST %n.table; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.table;
+ %att.global.attributes;
+rows %data.count;  #IMPLIED
+cols %data.count;  #IMPLIED >
+]]>

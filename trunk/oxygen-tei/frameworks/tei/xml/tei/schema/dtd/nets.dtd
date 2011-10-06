@@ -1,0 +1,199 @@
+
+<!--
+DTD module nets. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Graphs, networks, and trees
+-->
+
+<!ENTITY % arc 'INCLUDE' >
+<![ %arc; [
+
+<!--doc:encodes an arc, the connection from one node to another in a graph. -->
+<!ELEMENT %n.arc; %om.RR; (%n.label;,(%n.label;)?)?>
+<!ATTLIST %n.arc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.arc;
+ %att.global.attributes;
+from %data.pointer;  #REQUIRED
+to %data.pointer;  #REQUIRED >
+]]>
+
+<!ENTITY % eLeaf 'INCLUDE' >
+<![ %eLeaf; [
+
+<!--doc:(leaf or terminal node of an embedding tree) provides explicitly for a leaf of an embedding tree, which may also
+be encoded with the eTree element. -->
+<!ELEMENT %n.eLeaf; %om.RR; ((%n.label;)?,(%model.ptrLike;)?)>
+<!ATTLIST %n.eLeaf; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.eLeaf;
+ %att.global.attributes;
+ %att.typed.attributes;
+value %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % eTree 'INCLUDE' >
+<![ %eTree; [
+
+<!--doc:(embedding tree) provides an alternative to tree element for representing ordered rooted tree structures. -->
+<!ELEMENT %n.eTree; %om.RR; ((%n.label;)?,(%n.eTree; |
+ %n.triangle; |
+ %n.eLeaf; |
+ %model.ptrLike;)*)>
+<!ATTLIST %n.eTree; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.eTree;
+ %att.global.attributes;
+ %att.typed.attributes;
+value %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % forest 'INCLUDE' >
+<![ %forest; [
+
+<!--doc:provides for groups of rooted trees. -->
+<!ELEMENT %n.forest; %om.RR; (%n.tree; |
+ %n.eTree; |
+ %n.triangle;)+>
+<!ATTLIST %n.forest; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.forest;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % forestGrp 'INCLUDE' >
+<![ %forestGrp; [
+
+<!--doc:(forest group) provides for groups of forests. -->
+<!ELEMENT %n.forestGrp; %om.RR; (%n.forest;)+>
+<!ATTLIST %n.forestGrp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.forestGrp;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % graph 'INCLUDE' >
+<![ %graph; [
+
+<!--doc:encodes a graph, which is a collection of nodes, and arcs which
+connect the nodes. -->
+<!ELEMENT %n.graph; %om.RR; ((%n.label;,(%model.global;)*)?,(((%n.node;,(%model.global;)*)+,(%n.arc;,(%model.global;)*)*) |
+ ((%n.arc;,(%model.global;)*)+,(%n.node;,(%model.global;)*)+)))>
+<!ATTLIST %n.graph; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.graph;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED
+order %data.count;  #IMPLIED
+size %data.count;  #IMPLIED >
+]]>
+
+<!ENTITY % iNode 'INCLUDE' >
+<![ %iNode; [
+
+<!--doc:(intermediate (or internal) node) represents an intermediate (or internal) node of a tree. -->
+<!ELEMENT %n.iNode; %om.RR; (%n.label;)?>
+<!ATTLIST %n.iNode; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.iNode;
+ %att.global.attributes;
+value %data.pointer;  #IMPLIED
+children CDATA  #REQUIRED
+parent %data.pointer;  #IMPLIED
+ord %data.xTruthValue;  #IMPLIED
+follow %data.pointer;  #IMPLIED
+outDegree %data.count;  #IMPLIED >
+]]>
+
+<!ENTITY % leaf 'INCLUDE' >
+<![ %leaf; [
+
+<!--doc:encodes the leaves (terminal nodes) of a tree. -->
+<!ELEMENT %n.leaf; %om.RR; (%n.label;)?>
+<!ATTLIST %n.leaf; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.leaf;
+ %att.global.attributes;
+value %data.pointer;  #IMPLIED
+parent %data.pointer;  #IMPLIED
+follow %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % node 'INCLUDE' >
+<![ %node; [
+
+<!--doc:encodes a node, a possibly labeled point in a graph. -->
+<!ELEMENT %n.node; %om.RR; (%n.label;,(%n.label;)?)?>
+<!ATTLIST %n.node; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.node;
+ %att.global.attributes;
+value %data.pointer;  #IMPLIED
+type %data.enumerated;  #IMPLIED
+adjTo CDATA  #IMPLIED
+adjFrom CDATA  #IMPLIED
+adj CDATA  #IMPLIED
+inDegree %data.count;  #IMPLIED
+outDegree %data.count;  #IMPLIED
+degree %data.count;  #IMPLIED >
+]]>
+
+<!ENTITY % root 'INCLUDE' >
+<![ %root; [
+
+<!--doc:(root node) represents the root node of a tree. -->
+<!ELEMENT %n.root; %om.RR; (%n.label;)?>
+<!ATTLIST %n.root; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.root;
+ %att.global.attributes;
+value %data.pointer;  #IMPLIED
+children CDATA  #REQUIRED
+ord %data.xTruthValue;  #IMPLIED
+outDegree %data.count;  #IMPLIED >
+]]>
+
+<!ENTITY % tree 'INCLUDE' >
+<![ %tree; [
+
+<!--doc:encodes a tree, which is made up of a root, internal nodes,
+leaves, and arcs from root to leaves. -->
+<!ELEMENT %n.tree; %om.RR; ((%n.label;)?,((%n.leaf; |
+ %n.iNode;)*,%n.root;,(%n.leaf; |
+ %n.iNode;)*))>
+<!ATTLIST %n.tree; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.tree;
+ %att.global.attributes;
+arity %data.count;  #IMPLIED
+ord (true|partial|false) "true" 
+order %data.count;  #IMPLIED >
+]]>
+
+<!ENTITY % triangle 'INCLUDE' >
+<![ %triangle; [
+
+<!--doc:(underspecified embedding tree, so called because of its
+  characteristic shape when drawn) Provides for an underspecified eTree, that is, an eTree with
+  information left out. -->
+<!ELEMENT %n.triangle; %om.RR; ((%n.label;)?,(%n.eTree; |
+ %n.triangle; |
+ %n.eLeaf;)*)>
+<!ATTLIST %n.triangle; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.triangle;
+ %att.global.attributes;
+value %data.pointer;  #IMPLIED >
+]]>

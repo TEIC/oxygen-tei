@@ -1,0 +1,93 @@
+
+<!--
+TEI P5 entity declaration module for textcrit. Generated 2011-03-05T14:53:21Z.
+
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Critical Apparatus
+-->
+
+<!--
+Start datatype macro declarations
+-->
+
+<!--
+End of datatype macro declarations
+-->
+
+<!--
+Start of classes
+-->
+
+<!ENTITY % x.model.rdgLike "" >
+<!ENTITY % model.rdgLike "%x.model.rdgLike; %n.rdg;"> 
+<!ENTITY % x.model.rdgLike_sequence "" >
+<!ENTITY % model.rdgLike_sequence "%x.model.rdgLike_sequence; %n.rdg;"> 
+<!ENTITY % x.model.rdgLike_sequenceOptional "" >
+<!ENTITY % model.rdgLike_sequenceOptional "%x.model.rdgLike_sequenceOptional; %n.rdg;?"> 
+<!ENTITY % x.model.rdgLike_sequenceOptionalRepeatable "" >
+<!ENTITY % model.rdgLike_sequenceOptionalRepeatable "%x.model.rdgLike_sequenceOptionalRepeatable; %n.rdg;*"> 
+<!ENTITY % x.model.rdgLike_sequenceRepeatable "" >
+<!ENTITY % model.rdgLike_sequenceRepeatable "%x.model.rdgLike_sequenceRepeatable; %n.rdg;+"> 
+<!ENTITY % x.model.rdgPart "" >
+<!ENTITY % model.rdgPart "%x.model.rdgPart; %n.wit; |
+ %n.witStart; |
+ %n.witEnd; |
+ %n.lacunaStart; |
+ %n.lacunaEnd;"> 
+<!ENTITY % x.model.rdgPart_sequence "" >
+<!ENTITY % model.rdgPart_sequence "%x.model.rdgPart_sequence; %n.wit;, %n.witStart;, %n.witEnd;, %n.lacunaStart;, %n.lacunaEnd;"> 
+<!ENTITY % x.model.rdgPart_sequenceOptional "" >
+<!ENTITY % model.rdgPart_sequenceOptional "%x.model.rdgPart_sequenceOptional; %n.wit;?, %n.witStart;?, %n.witEnd;?, %n.lacunaStart;?, %n.lacunaEnd;?"> 
+<!ENTITY % x.model.rdgPart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.rdgPart_sequenceOptionalRepeatable "%x.model.rdgPart_sequenceOptionalRepeatable; %n.wit;*, %n.witStart;*, %n.witEnd;*, %n.lacunaStart;*, %n.lacunaEnd;*"> 
+<!ENTITY % x.model.rdgPart_sequenceRepeatable "" >
+<!ENTITY % model.rdgPart_sequenceRepeatable "%x.model.rdgPart_sequenceRepeatable; %n.wit;+, %n.witStart;+, %n.witEnd;+, %n.lacunaStart;+, %n.lacunaEnd;+"> 
+<!ENTITY % att.rdgPart.attributes '
+wit CDATA  #IMPLIED'> 
+<!ENTITY % att.textCritical.attributes ' %att.responsibility.attributes;
+wit CDATA  #IMPLIED
+type %data.enumerated;  #IMPLIED
+cause %data.enumerated;  #IMPLIED
+varSeq %data.count;  #IMPLIED
+hand %data.pointer;  #IMPLIED'> 
+<!--
+End of classes
+-->
+
+<!--
+Start rest of  macro declarations
+-->
+
+<!--
+End macros
+-->
+
+<!--
+Start of pre-declared macros
+-->
+
+<!--
+End of pre-declared macros
+-->

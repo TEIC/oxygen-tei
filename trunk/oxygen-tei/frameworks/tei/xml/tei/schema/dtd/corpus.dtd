@@ -1,0 +1,210 @@
+
+<!--
+DTD module corpus. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Corpus texts
+-->
+
+<!ENTITY % activity 'INCLUDE' >
+<![ %activity; [
+
+<!--doc:contains a brief informal description of what a participant in a
+language interaction is doing other than speaking, if anything. -->
+<!ELEMENT %n.activity; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.activity; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.activity;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % channel 'INCLUDE' >
+<![ %channel; [
+
+<!--doc:(primary channel) describes the medium or channel by which a text is delivered or
+experienced. For a written text, this might be print, manuscript, e-mail, etc.;
+for a spoken one, radio, telephone, face-to-face, etc. -->
+<!ELEMENT %n.channel; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.channel; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.channel;
+ %att.global.attributes;
+mode (s|w|sw|ws|m|x) "x"  >
+]]>
+
+<!ENTITY % constitution 'INCLUDE' >
+<![ %constitution; [
+
+<!--doc:describes the internal composition of a text or text sample,
+for example
+as fragmentary, complete, etc. -->
+<!ELEMENT %n.constitution; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.constitution; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.constitution;
+ %att.global.attributes;
+type (single|composite|frags|unknown) "single"  >
+]]>
+
+<!ENTITY % derivation 'INCLUDE' >
+<![ %derivation; [
+
+<!--doc:describes the nature and extent of originality of this text. -->
+<!ELEMENT %n.derivation; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.derivation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.derivation;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % domain 'INCLUDE' >
+<![ %domain; [
+
+<!--doc:(domain of use) describes the most important social context in which the text was
+realized or for which it is intended, for example private vs. public,
+education, religion, etc. -->
+<!ELEMENT %n.domain; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.domain; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.domain;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % factuality 'INCLUDE' >
+<![ %factuality; [
+
+<!--doc:describes the extent to which the text may be regarded as
+imaginative or non-imaginative, that is, as describing a fictional
+or a non-fictional world.  -->
+<!ELEMENT %n.factuality; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.factuality; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.factuality;
+ %att.global.attributes;
+type (fiction|fact|mixed|inapplicable) #IMPLIED >
+]]>
+
+<!ENTITY % interaction 'INCLUDE' >
+<![ %interaction; [
+
+<!--doc:describes the extent, cardinality and nature of any interaction
+among those producing and experiencing the text, for example in the
+form of response or interjection, commentary, etc. -->
+<!ELEMENT %n.interaction; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.interaction; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.interaction;
+ %att.global.attributes;
+type (none|partial|complete|inapplicable) #IMPLIED
+active %data.enumerated;  #IMPLIED
+passive %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % locale 'INCLUDE' >
+<![ %locale; [
+
+<!--doc:contains a brief informal description of the kind of
+place concerned, for example: a room, a restaurant, a park bench, etc. -->
+<!ELEMENT %n.locale; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.locale; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.locale;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % particDesc 'INCLUDE' >
+<![ %particDesc; [
+
+<!--doc:(participation description) describes the identifiable speakers, voices, or other participants
+in any kind of text.  -->
+<!ELEMENT %n.particDesc; %om.RR; ((%model.pLike;)+ |
+ (%model.personLike; |
+ %n.listPerson;)+)>
+<!ATTLIST %n.particDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.particDesc;
+ %att.global.attributes;
+ %att.declarable.attributes; >
+]]>
+
+<!ENTITY % preparedness 'INCLUDE' >
+<![ %preparedness; [
+
+<!--doc:describes the extent to which a text may be regarded as
+prepared or spontaneous.  -->
+<!ELEMENT %n.preparedness; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.preparedness; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.preparedness;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % purpose 'INCLUDE' >
+<![ %purpose; [
+
+<!--doc:characterizes a single purpose or communicative function of the
+text. -->
+<!ELEMENT %n.purpose; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.purpose; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.purpose;
+ %att.global.attributes;
+type %data.enumerated;  #IMPLIED
+degree %data.certainty;  #IMPLIED >
+]]>
+
+<!ENTITY % setting 'INCLUDE' >
+<![ %setting; [
+
+<!--doc:describes one particular setting in which a language
+  interaction takes place. -->
+<!ELEMENT %n.setting; %om.RR; ((%model.pLike;)+ |
+ (%model.nameLike.agent; |
+ %model.dateLike; |
+ %model.settingPart;)*)>
+<!ATTLIST %n.setting; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.setting;
+ %att.global.attributes;
+ %att.ascribed.attributes; >
+]]>
+
+<!ENTITY % settingDesc 'INCLUDE' >
+<![ %settingDesc; [
+
+<!--doc:(setting description) describes the setting or settings within which a language
+interaction takes place, either as a prose description or as a
+series of setting elements. -->
+<!ELEMENT %n.settingDesc; %om.RR; ((%model.pLike;)+ |
+ (%n.setting; |
+ %model.placeLike; |
+ %n.listPlace;)+)>
+<!ATTLIST %n.settingDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.settingDesc;
+ %att.global.attributes;
+ %att.declarable.attributes; >
+]]>
+
+<!ENTITY % textDesc 'INCLUDE' >
+<![ %textDesc; [
+
+<!--doc:(text description) provides a description of a text in terms of its
+situational parameters. -->
+<!ELEMENT %n.textDesc; %om.RR; (%model.textDescPart_sequence;,(%n.purpose;)+)>
+<!ATTLIST %n.textDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.textDesc;
+ %att.global.attributes;
+ %att.declarable.attributes; >
+]]>

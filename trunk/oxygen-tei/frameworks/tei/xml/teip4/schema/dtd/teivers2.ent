@@ -1,0 +1,21 @@
+<!-- TEI P4 DTD. Generated 2004-07-15T16:23:45-04:00 by odd2dtd.xsl -->
+
+<!-- 9.1: Base Tag Set for Verse: entities-->
+<!--
+ ** Copyright 2004 TEI Consortium.
+ ** See the main DTD fragment 'tei2.dtd' or the file 'COPYING' for the
+ ** complete copyright notice.
+-->
+<!--First, declare the class of
+components specific to verse -->
+<!ENTITY % x.comp.verse "" >
+<!ENTITY % m.comp.verse "%x.comp.verse; %n.lg1; | %n.lg2; | %n.lg3; | %n.lg4; | %n.lg5;"> 
+<!ENTITY % mix.verse '| %m.comp.verse;' >
+<!--Next define attributes common to metrical elements-->
+<!ENTITY % a.metrical '
+      met CDATA %INHERITED;
+      real CDATA #IMPLIED
+      rhyme CDATA #IMPLIED'> 
+<!ENTITY % a.enjamb '
+      enjamb CDATA #IMPLIED'> 
+<!-- end of 9.1-->

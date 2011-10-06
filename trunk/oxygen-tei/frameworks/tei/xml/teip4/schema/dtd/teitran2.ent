@@ -1,0 +1,12 @@
+<!-- TEI P4 DTD. Generated 2004-07-15T16:23:44-04:00 by odd2dtd.xsl -->
+
+<!-- 18.: Attributes for Transcription of Primary Sources-->
+<!--
+ ** Copyright 2004 TEI Consortium.
+ ** See the main DTD fragment 'tei2.dtd' or the file 'COPYING' for the
+ ** complete copyright notice.
+-->
+<!ENTITY % a.edit '
+      resp IDREF %INHERITED;
+      cert CDATA #IMPLIED'> 
+<!-- end of 18.-->

@@ -1,0 +1,219 @@
+namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
+namespace rng = "http://relaxng.org/ns/structure/1.0"
+
+# Schema generated 2011-03-05T14:52:51Z
+# Edition: 1.9.1. Last updated on March 5th 2011.
+# 
+# 
+# Copyright 2011 TEI Consortium.
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the
+# License, or (at your option) any later version. This library is
+# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details. You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# 
+# 
+# 
+# For information about the TEI, including contact
+#		details, consult the TEI web
+#	      site at http://www.tei-c.org/. 
+# 
+# 
+#	 Simple analytic mechanisms
+
+# Definitions from module analysis
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+att.global.analytic.attributes = att.global.analytic.attribute.ana
+att.global.analytic.attribute.ana =
+  
+  ## (analysis) indicates one or more elements containing interpretations of the
+  ## element on which the ana attribute appears.
+  attribute ana {
+    list { data.pointer, data.pointer* }
+  }?
+# 2. elements
+c =
+  
+  ## (character) represents a character.
+  element c { c.content, c.localattributes }
+c.content = macro.xtext
+c.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  empty
+cl =
+  
+  ## (clause) represents a grammatical clause.
+  element cl { cl.content, cl.localattributes }
+cl.content = macro.phraseSeq
+cl.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  empty
+interp =
+  
+  ## (interpretation) summarizes a specific interpretative annotation which can be linked to a span of text.
+  element interp { interp.content, interp.localattributes }
+interp.content = (text | model.gLike | model.glossLike)*
+interp.localattributes =
+  att.global.attributes, att.interpLike.attributes, empty
+interpGrp =
+  
+  ## (interpretation group) collects together a set of related interpretations which share responsibility or type.
+  element interpGrp { interpGrp.content, interpGrp.localattributes }
+interpGrp.content = model.glossLike*, interp+
+interpGrp.localattributes =
+  att.global.attributes, att.interpLike.attributes, empty
+m =
+  
+  ## (morpheme) represents a grammatical morpheme.
+  element m { m.content, m.localattributes }
+m.content = (text | model.gLike | seg | m | c | model.global)*
+m.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  
+  ## identifies the morpheme's base form.
+  attribute baseForm { data.word }?,
+  empty
+pc =
+  
+  ##  (punctuation character) a character or string of characters regarded as constituting a
+  ##   single punctuation mark.
+  element pc { pc.content, pc.localattributes }
+pc.content = (text | model.gLike | c)*
+pc.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  
+  ## indicates the extent to which this punctuation mark
+  ##       conventionally separates words or phrases
+  attribute force {
+    
+    ## the punctuation mark is a word separator
+    "strong"
+    | 
+      ## the punctuation mark is not a word separator
+      "weak"
+    | 
+      ## the punctuation mark may or may not be a
+      ## word separator
+      "inter"
+  }?,
+  
+  ## provides a name for the kind of unit delimited by  this punctuation mark.
+  attribute unit { data.enumerated }?,
+  
+  ## indicates whether this punctuation mark precedes or
+  ##       follows the unit it delimits.
+  attribute pre { data.truthValue }?,
+  empty
+phr =
+  
+  ## (phrase) represents a grammatical phrase.
+  element phr { phr.content, phr.localattributes }
+phr.content = macro.phraseSeq
+phr.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  empty
+s =
+  
+  ## (s-unit) contains a sentence-like division of a text.
+  element s { s.content, s.localattributes }
+s.content =
+  macro.phraseSeq
+  >> ns1:pattern [
+       id = "s-constraint-noNestedS"
+       "\x{a}" ~
+       "         "
+       ns1:rule [
+         context = "tei:s"
+         "\x{a}" ~
+         "            "
+         ns1:report [
+           test = "tei:s"
+           "You may not nest one s element within\x{a}" ~
+           "      another: use seg instead"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+s.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  empty
+span =
+  
+  ## associates an interpretative annotation directly with a span of text.
+  element span { span.content, span.localattributes }
+span.content = macro.phraseSeq.limited
+span.localattributes =
+  att.global.attributes,
+  att.interpLike.attributes,
+  
+  ## specifies the beginning of the passage being annotated; if not accompanied by a
+  ##         to attribute, then specifies the entire passage.
+  attribute from { data.pointer },
+  
+  ## specifies the end of the passage being annotated.
+  attribute to { data.pointer }?,
+  empty
+spanGrp =
+  
+  ## (span group) collects together span tags.
+  element spanGrp { spanGrp.content, spanGrp.localattributes }
+spanGrp.content = span*
+spanGrp.localattributes =
+  att.global.attributes, att.interpLike.attributes, empty
+w =
+  
+  ## (word) represents a grammatical (not necessarily orthographic) word.
+  element w { w.content, w.localattributes }
+w.content =
+  (text
+   | model.gLike
+   | seg
+   | w
+   | m
+   | c
+   | model.global
+   | model.lPart
+   | model.hiLike
+   | model.pPart.edit)*
+w.localattributes =
+  att.global.attributes,
+  att.segLike.attributes,
+  att.typed.attributes,
+  
+  ## provides a lemma for the word, such as an uninflected
+  ##       dictionary entry form.
+  attribute lemma { data.key }?,
+  
+  ## provides a pointer to a definition of the lemma for the
+  ##       word, for example in an online lexicon. 
+  attribute lemmaRef { data.pointer }?,
+  empty
+# 3. macros

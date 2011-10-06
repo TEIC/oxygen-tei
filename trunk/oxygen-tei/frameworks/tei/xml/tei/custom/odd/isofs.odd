@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:lang="en"  xmlns="http://www.tei-c.org/ns/1.0"
+ xmlns:rng="http://relaxng.org/ns/structure/1.0" n="isofs">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>ISO Feature Structures freestanding schema</title>
+            <author>TEI Consortium</author>
+         </titleStmt>
+         <publicationStmt>
+	     <availability status="free">
+	       <p>This template file is freely available and you are
+	       hereby authorised to copy, modify, and redistribute it in
+	       any way without further reference or permissions.</p>
+	       <p>When making such modifications, you are strongly
+	       recommended to change the present text to include an
+	       accurate statement of the licencing conditions applicable
+	       to your modified text.</p>
+	     </availability>
+	 </publicationStmt>
+         <sourceDesc>
+            <p>authored from scratch</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+     <body>
+       <schemaSpec ident="isofs" start="fs fvLib fLib">
+	 <classSpec ident="att.global" mode="delete" type="atts"/>
+	 <moduleRef key="tei"/>
+	 <moduleRef key="iso-fs"/>
+       </schemaSpec>
+     </body>
+   </text>
+</TEI>
+
+
+

@@ -1,0 +1,176 @@
+# Schema generated 2011-03-05T14:52:51Z
+# Edition: 1.9.1. Last updated on March 5th 2011.
+# 
+# 
+# Copyright 2011 TEI Consortium.
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the
+# License, or (at your option) any later version. This library is
+# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details. You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# 
+# 
+# 
+# For information about the TEI, including contact
+#		details, consult the TEI web
+#	      site at http://www.tei-c.org/. 
+# 
+# 
+#	 Certainty and uncertainty
+
+# Definitions from module certainty
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+
+# 2. elements
+certainty =
+  
+  ## indicates the degree of certainty associated
+  ##   with some aspect of the text markup. 
+  element certainty { certainty.content, certainty.localattributes }
+certainty.content = model.glossLike*
+certainty.localattributes =
+  att.global.attributes,
+  att.scoping.attributes,
+  
+  ## indicates more exactly the aspect concerning which
+  ##       certainty is being expressed: specifically, whether the markup
+  ##       is correctly located, whether the correct element or attribute
+  ##       name has been used, or whether the content of the element or
+  ##       attribute is correct,
+  ##	etc.
+  attribute locus {
+    
+    ## uncertainty concerns whether the name of the element
+    ##	  or attribute  used is correctly applied.
+    "name"
+    | 
+      ## uncertainty concerns whether the start of the element
+      ##	  is correctly identified.
+      "start"
+    | 
+      ## uncertainty concerns whether the end of the element
+      ##	  is correctly identified.
+      "end"
+    | 
+      ## uncertainty concerns both the start and the end of the
+      ##	  element.
+      "location"
+    | 
+      ## uncertainty concerns the content (for an element) or
+      ##	  the value (for an attribute)
+      "value"
+  },
+  
+  ## provides an alternative value for the aspect of the markup in
+  ## question—an alternative generic identifier, transcription,
+  ## or attribute value, or the identifier of an anchor element (to
+  ## indicate an alternative starting or ending location).  If an
+  ## assertedValue is given, the confidence level specified by
+  ## degree applies to the alternative markup specified by
+  ## assertedValue; if none is given, it applies to the markup
+  ## in the text.
+  attribute assertedValue { data.pointer | data.name | data.word }?,
+  
+  ## indicates conditions assumed in the assignment of a degree
+  ##       of confidence.
+  attribute given {
+    list { data.pointer, data.pointer* }
+  }?,
+  
+  ## indicates the degree of confidence assigned to the aspect
+  ## of the markup named by the locus attribute.
+  attribute degree { data.probability }?,
+  empty
+precision =
+  
+  ## indicates the numerical accuracy or precision  associated
+  ##   with some aspect of the text markup. 
+  element precision { precision.content, precision.localattributes }
+precision.content = model.glossLike*
+precision.localattributes =
+  att.global.attributes,
+  att.scoping.attributes,
+  
+  ## indicates the degree of precision to be assigned as a
+  ##       value between 0 (none) and 1 (optimally precise)
+  attribute degree { data.probability }?,
+  
+  ## supplies a standard deviation associated with the value in
+  ##       question
+  attribute stdDeviation { data.numeric }?,
+  empty
+respons =
+  
+  ## (responsibility) identifies the individual(s) responsible for some aspect of the
+  ## markup of particular element(s).
+  element respons { respons.content, respons.localattributes }
+respons.content = model.glossLike*
+respons.localattributes =
+  att.global.attributes,
+  att.scoping.attributes,
+  
+  ## indicates the specific aspect of the markup for which
+  ## responsibility is being assigned.
+  attribute locus {
+    list {
+      (
+       ## responsibility is being assigned concerning the name of the element
+       ##	  or attribute used.
+       "name"
+       | 
+         ## responsibility is being assigned concerning the start of the element
+         ##	  concerned.
+         "start"
+       | 
+         ## responsibility is being assigned concerning the end of the element
+         ##	  concerned.
+         "end"
+       | 
+         ## responsibility is being assigned concerning the location of the element
+         ##	  concerned.
+         "location"
+       | 
+         ## responsibility is being assigned concerning the content (for an element) or
+         ##	  the value (for an attribute)
+         "value"),
+      (
+       ## responsibility is being assigned concerning the name of the element
+       ##	  or attribute used.
+       "name"
+       | 
+         ## responsibility is being assigned concerning the start of the element
+         ##	  concerned.
+         "start"
+       | 
+         ## responsibility is being assigned concerning the end of the element
+         ##	  concerned.
+         "end"
+       | 
+         ## responsibility is being assigned concerning the location of the element
+         ##	  concerned.
+         "location"
+       | 
+         ## responsibility is being assigned concerning the content (for an element) or
+         ##	  the value (for an attribute)
+         "value")*
+    }
+  },
+  
+  ## (responsible party) identifies the individual or agency responsible for the indicated
+  ## aspect of the electronic text.
+  attribute resp { data.pointer },
+  empty
+# 3. macros

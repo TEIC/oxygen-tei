@@ -1,0 +1,454 @@
+default namespace = "http://www.tei-c.org/ns/Examples"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
+namespace ns2 = "http://www.tei-c.org/ns/1.0"
+namespace xlink = "http://www.w3.org/1999/xlink"
+
+# Schema generated from ODD source 2011-03-05T14:56:21Z. 
+# Edition: 1.9.0. Last updated on February 25th 2011.
+# Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+#
+
+# 
+# This template file is freely available and you are hereby
+#             authorised to copy, modify, and redistribute it in any way without
+#             further reference or permissions.
+# 
+# When making such modifications, you are strongly recommended to
+#             change the present text to include an accurate statement of the
+#             licencing conditions applicable to your modified text.
+macro.paraContent =
+  (text | model.gLike | model.phrase | model.inter | model.global)*
+macro.phraseSeq = (text | model.gLike | model.phrase | model.global)*
+macro.specialPara =
+  (text
+   | model.gLike
+   | model.phrase
+   | model.inter
+   | model.divPart
+   | model.global)*
+data.language = xsd:language
+data.pointer = xsd:anyURI
+data.key = xsd:string
+data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
+data.name = xsd:Name
+data.enumerated = data.name
+macro.anyXML =
+  element * - (ns2:* | egXML) {
+    attribute * { text }*,
+    (text | macro.anyXML)*
+  }
+att.canonical.attributes =
+  att.canonical.attribute.key, att.canonical.attribute.ref
+att.canonical.attribute.key =
+  
+  ## provides an externally-defined means of identifying the entity (or entities) being
+  ##         named, using a coded value of some kind.
+  attribute key { data.key }?
+att.canonical.attribute.ref =
+  
+  ## (reference) provides an explicit means of locating a full definition for the entity being named by
+  ##         means of one or more URIs.
+  attribute ref {
+    list { data.pointer, data.pointer* }
+  }?
+att.declarable.attributes = att.declarable.attribute.default
+att.declarable.attribute.default =
+  
+  ## indicates whether or not this element is selected by default when
+  ## its parent is selected.
+  [ a:defaultValue = "false" ]
+  attribute default {
+    
+    ## This element is selected if its parent is selected
+    "true"
+    | 
+      ## This element can only be selected explicitly, unless it is the
+      ## only one of its kind, in which case it is selected if its parent is selected.
+      "false"
+  }?
+att.divLike.attributes = empty
+att.global.attributes =
+  att.global.attribute.xmlid,
+  att.global.attribute.n,
+  att.global.attribute.xmllang,
+  att.global.attribute.rendition
+att.global.attribute.xmlid =
+  
+  ## (identifier) provides a unique identifier for the element bearing the attribute.
+  attribute xml:id { xsd:ID }?
+att.global.attribute.n =
+  
+  ## (number) gives a number (or other label) for an element, which is not necessarily unique within
+  ##         the document.
+  attribute n {
+    list { data.word, data.word* }
+  }?
+att.global.attribute.xmllang =
+  
+  ## (language) indicates the language of the element content using a tag generated
+  ##         according to BCP 47
+  ##          
+  attribute xml:lang { data.language }?
+att.global.attribute.rendition =
+  
+  ## points to a description of the rendering or presentation used for this element in the
+  ##         source text.
+  attribute rendition {
+    list { data.pointer, data.pointer* }
+  }?
+att.naming.attributes =
+  att.canonical.attributes,
+  att.naming.attribute.role,
+  att.naming.attribute.nymRef
+att.naming.attribute.role =
+  
+  ## may be used to specify further information about the entity referenced by
+  ## this name, for example the occupation of a person, or the status of a place. 
+  attribute role { data.enumerated }?
+att.naming.attribute.nymRef =
+  
+  ## (reference to the canonical name) provides a means of locating the canonical form
+  ##       (nym) of the names associated with the object
+  ##        named by
+  ##       the element bearing it.
+  attribute nymRef {
+    list { data.pointer, data.pointer* }
+  }?
+att.typed.attributes =
+  att.typed.attribute.type, att.typed.attribute.subtype
+att.typed.attribute.type =
+  
+  ## characterizes the element in some sense, using any convenient
+  ##  classification scheme or typology.
+  attribute type { data.enumerated }?
+att.typed.attribute.subtype =
+  
+  ## provides a sub-categorization of the element, if needed
+  attribute subtype { data.enumerated }?
+model.emphLike = title
+model.emphLike_alternation = title
+model.emphLike_sequence = title
+model.emphLike_sequenceOptional = title?
+model.emphLike_sequenceOptionalRepeatable = title*
+model.emphLike_sequenceRepeatable = title+
+model.highlighted = model.emphLike
+model.highlighted_alternation = model.emphLike_alternation
+model.highlighted_sequence = model.emphLike_sequence
+model.highlighted_sequenceOptional = model.emphLike_sequenceOptional?
+model.highlighted_sequenceOptionalRepeatable =
+  model.emphLike_sequenceOptionalRepeatable*
+model.highlighted_sequenceRepeatable =
+  model.emphLike_sequenceRepeatable+
+model.gLike = notAllowed
+model.biblLike = notAllowed
+model.biblLike_alternation = notAllowed
+model.biblLike_sequence = empty
+model.biblLike_sequenceOptional = empty
+model.biblLike_sequenceOptionalRepeatable = empty
+model.biblLike_sequenceRepeatable = notAllowed
+model.headLike = head
+model.headLike_alternation = head
+model.headLike_sequence = head
+model.headLike_sequenceOptional = head?
+model.headLike_sequenceOptionalRepeatable = head*
+model.headLike_sequenceRepeatable = head+
+model.labelLike = label
+model.labelLike_alternation = label
+model.labelLike_sequence = label
+model.labelLike_sequenceOptional = label?
+model.labelLike_sequenceOptionalRepeatable = label*
+model.labelLike_sequenceRepeatable = label+
+model.listLike = \list
+model.listLike_alternation = \list
+model.listLike_sequence = \list
+model.listLike_sequenceOptional = \list?
+model.listLike_sequenceOptionalRepeatable = \list*
+model.listLike_sequenceRepeatable = \list+
+model.pLike = p
+model.pLike_alternation = p
+model.pLike_sequence = p
+model.pLike_sequenceOptional = p?
+model.pLike_sequenceOptionalRepeatable = p*
+model.pLike_sequenceRepeatable = p+
+model.divPart = model.pLike
+model.divPart_alternation = model.pLike_alternation
+model.divPart_sequence = model.pLike_sequence
+model.divPart_sequenceOptional = model.pLike_sequenceOptional?
+model.divPart_sequenceOptionalRepeatable =
+  model.pLike_sequenceOptionalRepeatable*
+model.divPart_sequenceRepeatable = model.pLike_sequenceRepeatable+
+model.publicationStmtPart = notAllowed
+model.respLike = author
+model.respLike_alternation = author
+model.respLike_sequence = author
+model.respLike_sequenceOptional = author?
+model.respLike_sequenceOptionalRepeatable = author*
+model.respLike_sequenceRepeatable = author+
+model.divTopPart = model.headLike
+model.divTopPart_alternation = model.headLike_alternation
+model.divTopPart_sequence = model.headLike_sequence
+model.divTopPart_sequenceOptional = model.headLike_sequenceOptional?
+model.divTopPart_sequenceOptionalRepeatable =
+  model.headLike_sequenceOptionalRepeatable*
+model.divTopPart_sequenceRepeatable = model.headLike_sequenceRepeatable+
+model.divTop = model.divTopPart
+model.pLike.front = head
+model.divBottomPart = notAllowed
+model.divBottomPart_alternation = notAllowed
+model.divBottomPart_sequence = empty
+model.divBottomPart_sequenceOptional = empty
+model.divBottomPart_sequenceOptionalRepeatable = empty
+model.divBottomPart_sequenceRepeatable = notAllowed
+model.divBottom = model.divBottomPart
+model.msQuoteLike = title
+model.msQuoteLike_alternation = title
+model.msQuoteLike_sequence = title
+model.msQuoteLike_sequenceOptional = title?
+model.msQuoteLike_sequenceOptionalRepeatable = title*
+model.msQuoteLike_sequenceRepeatable = title+
+model.global = notAllowed
+model.frontPart = notAllowed
+model.inter = model.biblLike | model.labelLike | model.listLike
+model.inter_alternation =
+  model.biblLike_alternation
+  | model.labelLike_alternation
+  | model.listLike_alternation
+model.inter_sequence =
+  model.biblLike_sequence,
+  model.labelLike_sequence,
+  model.listLike_sequence
+model.inter_sequenceOptional =
+  model.biblLike_sequenceOptional?,
+  model.labelLike_sequenceOptional?,
+  model.listLike_sequenceOptional?
+model.inter_sequenceOptionalRepeatable =
+  model.biblLike_sequenceOptionalRepeatable*,
+  model.labelLike_sequenceOptionalRepeatable*,
+  model.listLike_sequenceOptionalRepeatable*
+model.inter_sequenceRepeatable =
+  model.biblLike_sequenceRepeatable+,
+  model.labelLike_sequenceRepeatable+,
+  model.listLike_sequenceRepeatable+
+model.common = model.divPart | model.inter
+model.phrase = model.highlighted
+model.divLike = \div
+model.divGenLike = notAllowed
+model.div1Like = notAllowed
+model.teiHeaderPart = notAllowed
+model.sourceDescPart = notAllowed
+model.resourceLike = notAllowed
+p =
+  
+  ## (paragraph) marks paragraphs in prose.
+  element ns2:p { macro.paraContent, att.global.attributes, empty }
+\list =
+  
+  ## (list) contains any sequence of items organized as a list.
+  element ns2:list {
+    ((model.divTop | model.global)*,
+     ((item, model.global*)+
+      | (label, model.global*, item, model.global*)+),
+     (model.divBottom, model.global*)*),
+    att.global.attributes,
+    
+    ## describes the form of the list.
+    ## Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss
+    [ a:defaultValue = "simple" ]
+    attribute type {
+      
+      ## list items are numbered or lettered. 
+      "ordered"
+      | 
+        ## list items are marked with a bullet or other typographic device. 
+        "bulleted"
+      | 
+        ## list items are not numbered or bulleted. 
+        "simple"
+      | 
+        ## each list item glosses some term or concept, which is given by a label element
+        ##             preceding the list item.
+        "gloss"
+      | xsd:Name
+    }?,
+    empty
+  }
+item =
+  
+  ## contains one component of a list.
+  element ns2:item { macro.specialPara, att.global.attributes, empty }
+label =
+  
+  ## contains the label associated with an item in a list; in glossaries, marks the term being
+  ##     defined.
+  element ns2:label { macro.phraseSeq, att.global.attributes, empty }
+head =
+  
+  ## (heading) contains any type of heading, for example the title of a section, or the heading of a list,
+  ##     glossary, manuscript description, etc.
+  element ns2:head {
+    macro.paraContent,
+    att.global.attributes,
+    att.typed.attributes,
+    empty
+  }
+author =
+  
+  ## in a bibliographic reference, contains the name(s) of the
+  ##   author(s), personal or corporate, of a work; for example in the same
+  ##   form as that provided by a recognized bibliographic name authority. 
+  element ns2:author {
+    macro.phraseSeq, att.global.attributes, att.naming.attributes, empty
+  }
+title =
+  
+  ## contains a title for any kind of work.
+  element ns2:title {
+    macro.paraContent,
+    
+    ## classifies the title according to some convenient typology.
+    ## Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] short; 5] desc(descriptive) 
+    attribute type { data.enumerated }?,
+    att.global.attributes,
+    att.canonical.attributes,
+    empty
+  }
+teiHeader =
+  
+  ## (TEI Header) supplies the descriptive and declarative information making up an electronic title page
+  ##     prefixed to every TEI-conformant text.
+  element ns2:teiHeader {
+    (fileDesc, model.teiHeaderPart*),
+    att.global.attributes,
+    
+    ## specifies the kind of document to which the header is attached, for example whether it
+    ##         is a corpus or individual text.
+    ## Sample values include: 1] text; 2] corpus
+    [ a:defaultValue = "text" ] attribute type { data.enumerated }?,
+    empty
+  }
+fileDesc =
+  
+  ## (file description) contains a full bibliographic description of an electronic file.
+  element ns2:fileDesc {
+    ((titleStmt, publicationStmt), sourceDesc+),
+    att.global.attributes,
+    empty
+  }
+titleStmt =
+  
+  ## (title statement) groups information about the title of a work and those responsible for its intellectual
+  ##     content.
+  element ns2:titleStmt {
+    (title+, model.respLike*), att.global.attributes, empty
+  }
+publicationStmt =
+  
+  ## (publication statement) groups information concerning the publication or distribution of an electronic or other
+  ##     text. 
+  element ns2:publicationStmt {
+    (model.pLike+ | model.publicationStmtPart+),
+    att.global.attributes,
+    empty
+  }
+sourceDesc =
+  
+  ## (source description) describes the source from which an electronic text was derived or generated, typically a
+  ##     bibliographic description in the case of a digitized text, or a phrase such as "born digital"
+  ##     for a text which has no previous existence.
+  element ns2:sourceDesc {
+    (model.pLike+
+     | (model.biblLike | model.sourceDescPart | model.listLike)+),
+    att.global.attributes,
+    att.declarable.attributes,
+    empty
+  }
+TEI =
+  
+  ## (TEI document) contains a single TEI-conformant document,
+  ## comprising a TEI header and a text, either in isolation or as part of a
+  ## teiCorpus element.
+  element ns2:TEI {
+    (teiHeader,
+     ((model.resourceLike+, \text?) | \text))
+    >> ns1:ns [ prefix = "tei" uri = "http://www.tei-c.org/ns/1.0" ]
+    >> ns1:ns [
+         prefix = "rng"
+         uri = "http://relaxng.org/ns/structure/1.0"
+       ],
+    att.global.attributes,
+    empty
+  }
+\text =
+  
+  ## contains a single text of any kind, whether unitary or composite, for example a poem or
+  ##     drama, a collection of essays, a novel, a dictionary, or a corpus sample.
+  element ns2:text {
+    (model.global*,
+     (front, model.global*)?,
+     body,
+     model.global*,
+     (back, model.global*)?),
+    att.global.attributes,
+    att.typed.attributes,
+    empty
+  }
+body =
+  
+  ## (text body) contains the whole body of a single unitary text, excluding any front or back matter.
+  element ns2:body {
+    (model.global*,
+     (model.divTop, (model.global | model.divTop)*)?,
+     (model.divGenLike, (model.global | model.divGenLike)*)?,
+     ((model.divLike, (model.global | model.divGenLike)*)+
+      | (model.div1Like, (model.global | model.divGenLike)*)+
+      | ((model.common, model.global*)+,
+         ((model.divLike, (model.global | model.divGenLike)*)+
+          | (model.div1Like, (model.global | model.divGenLike)*)+)?)),
+     (model.divBottom, model.global*)*),
+    att.global.attributes,
+    empty
+  }
+\div =
+  
+  ## (text division) contains a subdivision of the front, body, or back of a text.
+  element ns2:div {
+    ((model.divTop | model.global)*,
+     ((((model.divLike | model.divGenLike), model.global*)+
+       | ((model.common, model.global*)+,
+          ((model.divLike | model.divGenLike), model.global*)*)),
+      (model.divBottom, model.global*)*)?),
+    att.global.attributes,
+    att.divLike.attributes,
+    att.typed.attributes,
+    empty
+  }
+front =
+  
+  ## (front matter) contains any prefatory matter (headers,
+  ## title page, prefaces, dedications, etc.)
+  ## found  at the start of a document, before the main body.
+  element ns2:front {
+    ((model.frontPart | model.pLike.front | model.global)*,
+     ((model.div1Like,
+       (model.frontPart | model.div1Like | model.global)*)
+      | (model.divLike,
+         (model.frontPart | model.divLike | model.global)*))?,
+     (model.divBottomPart, (model.divBottomPart | model.global)*)?),
+    att.global.attributes,
+    empty
+  }
+back =
+  
+  ## (back matter) contains any appendixes, etc. following the main part of a text.
+  element ns2:back {
+    ((model.frontPart | model.pLike.front | model.global)*,
+     ((model.div1Like,
+       (model.frontPart | model.div1Like | model.global)*)
+      | (model.divLike,
+         (model.frontPart | model.divLike | model.global)*))?,
+     (model.divBottomPart, (model.divBottomPart | model.global)*)?),
+    att.global.attributes,
+    empty
+  }
+start = TEI
