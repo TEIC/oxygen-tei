@@ -1,0 +1,269 @@
+
+<!--
+DTD module transcr. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Transcription of primary
+sources
+-->
+
+<!ENTITY % addSpan 'INCLUDE' >
+<![ %addSpan; [
+
+<!--doc:(added span of text) marks the beginning of a longer sequence of text added by an
+  author, scribe, annotator or corrector (see also add). -->
+<!ELEMENT %n.addSpan; %om.RR; EMPTY>
+<!ATTLIST %n.addSpan; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.addSpan;
+ %att.global.attributes;
+ %att.transcriptional.attributes;
+ %att.placement.attributes;
+ %att.typed.attributes;
+ %att.spanning.attributes; >
+]]>
+
+<!ENTITY % am 'INCLUDE' >
+<![ %am; [
+
+<!--doc:(abbreviation marker) contains a sequence of letters or signs present in an
+  abbreviation which are omitted or replaced in the expanded form of
+  the abbreviation. -->
+<!ELEMENT %n.am; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.pPart.transcriptional;)*>
+<!ATTLIST %n.am; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.am;
+ %att.global.attributes;
+ %att.editLike.attributes; >
+]]>
+
+<!ENTITY % damage 'INCLUDE' >
+<![ %damage; [
+
+<!--doc:contains an area of damage to the text witness. -->
+<!ELEMENT %n.damage; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.damage; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.damage;
+ %att.global.attributes;
+ %att.typed.attributes;
+ %att.damaged.attributes; >
+]]>
+
+<!ENTITY % damageSpan 'INCLUDE' >
+<![ %damageSpan; [
+
+<!--doc:(damaged span of text) marks the beginning of a longer sequence of text which is
+  damaged in some way but still legible. -->
+<!ELEMENT %n.damageSpan; %om.RR; EMPTY>
+<!ATTLIST %n.damageSpan; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.damageSpan;
+ %att.global.attributes;
+ %att.damaged.attributes;
+ %att.typed.attributes;
+ %att.spanning.attributes; >
+]]>
+
+<!ENTITY % delSpan 'INCLUDE' >
+<![ %delSpan; [
+
+<!--doc:(deleted span of text) marks the beginning of a longer sequence of text deleted,
+marked as deleted, or otherwise signaled as superfluous or spurious by an
+author, scribe, annotator, or corrector. -->
+<!ELEMENT %n.delSpan; %om.RR; EMPTY>
+<!ATTLIST %n.delSpan; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.delSpan;
+ %att.global.attributes;
+ %att.transcriptional.attributes;
+ %att.typed.attributes;
+ %att.spanning.attributes; >
+]]>
+
+<!ENTITY % ex 'INCLUDE' >
+<![ %ex; [
+
+<!--doc:(editorial expansion) contains a sequence of letters added by an editor or
+  transcriber when expanding an abbreviation. -->
+<!ELEMENT %n.ex; %om.RR; %macro.xtext;>
+<!ATTLIST %n.ex; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.ex;
+ %att.global.attributes;
+ %att.editLike.attributes; >
+]]>
+
+<!ENTITY % facsimile 'INCLUDE' >
+<![ %facsimile; [
+
+<!--doc:contains a representation of some written source in the form of
+a set of images rather than as transcribed or encoded text. -->
+<!ELEMENT %n.facsimile; %om.RR; ((%n.front;)?,(%model.graphicLike; |
+ %n.surface;)+,(%n.back;)?)>
+<!ATTLIST %n.facsimile; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.facsimile;
+ %att.global.attributes;
+ %att.declaring.attributes; >
+]]>
+
+<!ENTITY % fw 'INCLUDE' >
+<![ %fw; [
+
+<!--doc:(forme work) contains a running head (e.g. a header, footer), catchword, or
+  similar material appearing on the current page. -->
+<!ELEMENT %n.fw; %om.RR; %macro.phraseSeq;>
+<!ATTLIST %n.fw; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.fw;
+ %att.global.attributes;
+ %att.placement.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % gb 'INCLUDE' >
+<![ %gb; [
+
+<!--doc: (gathering begins) marks the point in a transcribed codex at which a new
+  gathering or quire begins. -->
+<!ELEMENT %n.gb; %om.RR; EMPTY>
+<!ATTLIST %n.gb; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.gb;
+ %att.global.attributes;
+ %att.typed.attributes;
+ %att.spanning.attributes;
+ %att.breaking.attributes; >
+]]>
+
+<!ENTITY % handNotes 'INCLUDE' >
+<![ %handNotes; [
+
+<!--doc:contains one or more handNote elements documenting the
+different hands identified within the source texts. -->
+<!ELEMENT %n.handNotes; %om.RR; (%n.handNote;)+>
+<!ATTLIST %n.handNotes; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.handNotes;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % handShift 'INCLUDE' >
+<![ %handShift; [
+
+<!--doc:marks the beginning of a sequence of text written in a new
+hand, or the beginning of a scribal stint. -->
+<!ELEMENT %n.handShift; %om.RR; EMPTY>
+<!ATTLIST %n.handShift; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.handShift;
+ %att.global.attributes;
+ %att.handFeatures.attributes;
+ %att.responsibility.attributes;
+new %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % restore 'INCLUDE' >
+<![ %restore; [
+
+<!--doc:indicates restoration of text to an earlier state by
+cancellation of an editorial or authorial marking or instruction. -->
+<!ELEMENT %n.restore; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.restore; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.restore;
+ %att.global.attributes;
+ %att.transcriptional.attributes;
+ %att.typed.attributes; >
+]]>
+
+<!ENTITY % space 'INCLUDE' >
+<![ %space; [
+
+<!--doc:indicates the location of a significant space in the copy text. -->
+<!ELEMENT %n.space; %om.RR; (%model.glossLike;)*>
+<!ATTLIST %n.space; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.space;
+ %att.global.attributes;
+ %att.dimensions.attributes;
+dim (horizontal|vertical) #IMPLIED
+resp %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % subst 'INCLUDE' >
+<![ %subst; [
+
+<!--doc:(substitution) groups one or more deletions with one or more additions when
+  the combination is to be regarded as a single intervention in the text. -->
+<!ELEMENT %n.subst; %om.RR; ((%model.pPart.transcriptional;),(%model.pPart.transcriptional;)+)>
+<!ATTLIST %n.subst; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.subst;
+ %att.global.attributes;
+ %att.transcriptional.attributes; >
+]]>
+
+<!ENTITY % supplied 'INCLUDE' >
+<![ %supplied; [
+
+<!--doc:signifies text supplied by the transcriber or editor for any
+  reason, typically because the original cannot be read because of
+  physical damage or loss to the original. -->
+<!ELEMENT %n.supplied; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.supplied; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.supplied;
+ %att.global.attributes;
+ %att.editLike.attributes;
+reason CDATA  #IMPLIED >
+]]>
+
+<!ENTITY % surface 'INCLUDE' >
+<![ %surface; [
+
+<!--doc:defines a written surface in terms of a rectangular
+coordinate space, optionally  grouping one or more graphic representations of
+that space, and rectangular zones of interest
+within it. -->
+<!ELEMENT %n.surface; %om.RR; ((%model.glossLike;)*,(%model.graphicLike;)*,(%n.zone;)*)>
+<!ATTLIST %n.surface; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.surface;
+ %att.global.attributes;
+ %att.coordinated.attributes;
+ %att.declaring.attributes; >
+]]>
+
+<!ENTITY % surplus 'INCLUDE' >
+<![ %surplus; [
+
+<!--doc: (Texte superflu) marks text present in the source which the editor believes to
+  be superfluous or redundant. -->
+<!ELEMENT %n.surplus; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.surplus; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.surplus;
+ %att.global.attributes;
+ %att.editLike.attributes;
+reason CDATA  #IMPLIED >
+]]>
+
+<!ENTITY % zone 'INCLUDE' >
+<![ %zone; [
+
+<!--doc:defines a rectangular area contained within a surface
+element.  -->
+<!ELEMENT %n.zone; %om.RR; ((%model.glossLike;)*,(%model.graphicLike;)*)>
+<!ATTLIST %n.zone; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.zone;
+ %att.global.attributes;
+ %att.coordinated.attributes; >
+]]>

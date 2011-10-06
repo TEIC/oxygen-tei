@@ -1,0 +1,139 @@
+# Schema generated 2011-03-05T14:52:51Z
+# Edition: 1.9.1. Last updated on March 5th 2011.
+# 
+# 
+# Copyright 2011 TEI Consortium.
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the
+# License, or (at your option) any later version. This library is
+# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details. You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# 
+# 
+# 
+# For information about the TEI, including contact
+#		details, consult the TEI web
+#	      site at http://www.tei-c.org/. 
+# 
+# 
+#	 Character and glyph documentation
+
+# Definitions from module gaiji
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+
+# 2. elements
+char =
+  
+  ## (character) provides descriptive information about a character. 
+  element char { char.content, char.localattributes }
+char.content =
+  charName?,
+  model.glossLike*,
+  charProp*,
+  mapping*,
+  figure*,
+  model.graphicLike*,
+  model.noteLike*
+char.localattributes = att.global.attributes, empty
+charDecl =
+  
+  ## (character declarations) provides information about nonstandard characters and glyphs. 
+  element charDecl { charDecl.content, charDecl.localattributes }
+charDecl.content = desc?, (char | glyph)+
+charDecl.localattributes = att.global.attributes, empty
+charName =
+  
+  ## (character name) contains the name of a character, expressed following Unicode conventions. 
+  element charName { charName.content, charName.localattributes }
+charName.content = text
+charName.localattributes = att.global.attributes, empty
+charProp =
+  
+  ## (character property) provides a name and value for some property of the parent character or glyph. 
+  element charProp { charProp.content, charProp.localattributes }
+charProp.content = (unicodeName | localName), value
+charProp.localattributes =
+  att.global.attributes, att.typed.attributes, empty
+g =
+  
+  ## (character or glyph) represents a non-standard character or glyph.
+  element g { g.content, g.localattributes }
+g.content = text
+g.localattributes =
+  att.global.attributes,
+  att.typed.attributes,
+  
+  ## points to a description of the character or glyph intended.
+  attribute ref { data.pointer }?,
+  empty
+glyph =
+  
+  ## (character glyph) provides descriptive information about a character glyph. 
+  element glyph { glyph.content, glyph.localattributes }
+glyph.content =
+  glyphName?,
+  model.glossLike*,
+  charProp*,
+  mapping*,
+  figure*,
+  model.graphicLike*,
+  model.noteLike*
+glyph.localattributes = att.global.attributes, empty
+glyphName =
+  
+  ## (character glyph name) contains the name of a glyph, expressed following Unicode conventions for character names. 
+  element glyphName { glyphName.content, glyphName.localattributes }
+glyphName.content = text
+glyphName.localattributes = att.global.attributes, empty
+localName =
+  
+  ## (locally-defined property name) contains a locally defined name for some property. 
+  element localName { localName.content, localName.localattributes }
+localName.content = text
+localName.localattributes = att.global.attributes, empty
+mapping =
+  
+  ## (character mapping) contains one or more
+  ##	 characters which are related to the parent character or glyph
+  ##	 in some respect, as specified by the type
+  ##	 attribute.
+  ##
+  element mapping { mapping.content, mapping.localattributes }
+mapping.content = macro.xtext
+mapping.localattributes =
+  att.global.attributes, att.typed.attributes, empty
+unicodeName =
+  
+  ## (unicode property name) contains the name of a registered Unicode normative or informative property. 
+  element unicodeName {
+    unicodeName.content, unicodeName.localattributes
+  }
+unicodeName.content = text
+unicodeName.localattributes =
+  att.global.attributes,
+  
+  ## specifies the version number of the Unicode Standard in which this property name is
+  ##         defined.
+  attribute version { data.version }?,
+  empty
+value =
+  
+  ## (value) contains a single value for some property, attribute, or other
+  ##   analysis.
+  element value { value.content, value.localattributes }
+value.content = macro.xtext
+value.localattributes = att.global.attributes, empty
+# 3. macros

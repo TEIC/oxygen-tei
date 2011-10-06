@@ -1,0 +1,80 @@
+
+<!--
+DTD module verse. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Verse structures
+-->
+
+<!ENTITY % caesura 'INCLUDE' >
+<![ %caesura; [
+
+<!--doc:marks the point at which a metrical line may be divided. -->
+<!ELEMENT %n.caesura; %om.RR; EMPTY>
+<!ATTLIST %n.caesura; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.caesura;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % metDecl 'INCLUDE' >
+<![ %metDecl; [
+
+<!--doc:(metrical notation declaration) documents the notation employed to represent a metrical pattern when this is specified as
+    the value of a met, real, or rhyme attribute on any structural
+    element of a metrical text (e.g. lg, l, or seg). -->
+<!ELEMENT %n.metDecl; %om.RR; ((%model.pLike; |
+ %model.noteLike;)+ |
+ (%n.metSym;)+)>
+<!ATTLIST %n.metDecl; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.metDecl;
+ %att.global.attributes;
+ %att.declarable.attributes;
+type NMTOKENS  "met real" 
+pattern %data.pattern;  #IMPLIED >
+]]>
+
+<!ENTITY % metSym 'INCLUDE' >
+<![ %metSym; [
+
+<!--doc:(metrical notation symbol) documents the intended significance of a particular character or character sequence within a
+    metrical notation, either explicitly or in terms of other symbol elements in the same metDecl. -->
+<!ELEMENT %n.metSym; %om.RR; %macro.phraseSeq.limited;>
+<!ATTLIST %n.metSym; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.metSym;
+ %att.global.attributes;
+value CDATA  #REQUIRED
+terminal %data.truthValue;  "true"  >
+]]>
+
+<!ENTITY % rhyme 'INCLUDE' >
+<![ %rhyme; [
+
+<!--doc:marks the rhyming part of a metrical line. -->
+<!ELEMENT %n.rhyme; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.rhyme; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.rhyme;
+ %att.global.attributes;
+ %att.typed.attributes;
+label %data.word;  #IMPLIED >
+]]>

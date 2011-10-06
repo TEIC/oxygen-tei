@@ -1,0 +1,4511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serialized version="13.1" xml:space="preserve">
+	<map>
+		<entry>
+			<String>document.types</String>
+			<documentTypeDescriptor-array>
+				<documentTypeDescriptor>
+					<field name="name">
+						<String>TEI ODD</String>
+					</field>
+					<field name="schemaDescriptor">
+						<docTypeSchema>
+							<field name="type">
+								<Integer>6</Integer>
+							</field>
+							<field name="uri">
+								<String>${frameworks}/tei/xml/tei/custom/schema/relaxng/brown_odds.rng</String>
+							</field>
+						</docTypeSchema>
+					</field>
+					<field name="classpath">
+						<String-array>
+							<String>${frameworks}/tei/tei.jar</String>
+							<String>${frameworks}/tei/resources/</String>
+						</String-array>
+					</field>
+					<field name="authorExtensionDescriptor">
+						<authorExtension>
+							<field name="cssDescriptors">
+								<cssFile-array>
+									<cssFile>
+										<field name="href">
+											<String>${frameworks}/tei/xml/tei/css/tei_oxygen_odd.css</String>
+										</field>
+										<field name="title">
+											<String></String>
+										</field>
+										<field name="alternate">
+											<Boolean>false</Boolean>
+										</field>
+									</cssFile>
+								</cssFile-array>
+							</field>
+							<field name="mergeCSSsFromDocument">
+								<Boolean>false</Boolean>
+							</field>
+							<field name="actionDescriptors">
+								<action-array>
+									<action>
+										<field name="id">
+											<String>bold</String>
+										</field>
+										<field name="name">
+											<String>Bold</String>
+										</field>
+										<field name="description">
+											<String>Highlight text. Insert the hi[rend="bold"] element.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Bold20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Bold16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String>B</String>
+										</field>
+										<field name="accelerator">
+											<String>ctrl B</String>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>element</String>
+																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>italic</String>
+										</field>
+										<field name="name">
+											<String>Italic</String>
+										</field>
+										<field name="description">
+											<String>Highlight text. Insert the hi[rend="italic"] element.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Italic20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Italic16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String>I</String>
+										</field>
+										<field name="accelerator">
+											<String>ctrl I</String>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>element</String>
+																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="italic"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>underline</String>
+										</field>
+										<field name="name">
+											<String>Underline</String>
+										</field>
+										<field name="description">
+											<String>Highlight text. Insert the hi[rend="ul"] element.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Underline20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Underline16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String>U</String>
+										</field>
+										<field name="accelerator">
+											<String>ctrl U</String>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>element</String>
+																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="ul"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>paragraph</String>
+										</field>
+										<field name="name">
+											<String>Insert Paragraph</String>
+										</field>
+										<field name="description">
+											<String>Insert a new paragraph</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Paragraph20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Paragraph16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<String>ctrl shift P</String>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:p[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;p xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:p[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;p xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>item</String>
+										</field>
+										<field name="name">
+											<String>Insert List Item</String>
+										</field>
+										<field name="description">
+											<String>Insert a list item</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/ListItem20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/ListItem16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::node()[namespace-uri() = "http://www.tei-c.org/ns/1.0"][self::*:list | self::*:item][1][self::*:list]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::node()[parent::*:list][namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:item[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:item[1][namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>ordered list</String>
+										</field>
+										<field name="name">
+											<String>Insert Ordered List</String>
+										</field>
+										<field name="description">
+											<String>Insert an ordered list at the caret position</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/OrderedList20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/OrderedList16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>itemizedlist</String>
+										</field>
+										<field name="name">
+											<String>Insert Itemized List</String>
+										</field>
+										<field name="description">
+											<String>Insert an itemized list at the caret position</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/UnorderedList20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/UnorderedList16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table</String>
+										</field>
+										<field name="name">
+											<String>Insert Table</String>
+										</field>
+										<field name="description">
+											<String>Customize and insert table</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Table20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Table16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:ab| self::*:add| self::*:camera| self::*:caption| self::*:case| self::*:cell| self::*:colloc| self::*:corr
+| self::*:damage| self::*:def| self::*:del| self::*:docEdition| self::*:emph| self::*:gen| self::*:gram| self::*:head
+| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur| self::*:l| self::*:lang| self::*:lbl| self::*:mood
+| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per| self::*:pos| self::*:pron| self::*:ref
+| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic| self::*:sound| self::*:stress
+| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title| self::*:titlePart
+| self::*:tns| self::*:unclear| self::*:usg| self::*:writing
+| self::*:accMat| self::*:acquisition| self::*:additions| self::*:collation| self::*:condition| self::*:custEvent
+| self::*:decoNote| self::*:filiation| self::*:foliation| self::*:handNote| self::*:item| self::*:layout
+| self::*:musicNotation| self::*:note| self::*:origin| self::*:provenance| self::*:q| self::*:quote| self::*:said
+| self::*:source| self::*:stage| self::*:support| self::*:surrogates| self::*:typeNote| self::*:view
+| self::*:argument| self::*:body| self::*:castList| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4
+| self::*:div5| self::*:div6| self::*:div7| self::*:epigraph| self::*:epilogue| self::*:performance
+| self::*:postscript| self::*:prologue| self::*:set
+| self::*:change| self::*:dictScrap| self::*:entryFree| self::*:etym| self::*:form| self::*:gramGrp| self::*:lem
+| self::*:rdg| self::*:xr| self::*:desc| self::*:fDescr| self::*:figDesc| self::*:fsDescr| self::*:meeting
+| self::*:rendition| self::*:tagUsage| self::*:witness</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>defaultNamespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertTableOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.row</String>
+										</field>
+										<field name="name">
+											<String>Insert Row</String>
+										</field>
+										<field name="description">
+											<String>Insert a table row with cells</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableRow20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableRow16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:table[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.cell</String>
+										</field>
+										<field name="name">
+											<String>Insert Cell</String>
+										</field>
+										<field name="description">
+											<String>Insert a table cell</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableCell20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableCell16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;cell xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;cell xmlns="http://www.tei-c.org/ns/1.0"/></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:cell[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>section</String>
+										</field>
+										<field name="name">
+											<String>Insert Section</String>
+										</field>
+										<field name="description">
+											<String>Insert a new section/subsection in the document</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Section20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Section16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div7 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div7></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div6]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div7 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div7></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div5]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div4]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div3]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div2]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div1]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div1 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div1></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div]</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>(ancestor::*:back | ancestor::*:body | ancestor::*:front)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::node()[namespace-uri()='http://www.tei-c.org/ns/1.0'][parent::*:back or parent::*:body or parent::*:front][1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String></String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>fragment</String>
+																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String></String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert image</String>
+										</field>
+										<field name="name">
+											<String>Insert Image</String>
+										</field>
+										<field name="description">
+											<String>Insert Image Reference</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Image20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Image16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:char| self::*:glyph | self::*:address| self::*:app| self::*:argument| self::*:back| self::*:bibl| self::*:body
+| self::*:byline| self::*:castGroup| self::*:castItem| self::*:castList| self::*:change| self::*:cit| self::*:closer
+| self::*:date| self::*:dictScrap| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4| self::*:div5
+| self::*:div6| self::*:div7| self::*:docImprint| self::*:docTitle| self::*:entry| self::*:entryFree| self::*:epigraph
+| self::*:epilogue| self::*:etym| self::*:figure| self::*:floatingText| self::*:form| self::*:front| self::*:gramGrp
+| self::*:graph| self::*:group| self::*:hom| self::*:imprint| self::*:lem| self::*:lg| self::*:list| self::*:m
+| self::*:msItem| self::*:opener| self::*:performance| self::*:person| self::*:postscript| self::*:prologue| self::*:rdg
+| self::*:re| self::*:sense| self::*:series| self::*:set| self::*:sp| self::*:table| self::*:text| self::*:time
+| self::*:titlePage| self::*:u| self::*:w| self::*:xr | self::*:ab| self::*:add| self::*:camera| self::*:caption
+| self::*:case| self::*:cell| self::*:colloc| self::*:corr| self::*:damage| self::*:def| self::*:del| self::*:docEdition
+| self::*:emph| self::*:gen| self::*:gram| self::*:head| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur
+| self::*:l| self::*:lang| self::*:lbl| self::*:mood| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per
+| self::*:pos| self::*:pron| self::*:ref| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic
+| self::*:sound| self::*:stress| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title
+| self::*:titlePart| self::*:tns| self::*:unclear| self::*:usg| self::*:writing | self::*:abbr| self::*:actor
+| self::*:addName| self::*:addrLine| self::*:affiliation| self::*:author| self::*:biblScope| self::*:birth| self::*:bloc
+| self::*:catchwords| self::*:cl| self::*:colophon| self::*:country| self::*:dateline| self::*:death| self::*:distinct
+| self::*:distributor| self::*:district| self::*:docAuthor| self::*:docDate| self::*:edition| self::*:editor
+| self::*:education| self::*:email| self::*:expan| self::*:explicit| self::*:extent| self::*:faith| self::*:finalRubric
+| self::*:floruit| self::*:foreign| self::*:forename| self::*:fw| self::*:genName| self::*:geoDecl| self::*:geogName
+| self::*:gloss| self::*:headItem| self::*:headLabel| self::*:heraldry| self::*:incipit| self::*:label| self::*:material
+| self::*:measure| self::*:mentioned| self::*:name| self::*:nameLink| self::*:nationality| self::*:num
+| self::*:occupation| self::*:orgName| self::*:persName| self::*:phr| self::*:placeName| self::*:pubPlace
+| self::*:publisher| self::*:region| self::*:residence| self::*:role| self::*:roleDesc| self::*:roleName| self::*:rs
+| self::*:rubric| self::*:s| self::*:salute| self::*:secFol| self::*:settlement| self::*:sex| self::*:signatures
+| self::*:signed| self::*:soCalled| self::*:socecStatus| self::*:speaker| self::*:stamp| self::*:street| self::*:summary
+| self::*:surname| self::*:term| self::*:textLang| self::*:trailer| self::*:watermark| self::*:wit| self::*:witDetail
+| self::*:activity| self::*:age| self::*:authority| self::*:channel| self::*:classCode| self::*:constitution
+| self::*:creation| self::*:derivation| self::*:domain| self::*:factuality| self::*:funder| self::*:interaction
+| self::*:langKnown| self::*:language| self::*:locale| self::*:metSym| self::*:preparedness| self::*:principal
+| self::*:purpose| self::*:resp| self::*:span| self::*:sponsor| self::*:valDesc
+</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.InsertImageOperationP5</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.column</String>
+										</field>
+										<field name="name">
+											<String>Insert Column</String>
+										</field>
+										<field name="description">
+											<String>Insert a table column</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableColumn20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableColumn16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.join.row.cells</String>
+										</field>
+										<field name="name">
+											<String>Join Row Cells</String>
+										</field>
+										<field name="description">
+											<String>Join the content of the selected cells. The operation is available only if the selected cells are from the same row and they have the same column span.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableJoinRowCells20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableJoinRowCells16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.JoinRowCellsOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.split.left</String>
+										</field>
+										<field name="name">
+											<String>Split Cell To The Left</String>
+										</field>
+										<field name="description">
+											<String>Split the content of a table cell that spans over multiple columns</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableSplitCellLeft20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableSplitCellLeft16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Split point</String>
+																<String>Left</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.SplitLeftRightOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.split.right</String>
+										</field>
+										<field name="name">
+											<String>Split Cell To The Right</String>
+										</field>
+										<field name="description">
+											<String>Split the content of a table cell that spans over multiple columns</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableSplitCellRight20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableSplitCellRight16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Split point</String>
+																<String>Right</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.SplitLeftRightOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.join.cell.above</String>
+										</field>
+										<field name="name">
+											<String>Join Cell Above</String>
+										</field>
+										<field name="description">
+											<String>Join the content of the selected cell with the content of the cell above. The operation is available only if there is an above cell and both cells have the same column span.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableJoinCellUp20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableJoinCellUp16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Join direction</String>
+																<String>Above</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.JoinCellAboveBelowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.join.cell.below</String>
+										</field>
+										<field name="name">
+											<String>Join Cell Below</String>
+										</field>
+										<field name="description">
+											<String>Join the content of the selected cell with the content of the cell below. The operation is available only if there is an below cell and both cells have the same column span.</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableJoinCellDown20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableJoinCellDown16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Join direction</String>
+																<String>Below</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.JoinCellAboveBelowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.split.below</String>
+										</field>
+										<field name="name">
+											<String>Split Cell Below</String>
+										</field>
+										<field name="description">
+											<String>Split the content of a table cell that spans over multiple rows</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableSplitCellDown20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableSplitCellDown16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Split point</String>
+																<String>Below</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.SplitCellAboveBelowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.split.above</String>
+										</field>
+										<field name="name">
+											<String>Split Cell Above</String>
+										</field>
+										<field name="description">
+											<String>Split the content of a table cell that spans over multiple rows</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableSplitCellUp20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableSplitCellUp16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>Split point</String>
+																<String>Above</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.SplitCellAboveBelowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>delete.table.column</String>
+										</field>
+										<field name="name">
+											<String>Delete Column</String>
+										</field>
+										<field name="description">
+											<String>Delete a table column</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/DeleteColumn20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/DeleteColumn16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String>D</String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.DeleteColumnOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>delete.table.row</String>
+										</field>
+										<field name="name">
+											<String>Delete Row</String>
+										</field>
+										<field name="description">
+											<String>Delete a table row</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/DeleteRow20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/DeleteRow16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.DeleteRowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>id.options</String>
+										</field>
+										<field name="name">
+											<String>ID Options...</String>
+										</field>
+										<field name="description">
+											<String>Options for IDs handling</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String>I</String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>true()</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.id.TEIConfigureAutoIDElementsOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>generate.ids</String>
+										</field>
+										<field name="name">
+											<String>Generate IDs</String>
+										</field>
+										<field name="description">
+											<String>Generate IDs for the current selection</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>true()</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.id.GenerateIDsTEIP5Operation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+								</action-array>
+							</field>
+							<field name="menubarDescriptor">
+								<menu>
+									<field name="label">
+										<String>TEI ODD</String>
+									</field>
+									<field name="accessKey">
+										<String>I</String>
+									</field>
+									<field name="iconPath">
+										<String></String>
+									</field>
+									<field name="menuEntriesDescriptorList">
+										<menuEntry-array>
+											<menuItem>
+												<field name="actionID">
+													<String>bold</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>italic</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>underline</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>section</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>paragraph</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>insert image</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menu>
+												<field name="label">
+													<String>List</String>
+												</field>
+												<field name="accessKey">
+													<String></String>
+												</field>
+												<field name="iconPath">
+													<String>/images/UnorderedList16.gif</String>
+												</field>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>item</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>ordered list</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>itemizedlist</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
+											<menu>
+												<field name="label">
+													<String>Table</String>
+												</field>
+												<field name="accessKey">
+													<String></String>
+												</field>
+												<field name="iconPath">
+													<String>/images/Table16.gif</String>
+												</field>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.row</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.cell</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>delete.table.column</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>delete.table.row</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.row.cells</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.cell.above</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.cell.below</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.left</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.right</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.above</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.below</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>id.options</String>
+												</field>
+											</menuItem>
+										</menuEntry-array>
+									</field>
+								</menu>
+							</field>
+							<field name="popupMenuDescriptor">
+								<menu>
+									<field name="label">
+										<String>Contextual Menu</String>
+									</field>
+									<field name="accessKey">
+										<null/>
+									</field>
+									<field name="iconPath">
+										<null/>
+									</field>
+									<field name="menuEntriesDescriptorList">
+										<menuEntry-array>
+											<menuItem>
+												<field name="actionID">
+													<String>section</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>paragraph</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>insert image</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menu>
+												<field name="label">
+													<String>Table</String>
+												</field>
+												<field name="accessKey">
+													<String></String>
+												</field>
+												<field name="iconPath">
+													<String>/images/Table16.gif</String>
+												</field>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.row</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.cell</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>delete.table.column</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>delete.table.row</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.row.cells</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.cell.above</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.join.cell.below</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.left</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.right</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.above</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>table.split.below</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>generate.ids</String>
+												</field>
+											</menuItem>
+										</menuEntry-array>
+									</field>
+								</menu>
+							</field>
+							<field name="toolbarDescriptor">
+								<toolbar>
+									<field name="id">
+										<String>Toolbar</String>
+									</field>
+									<field name="type">
+										<Integer>2</Integer>
+									</field>
+									<field name="largeIconPath">
+										<null/>
+									</field>
+									<field name="smallIconPath">
+										<null/>
+									</field>
+									<field name="toolbarEntriesDescriptorList">
+										<toolbarEntry-array>
+											<toolbarItem>
+												<field name="actionID">
+													<String>bold</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>italic</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>underline</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>section</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>paragraph</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>insert image</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>item</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>ordered list</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>itemizedlist</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>insert.table</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>insert.table.row</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>insert.table.column</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>insert.table.cell</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>delete.table.column</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>delete.table.row</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.join.row.cells</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.join.cell.above</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.join.cell.below</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.split.left</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.split.right</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.split.above</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.split.below</String>
+												</field>
+											</toolbarItem>
+										</toolbarEntry-array>
+									</field>
+								</toolbar>
+							</field>
+							<field name="additionalToolbarsDescriptors">
+								<null/>
+							</field>
+							<field name="contextualItems">
+								<contextProvider>
+									<field name="items">
+										<contextItem-array>
+											<contextItem>
+												<field name="targets">
+													<list>
+														<Integer>0</Integer>
+													</list>
+												</field>
+												<field name="actionID">
+													<String>insert image</String>
+												</field>
+												<field name="alias">
+													<String>figure wizard</String>
+												</field>
+											</contextItem>
+											<contextItem>
+												<field name="targets">
+													<list>
+														<Integer>0</Integer>
+													</list>
+												</field>
+												<field name="actionID">
+													<String>insert.table</String>
+												</field>
+												<field name="alias">
+													<String>table wizard</String>
+												</field>
+											</contextItem>
+											<contextItem>
+												<field name="targets">
+													<list>
+														<Integer>0</Integer>
+													</list>
+												</field>
+												<field name="actionID">
+													<String>insert.table.row</String>
+												</field>
+												<field name="alias">
+													<String>row wizard</String>
+												</field>
+											</contextItem>
+										</contextItem-array>
+									</field>
+									<field name="removeItems">
+										<null/>
+									</field>
+								</contextProvider>
+							</field>
+							<field name="tableSupportClassName">
+								<null/>
+							</field>
+							<field name="tableColWidthSupportClassName">
+								<null/>
+							</field>
+							<field name="customReferencesResolver">
+								<null/>
+							</field>
+							<field name="authorExtensionStateListener">
+								<null/>
+							</field>
+							<field name="attributesRecognizer">
+								<null/>
+							</field>
+						</authorExtension>
+					</field>
+					<field name="templatesLocations">
+						<String-array>
+							<String>${frameworksDir}/tei/templates/TEI ODD</String>
+						</String-array>
+					</field>
+					<field name="xmlCatalogs">
+						<String-array>
+							<String>${frameworks}/tei/xml/tei/custom/schema/catalog.xml</String>
+							<String>${frameworks}/tei/xml/tei/schema/catalog.xml</String>
+						</String-array>
+					</field>
+					<field name="description">
+						<String>The Text Encoding Initiative (TEI) Guidelines are an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation. 
+The TEI tagset for markup language documentation (module tagdocs, chapter 22 “Documentation Elements”), affectionately called “ODD”, is a generic meta-language that can be used to develop markup languages from scratch.</String>
+					</field>
+					<field name="doctypeRules">
+						<documentTypeRule-array>
+							<documentTypeRule>
+								<field name="namespace">
+									<String>http://www.tei-c.org/ns/1.0</String>
+								</field>
+								<field name="rootElem">
+									<String>*</String>
+								</field>
+								<field name="fileName">
+									<String>*.odd</String>
+								</field>
+								<field name="publicID">
+									<String>*</String>
+								</field>
+								<field name="javaRuleClass">
+									<String></String>
+								</field>
+							</documentTypeRule>
+						</documentTypeRule-array>
+					</field>
+					<field name="scenarios">
+						<scenario-array>
+							<scenario>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD XHTML</String>
+								</field>
+								<field name="baseURL">
+									<String></String>
+								</field>
+								<field name="footerURL">
+									<String></String>
+								</field>
+								<field name="fOPMethod">
+									<String>pdf</String>
+								</field>
+								<field name="fOProcessorName">
+									<String>Apache FOP</String>
+								</field>
+								<field name="headerURL">
+									<String></String>
+								</field>
+								<field name="inputXSLURL">
+									<String>${frameworks}/tei/xml/tei/stylesheet/odds2/odd2odd.xsl</String>
+								</field>
+								<field name="inputXMLURL">
+									<String>${currentFileURL}</String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>XSL</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<File>${cfd}/${cfn}.html</File>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<null/>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list>
+										<transformationParameter>
+											<field name="paramDescription">
+												<paramDescriptor>
+													<field name="localName">
+														<String>defaultSource</String>
+													</field>
+													<field name="prefix">
+														<null/>
+													</field>
+													<field name="namespace">
+														<null/>
+													</field>
+												</paramDescriptor>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="hasXPathValue">
+												<Boolean>false</Boolean>
+											</field>
+										</transformationParameter>
+									</list>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array>
+										<String>${frameworks}/tei/xml/tei/stylesheet/odds2/odd2lite.xsl</String>
+										<String>${frameworks}/tei/xml/tei/stylesheet/xhtml2/tei.xsl</String>
+									</String-array>
+								</field>
+								<field name="xslTransformer">
+									<String>Saxon-PE</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</scenario>
+							<scenario>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD PDF</String>
+								</field>
+								<field name="baseURL">
+									<String></String>
+								</field>
+								<field name="footerURL">
+									<String></String>
+								</field>
+								<field name="fOPMethod">
+									<String>pdf</String>
+								</field>
+								<field name="fOProcessorName">
+									<String>Apache FOP</String>
+								</field>
+								<field name="headerURL">
+									<String></String>
+								</field>
+								<field name="inputXSLURL">
+									<String>${frameworks}/tei/xml/tei/stylesheet/odds2/odd2odd.xsl</String>
+								</field>
+								<field name="inputXMLURL">
+									<String>${currentFileURL}</String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="type">
+									<String>XSL</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<File>${cfd}/${cfn}.pdf</File>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<null/>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list>
+										<transformationParameter>
+											<field name="paramDescription">
+												<paramDescriptor>
+													<field name="localName">
+														<String>defaultSource</String>
+													</field>
+													<field name="prefix">
+														<null/>
+													</field>
+													<field name="namespace">
+														<null/>
+													</field>
+												</paramDescriptor>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="hasXPathValue">
+												<Boolean>false</Boolean>
+											</field>
+										</transformationParameter>
+									</list>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array>
+										<String>${frameworks}/tei/xml/tei/stylesheet/odds2/odd2lite.xsl</String>
+										<String>${frameworks}/tei/xml/tei/stylesheet/fo2/teiCustom.xsl</String>
+									</String-array>
+								</field>
+								<field name="xslTransformer">
+									<String>Saxon-PE</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</scenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/epub/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output EPUB will be saved</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.epub</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>processODD</String>
+											</field>
+											<field name="description">
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD EPUB</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.epub</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/docx/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output DOCX file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.docx</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>processODD</String>
+											</field>
+											<field name="description">
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD DOCX</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.docx</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/odt/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI P5 XML input file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output ODT file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.odt</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>Tei source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>processODD</String>
+											</field>
+											<field name="description">
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD ODT</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.odt</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/relaxng/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.rng</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD to RelaxNG</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.rng</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/dtd/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output DTD file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.dtd</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD to DTD</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.dtd</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/xsd/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.xsd</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD to XSD</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.xsd</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/trang.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>${frameworksDir}/tei/xml/tei/stylesheet/rnc/build-to.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>inputFile</String>
+											</field>
+											<field name="description">
+												<String>Path to the TEI XML file.</String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.rnc</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>lang</String>
+											</field>
+											<field name="description">
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
+											</field>
+											<field name="value">
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${frameworks}/tei/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${cfd}</String>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>TEI ODD to RNC</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/out/${cfn}.rnc</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon9ee.jar</String>
+										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-xpath.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/trang.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+						</scenario-array>
+					</field>
+					<field name="validationScenarios">
+						<validationScenario-array/>
+					</field>
+					<field name="defaultValidationScenarioName">
+						<null/>
+					</field>
+					<field name="defaultTransformationScenarioName">
+						<null/>
+					</field>
+					<field name="extensionsBundleClassName">
+						<String>ro.sync.ecss.extensions.tei.TEIP5ExtensionsBundle</String>
+					</field>
+					<field name="useImposedInitialPage">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="imposedInitialPage">
+						<String>Text</String>
+					</field>
+					<field name="elementLocatorExtension">
+						<null/>
+					</field>
+					<field name="schemaManagerFilterExtension">
+						<null/>
+					</field>
+					<field name="authorSWTDndExtension">
+						<null/>
+					</field>
+					<field name="textSWTDndExtension">
+						<null/>
+					</field>
+					<field name="authorSwingDndExtension">
+						<null/>
+					</field>
+					<field name="cssStylesFilterExtension">
+						<null/>
+					</field>
+					<field name="attributesValueEditor">
+						<null/>
+					</field>
+					<field name="priority">
+						<Integer>2</Integer>
+					</field>
+				</documentTypeDescriptor>
+			</documentTypeDescriptor-array>
+		</entry>
+	</map>
+</serialized>

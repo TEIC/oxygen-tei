@@ -1,0 +1,501 @@
+
+<!--
+DTD module dictionaries. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Dictionaries
+-->
+
+<!ENTITY % case 'INCLUDE' >
+<![ %case; [
+
+<!--doc:contains grammatical case information given by a dictionary for a given form. -->
+<!ELEMENT %n.case; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.case; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.case;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % colloc 'INCLUDE' >
+<![ %colloc; [
+
+<!--doc:(collocate) contains a collocate of the headword. -->
+<!ELEMENT %n.colloc; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.colloc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.colloc;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+ %att.typed.attributes; >
+]]>
+
+<!ENTITY % def 'INCLUDE' >
+<![ %def; [
+
+<!--doc:(definition) contains definition text in a dictionary entry. -->
+<!ELEMENT %n.def; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.def; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.def;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % dictScrap 'INCLUDE' >
+<![ %dictScrap; [
+
+<!--doc:(dictionary scrap) encloses a part of a dictionary entry in which other phrase-level dictionary elements are
+        freely combined. -->
+<!ELEMENT %n.dictScrap; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.entryPart; |
+ %model.phrase; |
+ %model.inter; |
+ %model.global;)*>
+<!ATTLIST %n.dictScrap; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.dictScrap;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % entry 'INCLUDE' >
+<![ %entry; [
+
+<!--doc:contains a reasonably well-structured dictionary entry. -->
+<!ELEMENT %n.entry; %om.RR; (%n.hom; |
+ %n.sense; |
+ %model.entryPart.top; |
+ %model.global;)+>
+<!ATTLIST %n.entry; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.entry;
+ %att.global.attributes;
+ %att.entryLike.attributes; >
+]]>
+
+<!ENTITY % entryFree 'INCLUDE' >
+<![ %entryFree; [
+
+<!--doc:(unstructured entry) contains a dictionary entry which does not necessarily conform to the constraints imposed
+        by the entry element. -->
+<!ELEMENT %n.entryFree; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.entryPart; |
+ %model.phrase; |
+ %model.inter; |
+ %model.global;)*>
+<!ATTLIST %n.entryFree; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.entryFree;
+ %att.global.attributes;
+ %att.entryLike.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % etym 'INCLUDE' >
+<![ %etym; [
+
+<!--doc:(etymology) encloses the etymological information in a dictionary entry. -->
+<!ELEMENT %n.etym; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.phrase; |
+ %model.inter; |
+ %n.usg; |
+ %n.lbl; |
+ %n.def; |
+ %model.morphLike; |
+ %n.xr; |
+ %model.global;)*>
+<!ATTLIST %n.etym; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.etym;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % form 'INCLUDE' >
+<![ %form; [
+
+<!--doc:(form information group) groups all the information on the written and spoken forms of one headword. -->
+<!ELEMENT %n.form; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.phrase; |
+ %model.inter; |
+ %model.formPart; |
+ %model.global;)*>
+<!ATTLIST %n.form; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.form;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % gen 'INCLUDE' >
+<![ %gen; [
+
+<!--doc:(gender) identifies the morphological gender of a lexical item, as given in the dictionary. -->
+<!ELEMENT %n.gen; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.gen; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.gen;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % gram 'INCLUDE' >
+<![ %gram; [
+
+<!--doc:(grammatical information) within an entry in a dictionary or a terminological data file, contains grammatical
+    information relating to a term, word, or form. -->
+<!ELEMENT %n.gram; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.gram; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.gram;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % gramGrp 'INCLUDE' >
+<![ %gramGrp; [
+
+<!--doc:(grammatical information group) groups morpho-syntactic information about a lexical item, e.g. pos, gen, number, case, or
+        iType (inflectional class). -->
+<!ELEMENT %n.gramGrp; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.phrase; |
+ %model.inter; |
+ %model.gramPart; |
+ %model.global;)*>
+<!ATTLIST %n.gramGrp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.gramGrp;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % hom 'INCLUDE' >
+<![ %hom; [
+
+<!--doc:(homograph) groups information relating to one homograph within an entry. -->
+<!ELEMENT %n.hom; %om.RR; (%n.sense; |
+ %model.entryPart.top; |
+ %model.global;)*>
+<!ATTLIST %n.hom; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.hom;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % hyph 'INCLUDE' >
+<![ %hyph; [
+
+<!--doc:(hyphenation) contains a hyphenated form of a dictionary headword, or hyphenation information in some
+    other form. -->
+<!ELEMENT %n.hyph; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.hyph; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.hyph;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % iType 'INCLUDE' >
+<![ %iType; [
+
+<!--doc:(inflectional class) indicates the inflectional class associated with a lexical item. -->
+<!ELEMENT %n.iType; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.iType; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.iType;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % lang 'INCLUDE' >
+<![ %lang; [
+
+<!--doc:(language name) name of a language mentioned in etymological or other linguistic discussion. -->
+<!ELEMENT %n.lang; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.lang; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.lang;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % lbl 'INCLUDE' >
+<![ %lbl; [
+
+<!--doc:(label) contains a label for a form, example, translation, or other piece of information, e.g.
+    abbreviation for, contraction of, literally, approximately, synonyms:, etc. -->
+<!ELEMENT %n.lbl; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.lbl; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.lbl;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % mood 'INCLUDE' >
+<![ %mood; [
+
+<!--doc:contains information about the grammatical mood of verbs (e.g. indicative, subjunctive,
+    imperative). -->
+<!ELEMENT %n.mood; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.mood; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.mood;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % number 'INCLUDE' >
+<![ %number; [
+
+<!--doc:indicates grammatical number associated with a form, as given in a dictionary. -->
+<!ELEMENT %n.number; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.number; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.number;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % oRef 'INCLUDE' >
+<![ %oRef; [
+
+<!--doc:(orthographic-form reference) in a dictionary example, indicates a reference to the orthographic form(s) of the headword. -->
+<!ELEMENT %n.oRef; %om.RR; EMPTY>
+<!ATTLIST %n.oRef; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.oRef;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+ %att.pointing.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % oVar 'INCLUDE' >
+<![ %oVar; [
+
+<!--doc:(orthographic-variant reference) in a dictionary example, indicates a reference to variant orthographic form(s) of the
+    headword. -->
+<!ELEMENT %n.oVar; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %n.oRef;)*>
+<!ATTLIST %n.oVar; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.oVar;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+ %att.pointing.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % orth 'INCLUDE' >
+<![ %orth; [
+
+<!--doc:(orthographic form) gives the orthographic form of a dictionary headword. -->
+<!ELEMENT %n.orth; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.orth; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.orth;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED
+extent %data.enumerated;  "full"  >
+]]>
+
+<!ENTITY % pRef 'INCLUDE' >
+<![ %pRef; [
+
+<!--doc:(pronunciation reference) in a dictionary example, indicates a reference to the pronunciation(s) of the headword. -->
+<!ELEMENT %n.pRef; %om.RR; EMPTY>
+<!ATTLIST %n.pRef; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.pRef;
+ %att.global.attributes;
+ %att.pointing.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % pVar 'INCLUDE' >
+<![ %pVar; [
+
+<!--doc:(pronunciation-variant reference) in a dictionary example, indicates a reference to variant pronunciation(s) of the headword. -->
+<!ELEMENT %n.pVar; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %n.pRef;)*>
+<!ATTLIST %n.pVar; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.pVar;
+ %att.global.attributes;
+ %att.pointing.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % per 'INCLUDE' >
+<![ %per; [
+
+<!--doc:(person) contains an indication of the grammatical person (1st, 2nd, 3rd, etc.) associated with a
+    given inflected form in a dictionary. -->
+<!ELEMENT %n.per; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.per; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.per;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % pos 'INCLUDE' >
+<![ %pos; [
+
+<!--doc:(part of speech) indicates the part of speech assigned to a dictionary 
+headword  such as noun, verb, or adjective.
+     -->
+<!ELEMENT %n.pos; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.pos; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.pos;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % pron 'INCLUDE' >
+<![ %pron; [
+
+<!--doc:(pronunciation) contains the pronunciation(s) of the word. -->
+<!ELEMENT %n.pron; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.pron; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.pron;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+extent %data.enumerated;  "full" 
+notation %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % re 'INCLUDE' >
+<![ %re; [
+
+<!--doc:(related entry) contains a dictionary entry for a lexical item related to the headword, such as a compound
+    phrase or derived form, embedded inside a larger entry. -->
+<!ELEMENT %n.re; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %n.sense; |
+ %model.entryPart.top; |
+ %model.phrase; |
+ %model.global;)*>
+<!ATTLIST %n.re; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.re;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+ %att.typed.attributes; >
+]]>
+
+<!ENTITY % sense 'INCLUDE' >
+<![ %sense; [
+
+<!--doc:groups together all information relating to one word sense in a dictionary entry, for
+    example definitions, examples, and translation equivalents. -->
+<!ELEMENT %n.sense; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %n.sense; |
+ %model.entryPart.top; |
+ %model.phrase; |
+ %model.global;)*>
+<!ATTLIST %n.sense; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.sense;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+level %data.numeric;  #IMPLIED >
+]]>
+
+<!ENTITY % stress 'INCLUDE' >
+<![ %stress; [
+
+<!--doc:contains the stress pattern for a dictionary headword, if given separately. -->
+<!ELEMENT %n.stress; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.stress; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.stress;
+ %att.global.attributes; >
+]]>
+
+<!ENTITY % subc 'INCLUDE' >
+<![ %subc; [
+
+<!--doc:(subcategorization) contains subcategorization information (transitive/intransitive, countable/non-countable,
+        etc.) -->
+<!ELEMENT %n.subc; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.subc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.subc;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % superEntry 'INCLUDE' >
+<![ %superEntry; [
+
+<!--doc:groups successive entries for a set of homographs. -->
+<!ELEMENT %n.superEntry; %om.RR; (((%n.form;)?,(%n.entry;)+) |
+ %n.dictScrap;)>
+<!ATTLIST %n.superEntry; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.superEntry;
+ %att.global.attributes;
+ %att.entryLike.attributes; >
+]]>
+
+<!ENTITY % syll 'INCLUDE' >
+<![ %syll; [
+
+<!--doc:(syllabification) contains the syllabification of the headword. -->
+<!ELEMENT %n.syll; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.syll; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.syll;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % tns 'INCLUDE' >
+<![ %tns; [
+
+<!--doc:(tense) indicates the grammatical tense associated with a given inflected form in a dictionary. -->
+<!ELEMENT %n.tns; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.tns; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.tns;
+ %att.global.attributes;
+ %att.lexicographic.attributes; >
+]]>
+
+<!ENTITY % usg 'INCLUDE' >
+<![ %usg; [
+
+<!--doc:(usage) contains usage information in a dictionary entry. -->
+<!ELEMENT %n.usg; %om.RR; %macro.paraContent;>
+<!ATTLIST %n.usg; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.usg;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>
+
+<!ENTITY % xr 'INCLUDE' >
+<![ %xr; [
+
+<!--doc:(cross-reference phrase) contains a phrase, sentence, or icon referring the reader to some other location in this or
+    another text. -->
+<!ELEMENT %n.xr; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %model.phrase; |
+ %model.inter; |
+ %n.usg; |
+ %n.lbl; |
+ %model.global;)*>
+<!ATTLIST %n.xr; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.xr;
+ %att.global.attributes;
+ %att.lexicographic.attributes;
+type %data.enumerated;  #IMPLIED >
+]]>

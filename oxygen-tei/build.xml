@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	1. Build the tei.jar from the sources
+	2. Make a zip distribution with the exclusion of the resources that are used
+	only to build the project.
+-->
+<project basedir="." default="dist" name="oxygen-framework">
+	<property file="build.properties"/>
+	<target name="dist">
+		<ant antfile="build.xml" dir="frameworks/tei"/>
+		
+		<delete dir="dist"/>
+		<mkdir dir="dist"/>
+		
+		<copy file="frameworks/tei/dist/tei.zip" tofile="dist/tei.zip"></copy>
+	</target>
+</project>

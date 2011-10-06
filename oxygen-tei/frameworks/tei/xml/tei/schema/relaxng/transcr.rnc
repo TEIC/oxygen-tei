@@ -1,0 +1,416 @@
+namespace rng = "http://relaxng.org/ns/structure/1.0"
+namespace s = "http://www.ascc.net/xml/schematron"
+namespace sch = "http://purl.oclc.org/dsdl/schematron"
+
+# Schema generated 2011-03-05T14:52:51Z
+# Edition: 1.9.1. Last updated on March 5th 2011.
+# 
+# 
+# Copyright 2011 TEI Consortium.
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the
+# License, or (at your option) any later version. This library is
+# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details. You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# 
+# 
+# 
+# For information about the TEI, including contact
+#		details, consult the TEI web
+#	      site at http://www.tei-c.org/. 
+# 
+# 
+#	 Transcription of primary
+# sources
+
+# Definitions from module transcr
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+att.global.facs.attributes = att.global.facs.attribute.facs
+att.global.facs.attribute.facs =
+  
+  ## (facsimile) points to all or part of an image which corresponds with the content of the element.
+  attribute facs {
+    list { data.pointer, data.pointer* }
+  }?
+att.coordinated.attributes =
+  att.coordinated.attribute.start,
+  att.coordinated.attribute.ulx,
+  att.coordinated.attribute.uly,
+  att.coordinated.attribute.lrx,
+  att.coordinated.attribute.lry,
+  att.coordinated.attribute.points
+att.coordinated.attribute.start =
+  
+  ## indicates the element within a transcription of the text
+  ## containing at least the start of the writing represented by this zone
+  ## or surface.
+  attribute start { data.pointer }?
+att.coordinated.attribute.ulx =
+  
+  ## gives the x coordinate value for the upper left corner of a
+  ## rectangular space.
+  attribute ulx { data.numeric }?
+att.coordinated.attribute.uly =
+  
+  ## gives the y coordinate value for the upper left corner of a
+  ## rectangular space.
+  attribute uly { data.numeric }?
+att.coordinated.attribute.lrx =
+  
+  ## gives the x coordinate value for the lower right corner of a
+  ## rectangular space.
+  attribute lrx { data.numeric }?
+att.coordinated.attribute.lry =
+  
+  ## gives the y coordinate value for the lower right corner of a
+  ## rectangular space.
+  attribute lry { data.numeric }?
+att.coordinated.attribute.points =
+  
+  ## identifies a non-rectangular area within the bounding box
+  ## specified by the other attributes  by specifying
+  ## a series of pairs of numbers, each of which gives the x,y coordinates
+  ## of a point on a line defining the non-rectangular area.
+  attribute points {
+    list { data.point, data.point, data.point, data.point* }
+  }?
+# 2. elements
+addSpan =
+  
+  ## (added span of text) marks the beginning of a longer sequence of text added by an
+  ##   author, scribe, annotator or corrector (see also add).
+  element addSpan { addSpan.content, addSpan.localattributes }
+addSpan.content =
+  empty
+  >> sch:pattern [
+       id = "addSpan-constraint-spanTo"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:addSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [
+           test = "@spanTo"
+           "The spanTo= attribute of "
+           sch:name [ ]
+           " is required."
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+  >> sch:pattern [
+       id = "addSpan-constraint-spanTo_fr"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:addSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [ test = "@spanTo" "L'attribut spanTo est requis." ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+addSpan.localattributes =
+  att.global.attributes,
+  att.transcriptional.attributes,
+  att.placement.attributes,
+  att.typed.attributes,
+  att.spanning.attributes,
+  empty
+am =
+  
+  ## (abbreviation marker) contains a sequence of letters or signs present in an
+  ##   abbreviation which are omitted or replaced in the expanded form of
+  ##   the abbreviation.
+  element am { am.content, am.localattributes }
+am.content = (text | model.gLike | model.pPart.transcriptional)*
+am.localattributes =
+  att.global.attributes, att.editLike.attributes, empty
+damage =
+  
+  ## contains an area of damage to the text witness.
+  element damage { damage.content, damage.localattributes }
+damage.content = macro.paraContent
+damage.localattributes =
+  att.global.attributes,
+  att.typed.attributes,
+  att.damaged.attributes,
+  empty
+damageSpan =
+  
+  ## (damaged span of text) marks the beginning of a longer sequence of text which is
+  ##   damaged in some way but still legible.
+  element damageSpan { damageSpan.content, damageSpan.localattributes }
+damageSpan.content =
+  empty
+  >> sch:pattern [
+       id = "damageSpan-constraint-spanTo"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:damageSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [
+           test = "@spanTo"
+           "The spanTo= attribute of\x{a}" ~
+           "	"
+           sch:name [ ]
+           " is required."
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+  >> sch:pattern [
+       id = "damageSpan-constraint-spanTo_fr"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:damageSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [ test = "@spanTo" "L'attribut spanTo est requis." ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+damageSpan.localattributes =
+  att.global.attributes,
+  att.damaged.attributes,
+  att.typed.attributes,
+  att.spanning.attributes,
+  empty
+delSpan =
+  
+  ## (deleted span of text) marks the beginning of a longer sequence of text deleted,
+  ## marked as deleted, or otherwise signaled as superfluous or spurious by an
+  ## author, scribe, annotator, or corrector.
+  element delSpan { delSpan.content, delSpan.localattributes }
+delSpan.content =
+  empty
+  >> sch:pattern [
+       id = "delSpan-constraint-spanTo"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:delSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [
+           test = "@spanTo"
+           "The spanTo= attribute of "
+           sch:name [ ]
+           "\x{a}" ~
+           "      is required."
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+  >> sch:pattern [
+       id = "delSpan-constraint-spanTo_fr"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:delSpan"
+         "\x{a}" ~
+         "            "
+         sch:assert [ test = "@spanTo" "L'attribut spanTo est requis." ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+delSpan.localattributes =
+  att.global.attributes,
+  att.transcriptional.attributes,
+  att.typed.attributes,
+  att.spanning.attributes,
+  empty
+ex =
+  
+  ## (editorial expansion) contains a sequence of letters added by an editor or
+  ##   transcriber when expanding an abbreviation.
+  element ex { ex.content, ex.localattributes }
+ex.content = macro.xtext
+ex.localattributes =
+  att.global.attributes, att.editLike.attributes, empty
+facsimile =
+  
+  ## contains a representation of some written source in the form of
+  ## a set of images rather than as transcribed or encoded text.
+  element facsimile { facsimile.content, facsimile.localattributes }
+facsimile.content = front?, (model.graphicLike | surface)+, back?
+facsimile.localattributes =
+  att.global.attributes, att.declaring.attributes, empty
+fw =
+  
+  ## (forme work) contains a running head (e.g. a header, footer), catchword, or
+  ##   similar material appearing on the current page.
+  element fw { fw.content, fw.localattributes }
+fw.content = macro.phraseSeq
+fw.localattributes =
+  att.global.attributes,
+  att.placement.attributes,
+  
+  ## classifies the material encoded according to some useful typology.
+  ## Sample values include: 1] header; 2] footer; 3] pageNum(page number) ; 4] lineNum(line number) ; 5] sig(signature) ; 6] catch(catchword) 
+  attribute type { data.enumerated }?,
+  empty
+gb =
+  
+  ##  (gathering begins) marks the point in a transcribed codex at which a new
+  ##   gathering or quire begins.
+  element gb { gb.content, gb.localattributes }
+gb.content = empty
+gb.localattributes =
+  att.global.attributes,
+  att.typed.attributes,
+  att.spanning.attributes,
+  att.breaking.attributes,
+  empty
+handNotes =
+  
+  ## contains one or more handNote elements documenting the
+  ## different hands identified within the source texts.
+  element handNotes { handNotes.content, handNotes.localattributes }
+handNotes.content = handNote+
+handNotes.localattributes = att.global.attributes, empty
+handShift =
+  
+  ## marks the beginning of a sequence of text written in a new
+  ## hand, or the beginning of a scribal stint.
+  element handShift { handShift.content, handShift.localattributes }
+handShift.content = empty
+handShift.localattributes =
+  att.global.attributes,
+  att.handFeatures.attributes,
+  att.responsibility.attributes,
+  
+  ## identifies the new hand.
+  attribute new { data.pointer }?,
+  empty
+restore =
+  
+  ## indicates restoration of text to an earlier state by
+  ## cancellation of an editorial or authorial marking or instruction.
+  element restore { restore.content, restore.localattributes }
+restore.content = macro.paraContent
+restore.localattributes =
+  att.global.attributes,
+  att.transcriptional.attributes,
+  att.typed.attributes,
+  empty
+space =
+  
+  ## indicates the location of a significant space in the copy text.
+  element space { space.content, space.localattributes }
+space.content = model.glossLike*
+space.localattributes =
+  att.global.attributes,
+  att.dimensions.attributes,
+  
+  ## (dimension) indicates whether the space is horizontal or vertical.
+  attribute dim {
+    
+    ## the space is horizontal.
+    "horizontal"
+    | 
+      ## the space is vertical.
+      "vertical"
+  }?,
+  
+  ## (responsible party) indicates the individual responsible for identifying and measuring
+  ## the space.
+  attribute resp { data.pointer }?,
+  empty
+subst =
+  
+  ## (substitution) groups one or more deletions with one or more additions when
+  ##   the combination is to be regarded as a single intervention in the text.
+  element subst { subst.content, subst.localattributes }
+subst.content =
+  model.pPart.transcriptional, model.pPart.transcriptional+
+subst.localattributes =
+  att.global.attributes, att.transcriptional.attributes, empty
+supplied =
+  
+  ## signifies text supplied by the transcriber or editor for any
+  ##   reason, typically because the original cannot be read because of
+  ##   physical damage or loss to the original.
+  element supplied { supplied.content, supplied.localattributes }
+supplied.content = macro.paraContent
+supplied.localattributes =
+  att.global.attributes,
+  att.editLike.attributes,
+  
+  ## indicates why the text has had to be supplied.
+  attribute reason {
+    list { data.word, data.word* }
+  }?,
+  empty
+surface =
+  
+  ## defines a written surface in terms of a rectangular
+  ## coordinate space, optionally  grouping one or more graphic representations of
+  ## that space, and rectangular zones of interest
+  ## within it.
+  element surface { surface.content, surface.localattributes }
+surface.content = model.glossLike*, model.graphicLike*, zone*
+surface.localattributes =
+  att.global.attributes,
+  att.coordinated.attributes,
+  att.declaring.attributes,
+  empty
+surplus =
+  
+  ##  (Texte superflu) marks text present in the source which the editor believes to
+  ##   be superfluous or redundant.
+  element surplus { surplus.content, surplus.localattributes }
+surplus.content = macro.paraContent
+surplus.localattributes =
+  att.global.attributes,
+  att.editLike.attributes,
+  
+  ## indicates the grounds for believing this text to be superfluous.
+  attribute reason {
+    list { data.word, data.word* }
+  }?,
+  empty
+zone =
+  
+  ## defines a rectangular area contained within a surface
+  ## element. 
+  element zone { zone.content, zone.localattributes }
+zone.content = model.glossLike*, model.graphicLike*
+zone.localattributes =
+  att.global.attributes, att.coordinated.attributes, empty
+# 3. macros

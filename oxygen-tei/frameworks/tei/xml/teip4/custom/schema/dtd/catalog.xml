@@ -1,0 +1,4 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <public publicId="-//TEI P4//ELEMENTS TEI Lite XML ver. 1//EN" uri="teixlite.dtd"/>
+    <system systemId="http://www.tei-c.org/Lite/DTD/teixlite.dtd" uri="teixlite.dtd"/>
+</catalog>

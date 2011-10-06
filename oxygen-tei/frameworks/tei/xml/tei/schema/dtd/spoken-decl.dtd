@@ -1,0 +1,100 @@
+
+<!--
+TEI P5 entity declaration module for spoken. Generated 2011-03-05T14:53:21Z.
+
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Transcribed Speech
+-->
+
+<!--
+Start datatype macro declarations
+-->
+
+<!--
+End of datatype macro declarations
+-->
+
+<!--
+Start of classes
+-->
+
+<!ENTITY % att.duration.attributes ' %att.duration.w3c.attributes; %att.duration.iso.attributes;'> 
+<!ENTITY % x.model.global.spoken "" >
+<!ENTITY % model.global.spoken "%x.model.global.spoken; %n.pause; |
+ %n.vocal; |
+ %n.kinesic; |
+ %n.incident; |
+ %n.writing; |
+ %n.shift;"> 
+<!ENTITY % x.model.global.spoken_sequence "" >
+<!ENTITY % model.global.spoken_sequence "%x.model.global.spoken_sequence; %n.pause;, %n.vocal;, %n.kinesic;, %n.incident;, %n.writing;, %n.shift;"> 
+<!ENTITY % x.model.global.spoken_sequenceOptional "" >
+<!ENTITY % model.global.spoken_sequenceOptional "%x.model.global.spoken_sequenceOptional; %n.pause;?, %n.vocal;?, %n.kinesic;?, %n.incident;?, %n.writing;?, %n.shift;?"> 
+<!ENTITY % x.model.global.spoken_sequenceOptionalRepeatable "" >
+<!ENTITY % model.global.spoken_sequenceOptionalRepeatable "%x.model.global.spoken_sequenceOptionalRepeatable; %n.pause;*, %n.vocal;*, %n.kinesic;*, %n.incident;*, %n.writing;*, %n.shift;*"> 
+<!ENTITY % x.model.global.spoken_sequenceRepeatable "" >
+<!ENTITY % model.global.spoken_sequenceRepeatable "%x.model.global.spoken_sequenceRepeatable; %n.pause;+, %n.vocal;+, %n.kinesic;+, %n.incident;+, %n.writing;+, %n.shift;+"> 
+<!ENTITY % x.model.recordingPart "" >
+<!ENTITY % model.recordingPart "%x.model.recordingPart; %model.dateLike; |
+ %n.respStmt; |
+ %n.equipment; |
+ %n.broadcast;"> 
+<!ENTITY % x.model.recordingPart_sequence "" >
+<!ENTITY % model.recordingPart_sequence "%x.model.recordingPart_sequence; %model.dateLike;, %n.respStmt;, %n.equipment;, %n.broadcast;"> 
+<!ENTITY % x.model.recordingPart_sequenceOptional "" >
+<!ENTITY % model.recordingPart_sequenceOptional "%x.model.recordingPart_sequenceOptional; %model.dateLike;?, %n.respStmt;?, %n.equipment;?, %n.broadcast;?"> 
+<!ENTITY % x.model.recordingPart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.recordingPart_sequenceOptionalRepeatable "%x.model.recordingPart_sequenceOptionalRepeatable; %model.dateLike;*, %n.respStmt;*, %n.equipment;*, %n.broadcast;*"> 
+<!ENTITY % x.model.recordingPart_sequenceRepeatable "" >
+<!ENTITY % model.recordingPart_sequenceRepeatable "%x.model.recordingPart_sequenceRepeatable; %model.dateLike;+, %n.respStmt;+, %n.equipment;+, %n.broadcast;+"> 
+<!ENTITY % x.model.divPart.spoken "" >
+<!ENTITY % model.divPart.spoken "%x.model.divPart.spoken; %n.u;"> 
+<!ENTITY % x.model.divPart.spoken_sequence "" >
+<!ENTITY % model.divPart.spoken_sequence "%x.model.divPart.spoken_sequence; %n.u;"> 
+<!ENTITY % x.model.divPart.spoken_sequenceOptional "" >
+<!ENTITY % model.divPart.spoken_sequenceOptional "%x.model.divPart.spoken_sequenceOptional; %n.u;?"> 
+<!ENTITY % x.model.divPart.spoken_sequenceOptionalRepeatable "" >
+<!ENTITY % model.divPart.spoken_sequenceOptionalRepeatable "%x.model.divPart.spoken_sequenceOptionalRepeatable; %n.u;*"> 
+<!ENTITY % x.model.divPart.spoken_sequenceRepeatable "" >
+<!ENTITY % model.divPart.spoken_sequenceRepeatable "%x.model.divPart.spoken_sequenceRepeatable; %n.u;+"> 
+<!--
+End of classes
+-->
+
+<!--
+Start rest of  macro declarations
+-->
+
+<!--
+End macros
+-->
+
+<!--
+Start of pre-declared macros
+-->
+
+<!--
+End of pre-declared macros
+-->

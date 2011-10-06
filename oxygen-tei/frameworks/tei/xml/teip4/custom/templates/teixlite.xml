@@ -1,0 +1,21 @@
+<TEI.2>
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title><!-- insert title --></title>
+            <author><!-- insert author --></author>
+         </titleStmt>
+         <publicationStmt>
+	   <p><!-- publication statement --></p>
+	 </publicationStmt>
+         <sourceDesc>
+            <p><!--source description --></p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+<text>
+<body>
+<!-- the main text of the file -->
+</body>
+</text>
+</TEI.2>

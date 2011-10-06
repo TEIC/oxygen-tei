@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	1. Build the tei.jar from the sources
+	2. Make a zip distribution with the exclusion of the resources that are used
+	only to build the project.
+-->
+<project basedir="." default="dist" name="tei-framework">
+	<!-- Jars location -->
+	<property name="lib" value="../../lib"/>
+	<!-- SWT required jars location -->
+	<property name="eclipseJars" value="${lib}/eclipse3"></property>
+	
+	<!-- Clean the output folder. -->
+	<target name="clean">
+		<delete dir="dist" />
+		<mkdir dir="dist"/>
+	</target>
+
+	<!-- Check if oxygen jar is found in the lib folder. -->
+	<target name="checkJars">
+		<!-- Check if oxygen.jar is available inside the lib folder. -->
+		<available file="${lib}/oxygen.jar" property="oxygen.present"/>
+		<available file="${oxygen.jar}" property="oxygen.present"/>
+		<fail message="Unable to find oxygen.jar. Either copy oxygen.jar in the 
+${lib} folder or check the frameworks folder into an Oxygen installation. 
+You can also edit build.properties file and set property 'oxygen.jar'."
+			unless="oxygen.present">
+		</fail>
+		
+		<!-- Check if required eclipse jars are found -->
+		<fail message="Unable to find org.eclipse.jface or org.eclipse.swt required for compile. Searched in ${eclipseJars}">
+			<condition>
+				<not>
+				<and>
+					<resourceexists>
+						<file file="${eclipseJars}"/>
+					</resourceexists>
+					
+					<resourcecount property="eclipse.jars.jface" count="1" when="ge">
+						<fileset dir="${eclipseJars}" >
+							<include name="org.eclipse.jface*.jar"/>
+						</fileset>
+					</resourcecount>
+					<resourcecount property="eclipse.jars.jface" count="1" when="ge">
+						<fileset dir="${eclipseJars}" >
+							<include name="org.eclipse.jface*.jar"/>
+						</fileset>
+					</resourcecount>
+				</and>
+				</not>
+			</condition>
+		</fail>
+			
+	</target>
+
+	<!-- Compile java sources. -->
+	<target name="compile" depends="clean, checkJars">
+		<delete dir="classes" />
+		<mkdir dir="classes"/>
+		<javac srcdir="src" destdir="classes">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+				
+				<!-- Maybe the path to oxygen.jar is given as a property-->
+				<fileset file="${oxygen.jar}"></fileset>
+				<!-- Put the eclipse jars in the class path because we use SWT
+				for Oxygen eclipse plugin -->
+				<fileset dir="${eclipseJars}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Build the classes in a jar and put it inside the tei folder -->
+	<target name="jar" depends="compile">
+		<jar basedir="classes" jarfile="tei.jar">
+			<include name="**/*"/>
+			<exclude name="**/*Test*"/>
+		</jar>
+	</target>
+	
+	<!-- Create a zip archive from the content of the tei folder. -->
+	<target name="dist" depends="jar">
+		<delete dir="dist/tei" />
+		<mkdir dir="dist/tei"/>
+		<copy todir="dist/tei">
+			<fileset dir=".">
+				<include name="**/*"/>
+				<exclude name="**/.svn"/>
+				<exclude name="README.txt"/>
+				<exclude name="build.xml"/>
+				<!-- Eclipse settings. -->
+				<exclude name=".settings/**"/>
+				<exclude name="classes/**"/>
+				<exclude name="src/**"/>
+				<exclude name="dist/**"/>
+			</fileset>
+		</copy>
+		<zip destfile="dist/tei.zip" basedir="dist" includes="tei/**" />
+		<delete dir="dist/tei"/>
+		<delete dir="classes"/>		
+	</target>
+</project>

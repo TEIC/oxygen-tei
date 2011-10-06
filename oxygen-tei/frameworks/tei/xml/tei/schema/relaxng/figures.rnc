@@ -1,0 +1,103 @@
+# Schema generated 2011-03-05T14:52:51Z
+# Edition: 1.9.1. Last updated on March 5th 2011.
+# 
+# 
+# Copyright 2011 TEI Consortium.
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of the
+# License, or (at your option) any later version. This library is
+# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+# details. You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# 
+# 
+# 
+# For information about the TEI, including contact
+#		details, consult the TEI web
+#	      site at http://www.tei-c.org/. 
+# 
+# 
+#	 Tables, formulæ, and figures
+
+# Definitions from module figures
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+
+# 2. elements
+cell =
+  
+  ## contains one cell of a table. 
+  element cell { cell.content, cell.localattributes }
+cell.content = macro.paraContent
+cell.localattributes =
+  att.global.attributes, att.tableDecoration.attributes, empty
+figDesc =
+  
+  ## (description of figure) contains a brief prose description of the appearance or content
+  ## of a graphic figure, for use when documenting an image without
+  ## displaying it.
+  element figDesc { figDesc.content, figDesc.localattributes }
+figDesc.content = macro.limitedContent
+figDesc.localattributes = att.global.attributes, empty
+figure =
+  
+  ## groups elements representing or containing graphic information such as an illustration or
+  ##     figure.
+  element figure { figure.content, figure.localattributes }
+figure.content =
+  (model.headLike
+   | model.pLike
+   | figDesc
+   | model.graphicLike
+   | model.egLike
+   | floatingText
+   | model.global)*
+figure.localattributes =
+  att.global.attributes,
+  att.placement.attributes,
+  att.typed.attributes,
+  empty
+formula =
+  
+  ## contains a mathematical or other formula.
+  element formula { formula.content, formula.localattributes }
+formula.content = (text | model.graphicLike)*
+formula.localattributes =
+  att.global.attributes,
+  
+  ## supplies the name of a previously defined notation used for the content of the element.
+  attribute notation { data.code }?,
+  empty
+row =
+  
+  ## contains one row of a table. 
+  element row { row.content, row.localattributes }
+row.content = cell+
+row.localattributes =
+  att.global.attributes, att.tableDecoration.attributes, empty
+table =
+  
+  ## contains text displayed in tabular form, in rows and columns.
+  element table { table.content, table.localattributes }
+table.content = (model.headLike | model.global)*, (row, model.global*)+
+table.localattributes =
+  att.global.attributes,
+  
+  ## indicates the number of rows in the table.
+  attribute rows { data.count }?,
+  
+  ## (columns) indicates the number of columns in each row of the table.
+  attribute cols { data.count }?,
+  empty
+# 3. macros

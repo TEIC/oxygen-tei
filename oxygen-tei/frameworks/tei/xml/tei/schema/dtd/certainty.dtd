@@ -1,0 +1,72 @@
+
+<!--
+DTD module certainty. Generated 2011-03-05T14:53:21Z. 
+	  
+Copyright 2011 TEI Consortium.
+	  
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of the
+License, or (at your option) any later version. This library is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+		
+For information about the TEI, including contact
+		details, consult the TEI web
+	      site at http://www.tei-c.org/. 
+		
+
+	
+Edition: 1.9.1. Last updated on March 5th 2011.
+Certainty and uncertainty
+-->
+
+<!ENTITY % certainty 'INCLUDE' >
+<![ %certainty; [
+
+<!--doc:indicates the degree of certainty associated
+  with some aspect of the text markup.  -->
+<!ELEMENT %n.certainty; %om.RR; (%model.glossLike;)*>
+<!ATTLIST %n.certainty; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.certainty;
+ %att.global.attributes;
+ %att.scoping.attributes;
+locus (name|start|end|location|value) #REQUIRED
+assertedValue CDATA #IMPLIED
+given CDATA  #IMPLIED
+degree %data.probability;  #IMPLIED >
+]]>
+
+<!ENTITY % precision 'INCLUDE' >
+<![ %precision; [
+
+<!--doc:indicates the numerical accuracy or precision  associated
+  with some aspect of the text markup.  -->
+<!ELEMENT %n.precision; %om.RR; (%model.glossLike;)*>
+<!ATTLIST %n.precision; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.precision;
+ %att.global.attributes;
+ %att.scoping.attributes;
+degree %data.probability;  #IMPLIED
+stdDeviation %data.numeric;  #IMPLIED >
+]]>
+
+<!ENTITY % respons 'INCLUDE' >
+<![ %respons; [
+
+<!--doc:(responsibility) identifies the individual(s) responsible for some aspect of the
+markup of particular element(s). -->
+<!ELEMENT %n.respons; %om.RR; (%model.glossLike;)*>
+<!ATTLIST %n.respons; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.respons;
+ %att.global.attributes;
+ %att.scoping.attributes;
+locus NMTOKENS  #REQUIRED
+resp %data.pointer;  #REQUIRED >
+]]>
