@@ -12,12 +12,14 @@
 	<target name="clean">
 		<delete dir="classes"/>
 		<delete dir="dist" />
-		<mkdir dir="dist"/>
+		
+		<ant antfile="build.xml" dir="frameworks/tei" target="clean"/>
 	</target>
 	
 	<target name="dist" depends="clean">
 		<ant antfile="build.xml" dir="frameworks/tei"/>
 		
+		<mkdir dir="dist"/>
 		<copy file="frameworks/tei/dist/tei.zip" tofile="dist/tei.zip"></copy>
 	</target>
 </project>
