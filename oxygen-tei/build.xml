@@ -6,11 +6,17 @@
 -->
 <project basedir="." default="dist" name="oxygen-framework">
 	<property file="build.properties"/>
-	<target name="dist">
-		<ant antfile="build.xml" dir="frameworks/tei"/>
-		
-		<delete dir="dist"/>
+	<!-- 
+		Cleans all the generated/compiled files.
+	-->
+	<target name="clean">
+		<delete dir="classes"/>
+		<delete dir="dist" />
 		<mkdir dir="dist"/>
+	</target>
+	
+	<target name="dist" depends="clean">
+		<ant antfile="build.xml" dir="frameworks/tei"/>
 		
 		<copy file="frameworks/tei/dist/tei.zip" tofile="dist/tei.zip"></copy>
 	</target>

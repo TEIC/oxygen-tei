@@ -6,9 +6,14 @@
 -->
 <project basedir="." default="dist" name="tei-framework">
 	<!-- Jars location -->
-	<property name="lib" value="../../lib"/>
+	<property name="lib" location="../../lib"/>
 	<!-- SWT required jars location -->
-	<property name="eclipseJars" value="${lib}/eclipse3"></property>
+	<property name="eclipseJars" location="${lib}/eclipse3"/>
+	<!-- Configuration file. -->
+	<property name="propertiesFile" location="../../build.properties"/>
+	<!-- The frameworks part of the project. -->
+	<property name="frameworks" location="../../frameworks"/>
+	
 	
 	<!-- Clean the output folder. -->
 	<target name="clean">
@@ -21,9 +26,7 @@
 		<!-- Check if oxygen.jar is available inside the lib folder. -->
 		<available file="${lib}/oxygen.jar" property="oxygen.present"/>
 		<available file="${oxygen.jar}" property="oxygen.present"/>
-		<fail message="Unable to find oxygen.jar. Either copy oxygen.jar in the 
-${lib} folder or check the frameworks folder into an Oxygen installation. 
-You can also edit build.properties file and set property 'oxygen.jar'."
+		<fail message="Unable to find oxygen.jar. Please edit ${propertiesFile} and set property 'oxygen.jar'. Alternatively, you can copy oxygen.jar into ${lib} folder or checkout ${frameworks} folder into an Oxygen installation."
 			unless="oxygen.present">
 		</fail>
 		
