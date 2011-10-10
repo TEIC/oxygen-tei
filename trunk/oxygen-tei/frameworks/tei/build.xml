@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 	1. Build the tei.jar from the sources
-	2. Make a zip distribution with the exclusion of the resources that are used
-	only to build the project.
+	2. Make a zip distribution containing the TEI framework, excluding the
+	   resources that are used only to build the project.
 -->
 <project basedir="." default="dist" name="tei-framework">
 	<!-- Jars location -->
@@ -12,7 +12,7 @@
 	<!-- Configuration file. -->
 	<property name="propertiesFile" location="../../build.properties"/>
 	<!-- The frameworks part of the project. -->
-	<property name="frameworks" location="../../frameworks"/>
+	<property name="frameworks" location=".."/>
 	
 	
 	<!-- Clean the output folder. -->
@@ -25,8 +25,20 @@
 		<!-- Check if oxygen.jar is available inside the lib folder. -->
 		<available file="${lib}/oxygen.jar" property="oxygen.present"/>
 		<available file="${oxygen.jar}" property="oxygen.present"/>
-		<fail message="Unable to find oxygen.jar. Please edit ${propertiesFile} and set property 'oxygen.jar'. Alternatively, you can copy oxygen.jar into ${lib} folder or checkout ${frameworks} folder into an Oxygen installation."
-			unless="oxygen.present">
+		<fail unless="oxygen.present">
+Unable to find oxygen.jar. 
+***
+oxygen.jar is required to build this project and it was not found. 
+This library is available in oXygen, inside the oXygen lib folder.
+This library is not distributed with this project so you need to make it
+available using one of the options described below:
+- edit the ${propertiesFile} file and add an entry like
+oxygen.jar = path/to/your/oxygen.jar
+- copy oxygen.jar into ${lib} folder  
+
+Alternatively you can checkout the ${frameworks}/tei folder into your 
+oXygen frameworks folder and the library will be automatically detected.
+***
 		</fail>
 		
 		<!-- Check if required eclipse jars are found -->
