@@ -1,5 +1,5 @@
 <oXygen/> Text Encoding Initiative (TEI) framework 
-==================================================
+===============================================================================
 
 This project contains all the files  required by oXygen XML Editor in order to
 provide specific support for editing TEI documents:
@@ -10,7 +10,7 @@ inside "tei" folder.
 
 
 Adding oxygen.jar inside the lib folder
-===================================
+===============================================================================
 
 You have to copy oxygen.jar from the lib folder of an oXygen installation inside the 
 project ../../lib folder. As an alternative, if the project is checked out inside the
@@ -19,7 +19,7 @@ from that oXygen installation.
 
 
 Editing the TEI framework configuration file
-========================================================
+===============================================================================
 
 The configuration files are "tei4.framework" and
 "tei5.framework". These can be edited using oXygen itself using the following steps: 
@@ -35,7 +35,7 @@ an oXygen installation, oXygen will automatically load the framework.
 
 
 Building the distribution
-===================================================
+===============================================================================
 
 The project uses Apache ANT to build the distribution. The "build.xml" file
 contains the ant targets. In order to obtain a distribution run "ant" inside 
@@ -43,7 +43,7 @@ a command line or use Eclipse to "Run as->Ant build" over the build file.
 
 
 Deployment
-===================================================
+===============================================================================
 
 After building the project, you must unzip the resulting "dist/tei.zip" file inside
 oXygen frameworks folder. By default this is "{oXygenInstallationDir}/frameworks" folder but 

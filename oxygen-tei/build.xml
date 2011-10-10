@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 	1. Build the tei.jar from the sources
-	2. Make a zip distribution containing the TEI framework, 
-	excluding of the resources that are used only to build the project.
+	2. Make a zip distribution containing the TEI framework, excluding the
+	   resources that are used only to build the project.
 -->
 <project basedir="." default="dist" name="oxygen-framework">
 	<property file="build.properties"/>
@@ -12,13 +12,11 @@
 	<target name="clean">
 		<delete dir="classes"/>
 		<delete dir="dist" />
-		
 		<ant antfile="build.xml" dir="frameworks/tei" target="clean"/>
 	</target>
 	
 	<target name="dist" depends="clean">
 		<ant antfile="build.xml" dir="frameworks/tei"/>
-		
 		<mkdir dir="dist"/>
 		<copy file="frameworks/tei/dist/tei.zip" tofile="dist/tei.zip"></copy>
 	</target>
