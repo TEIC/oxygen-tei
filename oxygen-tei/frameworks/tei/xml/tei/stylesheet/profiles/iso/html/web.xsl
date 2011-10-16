@@ -31,7 +31,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: web.xsl 7953 2010-08-12 21:41:00Z rahtz $</p>
+         <p>Id: $Id: web.xsl 9477 2011-10-09 11:56:41Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -83,12 +83,6 @@
   </xsl:template>
 
 
-   <xsl:template match="tei:note[@place='foot']">
-     <span class="footnote">
-       <xsl:number level="any"/>
-       <xsl:apply-templates/>
-     </span>
-   </xsl:template>
 
    <xsl:template match="tei:note[@place='foot']/tei:p">
      <xsl:apply-templates/>
@@ -280,14 +274,29 @@
     <xsl:param name="level">1</xsl:param>
     <xsl:if test="$class = 'maintitle'">
       <div class="healthwarning">This extract from an ISO document has been created for test purposes only. The design and layout are subject to change by ISO.</div>
-     <xsl:element name="h{$level}">
-       <xsl:attribute name="class">
-         <xsl:value-of select="$class"/>
-       </xsl:attribute>
-       <xsl:value-of select="substring-before(key('ISOMETA','docReference'),'(')"/><br></br><xsl:value-of select="key('ISOMETA','fullTitle')"/>
-     </xsl:element>
     </xsl:if>
+       <xsl:choose>
+	 <xsl:when test="key('ISOMETA','docReference')">
+	   <xsl:element name="h{$level}">
+	     <xsl:attribute name="class">
+	       <xsl:value-of select="$class"/>
+	     </xsl:attribute>
+	     <xsl:value-of
+		 select="substring-before(key('ISOMETA','docReference'),'(')"/><br></br><xsl:value-of
+		 select="key('ISOMETA','fullTitle')"/>
+	   </xsl:element>
+	 </xsl:when>
+	 <xsl:otherwise>
+	   <xsl:copy-of select="$text"/>
+	 </xsl:otherwise>
+       </xsl:choose>
   </xsl:template>
+
+   <xsl:template match="tei:titleStmt/tei:title" priority="99">
+     <h1 class="maintitle">
+       <xsl:apply-templates/>
+     </h1>
+   </xsl:template>
 
   <xsl:template name="rendToClass">
     <xsl:param name="id">true</xsl:param>

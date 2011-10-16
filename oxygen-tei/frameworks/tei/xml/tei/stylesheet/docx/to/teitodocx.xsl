@@ -135,7 +135,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: teitodocx.xsl 9231 2011-08-22 18:51:33Z rahtz $</p>
+         <p>Id: $Id: teitodocx.xsl 9498 2011-10-15 06:39:15Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -145,7 +145,7 @@
     <xsl:preserve-space elements="tei:text"/>
     <xsl:output method="xml" version="1.0" encoding="UTF-8"/>
 
-    <xsl:param name="isofreestanding">false</xsl:param>
+    <xsl:param name="isofreestanding">true</xsl:param>
 
 
     <xsl:key name="FOOTERS" match="tei:fw[@type='footer']" use="@xml:id"/>
@@ -156,7 +156,7 @@
     <xsl:key name="ENDNOTES" match="tei:note[@place='end']" use="1"/>
     <xsl:key name="FOOTNOTES" match="tei:note[@place='foot' or @place='bottom' ]" use="1"/>
 
-    <xsl:key name="IDS" match="tei:*[@xml:id]" use="@xml:id"/>
+
 
     <xsl:key name="OL" match="tei:list[@type='ordered']" use="1"/>
     <xsl:key name="BLIP" match="a:blip" use="1"/>
@@ -481,12 +481,12 @@
 
         <!-- Process Child elements -->
         <xsl:for-each-group select="current-group()"
-			    group-starting-with="*[not(teidocx:is-inline(.))]">
+			    group-starting-with="*[not(tei:is-inline(.))]">
             <xsl:choose>
                 <!-- if the current item is a block element, we process that one,
                      and then take call this function recursively was all the other
                      elements -->
-                <xsl:when test="self::*[not(teidocx:is-inline(.))]">
+                <xsl:when test="self::*[not(tei:is-inline(.))]">
                     <!-- process block element -->
                     <xsl:apply-templates select=".">
                         <xsl:with-param name="style" select="$style"/>
@@ -840,7 +840,7 @@
 			  w:hAnsi="{@iso:font}"/>
 	      </xsl:when>
 	      <!-- typewriter font -->
-	      <xsl:when test="contains(@rend,'typewriter') or teidocx:render-typewriter(.)">
+	      <xsl:when test="contains(@rend,'typewriter') or tei:render-typewriter(.)">
 		<w:rFonts w:ascii="Courier" w:hAnsi="Courier"/>
 	      </xsl:when>
 	      <xsl:when test="contains(@rend, 'Special') or matches(@iso:style,'font-family')">
@@ -857,7 +857,7 @@
 
             <!-- bold -->
             <xsl:choose>
-                <xsl:when test="teidocx:render-bold(.)">
+                <xsl:when test="tei:render-bold(.)">
                     <w:b/>
                 </xsl:when>
                 <xsl:when test="self::tei:hi[not(@rend)]">
@@ -876,7 +876,7 @@
 
             <!-- italic -->
             <xsl:choose>
-                <xsl:when test="teidocx:render-italic(.)">
+                <xsl:when test="tei:render-italic(.)">
                     <w:i/>
                 </xsl:when>
                 <xsl:when test="self::tei:emph">
@@ -891,7 +891,7 @@
             </xsl:choose>
 
 	    <!-- small caps -->
-	    <xsl:if test="teidocx:render-smallcaps(.)">
+	    <xsl:if test="tei:render-smallcaps(.)">
 	      <w:smallCaps/>
             </xsl:if>
 
@@ -980,9 +980,9 @@
     -->
     <xsl:template name="create-footnote">
         <xsl:variable name="num">
-            <xsl:number count="tei:note[@place='foot' or @place='bottom' ]" level="any"/>
+	  <xsl:number count="tei:note[@place='foot' or @place='bottom' ]" level="any"/>
         </xsl:variable>
-        <xsl:variable name="id" select="$num+1"/>
+        <xsl:variable name="id" select="number($num)+1"/>
         <w:r>
             <w:rPr>
                 <w:rStyle w:val="FootnoteReference"/>
@@ -1043,7 +1043,7 @@
             <xsl:number level="any"/>
         </xsl:variable>
 
-       <xsl:variable name="getstyle" select="teidocx:get-headingstyle(.,$level)"/>
+       <xsl:variable name="getstyle" select="tei:get-headingstyle(.,$level)"/>
 
         <xsl:call-template name="block-element">
             <!-- we want a bookmark for referencing this section -->
@@ -1094,7 +1094,7 @@
 
     <!-- quoted text; if it surrounds egXML, just pass on -->
     
-    <xsl:template match="tei:q|tei:said">
+    <xsl:template match="tei:q|tei:said|tei:soCalled">
       <xsl:choose>
 	<xsl:when test="tei:l">
 	  <xsl:apply-templates/>
@@ -1297,7 +1297,7 @@
                     <w:tblGrid>
                         <xsl:for-each select="html:colgroup/html:col">
                             <w:gridCol>
-                                <xsl:attribute name="w:w" select="teidocx:convert-dim-pt20(@width)"/>
+                                <xsl:attribute name="w:w" select="tei:convert-dim-pt20(@width)"/>
                             </w:gridCol>
                         </xsl:for-each>
                     </w:tblGrid>
@@ -1655,7 +1655,7 @@
 				    </xsl:when>
 				    <xsl:otherwise>
 				      <xsl:value-of
-					  select="teidocx:convert-dim-pt20(@colwidth)"/>
+					  select="tei:convert-dim-pt20(@colwidth)"/>
 				    </xsl:otherwise>
 				  </xsl:choose>
 				</xsl:attribute>
@@ -2084,10 +2084,10 @@
 	    <xsl:when test="@type='table'">Table </xsl:when>
 	  </xsl:choose>
 	  <xsl:choose>
-	    <xsl:when test="starts-with(@target,'#')  and key('IDS',substring(@target,2))">	  
+	    <xsl:when test="starts-with(@target,'#')  and id(substring(@target,2))">	  
 	      <xsl:variable name="target" select="substring(@target,2)"/>
 	      <xsl:apply-templates
-		  select="key('IDS',$target)"
+		  select="id($target)"
 		  mode="xref"/>
 	    </xsl:when>
 	    <xsl:otherwise>
@@ -2103,7 +2103,7 @@
 
     <xsl:template match="tei:ref[@target]">
       <xsl:choose>
-	<xsl:when test="starts-with(@target,'#') and key('IDS',substring(@target,2))">	  
+	<xsl:when test="starts-with(@target,'#') and id(substring(@target,2))">	  
 	  <xsl:call-template name="linkMe">
 	    <xsl:with-param name="anchor">
 	      <xsl:apply-templates/>
@@ -2185,7 +2185,7 @@
 	      </xsl:otherwise>
 	    </xsl:choose>
 	    <xsl:value-of select="$target"/>
-	    <xsl:for-each select="key('IDS',$target)">
+	    <xsl:for-each select="id($target)">
 	      <xsl:choose>
 		<xsl:when test="contains($rend,'instr_')">
 		  <xsl:if test="contains($rend,'instr_f')">
@@ -2316,13 +2316,13 @@
 	<xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template match="tei:titlePage/tei:docTitle/tei:titlePart[@type='main']">
+    <xsl:template match="tei:docTitle/tei:titlePart[@type='main']">
         <xsl:call-template name="block-element">
             <xsl:with-param name="style">Title</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="tei:titlePage/tei:docTitle/tei:titlePart[not(@type)]">
+    <xsl:template match="tei:docTitle/tei:titlePart[not(@type)]">
         <xsl:call-template name="block-element">
             <xsl:with-param name="style">Title</xsl:with-param>
         </xsl:call-template>
@@ -2334,22 +2334,26 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="tei:titlePage/tei:docTitle/tei:titlePart[@type='sub']">
+    <xsl:template match="tei:docTitle/tei:titlePart[@type='sub']">
         <xsl:call-template name="block-element">
             <xsl:with-param name="style">Subtitle</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="tei:titlePage/tei:docTitle/tei:titlePart[2]" priority="99">
+    <xsl:template match="tei:docTitle/tei:titlePart[2]" priority="99">
         <xsl:call-template name="block-element">
             <xsl:with-param name="style">Subtitle</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="tei:titlePage/tei:docAuthor" priority="99">
+    <xsl:template match="tei:docAuthor" priority="99">
         <xsl:call-template name="block-element">
             <xsl:with-param name="style">Author</xsl:with-param>
         </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="tei:titlePage/tei:byline" priority="99">
+        <xsl:call-template name="block-element"/>
     </xsl:template>
 
     <xsl:template match="tei:titlePage/tei:docDate" priority="99">
@@ -2489,7 +2493,7 @@
   </xsl:template>
 
   <xsl:template name="makeExternalLink">
-    <xsl:param name="ptr"/>
+    <xsl:param name="ptr" as="xs:boolean" select="false()"/>
     <xsl:param name="dest"/>
     <xsl:value-of select="$dest"/>
   </xsl:template>

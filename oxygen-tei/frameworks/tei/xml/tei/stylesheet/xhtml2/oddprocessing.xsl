@@ -30,7 +30,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: oddprocessing.xsl 9080 2011-07-08 18:11:35Z rahtz $</p>
+      <p>Id: $Id: oddprocessing.xsl 9500 2011-10-15 10:51:40Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -442,6 +442,10 @@
         </table>
       </xsl:when>
       <xsl:otherwise>
+        <h2>Schema <xsl:value-of select="@ident"/>: Elements</h2>
+        <xsl:apply-templates mode="weave" select="tei:elementSpec">
+          <xsl:sort select="@ident"/>
+        </xsl:apply-templates>
         <xsl:if test="tei:classSpec[@type='model']">
           <h2>Schema <xsl:value-of select="@ident"/>: Model classes</h2>
           <xsl:apply-templates mode="weave" select="tei:classSpec[@type='model']">
@@ -460,10 +464,6 @@
             <xsl:sort select="@ident"/>
           </xsl:apply-templates>
         </xsl:if>
-        <h2>Schema <xsl:value-of select="@ident"/>: Elements</h2>
-        <xsl:apply-templates mode="weave" select="tei:elementSpec">
-          <xsl:sort select="@ident"/>
-        </xsl:apply-templates>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -522,6 +522,7 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template match="tei:gi">
+    <xsl:variable name="lookup" select="."/>
     <xsl:choose>
       <xsl:when test="parent::tei:ref or parent::tei:head or string-length(@scheme)&gt;0">
         <span class="gi">
@@ -530,8 +531,8 @@
           <xsl:text>&gt;</xsl:text>
         </span>
       </xsl:when>
-      <xsl:when test="key('ELEMENTS',.)">
-        <xsl:for-each select="key('ELEMENTS',.)">
+      <xsl:when test="key('ELEMENTS',$lookup)">
+        <xsl:for-each select="key('ELEMENTS',$lookup)[last()]">
           <xsl:call-template name="linkTogether">
             <xsl:with-param name="class">gi</xsl:with-param>
             <xsl:with-param name="name">
@@ -541,11 +542,11 @@
               <xsl:choose>
                 <xsl:when test="tei:content/rng:empty">
                   <span class="emptySlash">
-                    <xsl:value-of select="@ident"/>
+                    <xsl:value-of select="(tei:altIdent|@ident)[last()]"/>
                   </span>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:value-of select="@ident"/>
+                  <xsl:value-of select="(tei:altIdent|@ident)[last()]"/>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:with-param>
@@ -730,16 +731,16 @@
   <xsl:template match="tei:listRef" mode="weave"/>
   <xsl:template match="tei:ptr" mode="weave">
     <xsl:choose>
-      <xsl:when test="parent::tei:listRef">
+      <xsl:when test="ancestor::tei:remarks or ancestor::tei:listRef or ancestor::tei:valDesc">
         <xsl:choose>
-          <xsl:when test="starts-with(@target,'#') and key('IDS',substring-after(@target,'#'))">
+          <xsl:when test="starts-with(@target,'#') and id(substring(@target,2))">
             <xsl:call-template name="makeInternalLink">
-              <xsl:with-param name="target" select="substring-after(@target,'#')"/>
-              <xsl:with-param name="ptr">true</xsl:with-param>
+              <xsl:with-param name="target" select="substring(@target,2)"/>
+              <xsl:with-param name="ptr" select="true()"/>
               <xsl:with-param name="dest">
                 <xsl:call-template name="generateEndLink">
                   <xsl:with-param name="where">
-                    <xsl:value-of select="substring-after(@target,'#')"/>
+                    <xsl:value-of select="substring(@target,2)"/>
                   </xsl:with-param>
                 </xsl:call-template>
               </xsl:with-param>
@@ -752,7 +753,7 @@
             <xsl:choose>
               <xsl:when test="$Chapter='AB' or        $Chapter='AI' or        $Chapter='CC' or        $Chapter='CE' or        $Chapter='CH' or        $Chapter='CO' or        $Chapter='DI' or        $Chapter='DR' or        $Chapter='DS' or        $Chapter='FS' or        $Chapter='FT' or        $Chapter='GD' or        $Chapter='HD' or        $Chapter='MS' or        $Chapter='ND' or        $Chapter='NH' or        $Chapter='PH' or        $Chapter='SA' or        $Chapter='SG' or        $Chapter='ST' or        $Chapter='TC' or        $Chapter='TD' or        $Chapter='TS' or        $Chapter='USE' or        $Chapter='VE' or        $Chapter='WD'">
                 <xsl:call-template name="makeExternalLink">
-                  <xsl:with-param name="ptr">true</xsl:with-param>
+                  <xsl:with-param name="ptr" select="true()"/>
                   <xsl:with-param name="dest">
                     <xsl:text>http://www.tei-c.org/release/doc/tei-p5-doc/</xsl:text>
                     <xsl:value-of select="$documentationLanguage"/>
@@ -784,7 +785,7 @@
   <xsl:template match="a:documentation" mode="verbatim"/>
   <xsl:template match="tei:ptr[@type='cit']">
     <a class="citlink">
-      <xsl:for-each select="key('IDS',substring-after(@target,'#'))">
+      <xsl:for-each select="id(substring(@target,2))">
         <xsl:attribute name="href">
           <xsl:apply-templates select="." mode="generateLink"/>
         </xsl:attribute>
@@ -808,12 +809,7 @@
           </h3>
           <xsl:for-each select="key('MACRO-MODULE',@module)">
             <xsl:sort select="@ident"/>
-            <span class="refDocLink">
-              <a href="ref-{@ident}{$outputSuffix}">
-                <xsl:value-of select="@ident"/>
-              </a>
-              <xsl:text> </xsl:text>
-            </span>
+            <xsl:call-template name="refDocLink"/>
           </xsl:for-each>
         </div>
       </xsl:if>
@@ -841,12 +837,7 @@
               <xsl:for-each select="key('ELEMENT-ALPHA',$letter)">
                 <xsl:sort select="@ident"/>
                 <li>
-                  <span class="refDocLink">
-                    <a href="ref-{@ident}{$outputSuffix}">
-                      <xsl:value-of select="@ident"/>
-                    </a>
-                    <xsl:text> </xsl:text>
-                  </span>
+		  <xsl:call-template name="refDocLink"/>
                 </li>
               </xsl:for-each>
             </ul>
@@ -868,14 +859,10 @@
               </xsl:for-each>
             </h3>
             <xsl:for-each select="key('ELEMENT-MODULE',@module)">
-              <xsl:sort select="@ident"/>
-              <span class="refDocLink">
-                <a href="ref-{@ident}{$outputSuffix}">
-                  <xsl:value-of select="@ident"/>
-                </a>
-                <xsl:text> </xsl:text>
-              </span>
-            </xsl:for-each>
+              <xsl:sort
+		  select="@ident"/>
+	      <xsl:call-template name="refDocLink"/>
+	    </xsl:for-each>
           </div>
         </xsl:if>
       </xsl:for-each>
@@ -884,6 +871,32 @@
       <xsl:apply-templates mode="weave" select="."/>
     </xsl:for-each>
   </xsl:template>
+
+
+  <xsl:template name="refDocLink">
+    <span
+	class="refDocLink">
+      <a>
+	<xsl:attribute name="href">
+	  <xsl:choose>
+	    <xsl:when test="number($splitLevel)=-1 or $STDOUT='true'">
+	      <xsl:text>#</xsl:text>
+	      <xsl:value-of select="@ident"/>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:text>ref-</xsl:text>
+	      <xsl:value-of
+		  select="@ident"/>
+	      <xsl:value-of select="$outputSuffix"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
+	<xsl:value-of select="@ident"/>
+      </a>
+      <xsl:text> </xsl:text>
+    </span>
+  </xsl:template>
+
   <xsl:template match="tei:divGen[@type='modelclasscat']"  priority="100">
     <div class="atozwrapper">
       <xsl:call-template name="atozHeader">
@@ -903,12 +916,7 @@
               <xsl:for-each select="key('MODEL-CLASS-ALPHA',$letter)">
                 <xsl:sort select="translate(substring-after(@ident,'model.'),$lc,$uc)"/>
                 <li>
-                  <span class="refDocLink">
-                    <a href="ref-{@ident}{$outputSuffix}">
-                      <xsl:value-of select="@ident"/>
-                    </a>
-                    <xsl:text> </xsl:text>
-                  </span>
+		  <xsl:call-template name="refDocLink"/>
                 </li>
               </xsl:for-each>
             </ul>
@@ -930,13 +938,9 @@
               </xsl:for-each>
             </h3>
             <xsl:for-each select="key('MODEL-CLASS-MODULE',@module)">
-              <xsl:sort select="@ident"/>
-              <span class="refDocLink">
-                <a href="ref-{@ident}{$outputSuffix}">
-                  <xsl:value-of select="@ident"/>
-                </a>
-                <xsl:text> </xsl:text>
-              </span>
+              <xsl:sort
+		  select="@ident"/>
+	      <xsl:call-template name="refDocLink"/>
             </xsl:for-each>
           </div>
         </xsl:if>
@@ -965,13 +969,8 @@
               <xsl:for-each select="key('ATT-CLASS-ALPHA',$letter)">
                 <xsl:sort select="translate(substring-after(@ident,'att.'),$lc,$uc)"/>
                 <li>
-                  <span class="refDocLink">
-                    <a href="ref-{@ident}{$outputSuffix}">
-                      <xsl:value-of select="@ident"/>
-                    </a>
-                    <xsl:text> </xsl:text>
-                  </span>
-                </li>
+		  <call-template name="refDocLink"/>
+		</li>
               </xsl:for-each>
             </ul>
           </div>
@@ -991,13 +990,9 @@
                 <xsl:call-template name="makeDescription"/>
               </xsl:for-each>
             </h3>
-            <xsl:for-each select="key('ATT-CLASS-MODULE',@module)">
-              <span class="refDocLink">
-                <a href="ref-{@ident}{$outputSuffix}">
-                  <xsl:value-of select="@ident"/>
-                </a>
-                <xsl:text> </xsl:text>
-              </span>
+            <xsl:for-each
+		select="key('ATT-CLASS-MODULE',@module)">
+	      <call-template name="refDocLink"/>
             </xsl:for-each>
           </div>
         </xsl:if>

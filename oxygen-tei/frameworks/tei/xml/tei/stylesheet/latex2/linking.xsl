@@ -3,9 +3,9 @@
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:tei="http://www.tei-c.org/ns/1.0"
                 xmlns:teix="http://www.tei-c.org/ns/Examples"
-                
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"                
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="a rng tei teix"
+                exclude-result-prefixes="a rng tei teix xs"
                 version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
@@ -22,7 +22,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: linking.xsl 8551 2011-02-12 13:58:27Z rahtz $</p>
+         <p>Id: $Id: linking.xsl 9331 2011-09-20 11:45:15Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -48,10 +48,10 @@
       </desc>
    </doc>
   <xsl:template name="makeExternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean"  select="false()"/>
       <xsl:param name="dest"/>
       <xsl:choose>
-         <xsl:when test="$ptr='true'">
+         <xsl:when test="$ptr">
             <xsl:text>\url{</xsl:text>
             <xsl:value-of select="$dest"/>
             <xsl:text>}</xsl:text>
@@ -75,11 +75,11 @@
   <xsl:template name="makeInternalLink">
       <xsl:param name="target"/>
       <xsl:param name="class"/>
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean"  select="false()"/>
       <xsl:param name="dest"/>
       <xsl:param name="body"/>
       <xsl:choose>
-         <xsl:when test="key('IDS',$dest)">
+         <xsl:when test="id($dest)">
             <xsl:choose>
                <xsl:when test="not($body='')">
 		 <xsl:text>\hyperlink{</xsl:text>
@@ -88,8 +88,8 @@
 		 <xsl:value-of select="$body"/>
 		 <xsl:text>}</xsl:text>
                </xsl:when>
-               <xsl:when test="$ptr='true'">
-		 <xsl:for-each select="key('IDS',$dest)">
+               <xsl:when test="$ptr">
+		 <xsl:for-each select="id($dest)">
 		   <xsl:choose>
 		     <xsl:when test="$class='pageref'">
 		       <xsl:text>\pageref{</xsl:text>
@@ -148,7 +148,7 @@
 	     <xsl:when test="not($body='')">
 	       <xsl:value-of select="$body"/>
 	     </xsl:when>
-	     <xsl:when test="$ptr='true'">
+	     <xsl:when test="$ptr">
 	       <xsl:value-of select="$dest"/>
 	     </xsl:when>
 	     <xsl:otherwise>

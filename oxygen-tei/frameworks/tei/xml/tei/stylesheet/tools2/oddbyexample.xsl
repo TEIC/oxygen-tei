@@ -12,7 +12,7 @@
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
       02111-1307 USA 
 
-$Id: oddbyexample.xsl 8890 2011-05-04 16:50:07Z rahtz $
+$Id: oddbyexample.xsl 9495 2011-10-13 09:15:14Z rahtz $
 
 2008, TEI Consortium
 -->
@@ -418,4 +418,7 @@ in an XSLT file which will transform this to pure TEI</xsl:comment>
       <xsl:copy-of select="."/>
     </xsl:if>
   </xsl:template>
+
+  <xsl:template match="text()" mode="copy"/>
+
 </xsl:stylesheet>

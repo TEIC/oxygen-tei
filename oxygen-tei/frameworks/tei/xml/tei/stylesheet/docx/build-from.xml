@@ -15,7 +15,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-        Id: $Id: build.xml 8944 2011-06-13 14:33:07Z rahtz $
+        Id: $Id: build-from.xml 9316 2011-09-13 08:06:05Z rahtz $
         Copyright: 2011, TEI Consortium<
 -->
   <!--
@@ -60,7 +60,7 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="word-directory" expression="file:///${outputTempDir}"/>
       <param name="inputDir" expression="${inputFileDir}"/>
       <param name="mediaDir" expression="word/media"/>

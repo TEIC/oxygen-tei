@@ -3,7 +3,7 @@
                 xmlns:ve="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:o="urn:schemas-microsoft-com:office:office"
                 xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
-		xmlns:teidocx="http://www.tei-c.org/ns/teidocx/1.0"
+		xmlns:tei="http://www.tei-c.org/ns/1.0"
                 xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
                 xmlns:v="urn:schemas-microsoft-com:vml"
                 xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
@@ -16,7 +16,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0"
                 exclude-result-prefixes="ve o r m v wp w10 w wne mml
-					 teidocx tbx">
+					 tei tbx">
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
@@ -32,7 +32,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: pass0.xsl 9207 2011-08-16 11:29:22Z adamobeng $</p>
+         <p>Id: $Id: pass0.xsl 9380 2011-09-24 15:04:00Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -45,10 +45,10 @@
       <xsl:copy-of select="."/>
   </xsl:template>
   
-  <xsl:template match="w:body">
+  <xsl:template match="w:body" mode="pass0">
     <xsl:copy>
       <xsl:choose>
-	<xsl:when test="w:p[teidocx:is-firstlevel-heading(.)]"/>
+	<xsl:when test="w:p[tei:is-firstlevel-heading(.)]"/>
 	<xsl:otherwise>
 	  <w:p>
 	    <w:pPr>

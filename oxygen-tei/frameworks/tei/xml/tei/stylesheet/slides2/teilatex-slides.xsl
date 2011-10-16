@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
 TEI XSLT stylesheet family
-$Date: 2011-07-21 20:50:22 +0100 (Thu, 21 Jul 2011) $, $Revision: 9147 $, $Author: rahtz $
+$Date: 2011-09-20 10:47:43 +0100 (Tue, 20 Sep 2011) $, $Revision: 9329 $, $Author: rahtz $
 
 XSL LaTeX stylesheet to make slides
 

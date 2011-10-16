@@ -1,7 +1,7 @@
 /* 
 ** Copyright 2005 TEI Consortium
 
-$Id: tei.css 9093 2011-07-11 22:13:53Z rahtz $
+$Id: tei.css 9498 2011-10-15 06:39:15Z rahtz $
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -177,7 +177,6 @@ h3 {
    line-height: 18pt;
    font-weight: bold;
    font-style: italic;
-   color: #C63904;
 }
 
 
@@ -507,7 +506,7 @@ div.letter {
    border-bottom: 1pt solid green;
 }
 /* title page */
-div.titlePage {
+div.titlePage,div.titlepage {
    border-top: 2pt solid #000000;
    border-bottom: 2pt solid #000000;
    padding-top: 6pt;
@@ -605,10 +604,7 @@ div.indent6 {
 }
 /* misc */
 .plain {
-   font-weight: bold;
    text-decoration: none;
-   font-family: Arial,Helvetica,sans-serif;
-   color: #C63904;
 }
 
 p.box {
@@ -701,6 +697,24 @@ span.hi {
 }
 
 /* from drama */
+/* speeches in drama */
+div.p-in-sp {
+    margin-left: 1em;
+    }
+div.sp {
+    margin-top: 4pt;
+}
+div.spProse {
+    text-indent: -1em;
+    margin-left: 1em;
+}
+div.speaker {
+    font-weight: bold;
+}
+span.speaker {
+    font-style: italic;
+}
+
 span.actor {  
 	   font-style:italic;
 }
@@ -799,9 +813,6 @@ span.wordtypeVVD,span.wordtypeVVN,span.wordtypeVVN,span.wordtypeVVZ,span.wordtyp
     color: red;
     }
 
-div.speaker {
-    font-weight: bold;
-}
 li.headless {
     display: none;
 }
@@ -821,4 +832,19 @@ div.stdfooter {
 div.altfigure {
     border-top: solid black 1pt;
     border-bottom: solid black 1pt;
+}
+
+table.table, table.table tr, table.table td {
+    border: solid black 1pt;
+}
+table.table td {
+    padding: 1ex 1ex 1ex 1ex;
+}
+p.mainAuthor {
+    display: block;
+    margin: 1ex 0ex 1ex 0ex;
+}
+p.mainEditor {
+    display: block;
+    margin: 1ex 0ex 1ex 0ex;
 }

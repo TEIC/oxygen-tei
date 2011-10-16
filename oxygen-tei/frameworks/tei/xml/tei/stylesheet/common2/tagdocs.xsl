@@ -16,7 +16,7 @@
     Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
     02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: tagdocs.xsl 9225 2011-08-21 17:07:17Z rahtz $</p>
+      <p>Id: $Id: tagdocs.xsl 9427 2011-09-29 22:03:29Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -1104,7 +1104,7 @@
               </xsl:attribute>
               <xsl:value-of select="$name"/>
             </xsl:element>
-            <xsl:text> </xsl:text>
+            <xsl:text> </xsl:text>
             <xsl:call-template name="makeDescription"/>
             <xsl:if test="tei:listRef">
               <xsl:for-each select="tei:listRef/tei:ptr">
@@ -1919,7 +1919,9 @@
 		</xsl:call-template>
 	      </xsl:for-each>
 	      <xsl:text>/@</xsl:text>
-	      <xsl:value-of select="ancestor::tei:attDef/@ident"/>
+	      <xsl:for-each select="ancestor::tei:attDef">
+		<xsl:value-of select="(tei:altIdent|@ident)[last()]"/>
+	      </xsl:for-each>
 	    </xsl:element>
 	  </Item>
 	</xsl:for-each>
@@ -1935,8 +1937,8 @@
 	    <xsl:text>Element</xsl:text>
 	  </xsl:with-param>
 	</xsl:call-template>
+	<xsl:text>: </xsl:text>
       </xsl:element>
-      <xsl:text>: </xsl:text>
       <xsl:element namespace="{$outputNS}" name="{$ulName}">
 	<xsl:for-each select="$list2/PattList/Item">
 	  <xsl:copy-of select="*|text()"/>
@@ -2436,7 +2438,7 @@
       <xsl:text> — </xsl:text>
       <xsl:call-template name="makeInternalLink">
         <xsl:with-param name="target" select="@xml:id"/>
-        <xsl:with-param name="ptr">true</xsl:with-param>
+        <xsl:with-param name="ptr" select="true()"/>
         <xsl:with-param name="dest">
           <xsl:value-of select="tei:head"/>
         </xsl:with-param>

@@ -46,7 +46,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: dynamic.xsl 8076 2010-09-16 08:58:50Z rahtz $</p>
+         <p>Id: $Id: dynamic.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -56,7 +56,7 @@
         dynamic content
     </desc>
    </doc>    
-    <xsl:template match="teidocx:dynamicContent">
+    <xsl:template match="tei:dynamicContent">
         <xsl:choose>
             <xsl:when test="@type='pagenumber'">
                 <w:fldSimple w:instr=" PAGE \* MERGEFORMAT ">

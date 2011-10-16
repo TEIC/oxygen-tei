@@ -52,7 +52,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: lists.xsl 9225 2011-08-21 17:07:17Z rahtz $</p>
+         <p>Id: $Id: lists.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>

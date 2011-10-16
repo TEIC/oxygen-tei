@@ -16,7 +16,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: Sebastian Rahtz</p>
-         <p>Id: $Id: from.xsl 8074 2010-09-16 08:36:49Z rahtz $</p>
+         <p>Id: $Id: from.xsl 9374 2011-09-23 07:31:21Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -194,6 +194,13 @@
   <q>  
     <xsl:apply-templates/>
   </q>
+</xsl:template>
+
+<xsl:template match="chapter">
+  <div>  
+    <xsl:call-template name="ID"/>
+    <xsl:apply-templates/>
+  </div>
 </xsl:template>
 
 <xsl:template match="citation">

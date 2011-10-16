@@ -22,7 +22,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: figures.xsl 9151 2011-07-23 11:42:38Z rahtz $</p>
+         <p>Id: $Id: figures.xsl 9356 2011-09-21 14:57:52Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -125,7 +125,7 @@
       <xsl:apply-templates/>
       <xsl:if test="following-sibling::tei:row">
          <xsl:text>\\</xsl:text>
-         <xsl:if test="@role='label'">\hline </xsl:if>
+         <xsl:if test="@role='label' or parent::tei:table/@rend='rules'">\hline </xsl:if>
          <xsl:text>
 </xsl:text>
       </xsl:if>
@@ -290,9 +290,10 @@
             </xsl:call-template>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:text>}
-</xsl:text>
-      <xsl:call-template name="tableHline"/>
+      <xsl:text>}&#10;</xsl:text>
+      <xsl:if test="contains($r,'rules') or tei:head">
+	<xsl:call-template name="tableHline"/>
+      </xsl:if>
       <xsl:choose>
          <xsl:when test="tei:head and not(@rend='display')">
             <xsl:if test="not(ancestor::tei:table)">
@@ -309,7 +310,7 @@
          </xsl:when>
          <xsl:otherwise> </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="contains($r,'rules')">\hline </xsl:if>
+      <xsl:if test="contains($r,'rules') or tei:row[1][@role='label']">\hline </xsl:if>
       <xsl:apply-templates/>
       <xsl:if test="contains($r,'rules')">
          <xsl:text>\\ \hline </xsl:text>

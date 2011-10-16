@@ -26,7 +26,7 @@
 			library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
 			330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: odd2dtd.xsl 8551 2011-02-12 13:58:27Z rahtz $</p>
+         <p>Id: $Id: odd2dtd.xsl 9505 2011-10-15 15:51:06Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -303,7 +303,7 @@
                <xsl:text>Global pre-declared macros</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
-         <xsl:for-each select="key('PredeclareAllMacros','1')">
+         <xsl:for-each select="key('PredeclareAllMacros',1)">
             <xsl:text>&#10;&lt;!ENTITY % </xsl:text>
             <xsl:value-of select="@ident"/>
             <xsl:text> ''</xsl:text>
@@ -1600,8 +1600,22 @@
 
 
   <xsl:template name="copyright">
-    <xsl:apply-templates mode="copyrighttext"
-      select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:availability"/>
+    <xsl:for-each
+	select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:availability">
+      <xsl:if test="count(tei:licence)&gt;1">
+	<xsl:text>This material is dual-licensed.&#10;</xsl:text>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="tei:licence">
+    <xsl:if test="@target">
+      <xsl:text>[</xsl:text>
+      <xsl:value-of select="@target"/>
+      <xsl:text>] </xsl:text>
+    </xsl:if>
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template name="typewriter">

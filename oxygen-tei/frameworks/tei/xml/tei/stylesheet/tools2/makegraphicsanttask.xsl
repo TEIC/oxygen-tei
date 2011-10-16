@@ -19,15 +19,15 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: makegraphicsanttask.xsl 9192 2011-08-05 07:39:32Z rahtz $</p>
+         <p>Id: $Id: makegraphicsanttask.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
    <xsl:key name="G" match="tei:graphic[not(ancestor::teix:egXML)]"  use="1"/>
-   <xsl:key name="PB" match="tei:pb[@facs]" use="1"/>
-   <xsl:key name="IDS" match="*" use="@xml:id"/>
+   <xsl:key name="PB" match="tei:pb[@facs and not(@rend='none')]" use="1"/>
    <xsl:key name="Timeline" match="tei:timeline" use="1"/>
-   <xsl:param name="mediaoverlay">true</xsl:param>
+   <xsl:param name="mediaoverlay">false</xsl:param>
+   <xsl:param name="filePerPage">false</xsl:param>
    <xsl:param name="inputDir">.</xsl:param>
    <xsl:param name="mediaDir">word/media</xsl:param>
    <xsl:template match="/">
@@ -58,7 +58,7 @@
 	   <xsl:variable name="F">
 	     <xsl:choose>
 	       <xsl:when test="starts-with(@facs,'#')">
-		 <xsl:for-each select="key('IDS',substring(@facs,2))">
+		 <xsl:for-each select="id(substring(@facs,2))">
 		   <xsl:value-of select="tei:graphic[1]/@url"/>
 		 </xsl:for-each>
 	       </xsl:when>
@@ -86,8 +86,8 @@
 	       <copy toFile="{$target}" file="{$inputDir}/{$F}"/>
 	     </xsl:otherwise>
 	   </xsl:choose>
-
 	 </xsl:for-each>
+
 	 <xsl:for-each select="key('G',1)">
 	   <xsl:variable name="F">
 	     <xsl:value-of select="@url"/>
@@ -95,7 +95,7 @@
 	   <xsl:variable name="target">
 	     <xsl:text>${outputTempDir}/</xsl:text>
 	     <xsl:value-of select="$mediaDir"/>
-	     <xsl:text>/image</xsl:text>
+	     <xsl:text>/resource</xsl:text>
 	     <xsl:number level="any"/>
 	     <xsl:text>.</xsl:text>
 	     <xsl:value-of select="tokenize($F,'\.')[last()]"/>

@@ -54,7 +54,7 @@
   
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: makecoverpages2.xsl 7987 2010-08-26 14:56:05Z holgerapel $</p>
+         <p>Id: $Id: makecoverpages2.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>

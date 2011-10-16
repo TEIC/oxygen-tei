@@ -42,6 +42,7 @@
   <xsl:import href="../common2/header.xsl"/>
   <xsl:import href="../common2/i18n.xsl"/>
 -->
+  <xsl:import href="../common2/core.xsl"/>
   <xsl:param name="useFixedDate">false</xsl:param>
 
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
@@ -60,7 +61,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: teitoodt.xsl 9027 2011-07-02 12:16:51Z rahtz $</p>
+         <p>Id: $Id: teitoodt.xsl 9502 2011-10-15 15:06:06Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -144,7 +145,7 @@
 			select="tokenize(@url,'\.')[last()]"/>
 	  <manifest:file-entry>
 	    <xsl:attribute name="manifest:full-path">
-	      <xsl:text>Pictures/image</xsl:text>
+	      <xsl:text>Pictures/resource</xsl:text>
 	      <xsl:number level="any"/>
 	      <xsl:text>.</xsl:text>
 	      <xsl:value-of select="$imagetype"/>
@@ -282,10 +283,6 @@
 
 
 <!-- paragraphs -->
-  <xsl:template match="tei:author">
-    <xsl:apply-templates/>
-  </xsl:template>
-
   <xsl:template match="tei:pb">
     <text:soft-page-break/>
   </xsl:template>
@@ -386,7 +383,7 @@
     </xsl:variable>
 
 	<xsl:variable name="filename">
-	  <xsl:text>Pictures/image</xsl:text>
+	  <xsl:text>Pictures/resource</xsl:text>
 	  <xsl:number level="any"/>
 	  <xsl:text>.</xsl:text>
 	  <xsl:value-of select="tokenize(@url,'\.')[last()]"/>
@@ -427,14 +424,14 @@
 	  <xsl:for-each
 	      select="document(concat($outputDir,'/styles.xml'))/office:document-styles/office:automatic-styles/style:page-layout/style:page-layout-properties">
 	    <xsl:value-of
-		select="number(teidocx:convert-dim-pt(@fo:page-width) - 144)"/>
+		select="number(tei:convert-dim-pt(@fo:page-width) - 144)"/>
 	  </xsl:for-each>
 	</xsl:variable>
 	<xsl:variable name="pageHeight">
 	  <xsl:for-each
 	      select="document(concat($outputDir,'/styles.xml'))/office:document-styles/office:automatic-styles/style:page-layout/style:page-layout-properties">
 	    <xsl:value-of 
-		select="number(teidocx:convert-dim-pt(@fo:page-height) - 144)"/>
+		select="number(tei:convert-dim-pt(@fo:page-height) - 144)"/>
 	  </xsl:for-each>
 	</xsl:variable>
 	
@@ -444,14 +441,14 @@
 	      <xsl:value-of select="(($pageWidth div 100) * number(substring-before(@width,'%'))) cast as xs:integer"/>
 	    </xsl:when>
 	    <xsl:when test="@width">
-	      <xsl:value-of select="teidocx:convert-dim-pt(@width)"/>
+	      <xsl:value-of select="tei:convert-dim-pt(@width)"/>
 	    </xsl:when>
 	    <xsl:when test="@scale and $origwidth">
 	      <xsl:value-of select="number($origwidth * number(@scale)) div 127 cast as xs:integer"/>
 	    </xsl:when>
 	    <xsl:when test="@height[not(contains(.,'%'))] and $origheight">
 	      <xsl:variable name="h">
-		<xsl:value-of select="number(teidocx:convert-dim-pt(@height))"/>
+		<xsl:value-of select="number(tei:convert-dim-pt(@height))"/>
 	      </xsl:variable>
 	      <xsl:value-of select="($h * number($origwidth)) div number($origheight)"/>
 	    </xsl:when>
@@ -472,7 +469,7 @@
 	      <xsl:value-of select="(($pageHeight div 100) * (number(substring-before(@height,'%')))) cast as xs:integer"/>
 	    </xsl:when>
 	    <xsl:when test="@height">
-	      <xsl:value-of select="teidocx:convert-dim-pt(@height)"/>
+	      <xsl:value-of select="tei:convert-dim-pt(@height)"/>
 	    </xsl:when>
 	    <xsl:when test="@scale and $origheight">
 	      <xsl:value-of select="($origheight *
@@ -480,7 +477,7 @@
 	    </xsl:when>
 	    <xsl:when test="@width[not(contains(.,'%'))] and $origheight and $origwidth">
 	      <xsl:variable name="w">
-		<xsl:value-of select="number(teidocx:convert-dim-pt(@width))"/>
+		<xsl:value-of select="number(tei:convert-dim-pt(@width))"/>
 	      </xsl:variable>
 	      <xsl:value-of select="($w * number($origheight)) div number($origwidth)"/>
 	    </xsl:when>
@@ -575,7 +572,7 @@
 
 
 <!-- lists -->
-  <xsl:template match="tei:list">
+  <xsl:template match="tei:list|tei:listBibl">
     <xsl:if test="tei:head">
       <text:p>
 	<xsl:attribute name="text:style-name">
@@ -590,8 +587,9 @@
     <text:list>
       <xsl:attribute name="text:style-name">
 	<xsl:choose>
+	    <xsl:when test="self::tei:listBibl">L2</xsl:when>
             <xsl:when test="not(@type)">L1</xsl:when>
-            <xsl:when test="@type='ordered'">L3</xsl:when>
+            <xsl:when test="@type='ordered'">L2</xsl:when>
             <xsl:when test="@type='unordered'">L1</xsl:when>
 	</xsl:choose>
       </xsl:attribute>
@@ -601,17 +599,17 @@
 
 
 
-  <xsl:template match="tei:list[@type='gloss']" priority="10">
+  <xsl:template match="tei:list[@type='gloss' or @rend='valList']" priority="10">
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="tei:list[@type='gloss']/tei:item">
+  <xsl:template match="tei:list[@type='gloss' or @rend='valList']/tei:item">
     <text:p text:style-name="List_20_Contents">
       <xsl:apply-templates/>
     </text:p>
   </xsl:template>
 
-  <xsl:template match="tei:list[@type='gloss']/tei:label">
+  <xsl:template match="tei:list[@type='gloss' or @rend='valList']/tei:label">
     <text:p text:style-name="List_20_Heading">
       <xsl:apply-templates/>
     </text:p>
@@ -705,7 +703,7 @@
     <text:a xlink:type="simple" xlink:href="{@target}">
       <xsl:choose>
 	<xsl:when test="starts-with(@target,'#')">
-	  <xsl:for-each select="key('IDS',substring-after(@target,'#'))">
+	  <xsl:for-each select="id(substring(@target,2))">
 	    <xsl:apply-templates select="." mode="crossref"/>
 	  </xsl:for-each>
 	</xsl:when>
@@ -762,6 +760,9 @@
 	  <xsl:when test="@rend='bold'">
 	    <xsl:text>Highlight</xsl:text>
 	  </xsl:when>
+	  <xsl:when test="@rend='label'">
+	    <xsl:text>Highlight</xsl:text>
+	  </xsl:when>
 	  <xsl:when test="@rend='it' or @rend='i' or @rend='italic'">
 	    <xsl:text>Emphasis</xsl:text>
 	  </xsl:when>
@@ -802,14 +803,9 @@
       </xsl:attribute>
       <xsl:apply-templates/>
     </text:span>
-  </xsl:template>
+</xsl:template>
 
-  <xsl:template match="tei:date">
-    <text:span text:style-name="{name(.)}">
-      <xsl:apply-templates/>
-    </text:span>
-  </xsl:template>
-
+  <xsl:template match="tei:index"/>
 
   <xsl:template match="tei:eg">
     <xsl:call-template name="startHook"/>
@@ -840,6 +836,14 @@
 
   <xsl:template match="tei:lb">
     <text:line-break/>
+  </xsl:template>
+
+  <xsl:template match="tei:biblStruct">
+    <text:list-item>
+      <text:p text:style-name="P2">
+	<xsl:apply-templates/>
+      </text:p>
+    </text:list-item>
   </xsl:template>
 
   <xsl:template match="tei:bibl|tei:signed|tei:docTitle|tei:byline|tei:docImprint">
@@ -876,7 +880,7 @@
     <xsl:param name="Text"/>
     <xsl:choose>
       <xsl:when test="contains($Text,'&#10;')">
-	<text:p text:style-name="Preformatted Text">
+	<text:p text:style-name="Preformatted_20_Text">
 	  <xsl:value-of
 	      select="translate(substring-before($Text,'&#10;'),' ','&#160;')"/>
 	</text:p>
@@ -887,7 +891,7 @@
 	</xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-	<text:p text:style-name="Preformatted Text">
+	<text:p text:style-name="Preformatted_20_Text">
 	  <xsl:value-of select="translate($Text,' ','&#160;')"/>
 	</text:p>
       </xsl:otherwise>
@@ -934,12 +938,11 @@
     <table:table
 	table:name="{$tablenum}"
 	table:style-name="Table1">
-      <table:table-column
-	  table:style-name="Table1.col1">
-	<xsl:attribute name="table:number-columns-repeated">
-	  <xsl:value-of select="count(tei:row[1]/tei:cell)"/>
-	</xsl:attribute>
-      </table:table-column>
+      <xsl:for-each select="1 to max(for $i in tei:row return count($i/tei:cell))">
+	<table:table-column
+	    table:style-name="Table{.}.col{.}">
+	</table:table-column>
+      </xsl:for-each>
       <xsl:apply-templates/>
     </table:table>
     <xsl:if test="tei:head">
@@ -967,42 +970,72 @@
   </xsl:template>
 
 
-  <xsl:template match="tei:cell">
-    <table:table-cell>
-<!--
-      <xsl:choose>
-	<xsl:when test="parent::tei:row[@role='label']">
-	  <xsl:attribute name="text:style-name">Table1.cellheading</xsl:attribute>
-	</xsl:when>
-	<xsl:when test="@role='label'">
-	  <xsl:attribute name="text:style-name">Table1.cellheading</xsl:attribute>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:attribute name="text:style-name">Table1.cellcontents</xsl:attribute>
-	</xsl:otherwise>
-      </xsl:choose>
--->
-      <xsl:choose>
-	<xsl:when test="not(child::tei:p)">
-	  <text:p>
-	    <xsl:apply-templates/>
-	  </text:p>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:apply-templates/>
-	</xsl:otherwise>
-      </xsl:choose>
-    </table:table-cell>
+
+  <xsl:template match="tei:seg">
+    <text:span>
+      <xsl:apply-templates/>
+    </text:span>
   </xsl:template>
 
-<xsl:template match="code">
-  <text:span text:style-name="User Entry">
-    <xsl:apply-templates/>
-  </text:span>
-</xsl:template>
+  <xsl:template match="tei:seg[@rend='parent']">
+      <xsl:apply-templates/>
+  </xsl:template>
 
+  <xsl:template match="tei:ident">
+    <text:span>
+      <xsl:apply-templates/>
+    </text:span>
+  </xsl:template>
 
+  <xsl:template match="tei:cit[@rend='display' or not(@rend)]">
+    <text:p text:style-name="tei_cit">
+      <xsl:apply-templates/>
+    </text:p>
+  </xsl:template>
 
+  <xsl:template match="tei:mentioned">
+    <text:span>
+      <xsl:apply-templates/>
+    </text:span>
+  </xsl:template>
+
+  <xsl:template match="tei:code">
+    <text:span text:style-name="User_20_Entry">
+      <xsl:apply-templates/>
+    </text:span>
+  </xsl:template>
+
+  <xsl:template match="tei:cell">
+    <table:table-cell>
+      <xsl:if test="@cols">
+	<xsl:attribute name="table:number-columns-spanned"
+		       select="@cols"/>
+      </xsl:if>
+      <xsl:variable name="cellContents">
+	<xsl:apply-templates/>
+      </xsl:variable>
+      <xsl:for-each-group select="$cellContents/node()"			  
+			  group-adjacent="if (self::text:span or self::text() or self::text:a)
+					  then 1
+					  else 2">      
+      <xsl:choose>
+	<xsl:when test="current-grouping-key()=1">
+	    <text:p>
+	      <xsl:copy-of select="current-group()"/>
+	    </text:p>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:copy-of select="current-group()"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:for-each-group>
+    </table:table-cell>
+    <xsl:if test="@cols">
+      <xsl:for-each select="2 to @cols">
+	<table:covered-table-cell/>
+      </xsl:for-each>
+    </xsl:if>
+  </xsl:template>
 
   <xsl:param name="startComment"></xsl:param>
   <xsl:param name="endComment"></xsl:param>
@@ -1662,12 +1695,14 @@
   <xsl:template name="italicize"/>
 
   <xsl:template match="tei:soCalled">
-    <xsl:value-of select="$preQuote"/>
-    <xsl:apply-templates/>
-    <xsl:value-of select="$postQuote"/>
+    <text:span>
+      <xsl:value-of select="$preQuote"/>
+      <xsl:apply-templates/>
+      <xsl:value-of select="$postQuote"/>
+    </text:span>
   </xsl:template>
 
-  <xsl:function name="teidocx:convert-dim-pt" as="xs:integer">
+  <xsl:function name="tei:convert-dim-pt" as="xs:integer">
     <xsl:param name="dim"/>
     <xsl:choose>
       <xsl:when test="ends-with($dim,'cm')">
@@ -1694,12 +1729,12 @@
   </xsl:function>
 
   <xsl:template name="makeExternalLink">
-    <xsl:param name="ptr"/>
+    <xsl:param name="ptr" as="xs:boolean" select="false()"/>
     <xsl:param name="dest"/>
     <xsl:param name="class">link_<xsl:value-of select="local-name(.)"/></xsl:param>
     <text:a xlink:type="simple" xlink:href="{$dest}">
       <xsl:choose>
-	<xsl:when test="$ptr='true'">
+	<xsl:when test="$ptr">
 	  <xsl:value-of select="$dest"/>
 	</xsl:when>
 	<xsl:otherwise>
@@ -1820,9 +1855,50 @@
     </xsl:for-each>
   </xsl:template>
 
-<xsl:template name="makeSpan">
+  <xsl:template name="makeSpan">
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template name="tei:makeText">
+    <xsl:param name="letters"/>
+    <xsl:value-of select="$letters"/>
+  </xsl:template>
+
+
+    <xsl:template name="emphasize">
+      <xsl:param name="class"/>
+      <xsl:param name="content"/>
+      <text:span>
+	<xsl:choose>
+	  <xsl:when test="$class='titlem'">
+	    <xsl:attribute name="text:style-name">Emphasis</xsl:attribute>
+	  </xsl:when>
+	  <xsl:when test="$class='titlej'">
+	    <xsl:attribute name="text:style-name">Emphasis</xsl:attribute>
+	  </xsl:when>
+	</xsl:choose>
+	<xsl:attribute name="xml:space">preserve</xsl:attribute>
+	  <xsl:choose>
+	    <xsl:when test="$class='titles'">
+	      <xsl:text>, </xsl:text>
+	    </xsl:when>
+	    <xsl:when test="$class='titleu'">
+	      <xsl:text>‘</xsl:text>
+	    </xsl:when>
+	    <xsl:when test="$class='titlea'">
+	      <xsl:text>‘</xsl:text>
+	    </xsl:when>
+	  </xsl:choose>
+	  <xsl:value-of select="$content"/>
+	  <xsl:choose>
+	    <xsl:when test="$class='titleu'">
+	      <xsl:text>’</xsl:text>
+	    </xsl:when>
+	    <xsl:when test="$class='titlea'">
+	      <xsl:text>’</xsl:text>
+	    </xsl:when>
+	  </xsl:choose>
+      </text:span>
+    </xsl:template>
  
 </xsl:stylesheet>

@@ -50,7 +50,7 @@
   
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: makecoverpages.xsl 7572 2010-05-19 20:42:35Z rahtz $</p>
+         <p>Id: $Id: makecoverpages.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>

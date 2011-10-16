@@ -36,7 +36,7 @@
    
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tei.xsl 9087 2011-07-10 18:05:58Z rahtz $</p>
+         <p>Id: $Id: tei.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>

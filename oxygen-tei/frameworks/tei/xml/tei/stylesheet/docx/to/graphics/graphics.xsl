@@ -51,7 +51,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: graphics.xsl 9043 2011-07-03 22:14:48Z rahtz $</p>
+         <p>Id: $Id: graphics.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -153,7 +153,7 @@
 		      select="number(number($pageHeight)*100) cast as
 			      xs:integer"/>
 	<xsl:variable name="filename">
-	  <xsl:text>media/image</xsl:text>
+	  <xsl:text>media/resource</xsl:text>
 	  <xsl:number level="any"/>
 	  <xsl:text>.</xsl:text>
 	  <xsl:value-of select="tokenize(@url,'\.')[last()]"/>
@@ -203,7 +203,7 @@
                         <xsl:value-of select="number($pageWidth * number(substring-before(@width,'%'))) cast as xs:integer"/>
                     </xsl:when>
                     <xsl:when test="@width">
-                        <xsl:value-of select="teidocx:convert-dim-emu(@width)"/>
+                        <xsl:value-of select="tei:convert-dim-emu(@width)"/>
                     </xsl:when>
                     <xsl:when test="@scale and $origwidth">
                         <xsl:value-of select="($origwidth *  number(@scale)) cast as xs:integer"/>
@@ -216,7 +216,7 @@
 			  </xsl:when>
 			  <xsl:otherwise>
 			    <xsl:value-of
-				select="teidocx:convert-dim-emu(@height)"/>
+				select="tei:convert-dim-emu(@height)"/>
 			  </xsl:otherwise>
 			</xsl:choose>
 		      </xsl:variable>
@@ -239,7 +239,7 @@
                         <xsl:value-of select="number($pageHeight * (number(substring-before(@height,'%')))) cast as xs:integer"/>
                     </xsl:when>
                     <xsl:when test="@height">
-                        <xsl:value-of select="teidocx:convert-dim-emu(@height)"/>
+                        <xsl:value-of select="tei:convert-dim-emu(@height)"/>
                     </xsl:when>
                     <xsl:when test="@scale and $origheight">
                         <xsl:value-of select="($origheight * number(@scale)) cast as xs:integer"/>
@@ -307,7 +307,9 @@
 	    -->
 	    <!-- prepare actual graphic -->
 	    <xsl:variable name="generatedID">
-	      <xsl:choose>
+	      <xsl:number level="any"/>
+	    <!--
+		<xsl:choose>
 		<xsl:when test="@n">
 		  <xsl:value-of select="@n"/>
 		</xsl:when>
@@ -315,7 +317,9 @@
 		  <xsl:number level="any"/>
 		</xsl:otherwise>
 	      </xsl:choose>
+	      -->
 	    </xsl:variable>
+
             <xsl:variable name="graphic-element">
                 <a:graphic>
                     <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">

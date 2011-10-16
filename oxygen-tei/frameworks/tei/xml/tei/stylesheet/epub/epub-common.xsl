@@ -22,13 +22,14 @@
 	
       </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: epub-common.xsl 9168 2011-07-30 14:30:55Z rahtz $</p>
+      <p>Id: $Id: epub-common.xsl 9411 2011-09-27 22:21:38Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
   <xsl:key match="tei:graphic[not(ancestor::teix:egXML)]" use="1" name="G"/>
   <xsl:key name="GRAPHICS" use="1" match="tei:graphic"/>
-  <xsl:key name="GRAPHICS" use="1" match="tei:pb[@facs]"/>
+  <xsl:key name="PBGRAPHICS" use="1" match="tei:pb[@facs and not(@rend='none')]"/>
+  <xsl:param name="javascriptFiles"/>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[epub] Suppress normal page footer      </desc>
@@ -67,6 +68,7 @@
         <xsl:value-of select="$subject"/>
       </dc:subject>
     </xsl:if>
+    <xsl:call-template name="generateSubjectHook"/>
     <xsl:for-each select="tei:teiHeader/tei:profileDesc/tei:textClass/tei:keywords/tei:term">
       <dc:subject>
         <xsl:value-of select="."/>
@@ -78,6 +80,9 @@
       </dc:subject>
     </xsl:for-each>
   </xsl:template>
+
+  <xsl:template name="generateSubjectHook"/>
+
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[epub] Set name of publisher</desc>
   </doc>
@@ -133,66 +138,6 @@
     <br/>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>[epub] Local mode to rewrite names of graphics inclusions;
-      default is identity transform
-      </desc>
-  </doc>
-  <xsl:template match="@*|text()|comment()|processing-instruction()" mode="fixgraphics">
-    <xsl:copy-of select="."/>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>[epub] Local mode to rewrite names of graphics inclusions;
-      default is identifty transform
-      </desc>
-  </doc>
-  <xsl:template match="*" mode="fixgraphics">
-    <xsl:copy>
-      <xsl:apply-templates select="*|@*|processing-instruction()|comment()|text()" mode="fixgraphics"/>
-    </xsl:copy>
-  </xsl:template>
-  <xsl:template match="tei:graphic" mode="fixgraphics">
-    <xsl:copy>
-      <xsl:choose>
-        <xsl:when test="$fixgraphicsurl='true'">
-          <xsl:variable name="newName">
-            <xsl:text>media/image</xsl:text>
-            <xsl:number level="any"/>
-            <xsl:text>.</xsl:text>
-            <xsl:value-of select="tokenize(@url,'\.')[last()]"/>
-          </xsl:variable>
-          <xsl:attribute name="url">
-            <xsl:value-of select="$newName"/>
-          </xsl:attribute>
-          <xsl:copy-of select="@*[not(local-name()='url')]"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:copy-of select="@*"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:copy>
-  </xsl:template>
-  <xsl:template match="tei:pb[@facs]" mode="fixgraphics">
-    <xsl:copy>
-      <xsl:choose>
-        <xsl:when test="$fixgraphicsurl='true'">
-          <xsl:variable name="newName">
-            <xsl:text>media/pageimage</xsl:text>
-            <xsl:number level="any"/>
-            <xsl:text>.</xsl:text>
-            <xsl:value-of select="tokenize(@facs,'\.')[last()]"/>
-          </xsl:variable>
-          <xsl:attribute name="facs">
-            <xsl:value-of select="$newName"/>
-          </xsl:attribute>
-          <xsl:copy-of select="@*[not(local-name()='facs')]"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:copy-of select="@*"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:copy>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[epub] Remove unwanted things from CSS
       </desc>
   </doc>
@@ -212,8 +157,7 @@
 -->
       <xsl:otherwise>
         <xsl:value-of select="."/>
-        <xsl:text>
-</xsl:text>
+        <xsl:text>&#10;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -255,6 +199,17 @@
     <h3>Source</h3>
     <xsl:apply-templates mode="metadata"/>
   </xsl:template>
+
+  <xsl:template match="tei:projectDesc" mode="metadata">
+    <h3>Creation</h3>
+    <xsl:apply-templates mode="metadata"/>
+  </xsl:template>
+
+  <xsl:template match="tei:editorialDecl" mode="metadata">
+    <h3>Editorial practices</h3>
+    <xsl:apply-templates mode="metadata"/>
+  </xsl:template>
+
   <xsl:template match="tei:sourceDesc/tei:bibl" mode="metadata">
     <p> — <xsl:apply-templates mode="metadata"/></p>
   </xsl:template>
@@ -319,9 +274,7 @@
   <xsl:template match="tei:availability" mode="metadata">
     <dt>Availability</dt>
     <dd>
-      <xsl:for-each select="tei:p">
-        <xsl:apply-templates/>
-      </xsl:for-each>
+        <xsl:apply-templates mode="metadata"/>
     </dd>
   </xsl:template>
   <xsl:template match="tei:bibl/tei:title" mode="metadata" priority="99">
@@ -402,7 +355,7 @@
     <xsl:apply-templates/>
     <xsl:text> (alternative title)</xsl:text>
   </xsl:template>
-  <xsl:template match="tei:front/tei:titlePage"/>
+
   <xsl:template name="autoMakeHead">
     <xsl:param name="display"/>
     <xsl:choose>
@@ -419,14 +372,14 @@
         <xsl:value-of select="@n"/>
       </xsl:when>
       <xsl:when test="@type">
+	<xsl:text>[</xsl:text>
         <xsl:value-of select="@type"/>
+	<xsl:text>]</xsl:text>
       </xsl:when>
       <xsl:otherwise> </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <xsl:template match="tei:graphic[@mimeType='video/mp4']">
-    <video src="{@url}" controls="controls"/>
-  </xsl:template>
+
   <xsl:template name="generateDate">
     <xsl:choose>
       <xsl:when test="$useHeaderFrontMatter='true' and ancestor-or-self::tei:TEI/tei:text/tei:front//tei:docDate[@when]">
@@ -443,4 +396,6 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <!-- its inserted explicitly -->
+  <xsl:template match="tei:front/tei:titlePage"/>
 </xsl:stylesheet>

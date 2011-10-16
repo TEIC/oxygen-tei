@@ -37,7 +37,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: from.xsl 9061 2011-07-06 15:03:25Z rahtz $</p>
+      <p>Id: $Id: from.xsl 9273 2011-09-01 17:40:41Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
@@ -50,5 +50,4 @@
     <xsl:template match="@rend[.='Text Body']" mode="pass2"/>
     <xsl:template match="@rend[.='Text body']" mode="pass2"/>
     <xsl:template match="@rend[.='Body Text Indent']" mode="pass2"/>
-
 </xsl:stylesheet>

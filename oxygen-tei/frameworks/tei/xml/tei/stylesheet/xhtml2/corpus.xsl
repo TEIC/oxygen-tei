@@ -26,7 +26,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: corpus.xsl 9221 2011-08-21 10:00:48Z rahtz $</p>
+         <p>Id: $Id: corpus.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -37,7 +37,7 @@
       <xsl:variable name="W">
          <xsl:choose>
             <xsl:when test="starts-with(@target,'#')">
-               <xsl:value-of select="substring-after(@target,'#')"/>
+               <xsl:value-of select="substring(@target,2)"/>
             </xsl:when>
             <xsl:otherwise>
                <xsl:value-of select="@target"/>
@@ -50,7 +50,7 @@
       </xsl:if>
       <em>
          <xsl:value-of select="@scheme"/>
-      </em>: <xsl:apply-templates select="key('IDS',$W)/catDesc"/>
+      </em>: <xsl:apply-templates select="id($W)/catDesc"/>
    </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>Process element teiCorpus</desc>

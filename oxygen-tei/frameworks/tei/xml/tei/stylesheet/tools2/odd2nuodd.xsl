@@ -7,7 +7,7 @@
 
   <!--
       
-      $Id: odd2nuodd.xsl 8782 2011-03-27 20:41:33Z rahtz $
+      $Id: odd2nuodd.xsl 9297 2011-09-07 21:37:09Z rahtz $
       Sebastian Rahtz 2011/03/26
       
       Read an ODD with <elementSpec mode="delete"> statements and rewrite it
@@ -20,7 +20,7 @@
   <!-- do you want moduleRef generated with @include or @except? -->
   <xsl:param name="method">include</xsl:param>
 
-  <xsl:key name="IDS" match="*" use="@xml:id"/>
+
 
   <xsl:key name="EbyM" match="elementSpec" use="@module"/>
 
@@ -186,7 +186,7 @@
     <xsl:choose>
       <xsl:when test="starts-with(@target,'#')">
 	<xsl:for-each
-	    select="key('IDS',substring-after(@target,'#'))">
+	    select="id(substring(@target,2))">
 	  <xsl:if test="*">
 	    <specGrpRef target="#{@xml:id}"/>
 	  </xsl:if>

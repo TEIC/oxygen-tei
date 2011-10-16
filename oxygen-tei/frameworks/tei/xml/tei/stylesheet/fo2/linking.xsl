@@ -2,11 +2,12 @@
 <xsl:stylesheet 
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns="http://www.w3.org/1999/XSL/Format"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"                
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:tei="http://www.tei-c.org/ns/1.0"
                 xmlns:teix="http://www.tei-c.org/ns/Examples"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="a rng tei teix"
+                exclude-result-prefixes="a rng tei teix xs"
                 version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
@@ -34,7 +35,7 @@
    
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: linking.xsl 8551 2011-02-12 13:58:27Z rahtz $</p>
+         <p>Id: $Id: linking.xsl 9331 2011-09-20 11:45:15Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -53,11 +54,11 @@
       </desc>
    </doc>
   <xsl:template name="makeExternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean" select="false()"/>
       <xsl:param name="dest"/>
       <basic-link external-destination="url({$dest})">
          <xsl:choose>
-            <xsl:when test="$ptr='true'">
+            <xsl:when test="$ptr">
                <xsl:call-template name="showXrefURL">
                   <xsl:with-param name="dest">
                      <xsl:value-of select="$dest"/>
@@ -78,7 +79,7 @@
       </desc>
    </doc>
   <xsl:template name="makeInternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean" select="false()"/>
       <xsl:param name="class"/>
       <xsl:param name="target"/>
       <xsl:param name="dest"/>
@@ -89,7 +90,7 @@
                <xsl:value-of select="$target"/>
             </xsl:when>
             <xsl:when test="contains($dest,'#')">
-               <xsl:value-of select="substring-after($dest,'#')"/>
+               <xsl:value-of select="substring($dest,2)"/>
             </xsl:when>
             <xsl:otherwise>
                <xsl:value-of select="$dest"/>
@@ -102,8 +103,8 @@
             <xsl:when test="not($body='')">
                <xsl:value-of select="$body"/>
             </xsl:when>
-            <xsl:when test="$ptr='true'">
-               <xsl:apply-templates mode="xref" select="key('IDS',$W)">
+            <xsl:when test="$ptr">
+               <xsl:apply-templates mode="xref" select="id($W)">
                   <xsl:with-param name="minimal" select="$minimalCrossRef"/>
                </xsl:apply-templates>
             </xsl:when>

@@ -24,7 +24,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: drama.xsl 9177 2011-08-01 17:31:47Z rahtz $</p>
+         <p>Id: $Id: drama.xsl 9395 2011-09-26 18:37:32Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -220,18 +220,15 @@
       <desc>Process element stage</desc>
    </doc>
   <xsl:template match="tei:stage">
-    <xsl:variable name="e">
-      <xsl:choose>
-      <xsl:when test="parent::tei:head">span</xsl:when>
-      <xsl:when test="parent::tei:l">span</xsl:when>
-      <xsl:when test="parent::tei:p">span</xsl:when>
-      <xsl:when test="parent::tei:ab">span</xsl:when>
-      <xsl:otherwise>div</xsl:otherwise>
-    </xsl:choose>
-    </xsl:variable>
-    <xsl:element name="{$e}">
+    <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
       <xsl:call-template name="rendToClass">
-	<xsl:with-param name="default">stage it</xsl:with-param>
+	<xsl:with-param name="default">
+	  <xsl:choose>
+	    <xsl:when
+		test="ancestor::tei:text/@rend='firstfolio'">stage</xsl:when>
+	    <xsl:otherwise>stage it</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:with-param>
       </xsl:call-template>
       <xsl:apply-templates/>
     </xsl:element>

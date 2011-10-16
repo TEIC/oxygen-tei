@@ -15,7 +15,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-        Id: $Id: build.xml 8944 2011-06-13 14:33:07Z rahtz $
+        Id: $Id: build-to.xml 9371 2011-09-22 15:45:16Z rahtz $
         Copyright: 2011, TEI Consortium<
 -->
   <!--
@@ -71,6 +71,7 @@
   </target>
 
   <target name="coverpages" if="makecoverpages">
+    <echo>Make cover pages</echo>
     <xslt force="yes"
 	  style="${profileDir}/${profile}/docx/makecoverpages.xsl" 
 	  in="${outputTempDir}/word/document.xml" 
@@ -83,11 +84,12 @@
 	</catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9he.jar"/>
+      <classpath location="${oxygenlib}/saxon9he.jar"/>
       <param name="header-file"   expression="${outputTempDir}/tmp2.xml"/>
       <param name="document-file" expression="${outputTempDir}/newdocument.xml"/>
     </xslt>
     <move file="${outputTempDir}/tmp3.xml" tofile="${outputTempDir}/word/document.xml" overwrite="true"/>
+    <delete file="${outputTempDir}/newdocument.xml"/>
   </target>
 
   <target name="notodd" unless="processODD">
@@ -104,14 +106,14 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="lang" expression="${lang}" if="lang"/>
       <param name="verbose" expression="${verbose}" if="verbose"/>
       <param name="defaultSource" expression="${defaultSource}" if="defaultSource"/>
     </xslt>
     <xslt force="yes" style="${odd2litexsl}" in="${outputTempDir}/tmp1.xml" out="${outputTempDir}/tmp2.xml" classpath="classpath">
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <xmlcatalog>
         <catalogpath>
           <pathelement location="../../../../catalog.xml"/>
@@ -137,7 +139,7 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="inputDir" expression="${inputFileDir}"/>
       <param name="mediaDir" expression="word/media"/>
     </xslt>
@@ -156,10 +158,9 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="word-directory" expression="file:///${outputTempDir}"/>
       <param name="inputDir" expression="${inputFileDir}"/>
-      <param name="isofreestanding" expression="true"/>
       <!-- supply name of language-->
       <param name="lang" expression="${lang}" if="lang"/>
       <!-- emit some diagnostics"-->

@@ -3,14 +3,13 @@
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:html="http://www.w3.org/1999/xhtml"
-
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"                
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:tei="http://www.tei-c.org/ns/1.0"
-                xmlns:teix="http://www.tei-c.org/ns/Examples"
-                
+                xmlns:teix="http://www.tei-c.org/ns/Examples"                
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0"
-                exclude-result-prefixes="a fo rng tei html teix">
+                exclude-result-prefixes="a fo rng tei html teix xs">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
          <p> TEI stylesheet dealing with elements from the linking module,
@@ -26,7 +25,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: linking.xsl 9125 2011-07-18 15:15:02Z rahtz $</p>
+         <p>Id: $Id: linking.xsl 9448 2011-10-03 22:20:29Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -89,9 +88,6 @@
       <xsl:choose>
 	<xsl:when test="$filePerPage='true'">
 	  <xsl:choose>
-	    <xsl:when test="ancestor::tei:front">
-	      <xsl:text>index</xsl:text>
-	    </xsl:when>	      
 	    <xsl:when test="preceding::tei:pb">
 	      <xsl:apply-templates select="preceding::tei:pb[1]"
 				   mode="ident"/>
@@ -240,17 +236,16 @@
    </doc>
   <xsl:template name="generateEndLink">
       <xsl:param name="where"/>
-
-    <xsl:choose>
-      <xsl:when test="key('IDS',$where)">
-	<xsl:apply-templates mode="generateLink" select="key('IDS',$where)"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:text>[[undefined </xsl:text>
-	<xsl:value-of select="$where"/>
-	<xsl:text>]]</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
+      <xsl:choose>
+	<xsl:when test="id($where)">
+	  <xsl:apply-templates mode="generateLink" select="id($where)"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:text>[[undefined </xsl:text>
+	  <xsl:value-of select="$where"/>
+	  <xsl:text>]]</xsl:text>
+	</xsl:otherwise>
+      </xsl:choose>
   </xsl:template>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -343,7 +338,7 @@
       </desc>
    </doc>
   <xsl:template name="makeExternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean"  select="false()"/>
       <xsl:param name="dest"/>
       <xsl:param name="class">link_<xsl:value-of select="local-name(.)"/>
       </xsl:param>
@@ -396,7 +391,7 @@
          <xsl:call-template name="xrefHook"/>
          <xsl:choose>
 	   <xsl:when test="$dest=''">??</xsl:when>
-            <xsl:when test="$ptr='true'">
+            <xsl:when test="$ptr">
                <xsl:element name="{$urlMarkup}">
                   <xsl:choose>
                      <xsl:when test="starts-with($dest,'mailto:')">
@@ -427,7 +422,7 @@
    </doc>
   <xsl:template name="makeInternalLink">
       <xsl:param name="target"/>
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean" select="false()"/>
       <xsl:param name="dest"/>
       <xsl:param name="body"/>
       <xsl:param name="class">
@@ -454,8 +449,8 @@
                <xsl:when test="not($body='')">
                   <xsl:value-of select="$body"/>
                </xsl:when>
-               <xsl:when test="$ptr='true'">
-                  <xsl:apply-templates mode="xref" select="key('IDS',$W)">
+               <xsl:when test="$ptr">
+                  <xsl:apply-templates mode="xref" select="id($W)">
                      <xsl:with-param name="minimal" select="$minimalCrossRef"/>
                   </xsl:apply-templates>
                </xsl:when>
@@ -470,9 +465,9 @@
 	       <xsl:when test="starts-with($dest,'#') or  contains($dest,$outputSuffix) or contains($dest,'ID=')">
 		 <xsl:value-of select="$dest"/>
 	       </xsl:when>
-	       <xsl:when test="key('IDS',$W)"/>
+	       <xsl:when test="id($W)"/>
 	       <xsl:otherwise>
-		 <xsl:apply-templates mode="generateLink" select="key('IDS',$W)"/>
+		 <xsl:apply-templates mode="generateLink" select="id($W)"/>
 	       </xsl:otherwise>
 	     </xsl:choose>
 	   </xsl:variable>
@@ -481,13 +476,13 @@
 	       <xsl:when test="not($body='')">
 		 <xsl:value-of select="$body"/>
 	       </xsl:when>
-	       <xsl:when test="$ptr='true' and count(key('IDS',$W))&gt;0">
-		 <xsl:apply-templates mode="xref" select="key('IDS',$W)">
+	       <xsl:when test="$ptr and id($W)">
+		 <xsl:apply-templates mode="xref" select="id($W)">
 		   <xsl:with-param name="minimal" select="$minimalCrossRef"/>
 		 </xsl:apply-templates>
 	       </xsl:when>
-	       <xsl:when test="$ptr='true'">
-		 <xsl:text>??</xsl:text>
+	       <xsl:when test="$ptr">
+		 <xsl:value-of select="$dest"/>
 	       </xsl:when>
 	       <xsl:otherwise>
 		 <xsl:apply-templates/>
@@ -518,7 +513,7 @@
 		   </xsl:otherwise>
 		 </xsl:choose>
 		 
-		 <xsl:for-each select="key('IDS',$W)">
+		 <xsl:for-each select="id($W)">
 		     <xsl:choose>
 		       <xsl:when test="starts-with(local-name(.),'div')">
 			 <xsl:attribute name="title">

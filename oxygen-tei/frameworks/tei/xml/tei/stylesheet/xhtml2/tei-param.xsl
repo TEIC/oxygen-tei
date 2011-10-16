@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"                 
     xmlns:html="http://www.w3.org/1999/xhtml"                
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"                
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    exclude-result-prefixes="tei html"
+    exclude-result-prefixes="tei html xs"
     version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>     <p>
@@ -27,17 +28,17 @@
    
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tei-param.xsl 9221 2011-08-21 10:00:48Z rahtz $</p>
+         <p>Id: $Id: tei-param.xsl 9408 2011-09-27 20:09:13Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
   <xsl:key name="INDEX" use="1" match="tei:index"/>
-  <xsl:key name="PB" match="tei:pb[ancestor::tei:body]" use="1"/>
+  <xsl:key name="PB" match="tei:pb" use="1"/>
   <xsl:key name="NOTES" use="1"
 	   match="tei:note[@place='foot' or @place='bottom' or @place='end'
 		  and not(parent::tei:bibl or ancestor::tei:teiHeader)]"/>
   <xsl:key name="ALLNOTES" use="1"
-	   match="tei:note[not(@place='marg' or @place='inline' or @place='display')
+	   match="tei:note[not(@place='margin' or @place='inline' or @place='display')
 		  and not(parent::tei:bibl or  ancestor::tei:teiHeader)]"/>
 
   <xsl:key name="TAGREND" match="tei:tagUsage[@render]" use="@gi"/>
@@ -88,18 +89,18 @@
       <desc>CSS style file to be associated with output file(s)</desc>
 
    </doc>
-  <xsl:param name="cssFile">http://www.tei-c.org/release/xml/tei/stylesheet/tei.css</xsl:param>
+  <xsl:param name="cssFile" as="xs:string">http://www.tei-c.org/release/xml/tei/stylesheet/tei.css</xsl:param>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="CSS" type="anyURI">
       <desc>CSS style file for print; this will be given a media=print attribute.
     </desc>
    </doc>
-  <xsl:param name="cssPrintFile">http://www.tei-c.org/release/xml/tei/stylesheet/tei-print.css</xsl:param>
+  <xsl:param name="cssPrintFile" as="xs:string">http://www.tei-c.org/release/xml/tei/stylesheet/tei-print.css</xsl:param>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="CSS" type="anyURI">
       <desc>Secondary CSS style file; this will be given a media=screen attribute,
 so that it does not affect printing. It should be used for screen layout.
   </desc>
    </doc>
-    <xsl:param name="cssSecondaryFile"/>
+    <xsl:param name="cssSecondaryFile"  as="xs:string" select="''"/>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="figures" type="integer">
       <desc>Resolution of images. This is needed to calculate
 HTML width and height (in pixels) from supplied dimensions.</desc>
@@ -418,12 +419,21 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</p>
       <xsl:param name="class">title</xsl:param>
       <xsl:param name="level">1</xsl:param>
       <xsl:if test="not($text='')">
+	<xsl:choose>
+	<xsl:when test="$level &gt; 6">
+	  <div class="h{$level}">
+            <xsl:copy-of select="$text"/>
+	  </div>
+	</xsl:when>
+	<xsl:otherwise>
          <xsl:element name="h{$level}">
 	   <xsl:attribute name="class">
 	     <xsl:value-of select="$class"/>
 	   </xsl:attribute>
 	   <xsl:copy-of select="$text"/>
          </xsl:element>
+	</xsl:otherwise>
+	</xsl:choose>
       </xsl:if>
   </xsl:template>
 
@@ -550,10 +560,6 @@ be specified.</p>
    </doc>
   <xsl:param name="outputEncoding">utf-8</xsl:param>
 
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="output" type="string">
-      <desc>Type of output being generated</desc>
-   </doc>
-  <xsl:param name="outputTarget">html</xsl:param>
   <xsl:param name="outputNamespace">http://www.w3.org/1999/xhtml</xsl:param>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="output" type="string">
@@ -742,6 +748,7 @@ correspond to the ID attribute of the &gt;div&lt;. Alternatively, you
       </xsl:choose>
    </xsl:template>
 
-   <xsl:param name="mediaoverlay">false</xsl:param>
+  <xsl:param name="mediaoverlay">false</xsl:param>
+
 
 </xsl:stylesheet>
