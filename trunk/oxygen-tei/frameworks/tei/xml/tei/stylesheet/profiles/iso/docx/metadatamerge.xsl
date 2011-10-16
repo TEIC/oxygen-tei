@@ -54,7 +54,7 @@
   
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: metadatamerge.xsl 7952 2010-08-12 21:14:51Z rahtz $</p>
+         <p>Id: $Id: metadatamerge.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>

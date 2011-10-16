@@ -29,7 +29,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: odd2lite.xsl 9230 2011-08-22 17:11:52Z rahtz $</p>
+         <p>Id: $Id: odd2lite.xsl 9424 2011-09-29 20:23:49Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -113,7 +113,7 @@
   </xsl:template>
 
   <xsl:template name="makeInternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean"  select="false()"/>
       <xsl:param name="target"/>
       <xsl:param name="dest"/>
       <xsl:param name="class"/>
@@ -134,7 +134,7 @@
                <xsl:value-of select="$body"/>
             </tei:ref>
          </xsl:when>
-         <xsl:when test="$ptr='true'">
+         <xsl:when test="$ptr">
             <tei:ptr target="#{$W}"/>
          </xsl:when>
          <xsl:otherwise>
@@ -143,10 +143,10 @@
       </xsl:choose>
   </xsl:template>
   <xsl:template name="makeExternalLink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean" select="false()"/>
       <xsl:param name="dest"/>
       <xsl:choose>
-         <xsl:when test="$ptr='true'">
+         <xsl:when test="$ptr">
             <tei:ptr target="{$dest}"/>
          </xsl:when>
          <xsl:otherwise>
@@ -332,7 +332,7 @@
             <xsl:apply-templates/>
             <xsl:text>&gt;</xsl:text>
          </xsl:when>
-         <xsl:when test="key('ELEMENTS',.)">
+         <xsl:when test="key('ELEMENTS',.)[last()]">
             <xsl:for-each select="key('ELEMENTS',.)">
                <ref target="#{@ident}">
                   <xsl:text>&lt;</xsl:text>
@@ -340,12 +340,12 @@
                      <xsl:when test="tei:content/rng:empty">
                         <xsl:call-template name="emptySlash">
                            <xsl:with-param name="name">
-                              <xsl:value-of select="@ident"/>
+                              <xsl:value-of select="(tei:altIdent|@ident)[last()]"/>
                            </xsl:with-param>
                         </xsl:call-template>
                      </xsl:when>
                      <xsl:otherwise>
-                        <xsl:value-of select="@ident"/>
+                        <xsl:value-of select="(tei:altIdent|@ident)[last()]"/>
                      </xsl:otherwise>
                   </xsl:choose>
                   <xsl:text>&gt;</xsl:text>

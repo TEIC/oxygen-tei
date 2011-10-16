@@ -13,6 +13,7 @@
 						       html opf ncx smil">
   <xsl:import href="../xhtml2/tei.xsl"/>
   <xsl:import href="epub-common.xsl"/>
+  <xsl:import href="epub-preflight.xsl"/>
   <xsl:output method="xml" encoding="utf-8" indent="no"/>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
     <desc>
@@ -38,7 +39,7 @@
 	
       </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: tei-to-epub.xsl 9197 2011-08-10 16:46:30Z adamobeng $</p>
+      <p>Id: $Id: tei-to-epub.xsl 9416 2011-09-28 17:58:03Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
@@ -59,7 +60,6 @@
   <xsl:param name="createanttask">false</xsl:param>
   <xsl:param name="institution"/>
   <xsl:param name="linkPanel">false</xsl:param>
-  <xsl:param name="mediaoverlay">false</xsl:param>
   <xsl:param name="odd">false</xsl:param>
   <xsl:param name="inputDir">.</xsl:param>
   <xsl:param name="outputDir"><xsl:value-of select="$directory"/>/OEBPS</xsl:param>
@@ -73,7 +73,7 @@
   <xsl:param name="outputTarget">epub</xsl:param>
 
   <xsl:key name="Timeline" match="tei:timeline" use="1"/>
-  <xsl:key name="Object" match="tei:when" use="substring-after(@corresp,'#')"/>
+  <xsl:key name="Object" match="tei:when" use="substring(@corresp,2)"/>
   <xsl:key name="objectOnPage" match="tei:*[@xml:id]" use="generate-id(preceding::tei:pb[1])"/>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -89,7 +89,7 @@
   </doc>
   <xsl:template name="processTEI">
     <xsl:variable name="stage1">
-      <xsl:apply-templates mode="fixgraphics"/>
+      <xsl:apply-templates mode="preflight"/>
     </xsl:variable>
     <xsl:for-each select="$stage1">
       <xsl:call-template name="processTEIHook"/>
@@ -97,7 +97,7 @@
         <xsl:choose>
           <xsl:when test="/tei:TEI/tei:text/tei:front/tei:titlePage[@facs]">
             <xsl:for-each select="/tei:TEI/tei:text/tei:front/tei:titlePage[@facs][1]">
-              <xsl:for-each select="key('IDS',substring(@facs,2))">
+              <xsl:for-each select="id(substring(@facs,2))">
                 <xsl:choose>
                   <xsl:when test="count(tei:graphic)=1">
                     <xsl:value-of select="tei:graphic/@url"/>
@@ -118,7 +118,7 @@
         <xsl:choose>
           <xsl:when test="/tei:TEI/tei:text/tei:front/tei:titlePage[@facs]">
             <xsl:for-each select="/tei:TEI/tei:text/tei:front/tei:titlePage[@facs][1]">
-              <xsl:for-each select="key('IDS',substring(@facs,2))">
+              <xsl:for-each select="id(substring(@facs,2))">
                 <xsl:value-of select="tei:graphic[1]/@url"/>
               </xsl:for-each>
             </xsl:for-each>
@@ -138,15 +138,29 @@
       </xsl:choose>
       <xsl:for-each select="*">
         <xsl:variable name="TOC">
+
           <TOC xmlns="http://www.w3.org/1999/xhtml">
             <xsl:call-template name="mainTOC"/>
           </TOC>
         </xsl:variable>
-        <!--
+<!--
 	    <xsl:result-document href="/tmp/TOC">
 	    <xsl:copy-of select="$TOC"/>
 	    </xsl:result-document>
-	-->
+-->
+	  <xsl:for-each select="tokenize($javascriptFiles,',')">
+	    <xsl:variable name="file" select="normalize-space(.)"/>
+	    <xsl:variable name="name" select="tokenize($file,'/')[last()]"/>
+        <xsl:if test="$verbose='true'">
+	    <xsl:message>write Javascript file <xsl:value-of select="$name"/></xsl:message>
+        </xsl:if>
+	    <xsl:result-document method="text"
+				 href="{concat($directory,'/OEBPS/',$name)}">
+	      <xsl:for-each select="unparsed-text($file)">
+		<xsl:copy-of select="."/>
+	      </xsl:for-each>
+	    </xsl:result-document>
+	  </xsl:for-each>
         <xsl:if test="$verbose='true'">
           <xsl:message>write file OEBPS/stylesheet.css</xsl:message>
         </xsl:if>
@@ -225,7 +239,10 @@
         </xsl:if>
         <xsl:result-document href="{concat($directory,'/OEBPS/content.opf')}" method="xml">
           <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="dcidid" version="2.0">
-            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:opf="http://www.idpf.org/2007/opf">
+            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" 
+		      xmlns:dcterms="http://purl.org/dc/terms/" 
+		      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		      xmlns:opf="http://www.idpf.org/2007/opf">
               <dc:title>
                 <xsl:call-template name="generateSimpleTitle"/>
               </dc:title>
@@ -257,7 +274,12 @@
                     </xsl:non-matching-substring>
                   </xsl:analyze-string>
                 </xsl:variable>
-                <xsl:value-of select="$printA"/>
+		<xsl:choose>
+		  <xsl:when test="$printA=''">Anonymous/Unknown</xsl:when>
+		  <xsl:otherwise>
+		    <xsl:value-of select="$printA"/>
+		  </xsl:otherwise>
+		</xsl:choose>
               </dc:creator>
               <dc:publisher>
                 <xsl:call-template name="generatePublisher"/>
@@ -284,19 +306,30 @@
             </metadata>
             <manifest>
 	      <!-- deal with intricacies of overlay files -->
+	      <xsl:variable name="TL" select="key('Timeline',1)"/>
 	      <xsl:if test="$mediaoverlay='true' and
 			    key('Timeline',1)">
 		<xsl:if test="$verbose='true'">
 		  <xsl:message>write file SMIL files</xsl:message>
 		</xsl:if>
 		<xsl:for-each select="key('Timeline',1)">
-		  <xsl:variable name="TL" select="."/>
+		  <xsl:variable name="TLnumber">
+		    <xsl:number level="any"/>
+		  </xsl:variable>
 		  <xsl:variable name="audio">
 		    <xsl:text>media/audio</xsl:text>
 		    <xsl:number level="any"/>
 		    <xsl:text>.</xsl:text>
 		    <xsl:value-of select="tokenize(@corresp,'\.')[last()]"/>
 		  </xsl:variable>
+		  <item id="timeline-audio{$TLnumber}" href="{$audio}">
+		    <xsl:attribute name="media-type">
+		      <xsl:choose>
+			<xsl:when test="contains($audio,'.m4a')">audio/m4a</xsl:when>
+			<xsl:otherwise>audio/m4a</xsl:otherwise>
+		      </xsl:choose>
+		    </xsl:attribute>
+		  </item>
 		  <xsl:for-each select="key('PB',1)">
 		    <xsl:variable name="page">
 		      <xsl:value-of select="generate-id()"/>
@@ -304,17 +337,16 @@
 		    <xsl:variable name="target">
 		      <xsl:apply-templates select="." mode="ident"/>
 		    </xsl:variable>		    
+		    <xsl:if test="count(key('objectOnPage',$page))&gt;0">
 		    <item id="{$target}-audio" href="{$target}-overlay.smil" media-type="application/smil+xml"/>
 		    <xsl:result-document href="{concat($directory,'/OEBPS/',$target,'-overlay.smil')}" method="xml">
 		    <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0" profile="http://www.ipdf.org/epub/30/profile/content/">
 		      <body> 
-			      <xsl:for-each select="key('objectOnPage',$page)">
-				      objectOnPage
+			<xsl:for-each select="key('objectOnPage',$page)">
 			  <xsl:variable name="object" select="@xml:id"/>
 			  <xsl:for-each select="$TL">
-				  TL
-				  <xsl:for-each select="key('Object',$object)">
-					  Object
+			    <xsl:for-each
+				select="key('Object',$object)">
 			      <par id="{@xml:id}">
 				<text src="{$target}.html{@corresp}"/>
 				<audio src="{$audio}"
@@ -326,6 +358,7 @@
 		      </body>
 		    </smil>
 		    </xsl:result-document>
+		    </xsl:if>
 		  </xsl:for-each>
 		</xsl:for-each>
 	      </xsl:if>
@@ -336,6 +369,11 @@
               <xsl:if test="not($coverimage='') and not($coverimage=$coverImageOutside)">
                 <item href="{$coverimage}" id="cover-image-extra" media-type="image/jpeg"/>
               </xsl:if>
+	      <xsl:for-each select="tokenize($javascriptFiles,',')">
+		<xsl:variable name="name"
+			      select="tokenize(normalize-space(.),'/')[last()]"/>
+		<item href="{$name}" id="javascript{position()}" media-type="text/javascript"/>
+	      </xsl:for-each>
               <item href="stylesheet.css" id="css" media-type="text/css"/>
               <item href="titlepage.html" id="titlepage"
 		    media-type="application/xhtml+xml"/>
@@ -400,7 +438,9 @@
 		      </xsl:otherwise>
 		    </xsl:choose>
 		    <xsl:if test="html:ul">
-		      <xsl:for-each select="html:ul//html:li[html:a and not(contains(html:a/@href,'#'))]">
+		      <xsl:for-each select="html:ul//html:li[html:a
+					    and
+					    not(contains(html:a/@href,'#'))]">
 			<item href="{html:a[1]/@href}" media-type="application/xhtml+xml">
 			  <xsl:attribute name="id">
 			    <xsl:text>section</xsl:text>
@@ -415,29 +455,51 @@
 		  <!-- images -->
               <xsl:for-each select="key('GRAPHICS',1)">
 		<xsl:variable name="img" select="@url|@facs"/>
-                <xsl:if test="not($img=$coverImageOutside)">
-                  <xsl:variable name="ID">
-                    <xsl:number level="any"/>
-                  </xsl:variable>
+		<xsl:if test="not($img=$coverImageOutside)">
+		  <xsl:variable name="ID">
+		    <xsl:number level="any"/>
+		  </xsl:variable>
 		  <xsl:variable name="mimetype">
-			  <xsl:choose>
-		  <xsl:when test="@mimeType != ''"><xsl:value-of select="@mimeType"/></xsl:when>
-                      <xsl:when test="contains($img,'.gif')">image/gif</xsl:when>
-                      <xsl:when test="contains($img,'.png')">image/png</xsl:when>
-                      <xsl:when test="contains($img,'.mpeg')">video/mpeg4</xsl:when>
-                      <xsl:when test="contains($img,'.mp4')">video/mpeg4</xsl:when>
-                      <xsl:when test="contains($img,'.m4v')">video/mpeg4</xsl:when>
-                      <xsl:otherwise>image/jpeg</xsl:otherwise>
-                    </xsl:choose>
-                  </xsl:variable>
-                  <item href="{$img}" id="image-{$ID}" media-type="{$mimetype}"/>
-                </xsl:if>
-              </xsl:for-each>
-              <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
-              <xsl:call-template name="epubManifestHook"/>
-            </manifest>
-            <spine toc="ncx">
-              <itemref idref="titlepage" linear="yes"/>
+		    <xsl:choose>
+		      <xsl:when test="@mimeType != ''">
+			<xsl:value-of select="@mimeType"/>
+		      </xsl:when>
+		      <xsl:when test="contains($img,'.gif')">image/gif</xsl:when>
+		      <xsl:when test="contains($img,'.png')">image/png</xsl:when>
+		      <xsl:when test="contains($img,'.mpeg')">video/mpeg4</xsl:when>
+		      <xsl:when test="contains($img,'.mp4')">video/mpeg4</xsl:when>
+		      <xsl:when test="contains($img,'.m4v')">video/mpeg4</xsl:when>
+		      <xsl:otherwise>image/jpeg</xsl:otherwise>
+		    </xsl:choose>
+		  </xsl:variable>
+		  <item href="{$img}" id="image-{$ID}" media-type="{$mimetype}"/>
+		</xsl:if>
+	      </xsl:for-each>
+
+		<!-- page images -->
+		<xsl:for-each select="key('PBGRAPHICS',1)">
+		  <xsl:variable name="img" select="@facs"/>
+		  <xsl:variable name="ID">
+		    <xsl:number level="any"/>
+		  </xsl:variable>
+		  <xsl:variable name="mimetype">
+		    <xsl:choose>
+		      <xsl:when test="@mimeType != ''">
+			<xsl:value-of select="@mimeType"/>
+		      </xsl:when>
+		      <xsl:when test="contains($img,'.gif')">image/gif</xsl:when>
+		      <xsl:when test="contains($img,'.png')">image/png</xsl:when>
+		      <xsl:otherwise>image/jpeg</xsl:otherwise>
+		    </xsl:choose>
+		  </xsl:variable>
+		  <item href="{$img}" id="pbimage-{$ID}" media-type="{$mimetype}"/>
+		</xsl:for-each>
+
+	      <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+	      <xsl:call-template name="epubManifestHook"/>
+	    </manifest>
+	    <spine toc="ncx">
+	      <itemref idref="titlepage" linear="yes"/>
 	      <xsl:if test="$filePerPage='true'">
 		<itemref idref="titlepageverso" linear="yes"/>
 	      </xsl:if>
@@ -450,18 +512,20 @@
 		<xsl:when test="$filePerPage='true'">
 		  <xsl:for-each select="key('PB',1)">
 		    <xsl:if test="@facs">
-		      <itemref linear="yes">
+		      <itemref>
 			<xsl:attribute name="idref">
 			  <xsl:text>pagefacs</xsl:text>
 			  <xsl:number level="any"/>
 			</xsl:attribute>
+			<xsl:attribute name="linear">yes</xsl:attribute>
 		      </itemref>
 		    </xsl:if>
-		    <itemref linear="yes">
+		    <itemref>
 		      <xsl:attribute name="idref">
 			<xsl:text>page</xsl:text>
 			<xsl:number level="any"/>
 		      </xsl:attribute>
+		      <xsl:attribute name="linear">yes</xsl:attribute>
 		    </itemref>
 		    </xsl:for-each>
 		</xsl:when>
@@ -471,21 +535,24 @@
 		      <xsl:when test="not(html:a)"/>
 		      <xsl:when test="starts-with(html:a/@href,'#')"/>
 		      <xsl:otherwise>
-			<itemref linear="yes">
+			<itemref>
 			  <xsl:attribute name="idref">
 			    <xsl:text>section</xsl:text>
 			    <xsl:number count="html:li" level="any"/>
 			  </xsl:attribute>
+			<xsl:attribute
+			    name="linear">yes</xsl:attribute>
 			</itemref>
 		      </xsl:otherwise>
 		    </xsl:choose>
 		    <xsl:if test="html:ul">
 		      <xsl:for-each select="html:ul//html:li[html:a and not(contains(html:a/@href,'#'))]">
-			<itemref linear="yes">
+			<itemref>
 			  <xsl:attribute name="idref">
 			    <xsl:text>section</xsl:text>
 			    <xsl:number count="html:li" level="any"/>
 			  </xsl:attribute>
+			  <xsl:attribute name="linear">yes</xsl:attribute>
 			</itemref>
 		      </xsl:for-each>
 		    </xsl:if>
@@ -517,17 +584,22 @@
 			</xsl:attribute>
 		      </reference>
 		    </xsl:if>
-		    <!--
-			<xsl:if test="html:ul">
-			<xsl:for-each select="html:ul//html:li[not(contains(html:a/@href,'#'))]">
-			<reference type="text" href="{html:a/@href}">
-			<xsl:attribute name="title">
-			<xsl:value-of select="normalize-space(html:a[1])"/>
-			</xsl:attribute>
-			</reference>
-			</xsl:for-each>
-			</xsl:if>
-		    -->
+		    <xsl:if
+			test="contains(parent::html:ul/@class,'group')">
+		      <xsl:for-each select="html:ul//html:li">
+			<xsl:choose>
+			  <xsl:when test="not(html:a)"/>
+			  <xsl:when test="contains(html:a/@href,'#')"/>
+			  <xsl:otherwise>
+			    <reference type="text" href="{html:a/@href}">
+			      <xsl:attribute name="title">
+				<xsl:value-of select="normalize-space(html:a[1])"/>
+			      </xsl:attribute>
+			    </reference>
+			  </xsl:otherwise>
+			</xsl:choose>
+		      </xsl:for-each>
+		    </xsl:if>
 		  </xsl:for-each>
 		</xsl:otherwise>
 	      </xsl:choose>
@@ -555,8 +627,18 @@
             <body>
               <xsl:choose>
                 <xsl:when test="$coverImageInside=''">
-                  <div style="font-family: serif; height:860;          font-size:36pt; border: bold red 1pt; text-align:center">
-                    <xsl:call-template name="generateTitle"/>
+                  <div>
+		    <xsl:attribute name="style">
+		      font-family: serif; 
+		      height:860;          
+		      font-size:30pt; 
+		      font-weight: bold;
+		      padding-top: 15pt;
+		      margin: 12pt;
+		      border: solid red 1pt; 
+		      text-align:center;
+		    </xsl:attribute>
+                   <xsl:call-template name="generateTitle"/>
                   </div>
                 </xsl:when>
                 <xsl:otherwise>
@@ -629,6 +711,9 @@
                 <xsl:for-each select="/*/tei:teiHeader/tei:fileDesc">
                   <xsl:apply-templates mode="metadata"/>
                 </xsl:for-each>
+                <xsl:for-each select="/*/tei:teiHeader/tei:encodingDesc">
+                  <xsl:apply-templates mode="metadata"/>
+                </xsl:for-each>
               </div>
             </body>
           </html>
@@ -669,50 +754,35 @@
                     <content src="titlepage{$N}.html"/>
                   </navPoint>
                 </xsl:for-each>
-		<xsl:if test="not($TOC/html:TOC/html:ul/html:li)">
-		  <navPoint>
-		    <navLabel>
-		      <text>[The book]</text>
-		    </navLabel>
-		    <content src="index.html"/>
-		  </navPoint>
-		</xsl:if>
-                <xsl:for-each select="$TOC/html:TOC/html:ul/html:li">
-                  <xsl:choose>
-                    <xsl:when test="not(html:a)"/>
-                    <xsl:when test="starts-with(html:a/@href,'#')"/>
-                    <xsl:when test="contains(@class,'headless')"/>
-                    <xsl:when test="html:a/@href=preceding-sibling::html:li/html:a/@href"/>
-                    <xsl:otherwise>
-                      <navPoint>
-                        <navLabel>
-                          <text>
-                            <xsl:value-of select="html:span[@class='headingNumber']"/>
-                            <xsl:value-of select="normalize-space(html:a[1])"/>
-                          </text>
-                        </navLabel>
-                        <content src="{html:a/@href}"/>
-                      </navPoint>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                  <!--		<xsl:if test="html:ul">
-                    <xsl:for-each select="html:ul/html:li">
-		    <xsl:variable name="pos">
-		    <xsl:number level="any"/>
-		    </xsl:variable>
-		    <navPoint id="navPoint-{$pos+1}" playOrder="{$pos+1}">
-		    <navLabel>
-		    <text>
-		    <xsl:value-of select="normalize-space(html:a[1])"/>
-		    </text>
-		    </navLabel>
-		    <content src="{html:a/@href}"/>
+		<xsl:choose>
+		  <xsl:when test="not($TOC/html:TOC/html:ul[@class='toc toc_body']/html:li)">
+		    <xsl:for-each
+			select="$TOC/html:TOC/html:ul[@class='toc toc_front']">
+		      <xsl:apply-templates select="html:li"/>
+		    </xsl:for-each>
+		    <navPoint>
+		      <navLabel>
+			<text>[The book]</text>
+		      </navLabel>
+		      <content src="index.html"/>
 		    </navPoint>
-                    </xsl:for-each>
-		    </xsl:if>
-		-->
-                </xsl:for-each>
-                <navPoint>
+		    <xsl:for-each
+			select="$TOC/html:TOC/html:ul[contains(@class,'group')]">
+		      <xsl:apply-templates select=".//html:li[not(contains(html:a/@href,'#'))]"/>
+		    </xsl:for-each>
+		    <xsl:for-each
+			select="$TOC/html:TOC/html:ul[@class='toc toc_back']">
+		      <xsl:apply-templates select="html:li"/>
+		    </xsl:for-each>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <xsl:for-each select="$TOC/html:TOC/html:ul">
+		      <xsl:apply-templates select="html:li"/>
+		    </xsl:for-each>
+		  </xsl:otherwise>
+		</xsl:choose>
+		
+		<navPoint>
                   <navLabel>
                     <text>[About this book]</text>
                   </navLabel>
@@ -787,7 +857,39 @@
       </xsl:for-each>
     </xsl:for-each>
   </xsl:template>
+
+  <xsl:template match="html:li">
+    <xsl:choose>
+      <xsl:when test="not(html:a)"/>
+      <xsl:when test="starts-with(html:a/@href,'#')"/>
+      <xsl:when test="contains(@class,'headless')"/>
+      <xsl:when test="html:a/@href=preceding-sibling::html:li/html:a/@href"/>
+      <xsl:otherwise>
+	<navPoint xmlns="http://www.daisy.org/z3986/2005/ncx/">
+	  <navLabel>
+	    <text>
+	      <xsl:value-of select="html:span[@class='headingNumber']"/>
+	      <xsl:value-of select="normalize-space(html:a[1])"/>
+	    </text>
+	  </navLabel>
+	  <content src="{html:a/@href}"/>
+	</navPoint>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+   <xsl:template name="javascriptHook">   
+    <xsl:for-each select="tokenize($javascriptFiles,',')">
+      <xsl:variable name="name" select="tokenize(normalize-space(.),'/')[last()]"/>      
+      <script type="text/javascript" src="{$name}">
+      <xsl:comment>JS library</xsl:comment>
+    </script>
+    </xsl:for-each>
+  </xsl:template>
+
   <xsl:template name="epubSpineHook"/>
   <xsl:template name="epubManifestHook"/>
   <xsl:template name="processTEIHook"/>
+
+
 </xsl:stylesheet>

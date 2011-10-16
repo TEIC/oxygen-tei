@@ -36,7 +36,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: from-pass2.xsl 7952 2010-08-12 21:14:51Z rahtz $</p>
+      <p>Id: $Id: from-pass2.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
@@ -451,7 +451,7 @@
       <note place="comment" resp="ISO_validator">
 	<date>
 	  <xsl:attribute name="when">
-	    <xsl:value-of select="teidocx:whatsTheDate()"/>
+	    <xsl:value-of select="tei:whatsTheDate()"/>
 	  </xsl:attribute>
 	</date>
 	<xsl:value-of select="."/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project basedir="." default="dist" name="teitohtml">
+<project basedir="." default="dist" name="teitodtd">
     <!--
         This library is free software; you can redistribute it and/or
         modify it under the terms of the GNU Lesser General Public
@@ -15,7 +15,7 @@
         License along with this library; if not, write to the Free Software
         Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
         
-        Id: $Id: build-to.xml 9316 2011-09-13 08:06:05Z rahtz $
+        Id: $Id: build-to.xml 9335 2011-09-20 13:58:07Z rahtz $
         Copyright: 2011, TEI Consortium<
     -->
     <!--
@@ -66,7 +66,7 @@
     <target name="convert">
         <!-- Recreate temporary output directory -->
         <!-- The transformation for HTML output. -->
-        <echo level="info">XSLT generate DTDNG files</echo>
+        <echo level="info">XSLT generate DTD files</echo>
         <xslt force="yes" style="${odd2dtd}" in="${outputTempDir}/tmp1.xml" out="${outputFile}" classpath="classpath">
             <xmlcatalog>
                 <catalogpath>

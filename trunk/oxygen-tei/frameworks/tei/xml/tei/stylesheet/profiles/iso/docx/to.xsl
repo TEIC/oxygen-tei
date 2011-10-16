@@ -54,7 +54,7 @@
   
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: to.xsl 9044 2011-07-03 22:24:49Z rahtz $</p>
+         <p>Id: $Id: to.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -143,7 +143,7 @@
         <w:r>
             <w:rPr>
                 <w:rStyle w:val="isonumber"/>
-		<xsl:if test="teidocx:render-bold(.)">
+		<xsl:if test="tei:render-bold(.)">
 		  <w:b/>
 		</xsl:if>
             </w:rPr>
@@ -574,19 +574,18 @@
 	  <w:pStyle w:val="Tablenote"/>
 	</w:pPr>
       </xsl:variable>
-      
       <xsl:call-template name="block-element">
-	        <xsl:with-param name="pPr" select="$pPr"/>
-	        <xsl:with-param name="nop">false</xsl:with-param>
+	<xsl:with-param name="pPr" select="$pPr"/>
+	<xsl:with-param name="nop">true</xsl:with-param>
       </xsl:call-template>
     </xsl:template>
     
     
-       <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl"  >
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl"  >
       <desc>
 	Paragraphs in the front matter 
       </desc>
-       </doc>
+    </doc>
     <xsl:template match="tei:front/tei:div/tei:p[@type='foreword']">
         <xsl:call-template name="block-element">
             <xsl:with-param name="pPr">
@@ -1077,12 +1076,12 @@
     </doc>
     <xsl:template match="cals:table">
       <xsl:choose>
-	<xsl:when test="@tei:corresp and $tableMethod='word'">
+	<xsl:when test="@teidocx:corresp and $tableMethod='word'">
         <xsl:call-template name="tableheading-from-cals"/>
 	  <xsl:if test="$debug='true'">
-	    <xsl:message>read table from <xsl:value-of select="@tei:corresp"/></xsl:message>
+	    <xsl:message>read table from <xsl:value-of select="@teidocx:corresp"/></xsl:message>
 	  </xsl:if>
-	  <xsl:for-each select="document(concat($tei-directory,@tei:corresp))">
+	  <xsl:for-each select="document(concat($tei-directory,@teidocx:corresp))">
 	    <xsl:apply-templates 	mode="copytable"/>
 	  </xsl:for-each>
 	</xsl:when>

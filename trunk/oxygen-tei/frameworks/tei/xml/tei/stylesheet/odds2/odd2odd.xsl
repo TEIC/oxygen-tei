@@ -23,7 +23,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: odd2odd.xsl 9297 2011-09-07 21:37:09Z rahtz $</p>
+      <p>Id: $Id: odd2odd.xsl 9501 2011-10-15 10:54:54Z sbauman $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -67,7 +67,7 @@
   <xsl:key name="odd2odd-MODULE_MEMBERS" match="tei:classSpec"  use="@module"/>
   <xsl:key name="odd2odd-MODULE_MEMBERS" match="tei:elementSpec" use="@module"/>
 
-  <xsl:key name="odd2odd-MODULE_MEMBERS_MODEL" match="tei:classSpec[@type='model']" use="@module"/>
+  <xsl:key name="odd2odd-MODULE_MEMBERS_MODEL" match="tei:classSpec" use="@module"/>
 
   <xsl:key name="odd2odd-SCHEMASPECS" match="tei:schemaSpec" use="@ident"/>
 
@@ -108,8 +108,8 @@
   <xsl:variable name="ODD">
     <xsl:for-each select="/tei:TEI">
       <xsl:copy>
+	<xsl:attribute name="xml:base" select="document-uri(/)"/>
         <xsl:copy-of select="@*"/>
-        <xsl:attribute name="xml:base" select="document-uri(/)"/>
         <xsl:if test="$useVersionFromTEI='true'">
           <xsl:processing-instruction name="TEIVERSION">
             <xsl:call-template name="odd2odd-getversion"/>
@@ -122,10 +122,16 @@
 
   <xsl:variable name="top" select="/"/>
 
+
   <xsl:template match="/">
     <xsl:if test="$autoGlobal='true'">
       <xsl:message>NOTE: all TEI elements will have global attributes added automatically</xsl:message>
     </xsl:if>
+    <!--
+    <xsl:result-document href="/tmp/foo.xml">
+      <xsl:copy-of select="$ODD"/>
+    </xsl:result-document>
+    -->
     <xsl:for-each select="$ODD">
       <xsl:apply-templates mode="odd2odd-pass1"/>
     </xsl:for-each>
@@ -190,7 +196,7 @@
 	<xsl:choose>
 	<xsl:when test="@source">
 	<xsl:if test="$verbose='true'">
-	  <xsl:message>Source for TEI is<xsl:value-of select="@source"/> </xsl:message>
+	  <xsl:message>Source for TEI is <xsl:value-of select="@source"/></xsl:message>
 	</xsl:if>
 	</xsl:when>
 	<xsl:otherwise>
@@ -209,32 +215,20 @@
 
   <xsl:template match="tei:specGrpRef" mode="odd2odd-pass0">
     <xsl:if test="$verbose='true'">
-      <xsl:message>Phase 0: expand specGrpRef <xsl:value-of select="@target"/>
-         </xsl:message>
+      <xsl:message>Phase 0: expand specGrpRef <xsl:value-of
+      select="@target"/> (<xsl:value-of select="resolve-uri(@target,base-uri(/tei:TEI))"/></xsl:message>
     </xsl:if>
-    <xsl:choose>
-      <xsl:when test="starts-with(@target,'#')">
-        <xsl:for-each select="key('odd2odd-IDS',substring(@target,2))">
-          <xsl:apply-templates select="*|text()|processing-instruction()" mode="odd2odd-pass0"/>
-        </xsl:for-each>
-      </xsl:when>
-      <xsl:when test="matches( @target, '#\i\c*$' )">
-        <xsl:variable name="sgrDoc" select="substring-before(@target,'#')"/>
-        <xsl:variable name="sgrID" select="substring(@target,2)"/>
-        <!-- sgr = specification group reference :-) -->
-        <xsl:for-each select="id( $sgrID, document( $sgrDoc, $top ) )">
-          <xsl:apply-templates select="*|text()|processing-instruction()" mode="odd2odd-pass0"/>
-        </xsl:for-each>
-      </xsl:when>
-      <xsl:when test="contains(@target,'#')">
-        <xsl:message>WARNING: Sorry, I don't know how to process the target=<xsl:value-of select="@target"/> of &lt;specGrpRef></xsl:message>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:for-each select="document(@target)/tei:specGrp">
-          <xsl:apply-templates select="*|text()|processing-instruction()" mode="odd2odd-pass0"/>
-        </xsl:for-each>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:for-each 
+	select="doc(resolve-uri(@target,base-uri(/tei:TEI)))">
+      <xsl:choose>
+	<xsl:when test="tei:specGrp">
+	  <xsl:apply-templates select="tei:specGrp/*" mode="odd2odd-pass0"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:apply-templates  mode="odd2odd-pass0"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
   </xsl:template>
   
   <xsl:template match="text()|@*" mode="odd2odd-pass0">
@@ -357,12 +351,13 @@
 	  </xsl:for-each>
 	</xsl:when>
 	<xsl:when test="exists($inc)">
-	  <!-- get model classes regardless -->
+	  <!-- get model and attribute classes regardless -->
 	  <xsl:for-each select="document($SourceDoc,$top)">
-	    <xsl:for-each select="key('odd2odd-MODULE_MEMBERS_MODEL',$name)">
+	    <xsl:for-each
+		select="key('odd2odd-MODULE_MEMBERS_MODEL',$name)">
 	      <xsl:call-template name="odd2odd-checkObject">
 		<xsl:with-param name="Source" select="$SourceDoc" tunnel="yes"/>
-		<xsl:with-param name="why"> module (auto from include) <xsl:value-of select="$name"/></xsl:with-param>
+		<xsl:with-param name="why">module (auto from include) <xsl:value-of select="$name"/></xsl:with-param>
 	      </xsl:call-template>
 	    </xsl:for-each>
 	  </xsl:for-each>
@@ -372,10 +367,12 @@
 	      <xsl:choose>
 		<xsl:when test="key('odd2odd-IDENTS',$i)">
 		  <xsl:for-each select="key('odd2odd-IDENTS',$i)">
-		    <xsl:call-template name="odd2odd-checkObject">
-		      <xsl:with-param name="Source" select="$SourceDoc" tunnel="yes"/>
-		      <xsl:with-param name="why">(inclusion) module <xsl:value-of select="$name"/></xsl:with-param>
-		    </xsl:call-template>
+		    <xsl:if test="not(self::tei:classSpec)">
+		      <xsl:call-template name="odd2odd-checkObject">
+			<xsl:with-param name="Source" select="$SourceDoc" tunnel="yes"/>
+			<xsl:with-param name="why">(inclusion) module <xsl:value-of select="$name"/></xsl:with-param>
+		      </xsl:call-template>
+		    </xsl:if>
 		  </xsl:for-each>
 		</xsl:when>
 		<xsl:otherwise>
@@ -406,7 +403,6 @@
 	    </xsl:for-each>
 	</xsl:otherwise>
       </xsl:choose>
-
   </xsl:template>
 
   <xsl:template name="odd2odd-followRef">
@@ -465,6 +461,36 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="tei:ptr" mode="odd2odd-pass2">
+    <xsl:choose>
+      <xsl:when test="starts-with(@target,'#') and 
+		      (ancestor::tei:remarks or ancestor::tei:listRef or ancestor::tei:valDesc) and
+		      not(id(substring(@target,2)))">
+	<xsl:variable name="target" select="substring(@target,2)"/>
+	<xsl:choose>
+	  <xsl:when test="document($DEFAULTSOURCE)/id($target)">
+	    <ref  xmlns="http://www.tei-c.org/ns/1.0"
+		  target="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/{substring($target,1,2)}.html#{$target}">
+	      <xsl:for-each select="document($DEFAULTSOURCE)/id($target)">
+		<xsl:text>TEI </xsl:text>
+		<xsl:number count="tei:div" format="1.1.1." level="multiple"/>	  
+	      </xsl:for-each>
+	    </ref>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:copy>
+	      <xsl:apply-templates select="@*|*|text()|processing-instruction()" mode="odd2odd-pass2"/>
+	    </xsl:copy>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|*|text()|processing-instruction()" mode="odd2odd-pass2"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 
   <xsl:template match="@*|text()|comment()" mode="odd2odd-pass2">
     <xsl:copy-of select="."/>
@@ -542,8 +568,7 @@ How can a class be ok?
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="$verbose='true'">
-          <xsl:message>Reject unused macro <xsl:value-of select="$k"/>
-	              </xsl:message>
+          <xsl:message>Reject unused macro <xsl:value-of select="$k"/></xsl:message>
         </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
@@ -643,16 +668,6 @@ How can a class be ok?
 
   <xsl:template match="tei:listRef" mode="odd2odd-copy"/>
 
-  <xsl:template match="tei:elementSpec/@mode" mode="odd2odd-copy">
-    <xsl:copy/>
-  </xsl:template>
-
-  <xsl:template match="tei:macroSpec/@mode" mode="odd2odd-copy">
-    <xsl:copy/>
-  </xsl:template>
-  <xsl:template match="tei:classSpec/@mode" mode="odd2odd-copy">
-    <xsl:copy/>
-  </xsl:template>
   <xsl:template match="tei:elementSpec" mode="odd2odd-copy">
     <xsl:copy>
       <xsl:choose>
@@ -747,8 +762,11 @@ for change individually.
  -->
       <xsl:for-each select="$ODD">
         <xsl:for-each select="key('odd2odd-CHANGE',$elementName)">
-          <!-- if there is an altIdent, use it -->
+	  <xsl:if test="$verbose='true'">
+	    <xsl:message>Change <xsl:value-of select="$elementName"/></xsl:message>
+	  </xsl:if>
           <xsl:copy-of select="@ns"/>
+          <!-- if there is an altIdent, use it -->
           <xsl:apply-templates mode="odd2odd-justcopy" select="tei:altIdent"/>
           <!-- equiv, gloss, desc trio -->
           <xsl:choose>

@@ -32,7 +32,7 @@
    
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: textstructure.xsl 8926 2011-05-28 15:09:48Z rahtz $</p>
+         <p>Id: $Id: textstructure.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -166,7 +166,6 @@
       <!-- certainly don't touch the next few lines -->
       <xsl:text>&#10;\catcode`\$=12\relax&#10;</xsl:text>
       <xsl:text>\catcode`\^=12\relax&#10;</xsl:text>
-      <xsl:text>\catcode`\~=12\relax&#10;</xsl:text>
       <xsl:text>\catcode`\#=12\relax&#10;</xsl:text>
       <xsl:text>\catcode`\%=12\relax&#10;</xsl:text>
       <xsl:apply-templates/>

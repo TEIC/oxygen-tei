@@ -22,7 +22,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: core.xsl 8980 2011-06-21 02:31:10Z rahtz $</p>
+         <p>Id: $Id: core.xsl 9357 2011-09-21 16:15:44Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -228,26 +228,26 @@
                <xsl:when test="$depth=2">III</xsl:when>
                <xsl:when test="$depth=3">IV</xsl:when>
                <xsl:when test="$depth=4">V</xsl:when>
-	              <xsl:otherwise>I</xsl:otherwise>
+	       <xsl:otherwise>I</xsl:otherwise>
             </xsl:choose>
             <xsl:choose>
                <xsl:when test="ancestor::tei:floatingText">Star</xsl:when>
                <xsl:when test="parent::tei:div/@rend='nonumber'">Star</xsl:when>
-               <xsl:when test="ancestor::tei:back and $numberBackHeadings='false'">Star</xsl:when>
-	              <xsl:when test="$numberHeadings='false' and      ancestor::tei:body">Star</xsl:when>
-               <xsl:when test="ancestor::tei:front and $numberFrontHeadings='false'">Star</xsl:when>
+               <xsl:when test="ancestor::tei:back and not($numberBackHeadings='true')">Star</xsl:when>
+	       <xsl:when test="not($numberHeadings='true') and ancestor::tei:body">Star</xsl:when>
+               <xsl:when test="ancestor::tei:front and not($numberFrontHeadings='true')">Star</xsl:when>
             </xsl:choose>
-	           <xsl:text>[</xsl:text>
-	           <xsl:value-of select="normalize-space(.)"/>
-	           <xsl:text>]</xsl:text>
-	           <xsl:text>{</xsl:text>
-	           <xsl:apply-templates/>
-	           <xsl:text>}</xsl:text>
-	           <xsl:if test="../@xml:id">
-	              <xsl:text>\label{</xsl:text>
-	              <xsl:value-of select="../@xml:id"/>
-	              <xsl:text>}</xsl:text>
-	           </xsl:if>
+	    <xsl:text>[</xsl:text>
+	    <xsl:value-of select="normalize-space(.)"/>
+	    <xsl:text>]</xsl:text>
+	    <xsl:text>{</xsl:text>
+	    <xsl:apply-templates/>
+	    <xsl:text>}</xsl:text>
+	    <xsl:if test="../@xml:id">
+	      <xsl:text>\label{</xsl:text>
+	      <xsl:value-of select="../@xml:id"/>
+	      <xsl:text>}</xsl:text>
+	    </xsl:if>
          </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
@@ -282,38 +282,49 @@
             <xsl:when test="not(@rend)">\textbf</xsl:when>
             <xsl:when test="starts-with(@rend,'color')">\textcolor</xsl:when>
             <xsl:when test="@rend='bold'">\textbf</xsl:when>
+            <xsl:when test="@rend='calligraphic'">\textcal</xsl:when>
             <xsl:when test="@rend='center'">\centerline</xsl:when>
             <xsl:when test="@rend='code'">\texttt</xsl:when>
+            <xsl:when test="@rend='expanded'">\textsc</xsl:when>
+            <xsl:when test="@rend='gothic'">\textgothic</xsl:when>
+            <xsl:when test="@rend='i'">\textit</xsl:when>
+            <xsl:when test="@rend='important'">\textbf</xsl:when>
+            <xsl:when test="@rend='it'">\textit</xsl:when>
             <xsl:when test="@rend='ital'">\textit</xsl:when>
             <xsl:when test="@rend='italic'">\textit</xsl:when>
-            <xsl:when test="@rend='it'">\textit</xsl:when>
             <xsl:when test="@rend='italics'">\textit</xsl:when>
-            <xsl:when test="@rend='i'">\textit</xsl:when>
-            <xsl:when test="@rend='sc'">\textsc</xsl:when>
+            <xsl:when test="@rend='large'">\textlarge</xsl:when>
+            <xsl:when test="@rend='larger'">\textlarger</xsl:when>
+            <xsl:when test="@rend='noindex'">\textrm</xsl:when>
+            <xsl:when test="@rend='overbar'">\textoverbar</xsl:when>
             <xsl:when test="@rend='plain'">\textrm</xsl:when>
             <xsl:when test="@rend='quoted'">\textquoted</xsl:when>
-            <xsl:when test="@rend='sup'">\textsuperscript</xsl:when>
-            <xsl:when test="@rend='sub'">\textsubscript</xsl:when>
-            <xsl:when test="@rend='important'">\textbf</xsl:when>
-            <xsl:when test="@rend='ul'">\uline</xsl:when>
-            <xsl:when test="@rend='overbar'">\textoverbar</xsl:when>
-            <xsl:when test="@rend='expanded'">\textsc</xsl:when>
-            <xsl:when test="@rend='strike'">\sout</xsl:when>
+            <xsl:when test="@rend='sc'">\textsc</xsl:when>
             <xsl:when test="@rend='small'">\textsmall</xsl:when>
-            <xsl:when test="@rend='large'">\textlarge</xsl:when>
+            <xsl:when test="@rend='smallcaps'">\textsc</xsl:when>
             <xsl:when test="@rend='smaller'">\textsmaller</xsl:when>
-            <xsl:when test="@rend='larger'">\textlarger</xsl:when>
-            <xsl:when test="@rend='calligraphic'">\textcal</xsl:when>
-            <xsl:when test="@rend='gothic'">\textgothic</xsl:when>
-            <xsl:when test="@rend='noindex'">\textrm</xsl:when>
+            <xsl:when test="@rend='strike'">\sout</xsl:when>
+            <xsl:when test="@rend='sub'">\textsubscript</xsl:when>
+            <xsl:when test="@rend='subscript'">\textsubscript</xsl:when>
+            <xsl:when test="@rend='sup'">\textsuperscript</xsl:when>
+            <xsl:when test="@rend='superscript'">\textsuperscript</xsl:when>
+            <xsl:when test="@rend='ul'">\uline</xsl:when>
+            <xsl:when test="@rend='underline'">\underline</xsl:when>
          </xsl:choose>
       </xsl:variable>
       <xsl:value-of select="$cmd"/>
-      <xsl:if test="starts-with(@rend,'color')">
+      <xsl:choose>
+	<xsl:when test="starts-with(@rend,'color(')">
+	        <xsl:text>{</xsl:text>
+	        <xsl:value-of select="substring-before(substring-after(@rend,'color('),')')"/>
+	        <xsl:text>}</xsl:text>
+	</xsl:when>
+	<xsl:when test="starts-with(@rend,'color')">
 	        <xsl:text>{</xsl:text>
 	        <xsl:value-of select="substring-after(@rend,'color')"/>
 	        <xsl:text>}</xsl:text>
-      </xsl:if>
+	</xsl:when>
+      </xsl:choose>
       <xsl:text>{</xsl:text>
       <xsl:apply-templates/>
       <xsl:text>}</xsl:text>

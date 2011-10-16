@@ -25,7 +25,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: iso2changes.xsl 7953 2010-08-12 21:41:00Z rahtz $</p>
+         <p>Id: $Id: iso2changes.xsl 9407 2011-09-27 19:52:06Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -63,12 +63,11 @@
   
          </head>
          <body>
-            <h1 class="maintitle">
-	
-	              <xsl:value-of select="$isotitle"/>:
-	<xsl:value-of select="$isoyear"/>:
-	<xsl:value-of select="$isonumber"/>:
-	<xsl:value-of select="$isopart"/>
+            <h1 class="maintitle">	      
+	      <xsl:value-of select="$isotitle"/>:
+	      <xsl:value-of select="$isoyear"/>:
+	      <xsl:value-of select="$isonumber"/>:
+	      <xsl:value-of select="$isopart"/>
             </h1>
       
             <xsl:for-each select="tei:text/tei:front">

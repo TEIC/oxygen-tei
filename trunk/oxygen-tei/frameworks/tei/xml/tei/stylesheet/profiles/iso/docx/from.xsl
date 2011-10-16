@@ -26,7 +26,7 @@
                 exclude-result-prefixes="a pic rel ve o teidocx r m v wp w10 w wne mml vt cals tbx iso custprops">
 
     <!-- import conversion style -->
-    <xsl:import href="../../../docx/utils/functions.xsl"/>
+
     <xsl:import href="../../../docx/from/docxtotei.xsl"/>
 
     <!-- import special iso functions -->
@@ -59,7 +59,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: from.xsl 8952 2011-06-16 16:31:13Z rahtz $</p>
+         <p>Id: $Id: from.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -324,7 +324,7 @@
 
                 </publicationStmt>
                 <sourceDesc>
-                    <p>Processed by ISOTEI on <xsl:value-of select="teidocx:whatsTheDate()"/>
+                    <p>Processed by ISOTEI on <xsl:value-of select="tei:whatsTheDate()"/>
                     </p>
                 </sourceDesc>
             </fileDesc>
@@ -419,7 +419,7 @@
 	<xsl:for-each-group select="current-group() except ."
 			    group-starting-with="w:p[@LEVEL=$NextLevel]">
 	  <xsl:choose>
-	    <xsl:when test="teidocx:is-heading(.)">
+	    <xsl:when test="tei:is-heading(.)">
 	      <xsl:call-template name="group-by-section"/>
 	    </xsl:when>
 	    <xsl:otherwise>
@@ -1671,9 +1671,10 @@
     </doc>
 
     <xsl:template name="paragraph-wp">
+      <xsl:param name="style"/>
         <p>
             <!-- put style in rend, if there is a style -->
-            <xsl:if test="w:pPr/w:pStyle/@w:val and teidocx:is-supported-style(w:pPr/w:pStyle/@w:val)">
+            <xsl:if test="w:pPr/w:pStyle/@w:val and tei:is-supported-style(w:pPr/w:pStyle/@w:val)">
                 <xsl:attribute name="rend">
                     <xsl:value-of select="w:pPr/w:pStyle/@w:val"/>
                 </xsl:attribute>
@@ -1832,8 +1833,8 @@
 	  </xsl:for-each>
 	</xsl:variable>
 	<xsl:choose>
-	  <xsl:when test="teidocx:is-supported-style($old)"/>
-	  <xsl:when test="teidocx:is-supported-style($new)"/>
+	  <xsl:when test="tei:is-supported-style($old)"/>
+	  <xsl:when test="tei:is-supported-style($new)"/>
 	  <xsl:otherwise>
 	    <w:p>
 	      <iso:error>
@@ -1849,9 +1850,9 @@
     </xsl:if>
     <xsl:copy>
       <xsl:if test="self::w:p">
-	<xsl:if test="teidocx:is-heading(.)">
+	<xsl:if test="tei:is-heading(.)">
 	  <xsl:attribute name="LEVEL"
-			 select="teidocx:heading-level(.)"/>
+			 select="tei:heading-level(.)"/>
 	</xsl:if>
       </xsl:if>
       <xsl:apply-templates select="*|@*|processing-instruction()|comment()|text()" mode="pass0"/>

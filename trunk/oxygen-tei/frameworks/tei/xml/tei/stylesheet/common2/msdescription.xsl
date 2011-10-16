@@ -11,7 +11,7 @@
       received a copy of the GNU Lesser General Public License along with this library; if not, write to the
       Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: msdescription.xsl 8551 2011-02-12 13:58:27Z rahtz $</p>
+      <p>Id: $Id: msdescription.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>

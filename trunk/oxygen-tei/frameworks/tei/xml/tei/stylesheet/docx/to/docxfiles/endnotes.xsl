@@ -46,7 +46,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: endnotes.xsl 9043 2011-07-03 22:14:48Z rahtz $</p>
+         <p>Id: $Id: endnotes.xsl 9497 2011-10-14 21:11:56Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -103,7 +103,8 @@
                                     </w:rPr>
                                     <w:endnoteRef/>
                                 </w:r>
-                            </xsl:with-param>
+				<w:r><w:t xml:space="preserve"> </w:t></w:r>
+			    </xsl:with-param>
                         </xsl:call-template>
                     </w:endnote>
                 </xsl:for-each>

@@ -30,7 +30,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: odd2json.xsl 8773 2011-03-26 15:16:24Z rahtz $</p>
+         <p>Id: $Id: odd2json.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>

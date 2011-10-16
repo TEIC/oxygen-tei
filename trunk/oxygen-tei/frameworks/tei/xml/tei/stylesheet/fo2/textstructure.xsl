@@ -35,7 +35,7 @@
    
       </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: textstructure.xsl 8884 2011-05-03 14:46:06Z rahtz $</p>
+         <p>Id: $Id: textstructure.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>

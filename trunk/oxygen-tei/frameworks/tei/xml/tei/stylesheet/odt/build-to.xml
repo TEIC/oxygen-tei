@@ -15,7 +15,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-        Id: $Id: build.xml 8944 2011-06-13 14:33:07Z rahtz $
+        Id: $Id: build-to.xml 9316 2011-09-13 08:06:05Z rahtz $
         Copyright: 2011, TEI Consortium<
 -->
   <!--
@@ -72,22 +72,22 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="lang" expression="${lang}" if="lang"/>
       <param name="verbose" expression="${verbose}" if="verbose"/>
       <param name="defaultSource" expression="${defaultSource}" if="defaultSource"/>
     </xslt>
     <xslt force="yes" style="${odd2litexsl}" in="${outputTempDir}/tmp1.xml" out="${outputTempDir}/tmp2.xml" classpath="classpath">
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <xmlcatalog>
         <catalogpath>
           <pathelement location="../../../../catalog.xml"/>
           <pathelement location="../../../../../xhtml11/dtd/xhtmlcatalog.xml"/>
         </catalogpath>
       </xmlcatalog>
+      <param name="summaryDoc" expression="${summaryDoc}" if="summaryDoc"/>
       <param name="displayMode" expression="rnc"/>
-      <param name="summaryDoc" expression="true"/>
     </xslt>
   </target>
 
@@ -105,7 +105,7 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="inputDir" expression="${inputFileDir}"/>
       <param name="mediaDir" expression="Pictures"/>
     </xslt>
@@ -124,7 +124,7 @@
         </catalogpath>
       </xmlcatalog>
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygyenlib}/saxon9ee.jar"/>
+      <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="outputDir" expression="file:///${outputTempDir}"/>
       <param name="freestanding" expression="true"/>
       <!-- supply name of language-->

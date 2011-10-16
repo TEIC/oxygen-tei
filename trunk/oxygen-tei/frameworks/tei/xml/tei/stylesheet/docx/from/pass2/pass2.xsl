@@ -46,7 +46,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: pass2.xsl 9185 2011-08-03 12:13:14Z rahtz $</p>
+         <p>Id: $Id: pass2.xsl 9434 2011-09-30 21:45:56Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -64,7 +64,7 @@
     
     
     <xsl:template match="text()" mode="pass2">
-        <xsl:value-of select="."/>
+	  <xsl:value-of select="."/>
     </xsl:template>
     
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -132,9 +132,16 @@
     <xsl:template match="tei:seg[not(@*)]" mode="pass2">
         <xsl:choose>
             <xsl:when test="parent::tei:formula and normalize-space(.)=''"/>
+	    <xsl:when test=".=' ' and following-sibling::node()[1][self::tei:hi]/@rend=
+			    preceding-sibling::node()[1][self::tei:hi]/@rend"/>
+
             <xsl:when test="parent::*/text()">
                 <xsl:value-of select="."/>
             </xsl:when>
+	    <xsl:when test="parent::tei:hi[count(*)=1]">
+	      <xsl:value-of select="."/>
+
+	    </xsl:when>
             <xsl:otherwise>
                 <xsl:copy-of select="."/>
             </xsl:otherwise>
@@ -143,7 +150,7 @@
     
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>
-         <p>     Look at the sections we have generated, and put
+         <p>Look at the sections we have generated, and put
         them in &lt;front&gt; or &lt;body&gt; as appropriate</p>
       </desc>
     </doc>
@@ -279,22 +286,30 @@
     <xsl:template match="tei:list[@type='gloss']/tei:item/tei:g[@ref='x:tab']" mode="pass2"/>
     
 
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>Clean up <gi>hi</gi>; merge adjacent &lt;hi&gt; </desc>
-  </doc>
+    <xsl:template match="tei:hi[@rend='footnote_reference' and
+			 count(*)=1 and tei:note]" mode="pass2" priority="99">
+          <xsl:apply-templates mode="pass2"/>
+    </xsl:template>
 
-  <xsl:template match="tei:hi[not(@rend) and not(*) and string-length(.)=0]" mode="pass2"/>
+  <xsl:template match="tei:hi[not(@rend) and not(*) and string-length(.)=0]" mode="pass2">
+  </xsl:template>
 
   <xsl:template match="tei:hi[@rend='Endnote_anchor']" mode="pass2" priority="99">
     <xsl:apply-templates mode="pass2"/>
   </xsl:template>
+
   <xsl:template match="tei:hi[@rend='EndnoteReference']" mode="pass2"  priority="99">
     <xsl:apply-templates mode="pass2"/>
   </xsl:template>
+
   <xsl:template match="tei:hi[@rend='EndnoteCharacters']" mode="pass2"
 		 priority="99">
     <xsl:apply-templates mode="pass2"/>
   </xsl:template>
+ 
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>Clean up <gi>hi</gi> by merging adjacent &lt;hi&gt;s </desc>
+  </doc>
 
   <xsl:template match="tei:hi[@rend]" mode="pass2">
     <xsl:variable name="r" select="@rend"/>
@@ -304,15 +319,22 @@
 	<xsl:apply-templates/>
       </xsl:when>
       <xsl:when test="parent::tei:head and .=' '"/>
-      <!--
-      <xsl:when test="count(*)=1 and not(text()) and tei:lb">
-        <lb/>
-      </xsl:when>
-      -->
       <xsl:when test ="not(*) and string-length(.)=0"/>
       <xsl:when test="parent::tei:item/parent::tei:list[@type='gloss']
 		      and tei:g[@ref='x:tab']"/>
-      <xsl:when test="preceding-sibling::node()[1][self::tei:hi[@rend=$r]]">
+      <xsl:when
+	  test="preceding-sibling::node()[1][self::tei:hi[@rend=$r]]">
+      </xsl:when>
+      <xsl:when
+	  test="preceding-sibling::node()[1][self::tei:seg and .=' ']
+		and
+		preceding-sibling::node()[2][self::tei:hi[@rend=$r]]">
+      </xsl:when>
+      <xsl:when test="@rend='bold' and .=' '">
+	<xsl:text> </xsl:text>
+      </xsl:when>
+      <xsl:when test="@rend='italic' and .=' '">
+	<xsl:text> </xsl:text>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:variable name="ename">
@@ -336,12 +358,21 @@
    <xsl:template name="nextHi">
       <xsl:param name="r"/>
       <xsl:for-each select="following-sibling::node()[1]">
-         <xsl:if test="self::tei:hi[@rend=$r]">
+         <xsl:choose>
+	   <xsl:when test="self::tei:hi[@rend=$r]">
             <xsl:apply-templates mode="pass2"/>
             <xsl:call-template name="nextHi">
 	              <xsl:with-param name="r" select="$r"/>
             </xsl:call-template>
-         </xsl:if>
+	   </xsl:when>
+	   <xsl:when test="self::tei:seg and .=' ' and
+			   following-sibling::node()[1][self::tei:hi[@rend=$r]]">
+            <xsl:apply-templates mode="pass2"/>
+            <xsl:call-template name="nextHi">
+	              <xsl:with-param name="r" select="$r"/>
+	    </xsl:call-template>
+	   </xsl:when>
+	 </xsl:choose>
       </xsl:for-each>
    </xsl:template>
 
@@ -399,4 +430,7 @@
 	    select="following-sibling::tei:speech[1]" mode="keep"/>
       </sp>
     </xsl:template>
+
+
+
 </xsl:stylesheet>

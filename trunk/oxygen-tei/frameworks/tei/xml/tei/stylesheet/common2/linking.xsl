@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:tei="http://www.tei-c.org/ns/1.0"
-                
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"                
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="tei"
+                exclude-result-prefixes="tei xs"
                 version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
@@ -18,7 +18,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: linking.xsl 9092 2011-07-11 08:56:34Z rahtz $</p>
+         <p>Id: $Id: linking.xsl 9490 2011-10-10 19:43:23Z sbauman $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -85,7 +85,7 @@
    </doc>
   <xsl:template match="tei:ptr">
       <xsl:call-template name="makeTEILink">
-         <xsl:with-param name="ptr">true</xsl:with-param>
+         <xsl:with-param name="ptr" select="true()"/>
       </xsl:call-template>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -93,7 +93,7 @@
    </doc>
   <xsl:template match="tei:ref">
       <xsl:call-template name="makeTEILink">
-         <xsl:with-param name="ptr">false</xsl:with-param>
+         <xsl:with-param name="ptr" select="false()"/>
       </xsl:call-template>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -199,9 +199,15 @@
 	      </xsl:call-template>
             </xsl:when>
             <xsl:when test="$autoHead='true'">
-               <xsl:call-template name="autoMakeHead">
-		 <xsl:with-param name="display" select="$display"/>
-	       </xsl:call-template>
+	      <xsl:choose>
+		<xsl:when test="$outputTarget='epub' and
+				not(tei:head)"/>
+		<xsl:otherwise>
+		  <xsl:call-template name="autoMakeHead">
+		    <xsl:with-param name="display" select="$display"/>
+		  </xsl:call-template>
+		</xsl:otherwise>
+	      </xsl:choose>
             </xsl:when>
             <xsl:when test="$display='plain'">
                <xsl:for-each select="tei:head">
@@ -218,7 +224,7 @@
 	      <xsl:text>…</xsl:text>
 	    </xsl:when>
 	    <xsl:when test="not(tei:head)">
-	      <xsl:value-of select="substring(.,1,10)"/>
+	      <xsl:value-of select="substring(normalize-space(.),1,10)"/>
 	      <xsl:text>…</xsl:text>
 	    </xsl:when>
             <xsl:otherwise>
@@ -279,18 +285,18 @@
       </desc>
    </doc>
   <xsl:template name="makeTEILink">
-      <xsl:param name="ptr"/>
+      <xsl:param name="ptr" as="xs:boolean" select="false()"/>
       <!-- is this a ptr or a ref? -->
     <xsl:choose>
       <!-- If there is a target attribute starting with #, it is always a local reference -->
       <xsl:when test="@target and starts-with(@target,'#')">
             <xsl:call-template name="makeInternalLink">
-               <xsl:with-param name="target" select="substring-after(@target,'#')"/>
+               <xsl:with-param name="target" select="substring(@target,2)"/>
                <xsl:with-param name="ptr" select="$ptr"/>
                <xsl:with-param name="dest">
                   <xsl:call-template name="generateEndLink">
                      <xsl:with-param name="where">
-                        <xsl:value-of select="substring-after(@target,'#')"/>
+                        <xsl:value-of select="substring(@target,2)"/>
                      </xsl:with-param>
                   </xsl:call-template>
                </xsl:with-param>
@@ -323,12 +329,12 @@
        reference -->
       <xsl:when test="@url and starts-with(@url,'#')">
             <xsl:call-template name="makeInternalLink">
-               <xsl:with-param name="target" select="substring-after(@url,'#')"/>
+               <xsl:with-param name="target" select="substring(@url,2)"/>
                <xsl:with-param name="ptr" select="$ptr"/>
                <xsl:with-param name="dest">
                   <xsl:call-template name="generateEndLink">
                      <xsl:with-param name="where">
-                        <xsl:value-of select="substring-after(@url,'#')"/>
+                        <xsl:value-of select="substring(@url,2)"/>
                      </xsl:with-param>
                   </xsl:call-template>
                </xsl:with-param>

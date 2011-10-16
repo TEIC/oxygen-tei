@@ -15,11 +15,42 @@
       received a copy of the GNU Lesser General Public License along with this library; if not, write to the
       Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: header.xsl 8980 2011-06-21 02:31:10Z rahtz $</p>
+         <p>Id: $Id: header.xsl 9494 2011-10-12 22:25:12Z sbauman $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
 
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+      <desc>[common] Find a plausible editor name</desc>
+   </doc>
+  <xsl:template name="generateEditor">
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:editor">
+        <xsl:for-each
+          select="ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:editor">
+          <xsl:apply-templates/>
+          <xsl:choose>
+            <xsl:when test="count(following-sibling::tei:editor)=1">
+              <xsl:if test="count(preceding-sibling::tei:editor)>=1">
+                <xsl:text>,</xsl:text>
+              </xsl:if>
+              <xsl:call-template name="i18n">
+                <xsl:with-param name="word">and</xsl:with-param>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="following-sibling::tei:editor">, </xsl:when>
+          </xsl:choose>
+        </xsl:for-each>
+      </xsl:when>
+      <xsl:when
+        test="ancestor-or-self::tei:TEI/tei:teiHeader/tei:revisionDesc/tei:change/tei:respStmt[tei:resp='editor']">
+        <xsl:apply-templates
+          select="ancestor-or-self::tei:TEI/tei:teiHeader/tei:revisionDesc/tei:change/tei:respStmt[tei:resp='editor'][1]/tei:name"
+        />
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>[common] Find a plausible main author name</desc>
    </doc>
@@ -33,7 +64,14 @@
             <xsl:for-each select="ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author">
                <xsl:apply-templates/>
                <xsl:choose>
-                  <xsl:when test="count(following-sibling::tei:author)=1"> and </xsl:when>
+            <xsl:when test="count(following-sibling::tei:author)=1">
+              <xsl:if test="count(preceding-sibling::tei:author)>1">
+                <xsl:text>,</xsl:text>
+              </xsl:if>
+              <xsl:call-template name="i18n">
+                <xsl:with-param name="word">and</xsl:with-param>
+              </xsl:call-template>
+            </xsl:when>
                   <xsl:when test="following-sibling::tei:author">, </xsl:when>
                </xsl:choose>
             </xsl:for-each>
@@ -86,15 +124,21 @@
       <xsl:variable name="revauthor">
          <xsl:call-template name="generateRevAuthor"/>
       </xsl:variable>
+      <xsl:variable name="editor">
+        <xsl:call-template name="generateEditor"/>
+      </xsl:variable>
       <xsl:if test="not($realauthor = '')">
+        <p xmlns="http://www.w3.org/1999/xhtml" class="mainAuthor">
          <xsl:text> </xsl:text>
          <xsl:call-template name="i18n">
             <xsl:with-param name="word">authorWord</xsl:with-param>
          </xsl:call-template>
-         <xsl:text> </xsl:text>
+          <xsl:text>: </xsl:text>
          <xsl:copy-of select="$realauthor"/>
+        </p>
       </xsl:if>
       <xsl:if test="not($revauthor = '')">
+      <p class="mainRevAuthor" xmlns="http://www.w3.org/1999/xhtml">
          <xsl:text> (</xsl:text>
          <xsl:call-template name="i18n">
             <xsl:with-param name="word">revisedWord</xsl:with-param>
@@ -102,6 +146,16 @@
          <xsl:text> </xsl:text>
          <xsl:copy-of select="$revauthor"/>
          <xsl:text>)</xsl:text>
+      </p>
+    </xsl:if>
+    <xsl:if test="not($editor = '')">
+      <p class="mainEditor" xmlns="http://www.w3.org/1999/xhtml">
+         <xsl:call-template name="i18n">
+            <xsl:with-param name="word">editorWord</xsl:with-param>
+         </xsl:call-template>
+        <xsl:text>: </xsl:text>
+        <xsl:copy-of select="$editor"/>
+      </p>
       </xsl:if>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -211,7 +265,7 @@
 		select="ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt">
 	      <xsl:choose>
 		<xsl:when test="tei:title[@type='main']">
-		  <xsl:apply-templates select="tei:title"/>
+		  <xsl:apply-templates select="tei:title[@type='main']"/>
 		</xsl:when>
 		<xsl:otherwise>
 		  <xsl:apply-templates select="tei:title"/>
@@ -300,7 +354,7 @@
    <xsl:template match="tei:idno[@type='url']">
       <xsl:text> &lt;</xsl:text>
       <xsl:call-template name="makeExternalLink">
-         <xsl:with-param name="ptr">true</xsl:with-param>
+         <xsl:with-param name="ptr" select="true()"/>
          <xsl:with-param name="dest">
             <xsl:value-of select="normalize-space(.)"/>
          </xsl:with-param>
@@ -315,5 +369,11 @@
    </xsl:template>
 
    <xsl:template match="tei:idno[@type='doi']"/>
+
+  <xsl:template name="generateEdition">
+    <p xmlns="http://www.w3.org/1999/xhtml" class="editionStmt">
+      <xsl:apply-templates select="/(tei:teiCorpus|tei:TEI)/tei:teiHeader/tei:fileDesc/tei:editionStmt"/>
+    </p>
+  </xsl:template>
 
 </xsl:stylesheet>

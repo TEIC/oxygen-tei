@@ -44,13 +44,13 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: application.xsl 9043 2011-07-03 22:14:48Z rahtz $</p>
+         <p>Id: $Id: application.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
 
     <xsl:template name="write-docxfile-docprops-core">
-        <xsl:variable name="now" select="teidocx:whatsTheDate()"/>
+        <xsl:variable name="now" select="tei:whatsTheDate()"/>
 
         <xsl:variable name="coreFile">
             <xsl:value-of select="$wordDirectory"/>

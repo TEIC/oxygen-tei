@@ -39,8 +39,8 @@
 	  <xsl:import href="../utils/identity/identity.xsl"/>
 
 	  <xsl:import href="parameters.xsl"/>
-	  <xsl:include href="pass2/pass2.xsl"/>
 	  <xsl:include href="pass0/pass0.xsl"/>
+	  <xsl:include href="pass2/pass2.xsl"/>
 	
 	  <xsl:include href="dynamic/fields.xsl"/>
 	  <xsl:include href="dynamic/toc.xsl"/>
@@ -69,7 +69,7 @@
 			library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
 			330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: docxtotei.xsl 9061 2011-07-06 15:03:25Z rahtz $</p>
+         <p>Id: $Id: docxtotei.xsl 9467 2011-10-06 20:37:11Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -141,19 +141,20 @@
        <xsl:apply-templates mode="pass0"/>
      </xsl:variable>
      
-     <!-- Do the main transformation and store everything in the variable part1 -->
-     <xsl:variable name="part1">
+     <!-- Do the main transformation and store everything in the variable pass1 -->
+     <xsl:variable name="pass1">
        <xsl:for-each select="$pass0">
 	 <xsl:apply-templates/>
        </xsl:for-each>
      </xsl:variable>		  
      <!-- debug
 	 <xsl:result-document href="/tmp/foo.xml">
-	 <xsl:copy-of select="$part1"/>
+	 <xsl:copy-of select="$pass1"/>
 	 </xsl:result-document>
--     -->
+     -->
      <!-- Do the final parse and create valid TEI -->
-     <xsl:apply-templates select="$part1" mode="pass2"/>
+
+     <xsl:apply-templates select="$pass1" mode="pass2"/>
      
      <xsl:call-template name="fromDocxFinalHook"/>
    </xsl:template>
@@ -204,7 +205,7 @@
 		 group all paragraphs that form a first level section.
 	    -->
 	    <xsl:for-each-group select="w:sdt|w:p|w:tbl"
-				group-starting-with="w:p[teidocx:is-firstlevel-heading(.)]">
+				group-starting-with="w:p[tei:is-firstlevel-heading(.)]">
 	      
 	      <xsl:choose>
 		
@@ -212,7 +213,7 @@
 		     to further divide the section into subsections that we can then
 		     finally work on -->
 		
-		<xsl:when test="teidocx:is-heading(.)">
+		<xsl:when test="tei:is-heading(.)">
 		  <xsl:call-template name="group-by-section"/>
 		</xsl:when>
 		
@@ -292,10 +293,10 @@
 	    -->
 	    <xsl:for-each-group 
 		select="current-group()"
-		group-adjacent="if       (teidocx:is-list(.))  then 1
-				else  if (teidocx:is-toc(.))   then 2
-				else  if (teidocx:is-figure(.)) then 3
-				else  if (teidocx:is-line(.)) then 4
+		group-adjacent="if       (tei:is-list(.))  then 1
+				else  if (tei:is-toc(.))   then 2
+				else  if (tei:is-figure(.)) then 3
+				else  if (tei:is-line(.)) then 4
 				else position() + 100">
 	      
 	      <!-- For each defined grouping call a specific template. If there is no
@@ -369,7 +370,7 @@
    </doc>
    <xsl:template name="group-by-section">
      <xsl:variable name="Style" select="w:pPr/w:pStyle/@w:val"/>
-     <xsl:variable name="NextHeader" select="teidocx:get-nextlevel-header($Style)"/>
+     <xsl:variable name="NextHeader" select="tei:get-nextlevel-header($Style)"/>
      <div>
        <!-- generate the head -->
        <xsl:call-template name="generate-section-heading">
@@ -379,7 +380,7 @@
        <xsl:for-each-group select="current-group() except ."
 			   group-starting-with="w:p[w:pPr/w:pStyle/@w:val=$NextHeader]">
 	 <xsl:choose>
-	   <xsl:when test="teidocx:is-heading(.)">
+	   <xsl:when test="tei:is-heading(.)">
 	     <xsl:call-template name="group-by-section"/>
 	   </xsl:when>
 	   <xsl:otherwise>
@@ -464,5 +465,7 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
+
+    <xsl:template match="@rend[.='Body_Text']" mode="pass2"/>
 
 </xsl:stylesheet>

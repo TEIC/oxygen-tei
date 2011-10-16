@@ -15,11 +15,16 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: tei-param.xsl 8843 2011-04-26 09:36:10Z rahtz $</p>
+      <p>Id: $Id: tei-param.xsl 9408 2011-09-27 20:09:13Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
-  <xsl:key match="tei:*[@xml:id]" name="IDS" use="@xml:id"/>
+
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="output" type="string">
+      <desc>Type of output being generated</desc>
+   </doc>
+  <xsl:param name="outputTarget">html</xsl:param>
+
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="CSS" type="string">
     <desc>CSS class for TOC entries</desc>
   </doc>
@@ -66,7 +71,9 @@
 	<xsl:value-of select="@n"/>
       </xsl:when>
       <xsl:when test="@type">
+	<xsl:text>[</xsl:text>
         <xsl:value-of select="@type"/>
+	<xsl:text>]</xsl:text>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>➤</xsl:text>

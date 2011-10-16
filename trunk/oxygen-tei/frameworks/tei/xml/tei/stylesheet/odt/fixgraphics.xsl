@@ -18,7 +18,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: fixgraphics.xsl 7952 2010-08-12 21:14:51Z rahtz $</p>
+         <p>Id: $Id: fixgraphics.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -42,7 +42,7 @@
   <xsl:template match="tei:graphic">
       <xsl:copy>
 	        <xsl:variable name="newName">
-	           <xsl:text>Pictures/image</xsl:text>
+	           <xsl:text>Pictures/resource</xsl:text>
 	           <xsl:number level="any"/>
 	           <xsl:text>.</xsl:text>
 	           <xsl:value-of select="tokenize(@url,'\.')[last()]"/>
@@ -56,13 +56,13 @@
 	        <xsl:copy-of select="@scale"/>
 		
 	        <xsl:if test="doc-available(concat($DIR,'/',$newName,'.xmp'))">
-	           <xsl:attribute name="teidocx:width">
+	           <xsl:attribute name="tei:width">
 	              <xsl:for-each select="document(concat($DIR,'/',$newName,'.xmp'),/)">
 	                 <xsl:value-of select="(number(key('W',1)) div 72) * 9144"/>
 	              </xsl:for-each>
 	           </xsl:attribute>
 	  
-	           <xsl:attribute name="teidocx:height">
+	           <xsl:attribute name="tei:height">
 	              <xsl:for-each select="document(concat($DIR,'/',$newName,'.xmp'),/)">
 	                 <xsl:value-of select="(number(key('H',1)) div 72) * 9144"/>
 	              </xsl:for-each>

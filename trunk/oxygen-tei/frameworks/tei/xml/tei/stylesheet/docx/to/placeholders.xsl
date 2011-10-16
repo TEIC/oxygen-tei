@@ -48,7 +48,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: placeholders.xsl 9019 2011-06-30 23:08:37Z rahtz $</p>
+         <p>Id: $Id: placeholders.xsl 9498 2011-10-15 06:39:15Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -71,6 +71,7 @@
     <xsl:template name="document-title">
         <xsl:choose>
             <xsl:when test="/tei:TEI/tei:text/tei:front/tei:titlePage"/>
+            <xsl:when test="/tei:TEI/tei:text/tei:front/tei:docTitle"/>
             <xsl:when
 		test="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='main']">
                 <xsl:for-each select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type='main']">
@@ -110,7 +111,7 @@
         
     </desc>
    </doc>
-    <xsl:template match="*[not(teidocx:is-inline(.))]" priority="-10">
+    <xsl:template match="*[not(tei:is-inline(.))]" priority="-10">
         <xsl:param name="style"/>
         <xsl:param name="pPr"/>
         <xsl:param name="nop"/>
@@ -147,7 +148,7 @@
     </desc>
    </doc>
 
-    <xsl:template match="*[teidocx:is-inline(.)]" priority="-10">
+    <xsl:template match="*[tei:is-inline(.)]" priority="-10">
         <xsl:param name="character-style"/>
         <xsl:param name="style"/>
         <xsl:param name="pPr"/>

@@ -18,7 +18,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: core.xsl 9019 2011-06-30 23:08:37Z rahtz $</p>
+         <p>Id: $Id: core.xsl 9504 2011-10-15 15:08:24Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -47,6 +47,8 @@
   <xsl:template match="tei:app" mode="plain"/>
   <xsl:template match="tei:pb" mode="plain"/>
   <xsl:template match="tei:lb" mode="plain"/>
+  <xsl:template match="tei:figure" mode="plain"/>
+  <xsl:template match="tei:figDesc" mode="plain"/>
   <xsl:template match="tei:ptr" mode="plain"/>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>Process tei:sic</desc>
@@ -207,7 +209,7 @@
       </xsl:call-template>
       <xsl:if test="preceding-sibling::tei:editor">s</xsl:if>
       <xsl:call-template name="tei:makeText">
-	<xsl:with-param name="letters">.)</xsl:with-param>
+	<xsl:with-param name="letters">.) </xsl:with-param>
       </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
@@ -401,19 +403,20 @@
    </xsl:template>
 
    <xsl:template match="tei:biblStruct//tei:date|tei:biblFull//tei:date">
-<!--
-     <xsl:choose>
-       <xsl:when test="starts-with(.,'$Date:')">
+     <!--
+	 <xsl:choose>
+	 <xsl:when test="starts-with(.,'$Date:')">
 	 <xsl:value-of select="substring-before(substring-after(.,'$Date:'),'$')"/>
-       </xsl:when>
-       <xsl:otherwise>
+	 </xsl:when>
+	 <xsl:otherwise>
 	 <xsl:apply-templates/>
-       </xsl:otherwise>
-     </xsl:choose>
--->
-         <xsl:call-template name="tei:makeText">
-	   <xsl:with-param name="letters">. </xsl:with-param>
-	 </xsl:call-template>
+	 </xsl:otherwise>
+	 </xsl:choose>
+     -->
+      <xsl:apply-templates/>
+     <xsl:call-template name="tei:makeText">
+       <xsl:with-param name="letters">. </xsl:with-param>
+     </xsl:call-template>
    </xsl:template>
 
    <xsl:template match="tei:byline">

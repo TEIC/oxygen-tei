@@ -44,7 +44,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: lists.xsl 9043 2011-07-03 22:14:48Z rahtz $</p>
+         <p>Id: $Id: lists.xsl 9467 2011-10-06 20:37:11Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -72,7 +72,7 @@
 		<xsl:for-each select="current-group()">
 		  <!-- put items and notes as siblings  for now -->
 		  <xsl:choose>
-		    <xsl:when test="contains(w:pPr/w:pStyle/@w:val,'List')">
+		    <xsl:when test="tei:is-list(.)">
 		      <item>
 			<xsl:apply-templates/>
 		      </item>
@@ -99,7 +99,7 @@
         <xsl:variable name="style">
             <xsl:value-of select="w:pPr/w:pStyle/@w:val"/>
         </xsl:variable>
-        <xsl:variable name="type" select="teidocx:get-listtype($style)"/>
+        <xsl:variable name="type" select="tei:get-listtype($style)"/>
         
         <xsl:attribute name="type">
             <xsl:choose>

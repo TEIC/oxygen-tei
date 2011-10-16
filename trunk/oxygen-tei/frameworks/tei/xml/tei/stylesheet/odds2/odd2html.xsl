@@ -16,7 +16,7 @@
       General Public License along with this library; if not, write to the Free Software Foundation,
       Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: odd2html.xsl 8825 2011-04-23 14:26:24Z rahtz $</p>
+      <p>Id: $Id: odd2html.xsl 9453 2011-10-04 08:46:43Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -132,6 +132,7 @@
             </a>
           </xsl:element>
         </xsl:when>
+
         <xsl:otherwise>
           <xsl:element name="h{$level}">
             <xsl:attribute name="class">
@@ -173,6 +174,20 @@
 
   <xsl:template match="tei:titlePage" mode="paging">
     <xsl:apply-templates select="."/>
+  </xsl:template>
+
+  <xsl:template name="generateEndLink">
+      <xsl:param name="where"/>
+      <xsl:choose>
+	<xsl:when test="id($where)">
+	  <xsl:apply-templates mode="generateLink" select="id($where)"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:text>[ID </xsl:text>
+	  <xsl:value-of select="$where"/>
+	  <xsl:text> in TEI Guidelines]</xsl:text>
+	</xsl:otherwise>
+      </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

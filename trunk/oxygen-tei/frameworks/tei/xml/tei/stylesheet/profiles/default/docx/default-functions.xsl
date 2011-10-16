@@ -37,13 +37,13 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: default-functions.xsl 9019 2011-06-30 23:08:37Z rahtz $</p>
+         <p>Id: $Id: default-functions.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
     
     <!-- returns a listtype for a given stylename (return empty string to figure it out dynamically)-->
-    <xsl:function name="teidocx:get-listtype" as="xs:string">
+    <xsl:function name="tei:get-listtype" as="xs:string">
         <xsl:param name="style"/>
         <xsl:choose>
             <xsl:when test="starts-with($style,'dl')">
@@ -67,7 +67,7 @@
         </xsl:choose>
     </xsl:function>
     
-    <xsl:function name="teidocx:render-bold" as="xs:boolean">
+    <xsl:function name="tei:render-bold" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:for-each select="$element">
             <xsl:choose>

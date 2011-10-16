@@ -21,12 +21,12 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: isoutils.xsl 8444 2011-01-29 14:15:35Z rahtz $</p>
+         <p>Id: $Id: isoutils.xsl 9475 2011-10-09 11:15:14Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
 
-  <!-- $Id: isoutils.xsl 8444 2011-01-29 14:15:35Z rahtz $ -->
+  <!-- $Id: isoutils.xsl 9475 2011-10-09 11:15:14Z rahtz $ -->
   
   <xsl:variable name="processor">
     <xsl:value-of select="system-property('xsl:vendor')"/>
@@ -72,12 +72,13 @@
   <xsl:template name="getiso_year">
     <xsl:value-of select="substring(key('ISOMETA','docdate'),1,4)"/>
   </xsl:template>
+
   <xsl:template name="generateTitle">
     <xsl:choose>
       <xsl:when test="key('ISOMETA','fullTitle')!=''">
 	<xsl:value-of select="key('ISOMETA','fullTitle')"/>
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test="key('ISOMETA','mainTitle')">
 	<xsl:value-of select="key('ISOMETA','introductoryTitle')"/>
 	<xsl:text> — </xsl:text>
 	<xsl:value-of select="key('ISOMETA','mainTitle')"/>
@@ -85,6 +86,20 @@
 	  <xsl:text> — </xsl:text>
 	  <xsl:value-of select="key('ISOMETA','complementaryTitle')"/>
 	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:for-each
+	    select="ancestor-or-self::tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt">
+	  <xsl:choose>
+	    <xsl:when test="tei:title[@type='main']">
+	      <xsl:apply-templates select="tei:title"/>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:apply-templates select="tei:title"/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:for-each>
+	
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

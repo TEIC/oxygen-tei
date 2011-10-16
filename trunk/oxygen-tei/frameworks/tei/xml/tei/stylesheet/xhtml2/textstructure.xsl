@@ -28,7 +28,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA xs </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: textstructure.xsl 9221 2011-08-21 10:00:48Z rahtz $</p>
+         <p>Id: $Id: textstructure.xsl 9494 2011-10-12 22:25:12Z sbauman $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -121,8 +121,8 @@
 	   <xsl:when test="$requestedID='prelim___'">
 	     <xsl:apply-templates/>
 	   </xsl:when>
-	   <xsl:when test="count(key('IDS',$requestedID))&gt;0">
-	     <xsl:for-each select="key('IDS',$requestedID)">
+	   <xsl:when test="count(id($requestedID))&gt;0">
+	     <xsl:for-each select="id($requestedID)">
 	       <xsl:call-template name="writeDiv"/>
 	     </xsl:for-each>
 	   </xsl:when>
@@ -568,12 +568,12 @@
 	<xsl:for-each select="key('INDEX',1)">
 	  <tei:REF>
 	    <tei:SORT>
-	      <xsl:value-of select="lower-case(translate(normalize-unicode(tei:term,'NFD'),'^[A-z0-9]',''))"/>
+	      <xsl:value-of select="lower-case(normalize-unicode(tei:term,'NFD'))"/>
 	    </tei:SORT>	    
 	    <tei:TERM>
 	      <xsl:value-of select="tei:term"/>
 	    </tei:TERM>	    
-	    <xsl:for-each select="ancestor-or-self::*[teidocx:is-identifiable(.)][1]">
+	    <xsl:for-each select="ancestor-or-self::*[tei:is-identifiable(.)][1]">
 	      <tei:LINK>
 		  <xsl:apply-templates mode="generateLink"
 				       select="."/>
@@ -587,7 +587,7 @@
       </xsl:variable>
       <dl>
 	<xsl:for-each-group select="$index/tei:REF" group-by="tei:TERM">
-	  <xsl:sort select="tei:SORT"/>
+	  <xsl:sort select="tei:SORT" lang="{$doclang}"/>
 	  <dt><xsl:value-of select="current-grouping-key()"/></dt>
 	  <dd>
 	    <xsl:for-each-group select="current-group()" group-by="tei:LINK">
@@ -1001,7 +1001,8 @@
 	 </xsl:when>
          <xsl:otherwise>
 	   <xsl:if test="not($Depth = '')">
-	     <xsl:element name="h{$Depth + $divOffset}">
+	     <xsl:element name="{if (number($Depth)+$divOffset &gt;6) then 'div'
+				else concat('h',number($Depth) + $divOffset)}">
 	       <xsl:choose>
 		 <xsl:when test="@rend">
 		   <xsl:call-template name="rendToClass">
@@ -1012,7 +1013,12 @@
 		 <xsl:otherwise>
 		   <xsl:for-each select="tei:head[1]">
 		     <xsl:call-template name="rendToClass">
-		       <xsl:with-param name="default"/>
+		       <xsl:with-param name="default">
+			 <xsl:if test="number($Depth)&gt;5">
+			   <xsl:text>div</xsl:text>
+			   <xsl:value-of select="$Depth"/>
+			 </xsl:if>
+		       </xsl:with-param>
 		     </xsl:call-template>
 		   </xsl:for-each>
 		 </xsl:otherwise>
@@ -1134,7 +1140,7 @@
       <desc>plain text version of title for div [html] </desc>
    </doc>
   <xsl:template name="generateDivtitle">
-      <xsl:apply-templates select="tei:head/text()"/>
+      <xsl:apply-templates select="tei:head" mode="plain"/>
   </xsl:template>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -1229,20 +1235,28 @@
       <desc>[html] </desc>
    </doc>
   <xsl:template name="includeCSS">
+
       <xsl:choose>
-         <xsl:when test="$cssFile = ''"/>
+         <xsl:when test="string-length($cssFile)=0"/>
          <xsl:otherwise>
-	           <link href="{$cssFile}" rel="stylesheet" type="text/css"/>
+	   <link href="{$cssFile}" rel="stylesheet" type="text/css"/>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="not($cssSecondaryFile='')">
+
+      <xsl:if test="string-length($cssSecondaryFile)&gt;1">
          <link href="{$cssSecondaryFile}" rel="stylesheet" type="text/css"/>
       </xsl:if>
-      <xsl:if test="not($cssPrintFile='')">
-         <link rel="stylesheet" media="print" type="text/css" href="{$cssPrintFile}"/>
+
+      <xsl:if test="string-length($cssPrintFile)&gt;1">
+         <link rel="stylesheet" media="print" type="text/css">
+	   <xsl:attribute name="href" select="$cssPrintFile"/>
+	 </link>
       </xsl:if>
-      <xsl:call-template name="generateLocalCSS"/>
+
+<!--      <xsl:call-template name="generateLocalCSS"/>-->
+
   </xsl:template>
+
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>[html] Javascript functions to be declared in HTML header</desc>
    </doc>
@@ -1277,8 +1291,8 @@
          </xsl:when>
          <xsl:otherwise>
             <xsl:choose>
-               <xsl:when test="count(key('IDS',$currentID))&gt;0">
-                  <xsl:for-each select="key('IDS',$currentID)">
+               <xsl:when test="count(id($currentID))&gt;0">
+                  <xsl:for-each select="id($currentID)">
                      <xsl:call-template name="linkListContents">
                         <xsl:with-param name="style" select="'toclist'"/>
                      </xsl:call-template>
@@ -1414,8 +1428,8 @@
          </xsl:when>
          <xsl:otherwise>
             <xsl:choose>
-               <xsl:when test="count(key('IDS',$currentID))&gt;0">
-                  <xsl:for-each select="key('IDS',$currentID)">
+               <xsl:when test="count(id($currentID))&gt;0">
+                  <xsl:for-each select="id($currentID)">
                      <h2>
                         <xsl:apply-templates mode="xref" select="."/>
 			<xsl:call-template name="sectionHeadHook"/>
@@ -1747,8 +1761,8 @@
 		   <xsl:when test="$currentID='current'">
 		     <xsl:apply-templates mode="xref" select="."/>
 		   </xsl:when>
-		   <xsl:when test="count(key('IDS',$currentID))&gt;0">
-		     <xsl:for-each select="key('IDS',$currentID)">
+		   <xsl:when test="count(id($currentID))&gt;0">
+		     <xsl:for-each select="id($currentID)">
 		       <xsl:apply-templates mode="xref" select="."/>
 		     </xsl:for-each>
 		   </xsl:when>
@@ -1990,8 +2004,8 @@
                   </xsl:when>
                   <xsl:otherwise>
                      <xsl:call-template name="generateTitle"/>: <xsl:choose>
-                        <xsl:when test="count(key('IDS',$currentID))&gt;0">
-                           <xsl:for-each select="key('IDS',$currentID)">
+                        <xsl:when test="count(id($currentID))&gt;0">
+                           <xsl:for-each select="id($currentID)">
                               <xsl:apply-templates mode="xref" select="."/>
                            </xsl:for-each>
                         </xsl:when>
@@ -2116,24 +2130,13 @@
       </xsl:choose>
   </xsl:template>
   <xsl:template name="simpleBody">
-    <!-- front matter -->
-    <xsl:apply-templates select="tei:text/tei:front"/>
-      <xsl:if test="$autoToc='true' and (descendant::tei:div or descendant::tei:div1) and not(descendant::tei:divGen[@type='toc'])">
-         <h2>
-            <xsl:call-template name="i18n">
-               <xsl:with-param name="word">tocWords</xsl:with-param>
-            </xsl:call-template>
-         </h2>
-         <xsl:call-template name="mainTOC"/>
-      </xsl:if>
-      <!-- main text -->
     <xsl:choose>
       <xsl:when test="tei:text/tei:group">
 	<xsl:apply-templates select="tei:text/tei:group"/>
       </xsl:when>
        <xsl:when test="$filePerPage='true'">
 	 <xsl:variable name="pass1">	 
-	   <xsl:apply-templates select="tei:text/tei:body"/>
+	   <xsl:apply-templates select="tei:text/*"/>
 	 </xsl:variable>
 	 <xsl:choose>
 	   <xsl:when test="not($pass1/html:PAGEBREAK)">
@@ -2165,6 +2168,17 @@
 	 </xsl:choose>
        </xsl:when>
       <xsl:otherwise>
+    <!-- front matter -->
+    <xsl:apply-templates select="tei:text/tei:front"/>
+      <xsl:if test="$autoToc='true' and (descendant::tei:div or descendant::tei:div1) and not(descendant::tei:divGen[@type='toc'])">
+         <h2>
+            <xsl:call-template name="i18n">
+               <xsl:with-param name="word">tocWords</xsl:with-param>
+            </xsl:call-template>
+         </h2>
+         <xsl:call-template name="mainTOC"/>
+      </xsl:if>
+      <!-- main text -->
 	<xsl:apply-templates select="tei:text/tei:body"/>
       </xsl:otherwise>
     </xsl:choose>
@@ -2364,8 +2378,8 @@
 	       <xsl:message>displaying author and date</xsl:message>
 	     </xsl:if>
 	     <xsl:call-template name="generateAuthorList"/>
-	     <xsl:text> </xsl:text>
 	     <xsl:call-template name="generateDate"/>
+	     <xsl:call-template name="generateEdition"/>
 	   </xsl:if>
 	 </xsl:when>
 	 <xsl:otherwise>
@@ -2390,8 +2404,8 @@
 	       <xsl:message>displaying author and date</xsl:message>
 	     </xsl:if>
 	     <xsl:call-template name="generateAuthorList"/>
-	     <xsl:text> </xsl:text>
 	     <xsl:call-template name="generateDate"/>
+	     <xsl:call-template name="generateEdition"/>
 	   </xsl:if>
 	 </xsl:otherwise>
       </xsl:choose>

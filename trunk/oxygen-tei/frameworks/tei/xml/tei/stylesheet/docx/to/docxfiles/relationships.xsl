@@ -51,7 +51,7 @@
             License along with this library; if not, write to the Free Software
             Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: relationships.xsl 9043 2011-07-03 22:14:48Z rahtz $</p>
+         <p>Id: $Id: relationships.xsl 9372 2011-09-22 15:51:51Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -149,18 +149,21 @@
                 <xsl:for-each select="key('GRAPHICS',1)">
 
 		  <xsl:variable name="n">
+		    <xsl:number level="any"/>
+		  <!--
 		    <xsl:choose>
 		      <xsl:when test="@n">
-			<xsl:value-of select="@n"/>
+			<xsl:number level="any"/>
 		      </xsl:when>
 		      <xsl:otherwise>
 			<xsl:number level="any"/>
 		      </xsl:otherwise>
 		    </xsl:choose>
+		    -->
 		  </xsl:variable>
                     <Relationship Id="rId{$n + 300}"
                              Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
-                             Target="media/image{$n}.{tokenize(@url,'\.')[last()]}"/>
+                             Target="media/resource{$n}.{tokenize(@url,'\.')[last()]}"/>
                 </xsl:for-each>
                 
                 <!-- hyperlinks -->

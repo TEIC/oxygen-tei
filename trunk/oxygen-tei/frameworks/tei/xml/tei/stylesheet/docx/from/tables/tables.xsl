@@ -45,7 +45,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tables.xsl 9042 2011-07-03 20:17:02Z rahtz $</p>
+         <p>Id: $Id: tables.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -353,7 +353,7 @@
 		    <xsl:for-each select="w:tc">
 		      <cell>
 			<xsl:if test="preserveEffects='true'">
-			  <xsl:attribute name="teidocx:align">
+			  <xsl:attribute name="tei:align">
 			    <xsl:choose>
 			      <xsl:when test="w:p/w:pPr/w:jc">
 				<xsl:value-of

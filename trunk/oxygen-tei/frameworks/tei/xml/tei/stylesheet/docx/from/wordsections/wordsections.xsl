@@ -43,7 +43,7 @@
             library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
             330, Boston, MA 02111-1307 USA </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: wordsections.xsl 7952 2010-08-12 21:14:51Z rahtz $</p>
+         <p>Id: $Id: wordsections.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -74,23 +74,23 @@
         <xsl:for-each select="descendant-or-self::w:sectPr">
             <milestone unit="section">
                 <xsl:for-each select="w:headerReference">
-                    <teidocx:header type="{@w:type}" ref="{@r:id}"/>
+                    <tei:header type="{@w:type}" ref="{@r:id}"/>
                 </xsl:for-each>
                 <xsl:for-each select="w:footerReference">
-                    <teidocx:footer type="{@w:type}" ref="{@r:id}"/>
+                    <tei:footer type="{@w:type}" ref="{@r:id}"/>
                 </xsl:for-each>
                 <xsl:if test="w:pgSz/@w:orient='landscape'">
-                    <teidocx:orientation type="landscape"/>
+                    <tei:orientation type="landscape"/>
                 </xsl:if>
                 <xsl:if test="w:pgNumType">
-                    <teidocx:pageNumbering>
+                    <tei:pageNumbering>
                         <xsl:if test="w:pgNumType/@w:start">
                             <xsl:attribute name="start" select="w:pgNumType/@w:start"/>
                         </xsl:if>
                         <xsl:if test="w:pgNumType/@w:fmt">
                             <xsl:attribute name="type" select="w:pgNumType/@w:fmt"/>
                         </xsl:if>
-                    </teidocx:pageNumbering>
+                    </tei:pageNumbering>
                 </xsl:if>
             </milestone>
         </xsl:for-each>
