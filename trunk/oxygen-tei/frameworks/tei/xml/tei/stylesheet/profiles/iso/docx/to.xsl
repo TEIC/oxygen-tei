@@ -37,24 +37,40 @@
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
          <p>ISO-specific overrides for TEI stylesheet to convert TEI XML to Word DOCX XML.</p>
-         <p>
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
+         <p>This software is dual-licensed:
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
 
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-  
-      </p>
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: to.xsl 9379 2011-09-24 14:30:52Z rahtz $</p>
+         <p>Id: $Id: to.xsl 9905 2011-12-06 18:25:15Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -72,7 +88,6 @@
     
     <xsl:param name="word-directory">..</xsl:param>
     <xsl:param name="tei-directory">./</xsl:param>
-    <xsl:param name="debug">false</xsl:param>   
     <xsl:param name="numberFormat">fr</xsl:param>
     
     <xsl:variable name="orig" select="/"/>
@@ -153,7 +168,7 @@
                         <xsl:value-of select="."/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="translate(.,', ','.,')"/>
+                        <xsl:value-of select="translate(.,',&#160;','.,')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </w:t>
@@ -473,6 +488,41 @@
 	</xsl:call-template>
     </xsl:template>
 
+    
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl"  >
+      <desc> Process notes which have a type attribute</desc>
+  </doc>
+
+  <xsl:template match="tei:note[@type]">
+    <xsl:choose>
+      <xsl:when test="@type='remark'">
+        <xsl:call-template name="create-remark"/>
+      </xsl:when>
+      <xsl:when test="@type='emphasize'">
+        <xsl:call-template name="create-emphasize"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="block-element">
+          <xsl:with-param name="pPr">
+            <w:pPr>
+              <w:pStyle>
+                <xsl:attribute name="w:val">
+                  <xsl:choose>
+                    <xsl:when test="@type">
+                      <xsl:value-of select="@type"/>
+                    </xsl:when>
+                    <xsl:otherwise>Note</xsl:otherwise>
+                  </xsl:choose>
+                </xsl:attribute>
+              </w:pStyle>
+            </w:pPr>
+          </xsl:with-param>
+          <xsl:with-param name="nop">false</xsl:with-param>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
     <xsl:template name="create-footnote">           
       <xsl:variable name="pPr">
 	<xsl:choose>
@@ -564,7 +614,7 @@
       </xsl:choose>
     </xsl:template>
       
-    <xsl:template match="tei:note/tei:p">
+    <xsl:template match="tei:note[@place]/tei:p">
       <xsl:apply-templates/>
     </xsl:template>
 
@@ -800,11 +850,7 @@
             <w:pPr>
                 <w:pStyle w:val="zzSTDTitle"/>
             </w:pPr>
-            <w:r>
-                <w:t>
-                    <xsl:call-template name="generateTitle"/>
-                </w:t>
-            </w:r>
+	    <xsl:call-template name="generateTitle"/>
         </w:p>
     </xsl:template>
     
@@ -1206,15 +1252,15 @@
 	       </xsl:when>
 	       <xsl:otherwise>
 		 <xsl:attribute name="w:val">Figuretitle</xsl:attribute>
-		 <xsl:if test="not(normalize-space(.)='')">
-		   <w:r>
-		     <w:t xml:space="preserve">— </w:t>
-		   </w:r>
-		 </xsl:if>
 	       </xsl:otherwise>
 	     </xsl:choose>
 	 </w:pStyle>
        </w:pPr>
+       <xsl:if test="not(normalize-space(.)='')">
+	 <w:r>
+	   <w:t xml:space="preserve">— </w:t>
+	 </w:r>
+       </xsl:if>
        <xsl:apply-templates/>
       </w:p>
     </xsl:template>
@@ -1320,5 +1366,36 @@
     </xsl:template>
 
     <xsl:template match="tei:p[@rend='Table units']"/>
+
+
+    <!-- 
+        OPMERKING
+    -->    
+    <xsl:template name="create-remark">
+      <w:r>
+	<w:rPr>
+	  <w:rStyle w:val="RemarkReference"/>
+	  <w:vanish/>
+	</w:rPr>
+	<w:t>OPMERKING</w:t>
+	<xsl:variable name="n">
+	  <xsl:number level="any"  count="tei:note[@type='remark']" />
+	</xsl:variable>
+	<!--	<w:commentReference w:id="{$n - 1}"/>-->
+      </w:r>
+    </xsl:template>    
+    
+    <!-- 
+        emphasize
+    -->    
+    <xsl:template name="create-emphasize">
+        <w:r>
+	  <w:rPr>
+	    <w:rStyle w:val="RemarkReference"/>
+	    <w:vanish/>
+	  </w:rPr>
+	  <w:t>[ </w:t>
+        </w:r>
+    </xsl:template>     
 
 </xsl:stylesheet>

@@ -2,7 +2,7 @@
 <!--*- XML -*-->
 <!-- adapted by Sebastian Rahtz from: -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<!-- $Id: RngToRnc.xsl 7963 2010-08-15 15:28:37Z sbauman $ -->
+<!-- $Id: RngToRnc.xsl 9513 2011-10-17 08:55:51Z rahtz $ -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- 
   modified 2010-08-14 by Syd Bauman:
@@ -89,7 +89,7 @@
      see the group-lines parameter. -->
   <xsl:param name="line-width" select="80"/>
    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<!-- $Id: RngToRnc.xsl 7963 2010-08-15 15:28:37Z sbauman $ -->
+<!-- $Id: RngToRnc.xsl 9513 2011-10-17 08:55:51Z rahtz $ -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -1440,8 +1440,7 @@
   <xsl:variable name="spaces"
                  select="concat (     '                                        ',     '                                        '     )"/>
   <xsl:template match="nl" mode="keep">
-      <xsl:text>
-</xsl:text>
+      <xsl:text>&#10;</xsl:text>
       <xsl:variable name="level" select="count (ancestor::indent)"/>
       <xsl:variable name="following-op" select="following-sibling::*[1][self::op]"/>
       <xsl:choose>

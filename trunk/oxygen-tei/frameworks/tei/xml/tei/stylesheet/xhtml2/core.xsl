@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-		xmlns:fo="http://www.w3.org/1999/XSL/Format"
-		xmlns:html="http://www.w3.org/1999/xhtml"
-		xmlns:rng="http://relaxng.org/ns/structure/1.0"
-		xmlns:tei="http://www.tei-c.org/ns/1.0"
-		xmlns:teix="http://www.tei-c.org/ns/Examples"
-		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-		xmlns:teidocx="http://www.tei-c.org/ns/teidocx/1.0"
-		exclude-result-prefixes="a fo html rng tei teix teidocx" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:teidocx="http://www.tei-c.org/ns/teidocx/1.0" exclude-result-prefixes="a fo html rng tei teix teidocx" version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
     <desc>
       <p> TEI stylesheet dealing with elements from the core module, making
       HTML output. </p>
-      <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: core.xsl 9504 2011-10-15 15:08:24Z rahtz $</p>
+      <p>Id: $Id: core.xsl 9954 2011-12-15 12:11:25Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -68,10 +81,10 @@
         <xsl:apply-templates mode="generateLink" select="."/>
       </xsl:variable>
       <li>
-	<xsl:attribute name="class">
-	  <xsl:text>toc</xsl:text>
-	  <xsl:if test="not($autoHead='true') and not(tei:head or @n)"> headless</xsl:if>
-	</xsl:attribute>
+        <xsl:attribute name="class">
+          <xsl:text>toc</xsl:text>
+          <xsl:if test="not($autoHead='true') and not(tei:head or @n)"> headless</xsl:if>
+        </xsl:attribute>
         <xsl:call-template name="header">
           <xsl:with-param name="toc" select="$pointer"/>
           <xsl:with-param name="minimal">false</xsl:with-param>
@@ -89,24 +102,24 @@
   <xsl:template match="tei:ab">
     <xsl:choose>
       <xsl:when test="ancestor::tei:head or parent::tei:title or parent::tei:stage">
-	<xsl:apply-templates/>
-	<xsl:if test="following-sibling::tei:ab">
-	  <br/>
-	</xsl:if>
+        <xsl:apply-templates/>
+        <xsl:if test="following-sibling::tei:ab">
+          <br/>
+        </xsl:if>
       </xsl:when>
       <xsl:when test="parent::tei:sp">
-	<div>
-	  <xsl:call-template name="rendToClass">
-	    <xsl:with-param name="default">spProse</xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:apply-templates/>
-	</div>
+        <div>
+          <xsl:call-template name="rendToClass">
+            <xsl:with-param name="default">spProse</xsl:with-param>
+          </xsl:call-template>
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:otherwise>
-	<div>
-	  <xsl:call-template name="rendToClass"/>
-	  <xsl:apply-templates/>
-	</div>
+        <div>
+          <xsl:call-template name="rendToClass"/>
+          <xsl:apply-templates/>
+        </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -159,9 +172,9 @@
         </div>
       </xsl:when>
       <xsl:when test="tei:blockContext(.)">
-	<div class="biblfree">
-	  <xsl:apply-templates/>
-	</div>
+        <div class="biblfree">
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:otherwise>
         <span>
@@ -190,6 +203,7 @@
       </td>
     </tr>
   </xsl:template>
+
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element choice</desc>
   </doc>
@@ -207,6 +221,18 @@
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>Process element choice in plain mode - selects "critical" reading.</desc>
+  </doc>
+  <xsl:template match="tei:choice" mode="plain">
+    <xsl:value-of select="tei:reg"/>
+    <xsl:value-of select="tei:expan"/>
+    <xsl:value-of select="tei:corr"/>
+    <xsl:apply-templates select="tei:choice"/>
+  </xsl:template>
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>Process element choice</desc>
+  </doc>
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>
       <p>Process element cit</p>
       <p>
@@ -217,21 +243,21 @@
   <xsl:template match="tei:cit">
     <xsl:choose>
       <xsl:when test="@rend='display' and tei:quote">
-	<div>
+        <div>
           <xsl:call-template name="rendToClass"/>
-            <xsl:if test="@n">
-              <xsl:text>(</xsl:text>
-              <xsl:value-of select="@n"/>
-              <xsl:text>) </xsl:text>
-            </xsl:if>
-            <xsl:apply-templates select="tei:q|tei:quote"/>
-            <xsl:apply-templates select="tei:*[not(self::tei:q or self::tei:quote)]"/>
-	</div>
+          <xsl:if test="@n">
+            <xsl:text>(</xsl:text>
+            <xsl:value-of select="@n"/>
+            <xsl:text>) </xsl:text>
+          </xsl:if>
+          <xsl:apply-templates select="tei:q|tei:quote"/>
+          <xsl:apply-templates select="tei:*[not(self::tei:q or self::tei:quote)]"/>
+        </div>
       </xsl:when>
       <xsl:when test="@rend='display'">
         <blockquote>
           <xsl:call-template name="rendToClass"/>
-	  <xsl:variable name="contents">
+          <xsl:variable name="contents">
             <xsl:if test="@n">
               <xsl:text>(</xsl:text>
               <xsl:value-of select="@n"/>
@@ -239,17 +265,17 @@
             </xsl:if>
             <xsl:apply-templates select="tei:q|tei:quote"/>
             <xsl:apply-templates select="tei:*[not(self::tei:q or self::tei:quote)]"/>
-	  </xsl:variable>
-	  <xsl:choose>
-	    <xsl:when test="$outputTarget='html5'">
-	      <xsl:copy-of select="$contents"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <p>
-		<xsl:copy-of select="$contents"/>
-	      </p>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="$outputTarget='html5'">
+              <xsl:copy-of select="$contents"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <p>
+                <xsl:copy-of select="$contents"/>
+              </p>
+            </xsl:otherwise>
+          </xsl:choose>
         </blockquote>
       </xsl:when>
       <xsl:when test="tei:bibl">
@@ -302,7 +328,6 @@
       <xsl:apply-imports/>
     </span>
   </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>The del element</desc>
   </doc>
@@ -389,12 +414,12 @@
         </xsl:attribute>
       </xsl:if>
       <xsl:choose>
-	<xsl:when test="starts-with(@rend,'content:')">
-	  <xsl:value-of select="substring-after(@rend,'content:')"/>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:text> [...]</xsl:text>
-	</xsl:otherwise>
+        <xsl:when test="starts-with(@rend,'content:')">
+          <xsl:value-of select="substring-after(@rend,'content:')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text> [...]</xsl:text>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
   </xsl:template>
@@ -423,7 +448,7 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>
       <p>Process element head</p>
-        <p xmlns="http://www.w3.org/1999/xhtml"> headings etc </p>
+      <p xmlns="http://www.w3.org/1999/xhtml"> headings etc </p>
     </desc>
   </doc>
   <xsl:template match="tei:head">
@@ -431,17 +456,17 @@
     <xsl:choose>
       <xsl:when test="parent::tei:group or parent::tei:body or parent::tei:front or parent::tei:back">
         <h1>
-	  <xsl:apply-templates/>
-	</h1>
+          <xsl:apply-templates/>
+        </h1>
       </xsl:when>
       <xsl:when test="parent::tei:argument">
-	<div>
-	  <xsl:call-template name="rendToClass"/>
-	  <xsl:apply-templates/>
-	</div>
+        <div>
+          <xsl:call-template name="rendToClass"/>
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:when test="not(starts-with($parent,'div'))">
-	  <xsl:apply-templates/>
+        <xsl:apply-templates/>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -483,27 +508,26 @@
         </span>
       </xsl:when>
       <xsl:when test="key('TAGREND','hi')">
-	<span>
-	  <xsl:attribute name="class">
-	    <xsl:for-each select="key('TAGREND',local-name())">
-	      <xsl:call-template name="findRendition">
-		<xsl:with-param name="value">
-		  <xsl:value-of select="@render"/>
-		</xsl:with-param>
-	      </xsl:call-template>
-	    </xsl:for-each>
-	  </xsl:attribute>
+        <span>
+          <xsl:attribute name="class">
+            <xsl:for-each select="key('TAGREND',local-name())">
+              <xsl:call-template name="findRendition">
+                <xsl:with-param name="value">
+                  <xsl:value-of select="@render"/>
+                </xsl:with-param>
+              </xsl:call-template>
+            </xsl:for-each>
+          </xsl:attribute>
           <xsl:apply-templates/>
-	</span>
+        </span>
       </xsl:when>
       <xsl:otherwise>
         <span class="hi">
           <xsl:apply-templates/>
-	</span>
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element item</desc>
   </doc>
@@ -611,21 +635,21 @@
   </doc>
   <xsl:template match="tei:label" mode="print">
     <span>
-    <xsl:call-template name="makeAnchor"/>
-    <xsl:choose>
-      <xsl:when test="@rend">
-        <xsl:call-template name="rendering"/>
-      </xsl:when>
-      <xsl:when test="@rendition">
-        <span>
-          <xsl:call-template name="applyRendition"/>
+      <xsl:call-template name="makeAnchor"/>
+      <xsl:choose>
+        <xsl:when test="@rend">
+          <xsl:call-template name="rendering"/>
+        </xsl:when>
+        <xsl:when test="@rendition">
+          <span>
+            <xsl:call-template name="applyRendition"/>
+            <xsl:apply-templates/>
+          </span>
+        </xsl:when>
+        <xsl:otherwise>
           <xsl:apply-templates/>
-        </span>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates/>
-      </xsl:otherwise>
-    </xsl:choose>
+        </xsl:otherwise>
+      </xsl:choose>
     </span>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -634,7 +658,6 @@
   <xsl:template match="tei:lb" mode="plain">
     <xsl:text> </xsl:text>
   </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element lb</desc>
   </doc>
@@ -644,55 +667,53 @@
       <xsl:when test="parent::tei:back"/>
       <xsl:when test="parent::tei:front"/>
       <xsl:when test="@type='hyphenInWord' and @rend='hidden'"/>
-      <xsl:when test="@rend='hidden'"> 
-	<xsl:text> </xsl:text>
+      <xsl:when test="@rend='hidden'">
+        <xsl:text> </xsl:text>
       </xsl:when>
       <xsl:when test="@rend='-' or @type='hyphenInWord'">
-	<xsl:text>-</xsl:text>
-	<br/>
+        <xsl:text>-</xsl:text>
+        <br/>
       </xsl:when>
       <xsl:when test="@rend='above'">
-	<xsl:text>&#x231C;</xsl:text>
+        <xsl:text>⌜</xsl:text>
       </xsl:when>
       <xsl:when test="@rend='below'">
-	<xsl:text>&#x231E;</xsl:text>
+        <xsl:text>⌞</xsl:text>
       </xsl:when>
       <xsl:when test="@rend">
-	<br class="{@rend}"/>
+        <br class="{@rend}"/>
       </xsl:when>
       <xsl:otherwise>
-	<br/>
+        <br/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element l</desc>
   </doc>
-
   <xsl:template match="tei:l">
     <xsl:element name="{if (ancestor::tei:head or ancestor::tei:hi) then 'span' else 'div'}">
-      <xsl:call-template name="rendToClass">      
-	<xsl:with-param name="default">l</xsl:with-param>
-      </xsl:call-template>	    
+      <xsl:call-template name="rendToClass">
+        <xsl:with-param name="default">l</xsl:with-param>
+      </xsl:call-template>
       <xsl:choose>
-	<xsl:when
-	    test="ancestor::tei:div[contains(@rend,'linenumber')]">
-	  <xsl:variable name="n">
-	    <xsl:number/>
-	  </xsl:variable>
-	  <div class="numbering">
-	    <xsl:choose>
-	      <xsl:when test="$n mod 5 = 0">
-		<xsl:value-of select="$n"/>
-	      </xsl:when>
-	      <xsl:otherwise>&#160;</xsl:otherwise>
-	    </xsl:choose>
-	  </div>
-	  <xsl:apply-templates/>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:apply-templates/>
-	</xsl:otherwise>
+        <xsl:when test="ancestor::tei:div[contains(@rend,'linenumber')]">
+          <xsl:variable name="n">
+            <xsl:number/>
+          </xsl:variable>
+          <div class="numbering">
+            <xsl:choose>
+              <xsl:when test="$n mod 5 = 0">
+                <xsl:value-of select="$n"/>
+              </xsl:when>
+              <xsl:otherwise> </xsl:otherwise>
+            </xsl:choose>
+          </div>
+          <xsl:apply-templates/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates/>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
   </xsl:template>
@@ -702,45 +723,45 @@
   <xsl:template match="tei:lg">
     <xsl:choose>
       <xsl:when test="$filePerPage='true'">
-	<xsl:for-each-group select="node()" group-starting-with="tei:pb">
-	  <xsl:choose>
-	    <xsl:when test="self::tei:pb">
-	      <xsl:apply-templates select="."/>
-	      <div>
-		<xsl:for-each select="..">
-		  <xsl:call-template name="rendToClass">
-		    <xsl:with-param name="id">
-		      <xsl:choose>
-			<xsl:when test="@xml:id">
-			  <xsl:value-of select="@xml:id"/>
-			  <xsl:text>continued</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-			  <xsl:text>false</xsl:text>
-			</xsl:otherwise>
-		      </xsl:choose>
-		    </xsl:with-param>
-		  </xsl:call-template>
-		</xsl:for-each>
-		<xsl:apply-templates select="current-group() except ."/>
-	      </div>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <div>
-		<xsl:for-each select="..">
-		  <xsl:call-template name="rendToClass"/>
-		</xsl:for-each>
-		<xsl:apply-templates select="current-group()"/>
-	      </div>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:for-each-group>
+        <xsl:for-each-group select="node()" group-starting-with="tei:pb">
+          <xsl:choose>
+            <xsl:when test="self::tei:pb">
+              <xsl:apply-templates select="."/>
+              <div>
+                <xsl:for-each select="..">
+                  <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="id">
+                      <xsl:choose>
+                        <xsl:when test="@xml:id">
+                          <xsl:value-of select="@xml:id"/>
+                          <xsl:text>continued</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>false</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:for-each>
+                <xsl:apply-templates select="current-group() except ."/>
+              </div>
+            </xsl:when>
+            <xsl:otherwise>
+              <div>
+                <xsl:for-each select="..">
+                  <xsl:call-template name="rendToClass"/>
+                </xsl:for-each>
+                <xsl:apply-templates select="current-group()"/>
+              </div>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:for-each-group>
       </xsl:when>
       <xsl:otherwise>
-	<div>
-	  <xsl:call-template name="rendToClass"/>
-	  <xsl:apply-templates/>
-	</div>
+        <div>
+          <xsl:call-template name="rendToClass"/>
+          <xsl:apply-templates/>
+        </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -749,38 +770,38 @@
   </doc>
   <xsl:template match="tei:lg/tei:l">
     <div>
-        <xsl:choose>
-	  <xsl:when test="@rend">
-	    <xsl:attribute name="class">
-	      <xsl:choose>
-		<xsl:when test="@rend='Alignr'">
-		  <xsl:text>right</xsl:text>
-		</xsl:when>
-		<xsl:when test="@rend='Alignc'">
-		  <xsl:text>center</xsl:text>
-		</xsl:when>
-		<xsl:when test="starts-with(@rend,'indent(')">
-		  <xsl:text>indent</xsl:text>
-		  <xsl:value-of select="concat(substring-before(substring-after(@rend,'('),')'),'em')"/>
-		</xsl:when>
-		<xsl:when test="@rend='indent'">
-		  <xsl:text>indent1</xsl:text>
-		</xsl:when>
-		<xsl:when test="@rend">
-		  <xsl:value-of select="@rend"/>
-		</xsl:when>
-	      </xsl:choose>
-	    </xsl:attribute>
-	  </xsl:when>
-          <xsl:when test="@rendition">
-            <xsl:call-template name="applyRendition"/>
-          </xsl:when>
-          <xsl:otherwise>
-	    <xsl:attribute name="class">
-	      <xsl:value-of select="local-name()"/>
-	    </xsl:attribute>
-          </xsl:otherwise>
-        </xsl:choose>
+      <xsl:choose>
+        <xsl:when test="@rend">
+          <xsl:attribute name="class">
+            <xsl:choose>
+              <xsl:when test="@rend='Alignr'">
+                <xsl:text>right</xsl:text>
+              </xsl:when>
+              <xsl:when test="@rend='Alignc'">
+                <xsl:text>center</xsl:text>
+              </xsl:when>
+              <xsl:when test="starts-with(@rend,'indent(')">
+                <xsl:text>indent</xsl:text>
+                <xsl:value-of select="concat(substring-before(substring-after(@rend,'('),')'),'em')"/>
+              </xsl:when>
+              <xsl:when test="@rend='indent'">
+                <xsl:text>indent1</xsl:text>
+              </xsl:when>
+              <xsl:when test="@rend">
+                <xsl:value-of select="@rend"/>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@rendition">
+          <xsl:call-template name="applyRendition"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="class">
+            <xsl:value-of select="local-name()"/>
+          </xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -798,7 +819,7 @@
   <xsl:template match="tei:list">
     <xsl:if test="tei:head">
       <xsl:element name="{if (tei:blockContext(.)) then 'div' else 'span' }">
-      <xsl:attribute name="class">listhead</xsl:attribute>
+        <xsl:attribute name="class">listhead</xsl:attribute>
         <xsl:apply-templates select="tei:head"/>
       </xsl:element>
     </xsl:if>
@@ -911,17 +932,9 @@
       <xsl:when test="tei:biblStruct">
         <ol class="listBibl">
           <xsl:for-each select="tei:biblStruct">
-            <xsl:sort select="translate((
-			      tei:*/tei:author/tei:surname|
-			      tei:*[1]/tei:author/tei:orgName|  
-			      tei:*[1]/tei:author/tei:name|  
-			      tei:*[1]/tei:author|  
-			      tei:*[1]/tei:editor/tei:surname|  
-			      tei:*[1]/tei:editor/tei:name|  
-			      tei:*[1]/tei:editor|  
-			      tei:*[1]/tei:title[1])[1],  $uc,$lc)"/>
+            <xsl:sort select="translate((          tei:*/tei:author/tei:surname|          tei:*[1]/tei:author/tei:orgName|            tei:*[1]/tei:author/tei:name|            tei:*[1]/tei:author|            tei:*[1]/tei:editor/tei:surname|            tei:*[1]/tei:editor/tei:name|            tei:*[1]/tei:editor|            tei:*[1]/tei:title[1])[1],  $uc,$lc)"/>
             <xsl:sort select="tei:monogr/tei:imprint/tei:date"/>
-           <!--
+            <!--
 	   <dt>
               <xsl:call-template name="makeAnchor"/>
               <xsl:apply-templates select="." mode="xref"/>
@@ -930,11 +943,12 @@
               <xsl:apply-templates select="."/>
             </dd>
 	    -->
-	   <li>
-	     <xsl:apply-templates select="."/>
-	   </li>
+            <li>
+              <xsl:call-template name="makeAnchor"/>
+              <xsl:apply-templates select="."/>
+            </li>
           </xsl:for-each>
-	</ol>
+        </ol>
       </xsl:when>
       <xsl:otherwise>
         <ol class="listBibl">
@@ -970,9 +984,9 @@
     </xsl:variable>
     <span>
       <xsl:call-template name="makeAnchor">
-	<xsl:with-param name="name">
-	  <xsl:value-of select="$ident"/>
-	</xsl:with-param>
+        <xsl:with-param name="name">
+          <xsl:value-of select="$ident"/>
+        </xsl:with-param>
       </xsl:call-template>
       <xsl:apply-templates/>
     </span>
@@ -986,92 +1000,114 @@
     </xsl:variable>
     <xsl:choose>
       <xsl:when test="@place='none'"/>
-      <xsl:when test="ancestor::tei:listBibl or ancestor::tei:biblFull
-		      or ancestor::tei:biblStruct">
-	<xsl:text> [</xsl:text>
-	<xsl:apply-templates/>
-	<xsl:text>]</xsl:text>
+      <xsl:when test="ancestor::tei:listBibl or ancestor::tei:biblFull         or ancestor::tei:biblStruct">
+        <xsl:text> [</xsl:text>
+        <xsl:apply-templates/>
+        <xsl:text>]</xsl:text>
       </xsl:when>
       <xsl:when test="@place='foot' or @place='bottom' or @place='end' or $autoEndNotes='true'">
-        <xsl:element 
-	    name="{if (parent::tei:head or parent::tei:hi)  then 'span'
-		  else if (parent::tei:l) then 'span'
-		  else if (parent::tei:bibl/parent::tei:head) then 'span'
-		  else if (parent::tei:stage/parent::tei:q) then 'span'
-		  else if  (parent::tei:body or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name" select="concat($identifier,'_return')"/>
-	  </xsl:call-template>
-	  <xsl:choose>
-          <xsl:when test="$footnoteFile='true'">
-            <a class="notelink" title="Go to note" href="{$masterFile}-notes.html#{$identifier}">
-              <sup>
-                <xsl:call-template name="noteN"/>
-              </sup>
-            </a>
-          </xsl:when>
-          <xsl:otherwise>
-            <a class="notelink" title="Go to note" href="#{$identifier}">
-              <sup>
-                <xsl:call-template name="noteN"/>
-              </sup>
-            </a>
-          </xsl:otherwise>
-        </xsl:choose>
-	</xsl:element>
+        <xsl:element name="{if (parent::tei:head or parent::tei:hi)  then 'span'           else if (parent::tei:l) then 'span'           else if (parent::tei:bibl/parent::tei:head) then 'span'           else if (parent::tei:stage/parent::tei:q) then 'span'           else if  (parent::tei:body or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="concat($identifier,'_return')"/>
+          </xsl:call-template>
+          <xsl:variable name="note-title">
+            <xsl:variable name="note-text">
+              <xsl:apply-templates mode="plain"/>
+            </xsl:variable>
+            <xsl:value-of select="substring($note-text,1,500)"/>
+            <xsl:if test="string-length($note-text) &gt; 500">
+              <xsl:text>…</xsl:text>
+            </xsl:if>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="$footnoteFile='true'">
+              <a class="notelink" title="{normalize-space($note-title)}" href="{$masterFile}-notes.html#{$identifier}">
+                <sup>
+                  <xsl:call-template name="noteN"/>
+                </sup>
+              </a>
+              <xsl:if test="following-sibling::node()[1][self::tei:note]">
+                <sup>
+                  <xsl:text>,</xsl:text>
+                </sup>
+              </xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+              <a class="notelink" title="{normalize-space($note-title)}" href="#{$identifier}">
+                <sup>
+                  <xsl:call-template name="noteN"/>
+                </sup>
+              </a>
+              <xsl:if test="following-sibling::node()[1][self::tei:note]">
+                <sup>
+                  <xsl:text>,</xsl:text>
+                </sup>
+              </xsl:if>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:element>
       </xsl:when>
       <xsl:when test="parent::tei:head and @place='margin'">
-	<span class="margnote">
-	  <xsl:apply-templates/>
-	</span>
+        <span class="margnote">
+          <xsl:apply-templates/>
+        </span>
       </xsl:when>
-
       <xsl:when test="parent::tei:head">
-	<xsl:text> [</xsl:text>
-	<xsl:apply-templates/>
-	<xsl:text>]</xsl:text>
+        <xsl:text> [</xsl:text>
+        <xsl:apply-templates/>
+        <xsl:text>]</xsl:text>
       </xsl:when>
-      <xsl:when test="(@place='display' or tei:q) 
-		      and (parent::tei:div or parent::tei:p or parent::tei:body)">
-	<div class="note">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name" select="$identifier"/>
-	  </xsl:call-template>
-	  <span class="noteLabel">
-	    <xsl:choose>
-	      <xsl:when test="@n">
-		<xsl:value-of select="@n"/>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:call-template name="i18n">
-		  <xsl:with-param name="word">Note</xsl:with-param>
-		</xsl:call-template>
-		<xsl:text>: </xsl:text>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </span>
-	  <xsl:apply-templates/>
-	</div>
+      <xsl:when test="@type='footnote'">
+        <div class="note">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="$identifier"/>
+          </xsl:call-template>
+          <span class="noteNumber">
+            <xsl:number/>
+          </span>
+          <xsl:apply-templates/>
+        </div>
+      </xsl:when>
+      <xsl:when test="(@place='display' or tei:q)          and (parent::tei:div or parent::tei:p or parent::tei:body)">
+        <div class="note">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="$identifier"/>
+          </xsl:call-template>
+          <span class="noteLabel">
+            <xsl:choose>
+              <xsl:when test="@n">
+                <xsl:value-of select="@n"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="i18n">
+                  <xsl:with-param name="word">Note</xsl:with-param>
+                </xsl:call-template>
+                <xsl:text>: </xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </span>
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:when test="@place='display'">
         <blockquote>
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name" select="$identifier"/>
-	  </xsl:call-template>
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="$identifier"/>
+          </xsl:call-template>
           <xsl:call-template name="rendToClass"/>
-	  <xsl:choose>
-	    <xsl:when test="$outputTarget='html5'">
-	      <xsl:apply-templates/>
-	    </xsl:when>
-	    <xsl:when test="tei:q">
-	      <xsl:apply-templates/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <p>
-		<xsl:apply-templates/>
-	      </p>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="$outputTarget='html5'">
+              <xsl:apply-templates/>
+            </xsl:when>
+            <xsl:when test="tei:q">
+              <xsl:apply-templates/>
+            </xsl:when>
+            <xsl:otherwise>
+              <p>
+                <xsl:apply-templates/>
+              </p>
+            </xsl:otherwise>
+          </xsl:choose>
         </blockquote>
       </xsl:when>
       <xsl:when test="@place='margin' and parent::tei:hi and not(*)">
@@ -1099,38 +1135,39 @@
         </span>
       </xsl:when>
       <xsl:when test="@place='inline' or (parent::tei:p or parent::tei:hi or parent::tei:head)">
-	<span class="note">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name" select="$identifier"/>
-	  </xsl:call-template>
-	  <xsl:text> [</xsl:text>
-	  <xsl:apply-templates/>
-	  <xsl:text>]</xsl:text>
-	</span>
+        <span class="note">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="$identifier"/>
+          </xsl:call-template>
+          <xsl:text> [</xsl:text>
+          <xsl:apply-templates/>
+          <xsl:text>]</xsl:text>
+        </span>
       </xsl:when>
       <xsl:otherwise>
-	<div>
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name" select="$identifier"/>
-	  </xsl:call-template>
-	  <xsl:attribute name="class">
-	    <xsl:text>note </xsl:text><xsl:value-of select="@type"/>
-	  </xsl:attribute>
-	  <span class="noteLabel">
-	    <xsl:choose>
-	      <xsl:when test="@n">
-		<xsl:value-of select="@n"/>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:call-template name="i18n">
-		  <xsl:with-param name="word">Note</xsl:with-param>
-		</xsl:call-template>
-		<xsl:text>: </xsl:text>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </span>
-	  <xsl:apply-templates/>
-	</div>
+        <div>
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name" select="$identifier"/>
+          </xsl:call-template>
+          <xsl:attribute name="class">
+            <xsl:text>note </xsl:text>
+            <xsl:value-of select="@type"/>
+          </xsl:attribute>
+          <span class="noteLabel">
+            <xsl:choose>
+              <xsl:when test="@n">
+                <xsl:value-of select="@n"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="i18n">
+                  <xsl:with-param name="word">Note</xsl:with-param>
+                </xsl:call-template>
+                <xsl:text>: </xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </span>
+          <xsl:apply-templates/>
+        </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1149,14 +1186,21 @@
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>Check whether a note should be processed</desc>
+    <desc>Check whether a note should be processed. If we are
+    splitting, check that we are in the correct file</desc>
   </doc>
   <xsl:template match="tei:note" mode="printnotes">
+    <xsl:param name="whence" select="."/>
     <xsl:choose>
       <xsl:when test="ancestor::tei:listBibl"/>
       <xsl:when test="number($splitLevel)=-1"/>
-      <xsl:when test="@place='foot' or @place='bottom' or @place='end' or $autoEndNotes='true'">
-        <xsl:call-template name="makeaNote"/>
+      <xsl:when test="@place='foot' or @place='bottom' or @place='end'         or $autoEndNotes='true'">
+        <xsl:variable name="parent">
+          <xsl:call-template name="locateParentDiv"/>
+        </xsl:variable>
+        <xsl:if test="$whence = $parent">
+          <xsl:call-template name="makeaNote"/>
+        </xsl:if>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -1176,9 +1220,9 @@
       </xsl:call-template>
       <span class="noteLabel">
         <xsl:call-template name="noteN"/>
-	<xsl:if test="matches(@n,'[0-9]')">
-	  <xsl:text>.</xsl:text>
-	</xsl:if>
+        <xsl:if test="matches(@n,'[0-9]')">
+          <xsl:text>.</xsl:text>
+        </xsl:if>
         <xsl:text> </xsl:text>
       </span>
       <div class="noteBody">
@@ -1204,68 +1248,57 @@
       make it an anchor if it has an ID.</p>
     </desc>
   </doc>
-
   <xsl:template match="tei:pb" mode="ident">
     <xsl:choose>
       <xsl:when test="@xml:id">
-	<xsl:value-of select="@xml:id"/>
+        <xsl:value-of select="@xml:id"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:text>page</xsl:text>
-<!--
+        <xsl:text>page</xsl:text>
+        <!--
 	<xsl:for-each select="ancestor::tei:div[1]">
 	  <xsl:number level="multiple" format="1.1.1.1.1"/>
 	  <xsl:text>-</xsl:text>
 	</xsl:for-each>
 -->
-	<xsl:number level="any"/>
+        <xsl:number level="any"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
   <xsl:template match="tei:pb">
     <xsl:choose>
       <xsl:when test="$filePerPage='true'">
-	<PAGEBREAK>
-	  <xsl:attribute name="name">
-	    <xsl:apply-templates select="." mode="ident"/>
-	  </xsl:attribute>
-	  <xsl:copy-of select="@facs"/>
-	</PAGEBREAK>
+        <PAGEBREAK>
+          <xsl:attribute name="name">
+            <xsl:apply-templates select="." mode="ident"/>
+          </xsl:attribute>
+          <xsl:copy-of select="@facs"/>
+        </PAGEBREAK>
       </xsl:when>
-
       <xsl:when test="@facs and not(@rend='none')">
-	<xsl:variable name="IMG">
-	  <xsl:choose>
-	    <xsl:when test="starts-with(@facs,'#')">
-	      <xsl:for-each select="id(substring(@facs,2))">
-		<xsl:value-of select="tei:graphic[1]/@url"/>
-	      </xsl:for-each>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:value-of select="@facs"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:variable>
-	<xsl:choose>
-	  <xsl:when test="parent::tei:div | parent::tei:body">
-	    <div>
-	      <img src="{$IMG}" alt="page image"/>
-	    </div>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <img width="600" height="860" src="{$IMG}" alt="page image"/>
-	  </xsl:otherwise>
-	</xsl:choose>
+        <xsl:variable name="IMG">
+          <xsl:choose>
+            <xsl:when test="starts-with(@facs,'#')">
+              <xsl:for-each select="id(substring(@facs,2))">
+                <xsl:value-of select="tei:graphic[1]/@url"/>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="@facs"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:element name="{if (tei:is-inline(..)) then 'span' else 'div'}">
+          <xsl:call-template name="rendToClass"/>
+          <img src="{$IMG}" alt="page image"/>
+        </xsl:element>
       </xsl:when>
-
       <xsl:when test="$pagebreakStyle='active'">
         <div class="pagebreak">
           <xsl:call-template name="rendToClass"/>
         </div>
       </xsl:when>
-      <xsl:when test="$pagebreakStyle='visible' and (parent::tei:body
-		      or parent::tei:front or parent::tei:back or parent::tei:group)">
+      <xsl:when test="$pagebreakStyle='visible' and (parent::tei:body         or parent::tei:front or parent::tei:back or parent::tei:group)">
         <div class="pagebreak">
           <xsl:call-template name="makeAnchor"/>
           <xsl:text> [</xsl:text>
@@ -1301,38 +1334,36 @@
   <xsl:template match="tei:p">
     <xsl:variable name="wrapperElement">
       <xsl:choose>
-	<xsl:when test="$outputTarget='html5'">p</xsl:when>
-	<xsl:when test="parent::tei:figure and (tei:q/tei:l or tei:figure or parent::tei:figure/parent::tei:div)">div</xsl:when>
+        <xsl:when test="$outputTarget='html5'">p</xsl:when>
+        <xsl:when test="parent::tei:figure and (tei:q/tei:l or tei:figure or parent::tei:figure/parent::tei:div)">div</xsl:when>
         <xsl:when test="parent::tei:figure">span</xsl:when>
-        <xsl:when test="parent::tei:head or
-			parent::tei:q/parent::tei:head or
-			parent::tei:note[@place='margin']/parent::tei:head">span</xsl:when>
+        <xsl:when test="parent::tei:head or    parent::tei:q/parent::tei:head or    parent::tei:note[@place='margin']/parent::tei:head">span</xsl:when>
         <xsl:when test="parent::tei:note[not(@place or @rend)]">span</xsl:when>
-	<xsl:when test="$outputTarget='epub'">div</xsl:when>
-	<xsl:when test="tei:eg">div</xsl:when>
-	<xsl:when test="tei:figure">div</xsl:when>
-	<xsl:when test="tei:floatingText">div</xsl:when>
-	<xsl:when test="tei:l">div</xsl:when>
-	<xsl:when test="tei:list">div</xsl:when>
-	<xsl:when test="tei:moduleSpec">div</xsl:when>
-	<xsl:when test="tei:note[@place='display']">div</xsl:when>
-	<xsl:when test="tei:note[@place='margin']">div</xsl:when>
-	<xsl:when test="tei:note[tei:q]">div</xsl:when>
-	<xsl:when test="tei:q/tei:figure">div</xsl:when>
-	<xsl:when test="tei:q/tei:list">div</xsl:when>
-	<xsl:when test="tei:q[@rend='display']">div</xsl:when>
-	<xsl:when test="tei:q[@rend='inline' and tei:note/@place]">div</xsl:when>
-	<xsl:when test="tei:q[tei:l]">div</xsl:when>
-	<xsl:when test="tei:q[tei:lg]">div</xsl:when>
-	<xsl:when test="tei:q[tei:p]">div</xsl:when>
-	<xsl:when test="tei:q[tei:sp]">div</xsl:when>
-	<xsl:when test="tei:q[tei:floatingText]">div</xsl:when>
-	<xsl:when test="tei:quote">div</xsl:when>
-	<xsl:when test="tei:specGrp">div</xsl:when>
-	<xsl:when test="tei:specGrpRef">div</xsl:when>
-	<xsl:when test="tei:specList">div</xsl:when>
-	<xsl:when test="tei:table">div</xsl:when>
-	<xsl:when test="teix:egXML">div</xsl:when>
+        <xsl:when test="$outputTarget='epub'">div</xsl:when>
+        <xsl:when test="tei:eg">div</xsl:when>
+        <xsl:when test="tei:figure">div</xsl:when>
+        <xsl:when test="tei:floatingText">div</xsl:when>
+        <xsl:when test="tei:l">div</xsl:when>
+        <xsl:when test="tei:list">div</xsl:when>
+        <xsl:when test="tei:moduleSpec">div</xsl:when>
+        <xsl:when test="tei:note[@place='display']">div</xsl:when>
+        <xsl:when test="tei:note[@place='margin']">div</xsl:when>
+        <xsl:when test="tei:note[tei:q]">div</xsl:when>
+        <xsl:when test="tei:q/tei:figure">div</xsl:when>
+        <xsl:when test="tei:q/tei:list">div</xsl:when>
+        <xsl:when test="tei:q[@rend='display']">div</xsl:when>
+        <xsl:when test="tei:q[@rend='inline' and tei:note/@place]">div</xsl:when>
+        <xsl:when test="tei:q[tei:l]">div</xsl:when>
+        <xsl:when test="tei:q[tei:lg]">div</xsl:when>
+        <xsl:when test="tei:q[tei:p]">div</xsl:when>
+        <xsl:when test="tei:q[tei:sp]">div</xsl:when>
+        <xsl:when test="tei:q[tei:floatingText]">div</xsl:when>
+        <xsl:when test="tei:quote">div</xsl:when>
+        <xsl:when test="tei:specGrp">div</xsl:when>
+        <xsl:when test="tei:specGrpRef">div</xsl:when>
+        <xsl:when test="tei:specList">div</xsl:when>
+        <xsl:when test="tei:table">div</xsl:when>
+        <xsl:when test="teix:egXML">div</xsl:when>
         <xsl:when test="ancestor::tei:floatingText">div</xsl:when>
         <xsl:when test="ancestor::tei:closer">div</xsl:when>
         <xsl:when test="parent::tei:p">div</xsl:when>
@@ -1346,58 +1377,64 @@
     </xsl:variable>
     <xsl:choose>
       <xsl:when test="$filePerPage='true'">
-	<xsl:for-each-group select="node()" group-starting-with="tei:pb">
-	  <xsl:choose>
-	    <xsl:when test="self::tei:pb">
-	      <xsl:apply-templates select="."/>
-	      <xsl:element name="{$wrapperElement}">
-		<xsl:for-each select="..">
-		  <xsl:call-template name="rendToClass">
-		    <xsl:with-param name="id">
-		      <xsl:choose>
-			<xsl:when test="@xml:id">
-			  <xsl:value-of select="@xml:id"/>
-			  <xsl:text>continued</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-			  <xsl:text>false</xsl:text>
-			</xsl:otherwise>
-		      </xsl:choose>
-		    </xsl:with-param>
-		  </xsl:call-template>
-		</xsl:for-each>
-		<xsl:apply-templates select="current-group() except ."/>
-	      </xsl:element>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:element name="{$wrapperElement}">
-		<xsl:for-each select="..">
-		  <xsl:call-template name="rendToClass"/>
-		</xsl:for-each>
-		<xsl:apply-templates select="current-group()"/>
-	      </xsl:element>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:for-each-group>
+        <xsl:for-each-group select="node()" group-starting-with="tei:pb">
+          <xsl:choose>
+            <xsl:when test="self::tei:pb">
+              <xsl:apply-templates select="."/>
+              <xsl:element name="{$wrapperElement}">
+                <xsl:for-each select="..">
+                  <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="id">
+                      <xsl:choose>
+                        <xsl:when test="@xml:id">
+                          <xsl:value-of select="@xml:id"/>
+                          <xsl:text>continued</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>false</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:for-each>
+                <xsl:apply-templates select="current-group() except ."/>
+              </xsl:element>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:element name="{$wrapperElement}">
+                <xsl:for-each select="..">
+                  <xsl:call-template name="rendToClass"/>
+                </xsl:for-each>
+                <xsl:apply-templates select="current-group()"/>
+              </xsl:element>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:for-each-group>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:element name="{$wrapperElement}">
-	  <xsl:call-template name="rendToClass">
-	    <xsl:with-param name="default">
-	    <xsl:if test="not($wrapperElement ='p')">
-	      <xsl:text>p</xsl:text>
-	    </xsl:if>
-	  </xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:if test="$numberParagraphs='true'">
-	    <xsl:text>[</xsl:text>
-	    <xsl:number/>
-	    <xsl:text>] </xsl:text>
-	  </xsl:if>
-	  <xsl:apply-templates/>
-	</xsl:element>
+        <xsl:element name="{$wrapperElement}">
+          <xsl:call-template name="rendToClass">
+            <xsl:with-param name="default">
+              <xsl:if test="not($wrapperElement ='p')">
+                <xsl:text>p</xsl:text>
+              </xsl:if>
+            </xsl:with-param>
+          </xsl:call-template>
+          <xsl:if test="$numberParagraphs='true'">
+            <span class="numberParagraph">
+              <xsl:call-template name="numberParagraph"/>
+            </span>
+          </xsl:if>
+          <xsl:apply-templates/>
+        </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>How to number paragraphs</desc>
+  </doc>
+  <xsl:template name="numberParagraph">
+    <xsl:number/>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element p[@rend='box']</desc>
@@ -1410,48 +1447,44 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element q and tei:said</desc>
   </doc>
-
-  <xsl:template match="tei:q[@rend='inline margQuotes' or
-		       @rend='inline margSglQuotes']">
+  <xsl:template match="tei:q[@rend='inline margQuotes' or          @rend='inline margSglQuotes']">
     <xsl:apply-templates/>
   </xsl:template>
-
   <xsl:template match="tei:q[not(@place) and tei:l]">
     <xsl:choose>
       <xsl:when test="tei:blockContext(.)">
-	<div class="blockquote">
-	  <xsl:apply-templates/>
-	</div>
+        <div class="blockquote">
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:apply-templates/>
+        <xsl:apply-templates/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
   <xsl:template match="tei:q|tei:said">
     <xsl:choose>
       <xsl:when test="parent::tei:q/tei:note[@place='bottom']">
         <span class="inlineq">
-	  <xsl:call-template name="makeQuote"/>
-	</span>
+          <xsl:call-template name="makeQuote"/>
+        </span>
       </xsl:when>
       <xsl:when test="parent::tei:note[@place='bottom'] and not(*)">
         <span class="inlineq">
-	  <xsl:call-template name="makeQuote"/>
-	</span>
+          <xsl:call-template name="makeQuote"/>
+        </span>
       </xsl:when>
       <xsl:when test="tei:blockContext(.)">
         <div class="blockquote {@rend}">
           <xsl:apply-templates/>
         </div>
       </xsl:when>
-      <xsl:when test="parent::tei:hi or ancestor::tei:head">
-        <span class="inlineq">
-	  <xsl:call-template name="makeQuote"/>
-	</span>
+      <xsl:when test="parent::tei:q[@rend=current()/@rend] or parent::tei:hi or ancestor::tei:head">
+        <span class="inlineq {@rend}">
+          <xsl:call-template name="makeQuote"/>
+        </span>
       </xsl:when>
-      <xsl:when test="*[not(tei:is-inline(.))] or tei:note or tei:bibl">
+      <xsl:when test="not(tei:is-inline(.)) or *[not(tei:is-inline(.))]">
         <div class="blockquote {@rend}">
           <xsl:apply-templates/>
         </div>
@@ -1473,9 +1506,9 @@
         <xsl:call-template name="makeQuote"/>
       </xsl:when>
       <xsl:when test="@rend">
-	<span class="q {@rend}">
-	  <xsl:apply-templates/>
-	</span>
+        <span class="q {@rend}">
+          <xsl:apply-templates/>
+        </span>
       </xsl:when>
       <xsl:otherwise>
         <xsl:call-template name="makeQuote"/>
@@ -1492,9 +1525,9 @@
         <xsl:when test="tei:p">
           <xsl:apply-templates/>
         </xsl:when>
-	<xsl:when test="$outputTarget='html5'">
-	  <xsl:apply-templates/>
-	</xsl:when>
+        <xsl:when test="$outputTarget='html5'">
+          <xsl:apply-templates/>
+        </xsl:when>
         <xsl:otherwise>
           <p>
             <xsl:apply-templates/>
@@ -1525,20 +1558,19 @@
         </div>
       </xsl:when>
       <xsl:when test="@rend='inline'">
-	<span class="quote_inline">
-	  <xsl:value-of select="$preQuote"/>
-	  <xsl:apply-templates/>
-	  <xsl:value-of select="$postQuote"/>
-	</span>
+        <span class="quote_inline">
+          <xsl:value-of select="$preQuote"/>
+          <xsl:apply-templates/>
+          <xsl:value-of select="$postQuote"/>
+        </span>
       </xsl:when>
-      <xsl:when test="@rend='display' or tei:p or tei:l or
-		      string-length(.)&gt;150">
+      <xsl:when test="@rend='display' or tei:lb or tei:p or tei:l or         string-length(.)&gt;150">
         <blockquote>
           <xsl:call-template name="rendToClass"/>
           <xsl:choose>
-	    <xsl:when test="$outputTarget='html5'">
+            <xsl:when test="$outputTarget='html5'">
               <xsl:apply-templates/>
-	    </xsl:when>
+            </xsl:when>
             <xsl:when test="tei:p|tei:l|tei:lg">
               <xsl:apply-templates/>
             </xsl:when>
@@ -1551,15 +1583,14 @@
         </blockquote>
       </xsl:when>
       <xsl:otherwise>
-	<span class="quote_inline">
-	  <xsl:value-of select="$preQuote"/>
-	  <xsl:apply-templates/>
-	  <xsl:value-of select="$postQuote"/>
-	</span>
+        <span class="quote_inline">
+          <xsl:value-of select="$preQuote"/>
+          <xsl:apply-templates/>
+          <xsl:value-of select="$postQuote"/>
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element resp</desc>
   </doc>
@@ -1579,17 +1610,17 @@
   <xsl:template match="tei:salute">
     <xsl:choose>
       <xsl:when test="parent::tei:closer">
-	  <xsl:apply-templates/>
+        <xsl:apply-templates/>
       </xsl:when>
       <xsl:otherwise>
-	<div class="left">
-	  <xsl:apply-templates/>
-	</div>
+        <div class="left">
+          <xsl:apply-templates/>
+        </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>Process element seg</desc>
+    <desc>Process element seg, pass through @type and @rend as @class</desc>
   </doc>
   <xsl:template match="tei:seg">
     <span>
@@ -1629,17 +1660,26 @@
     <desc>Process element space</desc>
   </doc>
   <xsl:template match="tei:space">
-    <xsl:choose>
-      <xsl:when test="@quantity|@extent">
-        <xsl:call-template name="space_loop">
-          <xsl:with-param name="extent" select="@quantity|@extent"/>
-        </xsl:call-template>
-        <xsl:apply-templates/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text> </xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
+    <span style="display:inline-block">
+      <xsl:if test="@extent">
+        <xsl:variable name="unit">
+          <xsl:choose>
+            <xsl:when test="@unit='chars'">
+              <xsl:text>em</xsl:text>
+            </xsl:when>
+            <xsl:when test="@unit">
+              <xsl:value-of select="@unit"/>
+            </xsl:when>
+            <xsl:otherwise>em</xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:attribute name="width">
+          <xsl:value-of select="@extent"/>
+          <xsl:value-of select="$unit"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:text> </xsl:text>
+    </span>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element term</desc>
@@ -1669,7 +1709,6 @@
     <xsl:value-of select="."/>
     <br/>
   </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element title when it is a child of body</desc>
   </doc>
@@ -1677,8 +1716,7 @@
     <div class="title">
       <xsl:apply-templates/>
     </div>
-</xsl:template>
-
+  </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element witList</desc>
   </doc>
@@ -1722,12 +1760,12 @@
     <xsl:param name="value"/>
     <xsl:choose>
       <xsl:when test="starts-with($value,'#')">
-	<xsl:value-of select="substring-after($value,'#')"/>
+        <xsl:value-of select="substring-after($value,'#')"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:for-each select="document($value)">
+        <xsl:for-each select="document($value)">
           <xsl:apply-templates select="@xml:id"/>
-	</xsl:for-each>
+        </xsl:for-each>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text> </xsl:text>
@@ -1770,7 +1808,7 @@
         <xsl:value-of select="@xml:id"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:text>Note</xsl:text>
+        <xsl:text>Note</xsl:text>
         <xsl:number count="tei:note" level="any"/>
       </xsl:otherwise>
     </xsl:choose>
@@ -1898,7 +1936,7 @@
           </xsl:if>
           <xsl:result-document doctype-public="{$doctypePublic}" doctype-system="{$doctypeSystem}" encoding="{$outputEncoding}" href="{$outName}" method="{$outputMethod}">
             <html>
-	      <xsl:comment>THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (11)</xsl:comment>
+              <xsl:comment>THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (11)</xsl:comment>
               <xsl:call-template name="addLangAtt"/>
               <head>
                 <title>
@@ -1914,7 +1952,7 @@
               <body>
                 <xsl:call-template name="bodyMicroData"/>
                 <xsl:call-template name="bodyJavascriptHook"/>
-		<xsl:call-template name="bodyHook"/>
+                <xsl:call-template name="bodyHook"/>
                 <div class="stdheader">
                   <xsl:call-template name="stdheader">
                     <xsl:with-param name="title">
@@ -1932,21 +1970,19 @@
                       <xsl:with-param name="word">noteHeading</xsl:with-param>
                     </xsl:call-template>
                   </div>
-		  <xsl:choose>
-		    <xsl:when test="$autoEndNotes='true'">
-		      <xsl:apply-templates mode="printnotes"
-					     select="key('ALLNOTES',1)"/>
-		    </xsl:when>
-		    <xsl:otherwise>
-		      <xsl:apply-templates mode="printnotes"
-					     select="key('NOTES',1)"/>
-		    </xsl:otherwise>
-		  </xsl:choose>
+                  <xsl:choose>
+                    <xsl:when test="$autoEndNotes='true'">
+                      <xsl:apply-templates mode="printnotes" select="key('ALLNOTES',1)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:apply-templates mode="printnotes" select="key('NOTES',1)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </div>
                 <xsl:call-template name="stdfooter"/>
                 <xsl:call-template name="bodyEndHook"/>
               </body>
-	    </html>
+            </html>
           </xsl:result-document>
           <xsl:if test="$verbose='true'">
             <xsl:message>Closing file <xsl:value-of select="$outName"/>
@@ -1954,24 +1990,27 @@
           </xsl:if>
         </xsl:when>
         <xsl:otherwise>
+          <xsl:variable name="me">
+            <xsl:apply-templates select="." mode="ident"/>
+          </xsl:variable>
           <xsl:variable name="NOTES">
             <xsl:choose>
               <xsl:when test="self::tei:TEI">
-		  <xsl:choose>
-		    <xsl:when test="$autoEndNotes='true'">
-		      <xsl:apply-templates mode="printallnotes"
-					     select="key('ALLNOTES',1)"/>
-		    </xsl:when>
-		    <xsl:otherwise>
-		      <xsl:apply-templates mode="printallnotes"
-					     select="key('NOTES',1)"/>
-		    </xsl:otherwise>
-		  </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test="$autoEndNotes='true'">
+                    <xsl:apply-templates mode="printallnotes" select="key('ALLNOTES',1)"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:apply-templates mode="printallnotes" select="key('NOTES',1)"/>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:when>
-	      <xsl:when test="parent::tei:group and tei:group">
+              <xsl:when test="parent::tei:group and tei:group">
 	      </xsl:when>
               <xsl:otherwise>
-                <xsl:apply-templates mode="printnotes" select=".//tei:note"/>
+                <xsl:apply-templates mode="printnotes" select=".//tei:note">
+                  <xsl:with-param name="whence" select="$me"/>
+                </xsl:apply-templates>
               </xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
@@ -2048,8 +2087,7 @@
           </tt>
         </b>
       </xsl:when>
-      <xsl:when test="$value='italics' or $value='italic' or $value='cursive' or
-		      $value='it' or $value='ital'">
+      <xsl:when test="$value='italics' or $value='italic' or $value='cursive' or         $value='it' or $value='ital'">
         <i>
           <xsl:call-template name="applyRend">
             <xsl:with-param name="value" select="$rest"/>
@@ -2206,25 +2244,6 @@
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>[html] <param name="extent">extent</param>
-      </desc>
-  </doc>
-  <xsl:template name="space_loop">
-    <xsl:param name="extent"/>
-    <xsl:choose>
-      <xsl:when test="$extent &lt; 1"> </xsl:when>
-      <xsl:otherwise>
-        <xsl:text> </xsl:text>
-        <xsl:variable name="newextent">
-          <xsl:value-of select="$extent - 1"/>
-        </xsl:variable>
-        <xsl:call-template name="space_loop">
-          <xsl:with-param name="extent" select="$newextent"/>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[html] Process unknown rend attribute by turning it into
     an HTML class<param name="value">current value</param>
          <param name="rest">remaining values</param>
@@ -2259,9 +2278,6 @@
       </span>
     </xsl:if>
   </xsl:template>
-
-
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[html] Create a point to which we can link in the HTML<param name="name">value for identifier</param>
       </desc>
@@ -2270,24 +2286,24 @@
     <xsl:param name="name"/>
     <xsl:choose>
       <xsl:when test="self::tei:anchor and $name">
-	<a id="{$name}">
-	  <xsl:comment>anchor</xsl:comment>
-	</a>
+        <a id="{$name}">
+          <xsl:comment>anchor</xsl:comment>
+        </a>
       </xsl:when>
       <xsl:when test="self::tei:anchor">
-	<a id="{@xml:id}">
-	  <xsl:comment>anchor</xsl:comment>
-	</a>
+        <a id="{@xml:id}">
+          <xsl:comment>anchor</xsl:comment>
+        </a>
       </xsl:when>
       <xsl:when test="self::tei:index and $name">
-	<a id="{$name}">
-	  <xsl:comment>index</xsl:comment>
-	</a>
+        <a id="{$name}">
+          <xsl:comment>index</xsl:comment>
+        </a>
       </xsl:when>
       <xsl:when test="self::tei:index">
-	<a id="{@xml:id}">
-	  <xsl:comment>index</xsl:comment>
-	</a>
+        <a id="{@xml:id}">
+          <xsl:comment>index</xsl:comment>
+        </a>
       </xsl:when>
       <xsl:when test="$name">
         <xsl:attribute name="id" select="$name"/>
@@ -2296,10 +2312,7 @@
         <xsl:attribute name="id" select="@xml:id"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="me"><xsl:value-of
-	select="$masterFile"/>-<xsl:value-of
-	select="local-name(.)"/>-<xsl:value-of
-	select="generate-id()"/></xsl:variable>
+        <xsl:variable name="me"><xsl:value-of select="$masterFile"/>-<xsl:value-of select="local-name(.)"/>-<xsl:value-of select="generate-id()"/></xsl:variable>
         <xsl:attribute name="id" select="$me"/>
       </xsl:otherwise>
     </xsl:choose>
@@ -2347,21 +2360,20 @@
       <xsl:when test="$id='false'"/>
       <xsl:when test="$id=''"/>
       <xsl:when test="$id='true' and @xml:id">
-	<xsl:attribute name="id">
-	  <xsl:value-of select="@xml:id"/>
-	</xsl:attribute>
+        <xsl:attribute name="id">
+          <xsl:value-of select="@xml:id"/>
+        </xsl:attribute>
       </xsl:when>
       <xsl:when test="$id='true' and self::tei:p and $generateParagraphIDs='true'">
-	<xsl:attribute name="id">
-	  <xsl:value-of select="generate-id()"/>
-	</xsl:attribute>
+        <xsl:attribute name="id">
+          <xsl:value-of select="generate-id()"/>
+        </xsl:attribute>
       </xsl:when>
       <xsl:when test="$id='true'"/>
       <xsl:otherwise>
-	<xsl:attribute name="id" select="$id"/>
+        <xsl:attribute name="id" select="$id"/>
       </xsl:otherwise>
     </xsl:choose>
-    
     <xsl:if test="$outputTarget='html5'">
       <xsl:call-template name="microdata"/>
     </xsl:if>
@@ -2380,7 +2392,7 @@
       </xsl:choose>
       <xsl:call-template name="rendToClassHook"/>
       <xsl:if test="tei:is-transcribable(.) and $mediaoverlay='true'">
-	<xsl:text> transcribable</xsl:text>
+        <xsl:text> transcribable</xsl:text>
       </xsl:if>
     </xsl:variable>
     <xsl:variable name="class2">
@@ -2389,21 +2401,21 @@
           <xsl:value-of select="translate(@rend,'/','-')"/>
         </xsl:when>
         <xsl:when test="@rendition">
-	  <xsl:call-template name="findRendition">
-	    <xsl:with-param name="value">
-	      <xsl:value-of select="@rendition"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
+          <xsl:call-template name="findRendition">
+            <xsl:with-param name="value">
+              <xsl:value-of select="@rendition"/>
+            </xsl:with-param>
+          </xsl:call-template>
         </xsl:when>
-	<xsl:when test="key('TAGREND',local-name())">
-	    <xsl:for-each select="key('TAGREND',local-name())">
-	      <xsl:call-template name="findRendition">
-		<xsl:with-param name="value">
-		  <xsl:value-of select="@render"/>
-		</xsl:with-param>
-	      </xsl:call-template>
-	    </xsl:for-each>
-	</xsl:when>
+        <xsl:when test="key('TAGREND',local-name())">
+          <xsl:for-each select="key('TAGREND',local-name())">
+            <xsl:call-template name="findRendition">
+              <xsl:with-param name="value">
+                <xsl:value-of select="@render"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </xsl:when>
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
@@ -2415,48 +2427,44 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:attribute name="class">
-	  <xsl:if test="not($class1='')">
-	    <xsl:value-of select="$class1"/>
-	    <xsl:text> </xsl:text>
-	  </xsl:if>
+          <xsl:if test="not($class1='')">
+            <xsl:value-of select="$class1"/>
+            <xsl:text> </xsl:text>
+          </xsl:if>
           <xsl:value-of select="$class2"/>
         </xsl:attribute>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:choose>
-    <xsl:when test="@rendition">
-      <xsl:call-template name="applyRendition"/>
-    </xsl:when>
+      <xsl:when test="@rendition">
+        <xsl:call-template name="applyRendition"/>
+      </xsl:when>
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[html] allow for local extensions to rendToClass</desc>
   </doc>
   <xsl:template name="rendToClassHook"/>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[html] standard case of TEI element which produces a span</desc>
   </doc>
-  
   <xsl:template name="makeSpan">
     <xsl:element name="{if (tei:blockContext(.)) then 'div' else 'span'}">
       <xsl:choose>
-	<xsl:when test="@rendition">
-	  <xsl:call-template name="applyRendition"/>
-	  <xsl:apply-templates/>
-	</xsl:when>
-	<xsl:otherwise>     
-	  <xsl:call-template name="rendToClass">
-	       <xsl:with-param name="default">
-		 <xsl:value-of select="local-name()"/>
-	       </xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:apply-templates/>
-	</xsl:otherwise>
+        <xsl:when test="@rendition">
+          <xsl:call-template name="applyRendition"/>
+          <xsl:apply-templates/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="rendToClass">
+            <xsl:with-param name="default">
+              <xsl:value-of select="local-name()"/>
+            </xsl:with-param>
+          </xsl:call-template>
+          <xsl:apply-templates/>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
   </xsl:template>
-
   <xsl:template name="microdata"/>
-
 </xsl:stylesheet>

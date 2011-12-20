@@ -17,18 +17,40 @@
       <desc>
          <p> TEI stylesheet dealing with elements from the textstructure
       module, making HTML output. </p>
-         <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA xs </p>
+         <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: textstructure.xsl 9494 2011-10-12 22:25:12Z sbauman $</p>
+         <p>Id: $Id: textstructure.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -1236,25 +1258,32 @@
    </doc>
   <xsl:template name="includeCSS">
 
-      <xsl:choose>
-         <xsl:when test="string-length($cssFile)=0"/>
-         <xsl:otherwise>
-	   <link href="{$cssFile}" rel="stylesheet" type="text/css"/>
-         </xsl:otherwise>
-      </xsl:choose>
-
-      <xsl:if test="string-length($cssSecondaryFile)&gt;1">
-         <link href="{$cssSecondaryFile}" rel="stylesheet" type="text/css"/>
+      <xsl:if test="string-length($cssFile)&gt;0">
+	<link href="{$cssFile}" rel="stylesheet" type="text/css"/>
       </xsl:if>
 
-      <xsl:if test="string-length($cssPrintFile)&gt;1">
-         <link rel="stylesheet" media="print" type="text/css">
-	   <xsl:attribute name="href" select="$cssPrintFile"/>
-	 </link>
+      <xsl:if test="string-length($cssSecondaryFile)&gt;0">
+	<link href="{$cssSecondaryFile}" rel="stylesheet" type="text/css"/>
+      </xsl:if>
+      
+      <xsl:if test="string-length($cssPrintFile)&gt;0">
+	<link rel="stylesheet" media="print" type="text/css">
+	  <xsl:attribute name="href" select="$cssPrintFile"/>
+	</link>
+      </xsl:if>
+      
+      <xsl:if test="$cssInlineFile">
+	<style type="text/css" title="inline_css">
+	  <xsl:for-each select="tokenize(unparsed-text($cssInlineFile),
+				'\r?\n')">
+	    <xsl:value-of select="normalize-space(.)"/>
+	    <xsl:text>&#10;</xsl:text>
+	  </xsl:for-each>
+	</style>
       </xsl:if>
 
-<!--      <xsl:call-template name="generateLocalCSS"/>-->
-
+      <xsl:call-template name="generateLocalCSS"/>
+      
   </xsl:template>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
@@ -2493,7 +2522,7 @@
                   <td class="link" valign="top">
                      <xsl:for-each select=".//xref|.//xptr">
                         <xsl:if test="position() &gt; 1">
-                           <xsl:text> </xsl:text>
+                           <xsl:text>&#160;</xsl:text>
                            <img alt="*" src="/images/dbluball.gif"/>
                            <xsl:text> </xsl:text>
                         </xsl:if>
@@ -2837,27 +2866,11 @@
       <xsl:param name="homepage"/>
       <xsl:param name="mode"/>
       <p class="{$alignNavigationPanel}">
-         <xsl:variable name="Parent">
-            <xsl:call-template name="locateParent"/>
-            <xsl:value-of select="$standardSuffix"/>
-         </xsl:variable>
-         <xsl:choose>
-            <xsl:when test="$Parent = $standardSuffix">
-               <xsl:call-template name="upLink">
-                  <xsl:with-param name="up" select="$homepage"/>
-                  <xsl:with-param name="title">
-                     <xsl:call-template name="contentsWord"/>
-                  </xsl:with-param>
-               </xsl:call-template>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:call-template name="generateUpLink"/>
-            </xsl:otherwise>
-         </xsl:choose>
-         <xsl:if test="not(ancestor-or-self::tei:TEI[@rend='nomenu'])">
-            <xsl:call-template name="previousLink"/>
-            <xsl:call-template name="nextLink"/>
-         </xsl:if>
+	<xsl:call-template name="generateUpLink"/>
+	<xsl:if test="not(ancestor-or-self::tei:TEI[@rend='nomenu'])">
+	  <xsl:call-template name="previousLink"/>
+	  <xsl:call-template name="nextLink"/>
+	</xsl:if>
       </p>
   </xsl:template>
 

@@ -124,18 +124,40 @@
             <h2 xmlns="">template modes</h2>
             <h3 xmlns="">get-style</h3>
             
-            <h1 xmlns="">License</h1>
-            This library is free software; you can redistribute it and/or modify it under
-            the terms of the GNU Lesser General Public License as published by the Free Software
-            Foundation; either version 2.1 of the License, or (at your option) any later version.
-            This library is distributed in the hope that it will be useful, but WITHOUT ANY
-            WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-            PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You
-            should have received a copy of the GNU Lesser General Public License along with this
-            library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
-            330, Boston, MA 02111-1307 USA </p>
+            <h1 xmlns="">License</h1>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: teitodocx.xsl 9498 2011-10-15 06:39:15Z rahtz $</p>
+         <p>Id: $Id: teitodocx.xsl 9767 2011-11-16 16:19:42Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -477,7 +499,6 @@
         <xsl:param name="nop"/>
         <xsl:param name="bookmark-id"/>
         <xsl:param name="bookmark-name"/>
-
 
         <!-- Process Child elements -->
         <xsl:for-each-group select="current-group()"
@@ -933,6 +954,9 @@
 	      <xsl:when  test="contains(@rend,'underline') ">
 		<w:u w:val="single"/>
 	      </xsl:when>
+	      <xsl:when  test="contains(@rend,'underwavyline') ">
+		<w:u w:val="wave"/>
+	      </xsl:when>
 	      <xsl:when test="contains(@rend,'underdoubleline')">
 		<w:u w:val="double"/>
 	      </xsl:when>
@@ -953,6 +977,9 @@
 	      <xsl:when test="contains(@rend,'subscript')">
 		<w:vertAlign w:val="subscript"/>
 	      </xsl:when>
+	      <xsl:when test="contains(@rend,'sub')">
+		<w:vertAlign w:val="subscript"/>
+	      </xsl:when>
 	    </xsl:choose>
 
 	    <xsl:choose>
@@ -961,6 +988,9 @@
 	      </xsl:when>
 	      <xsl:when test="contains(@rend,'superscript')">
                 <w:vertAlign w:val="superscript"/>
+	      </xsl:when>
+	      <xsl:when test="contains(@rend,'sup')">
+                <w:vertAlign w:val="sup"/>
 	      </xsl:when>
 	    </xsl:choose>
 
@@ -1096,13 +1126,12 @@
     
     <xsl:template match="tei:q|tei:said|tei:soCalled">
       <xsl:choose>
+	<xsl:when test="*[not(tei:is-inline(.))] or parent::tei:cit|parent::tei:div">
+	  <xsl:call-template name="block-element"/>
+	</xsl:when>
 	<xsl:when test="tei:l">
 	  <xsl:apply-templates/>
 	</xsl:when>
-	<xsl:when test="teix:egXML|tei:list|parent::tei:cit|parent::tei:div">
-	  <xsl:call-template name="block-element"/>
-	</xsl:when>
-
 	<xsl:otherwise>
 	  <w:r>
 	    <w:t>
@@ -1440,281 +1469,300 @@
     </xsl:template>
 
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-        <desc>Turn iso:style attribute back into Word styles for table</desc></doc>
+        <desc>Turn iso:style attribute back into Word styles for
+        table, or work out some defaults based on @rowsep and
+        @colsep</desc></doc>
 
-    <xsl:template name="undoTableBorderStyles">
+    <xsl:template name="calculateTableBorders">
       <xsl:param name="htmlStyles"/>
-      <xsl:for-each select="tokenize($htmlStyles,';')">
-	<xsl:variable name="val"><xsl:value-of select="normalize-space(substring-after(.,':'))"/></xsl:variable>
-	<xsl:if test="matches(.,'border-top')">
-	  <xsl:choose>
-	    <xsl:when test="$val=0">
-	      <w:top w:val="nil"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <w:top w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:if>
-	<xsl:if test="matches(.,'border-left')">
-	  <xsl:choose>
-	    <xsl:when test="$val=0">
-	      <w:left w:val="nil"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <w:left w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:if>
-	<xsl:if test="matches(.,'border-bottom')">
-	  <xsl:choose>
-	    <xsl:when test="$val=0">
-	      <w:bottom w:val="nil"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <w:bottom w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:if>
-	<xsl:if test="matches(.,'border-right')">
-	  <xsl:choose>
-	    <xsl:when test="$val=0">
-	      <w:right w:val="nil"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <w:right w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:if>
-      </xsl:for-each>
+      <xsl:choose>
+	<xsl:when test="$htmlStyles!=''">
+	  <xsl:for-each select="tokenize($htmlStyles,';')">
+	    <xsl:variable name="val"><xsl:value-of select="normalize-space(substring-after(.,':'))"/></xsl:variable>
+	    <xsl:if test="matches(.,'border-top')">
+	      <xsl:choose>
+		<xsl:when test="$val=0">
+		  <w:top w:val="nil"/>
+		</xsl:when>
+		<xsl:otherwise>
+		  <w:top w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
+		</xsl:otherwise>
+	      </xsl:choose>
+	    </xsl:if>
+	    <xsl:if test="matches(.,'border-left')">
+	      <xsl:choose>
+		<xsl:when test="$val=0">
+		  <w:left w:val="nil"/>
+		</xsl:when>
+		<xsl:otherwise>
+		  <w:left w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
+		</xsl:otherwise>
+	      </xsl:choose>
+	    </xsl:if>
+	    <xsl:if test="matches(.,'border-bottom')">
+	      <xsl:choose>
+		<xsl:when test="$val=0">
+		  <w:bottom w:val="nil"/>
+		</xsl:when>
+		<xsl:otherwise>
+		  <w:bottom w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
+		</xsl:otherwise>
+	      </xsl:choose>
+	    </xsl:if>
+	    <xsl:if test="matches(.,'border-right')">
+	      <xsl:choose>
+		<xsl:when test="$val=0">
+		  <w:right w:val="nil"/>
+		</xsl:when>
+		<xsl:otherwise>
+		  <w:right w:val="single" w:sz="{$val}" w:space="0" w:color="auto"/>
+		</xsl:otherwise>
+	      </xsl:choose>
+	    </xsl:if>
+	  </xsl:for-each>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:if test="@rowsep='1' or (not(@rowsep ='0') and ancestor::cals:tgroup/@rowsep='1')">
+	    <w:top w:val="single" w:sz="1"/>
+	  </xsl:if>
+	  <xsl:if test="@colsep='1' or (not(@colsep ='0') and ancestor::cals:tgroup/@colsep='1')">
+	    <w:left w:val="single" w:sz="1"/>
+	  </xsl:if>
+	  <xsl:if test="@rowsep='1' or (not(@rowsep ='0') and ancestor::cals:tgroup/@rowsep='1')">
+	    <w:bottom w:val="single" w:sz="1"/>
+	  </xsl:if>
+	  <xsl:if test="@colsep='1' or (not(@colsep ='0') and ancestor::cals:tgroup/@colsep='1')">
+	    <w:right w:val="single" w:sz="1"/>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:template>
-
+      
     <!-- Handle CALS tables -->
     <xsl:template match="cals:table">
-        <xsl:call-template name="tableheading-from-cals"/>
-        <w:tbl>
-            <w:tblPr>
-                <w:tblW w:w="0" w:type="auto"/>
-                <w:jc w:val="center"/>
-                <w:tblBorders>
-		  <xsl:variable name="tblBorders">
-		    <xsl:if test="@iso:style!=''">
-		      <xsl:call-template name="undoTableBorderStyles">
-			<xsl:with-param name="htmlStyles">
-			  <xsl:value-of select="@iso:style"/>
-			</xsl:with-param>
-		      </xsl:call-template>
-		    </xsl:if>
-		  </xsl:variable>
-		  <xsl:choose>
-			<!-- only @frame turns borders on/off. If a
-			     border is 'on' *and* there is a corresponding 
-			     border in $tblBorders (ie created from
-			     info in iso:style) then the size from $tblBorders
-			     overrides the default size -->
-                        <xsl:when test="@frame='none'">
-			  <w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:when test="@frame='top'">
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:top">
-			      <xsl:copy-of select="$tblBorders/w:top"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:top w:val="none" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:when test="@frame='bottom'">
-                            <w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-                            <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			    <xsl:choose>
-			      <xsl:when test="$tblBorders/w:bottom">
-				<xsl:copy-of select="$tblBorders/w:bottom"/>
-			      </xsl:when>
-			      <xsl:otherwise>
-				<w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			      </xsl:otherwise>
-			    </xsl:choose>
-                            <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:when test="@frame='topbot'">
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:top">
-			      <xsl:copy-of select="$tblBorders/w:top"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:top w:val="none" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:bottom">
-			      <xsl:copy-of select="$tblBorders/w:bottom"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:when test="@frame='sides'">
-			  <w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:left">
-			      <xsl:copy-of select="$tblBorders/w:left"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:right">
-			      <xsl:copy-of select="$tblBorders/w:right"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-                        </xsl:when>
-                        <xsl:when test="@frame='all'">
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:top">
-			      <xsl:copy-of select="$tblBorders/w:top"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:top w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:left">
-			      <xsl:copy-of select="$tblBorders/w:left"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:bottom">
-			      <xsl:copy-of select="$tblBorders/w:bottom"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-			  <xsl:choose>
-			    <xsl:when test="$tblBorders/w:right">
-			      <xsl:copy-of select="$tblBorders/w:right"/>
-			    </xsl:when>
-			    <xsl:otherwise>
-			      <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-			    </xsl:otherwise>
-			  </xsl:choose>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="@rowsep=1">
-                            <w:insideH w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <w:insideH w:val="none" w:sz="6" w:space="0" w:color="auto"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="@colsep=1">
-                            <w:insideV w:val="single" w:sz="6" w:space="0" w:color="auto"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <w:insideV w:val="none" w:sz="6" w:space="0" w:color="auto"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </w:tblBorders>
-                <w:tblLayout w:type="fixed"/>
-            </w:tblPr>
-            <xsl:choose>
-                <xsl:when test="cals:tgroup/cals:colspec">
-                    <w:tblGrid>
-                        <xsl:for-each select="cals:tgroup/cals:colspec">
-                            <w:gridCol>
-                                <xsl:attribute name="w:w">
-				  <xsl:choose>
-				    <xsl:when test="contains(@colwidth,'*')">
-				      <xsl:value-of
-					  select="number($pageWidth *
-						  number(substring-before(@colwidth,'*'))
-						  div 10)
-						  cast as
-						  xs:integer"/>
-				    </xsl:when>
-				    <xsl:otherwise>
-				      <xsl:value-of
-					  select="tei:convert-dim-pt20(@colwidth)"/>
-				    </xsl:otherwise>
-				  </xsl:choose>
-				</xsl:attribute>
-                            </w:gridCol>
-                        </xsl:for-each>
-                    </w:tblGrid>
-                </xsl:when>
-                <xsl:otherwise>
-                    <w:tblGrid>
-                        <xsl:for-each select="cals:row[1]/cals:entry">
-                            <w:gridCol w:w="500"/>
-                            <!-- notional amount -->
-                        </xsl:for-each>
-                    </w:tblGrid>
-                </xsl:otherwise>
-            </xsl:choose>
-            <xsl:apply-templates select="cals:tgroup"/>
-        </w:tbl>
-        <w:p/>
+      <xsl:call-template name="tableheading-from-cals"/>
+      <w:tbl>
+	<w:tblPr>
+	  <w:tblW w:w="0" w:type="auto"/>
+	  <w:jc w:val="center"/>
+	  <w:tblBorders>
+	    <xsl:variable name="tblBorders">
+	      <xsl:call-template name="calculateTableBorders">
+		<xsl:with-param name="htmlStyles">
+		  <xsl:value-of select="@iso:style"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:choose>
+	      <!-- only @frame turns borders on/off. If a
+		   border is 'on' *and* there is a corresponding 
+		   border in $tblBorders (ie created from
+		   info in iso:style) then the size from $tblBorders
+		   overrides the default size -->
+	      <xsl:when test="@frame='none'">
+		<w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:when test="@frame='top'">
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:top">
+		    <xsl:copy-of select="$tblBorders/w:top"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:top w:val="none" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:when test="@frame='bottom'">
+		<w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:bottom">
+		    <xsl:copy-of select="$tblBorders/w:bottom"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:when test="@frame='topbot'">
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:top">
+		    <xsl:copy-of select="$tblBorders/w:top"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:top w:val="none" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<w:left w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:bottom">
+		    <xsl:copy-of select="$tblBorders/w:bottom"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<w:right w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:when test="@frame='sides'">
+		<w:top w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:left">
+		    <xsl:copy-of select="$tblBorders/w:left"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<w:bottom w:val="none" w:sz="0" w:space="0" w:color="auto"/>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:right">
+		    <xsl:copy-of select="$tblBorders/w:right"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+	      </xsl:when>
+	      <xsl:when test="@frame='all'">
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:top">
+		    <xsl:copy-of select="$tblBorders/w:top"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:top w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:left">
+		    <xsl:copy-of select="$tblBorders/w:left"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:bottom">
+		    <xsl:copy-of select="$tblBorders/w:bottom"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+		<xsl:choose>
+		  <xsl:when test="$tblBorders/w:right">
+		    <xsl:copy-of select="$tblBorders/w:right"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+	      </xsl:when>
+	    </xsl:choose>
+	    <xsl:choose>
+	      <xsl:when test="@rowsep=1">
+		<w:insideH w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<w:insideH w:val="none" w:sz="6" w:space="0" w:color="auto"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:choose>
+	      <xsl:when test="@colsep=1">
+		<w:insideV w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<w:insideV w:val="none" w:sz="6" w:space="0" w:color="auto"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </w:tblBorders>
+	  <w:tblLayout w:type="fixed"/>
+	</w:tblPr>
+	<xsl:choose>
+	  <xsl:when test="cals:tgroup/cals:colspec">
+	    <w:tblGrid>
+	      <xsl:for-each select="cals:tgroup/cals:colspec">
+		<w:gridCol>
+		  <xsl:attribute name="w:w">
+		    <xsl:choose>
+		      <xsl:when test="contains(@colwidth,'*')">
+			<xsl:value-of
+			    select="number($pageWidth *
+				    number(substring-before(@colwidth,'*'))
+				    div 10)
+				    cast as
+				    xs:integer"/>
+		      </xsl:when>
+		      <xsl:otherwise>
+			<xsl:value-of
+			    select="tei:convert-dim-pt20(@colwidth)"/>
+		      </xsl:otherwise>
+		    </xsl:choose>
+		  </xsl:attribute>
+		</w:gridCol>
+	      </xsl:for-each>
+	    </w:tblGrid>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <w:tblGrid>
+	      <xsl:for-each select="cals:row[1]/cals:entry">
+		<w:gridCol w:w="500"/>
+		<!-- notional amount -->
+	      </xsl:for-each>
+	    </w:tblGrid>
+	  </xsl:otherwise>
+	</xsl:choose>
+	<xsl:apply-templates select="cals:tgroup"/>
+      </w:tbl>
+      <w:p/>
     </xsl:template>
-
-
+    
+    
     <xsl:template name="tableheading-from-cals">
-        <xsl:if test="cals:title">
-	  <xsl:for-each select="cals:title[1]">
-	    <w:p>
-	      <w:pPr>
-		<w:pStyle>
-		  <xsl:attribute name="w:val">Tabletitle</xsl:attribute>
-		</w:pStyle>
-	      </w:pPr>
-	      <xsl:if test="not(normalize-space(.)='')">
-		<w:r>
-		  <w:t xml:space="preserve">— </w:t>
-		</w:r>
-	      </xsl:if>
-	      <xsl:apply-templates/>
-	    </w:p>
-	  </xsl:for-each>
-	  <xsl:for-each
-	      select="preceding-sibling::tei:p[@rend='Table units']">
-	    <w:p>
-	      <w:pPr>
-		<w:pStyle>
-		  <xsl:attribute name="w:val">Tableunits</xsl:attribute>
-		</w:pStyle>
-	      </w:pPr>
-	      <xsl:apply-templates/>
-	    </w:p>
-	  </xsl:for-each>
-	</xsl:if>
+      <xsl:if test="cals:title">
+	<xsl:for-each select="cals:title[1]">
+	  <w:p>
+	    <w:pPr>
+	      <w:pStyle>
+		<xsl:attribute name="w:val">Tabletitle</xsl:attribute>
+	      </w:pStyle>
+	    </w:pPr>
+	    <xsl:if test="not(normalize-space(.)='')">
+	      <w:r>
+		<w:t xml:space="preserve">— </w:t>
+	      </w:r>
+	    </xsl:if>
+	    <xsl:apply-templates/>
+	  </w:p>
+	</xsl:for-each>
+	<xsl:for-each
+	    select="preceding-sibling::tei:p[@rend='Table units']">
+	  <w:p>
+	    <w:pPr>
+	      <w:pStyle>
+		<xsl:attribute name="w:val">Tableunits</xsl:attribute>
+	      </w:pStyle>
+	    </w:pPr>
+	    <xsl:apply-templates/>
+	  </w:p>
+	</xsl:for-each>
+      </xsl:if>
     </xsl:template>
-
+    
     <xsl:template match="cals:tgroup">
         <xsl:variable name="TABLE">
             <xsl:copy>
 	      <xsl:attribute name="iso:style">
 		<xsl:copy-of select="ancestor::cals:table/@iso:style"/>
 	      </xsl:attribute>
+	      <xsl:copy-of select="@*"/>
                 <xsl:copy-of select="cals:colspec"/>
                 <xsl:for-each select="cals:tbody|cals:thead">
 		  <xsl:copy>
@@ -1724,20 +1772,55 @@
                             <xsl:for-each select="cals:entry">
                                 <xsl:copy>
                                     <xsl:copy-of select="@*"/>
-                                    <xsl:apply-templates mode="contents" select="."/>
+                                    <xsl:apply-templates
+					mode="contents" select="."/>
                                 </xsl:copy>
                                 <xsl:variable name="rows" select="@rowsep"/>
-                                <xsl:if test="@namest">
+                                <xsl:variable name="cols" select="@colsep"/>
+                                <xsl:choose>
+				  <xsl:when test="@namest and ancestor::cals:tgroup/cals:colspec[@colname=current()/@namest]">
                                     <xsl:variable name="start">
-                                        <xsl:value-of select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@namest]/@colnum"/>
+                                        <xsl:for-each
+					    select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@namest]">
+					  <xsl:choose>
+					    <xsl:when test="@colnum">
+					      <xsl:value-of
+						  select="@colnum"/>
+					      </xsl:when>
+					      <xsl:otherwise>
+						<xsl:number/>
+					      </xsl:otherwise>
+					  </xsl:choose>
+					</xsl:for-each>
                                     </xsl:variable>
+
                                     <xsl:variable name="end">
-                                        <xsl:value-of select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@nameend]/@colnum"/>
+				      <xsl:for-each select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@nameend]">
+					  <xsl:choose>
+					    <xsl:when test="@colnum">
+					      <xsl:value-of
+						  select="@colnum"/>
+					      </xsl:when>
+					      <xsl:otherwise>
+						<xsl:number/>
+					      </xsl:otherwise>
+					  </xsl:choose>
+					</xsl:for-each>
                                     </xsl:variable>
-                                    <xsl:for-each select="ancestor::cals:tgroup/cals:colspec[position()&gt;$start        and position()&lt;=$end]">
-                                        <cals:entry DUMMY="true" colname="{@colname}" rowsep="{$rows}"/>
+                                    <xsl:for-each select="ancestor::cals:tgroup/cals:colspec[position()&gt;$start and position()&lt;=$end]">
+                                        <cals:entry DUMMY="true"
+						    colname="{@colname}"
+						    colsep="{$cols}" rowsep="{$rows}"/>
                                     </xsl:for-each>
-                                </xsl:if>
+				  </xsl:when>
+				  <xsl:when test="@namest">
+				    <xsl:message
+					terminate="yes">ERROR Column <xsl:value-of select="@namest"/> 
+				    <xsl:text> referenced with @namest attribute </xsl:text>
+				    <xsl:text>is not named in the list of  &lt;colspec&gt; elements for this table</xsl:text>
+				  </xsl:message></xsl:when>
+
+				</xsl:choose>
                             </xsl:for-each>
                         </xsl:copy>
                     </xsl:for-each>
@@ -1745,21 +1828,26 @@
 		</xsl:for-each>
             </xsl:copy>
         </xsl:variable>
-	<!--
+<!--
 	<xsl:variable name="count">
 	  <xsl:number level="any"/>
 	</xsl:variable>
 	  <xsl:result-document indent="yes" href="/tmp/T{$count}.xml">
 	    <xsl:copy-of select="$TABLE"/>
 	  </xsl:result-document>
-	  -->
+-->
 	  <xsl:for-each select="$TABLE/cals:tgroup">
             <xsl:apply-templates/>
         </xsl:for-each>
     </xsl:template>
 
     <xsl:template match="cals:row">
-        <xsl:variable name="ROWPOS">
+      <xsl:variable name="borders">
+	<xsl:if test="@colsep='1' or (not(@colsep ='0') and ancestor::cals:tgroup/@colsep='1')">
+	  <w:left w:val="single" w:sz="1"/>
+	</xsl:if>
+      </xsl:variable>
+      <xsl:variable name="ROWPOS">
             <xsl:number/>
         </xsl:variable>
         <xsl:variable name="TEMPLATE">
@@ -1818,16 +1906,22 @@
 			  <xsl:with-param name="topEdge" select="$topEdge"/>
 			  <xsl:with-param name="bottomEdge" select="$bottomEdge"/>
 			  <xsl:with-param name="leftEdge" select="$leftEdge"/>
-			  <xsl:with-param name="rightEdge" select="$rightEdge"/>
+			  <xsl:with-param name="rightEdge"
+					  select="$rightEdge"/>
 			</xsl:apply-templates>
                     </xsl:when>
                     <xsl:otherwise>
-                        <w:tc>
-                            <w:tcPr>
-                                <w:vMerge/>
-                            </w:tcPr>
-                            <w:p> </w:p>
-                        </w:tc>
+		      <w:tc>
+			<w:tcPr>
+			  <w:vMerge/>
+			  <xsl:if test="$borders/w:left">
+			    <w:tcBorders>
+			      <xsl:copy-of select="$borders/w:left"/>
+			    </w:tcBorders>
+			  </xsl:if>
+			</w:tcPr>
+			<w:p>    </w:p>
+		      </w:tc>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
@@ -1840,35 +1934,52 @@
       <xsl:param name="leftEdge"/>
       <xsl:param name="rightEdge"/>
       <xsl:variable name="cellBorders">
-	<xsl:if test="@iso:style">
-	  <xsl:call-template name="undoTableBorderStyles">
-	    <xsl:with-param name="htmlStyles">
-	      <xsl:value-of select="@iso:style"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:if>
+	<xsl:call-template name="calculateTableBorders">
+	  <xsl:with-param name="htmlStyles">
+	    <xsl:value-of select="@iso:style"/>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:variable>
       <xsl:variable name="tableBorders">
-	<xsl:if test="ancestor::cals:tgroup/@iso:style">
-	  <xsl:call-template name="undoTableBorderStyles">
-	    <xsl:with-param name="htmlStyles">
-	      <xsl:value-of select="@iso:style"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:if>
+	<xsl:call-template name="calculateTableBorders">
+	  <xsl:with-param name="htmlStyles">
+	    <xsl:value-of select="ancestor::cals:tgroup/@iso:style"/>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:variable>
-      <xsl:variable name="colname" select="@colname"/>
 
+      <xsl:variable name="colname" select="@colname"/>
         <w:tc>
             <w:tcPr>
                 <xsl:if test="@namest">
-                    <xsl:variable name="start">
-                        <xsl:value-of select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@namest]/@colnum"/>
-                    </xsl:variable>
-                    <xsl:variable name="end">
-                        <xsl:value-of select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@nameend]/@colnum"/>
-                    </xsl:variable>
-                    <w:gridSpan w:val="{number($end)-number($start)+1}"/>
+		  <xsl:variable name="start">
+		    <xsl:for-each
+			select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@namest]">
+		      <xsl:choose>
+			<xsl:when test="@colnum">
+			  <xsl:value-of
+			      select="@colnum"/>
+			</xsl:when>
+			<xsl:otherwise>
+			  <xsl:number/>
+			</xsl:otherwise>
+		      </xsl:choose>
+		    </xsl:for-each>
+		  </xsl:variable>
+		  <xsl:variable name="end">
+		    <xsl:for-each select="ancestor::cals:tgroup/cals:colspec[@colname=current()/@nameend]">
+		      <xsl:choose>
+			<xsl:when test="@colnum">
+			  <xsl:value-of
+						  select="@colnum"/>
+			</xsl:when>
+			<xsl:otherwise>
+			  <xsl:number/>
+			</xsl:otherwise>
+		      </xsl:choose>
+		    </xsl:for-each>
+		  </xsl:variable>
+		  <w:gridSpan w:val="{number($end)-number($start)+1}"/>
                 </xsl:if>
                 <xsl:if test="@morerows">
                     <w:vMerge w:val="restart"/>
@@ -1981,58 +2092,58 @@
                     </w:vAlign>
                 </xsl:if>
             </w:tcPr>
-	        <xsl:copy-of select="*"/>
+	    <xsl:copy-of select="*"/>
         </w:tc>
     </xsl:template>
 
 
     <xsl:template match="cals:entry" mode="contents">
       <xsl:call-template name="block-element">
-	        <xsl:with-param name="pPr">
-	           <w:pPr>
-	              <xsl:choose>
-	                 <xsl:when test="@rend">
-		                   <xsl:variable name="sName">
-		                      <xsl:call-template name="getStyleName">
-		                         <xsl:with-param name="in" select="@rend"/>
-		                      </xsl:call-template>
-		                   </xsl:variable>
-		                   <xsl:choose>
-		                      <xsl:when test="$sName=''">
-		                         <w:pStyle w:val="{$TableText}"/>
-		                      </xsl:when>
-		                      <xsl:otherwise>
-		                         <w:pStyle w:val="{$sName}"/>
-		                      </xsl:otherwise>
-		                   </xsl:choose>
-	                 </xsl:when>
-	                 <xsl:otherwise>
-		                   <w:pStyle w:val="{$TableText}"/>
-	                 </xsl:otherwise>
-	              </xsl:choose>
-	              <xsl:choose>
-	                 <xsl:when test="@align">
-		                   <w:jc w:val="{@align}"/>
-	                 </xsl:when>
-	                 <xsl:when test="parent::tei:row[@role='label']    or @role='label'">
-		                   <w:jc w:val="left"/>
-	                 </xsl:when>
-	                 <xsl:when test="starts-with(.,'[0-9]')">
-		                   <w:jc w:val="right"/>
-	                 </xsl:when>
-	                 <xsl:otherwise>
-		                   <w:jc w:val="left"/>
-	                 </xsl:otherwise>
-	              </xsl:choose>
-	           </w:pPr>
-	        </xsl:with-param>
-	        <xsl:with-param name="nop">
-	           <xsl:choose>
-	              <xsl:when test="not(text()) and tei:note[(not(@place))]">true</xsl:when>
-	              <xsl:when test="not(text()) and tei:note[@place='foot']">true</xsl:when>
-	              <xsl:otherwise>false</xsl:otherwise>
-	           </xsl:choose>
-	        </xsl:with-param>
+	<xsl:with-param name="pPr">
+	  <w:pPr>
+	    <xsl:choose>
+	      <xsl:when test="@rend">
+		<xsl:variable name="sName">
+		  <xsl:call-template name="getStyleName">
+		    <xsl:with-param name="in" select="@rend"/>
+		  </xsl:call-template>
+		</xsl:variable>
+		<xsl:choose>
+		  <xsl:when test="$sName=''">
+		    <w:pStyle w:val="{$TableText}"/>
+		  </xsl:when>
+		  <xsl:otherwise>
+		    <w:pStyle w:val="{$sName}"/>
+		  </xsl:otherwise>
+		</xsl:choose>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<w:pStyle w:val="{$TableText}"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:choose>
+	      <xsl:when test="@align">
+		<w:jc w:val="{@align}"/>
+	      </xsl:when>
+	      <xsl:when test="parent::tei:row[@role='label']    or @role='label'">
+		<w:jc w:val="left"/>
+	      </xsl:when>
+	      <xsl:when test="starts-with(.,'[0-9]')">
+		<w:jc w:val="right"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<w:jc w:val="left"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </w:pPr>
+	</xsl:with-param>
+	<xsl:with-param name="nop">
+	  <xsl:choose>
+	    <xsl:when test="not(text()) and tei:note[(not(@place))]">true</xsl:when>
+	    <xsl:when test="not(text()) and tei:note[@place='foot']">true</xsl:when>
+	    <xsl:otherwise>false</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:with-param>
       </xsl:call-template>
 
       <!-- If we have no children, put an empty p here -->

@@ -4,18 +4,40 @@
     <desc>
       <p> TEI Utility stylesheet defining functions for use in all
 	 output formats.</p>
-      <p> This library is free software; you can redistribute it and/or
-            modify it under the terms of the GNU Lesser General Public License as
-            published by the Free Software Foundation; either version 2.1 of the
-            License, or (at your option) any later version. This library is
-            distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-            without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-            PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-            details. You should have received a copy of the GNU Lesser General Public
-            License along with this library; if not, write to the Free Software
-            Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: functions.xsl 9480 2011-10-09 22:56:09Z rahtz $</p>
+      <p>Id: $Id: functions.xsl 9833 2011-11-27 23:12:23Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
@@ -223,7 +245,9 @@
         <xsl:when test="self::tei:ptr">true</xsl:when>
         <xsl:when test="self::tei:publisher">true</xsl:when>
         <xsl:when test="self::tei:pubPlace">true</xsl:when>
-        <xsl:when test="self::tei:q[*]">false</xsl:when>
+        <xsl:when test="self::tei:q[tei:l]">false</xsl:when>
+        <xsl:when test="self::tei:q[tei:figure or tei:p or tei:note or
+			tei:bibl or tei:sp or tei:floatingText]">false</xsl:when>
         <xsl:when test="self::tei:q">true</xsl:when>
         <xsl:when test="self::tei:said">true</xsl:when>
         <xsl:when test="self::tei:ref">true</xsl:when>
@@ -269,6 +293,7 @@
 	<xsl:when test="parent::tei:note[@place='foot'] and self::tei:gap">false</xsl:when>
 	<xsl:when test="parent::tei:note[@place='foot' or @place='bottom']">true</xsl:when>
 	<xsl:when test="parent::tei:body">true</xsl:when>
+	<xsl:when test="tei:floatingText">true</xsl:when>
 	<xsl:when test="parent::tei:div">true</xsl:when>
 	<xsl:when test="parent::tei:titlePage">true</xsl:when>
 	<xsl:otherwise>false</xsl:otherwise>

@@ -20,16 +20,40 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
          <p> TEI stylesheet for making TEI Lite XML from ODD </p>
-         <p> This library is free software; you can redistribute it and/or modify it under the
-      terms of the GNU Lesser General Public License as published by the Free Software Foundation;
-      either version 2.1 of the License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
-      implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
-      General Public License for more details. You should have received a copy of the GNU Lesser
-      General Public License along with this library; if not, write to the Free Software Foundation,
-      Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+         <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: odd2lite.xsl 9424 2011-09-29 20:23:49Z rahtz $</p>
+         <p>Id: $Id: odd2lite.xsl 9669 2011-11-07 19:17:54Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -51,7 +75,7 @@
   <xsl:param name="rowName">row</xsl:param>
   <xsl:param name="tableName">table</xsl:param>
   <xsl:param name="sectionName">div</xsl:param>
-  <xsl:param name="divName">seg</xsl:param>
+  <xsl:param name="divName">ab</xsl:param>
   <xsl:param name="segName">seg</xsl:param>
   <xsl:param name="outputNS">http://www.tei-c.org/ns/1.0</xsl:param>
   <xsl:param name="startAttribute"/>
@@ -66,7 +90,7 @@
   <xsl:param name="endElementName"/>
   <xsl:param name="startNamespace"/>
   <xsl:param name="endNamespace"/>
-  <xsl:param name="spaceCharacter"> </xsl:param>
+  <xsl:param name="spaceCharacter">&#160;</xsl:param>
   <xsl:param name="oddmode">tei</xsl:param>
   <xsl:param name="displayMode">rnc</xsl:param>
   <xsl:param name="splitLevel">-1</xsl:param>
@@ -131,6 +155,9 @@
       <xsl:choose>
          <xsl:when test="not($body='')">
             <tei:ref target="#{$W}">
+	      <xsl:if test="$class">
+		<xsl:attribute name="rend" select="$class"/>
+	      </xsl:if>
                <xsl:value-of select="$body"/>
             </tei:ref>
          </xsl:when>
@@ -168,23 +195,7 @@
          <xsl:message> refdoc for <xsl:value-of select="name(.)"/> - <xsl:value-of select="@ident"/>
          </xsl:message>
       </xsl:if>
-      <xsl:variable name="objectname">
-         <xsl:choose>
-            <xsl:when test="tei:altIdent">
-               <xsl:value-of select="tei:altIdent"/>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:value-of select="@ident"/>
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:variable>
-      <xsl:variable name="name">
-         <xsl:value-of select="$objectname"/>
-      </xsl:variable>
       <xsl:choose>
-         <xsl:when test="$TEIC='true' and @ident='att.global'">
-            <xsl:apply-templates mode="weavebody" select="."/>
-	 </xsl:when>
          <xsl:when test="self::tei:classSpec and  count(key('CLASSMEMBERS',@ident))=0">
             <xsl:if test="$verbose='true'">
                <xsl:message> class <xsl:value-of select="@ident"/> omitted as it has no members
@@ -196,6 +207,7 @@
          </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
+
   <xsl:template name="makeAnchor">
       <xsl:param name="name"/>
   </xsl:template>
@@ -209,46 +221,7 @@
          <xsl:copy-of select="$text"/>
       </code>
   </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-      <desc>[odds] make a link<param name="class">class</param>
-         <param name="id">id</param>
-         <param name="name">name</param>
-         <param name="text">text</param>
-      </desc>
-   </doc>
-  <xsl:template name="makeLink">
-      <xsl:param name="class"/>
-      <xsl:param name="name"/>
-      <xsl:param name="text"/>
-      <ref>
-         <xsl:attribute name="target">
-            <xsl:choose>
-               <xsl:when test="number($splitLevel)=-1">
-                  <xsl:text>#</xsl:text>
-                  <xsl:value-of select="$name"/>
-               </xsl:when>
-               <xsl:when test="$STDOUT='true'">
-                  <xsl:for-each select="key('IDENTS',$name)">
-                     <xsl:call-template name="getSpecURL">
-                        <xsl:with-param name="name">
-                           <xsl:value-of select="$name"/>
-                        </xsl:with-param>
-                        <xsl:with-param name="type">
-                           <xsl:value-of select="substring-before(local-name(),'Spec')"/>
-                        </xsl:with-param>
-                     </xsl:call-template>
-                  </xsl:for-each>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:text>ref-</xsl:text>
-                  <xsl:value-of select="$name"/>
-                  <xsl:value-of select="$outputSuffix"/>
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:attribute>
-         <xsl:copy-of select="$text"/>
-      </ref>
-  </xsl:template>
+
   <xsl:template name="makeSectionHead">
       <xsl:param name="name"/>
       <xsl:param name="id"/>
@@ -305,6 +278,9 @@
          </xsl:choose>
       </xsl:variable>
       <ref target="#{$partialname}">
+	<xsl:if test="$class">
+	  <xsl:attribute name="rend" select="$class"/>
+	</xsl:if>
          <xsl:choose>
             <xsl:when test="$reftext=''">
                <xsl:value-of select="$name"/>
@@ -404,7 +380,7 @@
                </term>
                <xsl:for-each select=".//tei:attDef">
                   <index indexName="ODDS">
-                     <term sortBy="{@ident}">
+                     <term sortKey="{@ident}">
                         <xsl:text>@</xsl:text>
                         <xsl:value-of select="@ident"/>
                      </term>
@@ -412,14 +388,14 @@
                </xsl:for-each>
             </xsl:when>
             <xsl:when test="local-name()='elementSpec'">
-               <term sortBy="{$name}">
+               <term sortKey="{$name}">
                   <xsl:text>&lt;</xsl:text>
                   <xsl:value-of select="$name"/>
                   <xsl:text>&gt;</xsl:text>
                </term>
                <xsl:for-each select=".//tei:attDef">
                   <index indexName="ODDS">
-                     <term sortBy="{@ident}">
+                     <term sortKey="{@ident}">
                         <xsl:text>@</xsl:text>
                         <xsl:value-of select="@ident"/>
                      </term>
@@ -471,14 +447,12 @@
 	   </div>
 	 </xsl:when>
          <xsl:otherwise>
-	   <xsl:if test="tei:macroSpec">
-	     <div>
-	       <head>Macros</head>
-	       <xsl:apply-templates mode="weave" select="tei:macroSpec">
-		 <xsl:sort select="@ident"/>
-	       </xsl:apply-templates>
-	     </div>
-	   </xsl:if>
+	   <div>
+	     <head>Elements</head>
+	     <xsl:apply-templates mode="weave" select="tei:elementSpec">
+	       <xsl:sort select="@ident"/>
+	     </xsl:apply-templates>
+	   </div>
 	   <xsl:if test="tei:classSpec[@type='model']">
 	     <div>
 	       <head>Model classes</head>
@@ -495,17 +469,20 @@
 	       </xsl:apply-templates>
 	     </div>
 	   </xsl:if>
-	   <div>
-	     <head>Elements</head>
-	     <xsl:apply-templates mode="weave" select="tei:elementSpec">
-	       <xsl:sort select="@ident"/>
-	     </xsl:apply-templates>
-	   </div>
+	   <xsl:if test="tei:macroSpec">
+	     <div>
+	       <head>Macros</head>
+	       <xsl:apply-templates mode="weave" select="tei:macroSpec">
+		 <xsl:sort select="@ident"/>
+	       </xsl:apply-templates>
+	     </div>
+	   </xsl:if>
 	 </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
 
   <xsl:template name="applyRendition"/>
+
 
   <xsl:template match="tei:gloss" mode="inLanguage">
       <seg>
@@ -530,6 +507,12 @@
 
   <xsl:template name="makeSpan">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="tei:listRef" mode="weave"/>
+
+  <xsl:template match="tei:ref" mode="weave" priority="9">
+    <xsl:copy-of select="."/>
   </xsl:template>
 
 </xsl:stylesheet>

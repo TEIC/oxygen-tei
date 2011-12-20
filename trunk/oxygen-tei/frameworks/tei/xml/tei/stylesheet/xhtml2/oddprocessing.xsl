@@ -19,18 +19,40 @@
     <desc>
       <p> TEI stylesheet dealing with elements from the tagdocs module,
       making HTML output. </p>
-      <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: oddprocessing.xsl 9500 2011-10-15 10:51:40Z rahtz $</p>
+      <p>Id: $Id: oddprocessing.xsl 9966 2011-12-16 20:15:28Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -164,6 +186,7 @@
             </head>
             <body id="TOP">
               <xsl:call-template name="bodyMicroData"/>
+              <xsl:call-template name="bodyHook"/>
               <xsl:call-template name="guidelinesTop">
                 <xsl:with-param name="name">
                   <xsl:value-of select="$name"/>
@@ -190,47 +213,6 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>[html] make a link<param name="class">class</param>
-         <param name="id">id</param>
-         <param name="name">name</param>
-         <param name="text">text</param>
-      </desc>
-  </doc>
-  <xsl:template name="makeLink">
-    <xsl:param name="class"/>
-    <xsl:param name="name"/>
-    <xsl:param name="text"/>
-    <a class="{$class}">
-      <xsl:attribute name="href">
-        <xsl:choose>
-          <xsl:when test="number($splitLevel)=-1">
-            <xsl:text>#</xsl:text>
-            <xsl:value-of select="$name"/>
-          </xsl:when>
-          <xsl:when test="$STDOUT='true'">
-            <xsl:for-each select="key('IDENTS',$name)">
-              <xsl:call-template name="getSpecURL">
-                <xsl:with-param name="name">
-                  <xsl:value-of select="$name"/>
-                </xsl:with-param>
-                <xsl:with-param name="type">
-                  <xsl:value-of select="substring-before(local-name(),'Spec')"/>
-                </xsl:with-param>
-              </xsl:call-template>
-            </xsl:for-each>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>ref-</xsl:text>
-            <xsl:value-of select="$name"/>
-            <xsl:value-of select="$outputSuffix"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:attribute>
-      <xsl:copy-of select="$text"/>
-    </a>
-  </xsl:template>
-
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>[html] Provide a footer for each reference document</desc>
   </doc>
@@ -729,58 +711,6 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template match="tei:listRef" mode="weave"/>
-  <xsl:template match="tei:ptr" mode="weave">
-    <xsl:choose>
-      <xsl:when test="ancestor::tei:remarks or ancestor::tei:listRef or ancestor::tei:valDesc">
-        <xsl:choose>
-          <xsl:when test="starts-with(@target,'#') and id(substring(@target,2))">
-            <xsl:call-template name="makeInternalLink">
-              <xsl:with-param name="target" select="substring(@target,2)"/>
-              <xsl:with-param name="ptr" select="true()"/>
-              <xsl:with-param name="dest">
-                <xsl:call-template name="generateEndLink">
-                  <xsl:with-param name="where">
-                    <xsl:value-of select="substring(@target,2)"/>
-                  </xsl:with-param>
-                </xsl:call-template>
-              </xsl:with-param>
-            </xsl:call-template>
-          </xsl:when>
-          <xsl:when test="starts-with(@target,'#')">
-            <xsl:variable name="Chapter">
-              <xsl:value-of select="substring(@target,2,2)"/>
-            </xsl:variable>
-            <xsl:choose>
-              <xsl:when test="$Chapter='AB' or        $Chapter='AI' or        $Chapter='CC' or        $Chapter='CE' or        $Chapter='CH' or        $Chapter='CO' or        $Chapter='DI' or        $Chapter='DR' or        $Chapter='DS' or        $Chapter='FS' or        $Chapter='FT' or        $Chapter='GD' or        $Chapter='HD' or        $Chapter='MS' or        $Chapter='ND' or        $Chapter='NH' or        $Chapter='PH' or        $Chapter='SA' or        $Chapter='SG' or        $Chapter='ST' or        $Chapter='TC' or        $Chapter='TD' or        $Chapter='TS' or        $Chapter='USE' or        $Chapter='VE' or        $Chapter='WD'">
-                <xsl:call-template name="makeExternalLink">
-                  <xsl:with-param name="ptr" select="true()"/>
-                  <xsl:with-param name="dest">
-                    <xsl:text>http://www.tei-c.org/release/doc/tei-p5-doc/</xsl:text>
-                    <xsl:value-of select="$documentationLanguage"/>
-                    <xsl:text>/html/</xsl:text>
-                    <xsl:value-of select="$Chapter"/>
-                    <xsl:text>.html</xsl:text>
-                    <xsl:value-of select="@target"/>
-                  </xsl:with-param>
-                </xsl:call-template>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:text>«</xsl:text>
-                <xsl:value-of select="@target"/>
-                <xsl:text>»</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-imports/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-imports/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
   <xsl:template match="tei:elementSpec[@mode='delete']" mode="weave"/>
   <xsl:template match="a:documentation" mode="verbatim"/>
   <xsl:template match="tei:ptr[@type='cit']">
@@ -969,7 +899,7 @@
               <xsl:for-each select="key('ATT-CLASS-ALPHA',$letter)">
                 <xsl:sort select="translate(substring-after(@ident,'att.'),$lc,$uc)"/>
                 <li>
-		  <call-template name="refDocLink"/>
+		  <xsl:call-template name="refDocLink"/>
 		</li>
               </xsl:for-each>
             </ul>
@@ -992,7 +922,7 @@
             </h3>
             <xsl:for-each
 		select="key('ATT-CLASS-MODULE',@module)">
-	      <call-template name="refDocLink"/>
+	      <xsl:call-template name="refDocLink"/>
             </xsl:for-each>
           </div>
         </xsl:if>

@@ -41,7 +41,7 @@
 		  xpath-default-namespace="http://www.tei-c.org/ns/1.0"
 		  xmlns:XSL="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:import href="../tools2/getfiles.xsl"/>
+    <xsl:import href="../tools/getfiles.xsl"/>
 
     <XSL:for-each select="distinct-values(//equiv/@filter)">
 	<xsl:import href="{.}"/>  
