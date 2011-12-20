@@ -15,7 +15,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-        Id: $Id: build-to.xml 9323 2011-09-15 16:58:40Z rahtz $
+        Id: $Id: build-to.xml 9875 2011-12-04 18:27:43Z rahtz $
         Copyright: 2011, TEI Consortium<
 -->
   <!--
@@ -29,58 +29,20 @@
   <property name="profile" value="default"/>
   <!-- where does oxygen keep stuff -->
   <property name="oxygenlib" value=""/>
-  <!-- Oxygen patch: Make visible the defaultSource transformation parameter from ODD2ODD -->
-  <property name="defaultSource" value=""/>
   <!-- Stylesheet for transformation -->
   <property name="stylesheetFile"
 	    value="../profiles/${profile}/epub/to.xsl"/>
-  <property name="listgraphics" value="../tools2/makegraphicsanttask.xsl"/>
-  <property name="odd2oddxsl" value="../odds2/odd2odd.xsl"/>
-  <property name="odd2litexsl" value="../odds2/odd2lite.xsl"/>
+  <property name="listgraphics" value="../tools/makegraphicsanttask.xsl"/>
   <dirname property="inputFileDir" file="${inputFile}"/>
   <dirname property="outputDir" file="${outputFile}"/>
   <property name="outputTempDir" value="${outputDir}/temp-dir-for-ant"/>
   <path id="classpath">
     <pathelement path="${java.class.path}"/>
   </path>
-  <!--  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>-->
-  <condition property="processODD">
-    <equals arg1="${odd}" arg2="true"/>
-  </condition>
+  <import file="../odds2/build-to.xml"/>
   <target name="setup">
     <delete dir="${outputTempDir}"/>
     <mkdir dir="${outputTempDir}"/>
-  </target>
-  <target name="notodd" unless="processODD">
-    <copy file="${inputFile}" tofile="${outputTempDir}/tmp2.xml" overwrite="true"/>
-  </target>
-  <target name="odd" if="processODD">
-    <echo>Do ODD processing</echo>
-    <xslt force="yes" style="${odd2oddxsl}" in="${inputFile}" out="${outputTempDir}/tmp1.xml" classpath="classpath">
-      <xmlcatalog>
-        <catalogpath>
-          <pathelement location="../../../../catalog.xml"/>
-          <pathelement location="../../../../../xhtml11/dtd/xhtmlcatalog.xml"/>
-        </catalogpath>
-      </xmlcatalog>
-      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygenlib}/saxon9ee.jar"/>
-      <param name="lang" expression="${lang}" if="lang"/>
-      <param name="verbose" expression="${verbose}" if="verbose"/>
-      <param name="defaultSource" expression="${defaultSource}" if="defaultSource"/>
-    </xslt>
-    <xslt force="yes" style="${odd2litexsl}" in="${outputTempDir}/tmp1.xml" out="${outputTempDir}/tmp2.xml" classpath="classpath">
-      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <classpath location="${oxygenlib}/saxon9ee.jar"/>
-      <xmlcatalog>
-        <catalogpath>
-          <pathelement location="../../../../catalog.xml"/>
-          <pathelement location="../../../../../xhtml11/dtd/xhtmlcatalog.xml"/>
-        </catalogpath>
-      </xmlcatalog>
-      <param name="displayMode" expression="rnc"/>
-      <param name="summaryDoc" expression="true"/>
-    </xslt>
   </target>
   <target name="dist" depends="setup,odd,notodd,convert,cleanup"/>
 

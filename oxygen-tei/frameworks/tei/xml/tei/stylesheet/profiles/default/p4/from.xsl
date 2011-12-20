@@ -7,18 +7,40 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
 
-         <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+         <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: from.xsl 8885 2011-05-03 20:01:11Z rahtz $</p>
+         <p>Id: $Id: from.xsl 9953 2011-12-15 12:03:04Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -29,7 +51,7 @@
        
        Sebastian Rahtz <sebastian.rahtz@oucs.ox.ac.uk>
        
-       $Date: 2011-05-03 21:01:11 +0100 (Tue, 03 May 2011) $  $Id: from.xsl 8885 2011-05-03 20:01:11Z rahtz $
+       $Date: 2011-12-15 12:03:04 +0000 (Thu, 15 Dec 2011) $  $Id: from.xsl 9953 2011-12-15 12:03:04Z rahtz $
        
   -->
   <xsl:output method="xml" encoding="utf-8"
@@ -368,6 +390,13 @@
     </xsl:attribute>
   </xsl:template>
 
+ <!-- word key -->
+  <xsl:template match="entryFree/@key">
+    <xsl:attribute name="sortKey">
+      <xsl:value-of select="."/>
+    </xsl:attribute>
+  </xsl:template>
+
   <!-- tagsDecl has a compulsory namespace child now -->
   <xsl:template match="tagsDecl">
     <xsl:if test="*">
@@ -532,6 +561,18 @@
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
+
+  <xsl:template match="xptr/@to">
+      <xsl:attribute name="target">
+	<xsl:value-of select="."/>
+      </xsl:attribute>
+  </xsl:template>
+  
+  <xsl:template match="interp/@value">
+      <xsl:attribute name="inst">
+	<xsl:value-of select="."/>
+      </xsl:attribute>
+  </xsl:template>
   
   
   <xsl:template match="@default">
@@ -678,29 +719,12 @@
 
 <!-- deal with the loss of div0 -->  
 
-  <xsl:template match="div1|div2|div3|div4|div5|div6">
-    <xsl:variable name="divName">
-    <xsl:choose>
-      <xsl:when test="ancestor::div0">
-	<xsl:text>div</xsl:text>
-	<xsl:value-of select="number(substring-after(local-name(.),'div')) + 1"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:value-of select="local-name()"/>
-      </xsl:otherwise>
-    </xsl:choose>
-    </xsl:variable>
-    <xsl:element name="{$divName}" namespace="http://www.tei-c.org/ns/1.0">
+  <xsl:template match="div0|div1|div2|div3|div4|div5|div6">
+    <xsl:element name="div" namespace="http://www.tei-c.org/ns/1.0">
       <xsl:apply-templates select="*|@*|processing-instruction()|comment()|text()"/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="div0">
-    <div1>
-    <xsl:apply-templates 
-	select="*|@*|processing-instruction()|comment()|text()"/>
-    </div1>
-  </xsl:template>
 
 <!-- from Conal Tuohy -->
 <xsl:template match="orig[@reg]">
@@ -746,6 +770,15 @@
         select="*|@*|processing-instruction()|comment()|text()"/>
     </cesDoc>
 </xsl:template>
+
+<!-- found in Perseus -->
+
+  <xsl:template match="lg1|lg2|lg3|lg4">
+    <lg>
+    <xsl:apply-templates 
+        select="*|@*|processing-instruction()|comment()|text()"/>
+    </lg>
+  </xsl:template>
 
 <!-- from OTA DTD -->
   <xsl:template match="spkr">

@@ -18,16 +18,40 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
     <desc>
       <p> TEI stylesheet for processing TEI ODD markup </p>
-      <p> This library is free software; you can redistribute it and/or modify it under the terms of
-        the GNU Lesser General Public License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version. This library is
-        distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
-        implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
-        General Public License for more details. You should have received a copy of the GNU Lesser
-        General Public License along with this library; if not, write to the Free Software
-        Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: teiodds.xsl 9480 2011-10-09 22:56:09Z rahtz $</p>
+      <p>Id: $Id: teiodds.xsl 9861 2011-12-02 00:05:30Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -618,7 +642,9 @@ select="$makeDecls"/></xsl:message>
               <xsl:choose>
                 <xsl:when test="$type='sequence'">
                   <xsl:for-each select="key('CLASSMEMBERS',$thisClass)">
-                    <xsl:apply-templates select="." mode="classmember">
+                    <xsl:apply-templates select="."
+					 mode="classmember">
+                      <xsl:with-param name="theClass" select="$thisClass"/>
                       <xsl:with-param name="suffix" select="$type"/>
                     </xsl:apply-templates>
                   </xsl:for-each>
@@ -626,7 +652,8 @@ select="$makeDecls"/></xsl:message>
                 <xsl:when test="$type='sequenceOptional'">
                   <xsl:for-each select="key('CLASSMEMBERS',$thisClass)">
                     <optional>
-                      <xsl:apply-templates select="." mode="classmember">
+                      <xsl:apply-templates select="."  mode="classmember">
+			<xsl:with-param name="theClass" select="$thisClass"/>
                         <xsl:with-param name="suffix" select="$type"/>
                       </xsl:apply-templates>
                     </optional>
@@ -636,7 +663,8 @@ select="$makeDecls"/></xsl:message>
                 <xsl:when test="$type='sequenceRepeatable'">
                   <xsl:for-each select="key('CLASSMEMBERS',$thisClass)">
                     <oneOrMore>
-                      <xsl:apply-templates select="." mode="classmember">
+                      <xsl:apply-templates select="."  mode="classmember">
+			<xsl:with-param name="theClass" select="$thisClass"/>		   
                         <xsl:with-param name="suffix" select="$type"/>
                       </xsl:apply-templates>
                     </oneOrMore>
@@ -648,6 +676,7 @@ select="$makeDecls"/></xsl:message>
                     <zeroOrMore>
                       <xsl:apply-templates select="." mode="classmember">
                         <xsl:with-param name="suffix" select="$type"/>
+			<xsl:with-param name="theClass" select="$thisClass"/>
                       </xsl:apply-templates>
                     </zeroOrMore>
                   </xsl:for-each>
@@ -658,6 +687,7 @@ select="$makeDecls"/></xsl:message>
                     <xsl:for-each select="key('CLASSMEMBERS',$thisClass)">
                       <xsl:apply-templates select="." mode="classmember">
                         <xsl:with-param name="suffix" select="$type"/>
+			<xsl:with-param name="theClass" select="$thisClass"/>
                       </xsl:apply-templates>
                     </xsl:for-each>
                   </choice>
@@ -765,6 +795,17 @@ select="$makeDecls"/></xsl:message>
   </xsl:template>
 
   <xsl:template match="tei:elementSpec" mode="classmember">
+    <xsl:param name="theClass"/>
+
+    <xsl:variable name="min" select="tei:classes/tei:memberOf[@key=$theClass]/@min"/>
+    <xsl:variable name="max" select="tei:classes/tei:memberOf[@key=$theClass]/@max"/>
+
+    <xsl:variable name="mini" as="xs:integer">
+      <xsl:choose>
+        <xsl:when test="not($min castable as xs:integer)">1</xsl:when>
+        <xsl:otherwise><xsl:value-of select="$min"/></xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:variable name="elementPrefix">
       <xsl:choose>
         <xsl:when test="@prefix">
@@ -775,7 +816,31 @@ select="$makeDecls"/></xsl:message>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="{$elementPrefix}{@ident}"/>
+    <xsl:variable name="ident" select="@ident"/>
+    
+    <xsl:for-each select="for $i in 1 to $mini return $i">
+      <ref xmlns="http://relaxng.org/ns/structure/1.0" name="{$elementPrefix}{$ident}"/>
+    </xsl:for-each> 
+    <xsl:choose>
+      <xsl:when test="$max='unbounded'">
+        <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0">
+          <ref xmlns="http://relaxng.org/ns/structure/1.0" name="{$elementPrefix}{$ident}"/>
+        </zeroOrMore>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="maxi" as="xs:integer">
+          <xsl:choose>
+            <xsl:when test="not($max castable as xs:integer)">1</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$max"/></xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:for-each select="for $i in ($mini+1) to $maxi return $i">
+          <optional xmlns="http://relaxng.org/ns/structure/1.0">
+            <ref xmlns="http://relaxng.org/ns/structure/1.0" name="{$elementPrefix}{$ident}"/>
+          </optional>
+        </xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose> 
   </xsl:template>
 
   <xsl:template match="tei:elementSpec" mode="tangle">

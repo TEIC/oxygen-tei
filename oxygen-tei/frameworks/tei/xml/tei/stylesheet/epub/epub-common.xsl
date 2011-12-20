@@ -5,24 +5,40 @@
       <p>
 	TEI stylesheet for making ePub output. 
       </p>
-      <p>
-	This library is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
-	
-	This library is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Lesser General Public License for more details.
-	
-	You should have received a copy of the GNU Lesser General Public
-	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-	
-      </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: epub-common.xsl 9411 2011-09-27 22:21:38Z rahtz $</p>
+      <p>Id: $Id: epub-common.xsl 9946 2011-12-13 17:36:05Z rahtz $</p>
       <p>Copyright: 2008, TEI Consortium</p>
     </desc>
   </doc>
@@ -166,6 +182,11 @@
   <xsl:template match="tei:lb[@rend='space']">
     <xsl:text> </xsl:text>
   </xsl:template>
+
+  <xsl:template match="tei:milestone[@unit='line']">
+    <xsl:text> </xsl:text>
+  </xsl:template>
+
   <xsl:template match="tei:titleStmt" mode="metadata">
     <h3>Title statement</h3>
     <xsl:apply-templates mode="metadata"/>
@@ -219,6 +240,17 @@
   <xsl:template match="tei:respStmt" mode="metadata">
     <p><i><xsl:value-of select="tei:resp"/></i>:
       <xsl:value-of select="tei:name"/></p>
+  </xsl:template>
+
+  <xsl:template match="tei:list" mode="metadata">
+    <ul>
+      <xsl:apply-templates mode="metadata"/>
+    </ul>
+  </xsl:template>
+  <xsl:template match="tei:item" mode="metadata">
+    <li>
+      <xsl:apply-templates mode="metadata"/>
+    </li>
   </xsl:template>
   <xsl:template match="tei:relatedItem[@target]" mode="metadata" priority="10">
     <a href="{@target}">
@@ -274,9 +306,16 @@
   <xsl:template match="tei:availability" mode="metadata">
     <dt>Availability</dt>
     <dd>
-        <xsl:apply-templates mode="metadata"/>
+      <xsl:apply-templates mode="metadata"/>
     </dd>
   </xsl:template>
+
+  <xsl:template match="tei:licence" mode="metadata">
+    <div>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
   <xsl:template match="tei:bibl/tei:title" mode="metadata" priority="99">
     <i>
       <xsl:apply-templates/>
@@ -316,9 +355,16 @@
     <xsl:value-of select="."/>
   </xsl:template>
   <xsl:template match="*" mode="metadata">
-    <p>
-      <xsl:apply-templates/>
-    </p>
+    <xsl:choose>
+      <xsl:when test="tei:p">
+	  <xsl:apply-templates/>
+      </xsl:when>
+      <xsl:otherwise>
+	<p>
+	  <xsl:apply-templates/>
+	</p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <xsl:template match="tei:seriesStmt/tei:p">
     <xsl:apply-templates/>
@@ -376,7 +422,7 @@
         <xsl:value-of select="@type"/>
 	<xsl:text>]</xsl:text>
       </xsl:when>
-      <xsl:otherwise> </xsl:otherwise>
+      <xsl:otherwise>&#160;</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 

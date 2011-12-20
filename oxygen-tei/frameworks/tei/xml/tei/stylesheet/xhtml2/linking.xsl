@@ -14,18 +14,40 @@
       <desc>
          <p> TEI stylesheet dealing with elements from the linking module,
       making HTML output. </p>
-         <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+         <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: linking.xsl 9448 2011-10-03 22:20:29Z rahtz $</p>
+         <p>Id: $Id: linking.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -141,7 +163,7 @@
          </xsl:when>
          <xsl:otherwise>
             <xsl:variable name="parent">
-               <xsl:call-template name="locateParentdiv"/>
+               <xsl:call-template name="locateParentDiv"/>
             </xsl:variable>
             <xsl:choose>
                <xsl:when test="$STDOUT='true'">
@@ -249,42 +271,10 @@
   </xsl:template>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-      <desc>[html] </desc>
-   </doc>
-  <xsl:template name="locateParent">
-      <xsl:choose>
-         <xsl:when test="self::tei:div">
-            <xsl:apply-templates mode="ident" select="ancestor::tei:div[last() - number($splitLevel) + 1]"/>
-         </xsl:when>
-         <xsl:when test="ancestor::tei:div">
-            <xsl:apply-templates mode="ident" select="ancestor::tei:div[last() - number($splitLevel)]"/>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:choose>
-               <xsl:when test="number($splitLevel) = 0">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div1"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 1">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div2|ancestor::tei:div1"/>
-	       </xsl:when>
-               <xsl:when test="number($splitLevel) = 2">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div3|ancestor::tei:div2"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 3">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div4|ancestor::tei:div3"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 4">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div5|ancestor::tei:div4"/>
-               </xsl:when>
-            </xsl:choose>
-         </xsl:otherwise>
-      </xsl:choose>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
       <desc>[html] Find the name of the outermost container for the
       current object which would create an output file</desc>
    </doc>
-  <xsl:template name="locateParentdiv">
+  <xsl:template name="locateParentDiv">
 
       <xsl:choose>
 
@@ -306,27 +296,31 @@
          </xsl:when>
 
          <xsl:when test="ancestor-or-self::tei:div">
-            <xsl:apply-templates mode="ident" select="ancestor::tei:div[last() - number($splitLevel)]"/>
+	   <xsl:variable name="ancestors" select="count(ancestor-or-self::tei:div)"/>
+	   <xsl:variable name="diff" select="$ancestors - number($splitLevel)"/>
+	   <xsl:variable name="what" select="if ($diff &lt;= 1) then 1
+					     else $diff "/>
+	   <xsl:apply-templates mode="ident" select="ancestor-or-self::tei:div[$what]"/>
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:choose>
-               <xsl:when test="number($splitLevel) = 0">
-                  <xsl:apply-templates mode="ident" select="ancestor::tei:div1"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 1">
-                  <xsl:apply-templates mode="ident" select="(ancestor::tei:div2|ancestor::tei:div1)[last()]"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 2">
-                  <xsl:apply-templates mode="ident" select="(ancestor::tei:div3|ancestor::tei:div2)[last()]"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 3">
-                  <xsl:apply-templates mode="ident" select="(ancestor::tei:div4|ancestor::tei:div3)[last()]"/>
-               </xsl:when>
-               <xsl:when test="number($splitLevel) = 4">
-                  <xsl:apply-templates mode="ident" select="(ancestor::tei:div5|ancestor::tei:div4)[last()]"/>
-               </xsl:when>
-            </xsl:choose>
+	   <xsl:variable name="ancestors" select="count(ancestor-or-self::tei:*[local-name()='div1'
+				 or local-name()='div2'
+				 or local-name()='div3'
+				 or local-name()='div4'
+				 or local-name()='div5'
+				 or local-name()='div6'])"/>
+	   <xsl:variable name="what"
+			 select="if
+				 ($ancestors &lt; number($splitLevel)) then 1 else
+				 $ancestors - number($splitLevel) + 1"/>
+            <xsl:apply-templates mode="ident"
+				 select="ancestor-or-self::tei:*[local-name()='div1'
+				 or local-name()='div2'
+				 or local-name()='div3'
+				 or local-name()='div4'
+				 or local-name()='div5'
+				 or local-name()='div6'][$what]"/>
          </xsl:otherwise>
       </xsl:choose>
 
@@ -475,6 +469,11 @@
 	     <xsl:choose>
 	       <xsl:when test="not($body='')">
 		 <xsl:value-of select="$body"/>
+	       </xsl:when>
+               <xsl:when test="$ptr and @type='footnote'">
+		 <xsl:text>[</xsl:text>
+		 <xsl:number level="any"/>
+		 <xsl:text>]</xsl:text>
 	       </xsl:when>
 	       <xsl:when test="$ptr and id($W)">
 		 <xsl:apply-templates mode="xref" select="id($W)">

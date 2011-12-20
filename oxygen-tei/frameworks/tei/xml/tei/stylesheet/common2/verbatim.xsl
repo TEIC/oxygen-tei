@@ -3,18 +3,40 @@
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
     <desc>
       <p> TEI stylesheet dealing with elements from the core module. </p>
-      <p> This library is free software; you can redistribute it and/or
-      modify it under the terms of the GNU Lesser General Public License as
-      published by the Free Software Foundation; either version 2.1 of the
-      License, or (at your option) any later version. This library is
-      distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-      without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-      PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-      details. You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the Free Software
-      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </p>
+      <p>This software is dual-licensed:
+
+1. Distributed under a Creative Commons Attribution-ShareAlike 3.0
+Unported License http://creativecommons.org/licenses/by-sa/3.0/ 
+
+2. http://www.opensource.org/licenses/BSD-2-Clause
+		
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+* Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such damage.
+</p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: verbatim.xsl 9329 2011-09-20 09:47:43Z rahtz $</p>
+      <p>Id: $Id: verbatim.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -34,7 +56,7 @@
   <xsl:param name="endAttributeValue">&lt;/span&gt;</xsl:param>
   <xsl:param name="startNamespace">&lt;span class="namespace"&gt;</xsl:param>
   <xsl:param name="endNamespace">&lt;/span&gt;</xsl:param>
-  <xsl:param name="spaceCharacter"> </xsl:param>
+  <xsl:param name="spaceCharacter">&#160;</xsl:param>
   <xsl:param name="showNamespaceDecls">true</xsl:param>
   <xsl:param name="forceWrap">false</xsl:param>
   <xsl:param name="wrapLength">65</xsl:param>
@@ -85,8 +107,7 @@
   </doc>
   <xsl:template name="verbatim-lineBreak">
     <xsl:param name="id"/>
-    <xsl:text>
-</xsl:text>
+    <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>
@@ -140,8 +161,7 @@
           </xsl:for-each>
         </xsl:variable>
         <xsl:if test="string-length(.)&gt;$wrapLength or parent::sch:assert">
-          <xsl:text>
-</xsl:text>
+          <xsl:text>&#10;</xsl:text>
           <xsl:value-of select="$indent"/>
         </xsl:if>
         <xsl:call-template name="verbatim-reformatText">
@@ -154,8 +174,7 @@
           </xsl:with-param>
         </xsl:call-template>
         <xsl:if test="string-length(.)&gt;$wrapLength or parent::sch:assert">
-          <xsl:text>
-</xsl:text>
+          <xsl:text>&#10;</xsl:text>
           <xsl:value-of select="$indent"/>
         </xsl:if>
       </xsl:when>
@@ -213,8 +232,7 @@
     <xsl:param name="sofar"/>
     <xsl:choose>
       <xsl:when test="number($sofar) &gt; $wrapLength">
-        <xsl:text>
-</xsl:text>
+        <xsl:text>&#10;</xsl:text>
         <xsl:value-of select="$indent"/>
         <xsl:call-template name="verbatim-reformatText">
           <xsl:with-param name="text">
@@ -668,7 +686,7 @@
           <xsl:call-template name="verbatim-lineBreak">
             <xsl:with-param name="id">22</xsl:with-param>
           </xsl:call-template>
-          <xsl:text>   </xsl:text>
+          <xsl:text>&#160;&#160;&#160;</xsl:text>
           <xsl:text>xmlns:</xsl:text>
           <xsl:value-of select="@name"/>
           <xsl:text>="</xsl:text>
