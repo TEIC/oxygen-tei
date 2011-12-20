@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="13.1" xml:space="preserve">
+<serialized version="13.2" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -1771,6 +1771,49 @@
 											</actionMode-array>
 										</field>
 									</action>
+									<action>
+										<field name="id">
+											<String>show.TEIp5.documentation</String>
+										</field>
+										<field name="name">
+											<String>Browse reference manual...</String>
+										</field>
+										<field name="description">
+											<String>Shows the current element documentation in TEI P5 reference manual</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>true()</String>
+													</field>
+													<field name="argValues">
+														<map>
+															<entry>
+																<String>URL pattern</String>
+																<String>http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-{Element_name}.html</String>
+															</entry>
+														</map>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.operations.ShowElementDocumentationOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
 								</action-array>
 							</field>
 							<field name="menubarDescriptor">
@@ -2057,6 +2100,12 @@
 													<String>generate.ids</String>
 												</field>
 											</menuItem>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>show.TEIp5.documentation</String>
+												</field>
+											</menuItem>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2275,6 +2324,7 @@
 						<String-array>
 							<String>${frameworks}/tei/xml/tei/custom/schema/catalog.xml</String>
 							<String>${frameworks}/tei/xml/tei/schema/catalog.xml</String>
+							<String>${frameworks}/tei/xml/tei/stylesheet/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
@@ -3244,6 +3294,9 @@
 					</field>
 					<field name="priority">
 						<Integer>2</Integer>
+					</field>
+					<field name="xmlNodeCustomizerExtension">
+						<null/>
 					</field>
 				</documentTypeDescriptor>
 			</documentTypeDescriptor-array>

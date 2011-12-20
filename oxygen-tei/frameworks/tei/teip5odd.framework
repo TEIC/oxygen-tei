@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="13.1" xml:space="preserve">
+<serialized version="13.2" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -3564,7 +3564,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 “
 									<null/>
 								</field>
 								<field name="name">
-									<String>TEI ODD to RelaxNG</String>
+									<String>TEI ODD to RelaxNG XML</String>
 								</field>
 								<field name="baseURL">
 									<null/>
@@ -4098,7 +4098,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 “
 									<null/>
 								</field>
 								<field name="name">
-									<String>TEI ODD to XSD</String>
+									<String>TEI ODD to XML Schema</String>
 								</field>
 								<field name="baseURL">
 									<null/>
@@ -4366,7 +4366,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 “
 									<null/>
 								</field>
 								<field name="name">
-									<String>TEI ODD to RNC</String>
+									<String>TEI ODD to RelaxNG Compact</String>
 								</field>
 								<field name="baseURL">
 									<null/>
@@ -4503,6 +4503,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 “
 					</field>
 					<field name="priority">
 						<Integer>2</Integer>
+					</field>
+					<field name="xmlNodeCustomizerExtension">
+						<null/>
 					</field>
 				</documentTypeDescriptor>
 			</documentTypeDescriptor-array>
