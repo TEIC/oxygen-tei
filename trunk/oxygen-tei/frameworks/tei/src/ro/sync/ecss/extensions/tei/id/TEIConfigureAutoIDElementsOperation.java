@@ -50,12 +50,16 @@
  */
 package ro.sync.ecss.extensions.tei.id;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.id.GenerateIDElementsInfo;
 
 
 /**
  * Operation used to insert a Link in TEI documents.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIConfigureAutoIDElementsOperation extends ro.sync.ecss.extensions.commons.id.ConfigureAutoIDElementsOperation {
   
   /**

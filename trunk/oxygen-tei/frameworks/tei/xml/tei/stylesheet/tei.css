@@ -1,7 +1,7 @@
 /* 
 ** Copyright 2011 TEI Consortium
 
-$Id: tei.css 9942 2011-12-13 16:53:25Z rahtz $
+$Id: tei.css 9995 2012-01-02 15:22:30Z rahtz $
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -496,8 +496,11 @@ img.display {
    margin-bottom: 10pt;
    display: block;
 }
-p.caption {
+.caption {
    font-style: italic;
+}
+span.caption {
+   display: block;
 }
 
 .floatimage {
@@ -783,7 +786,7 @@ span.titleu {
 span.titles {
 }
 
-span.margnote {
+span.margnote,div.margnote {
              display: block;
 	     font-size: smaller;
 	     clear: right;
@@ -1255,6 +1258,12 @@ span.normalweight{
 span.smallcaps{
     font-variant: small-caps;
 }
+span.bold{
+    font-weight: bold;
+}
+span.italic{
+    font-style:italic;
+}
 span.capsall{
     text-transform: uppercase;
 }
@@ -1268,8 +1277,8 @@ span.underline{
     text-decoration: underline;
 }
 span.underwavyline{
- text-decoration-line: underline;
-  text-decoration-style: wavy;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
 }
 span.underdoubleline{
     text-decoration: underline;

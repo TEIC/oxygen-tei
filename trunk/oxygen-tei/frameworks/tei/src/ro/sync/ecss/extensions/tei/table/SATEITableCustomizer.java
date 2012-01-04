@@ -53,6 +53,9 @@ package ro.sync.ecss.extensions.tei.table;
 import java.awt.Component;
 import java.awt.Frame;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
@@ -60,6 +63,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 /**
  * Customize a TEI table. It is used on standalone implementation.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATEITableCustomizer {
   /**
    * The last table info specified by the user. Session level persistence. 

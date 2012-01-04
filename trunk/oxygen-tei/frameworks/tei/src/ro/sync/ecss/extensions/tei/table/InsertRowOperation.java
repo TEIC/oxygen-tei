@@ -50,6 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
@@ -57,6 +60,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
 /**
  * Operation used to insert a table row for TEI documents. 
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class InsertRowOperation extends InsertRowOperationBase implements TEIConstants {
   
   /**

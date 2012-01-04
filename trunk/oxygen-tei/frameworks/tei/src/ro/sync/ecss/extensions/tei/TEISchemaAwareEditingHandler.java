@@ -54,6 +54,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.contentcompletion.xml.ContextElement;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -71,6 +74,7 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultsImpl;
  * Specific editing support for TEI documents. Handles typing and paste events inside list (a item with a para will be 
  * created and the typing/paste content be put inside it) and tables.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandlerAdapter {
   /** 
    * Logger for logging. 

@@ -40,7 +40,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: figures.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+         <p>Id: $Id: figures.xsl 9998 2012-01-02 18:27:15Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -112,7 +112,7 @@ of this software, even if advised of the possibility of such damage.
       <xsl:param name="mode">fo</xsl:param>
       <xsl:if test="@width">
          <xsl:choose>
-            <xsl:when test="contains(@width,'%')">
+            <xsl:when test="ends-with(@width,'%')">
                <xsl:choose>
                   <xsl:when test="$mode='fo'">
                      <xsl:attribute name="content-width">
@@ -134,20 +134,20 @@ of this software, even if advised of the possibility of such damage.
             <xsl:otherwise>
                <xsl:variable name="w">
                   <xsl:choose>
-                     <xsl:when test="contains(@width,'pt')">
+                     <xsl:when test="ends-with(@width,'pt')">
                         <xsl:value-of select="@width"/>
                      </xsl:when>
-                     <xsl:when test="contains(@width,'px') and $mode='latex'">
+                     <xsl:when test="ends-with(@width,'px') and $mode='latex'">
                         <xsl:value-of select="substring-before(@width,'px')"/>
                         <xsl:text>pt</xsl:text>
                      </xsl:when>
-                     <xsl:when test="contains(@width,'in')">
+                     <xsl:when test="ends-with(@width,'in')">
                         <xsl:value-of select="@width"/>
                      </xsl:when>
-                     <xsl:when test="contains(@width,'px')">
+                     <xsl:when test="ends-with(@width,'px')">
                         <xsl:value-of select="@width"/>
                      </xsl:when>
-                     <xsl:when test="contains(@width,'cm')">
+                     <xsl:when test="ends-with(@width,'cm')">
                         <xsl:value-of select="@width"/>
                      </xsl:when>
                      <xsl:otherwise>
@@ -173,7 +173,7 @@ of this software, even if advised of the possibility of such damage.
       </xsl:if>
       <xsl:if test="@height">
          <xsl:choose>
-            <xsl:when test="contains(@height,'%')">
+            <xsl:when test="ends-with(@height,'%')">
                <xsl:choose>
                   <xsl:when test="$mode='fo'">
                      <xsl:attribute name="content-height">
@@ -195,20 +195,20 @@ of this software, even if advised of the possibility of such damage.
             <xsl:otherwise>
                <xsl:variable name="h">
                   <xsl:choose>
-                     <xsl:when test="contains(@height,'pt')">
+                     <xsl:when test="ends-with(@height,'pt')">
                         <xsl:value-of select="@height"/>
                      </xsl:when>
-                     <xsl:when test="contains(@height,'px') and $mode='latex'">
+                     <xsl:when test="ends-with(@height,'px') and $mode='latex'">
                         <xsl:value-of select="substring-before(@height,'px')"/>
                         <xsl:text>pt</xsl:text>
                      </xsl:when>
-                     <xsl:when test="contains(@height,'in')">
+                     <xsl:when test="ends-with(@height,'in')">
                         <xsl:value-of select="@height"/>
                      </xsl:when>
-                     <xsl:when test="contains(@height,'px')">
+                     <xsl:when test="ends-with(@height,'px')">
                         <xsl:value-of select="@height"/>
                      </xsl:when>
-                     <xsl:when test="contains(@height,'cm')">
+                     <xsl:when test="ends-with(@height,'cm')">
                         <xsl:value-of select="@height"/>
                      </xsl:when>
                      <xsl:otherwise>
@@ -234,7 +234,7 @@ of this software, even if advised of the possibility of such damage.
       </xsl:if>
       <xsl:variable name="s">
          <xsl:choose>
-            <xsl:when test="@scale and contains(@scale,'%')">
+            <xsl:when test="@scale and ends-with(@scale,'%')">
                <xsl:value-of select="number(substring-before(@scale,'%')) div 100"/>
             </xsl:when>
             <xsl:when test="@scale">
