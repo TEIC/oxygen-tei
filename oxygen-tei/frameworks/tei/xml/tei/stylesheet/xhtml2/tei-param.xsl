@@ -42,7 +42,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tei-param.xsl 9669 2011-11-07 19:17:54Z rahtz $</p>
+         <p>Id: $Id: tei-param.xsl 9993 2012-01-02 14:30:13Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -518,12 +518,13 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</p>
   <xsl:param name="generateParagraphIDs">false</xsl:param>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="misc" type="string">
       <desc>     <p>Character separating values in a rend attribute.</p>
-         <p>Some projects use multiple values in <tt xmlns="http://www.w3.org/1999/xhtml">rend</tt>
-attributes. These are handled, but the separator character must
-be specified.</p>
+         <p>Some projects use multiple values in <tt
+         xmlns="http://www.w3.org/1999/xhtml">rend</tt>
+         attributes. These are handled, but the separator character(s)
+         must be specified.</p>
       </desc>
    </doc>
-  <xsl:param name="rendSeparator">;</xsl:param>
+  <xsl:param name="rendSeparator">; </xsl:param>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="misc" type="boolean">
       <desc>Show a title and author at start of document</desc>
 

@@ -56,7 +56,9 @@
 <!-- number paragraphs -->
   <xsl:template name="numberParagraph">
     <xsl:if test="ancestor::tei:body">
-      <xsl:number level="any" from="tei:body"/>
+      <span class="numberParagraph">      
+	<xsl:number level="any" from="tei:body"/>
+      </span>
     </xsl:if>
   </xsl:template>
 
@@ -70,8 +72,17 @@
 <xsl:template match="tei:hi[@rend='ul2']">
 <u style="border-bottom: 1px double #000"><xsl:apply-templates/></u>
 </xsl:template>
+
 <xsl:template match="tei:hi[@rend='ulw']">
 <u style="border-bottom: 1px dotted #000"><xsl:apply-templates/></u>
+</xsl:template>
+
+<xsl:template match="tei:hi[@rend='shadow']">
+<u style="background-color: gray"><xsl:apply-templates/></u>
+</xsl:template>
+
+<xsl:template match="tei:lb[@rend='indent']">
+<br/><xsl:text>    </xsl:text>
 </xsl:template>
 
 <!-- also weird list types -->
@@ -87,10 +98,38 @@
 </ul></xsl:template>
 
 <xsl:template match="tei:ref">
-  <span class="ref"><xsl:value-of select="."></xsl:value-of></span>
+  <span class="ref"><xsl:apply-templates/></span>
   <span class="contextaRef"><xsl:value-of select="@cRef"/></span>
-  
 </xsl:template>
+
+<xsl:template match="tei:corr">
+  <span class="corr"><xsl:apply-templates/></span>
+</xsl:template>
+
+<!-- add a space in front of surname inside author -->
+
+<xsl:template
+    match="tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/tei:surname">
+<xsl:text> </xsl:text>
+<xsl:apply-templates/>
+</xsl:template>
+
+  <xsl:template match="tei:div[@type='bibliography']">
+<div class="refs">
+<xsl:if test='not(tei:head)'>
+<h2><span class="head">References</span></h2>
+</xsl:if>
+      <xsl:apply-templates/>
+</div>  </xsl:template>
+
+  <xsl:template match="tei:div[@type='abstract']">
+<div class="abstract">
+<xsl:if test='not(tei:head)'>
+<h2><span class="head">Abstract</span></h2>
+</xsl:if>
+      <xsl:apply-templates/>
+</div>  </xsl:template>
+
 
 <!-- these seem to be inherited -->
     <xsl:template match="html:*">
@@ -108,8 +147,5 @@
       <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="tei:div[@type='illustration']">
-      <xsl:apply-templates/>
-  </xsl:template>
 
 </xsl:stylesheet>

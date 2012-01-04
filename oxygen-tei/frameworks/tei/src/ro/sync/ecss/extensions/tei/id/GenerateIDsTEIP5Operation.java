@@ -50,11 +50,15 @@
  */
 package ro.sync.ecss.extensions.tei.id;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
 
 /**
  * Operation to auto generate IDs on the selected content.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class GenerateIDsTEIP5Operation extends
     ro.sync.ecss.extensions.commons.id.GenerateIDsOperation {
 

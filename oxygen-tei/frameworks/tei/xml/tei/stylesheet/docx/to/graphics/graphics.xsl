@@ -73,7 +73,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: graphics.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+         <p>Id: $Id: graphics.xsl 9998 2012-01-02 18:27:15Z rahtz $</p>
          <p>Copyright: 2008, TEI Consortium</p>
       </desc>
    </doc>
@@ -220,6 +220,7 @@ of this software, even if advised of the possibility of such damage.
             -->
             
             <xsl:variable name="Width">
+	      <!-- remembering that pageWidth is already divided by 100 -->
                 <xsl:choose>
                     <xsl:when test="contains(@width,'%')">
                         <xsl:value-of select="number($pageWidth * number(substring-before(@width,'%'))) cast as xs:integer"/>

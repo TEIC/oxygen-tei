@@ -54,12 +54,16 @@ import java.awt.Frame;
 
 import javax.swing.JCheckBox;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
 
 /**
  * Dialog used to customize a TEI table. 
  * It is used on standalone implementation.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
   
   /**

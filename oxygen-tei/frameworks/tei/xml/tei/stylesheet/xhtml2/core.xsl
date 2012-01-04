@@ -37,7 +37,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: core.xsl 9954 2011-12-15 12:11:25Z rahtz $</p>
+      <p>Id: $Id: core.xsl 9995 2012-01-02 15:22:30Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -362,7 +362,7 @@ of this software, even if advised of the possibility of such damage.
       </xsl:when>
       <xsl:when test="@rendition">
         <span>
-          <xsl:call-template name="applyRendition"/>
+	  <xsl:call-template name="applyRendition"/>
         </span>
       </xsl:when>
       <xsl:otherwise>
@@ -1022,26 +1022,26 @@ of this software, even if advised of the possibility of such damage.
           <xsl:choose>
             <xsl:when test="$footnoteFile='true'">
               <a class="notelink" title="{normalize-space($note-title)}" href="{$masterFile}-notes.html#{$identifier}">
-                <sup>
+		<xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
                   <xsl:call-template name="noteN"/>
-                </sup>
+		</xsl:element>
               </a>
               <xsl:if test="following-sibling::node()[1][self::tei:note]">
-                <sup>
+		<xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
                   <xsl:text>,</xsl:text>
-                </sup>
+                </xsl:element>
               </xsl:if>
             </xsl:when>
             <xsl:otherwise>
               <a class="notelink" title="{normalize-space($note-title)}" href="#{$identifier}">
-                <sup>
+		<xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">				  
                   <xsl:call-template name="noteN"/>
-                </sup>
+                </xsl:element>
               </a>
               <xsl:if test="following-sibling::node()[1][self::tei:note]">
-                <sup>
+		<xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
                   <xsl:text>,</xsl:text>
-                </sup>
+                </xsl:element>
               </xsl:if>
             </xsl:otherwise>
           </xsl:choose>
@@ -1421,9 +1421,7 @@ of this software, even if advised of the possibility of such damage.
             </xsl:with-param>
           </xsl:call-template>
           <xsl:if test="$numberParagraphs='true'">
-            <span class="numberParagraph">
-              <xsl:call-template name="numberParagraph"/>
-            </span>
+	    <xsl:call-template name="numberParagraph"/>
           </xsl:if>
           <xsl:apply-templates/>
         </xsl:element>
@@ -1434,7 +1432,9 @@ of this software, even if advised of the possibility of such damage.
     <desc>How to number paragraphs</desc>
   </doc>
   <xsl:template name="numberParagraph">
-    <xsl:number/>
+    <span class="numberParagraph">
+      <xsl:number/>
+    </span>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element p[@rend='box']</desc>
@@ -1557,14 +1557,14 @@ of this software, even if advised of the possibility of such damage.
           <xsl:apply-templates/>
         </div>
       </xsl:when>
-      <xsl:when test="@rend='inline'">
+      <xsl:when test="@rend='quoted'">
         <span class="quote_inline">
           <xsl:value-of select="$preQuote"/>
           <xsl:apply-templates/>
           <xsl:value-of select="$postQuote"/>
         </span>
       </xsl:when>
-      <xsl:when test="@rend='display' or tei:lb or tei:p or tei:l or         string-length(.)&gt;150">
+      <xsl:when test="@rend='display' or tei:lb or tei:p or tei:l or string-length(.)&gt;150">
         <blockquote>
           <xsl:call-template name="rendToClass"/>
           <xsl:choose>
@@ -1584,9 +1584,7 @@ of this software, even if advised of the possibility of such damage.
       </xsl:when>
       <xsl:otherwise>
         <span class="quote_inline">
-          <xsl:value-of select="$preQuote"/>
           <xsl:apply-templates/>
-          <xsl:value-of select="$postQuote"/>
         </span>
       </xsl:otherwise>
     </xsl:choose>
@@ -1790,7 +1788,7 @@ of this software, even if advised of the possibility of such damage.
     </xsl:choose>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-    <desc>[html] </desc>
+    <desc>[html] sections in mode for table of contents</desc>
   </doc>
   <xsl:template name="continuedToc">
     <xsl:if test="tei:div|tei:div1|tei:div2|tei:div3|tei:div4|tei:div5|tei:div6">
@@ -2141,7 +2139,6 @@ of this software, even if advised of the possibility of such damage.
           </xsl:call-template>
         </span>
       </xsl:when>
-      <!-- NN added -->
       <xsl:when test="$value='ul'">
         <u>
           <xsl:call-template name="applyRend">
@@ -2149,7 +2146,6 @@ of this software, even if advised of the possibility of such damage.
           </xsl:call-template>
         </u>
       </xsl:when>
-      <!-- NN added -->
       <xsl:when test="$value='interlinMarks'">
         <xsl:text>`</xsl:text>
         <xsl:call-template name="applyRend">

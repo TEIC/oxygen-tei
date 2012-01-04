@@ -36,7 +36,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: tagdocs.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+      <p>Id: $Id: tagdocs.xsl 9969 2011-12-17 14:41:18Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -933,7 +933,9 @@ of this software, even if advised of the possibility of such damage.
       </xsl:element>
     </xsl:element>
     <xsl:call-template name="showSpace"/>
-    <xsl:call-template name="makeDescription"/>
+    <xsl:call-template name="makeDescription">
+      <xsl:with-param name="showListRef">false</xsl:with-param>
+    </xsl:call-template>
     <xsl:choose>
       <xsl:when test="$atts='-'"/>
       <xsl:when test="$atts='+'">
