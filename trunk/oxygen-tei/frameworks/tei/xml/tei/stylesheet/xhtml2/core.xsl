@@ -37,7 +37,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: core.xsl 9995 2012-01-02 15:22:30Z rahtz $</p>
+      <p>Id: $Id: core.xsl 10058 2012-01-22 12:51:37Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -195,7 +195,7 @@ of this software, even if advised of the possibility of such damage.
   </doc>
   <xsl:template match="tei:change">
     <tr>
-      <td valign="top" width="15%">
+      <td style="vertical-align:top;" width="15%">
         <xsl:value-of select="tei:date"/>
       </td>
       <td width="85%">
@@ -542,7 +542,7 @@ of this software, even if advised of the possibility of such damage.
   </doc>
   <xsl:template match="tei:item" mode="glosstable">
     <tr>
-      <td valign="top">
+      <td style="vertical-align:top;">
         <strong>
           <xsl:apply-templates mode="print" select="preceding-sibling::tei:*[1]"/>
         </strong>
@@ -847,12 +847,12 @@ of this software, even if advised of the possibility of such damage.
               <xsl:with-param name="default"/>
             </xsl:call-template>
             <tr>
-              <td valign="top">
+              <td style="vertical-align:top;">
                 <dl>
                   <xsl:apply-templates mode="gloss" select="tei:item[position()&lt;=$nitems ]"/>
                 </dl>
               </td>
-              <td valign="top">
+              <td style="vertical-align:top;">
                 <dl>
                   <xsl:apply-templates mode="gloss" select="tei:item[position() &gt;$nitems]"/>
                 </dl>
@@ -929,20 +929,41 @@ of this software, even if advised of the possibility of such damage.
   </doc>
   <xsl:template match="tei:listBibl">
     <xsl:choose>
+      <xsl:when test="tei:biblStruct and $biblioStyle='mla'">
+	<div type="listBibl" xmlns="http://www.w3.org/1999/xhtml">	  
+	<xsl:for-each select="tei:biblStruct">
+	  <p class="hang" xmlns="http://www.w3.org/1999/xhtml">
+	    <xsl:apply-templates select="tei:analytic" mode="mla"/>
+	    <xsl:apply-templates select="tei:monogr" mode="mla"/>
+	    <xsl:apply-templates select="tei:relatedItem" mode="mla"/>
+	    <xsl:choose>
+	      <xsl:when test="tei:note">
+		<xsl:apply-templates select="tei:note"/>
+	      </xsl:when>
+	      <xsl:when test="*//tei:ref/@target and not(contains(*//tei:ref/@target, '#'))">
+		<xsl:text>Web.&#10;</xsl:text>
+		<xsl:if test="*//tei:imprint/tei:date/@type='access'">
+		  <xsl:value-of select="*//tei:imprint/tei:date[@type='access']"/>
+		  <xsl:text>.</xsl:text>
+		</xsl:if>
+	      </xsl:when>
+	      <xsl:when test="tei:analytic/tei:title[@level='u'] or tei:monogr/tei:title[@level='u']"/>
+	      <xsl:otherwise>Print.&#10;</xsl:otherwise>
+	    </xsl:choose>
+	    <xsl:if test="tei:monogr/tei:imprint/tei:extent"><xsl:value-of select="tei:monogr/tei:imprint/tei:extent"/>. </xsl:if>
+	    <xsl:if test="tei:series/tei:title[@level='s']">
+	      <xsl:apply-templates select="tei:series/tei:title[@level='s']"/>
+	      <xsl:text>. </xsl:text>
+	    </xsl:if>
+	  </p>
+	</xsl:for-each>
+	</div>
+      </xsl:when>
       <xsl:when test="tei:biblStruct">
         <ol class="listBibl">
           <xsl:for-each select="tei:biblStruct">
-            <xsl:sort select="translate((          tei:*/tei:author/tei:surname|          tei:*[1]/tei:author/tei:orgName|            tei:*[1]/tei:author/tei:name|            tei:*[1]/tei:author|            tei:*[1]/tei:editor/tei:surname|            tei:*[1]/tei:editor/tei:name|            tei:*[1]/tei:editor|            tei:*[1]/tei:title[1])[1],  $uc,$lc)"/>
+            <xsl:sort select="lower-case((tei:*/tei:author/tei:surname|tei:*[1]/tei:author/tei:orgName|tei:*[1]/tei:author/tei:name|tei:*[1]/tei:author|tei:*[1]/tei:editor/tei:surname|tei:*[1]/tei:editor/tei:name|tei:*[1]/tei:editor|tei:*[1]/tei:title[1])[1])"/>
             <xsl:sort select="tei:monogr/tei:imprint/tei:date"/>
-            <!--
-	   <dt>
-              <xsl:call-template name="makeAnchor"/>
-              <xsl:apply-templates select="." mode="xref"/>
-            </dt>
-            <dd>
-              <xsl:apply-templates select="."/>
-            </dd>
-	    -->
             <li>
               <xsl:call-template name="makeAnchor"/>
               <xsl:apply-templates select="."/>
@@ -1196,8 +1217,17 @@ of this software, even if advised of the possibility of such damage.
       <xsl:when test="number($splitLevel)=-1"/>
       <xsl:when test="@place='foot' or @place='bottom' or @place='end'         or $autoEndNotes='true'">
         <xsl:variable name="parent">
-          <xsl:call-template name="locateParentDiv"/>
+	  <xsl:for-each select="ancestor::tei:*[local-name()='div'
+	    or local-name()='div1'
+	    or local-name()='div2'
+	    or local-name()='div3'
+	    or local-name()='div4'
+	    or local-name()='div5'
+	    or local-name()='div6'][1]">
+	    <xsl:call-template name="locateParentDiv"/>
+	  </xsl:for-each>
         </xsl:variable>
+
         <xsl:if test="$whence = $parent">
           <xsl:call-template name="makeaNote"/>
         </xsl:if>
@@ -1338,8 +1368,10 @@ of this software, even if advised of the possibility of such damage.
         <xsl:when test="parent::tei:figure and (tei:q/tei:l or tei:figure or parent::tei:figure/parent::tei:div)">div</xsl:when>
         <xsl:when test="parent::tei:figure">span</xsl:when>
         <xsl:when test="parent::tei:head or    parent::tei:q/parent::tei:head or    parent::tei:note[@place='margin']/parent::tei:head">span</xsl:when>
+        <xsl:when test="ancestor::tei:notesStmt">div</xsl:when>
+        <xsl:when test="tei:table">div</xsl:when>
         <xsl:when test="parent::tei:note[not(@place or @rend)]">span</xsl:when>
-        <xsl:when test="$outputTarget='epub'">div</xsl:when>
+        <xsl:when test="$outputTarget='epub' or $outputTarget='epub3'">div</xsl:when>
         <xsl:when test="tei:eg">div</xsl:when>
         <xsl:when test="tei:figure">div</xsl:when>
         <xsl:when test="tei:floatingText">div</xsl:when>
@@ -1447,7 +1479,8 @@ of this software, even if advised of the possibility of such damage.
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
     <desc>Process element q and tei:said</desc>
   </doc>
-  <xsl:template match="tei:q[@rend='inline margQuotes' or          @rend='inline margSglQuotes']">
+  <xsl:template match="tei:q[@rend='inline margQuotes' or
+		       @rend='inline margSglQuotes']" priority="99">
     <xsl:apply-templates/>
   </xsl:template>
   <xsl:template match="tei:q[not(@place) and tei:l]">
@@ -1564,7 +1597,8 @@ of this software, even if advised of the possibility of such damage.
           <xsl:value-of select="$postQuote"/>
         </span>
       </xsl:when>
-      <xsl:when test="@rend='display' or tei:lb or tei:p or tei:l or string-length(.)&gt;150">
+      <xsl:when test="@rend='display' or @rend='block' or tei:lg or tei:lb or tei:p or tei:l or
+		      ($autoBlockQuote='true' and string-length(.)&gt;$autoBlockQuoteLength)">
         <blockquote>
           <xsl:call-template name="rendToClass"/>
           <xsl:choose>
@@ -1988,6 +2022,7 @@ of this software, even if advised of the possibility of such damage.
           </xsl:if>
         </xsl:when>
         <xsl:otherwise>
+	  
           <xsl:variable name="me">
             <xsl:apply-templates select="." mode="ident"/>
           </xsl:variable>
@@ -2070,19 +2105,19 @@ of this software, even if advised of the possibility of such damage.
         </b>
       </xsl:when>
       <xsl:when test="$value='center'">
-        <center>
+        <span style="text-align:center">
           <xsl:call-template name="applyRend">
             <xsl:with-param name="value" select="$rest"/>
           </xsl:call-template>
-        </center>
+	</span>
       </xsl:when>
       <xsl:when test="$value='code'">
         <b>
-          <tt>
+          <code>
             <xsl:call-template name="applyRend">
               <xsl:with-param name="value" select="$rest"/>
             </xsl:call-template>
-          </tt>
+          </code>
         </b>
       </xsl:when>
       <xsl:when test="$value='italics' or $value='italic' or $value='cursive' or         $value='it' or $value='ital'">
@@ -2140,11 +2175,11 @@ of this software, even if advised of the possibility of such damage.
         </span>
       </xsl:when>
       <xsl:when test="$value='ul'">
-        <u>
+        <span style="text-decoration:underline">
           <xsl:call-template name="applyRend">
             <xsl:with-param name="value" select="$rest"/>
           </xsl:call-template>
-        </u>
+        </span>
       </xsl:when>
       <xsl:when test="$value='interlinMarks'">
         <xsl:text>`</xsl:text>
@@ -2463,4 +2498,152 @@ of this software, even if advised of the possibility of such damage.
     </xsl:element>
   </xsl:template>
   <xsl:template name="microdata"/>
+
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>[html] processing analytic element as needed for MLA style (from Laura Mandell> </desc>
+  </doc>
+  <xsl:template match="tei:analytic" mode="mla">
+    <xsl:variable name="refIdwHash">
+      <xsl:value-of select="following-sibling::tei:monogr/tei:ref/@target"/>
+    </xsl:variable>
+    <xsl:variable name="refId">
+      <xsl:value-of select="substring-after($refIdwHash, '#')"/>
+    </xsl:variable>
+    <xsl:apply-templates/>
+    <xsl:if test="not(following-sibling::tei:monogr/tei:title[@level='m']) and $refId!=''">
+      <xsl:text> </xsl:text>
+      <xsl:if test="following-sibling::tei:monogr/tei:imprint/tei:date">
+	<xsl:value-of select="following-sibling::tei:monogr/tei:imprint/tei:date"/>
+	<xsl:text>. </xsl:text>
+      </xsl:if>
+      <xsl:choose>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[1]">
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[1], ',')"/>
+	</xsl:when>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][1]">
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][1], ',')"/>
+	</xsl:when>
+      </xsl:choose>
+      <xsl:choose>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[3]">
+	  <xsl:text>, </xsl:text>
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[2], ',')"/>
+	  <xsl:text>, and </xsl:text>
+	</xsl:when>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][3]">
+	  <xsl:text>, </xsl:text>
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][2], ',')"/>
+	  <xsl:text>, and </xsl:text>
+	</xsl:when>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[2]">
+	  <xsl:text> and </xsl:text>
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[2], ',')"/>
+	</xsl:when>
+	<xsl:when test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][2]">
+	  <xsl:text> and </xsl:text>
+	  <xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][2], ',')"/>
+	</xsl:when>
+      </xsl:choose>
+      <xsl:if test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[3]">
+	<xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:author[3], ',')"/>
+      </xsl:if>
+      <xsl:if test="ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][3]">
+	<xsl:value-of select="substring-before(ancestor::tei:listBibl/tei:biblStruct[@xml:id=$refId]/tei:monogr/tei:editor[@role='editor'][3], ',')"/>
+      </xsl:if>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="following-sibling::tei:monogr/tei:imprint/tei:biblScope[@type='pp']"/>
+      <xsl:text>. </xsl:text>
+    </xsl:if>
+  </xsl:template>
+  
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>[html] processing monogr element as needed for MLA style (from Laura Mandell> </desc>
+  </doc>
+  <xsl:template match="tei:monogr" mode="mla">
+    <xsl:choose>
+      <xsl:when test="preceding-sibling::tei:analytic">
+	<xsl:choose>
+	  <xsl:when test="tei:author = parent::tei:biblStruct/tei:analytic/tei:author">
+	    <xsl:if test="tei:author[2]">
+	      <xsl:apply-templates select="tei:author"/>
+	    </xsl:if>
+	    <xsl:apply-templates select="tei:title"/>
+	    <xsl:if test="tei:edition"><xsl:apply-templates select="tei:edition"/></xsl:if>
+	    <xsl:apply-templates select="tei:editor[@role='editor']"/>
+	    <xsl:if test="tei:editor[@role='translator']">
+	      <xsl:apply-templates select="tei:editor[@role='translator']"/>
+	    </xsl:if>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:apply-templates select="tei:author"/>
+	    <xsl:apply-templates select="tei:title"/>
+	    <xsl:if test="tei:edition"><xsl:apply-templates select="tei:edition"/></xsl:if>
+	    <xsl:apply-templates select="tei:editor[@role='editor']"/>
+	    <xsl:if test="tei:editor[@role='translator']">
+	      <xsl:apply-templates select="tei:editor[@role='translator']"/>
+	    </xsl:if>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:when test="tei:editor[@role='editor'] and not(preceding-sibling::tei:analytic) and not(tei:author)">
+	<xsl:apply-templates select="tei:editor[@role='editor']"/>
+	<xsl:apply-templates select="tei:title"/>
+	<xsl:if test="tei:edition"><xsl:apply-templates select="tei:edition"/></xsl:if>
+	<xsl:if test="tei:editor[@role='translator']">
+	  <xsl:apply-templates select="tei:editor[@role='translator']"/>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates select="tei:author"/>
+	<xsl:apply-templates select="tei:title"/>
+	<xsl:if test="tei:edition"><xsl:apply-templates select="tei:edition"/></xsl:if>
+	<xsl:apply-templates select="tei:editor[@role='editor']"/>
+	<xsl:if test="tei:editor[@role='translator']">
+	  <xsl:apply-templates select="tei:editor[@role='translator']"/>
+	</xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:choose>
+      <xsl:when test="*//tei:ref/@target and not(contains(*//tei:ref/@target, '#'))">
+	<xsl:if test="tei:imprint/tei:date[@type='update']"><xsl:value-of select="tei:imprint/tei:date[@type='update']"/></xsl:if>
+      </xsl:when>
+      <xsl:when test="ancestor-or-self::tei:biblStruct/*/tei:title/@level='u'">
+	<xsl:value-of select="tei:imprint"/>
+      </xsl:when>
+      <xsl:when test="tei:title/@level='m'">
+	<xsl:if test="tei:imprint/tei:biblScope/@type='vol'">
+	<xsl:value-of select="tei:imprint/tei:biblScope[@type='vol']"/>. </xsl:if>
+	<xsl:choose>
+	  <xsl:when test="tei:imprint/tei:pubPlace"><xsl:value-of select="tei:imprint/tei:pubPlace"/>: </xsl:when>
+	  <xsl:otherwise>[n.p.]: </xsl:otherwise>
+	</xsl:choose>
+	<xsl:choose>
+	  <xsl:when test="tei:imprint/tei:publisher"><xsl:value-of select="tei:imprint/tei:publisher"/>, </xsl:when>
+	  <xsl:otherwise>[n.p.], </xsl:otherwise>
+	</xsl:choose>
+	<xsl:choose>
+	  <xsl:when test="tei:imprint/tei:date"><xsl:value-of select="tei:imprint/tei:date"/>. </xsl:when>
+	  <xsl:otherwise>[n.d.]  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:when test="tei:title/@level='j'">
+	<xsl:if test="tei:imprint/tei:biblScope/@type='vol'"><xsl:value-of select="tei:imprint/tei:biblScope[@type='vol']"/></xsl:if>
+	<xsl:if test="tei:imprint/tei:biblScope/@type='no'"><xsl:text>.</xsl:text><xsl:value-of select="tei:imprint/tei:biblScope[@type='no']"/></xsl:if>
+	<xsl:if test="tei:imprint/tei:date"><xsl:text>&#10;</xsl:text>(<xsl:value-of select="tei:imprint/tei:date"/>)</xsl:if>
+	<xsl:if test="tei:imprint/tei:biblScope/@type='pp'">: <xsl:value-of select="tei:imprint/tei:biblScope[@type='pp']"/></xsl:if>
+	<xsl:text>. </xsl:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <desc>[html] processing relatedItem element as needed for MLA style (from Laura Mandell> </desc>
+  </doc>
+  
+  <xsl:template match="tei:relatedItem" mode="mla">
+    <xsl:if test="@type='otherEdition'"><xsl:text>Rpt. </xsl:text></xsl:if>
+    <xsl:if test="tei:biblStruct/tei:analytic"><xsl:apply-templates select="tei:biblStruct/tei:analytic" mode="mla"/></xsl:if>
+    <xsl:if test="tei:biblStruct/tei:monogr"><xsl:apply-templates select="tei:biblStruct/tei:monogr" mode="mla"/></xsl:if>
+  </xsl:template>
+  
 </xsl:stylesheet>

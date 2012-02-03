@@ -42,7 +42,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tei-param.xsl 9993 2012-01-02 14:30:13Z rahtz $</p>
+         <p>Id: $Id: tei-param.xsl 10057 2012-01-21 16:57:14Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -321,12 +321,11 @@ will generate an &lt;h2&gt;</p>
       </xsl:if>
       <meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/>
       <xsl:choose>
-	<xsl:when test="$outputTarget='html5'">
+	<xsl:when test="$outputTarget='html5' or $outputTarget='epub3'">
 	  <meta charset="utf-8" />
 	</xsl:when>
 	<xsl:otherwise>
-	  <meta http-equiv="Content-Type" content="text/html;
-						   charset={$outputEncoding}"/>
+	  <meta http-equiv="Content-Type" content="text/html; charset={$outputEncoding}"/>
 	  <meta name="DC.Title">
 	    <xsl:attribute name="content">
 	      <xsl:value-of select="normalize-space(translate($title,'&lt;&gt;','&#x2329;&#x3009;'))"/>
@@ -352,16 +351,18 @@ will generate an &lt;h2&gt;</p>
 	<xsl:comment>no nav bar</xsl:comment>
       </xsl:when>
       <xsl:otherwise>
-         <xsl:for-each select="document($navbarFile,document(''))">
-            <xsl:for-each select="tei:list/tei:item">
-               <span class="navbar">
-                  <a href="{$URLPREFIX}{tei:xref/@url}" class="navbar">
-                     <xsl:apply-templates select="tei:xref/text()"/>
-                  </a>
-               </span>
-               <xsl:if test="following-sibling::tei:item"> | </xsl:if>
-            </xsl:for-each>
-         </xsl:for-each>
+	<xsl:element name="{if ($outputTarget='html5') then 'nav' else 'div'}">
+	  <xsl:for-each select="document($navbarFile,document(''))">
+	    <xsl:for-each select="tei:list/tei:item">
+	      <span class="navbar">
+		<a href="{$URLPREFIX}{tei:xref/@url}" class="navbar">
+		  <xsl:apply-templates select="tei:xref/text()"/>
+		</a>
+	      </span>
+	      <xsl:if test="following-sibling::tei:item"> | </xsl:if>
+	    </xsl:for-each>
+	  </xsl:for-each>
+	</xsl:element>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -402,7 +403,7 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</p>
 	                    </xsl:call-template>
 
                   </td>
-                  <td valign="top"/>
+                  <td style="vertical-align:top;"/>
                </tr>
             </table>
          </xsl:when>
@@ -739,9 +740,21 @@ correspond to the ID attribute of the &gt;div&lt;. Alternatively, you
    <xsl:param name="refDocFooterURL">index.html</xsl:param>
 
 
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="toc" type="anyURI">
+      <desc>Gap between elements in navigation list
+  </desc></doc>
    <xsl:template name="navInterSep">
       <xsl:text>: </xsl:text>
    </xsl:template>
+
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="output" type="boolean">
+      <desc>Whether it should be attempted to make quotes into block
+      quotes if they are over a certain length</desc></doc>
+  <xsl:param name="autoBlockQuote">false</xsl:param>
+
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="output" type="integer">
+      <desc>Length beyond which a quote is a block quote</desc></doc>
+  <xsl:param name="autoBlockQuoteLength">150</xsl:param>
 
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="hook">
       <desc>[html] Hooks where HTML can be inserted when processing

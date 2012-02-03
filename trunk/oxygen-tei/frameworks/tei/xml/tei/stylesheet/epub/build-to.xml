@@ -15,7 +15,7 @@
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
-        Id: $Id: build-to.xml 9875 2011-12-04 18:27:43Z rahtz $
+        Id: $Id: build-to.xml 10055 2012-01-20 18:46:11Z rahtz $
         Copyright: 2011, TEI Consortium<
 -->
   <!--
@@ -50,7 +50,7 @@
     <!-- Recreate temporary output directory -->
     <!-- The transformation for EPUB output. -->
     <echo level="info">XSLT generate ePub files</echo>
-    <xslt force="yes" style="${stylesheetFile}" in="${outputTempDir}/tmp2.xml" out="${outputTempDir}/OEBPS/index.html" classpath="classpath">
+    <xslt force="yes" style="${stylesheetFile}" in="${outputTempDir}/tmp2.xml" out="${outputTempDir}/OPS/index.html" classpath="classpath">
       <xmlcatalog>
         <catalogpath>
           <pathelement location="../../../../catalog.xml"/>
@@ -101,7 +101,7 @@
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <classpath location="${oxygenlib}/saxon9ee.jar"/>
       <param name="inputDir" expression="${inputFileDir}"/>
-      <param name="mediaDir" expression="OEBPS/media"/>
+      <param name="mediaDir" expression="OPS/media"/>
       <param name="mediaoverlay" expression="${mediaoverlay}" if="mediaoverlay"/>
       <param name="filePerPage" expression="${filePerPage}" if="filePerPage"/>
     </xslt>

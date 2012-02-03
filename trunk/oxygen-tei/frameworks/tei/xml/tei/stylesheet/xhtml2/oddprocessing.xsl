@@ -52,7 +52,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: oddprocessing.xsl 9966 2011-12-16 20:15:28Z rahtz $</p>
+      <p>Id: $Id: oddprocessing.xsl 10030 2012-01-12 17:06:23Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -230,9 +230,9 @@ of this software, even if advised of the possibility of such damage.
   </doc>
   <xsl:template name="typewriter">
     <xsl:param name="text"/>
-    <tt>
+    <code>
       <xsl:copy-of select="$text"/>
-    </tt>
+    </code>
   </xsl:template>
   <xsl:template name="showRNC">
     <xsl:param name="style"/>
@@ -754,7 +754,7 @@ of this software, even if advised of the possibility of such damage.
         <xsl:with-param name="Key">ELEMENT-ALPHA</xsl:with-param>
       </xsl:call-template>
       <xsl:for-each select="key('ELEMENTDOCS',1)">
-        <xsl:sort select="translate(@ident,$uc,$lc)"/>
+        <xsl:sort select="lower-case(@ident)"/>
         <xsl:variable name="letter">
           <xsl:value-of select="substring(@ident,1,1)"/>
         </xsl:variable>
@@ -833,7 +833,7 @@ of this software, even if advised of the possibility of such damage.
         <xsl:with-param name="Key">MODEL-CLASS-ALPHA</xsl:with-param>
       </xsl:call-template>
       <xsl:for-each select="key('MODELCLASSDOCS',1)">
-        <xsl:sort select="translate(substring-after(@ident,'model.'),$uc,$lc)"/>
+        <xsl:sort select="lower-case(substring-after(@ident,'model.'))"/>
         <xsl:variable name="letter">
           <xsl:value-of select="substring(@ident,7,1)"/>
         </xsl:variable>
@@ -844,7 +844,7 @@ of this software, even if advised of the possibility of such damage.
             </span>
             <ul class="atoz">
               <xsl:for-each select="key('MODEL-CLASS-ALPHA',$letter)">
-                <xsl:sort select="translate(substring-after(@ident,'model.'),$lc,$uc)"/>
+                <xsl:sort select="lower-case(substring-after(@ident,'model.'))"/>
                 <li>
 		  <xsl:call-template name="refDocLink"/>
                 </li>
@@ -886,7 +886,7 @@ of this software, even if advised of the possibility of such damage.
         <xsl:with-param name="Key">ATT-CLASS-ALPHA</xsl:with-param>
       </xsl:call-template>
       <xsl:for-each select="key('ATTCLASSDOCS',1)">
-        <xsl:sort select="translate(substring-after(@ident,'att.'),$uc,$lc)"/>
+        <xsl:sort select="lower-case(substring-after(@ident,'att.'))"/>
         <xsl:variable name="letter">
           <xsl:value-of select="substring(@ident,5,1)"/>
         </xsl:variable>
@@ -897,7 +897,7 @@ of this software, even if advised of the possibility of such damage.
             </span>
             <ul class="atoz">
               <xsl:for-each select="key('ATT-CLASS-ALPHA',$letter)">
-                <xsl:sort select="translate(substring-after(@ident,'att.'),$lc,$uc)"/>
+                <xsl:sort select="lower-case(substring-after(@ident,'att.'))"/>
                 <li>
 		  <xsl:call-template name="refDocLink"/>
 		</li>

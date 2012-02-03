@@ -50,7 +50,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: figures.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+         <p>Id: $Id: figures.xsl 10042 2012-01-13 15:23:16Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -121,9 +121,6 @@ of this software, even if advised of the possibility of such damage.
                </block>
                <block>
                   <xsl:call-template name="figureCaptionstyle"/>
-                  <xsl:call-template name="i18n">
-                     <xsl:with-param name="word">figureWord</xsl:with-param>
-                  </xsl:call-template>
                   <xsl:call-template name="calculateFigureNumber"/>
                   <xsl:text>. </xsl:text>
                   <xsl:apply-templates select="tei:head"/>
@@ -145,7 +142,6 @@ of this software, even if advised of the possibility of such damage.
                <xsl:when test="$captionInlineFigures='true'">
                   <block>
                      <xsl:call-template name="figureCaptionstyle"/>
-                     <xsl:text>Figure </xsl:text>
                      <xsl:call-template name="calculateFigureNumber"/>
                      <xsl:text>. </xsl:text>
                      <xsl:apply-templates select="tei:head"/>
@@ -281,11 +277,7 @@ of this software, even if advised of the possibility of such damage.
                   <xsl:call-template name="tableCaptionstyle"/>
                   <xsl:call-template name="addID"/>
                   <xsl:if test="$makeTableCaption='true'">
-                     <xsl:call-template name="i18n">
-                        <xsl:with-param name="word">tableWord</xsl:with-param>
-                     </xsl:call-template>
-                     <xsl:text> </xsl:text>
-                     <xsl:call-template name="calculateTableNumber"/>
+		    <xsl:call-template name="calculateTableNumber"/>
                      <xsl:text>. </xsl:text>
                   </xsl:if>
                   <xsl:apply-templates select="tei:head"/>
@@ -338,19 +330,7 @@ of this software, even if advised of the possibility of such damage.
       </table>
   </xsl:template>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-      <desc>[fo] </desc>
-   </doc>
-  <xsl:template name="calculateFigureNumber">
-      <xsl:number from="tei:text" level="any"/>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-      <desc>[fo] </desc>
-   </doc>
-  <xsl:template name="calculateTableNumber">
-      <xsl:number from="tei:text" level="any"/>
-  </xsl:template>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-      <desc>[fo] </desc>
+      <desc>[fo] table cell properties</desc>
    </doc>
   <xsl:template name="cellProperties">
       <xsl:if test="@role='hi' or @role='label' or   parent::tei:row/@role='label'  or parent::tei:row/@role='header'">

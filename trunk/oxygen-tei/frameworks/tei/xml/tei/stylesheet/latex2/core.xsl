@@ -44,7 +44,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: core.xsl 9844 2011-11-30 12:28:53Z rahtz $</p>
+         <p>Id: $Id: core.xsl 10010 2012-01-03 19:35:49Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -466,7 +466,7 @@ of this software, even if advised of the possibility of such damage.
        <xsl:when test="tei:biblStruct">
 	 <xsl:text>\begin{bibitemlist}{1}&#10;</xsl:text>
 	 <xsl:for-each select="tei:biblStruct">
-	   <xsl:sort select="translate(string(tei:*[1]/tei:author/tei:surname or  tei:*[1]/tei:author/tei:orgName or  tei:*[1]/tei:author/tei:name or  tei:*[1]/tei:editor/tei:surname or  tei:*[1]/tei:editor/tei:name or  tei:*[1]/tei:title),$uc,$lc)"/>
+	   <xsl:sort select="lower-case(string(tei:*[1]/tei:author/tei:surname or  tei:*[1]/tei:author/tei:orgName or  tei:*[1]/tei:author/tei:name or  tei:*[1]/tei:editor/tei:surname or  tei:*[1]/tei:editor/tei:name or  tei:*[1]/tei:title))"/>
 	   <xsl:sort select="tei:monogr/tei:imprint/tei:date"/>
 	   <xsl:text>\bibitem[</xsl:text>
 	   <xsl:apply-templates select="." mode="xref"/>

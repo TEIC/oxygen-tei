@@ -37,7 +37,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
       <p>Author: See AUTHORS</p>
-      <p>Id: $Id: tei-param.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+      <p>Id: $Id: tei-param.xsl 10010 2012-01-03 19:35:49Z rahtz $</p>
       <p>Copyright: 2011, TEI Consortium</p>
     </desc>
   </doc>
@@ -310,6 +310,14 @@ Paragraph indentation
 </desc>
   </doc>
   <xsl:param name="parIndent">1em</xsl:param>
+
+  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="layout" type="string">
+    <desc>
+      Style for formatted bibliography
+    </desc>
+  </doc>
+  <xsl:param name="biblioStyle"></xsl:param>
+
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="layout" type="string">
     <desc>
 Default spacing between paragraphs

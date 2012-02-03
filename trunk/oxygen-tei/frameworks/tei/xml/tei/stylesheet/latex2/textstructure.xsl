@@ -46,7 +46,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: textstructure.xsl 9844 2011-11-30 12:28:53Z rahtz $</p>
+         <p>Id: $Id: textstructure.xsl 10057 2012-01-21 16:57:14Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -146,8 +146,9 @@ of this software, even if advised of the possibility of such damage.
          <xsl:text> (</xsl:text>
          <xsl:call-template name="i18n">
             <xsl:with-param name="word">revisedWord</xsl:with-param>
-         </xsl:call-template>: 
-    <xsl:value-of select="$revdate"/>
+         </xsl:call-template>
+	 <xsl:text>: </xsl:text>
+	 <xsl:value-of select="$revdate"/>
          <xsl:text>)</xsl:text>
       </xsl:if>
       <xsl:text>}&#10;\def\TheID{</xsl:text>
