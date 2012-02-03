@@ -47,7 +47,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: tei.xsl 9646 2011-11-05 23:39:08Z rahtz $</p>
+         <p>Id: $Id: tei.xsl 10010 2012-01-03 19:35:49Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -61,14 +61,6 @@ of this software, even if advised of the possibility of such damage.
   <xsl:include href="functions.xsl"/>
 
   <xsl:key name="APP" match="tei:app" use="1"/>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" type="string">
-      <desc> Uppercase letters.</desc>
-   </doc>
-  <xsl:variable name="uc">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
-  <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" type="string">
-      <desc> Lowercase letters.</desc>
-   </doc>
-  <xsl:variable name="lc">abcdefghijklmnopqrstuvwxyz</xsl:variable>
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" type="string">
       <desc> Name of XSLT processor.</desc>
    </doc>

@@ -49,7 +49,7 @@ theory of liability, whether in contract, strict liability, or tort
 of this software, even if advised of the possibility of such damage.
 </p>
          <p>Author: See AUTHORS</p>
-         <p>Id: $Id: figures.xsl 10001 2012-01-02 19:12:05Z rahtz $</p>
+         <p>Id: $Id: figures.xsl 10057 2012-01-21 16:57:14Z rahtz $</p>
          <p>Copyright: 2011, TEI Consortium</p>
       </desc>
    </doc>
@@ -81,7 +81,6 @@ of this software, even if advised of the possibility of such damage.
       </xsl:choose>
     </xsl:variable>
     <xsl:element name="{$cellname}">
-      <xsl:attribute name="valign">top</xsl:attribute>
       <xsl:for-each select="@*">
 	<xsl:choose>
 	  <xsl:when test="name(.) = 'width' or name(.) =
@@ -189,7 +188,6 @@ of this software, even if advised of the possibility of such damage.
 	      </xsl:attribute>
 	    </xsl:otherwise>
 	  </xsl:choose>
-	  
 	  <xsl:if test="@xml:id">
 	    <xsl:attribute name="id">
 	      <xsl:value-of select="@xml:id"/>
@@ -206,37 +204,9 @@ of this software, even if advised of the possibility of such damage.
   </doc>
   <xsl:template match="tei:figure/tei:head">
     <xsl:variable name="captionlabel">
-      <xsl:choose>
-	<xsl:when test="ancestor::tei:front and  $numberFrontFigures='true'">
-	  <xsl:call-template name="i18n">
-	    <xsl:with-param name="word">figureWord</xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:text> </xsl:text>
-	  <xsl:number count="tei:figure[tei:head]" from="tei:front" level="any"/>
-	  <xsl:text>. </xsl:text>
-	</xsl:when>
-	<xsl:when test="ancestor::tei:back and $numberBackFigures='true'">
-	  <xsl:call-template name="i18n">
-	    <xsl:with-param name="word">figureWord</xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:text> </xsl:text>
-	  <xsl:for-each select="..">
-	    <xsl:number count="tei:figure[tei:head]" from="tei:back" level="any"/>
-	  </xsl:for-each>
-	  <xsl:text>. </xsl:text>
-	</xsl:when>
-	<xsl:when test="ancestor::tei:body and $numberFigures='true'">
-	  <xsl:call-template name="i18n">
-	    <xsl:with-param name="word">figureWord</xsl:with-param>
-	  </xsl:call-template>
-	  <xsl:text> </xsl:text>
-	  <xsl:for-each select="..">
-	    <xsl:number count="tei:figure[tei:head]" from="tei:body"
-			level="any"/>
-	    </xsl:for-each>
-	  <xsl:text>. </xsl:text>
-	</xsl:when>
-      </xsl:choose>
+      <xsl:for-each select="..">
+	<xsl:call-template name="calculateFigureNumber"/>
+      </xsl:for-each>
     </xsl:variable>
     <xsl:choose>
       <xsl:when test="$outputTarget='html5'">
@@ -245,6 +215,7 @@ of this software, even if advised of the possibility of such damage.
 	    <xsl:attribute name="class" select="@rend"/>
 	  </xsl:if>
 	  <xsl:call-template name="rendering"/>
+	  <xsl:text>. </xsl:text>
 	  <xsl:copy-of select="$captionlabel"/>
 	  <xsl:apply-templates/>
 	</figcaption>
@@ -252,6 +223,7 @@ of this software, even if advised of the possibility of such damage.
       <xsl:otherwise>
 	<span class="caption {@rend}">
 	  <xsl:copy-of select="$captionlabel"/>
+	  <xsl:text>. </xsl:text>
 	  <xsl:apply-templates/>
 	</span>
       </xsl:otherwise>
@@ -292,48 +264,48 @@ of this software, even if advised of the possibility of such damage.
   <xsl:template match="tei:table">
       <div>
          <xsl:attribute name="class">
-	           <xsl:text>table</xsl:text>
-	           <xsl:if test="@align">
-	              <xsl:text> </xsl:text>
-	              <xsl:value-of select="@align"/>
-	           </xsl:if>
-         </xsl:attribute>
+	   <xsl:text>table</xsl:text>
+	   <xsl:if test="@align">
+	     <xsl:text> </xsl:text>
+	     <xsl:value-of select="@align"/>
+	   </xsl:if>
+	 </xsl:attribute>
 	 <xsl:if test="@xml:id">	   
 	   <xsl:call-template name="makeAnchor"/>
 	 </xsl:if>
-         <table>
-            <xsl:call-template name="rendToClass">
-	              <xsl:with-param name="id">false</xsl:with-param>
-	           </xsl:call-template>
-            <xsl:if test="@rend='frame' or @rend='rules'">
-               <xsl:attribute name="rules">all</xsl:attribute>
-               <xsl:attribute name="border">1</xsl:attribute>
-            </xsl:if>
-            <xsl:for-each select="@*">
-               <xsl:if test="name(.)='summary' or name(.) = 'width' or name(.) = 'border' or name(.) = 'frame' or name(.) = 'rules' or name(.) = 'cellspacing' or name(.) = 'cellpadding'">
-                  <xsl:copy-of select="."/>
-               </xsl:if>
-            </xsl:for-each>
-	    <xsl:if test="tei:head">
-	      <caption>
-		<xsl:apply-templates select="tei:head"/>
-	      </caption>
-	    </xsl:if>
-	    <xsl:choose>
-	      <xsl:when test="tei:row[@rend='thead']">
-		<thead>
-		  <xsl:apply-templates
-		      select="tei:row[@rend='thead']"/>
-		</thead>
-		<tbody>
-		  <xsl:apply-templates select="tei:row[not(@rend='thead')]"/>
-		</tbody>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:apply-templates select="tei:row"/>
-	      </xsl:otherwise>
-	    </xsl:choose>
-         </table>
+	 <table>
+	   <xsl:call-template name="rendToClass">
+	     <xsl:with-param name="id">false</xsl:with-param>
+	   </xsl:call-template>
+	   <xsl:if test="@rend='frame' or @rend='rules'">
+	     <xsl:attribute name="rules">all</xsl:attribute>
+	     <xsl:attribute name="border">1</xsl:attribute>
+	   </xsl:if>
+	   <xsl:for-each select="@*">
+	     <xsl:if test="name(.)='summary' or name(.) = 'width' or name(.) = 'border' or name(.) = 'frame' or name(.) = 'rules' or name(.) = 'cellspacing' or name(.) = 'cellpadding'">
+	       <xsl:copy-of select="."/>
+	     </xsl:if>
+	   </xsl:for-each>
+	   <xsl:if test="tei:head">
+	     <caption>
+	       <xsl:apply-templates select="tei:head"/>
+	     </caption>
+	   </xsl:if>
+	   <xsl:choose>
+	     <xsl:when test="tei:row[@rend='thead']">
+	       <thead>
+		 <xsl:apply-templates
+		     select="tei:row[@rend='thead']"/>
+	       </thead>
+	       <tbody>
+		 <xsl:apply-templates select="tei:row[not(@rend='thead')]"/>
+	       </tbody>
+	     </xsl:when>
+	     <xsl:otherwise>
+	       <xsl:apply-templates select="tei:row"/>
+	     </xsl:otherwise>
+	   </xsl:choose>
+	 </table>
 	 <xsl:apply-templates select="tei:note"/>
       </div>
   </xsl:template>
