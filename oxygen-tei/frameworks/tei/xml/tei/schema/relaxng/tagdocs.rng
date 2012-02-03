@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Documentation of TEI modules--><!--Definitions from module tagdocs--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><define name="att.combinable.attributes">
       <ref name="att.combinable.attribute.mode"/>
    </define>
@@ -122,7 +137,7 @@ not expected to do so except for correction of any errors.</a:documentation>
    </define>
    <define name="att">
       <element name="att">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(attribute) contains the name of an attribute appearing within running text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(attribute) contains the name of an attribute appearing within running text. []</a:documentation>
          <ref name="att.content"/>
          <ref name="att.localattributes"/>
       </element>
@@ -144,7 +159,7 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
    </define>
    <define name="attDef">
       <element name="attDef">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(attribute definition) contains the definition of a single attribute.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(attribute definition) contains the definition of a single attribute. []</a:documentation>
          <ref name="attDef.content"/>
          <ref name="attDef.localattributes"/>
       </element>
@@ -185,7 +200,7 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
       <optional>
          <attribute xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" name="usage"
                     a:defaultValue="opt">
-            <a:documentation>specifies the optionality of an attribute or element. </a:documentation>
+            <a:documentation>specifies the optionality of the attribute.</a:documentation>
             <choice>
                <value>req</value>
                <a:documentation>(required) </a:documentation>
@@ -212,7 +227,7 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
    <define name="attList">
       <element name="attList">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains documentation for all the attributes associated with this element, as a series of
-      attDef elements.</a:documentation>
+      attDef elements. [ ]</a:documentation>
          <ref name="attList.content"/>
          <ref name="attList.localattributes"/>
       </element>
@@ -315,7 +330,19 @@ that is a group of
             <ref name="listRef"/>
          </zeroOrMore>
       </group>
-   </define>
+    
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+               id="classSpec-constraint-classspec-in-module">
+         <rule context="tei:classSpec">
+            <report xmlns:s="http://www.ascc.net/xml/schematron"
+                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                    xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                    test="not(//tei:moduleSpec[@ident=current()/@module])">
+Class <value-of select="@ident"/>: the value of the module attribute [<value-of select="@module"/>]  must correspond to an existing moduleSpec</report>
+         </rule>
+      </pattern>
+    
+  </define>
    <define name="classSpec.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.identified.attributes"/>
@@ -420,7 +447,7 @@ that is a group of
    <define name="classes">
       <element name="classes">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies all the classes of which the documented element or
-class is a member or subclass.</a:documentation>
+class is a member or subclass. [ ]</a:documentation>
          <ref name="classes.content"/>
          <ref name="classes.localattributes"/>
       </element>
@@ -491,7 +518,7 @@ programming language.</a:documentation>
    <define name="constraintSpec">
       <element name="constraintSpec">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"> (constraint on schema) contains  a constraint, expressed in some formal syntax,
-  which cannot be expressed in the structural content model</a:documentation>
+  which cannot be expressed in the structural content model []</a:documentation>
          <ref name="constraintSpec.content"/>
          <ref name="constraintSpec.localattributes"/>
       </element>
@@ -562,7 +589,7 @@ programming language.</a:documentation>
    <define name="content">
       <element name="content">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(content model) contains the text of a declaration for the schema
-documented.</a:documentation>
+documented. []</a:documentation>
          <ref name="content.content"/>
          <ref name="content.localattributes"/>
       </element>
@@ -601,7 +628,7 @@ avoid potential nameclashes. </a:documentation>
    <define name="datatype">
       <element name="datatype">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the declared value for an attribute, by referring to
-  any datatype defined by the chosen schema language.</a:documentation>
+  any datatype defined by the chosen schema language. [ ]</a:documentation>
          <ref name="datatype.content"/>
          <ref name="datatype.localattributes"/>
       </element>
@@ -638,7 +665,7 @@ avoid potential nameclashes. </a:documentation>
    </define>
    <define name="defaultVal">
       <element name="defaultVal">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(default value) specifies the default declared value for an attribute.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(default value) specifies the default declared value for an attribute. []</a:documentation>
          <ref name="defaultVal.content"/>
          <ref name="defaultVal.localattributes"/>
       </element>
@@ -652,7 +679,7 @@ avoid potential nameclashes. </a:documentation>
    </define>
    <define name="eg">
       <element name="eg">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(example) contains any kind of illustrative example. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(example) contains any kind of illustrative example.  [ ]</a:documentation>
          <ref name="eg.content"/>
          <ref name="eg.localattributes"/>
       </element>
@@ -667,7 +694,7 @@ avoid potential nameclashes. </a:documentation>
    <define name="egXML">
       <element name="egXML" ns="http://www.tei-c.org/ns/Examples">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element. </a:documentation>
+    attribute, in which the egXML element itself functions as the root element.  [ ]</a:documentation>
          <ref name="egXML.content"/>
          <ref name="egXML.localattributes"/>
       </element>
@@ -692,14 +719,14 @@ a schema.</a:documentation>
             <choice>
                <value>true</value>
                <a:documentation>the example is intended to be fully valid,
-assuming that its root element can be used as the root element in the
-schema concerned.</a:documentation>
+assuming that its root element, or a provided root element, 
+could have been used as a possible root element in the schema concerned.</a:documentation>
                <value>feasible</value>
                <a:documentation>the example could be transformed into
 a valid document by inserting any number of valid attributes and child
-elements anywhere within it; it is valid against a version of the
-schema concerned in which every data, list, element, or attribute
-element has been made optional.</a:documentation>
+elements anywhere within it; or it is valid against a version of the
+schema concerned in which the provision of character data, list, element, or attribute
+values has been made optional.</a:documentation>
                <value>false</value>
                <a:documentation>the example is not intended to be valid,
 and contains deliberate errors.</a:documentation>
@@ -730,7 +757,7 @@ and contains deliberate errors.</a:documentation>
    </define>
    <define name="elementSpec">
       <element name="elementSpec">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(element specification) documents the structure, content, and purpose of a single element type.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(element specification) documents the structure, content, and purpose of a single element type. [ ]</a:documentation>
          <ref name="elementSpec.content"/>
          <ref name="elementSpec.localattributes"/>
       </element>
@@ -765,7 +792,19 @@ and contains deliberate errors.</a:documentation>
             <ref name="listRef"/>
          </zeroOrMore>
       </group>
-   </define>
+    
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+               id="elementSpec-constraint-elementspec-in-module">
+         <rule context="tei:elementSpec">
+            <report xmlns:s="http://www.ascc.net/xml/schematron"
+                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                    xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                    test="not(//tei:moduleSpec[@ident=current()/@module])">
+Macro <value-of select="@ident"/>: the value of the module [<value-of select="@module"/>] attribute must correspond to an existing moduleSpec</report>
+         </rule>
+      </pattern>
+    
+  </define>
    <define name="elementSpec.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.identified.attributes"/>
@@ -792,7 +831,7 @@ and contains deliberate errors.</a:documentation>
    <define name="equiv">
       <element name="equiv">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(equivalent) specifies a component which is considered equivalent to the parent element, either by
-    co-reference, or by external link.</a:documentation>
+    co-reference, or by external link. [   ]</a:documentation>
          <ref name="equiv.content"/>
          <ref name="equiv.localattributes"/>
       </element>
@@ -828,7 +867,7 @@ and contains deliberate errors.</a:documentation>
    <define name="exemplum">
       <element name="exemplum">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groups an example demonstrating the use of an element along with optional paragraphs of
-    commentary.</a:documentation>
+    commentary. []</a:documentation>
          <ref name="exemplum.content"/>
          <ref name="exemplum.localattributes"/>
       </element>
@@ -855,7 +894,7 @@ and contains deliberate errors.</a:documentation>
    </define>
    <define name="gi">
       <element name="gi">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(element name) contains the name (generic identifier) of an element.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(element name) contains the name (generic identifier) of an element. [ ]</a:documentation>
          <ref name="gi.content"/>
          <ref name="gi.localattributes"/>
       </element>
@@ -877,7 +916,7 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
    </define>
    <define name="ident">
       <element name="ident">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(identifier) contains an identifier or name for an object of some kind in a formal language.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(identifier) contains an identifier or name for an object of some kind in a formal language. ident is used for tokens such as variable names, class names, type names, function names etc. in formal programming languages. []</a:documentation>
          <ref name="ident.content"/>
          <ref name="ident.localattributes"/>
       </element>
@@ -941,8 +980,8 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
          </zeroOrMore>
          <zeroOrMore>
             <choice>
-               <ref name="stringVal"/>
                <ref name="content"/>
+               <ref name="valList"/>
             </choice>
          </zeroOrMore>
          <zeroOrMore>
@@ -958,7 +997,19 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
             <ref name="listRef"/>
          </zeroOrMore>
       </group>
-   </define>
+    
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+               id="macroSpec-constraint-macrospec-in-module">
+         <rule context="tei:macroSpec">
+            <report xmlns:s="http://www.ascc.net/xml/schematron"
+                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                    xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                    test="not(//tei:moduleSpec[@ident=current()/@module])">
+Macro <value-of select="@ident"/>: the value of the module attribute [<value-of select="@module"/>]  must correspond to an existing moduleSpec</report>
+         </rule>
+      </pattern>
+    
+  </define>
    <define name="macroSpec.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.identified.attributes"/>
@@ -1007,6 +1058,18 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
             </choice>
          </attribute>
       </optional>
+      <optional>
+         <attribute name="max">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the maximum number of times the element can occur in elements which use this model class in their content model</a:documentation>
+            <ref name="data.numeric"/>
+         </attribute>
+      </optional>
+      <optional>
+         <attribute name="min">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the minumum number of times the element must occur in elements which use this model class in their content model</a:documentation>
+            <ref name="data.numeric"/>
+         </attribute>
+      </optional>
       <empty/>
    </define>
    <define name="moduleRef">
@@ -1027,9 +1090,9 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                context="tei:moduleRef">
             <report test="* and @key">
-	  child elements of moduleRef are only allowed when an external module
-	  is being loaded
-	</report>
+          child elements of moduleRef are only allowed when an external module
+          is being loaded
+        </report>
          </rule>
       </pattern>
     
@@ -1037,6 +1100,26 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
    <define name="moduleRef.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.readFrom.attributes"/>
+      <optional>
+         <attribute name="prefix">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies a default prefix which will be
+      prepended to all patterns from the imported module</a:documentation>
+            <data type="NCName"/>
+         </attribute>
+      </optional>
+        
+          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+               id="prefix-constraint-not-same-prefix">
+         <rule xmlns:s="http://www.ascc.net/xml/schematron"
+               xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+               xmlns:rng="http://relaxng.org/ns/structure/1.0"
+               context="tei:moduleRef">
+	           <report test="//*[ not( generate-id(.) eq generate-id(      current() ) ) ]/@prefix = @prefix">The prefix attribute
+	    of a moduleRef element should not match that of any other
+	    element (it would defeat the purpose)</report>
+          </rule>
+      </pattern>
+        
       <choice>
          <optional>
             <attribute name="include">
@@ -1115,7 +1198,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
    <define name="remarks">
       <element name="remarks">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains any commentary or discussion about the usage of an element, attribute, class, or
-    entity not otherwise documented within the containing element.</a:documentation>
+    entity not otherwise documented within the containing element. [   ]</a:documentation>
          <ref name="remarks.content"/>
          <ref name="remarks.localattributes"/>
       </element>
@@ -1302,25 +1385,10 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
       <ref name="att.global.attributes"/>
       <empty/>
    </define>
-   <define name="stringVal">
-      <element name="stringVal">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the intended expansion for the entity documented by a macroSpec element,
-    enclosed by quotation marks.</a:documentation>
-         <ref name="stringVal.content"/>
-         <ref name="stringVal.localattributes"/>
-      </element>
-   </define>
-   <define name="stringVal.content">
-      <text/>
-   </define>
-   <define name="stringVal.localattributes">
-      <ref name="att.global.attributes"/>
-      <empty/>
-   </define>
    <define name="tag">
       <element name="tag">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains text of a complete start- or end-tag, possibly including attribute specifications,
-    but excluding the opening and closing markup delimiter characters.</a:documentation>
+    but excluding the opening and closing markup delimiter characters. []</a:documentation>
          <ref name="tag.content"/>
          <ref name="tag.localattributes"/>
       </element>
@@ -1367,7 +1435,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
    </define>
    <define name="val">
       <element name="val">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value) contains a single attribute value.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value) contains a single attribute value. [ ]</a:documentation>
          <ref name="val.content"/>
          <ref name="val.localattributes"/>
       </element>
@@ -1383,7 +1451,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
       <element name="valDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value description) specifies any semantic or syntactic constraint on the value that
 an attribute may take, additional to the information carried by the
-datatype element.</a:documentation>
+datatype element. []</a:documentation>
          <ref name="valDesc.content"/>
          <ref name="valDesc.localattributes"/>
       </element>
@@ -1400,7 +1468,7 @@ datatype element.</a:documentation>
    <define name="valItem">
       <element name="valItem">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">documents a single attribute-value within a list of possible
-  or mandatory items.</a:documentation>
+  or mandatory items. []</a:documentation>
          <ref name="valItem.content"/>
          <ref name="valItem.localattributes"/>
       </element>
@@ -1421,7 +1489,7 @@ datatype element.</a:documentation>
    </define>
    <define name="valList">
       <element name="valList">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value list) contains one or more valItem elements defining possible values for an attribute.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value list) contains one or more valItem elements defining possible values for an attribute. []</a:documentation>
          <ref name="valList.content"/>
          <ref name="valList.localattributes"/>
       </element>
@@ -1451,4 +1519,30 @@ datatype element.</a:documentation>
       </optional>
       <empty/>
    </define>
-   <!--3. macros--></grammar>
+   <!--3. macros--><define name="macro.anyXML">
+      <element>
+         <anyName>
+            <except>
+               <nsName ns="http://www.tei-c.org/ns/1.0"/>
+               <name ns="http://www.tei-c.org/ns/Examples">egXML</name>
+            </except>
+         </anyName>
+         <zeroOrMore>
+            <attribute>
+               <anyName/>
+            </attribute>
+         </zeroOrMore>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="macro.anyXML"/>
+            </choice>
+         </zeroOrMore>
+      </element>
+   </define>
+   <define name="macro.schemaPattern">
+      <group>
+         <ref name="macro.anyXML"/>
+      </group>
+   </define>
+</grammar>

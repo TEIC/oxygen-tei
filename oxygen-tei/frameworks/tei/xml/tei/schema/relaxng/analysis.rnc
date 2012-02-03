@@ -1,29 +1,44 @@
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Simple analytic mechanisms
 
@@ -47,7 +62,7 @@ att.global.analytic.attribute.ana =
 # 2. elements
 c =
   
-  ## (character) represents a character.
+  ## (character) represents a character. []
   element c { c.content, c.localattributes }
 c.content = macro.xtext
 c.localattributes =
@@ -57,7 +72,7 @@ c.localattributes =
   empty
 cl =
   
-  ## (clause) represents a grammatical clause.
+  ## (clause) represents a grammatical clause. []
   element cl { cl.content, cl.localattributes }
 cl.content = macro.phraseSeq
 cl.localattributes =
@@ -67,21 +82,21 @@ cl.localattributes =
   empty
 interp =
   
-  ## (interpretation) summarizes a specific interpretative annotation which can be linked to a span of text.
+  ## (interpretation) summarizes a specific interpretative annotation which can be linked to a span of text. []
   element interp { interp.content, interp.localattributes }
 interp.content = (text | model.gLike | model.glossLike)*
 interp.localattributes =
   att.global.attributes, att.interpLike.attributes, empty
 interpGrp =
   
-  ## (interpretation group) collects together a set of related interpretations which share responsibility or type.
+  ## (interpretation group) collects together a set of related interpretations which share responsibility or type. []
   element interpGrp { interpGrp.content, interpGrp.localattributes }
 interpGrp.content = model.glossLike*, interp+
 interpGrp.localattributes =
   att.global.attributes, att.interpLike.attributes, empty
 m =
   
-  ## (morpheme) represents a grammatical morpheme.
+  ## (morpheme) represents a grammatical morpheme. []
   element m { m.content, m.localattributes }
 m.content = (text | model.gLike | seg | m | c | model.global)*
 m.localattributes =
@@ -95,7 +110,7 @@ m.localattributes =
 pc =
   
   ##  (punctuation character) a character or string of characters regarded as constituting a
-  ##   single punctuation mark.
+  ##   single punctuation mark. []
   element pc { pc.content, pc.localattributes }
 pc.content = (text | model.gLike | c)*
 pc.localattributes =
@@ -127,7 +142,7 @@ pc.localattributes =
   empty
 phr =
   
-  ## (phrase) represents a grammatical phrase.
+  ## (phrase) represents a grammatical phrase. []
   element phr { phr.content, phr.localattributes }
 phr.content = macro.phraseSeq
 phr.localattributes =
@@ -137,7 +152,7 @@ phr.localattributes =
   empty
 s =
   
-  ## (s-unit) contains a sentence-like division of a text.
+  ## (s-unit) contains a sentence-like division of a text. [ ]
   element s { s.content, s.localattributes }
 s.content =
   macro.phraseSeq
@@ -167,7 +182,7 @@ s.localattributes =
   empty
 span =
   
-  ## associates an interpretative annotation directly with a span of text.
+  ## associates an interpretative annotation directly with a span of text. []
   element span { span.content, span.localattributes }
 span.content = macro.phraseSeq.limited
 span.localattributes =
@@ -183,14 +198,14 @@ span.localattributes =
   empty
 spanGrp =
   
-  ## (span group) collects together span tags.
+  ## (span group) collects together span tags. []
   element spanGrp { spanGrp.content, spanGrp.localattributes }
 spanGrp.content = span*
 spanGrp.localattributes =
   att.global.attributes, att.interpLike.attributes, empty
 w =
   
-  ## (word) represents a grammatical (not necessarily orthographic) word.
+  ## (word) represents a grammatical (not necessarily orthographic) word. []
   element w { w.content, w.localattributes }
 w.content =
   (text

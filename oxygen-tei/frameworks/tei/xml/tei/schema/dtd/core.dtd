@@ -1,36 +1,51 @@
 
 <!--
-DTD module core. Generated 2011-03-05T14:53:21Z. 
+DTD module core. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Elements common to all TEI documents
 -->
 
 <!ENTITY % abbr 'INCLUDE' >
 <![ %abbr; [
 
-<!--doc:(abbreviation) contains an abbreviation of any sort. -->
+<!--doc:(abbreviation) contains an abbreviation of any sort. [] -->
 <!ELEMENT %n.abbr; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.abbr; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.abbr;
@@ -43,7 +58,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %add; [
 
 <!--doc:(addition) contains letters, words, or phrases inserted in the text by an
-        author, scribe, annotator, or corrector. -->
+        author, scribe, annotator, or corrector. [] -->
 <!ELEMENT %n.add; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.add; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.add;
@@ -56,7 +71,7 @@ type %data.enumerated;  #IMPLIED >
 <!ENTITY % addrLine 'INCLUDE' >
 <![ %addrLine; [
 
-<!--doc:(address line) contains one line of a postal address. -->
+<!--doc:(address line) contains one line of a postal address. [  ] -->
 <!ELEMENT %n.addrLine; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.addrLine; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.addrLine;
@@ -67,7 +82,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %address; [
 
 <!--doc:contains a postal  address, for example of a
-        publisher, an organization, or an individual. -->
+        publisher, an organization, or an individual. [  ] -->
 <!ELEMENT %n.address; %om.RR; ((%model.global;)*,((%model.addrPart;),(%model.global;)*)+)>
 <!ATTLIST %n.address; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.address;
@@ -78,13 +93,15 @@ type %data.enumerated;  #IMPLIED >
 <![ %analytic; [
 
 <!--doc:(analytic level) contains bibliographic elements describing an item (e.g. an article or poem) published
-    within a monograph or journal and not as an independent publication. -->
+    within a monograph or journal and not as an independent publication. [] -->
 <!ELEMENT %n.analytic; %om.RR; (%n.author; |
  %n.editor; |
  %n.respStmt; |
  %n.title; |
  %n.ref; |
- %n.date;)*>
+ %n.date; |
+ %n.textLang; |
+ %n.idno;)*>
 <!ATTLIST %n.analytic; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.analytic;
  %att.global.attributes; >
@@ -93,9 +110,9 @@ type %data.enumerated;  #IMPLIED >
 <!ENTITY % author 'INCLUDE' >
 <![ %author; [
 
-<!--doc:in a bibliographic reference, contains the name(s) of the
-  author(s), personal or corporate, of a work; for example in the same
-  form as that provided by a recognized bibliographic name authority.  -->
+<!--doc:in a bibliographic reference, contains the name(s) of an
+  author, personal or corporate, of a work; for example in the same
+  form as that provided by a recognized bibliographic name authority.  [ ] -->
 <!ELEMENT %n.author; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.author; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.author;
@@ -107,7 +124,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %bibl; [
 
 <!--doc:(bibliographic citation) contains a loosely-structured bibliographic citation of which the sub-components may or may
-    not be explicitly tagged.  -->
+    not be explicitly tagged.  [  ] -->
 <!ELEMENT %n.bibl; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.highlighted; |
@@ -121,14 +138,15 @@ type %data.enumerated;  #IMPLIED >
 <!ATTLIST %n.bibl;
  %att.global.attributes;
  %att.declarable.attributes;
- %att.typed.attributes; >
+ %att.typed.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % biblScope 'INCLUDE' >
 <![ %biblScope; [
 
 <!--doc:(scope of citation) defines the scope of a bibliographic reference, for example as a
-        list of page numbers, or a named subdivision of a larger work. -->
+        list of page numbers, or a named subdivision of a larger work. [] -->
 <!ELEMENT %n.biblScope; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.biblScope; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.biblScope;
@@ -142,7 +160,7 @@ to %data.word;  #IMPLIED >
 <![ %biblStruct; [
 
 <!--doc:(structured bibliographic citation) contains a structured bibliographic citation, in which only bibliographic sub-elements
-    appear and in a specified order.  -->
+    appear and in a specified order.  [  ] -->
 <!ELEMENT %n.biblStruct; %om.RR; ((%n.analytic;)*,(%n.monogr;,(%n.series;)*)+,(%model.noteLike; |
  %n.idno; |
  %n.relatedItem;)*)>
@@ -150,7 +168,8 @@ to %data.word;  #IMPLIED >
 <!ATTLIST %n.biblStruct;
  %att.global.attributes;
  %att.declarable.attributes;
- %att.typed.attributes; >
+ %att.typed.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % binaryObject 'INCLUDE' >
@@ -172,7 +191,7 @@ encoding CDATA  #IMPLIED >
 <![ %cb; [
 
 <!--doc:(column break) marks the boundary between one column of a text and the next
-        in a standard reference system. -->
+        in a standard reference system. [] -->
 <!ELEMENT %n.cb; %om.RR; EMPTY>
 <!ATTLIST %n.cb; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.cb;
@@ -187,7 +206,7 @@ encoding CDATA  #IMPLIED >
 <![ %choice; [
 
 <!--doc:groups a number of alternative encodings for the same point in
-        a text. -->
+        a text. [] -->
 <!ELEMENT %n.choice; %om.RR; (%model.choicePart; |
  %n.choice;)*>
 <!ATTLIST %n.choice; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -200,7 +219,7 @@ encoding CDATA  #IMPLIED >
 
 <!--doc:(cited quotation) contains a quotation from some other document, together with a bibliographic reference to
     its source. In a dictionary it may contain an example text with at least one occurrence of the
-    word form, used in the sense being described, or a translation of the headword, or an example.  -->
+    word form, used in the sense being described, or a translation of the headword, or an example.  [  ] -->
 <!ELEMENT %n.cit; %om.RR; (%model.qLike; |
  %model.egLike; |
  %model.biblLike; |
@@ -216,7 +235,7 @@ encoding CDATA  #IMPLIED >
 <!ENTITY % corr 'INCLUDE' >
 <![ %corr; [
 
-<!--doc:(correction) contains the correct form of a passage apparently erroneous in the copy text. -->
+<!--doc:(correction) contains the correct form of a passage apparently erroneous in the copy text. [] -->
 <!ELEMENT %n.corr; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.corr; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.corr;
@@ -228,7 +247,7 @@ encoding CDATA  #IMPLIED >
 <!ENTITY % date 'INCLUDE' >
 <![ %date; [
 
-<!--doc:contains a date in any format. -->
+<!--doc:contains a date in any format. [     ] -->
 <!ELEMENT %n.date; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -239,15 +258,14 @@ encoding CDATA  #IMPLIED >
  %att.datable.attributes;
  %att.duration.attributes;
  %att.editLike.attributes;
- %att.typed.attributes;
-calendar %data.enumerated;  #IMPLIED >
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % del 'INCLUDE' >
 <![ %del; [
 
 <!--doc:(deletion) contains a letter, word, or passage deleted, marked as deleted, or otherwise indicated as
-    superfluous or spurious in the copy text by an author, scribe, annotator, or corrector. -->
+    superfluous or spurious in the copy text by an author, scribe, annotator, or corrector. [] -->
 <!ELEMENT %n.del; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.del; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.del;
@@ -260,7 +278,7 @@ calendar %data.enumerated;  #IMPLIED >
 <![ %desc; [
 
 <!--doc:(description) contains a brief description of the object documented by its parent element, including its
-    intended usage, purpose, or application where this is appropriate. -->
+    intended usage, purpose, or application where this is appropriate. [   ] -->
 <!ELEMENT %n.desc; %om.RR; %macro.limitedContent;>
 <!ATTLIST %n.desc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.desc;
@@ -272,22 +290,22 @@ calendar %data.enumerated;  #IMPLIED >
 <![ %distinct; [
 
 <!--doc:identifies any word or phrase which is regarded as linguistically distinct, for example as
-        archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage.  -->
+        archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage.  [] -->
 <!ELEMENT %n.distinct; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.distinct; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.distinct;
  %att.global.attributes;
 type %data.enumerated;  #IMPLIED
-time %data.code;  #IMPLIED
-space %data.code;  #IMPLIED
-social %data.code;  #IMPLIED >
+time %data.key;  #IMPLIED
+space %data.key;  #IMPLIED
+social %data.key;  #IMPLIED >
 ]]>
 
 <!ENTITY % divGen 'INCLUDE' >
 <![ %divGen; [
 
 <!--doc:(automatically generated text division) indicates the location at which a textual division generated
-        automatically by a text-processing application is to appear. -->
+        automatically by a text-processing application is to appear. [] -->
 <!ELEMENT %n.divGen; %om.RR; (%model.headLike;)*>
 <!ATTLIST %n.divGen; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.divGen;
@@ -300,7 +318,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:secondary statement of responsibility for a bibliographic item, for example the name of an
     individual, institution or organization, (or of several such) acting as editor, compiler,
-    translator, etc.  -->
+    translator, etc.  [] -->
 <!ELEMENT %n.editor; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.editor; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.editor;
@@ -313,7 +331,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:(electronic mail address) contains an e-mail address identifying a location to which
         e-mail messages can be delivered.
-     -->
+     [] -->
 <!ELEMENT %n.email; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.email; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.email;
@@ -324,7 +342,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %emph; [
 
 <!--doc:(emphasized) marks words or phrases which are stressed or emphasized for
-        linguistic or rhetorical effect. -->
+        linguistic or rhetorical effect. [ ] -->
 <!ELEMENT %n.emph; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.emph; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.emph;
@@ -334,7 +352,7 @@ type %data.enumerated;  #IMPLIED >
 <!ENTITY % expan 'INCLUDE' >
 <![ %expan; [
 
-<!--doc:(expansion) contains the expansion of an abbreviation. -->
+<!--doc:(expansion) contains the expansion of an abbreviation. [] -->
 <!ELEMENT %n.expan; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.expan; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.expan;
@@ -346,7 +364,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %foreign; [
 
 <!--doc:(foreign) identifies a word or phrase as belonging to some language other than that of the
-                surrounding text.  -->
+                surrounding text.  [] -->
 <!ELEMENT %n.foreign; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.foreign; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.foreign;
@@ -358,7 +376,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:(gap) indicates a point where material has been omitted in a transcription, whether for editorial
     reasons described in the TEI header, as part of sampling practice, or because the material is
-    illegible, invisible, or inaudible. -->
+    illegible, invisible, or inaudible. [] -->
 <!ELEMENT %n.gap; %om.RR; (%model.glossLike;)*>
 <!ATTLIST %n.gap; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.gap;
@@ -370,11 +388,25 @@ hand %data.pointer;  #IMPLIED
 agent %data.enumerated;  #IMPLIED >
 ]]>
 
+<!ENTITY % gb 'INCLUDE' >
+<![ %gb; [
+
+<!--doc: (gathering begins) marks the point in a transcribed codex at which a new
+  gathering or quire begins. [] -->
+<!ELEMENT %n.gb; %om.RR; EMPTY>
+<!ATTLIST %n.gb; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.gb;
+ %att.global.attributes;
+ %att.typed.attributes;
+ %att.spanning.attributes;
+ %att.breaking.attributes; >
+]]>
+
 <!ENTITY % gloss 'INCLUDE' >
 <![ %gloss; [
 
 <!--doc:identifies a phrase or word used to provide a gloss or definition for some other word or
-    phrase. -->
+    phrase. [] -->
 <!ELEMENT %n.gloss; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.gloss; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.gloss;
@@ -389,7 +421,7 @@ cRef %data.pointer;  #IMPLIED >
 <!ENTITY % graphic 'INCLUDE' >
 <![ %graphic; [
 
-<!--doc:indicates the location of an inline graphic, illustration, or figure. -->
+<!--doc:indicates the location of an inline graphic, illustration, or figure. [] -->
 <!ELEMENT %n.graphic; %om.RR; (%model.glossLike;)*>
 <!ATTLIST %n.graphic; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.graphic;
@@ -406,8 +438,14 @@ url %data.pointer;  #REQUIRED >
 <![ %head; [
 
 <!--doc:(heading) contains any type of heading, for example the title of a section, or the heading of a list,
-    glossary, manuscript description, etc. -->
-<!ELEMENT %n.head; %om.RR; %macro.paraContent;>
+    glossary, manuscript description, etc. [] -->
+<!ELEMENT %n.head; %om.RR; ( #PCDATA |
+ %n.lg; |
+ %model.gLike; |
+ %model.phrase; |
+ %model.inter; |
+ %model.lLike; |
+ %model.global;)*>
 <!ATTLIST %n.head; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.head;
  %att.global.attributes;
@@ -418,7 +456,7 @@ url %data.pointer;  #REQUIRED >
 <![ %headItem; [
 
 <!--doc:(heading for list items) contains the heading for the item or gloss column in a glossary list or similar structured
-        list. -->
+        list. [] -->
 <!ELEMENT %n.headItem; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.headItem; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.headItem;
@@ -429,7 +467,7 @@ url %data.pointer;  #REQUIRED >
 <![ %headLabel; [
 
 <!--doc:(heading for list labels) contains the heading for the label or term column in a glossary list or similar structured
-        list. -->
+        list. [] -->
 <!ELEMENT %n.headLabel; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.headLabel; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.headLabel;
@@ -441,7 +479,7 @@ url %data.pointer;  #REQUIRED >
 
 <!--doc:(highlighted) marks a word or phrase as graphically distinct from the
         surrounding text, for reasons concerning which no claim is
-        made.  -->
+        made.  [ ] -->
 <!ELEMENT %n.hi; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.hi; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.hi;
@@ -452,9 +490,9 @@ url %data.pointer;  #REQUIRED >
 <![ %imprint; [
 
 <!--doc:groups information relating to the publication or distribution
-        of a bibliographic item. -->
+        of a bibliographic item. [] -->
 <!ELEMENT %n.imprint; %om.RR; (((%model.imprintPart;) |
- (%model.dateLike;)),(%model.global;)*)+>
+ (%model.dateLike;)),(%n.respStmt;)*,(%model.global;)*)+>
 <!ATTLIST %n.imprint; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.imprint;
  %att.global.attributes; >
@@ -463,7 +501,7 @@ url %data.pointer;  #REQUIRED >
 <!ENTITY % index 'INCLUDE' >
 <![ %index; [
 
-<!--doc:(index entry) marks a location to be indexed for whatever purpose. -->
+<!--doc:(index entry) marks a location to be indexed for whatever purpose. [] -->
 <!ELEMENT %n.index; %om.RR; (%n.term;,(%n.index;)?)*>
 <!ATTLIST %n.index; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.index;
@@ -475,17 +513,18 @@ indexName %data.name;  #IMPLIED >
 <!ENTITY % item 'INCLUDE' >
 <![ %item; [
 
-<!--doc:contains one component of a list. -->
+<!--doc:contains one component of a list. [ ] -->
 <!ELEMENT %n.item; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.item; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.item;
- %att.global.attributes; >
+ %att.global.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % l 'INCLUDE' >
 <![ %l; [
 
-<!--doc:(verse line) contains a single, possibly incomplete, line of verse. -->
+<!--doc:(verse line) contains a single, possibly incomplete, line of verse. [  ] -->
 <!ELEMENT %n.l; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.l; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.l;
@@ -498,8 +537,8 @@ part (Y|N|I|M|F) "N"  >
 <!ENTITY % label 'INCLUDE' >
 <![ %label; [
 
-<!--doc:contains the label associated with an item in a list; in glossaries, marks the term being
-    defined. -->
+<!--doc:contains any label or heading used to identify part of a text,
+  typically but not exclusively in a list or glossary. [] -->
 <!ELEMENT %n.label; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.label; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.label;
@@ -509,7 +548,7 @@ part (Y|N|I|M|F) "N"  >
 <!ENTITY % lb 'INCLUDE' >
 <![ %lb; [
 
-<!--doc:(line break) marks the start of a new (typographic) line in some edition or version of a text. -->
+<!--doc:(line break) marks the start of a new (typographic) line in some edition or version of a text. [ ] -->
 <!ELEMENT %n.lb; %om.RR; EMPTY>
 <!ATTLIST %n.lb; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.lb;
@@ -524,12 +563,16 @@ part (Y|N|I|M|F) "N"  >
 <![ %lg; [
 
 <!--doc:(line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
-        verse paragraph, etc. -->
+        verse paragraph, etc. [  ] -->
 <!ELEMENT %n.lg; %om.RR; ((%model.divTop; |
  %model.global;)*,(%model.lLike; |
+ %model.stageLike; |
+ %model.labelLike; |
  %n.lg;),(%model.lLike; |
- %n.lg; |
- %model.global;)*,((%model.divBottom;),(%model.global;)*)*)>
+ %model.stageLike; |
+ %model.labelLike; |
+ %model.global; |
+ %n.lg;)*,((%model.divBottom;),(%model.global;)*)*)>
 <!ATTLIST %n.lg; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.lg;
  %att.global.attributes;
@@ -541,26 +584,28 @@ part (Y|N|I|M|F) "N"  >
 <!ENTITY % list 'INCLUDE' >
 <![ %list; [
 
-<!--doc:(list) contains any sequence of items organized as a list. -->
+<!--doc:(list) contains any sequence of items organized as a list. [] -->
 <!ELEMENT %n.list; %om.RR; (((%model.divTop;) |
  (%model.global;))*,((%n.item;,(%model.global;)*)+ |
  ((%n.headLabel;)?,(%n.headItem;)?,(%n.label;,(%model.global;)*,%n.item;,(%model.global;)*)+)),((%model.divBottom;),(%model.global;)*)*)>
 <!ATTLIST %n.list; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.list;
  %att.global.attributes;
+ %att.sortable.attributes;
 type %data.enumerated;  "simple"  >
 ]]>
 
 <!ENTITY % listBibl 'INCLUDE' >
 <![ %listBibl; [
 
-<!--doc:(citation list) contains a list of bibliographic citations of any kind.  -->
+<!--doc:(citation list) contains a list of bibliographic citations of any kind.  [  ] -->
 <!ELEMENT %n.listBibl; %om.RR; ((%model.headLike;)*,(%model.biblLike; |
  %model.milestoneLike; |
  %n.listBibl;)+)>
 <!ATTLIST %n.listBibl; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listBibl;
  %att.global.attributes;
+ %att.sortable.attributes;
  %att.declarable.attributes;
  %att.typed.attributes; >
 ]]>
@@ -569,7 +614,7 @@ type %data.enumerated;  "simple"  >
 <![ %measure; [
 
 <!--doc:contains a word or phrase referring to some quantity of an object or commodity, usually
-        comprising a number, a unit, and a commodity name. -->
+        comprising a number, a unit, and a commodity name. [] -->
 <!ELEMENT %n.measure; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.measure; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.measure;
@@ -582,7 +627,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %measureGrp; [
 
 <!--doc:(measure group) contains a group of dimensional specifications which relate to the same object, for example
-    the height and width of a manuscript page. -->
+    the height and width of a manuscript page. [] -->
 <!ELEMENT %n.measureGrp; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.measureLike;)*>
@@ -598,7 +643,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:contains the formalized descriptive title for a meeting or conference, for use in a
     bibliographic description for an item derived from such a meeting, or as a heading or preamble
-    to publications emanating from it. -->
+    to publications emanating from it. [] -->
 <!ELEMENT %n.meeting; %om.RR; %macro.limitedContent;>
 <!ATTLIST %n.meeting; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.meeting;
@@ -608,7 +653,7 @@ type %data.enumerated;  #IMPLIED >
 <!ENTITY % mentioned 'INCLUDE' >
 <![ %mentioned; [
 
-<!--doc:marks words or phrases mentioned, not used. -->
+<!--doc:marks words or phrases mentioned, not used. [] -->
 <!ELEMENT %n.mentioned; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.mentioned; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.mentioned;
@@ -620,7 +665,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:marks a boundary point separating any kind of section of a text, typically but not
     necessarily indicating a point at which some part of a standard reference system changes, where
-    the change is not represented by a structural element. -->
+    the change is not represented by a structural element. [] -->
 <!ELEMENT %n.milestone; %om.RR; EMPTY>
 <!ATTLIST %n.milestone; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.milestone;
@@ -636,16 +681,18 @@ unit %data.enumerated;  #REQUIRED >
 <![ %monogr; [
 
 <!--doc:(monographic level) contains bibliographic elements describing an item (e.g. a book or journal) published as an
-    independent item (i.e. as a separate physical object). -->
+    independent item (i.e. as a separate physical object). [] -->
 <!ELEMENT %n.monogr; %om.RR; ((((%n.author; |
  %n.editor; |
  %n.respStmt;),(%n.author; |
  %n.editor; |
  %n.respStmt;)*,(%n.title;)+,(%n.idno; |
+ %n.textLang; |
  %n.editor; |
  %n.respStmt;)*) |
  ((%n.title; |
  %n.ref;)+,(%n.idno; |
+ %n.textLang; |
  %n.author; |
  %n.editor; |
  %n.respStmt;)*))?,(%model.noteLike; |
@@ -662,7 +709,7 @@ unit %data.enumerated;  #REQUIRED >
 <!ENTITY % name 'INCLUDE' >
 <![ %name; [
 
-<!--doc:(name, proper noun) contains a proper noun or noun phrase. -->
+<!--doc:(name, proper noun) contains a proper noun or noun phrase. [] -->
 <!ELEMENT %n.name; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.name; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.name;
@@ -674,7 +721,7 @@ unit %data.enumerated;  #REQUIRED >
 <!ENTITY % note 'INCLUDE' >
 <![ %note; [
 
-<!--doc:contains a note or annotation. -->
+<!--doc:contains a note or annotation. [   ] -->
 <!ELEMENT %n.note; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.note; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.note;
@@ -690,7 +737,7 @@ targetEnd CDATA  #IMPLIED >
 <!ENTITY % num 'INCLUDE' >
 <![ %num; [
 
-<!--doc:(number) contains a number, written in any form. -->
+<!--doc:(number) contains a number, written in any form. [] -->
 <!ELEMENT %n.num; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.num; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.num;
@@ -704,7 +751,7 @@ value %data.numeric;  #IMPLIED >
 <![ %orig; [
 
 <!--doc:(original form) contains a reading which is marked as following the original, rather than being normalized
-        or corrected. -->
+        or corrected. [ ] -->
 <!ELEMENT %n.orig; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.orig; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.orig;
@@ -715,7 +762,7 @@ value %data.numeric;  #IMPLIED >
 <!ENTITY % p 'INCLUDE' >
 <![ %p; [
 
-<!--doc:(paragraph) marks paragraphs in prose. -->
+<!--doc:(paragraph) marks paragraphs in prose. [ ] -->
 <!ELEMENT %n.p; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.p; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.p;
@@ -726,7 +773,7 @@ value %data.numeric;  #IMPLIED >
 <!ENTITY % pb 'INCLUDE' >
 <![ %pb; [
 
-<!--doc:(page break) marks the boundary between one page of a text and the next in a standard reference system. -->
+<!--doc:(page break) marks the boundary between one page of a text and the next in a standard reference system. [] -->
 <!ELEMENT %n.pb; %om.RR; EMPTY>
 <!ATTLIST %n.pb; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.pb;
@@ -741,7 +788,7 @@ value %data.numeric;  #IMPLIED >
 <![ %postBox; [
 
 <!--doc:(postal box or post office box) contains a number or other identifier for some postal delivery point other than a street
-    address.  -->
+    address.  [] -->
 <!ELEMENT %n.postBox; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.postBox; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.postBox;
@@ -752,7 +799,7 @@ value %data.numeric;  #IMPLIED >
 <![ %postCode; [
 
 <!--doc:(postal code) contains a numerical or alphanumeric code used as part of a postal address to simplify
-        sorting or delivery of mail.  -->
+        sorting or delivery of mail.  [] -->
 <!ELEMENT %n.postCode; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.postCode; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.postCode;
@@ -762,12 +809,13 @@ value %data.numeric;  #IMPLIED >
 <!ENTITY % ptr 'INCLUDE' >
 <![ %ptr; [
 
-<!--doc:(pointer) defines a pointer to another location. -->
+<!--doc:(pointer) defines a pointer to another location. [ ] -->
 <!ELEMENT %n.ptr; %om.RR; EMPTY>
 <!ATTLIST %n.ptr; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.ptr;
  %att.global.attributes;
  %att.pointing.attributes;
+ %att.internetMedia.attributes;
  %att.typed.attributes;
  %att.declaring.attributes;
 cRef CDATA  #IMPLIED >
@@ -776,7 +824,7 @@ cRef CDATA  #IMPLIED >
 <!ENTITY % pubPlace 'INCLUDE' >
 <![ %pubPlace; [
 
-<!--doc:(publication place) contains the name of the place where a bibliographic item was published. -->
+<!--doc:(publication place) contains the name of the place where a bibliographic item was published. [] -->
 <!ELEMENT %n.pubPlace; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.pubPlace; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.pubPlace;
@@ -788,7 +836,7 @@ cRef CDATA  #IMPLIED >
 <![ %publisher; [
 
 <!--doc:provides the name of the organization responsible for the publication or distribution of a
-        bibliographic item. -->
+        bibliographic item. [ ] -->
 <!ELEMENT %n.publisher; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.publisher; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.publisher;
@@ -801,7 +849,7 @@ cRef CDATA  #IMPLIED >
 <!--doc:(separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
     surrounding text, for any one of a variety of reasons including, but not limited to: direct
     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
-    passages that are mentioned but not used. -->
+    passages that are mentioned but not used. [] -->
 <!ELEMENT %n.q; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.q; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.q;
@@ -814,7 +862,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %quote; [
 
 <!--doc:(quotation) contains a phrase or passage attributed by the narrator or author to some agency external
-        to the text. -->
+        to the text. [ ] -->
 <!ELEMENT %n.quote; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.quote; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.quote;
@@ -826,12 +874,13 @@ type %data.enumerated;  #IMPLIED >
 <!ENTITY % ref 'INCLUDE' >
 <![ %ref; [
 
-<!--doc:(reference) defines a reference to another location, possibly modified by additional text or comment. -->
+<!--doc:(reference) defines a reference to another location, possibly modified by additional text or comment. [ ] -->
 <!ELEMENT %n.ref; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.ref; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.ref;
  %att.global.attributes;
  %att.pointing.attributes;
+ %att.internetMedia.attributes;
  %att.typed.attributes;
  %att.declaring.attributes;
 cRef CDATA  #IMPLIED >
@@ -840,7 +889,7 @@ cRef CDATA  #IMPLIED >
 <!ENTITY % reg 'INCLUDE' >
 <![ %reg; [
 
-<!--doc:(regularization) contains a reading which has been regularized or normalized in some sense. -->
+<!--doc:(regularization) contains a reading which has been regularized or normalized in some sense. [ ] -->
 <!ELEMENT %n.reg; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.reg; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.reg;
@@ -853,7 +902,7 @@ cRef CDATA  #IMPLIED >
 <![ %relatedItem; [
 
 <!--doc:contains or references some other bibliographic item which is related to the present one in
-    some specified manner, for example as a constituent or alternative version of it. -->
+    some specified manner, for example as a constituent or alternative version of it. [] -->
 <!ELEMENT %n.relatedItem; %om.RR; (%model.biblLike; |
  %model.ptrLike;)?>
 <!ATTLIST %n.relatedItem; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -866,7 +915,8 @@ target %data.pointer;  #IMPLIED >
 <!ENTITY % resp 'INCLUDE' >
 <![ %resp; [
 
-<!--doc:(responsibility) contains a phrase describing the nature of a person's intellectual responsibility. -->
+<!--doc:(responsibility) contains a phrase describing the nature of a person's intellectual responsibility, or an organization's role 
+    in the production or distribution of a work. [   ] -->
 <!ELEMENT %n.resp; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.resp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.resp;
@@ -879,7 +929,8 @@ target %data.pointer;  #IMPLIED >
 
 <!--doc:(statement of responsibility) supplies a statement of responsibility for the intellectual content of a text, edition,
     recording, or series, where the specialized elements for authors, editors, etc. do not suffice
-    or do not apply. -->
+    or do not apply. May also be used to encode information about individuals or organizations 
+    which have played a role in the production or distribution of a bibliographic work. [   ] -->
 <!ELEMENT %n.respStmt; %om.RR; (((%n.resp;)+,(%model.nameLike.agent;)+) |
  ((%model.nameLike.agent;)+,(%n.resp;)+))>
 <!ATTLIST %n.respStmt; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -890,7 +941,7 @@ target %data.pointer;  #IMPLIED >
 <!ENTITY % rs 'INCLUDE' >
 <![ %rs; [
 
-<!--doc:(referencing string) contains a general purpose name or referring string. -->
+<!--doc:(referencing string) contains a general purpose name or referring string. [ ] -->
 <!ELEMENT %n.rs; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.rs; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.rs;
@@ -903,7 +954,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %said; [
 
 <!--doc:(speech or thought) indicates passages thought or spoken aloud, whether explicitly indicated in the source or
-    not, whether directly or indirectly reported, whether by real people or fictional characters. -->
+    not, whether directly or indirectly reported, whether by real people or fictional characters. [] -->
 <!ELEMENT %n.said; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.said; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.said;
@@ -917,7 +968,7 @@ direct %data.xTruthValue;  "true"  >
 <![ %series; [
 
 <!--doc:(series information) contains information about the series in which a book or other bibliographic item has
-    appeared. -->
+    appeared. [] -->
 <!ELEMENT %n.series; %om.RR; ( #PCDATA |
  %model.gLike; |
  %n.title; |
@@ -925,6 +976,8 @@ direct %data.xTruthValue;  "true"  >
  %n.editor; |
  %n.respStmt; |
  %n.biblScope; |
+ %n.idno; |
+ %n.textLang; |
  %model.global;)*>
 <!ATTLIST %n.series; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.series;
@@ -935,7 +988,7 @@ direct %data.xTruthValue;  "true"  >
 <![ %sic; [
 
 <!--doc:(latin for thus or so
-  ) contains text reproduced although apparently incorrect or inaccurate. -->
+  ) contains text reproduced although apparently incorrect or inaccurate. [] -->
 <!ELEMENT %n.sic; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.sic; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.sic;
@@ -947,7 +1000,7 @@ direct %data.xTruthValue;  "true"  >
 <![ %soCalled; [
 
 <!--doc:contains a word or phrase for which the author or narrator indicates a disclaiming of
-    responsibility, for example by the use of scare quotes or italics. -->
+    responsibility, for example by the use of scare quotes or italics. [] -->
 <!ELEMENT %n.soCalled; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.soCalled; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.soCalled;
@@ -958,10 +1011,11 @@ direct %data.xTruthValue;  "true"  >
 <![ %sp; [
 
 <!--doc:(speech) An individual speech in a performance text, or a passage presented as such in a prose or
-    verse text. -->
-<!ELEMENT %n.sp; %om.RR; ((%model.global;)*,(%n.speaker;,(%model.global;)*)?,((%model.lLike; |
- %n.lg; |
+    verse text. [  ] -->
+<!ELEMENT %n.sp; %om.RR; ((%model.global;)*,(%n.speaker;,(%model.global;)*)?,((%n.lg; |
+ %model.lLike; |
  %model.pLike; |
+ %model.listLike; |
  %model.stageLike; |
  %model.qLike;),(%model.global;)*)+)>
 <!ATTLIST %n.sp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -974,7 +1028,7 @@ direct %data.xTruthValue;  "true"  >
 <![ %speaker; [
 
 <!--doc:A specialized form of heading or label, giving the name of one or more speakers in a
-        dramatic text or fragment. -->
+        dramatic text or fragment. [] -->
 <!ELEMENT %n.speaker; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.speaker; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.speaker;
@@ -984,7 +1038,7 @@ direct %data.xTruthValue;  "true"  >
 <!ENTITY % stage 'INCLUDE' >
 <![ %stage; [
 
-<!--doc:(stage direction) contains any kind of stage direction within a dramatic text or fragment. -->
+<!--doc:(stage direction) contains any kind of stage direction within a dramatic text or fragment. [  ] -->
 <!ELEMENT %n.stage; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.stage; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.stage;
@@ -997,7 +1051,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:a full street address including any name or number identifying a
         building as well as the name of the street or route on which it is
-        located. -->
+        located. [] -->
 <!ELEMENT %n.street; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.street; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.street;
@@ -1008,7 +1062,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %teiCorpus; [
 
 <!--doc:contains the whole of a TEI encoded corpus, comprising a single corpus header and one or
-    more TEI elements, each containing a single text header and a text. -->
+    more TEI elements, each containing a single text header and a text. [ ] -->
 <!ELEMENT %n.teiCorpus; %om.RR; (%n.teiHeader;,(%n.TEI; |
  %n.teiCorpus;)+)>
 <!ATTLIST %n.teiCorpus; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -1024,7 +1078,7 @@ version %data.version;  "5.0"  >
 <![ %term; [
 
 <!--doc:contains a single-word, multi-word, or symbolic designation which is regarded as a technical
-    term. -->
+    term. [] -->
 <!ELEMENT %n.term; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.term; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.term;
@@ -1033,14 +1087,27 @@ version %data.version;  "5.0"  >
  %att.pointing.attributes;
  %att.typed.attributes;
  %att.canonical.attributes;
-cRef %data.pointer;  #IMPLIED
-sortKey %data.word;  #IMPLIED >
+ %att.sortable.attributes;
+cRef %data.pointer;  #IMPLIED >
+]]>
+
+<!ENTITY % textLang 'INCLUDE' >
+<![ %textLang; [
+
+<!--doc:(text language) describes the languages and writing systems identified within the bibliographic work  
+  being described, rather than its description.  [ ] -->
+<!ELEMENT %n.textLang; %om.RR; %macro.phraseSeq;>
+<!ATTLIST %n.textLang; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.textLang;
+ %att.global.attributes;
+mainLang %data.language;  #IMPLIED
+otherLangs CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % time 'INCLUDE' >
 <![ %time; [
 
-<!--doc:contains a phrase defining a time of day in any format. -->
+<!--doc:contains a phrase defining a time of day in any format. [] -->
 <!ELEMENT %n.time; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -1057,7 +1124,7 @@ sortKey %data.word;  #IMPLIED >
 <!ENTITY % title 'INCLUDE' >
 <![ %title; [
 
-<!--doc:contains a title for any kind of work. -->
+<!--doc:contains a title for any kind of work. [  ] -->
 <!ELEMENT %n.title; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.title; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.title;
@@ -1071,7 +1138,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %unclear; [
 
 <!--doc:contains a word, phrase, or passage which cannot be transcribed with certainty because it
-        is illegible or inaudible in the source. -->
+        is illegible or inaudible in the source. [ ] -->
 <!ELEMENT %n.unclear; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.unclear; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.unclear;

@@ -1,29 +1,44 @@
 
 <!--
-DTD module msdescription. Generated 2011-03-05T14:53:21Z. 
+DTD module msdescription. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Manuscript Description
 -->
 
@@ -33,7 +48,7 @@ Manuscript Description
 <!--doc:(accompanying material) contains details of any significant additional
 material which may be closely associated with the manuscript being
 described, such as non-contemporaneous documents or fragments bound in
-with the manuscript at some earlier historical period. -->
+with the manuscript at some earlier historical period. [] -->
 <!ELEMENT %n.accMat; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.accMat; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.accMat;
@@ -46,7 +61,7 @@ with the manuscript at some earlier historical period. -->
 
 <!--doc:contains any descriptive or other information
 concerning the process by which a manuscript or manuscript part entered the holding
-institution.  -->
+institution.  [] -->
 <!ELEMENT %n.acquisition; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.acquisition; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.acquisition;
@@ -59,7 +74,7 @@ institution.  -->
 
 <!--doc:groups additional information, combining
 bibliographic information about a manuscript, or surrogate copies of
-it with  curatorial or administrative information.  -->
+it with  curatorial or administrative information.  [] -->
 <!ELEMENT %n.additional; %om.RR; ((%n.adminInfo;)?,(%n.surrogates;)?,(%n.listBibl;)?)>
 <!ATTLIST %n.additional; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.additional;
@@ -70,7 +85,7 @@ it with  curatorial or administrative information.  -->
 <![ %additions; [
 
 <!--doc:contains a description of any significant additions found
-within a manuscript, such as marginalia or other annotations.  -->
+within a manuscript, such as marginalia or other annotations.  [] -->
 <!ELEMENT %n.additions; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.additions; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.additions;
@@ -82,7 +97,7 @@ within a manuscript, such as marginalia or other annotations.  -->
 
 <!--doc:(administrative information) contains information about the present
 custody and availability of the manuscript, and also about the record
-description itself.  -->
+description itself.  [] -->
 <!ELEMENT %n.adminInfo; %om.RR; ((%n.recordHist;)?,(%n.availability;)?,(%n.custodialHist;)?,(%model.noteLike;)?)>
 <!ATTLIST %n.adminInfo; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.adminInfo;
@@ -93,7 +108,7 @@ description itself.  -->
 <![ %altIdentifier; [
 
 <!--doc:(alternative identifier) contains an alternative or former structured identifier used for
-a manuscript, such as a former catalogue number. -->
+a manuscript, such as a former catalogue number. [] -->
 <!ELEMENT %n.altIdentifier; %om.RR; (%model.placeNamePart_sequenceOptional;,(%n.institution;)?,(%n.repository;)?,(%n.collection;)?,%n.idno;,(%n.note;)?)>
 <!ATTLIST %n.altIdentifier; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.altIdentifier;
@@ -105,7 +120,7 @@ a manuscript, such as a former catalogue number. -->
 <![ %binding; [
 
 <!--doc:contains a description of one binding, i.e. type of covering, boards,
-    etc. applied to a manuscript. -->
+    etc. applied to a manuscript. [] -->
 <!ELEMENT %n.binding; %om.RR; (%model.pLike; |
  %n.condition; |
  %n.decoNote;)+>
@@ -121,7 +136,7 @@ contemporary %data.xTruthValue;  #IMPLIED >
 
 <!--doc:(binding description) describes the present and former bindings of a manuscript, either
 as a series of paragraphs or as a series of distinct binding elements,
-one for each binding of the manuscript.  -->
+one for each binding of the manuscript.  [] -->
 <!ELEMENT %n.bindingDesc; %om.RR; ((%model.pLike; |
  %n.decoNote; |
  %n.condition;)+ |
@@ -136,7 +151,7 @@ one for each binding of the manuscript.  -->
 
 <!--doc:describes the system used to ensure
 correct ordering of the quires making up a codex or incunable,
-typically by means of annotations at the foot of the page. -->
+typically by means of annotations at the foot of the page. [] -->
 <!ELEMENT %n.catchwords; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.catchwords; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.catchwords;
@@ -147,7 +162,7 @@ typically by means of annotations at the foot of the page. -->
 <![ %collation; [
 
 <!--doc:contains a description of how the leaves or bifolia are physically
-arranged. -->
+arranged. [] -->
 <!ELEMENT %n.collation; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.collation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.collation;
@@ -158,7 +173,7 @@ arranged. -->
 <![ %collection; [
 
 <!--doc:contains the name of a collection of
-manuscripts, not necessarily located within a single repository.  -->
+manuscripts, not necessarily located within a single repository.  [] -->
 <!ELEMENT %n.collection; %om.RR; %macro.xtext;>
 <!ATTLIST %n.collection; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.collection;
@@ -171,7 +186,7 @@ manuscripts, not necessarily located within a single repository.  -->
 <![ %colophon; [
 
 <!--doc:contains the  colophon
-of a  manuscript item: that is, a statement providing information regarding the date, place, agency, or reason for production of the manuscript. -->
+of a  manuscript item: that is, a statement providing information regarding the date, place, agency, or reason for production of the manuscript. [] -->
 <!ELEMENT %n.colophon; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.colophon; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.colophon;
@@ -182,7 +197,7 @@ of a  manuscript item: that is, a statement providing information regarding the 
 <![ %condition; [
 
 <!--doc:contains a description of the physical
-condition of the manuscript.  -->
+condition of the manuscript.  [] -->
 <!ELEMENT %n.condition; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.condition; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.condition;
@@ -192,7 +207,7 @@ condition of the manuscript.  -->
 <!ENTITY % custEvent 'INCLUDE' >
 <![ %custEvent; [
 
-<!--doc:(custodial event) describes a single event during the custodial history of a manuscript. -->
+<!--doc:(custodial event) describes a single event during the custodial history of a manuscript. [] -->
 <!ELEMENT %n.custEvent; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.custEvent; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.custEvent;
@@ -205,7 +220,7 @@ condition of the manuscript.  -->
 <![ %custodialHist; [
 
 <!--doc:(custodial history) contains a description of a manuscript's custodial history, either
-as running prose or as a series of dated custodial events.  -->
+as running prose or as a series of dated custodial events.  [] -->
 <!ELEMENT %n.custodialHist; %om.RR; ((%model.pLike;)+ |
  (%n.custEvent;)+)>
 <!ATTLIST %n.custodialHist; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -216,7 +231,7 @@ as running prose or as a series of dated custodial events.  -->
 <!ENTITY % decoDesc 'INCLUDE' >
 <![ %decoDesc; [
 
-<!--doc:(decoration description) contains a description of the decoration of a manuscript, either as a sequence of paragraphs, or as a sequence of topically organised decoNote elements. -->
+<!--doc:(decoration description) contains a description of the decoration of a manuscript, either as a sequence of paragraphs, or as a sequence of topically organised decoNote elements. [] -->
 <!ELEMENT %n.decoDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.decoNote;)+))>
 <!ATTLIST %n.decoDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -229,7 +244,7 @@ as running prose or as a series of dated custodial events.  -->
 
 <!--doc:(note on decoration) contains a note describing either a
 decorative component of a manuscript, or a fairly homogenous class of
-such components. -->
+such components. [] -->
 <!ELEMENT %n.decoNote; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.decoNote; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.decoNote;
@@ -242,7 +257,7 @@ such components. -->
 
 <!--doc:contains a measurement measured across the
   spine of a book or codex, or (for other text-bearing objects) perpendicular to the measurement given by the
-  width element.  -->
+  width element.  [] -->
 <!ELEMENT %n.depth; %om.RR; %macro.xtext;>
 <!ATTLIST %n.depth; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.depth;
@@ -254,7 +269,7 @@ such components. -->
 <![ %dim; [
 
 <!--doc:contains any single measurement forming part of a dimensional
-specification of some sort. -->
+specification of some sort. [] -->
 <!ELEMENT %n.dim; %om.RR; %macro.xtext;>
 <!ATTLIST %n.dim; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.dim;
@@ -266,7 +281,7 @@ specification of some sort. -->
 <!ENTITY % dimensions 'INCLUDE' >
 <![ %dimensions; [
 
-<!--doc:contains a dimensional specification. -->
+<!--doc:contains a dimensional specification. [] -->
 <!ELEMENT %n.dimensions; %om.RR; (%n.dim; |
  %model.dimLike;)*>
 <!ATTLIST %n.dimensions; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -282,7 +297,7 @@ type %data.enumerated;  #IMPLIED >
 <!--doc:contains the  explicit of a
 manuscript item, that is, the closing words of the text proper,
 exclusive of any rubric or colophon which might follow it.
-   -->
+   [] -->
 <!ELEMENT %n.explicit; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.explicit; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.explicit;
@@ -294,7 +309,7 @@ exclusive of any rubric or colophon which might follow it.
 <!ENTITY % filiation 'INCLUDE' >
 <![ %filiation; [
 
-<!--doc:contains information concerning the manuscript's filiation, i.e. its relationship to other surviving manuscripts of the same text, its protographs, antigraphs and apographs. -->
+<!--doc:contains information concerning the manuscript's filiation, i.e. its relationship to other surviving manuscripts of the same text, its protographs, antigraphs and apographs. [] -->
 <!ELEMENT %n.filiation; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.filiation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.filiation;
@@ -305,7 +320,7 @@ exclusive of any rubric or colophon which might follow it.
 <!ENTITY % finalRubric 'INCLUDE' >
 <![ %finalRubric; [
 
-<!--doc:contains the string of words that denotes the end of a text division, often with an assertion as to its author and title, usually set off from the text itself by red ink, by a different size or type of script, or by some other such visual device. -->
+<!--doc:contains the string of words that denotes the end of a text division, often with an assertion as to its author and title, usually set off from the text itself by red ink, by a different size or type of script, or by some other such visual device. [] -->
 <!ELEMENT %n.finalRubric; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.finalRubric; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.finalRubric;
@@ -317,7 +332,7 @@ exclusive of any rubric or colophon which might follow it.
 <![ %foliation; [
 
 <!--doc:describes the numbering system or systems used to 
-count the leaves or pages in a codex. -->
+count the leaves or pages in a codex. [] -->
 <!ELEMENT %n.foliation; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.foliation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.foliation;
@@ -327,7 +342,7 @@ count the leaves or pages in a codex. -->
 <!ENTITY % handDesc 'INCLUDE' >
 <![ %handDesc; [
 
-<!--doc:(description of hands) contains a description of all the different kinds of writing  used in a manuscript. -->
+<!--doc:(description of hands) contains a description of all the different kinds of writing  used in a manuscript. [] -->
 <!ELEMENT %n.handDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.handNote;)+))>
 <!ATTLIST %n.handDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -341,7 +356,7 @@ hands %data.count;  #IMPLIED >
 
 <!--doc:contains a measurement measured along the
   axis at right angles to the bottom of the written surface,
-  i.e. parallel to the spine for a codex or book.  -->
+  i.e. parallel to the spine for a codex or book.  [] -->
 <!ELEMENT %n.height; %om.RR; %macro.xtext;>
 <!ATTLIST %n.height; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.height;
@@ -354,7 +369,7 @@ hands %data.count;  #IMPLIED >
 
 <!--doc:contains a heraldic formula
 or phrase, typically found as part of a blazon, coat of arms, etc. 
- -->
+ [] -->
 <!ELEMENT %n.heraldry; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.heraldry; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.heraldry;
@@ -365,7 +380,7 @@ or phrase, typically found as part of a blazon, coat of arms, etc.
 <![ %history; [
 
 <!--doc: groups elements
-describing the full history of a manuscript or manuscript part. -->
+describing the full history of a manuscript or manuscript part. [] -->
 <!ELEMENT %n.history; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.origin;)?,(%n.provenance;)*,(%n.acquisition;)?))>
 <!ATTLIST %n.history; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -376,7 +391,7 @@ describing the full history of a manuscript or manuscript part. -->
 <!ENTITY % incipit 'INCLUDE' >
 <![ %incipit; [
 
-<!--doc:contains the incipit of a manuscript item, that is the opening words of the text proper, exclusive of any rubric which might precede it, of sufficient length to identify the work uniquely; such incipts were, in fomer times, frequently used a means of reference to a work, in place of a title. -->
+<!--doc:contains the incipit of a manuscript item, that is the opening words of the text proper, exclusive of any rubric which might precede it, of sufficient length to identify the work uniquely; such incipts were, in fomer times, frequently used a means of reference to a work, in place of a title. [] -->
 <!ELEMENT %n.incipit; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.incipit; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.incipit;
@@ -390,7 +405,7 @@ describing the full history of a manuscript or manuscript part. -->
 
 <!--doc:contains the name of an organization such as a university or
   library, with which a manuscript is identified, generally its
-  holding institution. -->
+  holding institution. [] -->
 <!ELEMENT %n.institution; %om.RR; %macro.xtext;>
 <!ATTLIST %n.institution; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.institution;
@@ -403,7 +418,7 @@ describing the full history of a manuscript or manuscript part. -->
 
 <!--doc:describes how text is laid out on the
   page, including information about any ruling, pricking, or other
-  evidence of page-preparation techniques. -->
+  evidence of page-preparation techniques. [] -->
 <!ELEMENT %n.layout; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.layout; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.layout;
@@ -416,7 +431,7 @@ writtenLines CDATA  #IMPLIED >
 <!ENTITY % layoutDesc 'INCLUDE' >
 <![ %layoutDesc; [
 
-<!--doc:(layout description) collects the set of layout descriptions applicable to a manuscript. -->
+<!--doc:(layout description) collects the set of layout descriptions applicable to a manuscript. [] -->
 <!ELEMENT %n.layoutDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.layout;)+))>
 <!ATTLIST %n.layoutDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -428,7 +443,7 @@ writtenLines CDATA  #IMPLIED >
 <![ %locus; [
 
 <!--doc:defines a location within a manuscript or manuscript part, usually as a
-    (possibly discontinuous) sequence of folio references.  -->
+    (possibly discontinuous) sequence of folio references.  [] -->
 <!ELEMENT %n.locus; %om.RR; %macro.xtext;>
 <!ATTLIST %n.locus; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.locus;
@@ -445,7 +460,7 @@ to %data.word;  #IMPLIED >
 <!--doc:groups a number of locations which together form a
   distinct but discontinuous item within a manuscript or manuscript
   part, according to a specific foliation.
-   -->
+   [] -->
 <!ELEMENT %n.locusGrp; %om.RR; (%n.locus;)+>
 <!ATTLIST %n.locusGrp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.locusGrp;
@@ -458,7 +473,7 @@ scheme %data.pointer;  #IMPLIED >
 
 <!--doc:contains a word or phrase describing the
   material of which  the object being described is composed.
-   -->
+   [] -->
 <!ELEMENT %n.material; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.material; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.material;
@@ -470,7 +485,7 @@ scheme %data.pointer;  #IMPLIED >
 <![ %msContents; [
 
 <!--doc:(manuscript contents) describes the intellectual content of a manuscript or manuscript
-    part, either as a series of paragraphs or as a series of structured manuscript items. -->
+    part, either as a series of paragraphs or as a series of structured manuscript items. [] -->
 <!ELEMENT %n.msContents; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.textLang;)?,(%n.titlePage;)?,(%n.msItem; |
  %n.msItemStruct;)*))>
@@ -478,26 +493,27 @@ scheme %data.pointer;  #IMPLIED >
 <!ATTLIST %n.msContents;
  %att.global.attributes;
  %att.msExcerpt.attributes;
-class %data.code;  #IMPLIED >
+class CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % msDesc 'INCLUDE' >
 <![ %msDesc; [
 
 <!--doc:(manuscript description) contains a description of a single identifiable
-manuscript or other text-bearing object. -->
+manuscript or other text-bearing object. [] -->
 <!ELEMENT %n.msDesc; %om.RR; (%n.msIdentifier;,(%model.headLike;)*,((%model.pLike;)+ |
  ((%n.msContents;)?,(%n.physDesc;)?,(%n.history;)?,(%n.additional;)?,(%n.msPart;)*)))>
 <!ATTLIST %n.msDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.msDesc;
- %att.global.attributes; >
+ %att.global.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % msIdentifier 'INCLUDE' >
 <![ %msIdentifier; [
 
 <!--doc:(manuscript identifier) contains the information required to identify
-the  manuscript being described.  -->
+the  manuscript being described.  [] -->
 <!ELEMENT %n.msIdentifier; %om.RR; ((%model.placeNamePart_sequenceOptional;,(%n.institution;)?,(%n.repository;)?,(%n.collection;)*,(%n.idno;)?),(%n.msName; |
  %n.altIdentifier;)*)>
 <!ATTLIST %n.msIdentifier; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -509,7 +525,7 @@ the  manuscript being described.  -->
 <![ %msItem; [
 
 <!--doc:(manuscript item) describes an individual work or item within the intellectual
-  content of a manuscript or manuscript part.  -->
+  content of a manuscript or manuscript part.  [] -->
 <!ELEMENT %n.msItem; %om.RR; ((%n.locus; |
  %n.locusGrp;)*,((%model.pLike;)+ |
  (%model.titlepagePart; |
@@ -519,7 +535,7 @@ the  manuscript being described.  -->
 <!ATTLIST %n.msItem;
  %att.global.attributes;
  %att.msExcerpt.attributes;
-class %data.code;  #IMPLIED >
+class CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % msItemStruct 'INCLUDE' >
@@ -527,14 +543,14 @@ class %data.code;  #IMPLIED >
 
 <!--doc:(structured manuscript item) contains a structured description for an
   individual work or item within the intellectual content of a
-  manuscript or manuscript part. -->
+  manuscript or manuscript part. [] -->
 <!ELEMENT %n.msItemStruct; %om.RR; ((%n.locus;)?,((%model.pLike;)+ |
  ((%n.author;)*,(%n.respStmt;)*,(%n.title;)*,(%n.rubric;)?,(%n.incipit;)?,(%n.msItemStruct;)*,(%n.explicit;)?,(%n.finalRubric;)?,(%n.colophon;)*,(%n.decoNote;)*,(%n.listBibl;)*,(%n.bibl;)*,(%n.filiation;)*,(%model.noteLike;)*,(%n.textLang;)?)))>
 <!ATTLIST %n.msItemStruct; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.msItemStruct;
  %att.global.attributes;
  %att.msExcerpt.attributes;
-class %data.code;  #IMPLIED >
+class CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % msName 'INCLUDE' >
@@ -542,7 +558,7 @@ class %data.code;  #IMPLIED >
 
 <!--doc:(alternative name) contains any form of unstructured alternative
 name used for a manuscript, such as an  ocellus
-nominum, or nickname.  -->
+nominum, or nickname.  [] -->
 <!ELEMENT %n.msName; %om.RR; %macro.xtext;>
 <!ATTLIST %n.msName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.msName;
@@ -554,8 +570,9 @@ nominum, or nickname.  -->
 <![ %msPart; [
 
 <!--doc:(manuscript part) contains information about an originally
-distinct manuscript or part of a manuscript, now forming part of a composite manuscript. -->
-<!ELEMENT %n.msPart; %om.RR; (%n.altIdentifier;,(%model.headLike;)*,((%model.pLike;)+ |
+distinct manuscript or part of a manuscript, now forming part of a composite manuscript. [] -->
+<!ELEMENT %n.msPart; %om.RR; ((%n.altIdentifier; |
+ %n.msIdentifier;),(%model.headLike;)*,((%model.pLike;)+ |
  ((%n.msContents;)?,(%n.physDesc;)?,(%n.history;)?,(%n.additional;)?,(%n.msPart;)*)))>
 <!ATTLIST %n.msPart; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.msPart;
@@ -565,7 +582,7 @@ distinct manuscript or part of a manuscript, now forming part of a composite man
 <!ENTITY % musicNotation 'INCLUDE' >
 <![ %musicNotation; [
 
-<!--doc:contains description of type of musical notation. -->
+<!--doc:contains description of type of musical notation. [] -->
 <!ELEMENT %n.musicNotation; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.musicNotation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.musicNotation;
@@ -576,7 +593,7 @@ distinct manuscript or part of a manuscript, now forming part of a composite man
 <![ %objectDesc; [
 
 <!--doc:contains a description of the physical
-  components making up the object which is being described. -->
+  components making up the object which is being described. [] -->
 <!ELEMENT %n.objectDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.supportDesc;)?,(%n.layoutDesc;)?))>
 <!ATTLIST %n.objectDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -589,7 +606,7 @@ form %data.enumerated;  #IMPLIED >
 <![ %objectType; [
 
 <!--doc:contains a word or phrase describing the type of object being refered to.
-   -->
+   [] -->
 <!ELEMENT %n.objectType; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.objectType; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.objectType;
@@ -602,7 +619,7 @@ form %data.enumerated;  #IMPLIED >
 
 <!--doc:(origin date) contains any form of date, used to
   identify the date of origin for a manuscript or manuscript part.
-   -->
+   [] -->
 <!ELEMENT %n.origDate; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -619,21 +636,22 @@ form %data.enumerated;  #IMPLIED >
 <![ %origPlace; [
 
 <!--doc:(origin place) contains any form of place name, used to identify the
-place of origin for a manuscript or manuscript part.  -->
+place of origin for a manuscript or manuscript part.  [] -->
 <!ELEMENT %n.origPlace; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.origPlace; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.origPlace;
  %att.global.attributes;
  %att.naming.attributes;
  %att.datable.attributes;
- %att.editLike.attributes; >
+ %att.editLike.attributes;
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % origin 'INCLUDE' >
 <![ %origin; [
 
 <!--doc:contains any descriptive or other information
-concerning the origin of  a manuscript or manuscript part.  -->
+concerning the origin of  a manuscript or manuscript part.  [] -->
 <!ELEMENT %n.origin; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.origin; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.origin;
@@ -647,7 +665,7 @@ concerning the origin of  a manuscript or manuscript part.  -->
 
 <!--doc:(physical description) contains a full physical description of a
 manuscript or manuscript part, optionally subdivided using more
-specialised elements from the model.physDescPart class. -->
+specialised elements from the model.physDescPart class. [] -->
 <!ELEMENT %n.physDesc; %om.RR; ((%model.pLike;)*,(%model.physDescPart_sequenceOptional;))>
 <!ATTLIST %n.physDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.physDesc;
@@ -659,19 +677,21 @@ specialised elements from the model.physDescPart class. -->
 
 <!--doc:contains any descriptive or other information
 concerning a single identifiable episode during the history of a manuscript
-or manuscript part, after its creation but before its acquisition.  -->
+or manuscript part, after its creation but before its acquisition.  [] -->
 <!ELEMENT %n.provenance; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.provenance; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.provenance;
  %att.global.attributes;
- %att.datable.attributes; >
+ %att.datable.attributes;
+ %att.typed.attributes;
+ %att.responsibility.attributes; >
 ]]>
 
 <!ENTITY % recordHist 'INCLUDE' >
 <![ %recordHist; [
 
 <!--doc:(recorded history) provides information about the source and
-revision status of the parent manuscript description itself.  -->
+revision status of the parent manuscript description itself.  [] -->
 <!ELEMENT %n.recordHist; %om.RR; ((%model.pLike;)+ |
  (%n.source;,(%n.change;)*))>
 <!ATTLIST %n.recordHist; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -682,7 +702,7 @@ revision status of the parent manuscript description itself.  -->
 <!ENTITY % repository 'INCLUDE' >
 <![ %repository; [
 
-<!--doc:contains the name of a repository within which manuscripts are stored, possibly forming part of an institution. -->
+<!--doc:contains the name of a repository within which manuscripts are stored, possibly forming part of an institution. [] -->
 <!ELEMENT %n.repository; %om.RR; %macro.xtext;>
 <!ATTLIST %n.repository; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.repository;
@@ -694,7 +714,7 @@ revision status of the parent manuscript description itself.  -->
 <![ %rubric; [
 
 <!--doc:contains the text of any rubric or heading attached to a particular manuscript item, that is, a string of words through which a
-manuscript signals the beginning of a text division, often with an assertion as to its author and title, which is in some way set off from the text itself, usually in red ink, or by use of different size or type of script, or some other such visual device. -->
+manuscript signals the beginning of a text division, often with an assertion as to its author and title, which is in some way set off from the text itself, usually in red ink, or by use of different size or type of script, or some other such visual device. [] -->
 <!ELEMENT %n.rubric; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.rubric; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.rubric;
@@ -705,7 +725,7 @@ manuscript signals the beginning of a text division, often with an assertion as 
 <!ENTITY % scriptDesc 'INCLUDE' >
 <![ %scriptDesc; [
 
-<!--doc:contains a description of the scripts used in a manuscript or similar source. -->
+<!--doc:contains a description of the scripts used in a manuscript or similar source. [] -->
 <!ELEMENT %n.scriptDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.scriptNote;)+))>
 <!ATTLIST %n.scriptDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -717,7 +737,7 @@ manuscript signals the beginning of a text division, often with an assertion as 
 <![ %seal; [
 
 <!--doc:contains a description of one seal or similar
-  attachment applied to a manuscript. -->
+  attachment applied to a manuscript. [] -->
 <!ELEMENT %n.seal; %om.RR; (%model.pLike; |
  %n.decoNote;)+>
 <!ATTLIST %n.seal; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -733,7 +753,7 @@ contemporary %data.xTruthValue;  #IMPLIED >
 
 <!--doc:(seal description) describes the seals or other external items attached to a manuscript, either
 as a series of paragraphs or as a series of distinct seal elements,
-possibly with additional decoNotes.  -->
+possibly with additional decoNotes.  [] -->
 <!ELEMENT %n.sealDesc; %om.RR; ((%model.pLike;)+ |
  (%n.decoNote; |
  %n.seal; |
@@ -751,7 +771,7 @@ in a codex (typically the beginning of the
 second leaf) in order
 to provide a unique identifier for it.
 
- -->
+ [] -->
 <!ELEMENT %n.secFol; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.secFol; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.secFol;
@@ -761,7 +781,7 @@ to provide a unique identifier for it.
 <!ENTITY % signatures 'INCLUDE' >
 <![ %signatures; [
 
-<!--doc:contains discussion of the leaf or quire signatures found within a codex. -->
+<!--doc:contains discussion of the leaf or quire signatures found within a codex. [] -->
 <!ELEMENT %n.signatures; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.signatures; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.signatures;
@@ -771,7 +791,7 @@ to provide a unique identifier for it.
 <!ENTITY % source 'INCLUDE' >
 <![ %source; [
 
-<!--doc:describes the original source for the information contained with a manuscript description.  -->
+<!--doc:describes the original source for the information contained with a manuscript description.  [] -->
 <!ELEMENT %n.source; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.source; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.source;
@@ -782,7 +802,7 @@ to provide a unique identifier for it.
 <![ %stamp; [
 
 <!--doc:contains a word or phrase describing a
-stamp or similar device. -->
+stamp or similar device. [] -->
 <!ELEMENT %n.stamp; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.stamp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.stamp;
@@ -809,7 +829,7 @@ complement or alternative to the  more detailed information  carried by
 <![ %support; [
 
 <!--doc:contains a description of the materials
-etc. which make up the physical support for the written part of a manuscript. -->
+etc. which make up the physical support for the written part of a manuscript. [] -->
 <!ELEMENT %n.support; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.support; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.support;
@@ -819,7 +839,7 @@ etc. which make up the physical support for the written part of a manuscript. --
 <!ENTITY % supportDesc 'INCLUDE' >
 <![ %supportDesc; [
 
-<!--doc:(support description) groups elements describing the physical support for the written part of a manuscript. -->
+<!--doc:(support description) groups elements describing the physical support for the written part of a manuscript. [] -->
 <!ELEMENT %n.supportDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.support;)?,(%n.extent;)?,(%n.foliation;)*,(%n.collation;)?,(%n.condition;)?))>
 <!ATTLIST %n.supportDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -832,32 +852,18 @@ material %data.enumerated;  #IMPLIED >
 <![ %surrogates; [
 
 <!--doc:contains information about any representations of the manuscript being described which
-may exist in the holding institution or elsewhere.  -->
+may exist in the holding institution or elsewhere.  [] -->
 <!ELEMENT %n.surrogates; %om.RR; %macro.specialPara;>
 <!ATTLIST %n.surrogates; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.surrogates;
  %att.global.attributes; >
 ]]>
 
-<!ENTITY % textLang 'INCLUDE' >
-<![ %textLang; [
-
-<!--doc:(text language) in a manuscript description, describes
-  the languages and writing systems identified within the manuscript
-  being described.  -->
-<!ELEMENT %n.textLang; %om.RR; %macro.phraseSeq;>
-<!ATTLIST %n.textLang; xmlns CDATA "http://www.tei-c.org/ns/1.0">
-<!ATTLIST %n.textLang;
- %att.global.attributes;
-mainLang %data.language;  #IMPLIED
-otherLangs CDATA  #IMPLIED >
-]]>
-
 <!ENTITY % typeDesc 'INCLUDE' >
 <![ %typeDesc; [
 
 <!--doc:contains a description of the typefaces or other aspects of
-  the printing of an incunable or other printed source. -->
+  the printing of an incunable or other printed source. [] -->
 <!ELEMENT %n.typeDesc; %om.RR; ((%model.pLike;)+ |
  ((%n.summary;)?,(%n.typeNote;)+))>
 <!ATTLIST %n.typeDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -869,7 +875,7 @@ otherLangs CDATA  #IMPLIED >
 <![ %watermark; [
 
 <!--doc:contains a word or phrase describing a
-watermark or similar device. -->
+watermark or similar device. [] -->
 <!ELEMENT %n.watermark; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.watermark; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.watermark;
@@ -881,7 +887,7 @@ watermark or similar device. -->
 
 <!--doc:contains a measurement measured along the
   axis parallel to the bottom of the written surface, i.e. 
-perpendicular to the spine of a book or codex.  -->
+perpendicular to the spine of a book or codex.  [] -->
 <!ELEMENT %n.width; %om.RR; %macro.xtext;>
 <!ATTLIST %n.width; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.width;

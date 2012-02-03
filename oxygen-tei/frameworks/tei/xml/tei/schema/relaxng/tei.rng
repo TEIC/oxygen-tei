@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Declarations for classes, datatypes, and macros available to all
 TEI modules--><!--Definitions from module tei--><!--Set global predeclared macros--><define combine="choice" name="TEI">
       <notAllowed/>
@@ -185,6 +200,12 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="caesura">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="calendar">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="calendarDesc">
       <notAllowed/>
    </define>
    <define combine="choice" name="camera">
@@ -571,9 +592,6 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="forest">
       <notAllowed/>
    </define>
-   <define combine="choice" name="forestGrp">
-      <notAllowed/>
-   </define>
    <define combine="choice" name="form">
       <notAllowed/>
    </define>
@@ -817,6 +835,12 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="lg">
       <notAllowed/>
    </define>
+   <define combine="choice" name="licence">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="line">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="link">
       <notAllowed/>
    </define>
@@ -829,7 +853,13 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="listBibl">
       <notAllowed/>
    </define>
+   <define combine="choice" name="listChange">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="listEvent">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="listForest">
       <notAllowed/>
    </define>
    <define combine="choice" name="listNym">
@@ -845,6 +875,12 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="listRef">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="listRelation">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="listTranspose">
       <notAllowed/>
    </define>
    <define combine="choice" name="listWit">
@@ -901,7 +937,13 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="metSym">
       <notAllowed/>
    </define>
+   <define combine="choice" name="metamark">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="milestone">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="mod">
       <notAllowed/>
    </define>
    <define combine="choice" name="moduleRef">
@@ -959,6 +1001,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="normalization">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="notatedMusic">
       <notAllowed/>
    </define>
    <define combine="choice" name="note">
@@ -1150,6 +1195,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="recordingStmt">
       <notAllowed/>
    </define>
+   <define combine="choice" name="redo">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="ref">
       <notAllowed/>
    </define>
@@ -1196,6 +1244,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="restore">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="retrace">
       <notAllowed/>
    </define>
    <define combine="choice" name="revisionDesc">
@@ -1315,7 +1366,13 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="sourceDesc">
       <notAllowed/>
    </define>
+   <define combine="choice" name="sourceDoc">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="sp">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="spGrp">
       <notAllowed/>
    </define>
    <define combine="choice" name="space">
@@ -1366,13 +1423,13 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="string">
       <notAllowed/>
    </define>
-   <define combine="choice" name="stringVal">
-      <notAllowed/>
-   </define>
    <define combine="choice" name="subc">
       <notAllowed/>
    </define>
    <define combine="choice" name="subst">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="substJoin">
       <notAllowed/>
    </define>
    <define combine="choice" name="summary">
@@ -1391,6 +1448,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="surface">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="surfaceGrp">
       <notAllowed/>
    </define>
    <define combine="choice" name="surname">
@@ -1480,6 +1540,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="trait">
       <notAllowed/>
    </define>
+   <define combine="choice" name="transpose">
+      <notAllowed/>
+   </define>
    <define combine="choice" name="tree">
       <notAllowed/>
    </define>
@@ -1496,6 +1559,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define combine="choice" name="unclear">
+      <notAllowed/>
+   </define>
+   <define combine="choice" name="undo">
       <notAllowed/>
    </define>
    <define combine="choice" name="unicodeName">
@@ -1585,7 +1651,10 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
    <define combine="choice" name="zone">
       <notAllowed/>
    </define>
-   <!--Set predeclared macros--><!--0. predeclared classes--><define combine="choice" name="att.duration.w3c.attributes">
+   <!--Set predeclared macros--><!--0. predeclared classes--><define combine="choice" name="att.datable.custom.attributes">
+      <empty/>
+   </define>
+   <define combine="choice" name="att.duration.w3c.attributes">
       <empty/>
    </define>
    <define combine="choice" name="att.duration.attributes">
@@ -1625,24 +1694,6 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define name="model.global.spoken_sequenceRepeatable" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike_alternation" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike_sequence" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike_sequenceOptional" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike_sequenceOptionalRepeatable" combine="choice">
-      <notAllowed/>
-   </define>
-   <define name="model.placeTraitLike_sequenceRepeatable" combine="choice">
       <notAllowed/>
    </define>
    <define name="model.placeNamePart" combine="choice">
@@ -1697,6 +1748,24 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <notAllowed/>
    </define>
    <define name="model.placeEventLike_sequenceRepeatable" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart_alternation" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart_sequence" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart_sequenceOptional" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart_sequenceOptionalRepeatable" combine="choice">
+      <notAllowed/>
+   </define>
+   <define name="model.orgPart_sequenceRepeatable" combine="choice">
       <notAllowed/>
    </define>
    <define name="model.persNamePart" combine="choice">
@@ -1781,6 +1850,9 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <empty/>
    </define>
    <define combine="choice" name="att.global.facs.attributes">
+      <empty/>
+   </define>
+   <define combine="choice" name="att.global.change.attributes">
       <empty/>
    </define>
    <define name="model.resourceLike" combine="choice">
@@ -1879,6 +1951,7 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <ref name="att.ranging.attribute.atMost"/>
       <ref name="att.ranging.attribute.min"/>
       <ref name="att.ranging.attribute.max"/>
+      <ref name="att.ranging.attribute.confidence"/>
    </define>
    <define name="att.ranging.attribute.atLeast">
       <optional>
@@ -1910,9 +1983,18 @@ TEI modules--><!--Definitions from module tei--><!--Set global predeclared macro
       <optional>
          <attribute name="max">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">where the measurement summarizes more than one observation
-      or a range, supplies the maximum value
-      observed.</a:documentation>
+        or a range, supplies the maximum value
+        observed.</a:documentation>
             <ref name="data.numeric"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.ranging.attribute.confidence">
+      <optional>
+         <attribute name="confidence">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The degree of statistical confidence (between zero and one) that a value falls within the range
+        specified by min and max, or the proportion of observed values that fall within that range.</a:documentation>
+            <ref name="data.probability"/>
          </attribute>
       </optional>
    </define>
@@ -2046,22 +2128,11 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
       </optional>
    </define>
    <define name="att.datable.w3c.attributes">
-      <ref name="att.datable.w3c.attribute.period"/>
       <ref name="att.datable.w3c.attribute.when"/>
       <ref name="att.datable.w3c.attribute.notBefore"/>
       <ref name="att.datable.w3c.attribute.notAfter"/>
       <ref name="att.datable.w3c.attribute.from"/>
       <ref name="att.datable.w3c.attribute.to"/>
-   </define>
-   <define name="att.datable.w3c.attribute.period">
-      <optional>
-         <attribute name="period">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a pointer to some location defining a named
-      period of time within which the datable item is understood to
-      have occurred.</a:documentation>
-            <ref name="data.pointer"/>
-         </attribute>
-      </optional>
    </define>
    <define name="att.datable.w3c.attribute.when">
       <optional>
@@ -2110,6 +2181,28 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
    <define name="att.datable.attributes">
       <ref name="att.datable.w3c.attributes"/>
       <ref name="att.datable.iso.attributes"/>
+      <ref name="att.datable.custom.attributes"/>
+      <ref name="att.datable.attribute.calendar"/>
+      <ref name="att.datable.attribute.period"/>
+   </define>
+   <define name="att.datable.attribute.calendar">
+      <optional>
+         <attribute name="calendar">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the system or calendar to which the date represented by the content of this
+        element belongs.</a:documentation>
+            <ref name="data.pointer"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.attribute.period">
+      <optional>
+         <attribute name="period">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a pointer to some location defining a named
+        period of time within which the datable item is understood to
+        have occurred.</a:documentation>
+            <ref name="data.pointer"/>
+         </attribute>
+      </optional>
    </define>
    <define name="att.declarable.attributes">
       <ref name="att.declarable.attribute.default"/>
@@ -2271,6 +2364,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
       <ref name="att.responsibility.attributes"/>
       <ref name="att.editLike.attribute.evidence"/>
       <ref name="att.editLike.attribute.source"/>
+      <ref name="att.editLike.attribute.instant"/>
    </define>
    <define name="att.editLike.attribute.evidence">
       <optional>
@@ -2319,10 +2413,20 @@ Suggested values include: 1] internal; 2] external; 3] conjecture</a:documentati
          </attribute>
       </optional>
    </define>
+   <define name="att.editLike.attribute.instant">
+      <optional>
+         <attribute xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" name="instant"
+                    a:defaultValue="false">
+            <a:documentation>Is this an instant revision?</a:documentation>
+            <ref name="data.xTruthValue"/>
+         </attribute>
+      </optional>
+   </define>
    <define name="att.global.attributes">
       <ref name="att.global.linking.attributes"/>
       <ref name="att.global.analytic.attributes"/>
       <ref name="att.global.facs.attributes"/>
+      <ref name="att.global.change.attributes"/>
       <ref name="att.global.attribute.xmlid"/>
       <ref name="att.global.attribute.n"/>
       <ref name="att.global.attribute.xmllang"/>
@@ -2506,7 +2610,12 @@ writing medium, e.g. pencil</a:documentation>
       <optional>
          <attribute name="mimeType">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(MIME media type) specifies the applicable multimedia internet mail extension (MIME) media type</a:documentation>
-            <ref name="data.word"/>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
          </attribute>
       </optional>
    </define>
@@ -2792,7 +2901,7 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
       <optional>
          <attribute name="targFunc">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(target function) describes the function of each of the values of the
-      targets attribute of the enclosed link,
+      target attribute of the enclosed link,
       join, or alt tags.</a:documentation>
             <list>
                <ref name="data.word"/>
@@ -2880,6 +2989,17 @@ its completeness</a:documentation>
                <value>F</value>
                <a:documentation>(final) the final part of an incomplete segment</a:documentation>
             </choice>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.sortable.attributes">
+      <ref name="att.sortable.attribute.sortKey"/>
+   </define>
+   <define name="att.sortable.attribute.sortKey">
+      <optional>
+         <attribute name="sortKey">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the sort key for this element in an index, list or group which contains it.</a:documentation>
+            <ref name="data.word"/>
          </attribute>
       </optional>
    </define>
@@ -2981,6 +3101,7 @@ Suggested values include: 1] label; 2] data</a:documentation>
       <ref name="att.editLike.attributes"/>
       <ref name="att.transcriptional.attribute.hand"/>
       <ref name="att.transcriptional.attribute.status"/>
+      <ref name="att.transcriptional.attribute.cause"/>
       <ref name="att.transcriptional.attribute.seq"/>
    </define>
    <define name="att.transcriptional.attribute.hand">
@@ -3002,6 +3123,20 @@ Suggested values include: 1] label; 2] data</a:documentation>
       already present.
 Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] excessEnd; 5] shortStart; 6] shortEnd; 7] partial; 8] unremarkable</a:documentation>
             <ref name="data.enumerated"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.transcriptional.attribute.cause">
+      <optional>
+         <attribute name="cause">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">documents the presumed cause for the intervention.</a:documentation>
+            <choice>
+               <value>fix</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">repeated for the purpose of fixation</a:documentation>
+               <value>unclear</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">repeated to clarify a previously illegible or badly written text
+   or mark</a:documentation>
+            </choice>
          </attribute>
       </optional>
    </define>
@@ -3745,7 +3880,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="signatures"/>
          <ref name="stamp"/>
          <ref name="watermark"/>
-         <ref name="handShift"/>
       </choice>
    </define>
    <define name="model.pPart.msdesc_alternation">
@@ -3763,7 +3897,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="signatures"/>
          <ref name="stamp"/>
          <ref name="watermark"/>
-         <ref name="handShift"/>
       </choice>
    </define>
    <define name="model.pPart.msdesc_sequence">
@@ -3780,7 +3913,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="signatures"/>
       <ref name="stamp"/>
       <ref name="watermark"/>
-      <ref name="handShift"/>
    </define>
    <define name="model.pPart.msdesc_sequenceOptional">
       <optional>
@@ -3821,9 +3953,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="watermark"/>
-      </optional>
-      <optional>
-         <ref name="handShift"/>
       </optional>
    </define>
    <define name="model.pPart.msdesc_sequenceOptionalRepeatable">
@@ -3866,9 +3995,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="watermark"/>
       </zeroOrMore>
-      <zeroOrMore>
-         <ref name="handShift"/>
-      </zeroOrMore>
    </define>
    <define name="model.pPart.msdesc_sequenceRepeatable">
       <oneOrMore>
@@ -3909,9 +4035,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="watermark"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="handShift"/>
       </oneOrMore>
    </define>
    <define name="model.pPart.editorial">
@@ -4012,9 +4135,14 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="del"/>
          <ref name="unclear"/>
          <ref name="damage"/>
+         <ref name="handShift"/>
          <ref name="restore"/>
          <ref name="supplied"/>
          <ref name="surplus"/>
+         <ref name="mod"/>
+         <ref name="redo"/>
+         <ref name="retrace"/>
+         <ref name="undo"/>
          <ref name="app"/>
       </choice>
    </define>
@@ -4028,9 +4156,14 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="del"/>
          <ref name="unclear"/>
          <ref name="damage"/>
+         <ref name="handShift"/>
          <ref name="restore"/>
          <ref name="supplied"/>
          <ref name="surplus"/>
+         <ref name="mod"/>
+         <ref name="redo"/>
+         <ref name="retrace"/>
+         <ref name="undo"/>
          <ref name="app"/>
       </choice>
    </define>
@@ -4043,9 +4176,14 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="del"/>
       <ref name="unclear"/>
       <ref name="damage"/>
+      <ref name="handShift"/>
       <ref name="restore"/>
       <ref name="supplied"/>
       <ref name="surplus"/>
+      <ref name="mod"/>
+      <ref name="redo"/>
+      <ref name="retrace"/>
+      <ref name="undo"/>
       <ref name="app"/>
    </define>
    <define name="model.pPart.transcriptional_sequenceOptional">
@@ -4074,6 +4212,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="damage"/>
       </optional>
       <optional>
+         <ref name="handShift"/>
+      </optional>
+      <optional>
          <ref name="restore"/>
       </optional>
       <optional>
@@ -4081,6 +4222,18 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="surplus"/>
+      </optional>
+      <optional>
+         <ref name="mod"/>
+      </optional>
+      <optional>
+         <ref name="redo"/>
+      </optional>
+      <optional>
+         <ref name="retrace"/>
+      </optional>
+      <optional>
+         <ref name="undo"/>
       </optional>
       <optional>
          <ref name="app"/>
@@ -4112,6 +4265,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="damage"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="handShift"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="restore"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -4119,6 +4275,18 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
       <zeroOrMore>
          <ref name="surplus"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="mod"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="redo"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="retrace"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="undo"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="app"/>
@@ -4150,6 +4318,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="damage"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="handShift"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="restore"/>
       </oneOrMore>
       <oneOrMore>
@@ -4157,6 +4328,18 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="surplus"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="mod"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="redo"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="retrace"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="undo"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="app"/>
@@ -4200,6 +4383,94 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="model.pPart.transcriptional_sequenceRepeatable"/>
+      </oneOrMore>
+   </define>
+   <define name="model.linePart">
+      <choice>
+         <ref name="model.segLike"/>
+         <ref name="model.hiLike"/>
+         <ref name="model.pPart.transcriptional"/>
+         <ref name="choice"/>
+         <ref name="zone"/>
+         <ref name="line"/>
+      </choice>
+   </define>
+   <define name="model.linePart_alternation">
+      <choice>
+         <ref name="model.segLike_alternation"/>
+         <ref name="model.hiLike_alternation"/>
+         <ref name="model.pPart.transcriptional_alternation"/>
+         <ref name="choice"/>
+         <ref name="zone"/>
+         <ref name="line"/>
+      </choice>
+   </define>
+   <define name="model.linePart_sequence">
+      <ref name="model.segLike_sequence"/>
+      <ref name="model.hiLike_sequence"/>
+      <ref name="model.pPart.transcriptional_sequence"/>
+      <ref name="choice"/>
+      <ref name="zone"/>
+      <ref name="line"/>
+   </define>
+   <define name="model.linePart_sequenceOptional">
+      <optional>
+         <ref name="model.segLike_sequenceOptional"/>
+      </optional>
+      <optional>
+         <ref name="model.hiLike_sequenceOptional"/>
+      </optional>
+      <optional>
+         <ref name="model.pPart.transcriptional_sequenceOptional"/>
+      </optional>
+      <optional>
+         <ref name="choice"/>
+      </optional>
+      <optional>
+         <ref name="zone"/>
+      </optional>
+      <optional>
+         <ref name="line"/>
+      </optional>
+   </define>
+   <define name="model.linePart_sequenceOptionalRepeatable">
+      <zeroOrMore>
+         <ref name="model.segLike_sequenceOptionalRepeatable"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="model.hiLike_sequenceOptionalRepeatable"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="model.pPart.transcriptional_sequenceOptionalRepeatable"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="choice"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="zone"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="line"/>
+      </zeroOrMore>
+   </define>
+   <define name="model.linePart_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="model.segLike_sequenceRepeatable"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="model.hiLike_sequenceRepeatable"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="model.pPart.transcriptional_sequenceRepeatable"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="choice"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="zone"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="line"/>
       </oneOrMore>
    </define>
    <define name="model.ptrLike">
@@ -4285,6 +4556,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.global.meta">
       <choice>
          <ref name="index"/>
+         <ref name="substJoin"/>
+         <ref name="listTranspose"/>
          <ref name="link"/>
          <ref name="linkGrp"/>
          <ref name="timeline"/>
@@ -4307,6 +4580,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.global.meta_alternation">
       <choice>
          <ref name="index"/>
+         <ref name="substJoin"/>
+         <ref name="listTranspose"/>
          <ref name="link"/>
          <ref name="linkGrp"/>
          <ref name="timeline"/>
@@ -4328,6 +4603,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.global.meta_sequence">
       <ref name="index"/>
+      <ref name="substJoin"/>
+      <ref name="listTranspose"/>
       <ref name="link"/>
       <ref name="linkGrp"/>
       <ref name="timeline"/>
@@ -4349,6 +4626,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.global.meta_sequenceOptional">
       <optional>
          <ref name="index"/>
+      </optional>
+      <optional>
+         <ref name="substJoin"/>
+      </optional>
+      <optional>
+         <ref name="listTranspose"/>
       </optional>
       <optional>
          <ref name="link"/>
@@ -4407,6 +4690,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="index"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="substJoin"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listTranspose"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="link"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -4463,6 +4752,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="index"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="substJoin"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listTranspose"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="link"/>
       </oneOrMore>
       <oneOrMore>
@@ -4517,32 +4812,32 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.milestoneLike">
       <choice>
          <ref name="milestone"/>
+         <ref name="gb"/>
          <ref name="pb"/>
          <ref name="lb"/>
          <ref name="cb"/>
          <ref name="fw"/>
-         <ref name="gb"/>
          <ref name="anchor"/>
       </choice>
    </define>
    <define name="model.milestoneLike_alternation">
       <choice>
          <ref name="milestone"/>
+         <ref name="gb"/>
          <ref name="pb"/>
          <ref name="lb"/>
          <ref name="cb"/>
          <ref name="fw"/>
-         <ref name="gb"/>
          <ref name="anchor"/>
       </choice>
    </define>
    <define name="model.milestoneLike_sequence">
       <ref name="milestone"/>
+      <ref name="gb"/>
       <ref name="pb"/>
       <ref name="lb"/>
       <ref name="cb"/>
       <ref name="fw"/>
-      <ref name="gb"/>
       <ref name="anchor"/>
    </define>
    <define name="model.milestoneLike_sequenceOptional">
@@ -4550,6 +4845,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="milestone"/>
       </optional>
       <optional>
+         <ref name="gb"/>
+      </optional>
+      <optional>
          <ref name="pb"/>
       </optional>
       <optional>
@@ -4560,9 +4858,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="fw"/>
-      </optional>
-      <optional>
-         <ref name="gb"/>
       </optional>
       <optional>
          <ref name="anchor"/>
@@ -4573,6 +4868,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="milestone"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="gb"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="pb"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -4583,9 +4881,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
       <zeroOrMore>
          <ref name="fw"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="gb"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="anchor"/>
@@ -4596,6 +4891,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="milestone"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="gb"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="pb"/>
       </oneOrMore>
       <oneOrMore>
@@ -4606,9 +4904,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="fw"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="gb"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="anchor"/>
@@ -4646,6 +4941,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="moduleSpec"/>
          <ref name="specGrp"/>
+         <ref name="specGrpRef"/>
          <ref name="elementSpec"/>
          <ref name="classSpec"/>
          <ref name="macroSpec"/>
@@ -4656,6 +4952,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="moduleSpec"/>
          <ref name="specGrp"/>
+         <ref name="specGrpRef"/>
          <ref name="elementSpec"/>
          <ref name="classSpec"/>
          <ref name="macroSpec"/>
@@ -4665,6 +4962,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.oddDecl_sequence">
       <ref name="moduleSpec"/>
       <ref name="specGrp"/>
+      <ref name="specGrpRef"/>
       <ref name="elementSpec"/>
       <ref name="classSpec"/>
       <ref name="macroSpec"/>
@@ -4676,6 +4974,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="specGrp"/>
+      </optional>
+      <optional>
+         <ref name="specGrpRef"/>
       </optional>
       <optional>
          <ref name="elementSpec"/>
@@ -4698,6 +4999,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="specGrp"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="specGrpRef"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="elementSpec"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -4718,6 +5022,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="specGrp"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="specGrpRef"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="elementSpec"/>
       </oneOrMore>
       <oneOrMore>
@@ -4736,7 +5043,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="elementRef"/>
          <ref name="macroRef"/>
          <ref name="moduleRef"/>
-         <ref name="specGrpRef"/>
       </choice>
    </define>
    <define name="model.oddRef_alternation">
@@ -4745,7 +5051,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="elementRef"/>
          <ref name="macroRef"/>
          <ref name="moduleRef"/>
-         <ref name="specGrpRef"/>
       </choice>
    </define>
    <define name="model.oddRef_sequence">
@@ -4753,7 +5058,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="elementRef"/>
       <ref name="macroRef"/>
       <ref name="moduleRef"/>
-      <ref name="specGrpRef"/>
    </define>
    <define name="model.oddRef_sequenceOptional">
       <optional>
@@ -4767,9 +5071,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="moduleRef"/>
-      </optional>
-      <optional>
-         <ref name="specGrpRef"/>
       </optional>
    </define>
    <define name="model.oddRef_sequenceOptionalRepeatable">
@@ -4785,9 +5086,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="moduleRef"/>
       </zeroOrMore>
-      <zeroOrMore>
-         <ref name="specGrpRef"/>
-      </zeroOrMore>
    </define>
    <define name="model.oddRef_sequenceRepeatable">
       <oneOrMore>
@@ -4801,9 +5099,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="moduleRef"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="specGrpRef"/>
       </oneOrMore>
    </define>
    <define name="model.phrase.xml">
@@ -4916,6 +5211,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="bibl"/>
          <ref name="biblStruct"/>
          <ref name="msDesc"/>
+         <ref name="listRelation"/>
+         <ref name="relationGrp"/>
       </choice>
    </define>
    <define name="model.biblLike_alternation">
@@ -4924,6 +5221,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="bibl"/>
          <ref name="biblStruct"/>
          <ref name="msDesc"/>
+         <ref name="listRelation"/>
+         <ref name="relationGrp"/>
       </choice>
    </define>
    <define name="model.biblLike_sequence">
@@ -4931,6 +5230,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="bibl"/>
       <ref name="biblStruct"/>
       <ref name="msDesc"/>
+      <ref name="listRelation"/>
+      <ref name="relationGrp"/>
    </define>
    <define name="model.biblLike_sequenceOptional">
       <optional>
@@ -4944,6 +5245,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="msDesc"/>
+      </optional>
+      <optional>
+         <ref name="listRelation"/>
+      </optional>
+      <optional>
+         <ref name="relationGrp"/>
       </optional>
    </define>
    <define name="model.biblLike_sequenceOptionalRepeatable">
@@ -4959,6 +5266,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="msDesc"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listRelation"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="relationGrp"/>
+      </zeroOrMore>
    </define>
    <define name="model.biblLike_sequenceRepeatable">
       <oneOrMore>
@@ -4972,6 +5285,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="msDesc"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listRelation"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="relationGrp"/>
       </oneOrMore>
    </define>
    <define name="model.headLike">
@@ -5052,6 +5371,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="listPerson"/>
          <ref name="listPlace"/>
          <ref name="listNym"/>
+         <ref name="table"/>
       </choice>
    </define>
    <define name="model.listLike_alternation">
@@ -5064,6 +5384,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="listPerson"/>
          <ref name="listPlace"/>
          <ref name="listNym"/>
+         <ref name="table"/>
       </choice>
    </define>
    <define name="model.listLike_sequence">
@@ -5075,6 +5396,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="listPerson"/>
       <ref name="listPlace"/>
       <ref name="listNym"/>
+      <ref name="table"/>
    </define>
    <define name="model.listLike_sequenceOptional">
       <optional>
@@ -5100,6 +5422,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="listNym"/>
+      </optional>
+      <optional>
+         <ref name="table"/>
       </optional>
    </define>
    <define name="model.listLike_sequenceOptionalRepeatable">
@@ -5127,6 +5452,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="listNym"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="table"/>
+      </zeroOrMore>
    </define>
    <define name="model.listLike_sequenceRepeatable">
       <oneOrMore>
@@ -5152,6 +5480,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="listNym"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="table"/>
       </oneOrMore>
    </define>
    <define name="model.noteLike">
@@ -6048,13 +6379,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.pLike"/>
          <ref name="lg"/>
          <ref name="sp"/>
-         <ref name="floatingText"/>
+         <ref name="spGrp"/>
          <ref name="model.divPart.spoken"/>
          <ref name="graph"/>
          <ref name="tree"/>
          <ref name="eTree"/>
          <ref name="forest"/>
-         <ref name="forestGrp"/>
+         <ref name="listForest"/>
          <ref name="schemaSpec"/>
       </choice>
    </define>
@@ -6064,13 +6395,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.pLike_alternation"/>
          <ref name="lg"/>
          <ref name="sp"/>
-         <ref name="floatingText"/>
+         <ref name="spGrp"/>
          <ref name="model.divPart.spoken_alternation"/>
          <ref name="graph"/>
          <ref name="tree"/>
          <ref name="eTree"/>
          <ref name="forest"/>
-         <ref name="forestGrp"/>
+         <ref name="listForest"/>
          <ref name="schemaSpec"/>
       </choice>
    </define>
@@ -6079,13 +6410,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="model.pLike_sequence"/>
       <ref name="lg"/>
       <ref name="sp"/>
-      <ref name="floatingText"/>
+      <ref name="spGrp"/>
       <ref name="model.divPart.spoken_sequence"/>
       <ref name="graph"/>
       <ref name="tree"/>
       <ref name="eTree"/>
       <ref name="forest"/>
-      <ref name="forestGrp"/>
+      <ref name="listForest"/>
       <ref name="schemaSpec"/>
    </define>
    <define name="model.divPart_sequenceOptional">
@@ -6102,7 +6433,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="sp"/>
       </optional>
       <optional>
-         <ref name="floatingText"/>
+         <ref name="spGrp"/>
       </optional>
       <optional>
          <ref name="model.divPart.spoken_sequenceOptional"/>
@@ -6120,7 +6451,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="forest"/>
       </optional>
       <optional>
-         <ref name="forestGrp"/>
+         <ref name="listForest"/>
       </optional>
       <optional>
          <ref name="schemaSpec"/>
@@ -6140,7 +6471,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="sp"/>
       </zeroOrMore>
       <zeroOrMore>
-         <ref name="floatingText"/>
+         <ref name="spGrp"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="model.divPart.spoken_sequenceOptionalRepeatable"/>
@@ -6158,7 +6489,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="forest"/>
       </zeroOrMore>
       <zeroOrMore>
-         <ref name="forestGrp"/>
+         <ref name="listForest"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="schemaSpec"/>
@@ -6178,7 +6509,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="sp"/>
       </oneOrMore>
       <oneOrMore>
-         <ref name="floatingText"/>
+         <ref name="spGrp"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="model.divPart.spoken_sequenceRepeatable"/>
@@ -6196,142 +6527,63 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="forest"/>
       </oneOrMore>
       <oneOrMore>
-         <ref name="forestGrp"/>
+         <ref name="listForest"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="schemaSpec"/>
-      </oneOrMore>
-   </define>
-   <define name="model.persTraitLike">
-      <choice>
-         <ref name="age"/>
-         <ref name="faith"/>
-         <ref name="langKnowledge"/>
-         <ref name="nationality"/>
-         <ref name="sex"/>
-         <ref name="socecStatus"/>
-         <ref name="trait"/>
-      </choice>
-   </define>
-   <define name="model.persTraitLike_alternation">
-      <choice>
-         <ref name="age"/>
-         <ref name="faith"/>
-         <ref name="langKnowledge"/>
-         <ref name="nationality"/>
-         <ref name="sex"/>
-         <ref name="socecStatus"/>
-         <ref name="trait"/>
-      </choice>
-   </define>
-   <define name="model.persTraitLike_sequence">
-      <ref name="age"/>
-      <ref name="faith"/>
-      <ref name="langKnowledge"/>
-      <ref name="nationality"/>
-      <ref name="sex"/>
-      <ref name="socecStatus"/>
-      <ref name="trait"/>
-   </define>
-   <define name="model.persTraitLike_sequenceOptional">
-      <optional>
-         <ref name="age"/>
-      </optional>
-      <optional>
-         <ref name="faith"/>
-      </optional>
-      <optional>
-         <ref name="langKnowledge"/>
-      </optional>
-      <optional>
-         <ref name="nationality"/>
-      </optional>
-      <optional>
-         <ref name="sex"/>
-      </optional>
-      <optional>
-         <ref name="socecStatus"/>
-      </optional>
-      <optional>
-         <ref name="trait"/>
-      </optional>
-   </define>
-   <define name="model.persTraitLike_sequenceOptionalRepeatable">
-      <zeroOrMore>
-         <ref name="age"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="faith"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="langKnowledge"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="nationality"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="sex"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="socecStatus"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="trait"/>
-      </zeroOrMore>
-   </define>
-   <define name="model.persTraitLike_sequenceRepeatable">
-      <oneOrMore>
-         <ref name="age"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="faith"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="langKnowledge"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="nationality"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="sex"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="socecStatus"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="trait"/>
       </oneOrMore>
    </define>
    <define name="model.persStateLike">
       <choice>
          <ref name="persName"/>
          <ref name="affiliation"/>
+         <ref name="age"/>
          <ref name="education"/>
+         <ref name="faith"/>
          <ref name="floruit"/>
+         <ref name="langKnowledge"/>
+         <ref name="nationality"/>
          <ref name="occupation"/>
          <ref name="residence"/>
+         <ref name="sex"/>
+         <ref name="socecStatus"/>
          <ref name="state"/>
+         <ref name="trait"/>
       </choice>
    </define>
    <define name="model.persStateLike_alternation">
       <choice>
          <ref name="persName"/>
          <ref name="affiliation"/>
+         <ref name="age"/>
          <ref name="education"/>
+         <ref name="faith"/>
          <ref name="floruit"/>
+         <ref name="langKnowledge"/>
+         <ref name="nationality"/>
          <ref name="occupation"/>
          <ref name="residence"/>
+         <ref name="sex"/>
+         <ref name="socecStatus"/>
          <ref name="state"/>
+         <ref name="trait"/>
       </choice>
    </define>
    <define name="model.persStateLike_sequence">
       <ref name="persName"/>
       <ref name="affiliation"/>
+      <ref name="age"/>
       <ref name="education"/>
+      <ref name="faith"/>
       <ref name="floruit"/>
+      <ref name="langKnowledge"/>
+      <ref name="nationality"/>
       <ref name="occupation"/>
       <ref name="residence"/>
+      <ref name="sex"/>
+      <ref name="socecStatus"/>
       <ref name="state"/>
+      <ref name="trait"/>
    </define>
    <define name="model.persStateLike_sequenceOptional">
       <optional>
@@ -6341,10 +6593,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="affiliation"/>
       </optional>
       <optional>
+         <ref name="age"/>
+      </optional>
+      <optional>
          <ref name="education"/>
       </optional>
       <optional>
+         <ref name="faith"/>
+      </optional>
+      <optional>
          <ref name="floruit"/>
+      </optional>
+      <optional>
+         <ref name="langKnowledge"/>
+      </optional>
+      <optional>
+         <ref name="nationality"/>
       </optional>
       <optional>
          <ref name="occupation"/>
@@ -6353,7 +6617,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="residence"/>
       </optional>
       <optional>
+         <ref name="sex"/>
+      </optional>
+      <optional>
+         <ref name="socecStatus"/>
+      </optional>
+      <optional>
          <ref name="state"/>
+      </optional>
+      <optional>
+         <ref name="trait"/>
       </optional>
    </define>
    <define name="model.persStateLike_sequenceOptionalRepeatable">
@@ -6364,10 +6637,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="affiliation"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="age"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="education"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="faith"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="floruit"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="langKnowledge"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="nationality"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="occupation"/>
@@ -6376,7 +6661,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="residence"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="sex"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="socecStatus"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="state"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="trait"/>
       </zeroOrMore>
    </define>
    <define name="model.persStateLike_sequenceRepeatable">
@@ -6387,10 +6681,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="affiliation"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="age"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="education"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="faith"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="floruit"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="langKnowledge"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="nationality"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="occupation"/>
@@ -6399,7 +6705,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="residence"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="sex"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="socecStatus"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="state"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="trait"/>
       </oneOrMore>
    </define>
    <define name="model.persEventLike">
@@ -6508,7 +6823,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.personPart">
       <choice>
-         <ref name="model.persTraitLike"/>
          <ref name="model.persStateLike"/>
          <ref name="model.persEventLike"/>
          <ref name="bibl"/>
@@ -6516,22 +6830,17 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.personPart_alternation">
       <choice>
-         <ref name="model.persTraitLike_alternation"/>
          <ref name="model.persStateLike_alternation"/>
          <ref name="model.persEventLike_alternation"/>
          <ref name="bibl"/>
       </choice>
    </define>
    <define name="model.personPart_sequence">
-      <ref name="model.persTraitLike_sequence"/>
       <ref name="model.persStateLike_sequence"/>
       <ref name="model.persEventLike_sequence"/>
       <ref name="bibl"/>
    </define>
    <define name="model.personPart_sequenceOptional">
-      <optional>
-         <ref name="model.persTraitLike_sequenceOptional"/>
-      </optional>
       <optional>
          <ref name="model.persStateLike_sequenceOptional"/>
       </optional>
@@ -6544,9 +6853,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.personPart_sequenceOptionalRepeatable">
       <zeroOrMore>
-         <ref name="model.persTraitLike_sequenceOptionalRepeatable"/>
-      </zeroOrMore>
-      <zeroOrMore>
          <ref name="model.persStateLike_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -6558,9 +6864,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.personPart_sequenceRepeatable">
       <oneOrMore>
-         <ref name="model.persTraitLike_sequenceRepeatable"/>
-      </oneOrMore>
-      <oneOrMore>
          <ref name="model.persStateLike_sequenceRepeatable"/>
       </oneOrMore>
       <oneOrMore>
@@ -6568,82 +6871,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="bibl"/>
-      </oneOrMore>
-   </define>
-   <define name="model.placeTraitLike">
-      <choice>
-         <ref name="climate"/>
-         <ref name="location"/>
-         <ref name="population"/>
-         <ref name="terrain"/>
-         <ref name="trait"/>
-      </choice>
-   </define>
-   <define name="model.placeTraitLike_alternation">
-      <choice>
-         <ref name="climate"/>
-         <ref name="location"/>
-         <ref name="population"/>
-         <ref name="terrain"/>
-         <ref name="trait"/>
-      </choice>
-   </define>
-   <define name="model.placeTraitLike_sequence">
-      <ref name="climate"/>
-      <ref name="location"/>
-      <ref name="population"/>
-      <ref name="terrain"/>
-      <ref name="trait"/>
-   </define>
-   <define name="model.placeTraitLike_sequenceOptional">
-      <optional>
-         <ref name="climate"/>
-      </optional>
-      <optional>
-         <ref name="location"/>
-      </optional>
-      <optional>
-         <ref name="population"/>
-      </optional>
-      <optional>
-         <ref name="terrain"/>
-      </optional>
-      <optional>
-         <ref name="trait"/>
-      </optional>
-   </define>
-   <define name="model.placeTraitLike_sequenceOptionalRepeatable">
-      <zeroOrMore>
-         <ref name="climate"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="location"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="population"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="terrain"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="trait"/>
-      </zeroOrMore>
-   </define>
-   <define name="model.placeTraitLike_sequenceRepeatable">
-      <oneOrMore>
-         <ref name="climate"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="location"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="population"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="terrain"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="trait"/>
       </oneOrMore>
    </define>
    <define name="model.placeNamePart">
@@ -6749,25 +6976,55 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.placeStateLike">
       <choice>
          <ref name="model.placeNamePart"/>
+         <ref name="climate"/>
+         <ref name="location"/>
+         <ref name="population"/>
          <ref name="state"/>
+         <ref name="terrain"/>
+         <ref name="trait"/>
       </choice>
    </define>
    <define name="model.placeStateLike_alternation">
       <choice>
          <ref name="model.placeNamePart_alternation"/>
+         <ref name="climate"/>
+         <ref name="location"/>
+         <ref name="population"/>
          <ref name="state"/>
+         <ref name="terrain"/>
+         <ref name="trait"/>
       </choice>
    </define>
    <define name="model.placeStateLike_sequence">
       <ref name="model.placeNamePart_sequence"/>
+      <ref name="climate"/>
+      <ref name="location"/>
+      <ref name="population"/>
       <ref name="state"/>
+      <ref name="terrain"/>
+      <ref name="trait"/>
    </define>
    <define name="model.placeStateLike_sequenceOptional">
       <optional>
          <ref name="model.placeNamePart_sequenceOptional"/>
       </optional>
       <optional>
+         <ref name="climate"/>
+      </optional>
+      <optional>
+         <ref name="location"/>
+      </optional>
+      <optional>
+         <ref name="population"/>
+      </optional>
+      <optional>
          <ref name="state"/>
+      </optional>
+      <optional>
+         <ref name="terrain"/>
+      </optional>
+      <optional>
+         <ref name="trait"/>
       </optional>
    </define>
    <define name="model.placeStateLike_sequenceOptionalRepeatable">
@@ -6775,7 +7032,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.placeNamePart_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="climate"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="location"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="population"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="state"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="terrain"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="trait"/>
       </zeroOrMore>
    </define>
    <define name="model.placeStateLike_sequenceRepeatable">
@@ -6783,7 +7055,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.placeNamePart_sequenceRepeatable"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="climate"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="location"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="population"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="state"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="terrain"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="trait"/>
       </oneOrMore>
    </define>
    <define name="model.placeEventLike">
@@ -6812,6 +7099,58 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.placeEventLike_sequenceRepeatable">
       <oneOrMore>
          <ref name="event"/>
+      </oneOrMore>
+   </define>
+   <define name="model.orgPart">
+      <choice>
+         <ref name="listOrg"/>
+         <ref name="listPerson"/>
+         <ref name="listPlace"/>
+      </choice>
+   </define>
+   <define name="model.orgPart_alternation">
+      <choice>
+         <ref name="listOrg"/>
+         <ref name="listPerson"/>
+         <ref name="listPlace"/>
+      </choice>
+   </define>
+   <define name="model.orgPart_sequence">
+      <ref name="listOrg"/>
+      <ref name="listPerson"/>
+      <ref name="listPlace"/>
+   </define>
+   <define name="model.orgPart_sequenceOptional">
+      <optional>
+         <ref name="listOrg"/>
+      </optional>
+      <optional>
+         <ref name="listPerson"/>
+      </optional>
+      <optional>
+         <ref name="listPlace"/>
+      </optional>
+   </define>
+   <define name="model.orgPart_sequenceOptionalRepeatable">
+      <zeroOrMore>
+         <ref name="listOrg"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listPerson"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listPlace"/>
+      </zeroOrMore>
+   </define>
+   <define name="model.orgPart_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="listOrg"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listPerson"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listPlace"/>
       </oneOrMore>
    </define>
    <define name="model.publicationStmtPart">
@@ -6926,38 +7265,118 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="pubPlace"/>
       </oneOrMore>
    </define>
+   <define name="model.availabilityPart">
+      <choice>
+         <ref name="licence"/>
+         <ref name="p"/>
+      </choice>
+   </define>
+   <define name="model.availabilityPart_alternation">
+      <choice>
+         <ref name="licence"/>
+         <ref name="p"/>
+      </choice>
+   </define>
+   <define name="model.availabilityPart_sequence">
+      <ref name="licence"/>
+      <ref name="p"/>
+   </define>
+   <define name="model.availabilityPart_sequenceOptional">
+      <optional>
+         <ref name="licence"/>
+      </optional>
+      <optional>
+         <ref name="p"/>
+      </optional>
+   </define>
+   <define name="model.availabilityPart_sequenceOptionalRepeatable">
+      <zeroOrMore>
+         <ref name="licence"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="p"/>
+      </zeroOrMore>
+   </define>
+   <define name="model.availabilityPart_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="licence"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="p"/>
+      </oneOrMore>
+   </define>
+   <define name="model.certLike">
+      <choice>
+         <ref name="certainty"/>
+         <ref name="respons"/>
+      </choice>
+   </define>
+   <define name="model.certLike_alternation">
+      <choice>
+         <ref name="certainty"/>
+         <ref name="respons"/>
+      </choice>
+   </define>
+   <define name="model.certLike_sequence">
+      <ref name="certainty"/>
+      <ref name="respons"/>
+   </define>
+   <define name="model.certLike_sequenceOptional">
+      <optional>
+         <ref name="certainty"/>
+      </optional>
+      <optional>
+         <ref name="respons"/>
+      </optional>
+   </define>
+   <define name="model.certLike_sequenceOptionalRepeatable">
+      <zeroOrMore>
+         <ref name="certainty"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="respons"/>
+      </zeroOrMore>
+   </define>
+   <define name="model.certLike_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="certainty"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="respons"/>
+      </oneOrMore>
+   </define>
    <define name="model.glossLike">
       <choice>
+         <ref name="model.certLike"/>
          <ref name="desc"/>
          <ref name="gloss"/>
          <ref name="precision"/>
-         <ref name="certainty"/>
-         <ref name="respons"/>
          <ref name="equiv"/>
          <ref name="altIdent"/>
       </choice>
    </define>
    <define name="model.glossLike_alternation">
       <choice>
+         <ref name="model.certLike_alternation"/>
          <ref name="desc"/>
          <ref name="gloss"/>
          <ref name="precision"/>
-         <ref name="certainty"/>
-         <ref name="respons"/>
          <ref name="equiv"/>
          <ref name="altIdent"/>
       </choice>
    </define>
    <define name="model.glossLike_sequence">
+      <ref name="model.certLike_sequence"/>
       <ref name="desc"/>
       <ref name="gloss"/>
       <ref name="precision"/>
-      <ref name="certainty"/>
-      <ref name="respons"/>
       <ref name="equiv"/>
       <ref name="altIdent"/>
    </define>
    <define name="model.glossLike_sequenceOptional">
+      <optional>
+         <ref name="model.certLike_sequenceOptional"/>
+      </optional>
       <optional>
          <ref name="desc"/>
       </optional>
@@ -6966,12 +7385,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="precision"/>
-      </optional>
-      <optional>
-         <ref name="certainty"/>
-      </optional>
-      <optional>
-         <ref name="respons"/>
       </optional>
       <optional>
          <ref name="equiv"/>
@@ -6982,6 +7395,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.glossLike_sequenceOptionalRepeatable">
       <zeroOrMore>
+         <ref name="model.certLike_sequenceOptionalRepeatable"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="desc"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -6989,12 +7405,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
       <zeroOrMore>
          <ref name="precision"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="certainty"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="respons"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="equiv"/>
@@ -7005,6 +7415,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.glossLike_sequenceRepeatable">
       <oneOrMore>
+         <ref name="model.certLike_sequenceRepeatable"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="desc"/>
       </oneOrMore>
       <oneOrMore>
@@ -7012,12 +7425,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="precision"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="certainty"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="respons"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="equiv"/>
@@ -7071,6 +7478,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.quoteLike"/>
          <ref name="said"/>
          <ref name="q"/>
+         <ref name="floatingText"/>
       </choice>
    </define>
    <define name="model.qLike_alternation">
@@ -7078,12 +7486,14 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.quoteLike_alternation"/>
          <ref name="said"/>
          <ref name="q"/>
+         <ref name="floatingText"/>
       </choice>
    </define>
    <define name="model.qLike_sequence">
       <ref name="model.quoteLike_sequence"/>
       <ref name="said"/>
       <ref name="q"/>
+      <ref name="floatingText"/>
    </define>
    <define name="model.qLike_sequenceOptional">
       <optional>
@@ -7094,6 +7504,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="q"/>
+      </optional>
+      <optional>
+         <ref name="floatingText"/>
       </optional>
    </define>
    <define name="model.qLike_sequenceOptionalRepeatable">
@@ -7106,6 +7519,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="q"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="floatingText"/>
+      </zeroOrMore>
    </define>
    <define name="model.qLike_sequenceRepeatable">
       <oneOrMore>
@@ -7116,6 +7532,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="q"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="floatingText"/>
       </oneOrMore>
    </define>
    <define name="model.respLike">
@@ -8825,6 +9244,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.noteLike"/>
          <ref name="model.global.edit"/>
          <ref name="model.global.spoken"/>
+         <ref name="metamark"/>
+         <ref name="notatedMusic"/>
          <ref name="figure"/>
       </choice>
    </define>
@@ -8835,6 +9256,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.noteLike_alternation"/>
          <ref name="model.global.edit_alternation"/>
          <ref name="model.global.spoken_alternation"/>
+         <ref name="metamark"/>
+         <ref name="notatedMusic"/>
          <ref name="figure"/>
       </choice>
    </define>
@@ -8844,6 +9267,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="model.noteLike_sequence"/>
       <ref name="model.global.edit_sequence"/>
       <ref name="model.global.spoken_sequence"/>
+      <ref name="metamark"/>
+      <ref name="notatedMusic"/>
       <ref name="figure"/>
    </define>
    <define name="model.global_sequenceOptional">
@@ -8861,6 +9286,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="model.global.spoken_sequenceOptional"/>
+      </optional>
+      <optional>
+         <ref name="metamark"/>
+      </optional>
+      <optional>
+         <ref name="notatedMusic"/>
       </optional>
       <optional>
          <ref name="figure"/>
@@ -8883,6 +9314,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.global.spoken_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="metamark"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="notatedMusic"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="figure"/>
       </zeroOrMore>
    </define>
@@ -8901,6 +9338,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="model.global.spoken_sequenceRepeatable"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="metamark"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="notatedMusic"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="figure"/>
@@ -8953,8 +9396,10 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="edition"/>
          <ref name="extent"/>
          <ref name="series"/>
+         <ref name="bibl"/>
          <ref name="relatedItem"/>
          <ref name="msIdentifier"/>
+         <ref name="textLang"/>
       </choice>
    </define>
    <define name="model.biblPart_alternation">
@@ -8964,8 +9409,10 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="edition"/>
          <ref name="extent"/>
          <ref name="series"/>
+         <ref name="bibl"/>
          <ref name="relatedItem"/>
          <ref name="msIdentifier"/>
+         <ref name="textLang"/>
       </choice>
    </define>
    <define name="model.biblPart_sequence">
@@ -8974,8 +9421,10 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="edition"/>
       <ref name="extent"/>
       <ref name="series"/>
+      <ref name="bibl"/>
       <ref name="relatedItem"/>
       <ref name="msIdentifier"/>
+      <ref name="textLang"/>
    </define>
    <define name="model.biblPart_sequenceOptional">
       <optional>
@@ -8994,10 +9443,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="series"/>
       </optional>
       <optional>
+         <ref name="bibl"/>
+      </optional>
+      <optional>
          <ref name="relatedItem"/>
       </optional>
       <optional>
          <ref name="msIdentifier"/>
+      </optional>
+      <optional>
+         <ref name="textLang"/>
       </optional>
    </define>
    <define name="model.biblPart_sequenceOptionalRepeatable">
@@ -9017,10 +9472,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="series"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="bibl"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="relatedItem"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="msIdentifier"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="textLang"/>
       </zeroOrMore>
    </define>
    <define name="model.biblPart_sequenceRepeatable">
@@ -9040,10 +9501,16 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="series"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="bibl"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="relatedItem"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="msIdentifier"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="textLang"/>
       </oneOrMore>
    </define>
    <define name="model.frontPart">
@@ -9242,41 +9709,35 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="model.egLike"/>
          <ref name="model.oddDecl"/>
-         <ref name="model.oddRef"/>
          <ref name="model.biblLike"/>
          <ref name="model.labelLike"/>
          <ref name="model.listLike"/>
          <ref name="model.stageLike"/>
          <ref name="model.qLike"/>
          <ref name="castList"/>
-         <ref name="table"/>
       </choice>
    </define>
    <define name="model.inter_alternation">
       <choice>
          <ref name="model.egLike_alternation"/>
          <ref name="model.oddDecl_alternation"/>
-         <ref name="model.oddRef_alternation"/>
          <ref name="model.biblLike_alternation"/>
          <ref name="model.labelLike_alternation"/>
          <ref name="model.listLike_alternation"/>
          <ref name="model.stageLike_alternation"/>
          <ref name="model.qLike_alternation"/>
          <ref name="castList"/>
-         <ref name="table"/>
       </choice>
    </define>
    <define name="model.inter_sequence">
       <ref name="model.egLike_sequence"/>
       <ref name="model.oddDecl_sequence"/>
-      <ref name="model.oddRef_sequence"/>
       <ref name="model.biblLike_sequence"/>
       <ref name="model.labelLike_sequence"/>
       <ref name="model.listLike_sequence"/>
       <ref name="model.stageLike_sequence"/>
       <ref name="model.qLike_sequence"/>
       <ref name="castList"/>
-      <ref name="table"/>
    </define>
    <define name="model.inter_sequenceOptional">
       <optional>
@@ -9284,9 +9745,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="model.oddDecl_sequenceOptional"/>
-      </optional>
-      <optional>
-         <ref name="model.oddRef_sequenceOptional"/>
       </optional>
       <optional>
          <ref name="model.biblLike_sequenceOptional"/>
@@ -9306,9 +9764,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <optional>
          <ref name="castList"/>
       </optional>
-      <optional>
-         <ref name="table"/>
-      </optional>
    </define>
    <define name="model.inter_sequenceOptionalRepeatable">
       <zeroOrMore>
@@ -9316,9 +9771,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
       <zeroOrMore>
          <ref name="model.oddDecl_sequenceOptionalRepeatable"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="model.oddRef_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="model.biblLike_sequenceOptionalRepeatable"/>
@@ -9338,9 +9790,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="castList"/>
       </zeroOrMore>
-      <zeroOrMore>
-         <ref name="table"/>
-      </zeroOrMore>
    </define>
    <define name="model.inter_sequenceRepeatable">
       <oneOrMore>
@@ -9348,9 +9797,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="model.oddDecl_sequenceRepeatable"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="model.oddRef_sequenceRepeatable"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="model.biblLike_sequenceRepeatable"/>
@@ -9369,9 +9815,6 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="castList"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="table"/>
       </oneOrMore>
    </define>
    <define name="model.common">
@@ -9576,6 +10019,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.limitedPhrase">
       <choice>
+         <ref name="model.hiLike"/>
          <ref name="model.emphLike"/>
          <ref name="model.pPart.msdesc"/>
          <ref name="model.pPart.editorial"/>
@@ -9586,6 +10030,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.limitedPhrase_alternation">
       <choice>
+         <ref name="model.hiLike_alternation"/>
          <ref name="model.emphLike_alternation"/>
          <ref name="model.pPart.msdesc_alternation"/>
          <ref name="model.pPart.editorial_alternation"/>
@@ -9595,6 +10040,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </choice>
    </define>
    <define name="model.limitedPhrase_sequence">
+      <ref name="model.hiLike_sequence"/>
       <ref name="model.emphLike_sequence"/>
       <ref name="model.pPart.msdesc_sequence"/>
       <ref name="model.pPart.editorial_sequence"/>
@@ -9603,6 +10049,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="model.pPart.data_sequence"/>
    </define>
    <define name="model.limitedPhrase_sequenceOptional">
+      <optional>
+         <ref name="model.hiLike_sequenceOptional"/>
+      </optional>
       <optional>
          <ref name="model.emphLike_sequenceOptional"/>
       </optional>
@@ -9624,6 +10073,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.limitedPhrase_sequenceOptionalRepeatable">
       <zeroOrMore>
+         <ref name="model.hiLike_sequenceOptionalRepeatable"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="model.emphLike_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -9643,6 +10095,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
    </define>
    <define name="model.limitedPhrase_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="model.hiLike_sequenceRepeatable"/>
+      </oneOrMore>
       <oneOrMore>
          <ref name="model.emphLike_sequenceRepeatable"/>
       </oneOrMore>
@@ -10287,7 +10742,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="creation"/>
          <ref name="langUsage"/>
          <ref name="textClass"/>
+         <ref name="calendarDesc"/>
          <ref name="handNotes"/>
+         <ref name="listTranspose"/>
          <ref name="textDesc"/>
          <ref name="particDesc"/>
          <ref name="settingDesc"/>
@@ -10298,7 +10755,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="creation"/>
          <ref name="langUsage"/>
          <ref name="textClass"/>
+         <ref name="calendarDesc"/>
          <ref name="handNotes"/>
+         <ref name="listTranspose"/>
          <ref name="textDesc"/>
          <ref name="particDesc"/>
          <ref name="settingDesc"/>
@@ -10308,7 +10767,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="creation"/>
       <ref name="langUsage"/>
       <ref name="textClass"/>
+      <ref name="calendarDesc"/>
       <ref name="handNotes"/>
+      <ref name="listTranspose"/>
       <ref name="textDesc"/>
       <ref name="particDesc"/>
       <ref name="settingDesc"/>
@@ -10324,7 +10785,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="textClass"/>
       </optional>
       <optional>
+         <ref name="calendarDesc"/>
+      </optional>
+      <optional>
          <ref name="handNotes"/>
+      </optional>
+      <optional>
+         <ref name="listTranspose"/>
       </optional>
       <optional>
          <ref name="textDesc"/>
@@ -10347,7 +10814,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="textClass"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="calendarDesc"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="handNotes"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listTranspose"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="textDesc"/>
@@ -10370,7 +10843,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="textClass"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="calendarDesc"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="handNotes"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listTranspose"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="textDesc"/>
@@ -10385,22 +10864,28 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.resourceLike">
       <choice>
          <ref name="facsimile"/>
+         <ref name="sourceDoc"/>
          <ref name="fsdDecl"/>
       </choice>
    </define>
    <define name="model.resourceLike_alternation">
       <choice>
          <ref name="facsimile"/>
+         <ref name="sourceDoc"/>
          <ref name="fsdDecl"/>
       </choice>
    </define>
    <define name="model.resourceLike_sequence">
       <ref name="facsimile"/>
+      <ref name="sourceDoc"/>
       <ref name="fsdDecl"/>
    </define>
    <define name="model.resourceLike_sequenceOptional">
       <optional>
          <ref name="facsimile"/>
+      </optional>
+      <optional>
+         <ref name="sourceDoc"/>
       </optional>
       <optional>
          <ref name="fsdDecl"/>
@@ -10411,12 +10896,18 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="facsimile"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="sourceDoc"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="fsdDecl"/>
       </zeroOrMore>
    </define>
    <define name="model.resourceLike_sequenceRepeatable">
       <oneOrMore>
          <ref name="facsimile"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="sourceDoc"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="fsdDecl"/>
@@ -10690,31 +11181,5 @@ to others within the personal name.</a:documentation>
    <define name="data.duration.iso"><?tei winita need to improve this regexp to match duration better --sb ?><data type="token">
          <param name="pattern">[0-9.,DHMPRSTWYZ/:+\-]+</param>
       </data>
-   </define>
-   <define name="macro.anyXML">
-      <element>
-         <anyName>
-            <except>
-               <nsName ns="http://www.tei-c.org/ns/1.0"/>
-               <name ns="http://www.tei-c.org/ns/Examples">egXML</name>
-            </except>
-         </anyName>
-         <zeroOrMore>
-            <attribute>
-               <anyName/>
-            </attribute>
-         </zeroOrMore>
-         <zeroOrMore>
-            <choice>
-               <text/>
-               <ref name="macro.anyXML"/>
-            </choice>
-         </zeroOrMore>
-      </element>
-   </define>
-   <define name="macro.schemaPattern">
-      <group>
-         <ref name="macro.anyXML"/>
-      </group>
    </define>
 </grammar>

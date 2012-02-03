@@ -1,30 +1,43 @@
-default namespace = "http://www.tei-c.org/ns/Examples"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
-namespace ns1 = "http://www.tei-c.org/ns/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Declarations for classes, datatypes, and macros available to all
 # TEI modules
@@ -86,6 +99,8 @@ byline |= notAllowed
 c |= notAllowed
 cRefPattern |= notAllowed
 caesura |= notAllowed
+calendar |= notAllowed
+calendarDesc |= notAllowed
 camera |= notAllowed
 caption |= notAllowed
 case |= notAllowed
@@ -214,7 +229,6 @@ foliation |= notAllowed
 foreign |= notAllowed
 forename |= notAllowed
 forest |= notAllowed
-forestGrp |= notAllowed
 form |= notAllowed
 formula |= notAllowed
 front |= notAllowed
@@ -296,16 +310,22 @@ lbl |= notAllowed
 leaf |= notAllowed
 lem |= notAllowed
 lg |= notAllowed
+licence |= notAllowed
+line |= notAllowed
 link |= notAllowed
 linkGrp |= notAllowed
 \list |= notAllowed
 listBibl |= notAllowed
+listChange |= notAllowed
 listEvent |= notAllowed
+listForest |= notAllowed
 listNym |= notAllowed
 listOrg |= notAllowed
 listPerson |= notAllowed
 listPlace |= notAllowed
 listRef |= notAllowed
+listRelation |= notAllowed
+listTranspose |= notAllowed
 listWit |= notAllowed
 localName |= notAllowed
 locale |= notAllowed
@@ -324,7 +344,9 @@ memberOf |= notAllowed
 mentioned |= notAllowed
 metDecl |= notAllowed
 metSym |= notAllowed
+metamark |= notAllowed
 milestone |= notAllowed
+mod |= notAllowed
 moduleRef |= notAllowed
 moduleSpec |= notAllowed
 monogr |= notAllowed
@@ -344,6 +366,7 @@ nameLink |= notAllowed
 nationality |= notAllowed
 node |= notAllowed
 normalization |= notAllowed
+notatedMusic |= notAllowed
 note |= notAllowed
 notesStmt |= notAllowed
 num |= notAllowed
@@ -407,6 +430,7 @@ re |= notAllowed
 recordHist |= notAllowed
 recording |= notAllowed
 recordingStmt |= notAllowed
+redo |= notAllowed
 ref |= notAllowed
 refState |= notAllowed
 refsDecl |= notAllowed
@@ -423,6 +447,7 @@ resp |= notAllowed
 respStmt |= notAllowed
 respons |= notAllowed
 restore |= notAllowed
+retrace |= notAllowed
 revisionDesc |= notAllowed
 rhyme |= notAllowed
 role |= notAllowed
@@ -462,7 +487,9 @@ socecStatus |= notAllowed
 sound |= notAllowed
 source |= notAllowed
 sourceDesc |= notAllowed
+sourceDoc |= notAllowed
 sp |= notAllowed
+spGrp |= notAllowed
 space |= notAllowed
 span |= notAllowed
 spanGrp |= notAllowed
@@ -479,15 +506,16 @@ stdVals |= notAllowed
 street |= notAllowed
 stress |= notAllowed
 \string |= notAllowed
-stringVal |= notAllowed
 subc |= notAllowed
 subst |= notAllowed
+substJoin |= notAllowed
 summary |= notAllowed
 superEntry |= notAllowed
 supplied |= notAllowed
 support |= notAllowed
 supportDesc |= notAllowed
 surface |= notAllowed
+surfaceGrp |= notAllowed
 surname |= notAllowed
 surplus |= notAllowed
 surrogates |= notAllowed
@@ -517,12 +545,14 @@ titleStmt |= notAllowed
 tns |= notAllowed
 trailer |= notAllowed
 trait |= notAllowed
+transpose |= notAllowed
 tree |= notAllowed
 triangle |= notAllowed
 typeDesc |= notAllowed
 typeNote |= notAllowed
 u |= notAllowed
 unclear |= notAllowed
+undo |= notAllowed
 unicodeName |= notAllowed
 usg |= notAllowed
 vAlt |= notAllowed
@@ -555,6 +585,7 @@ zone |= notAllowed
 # Set predeclared macros
 
 # 0. predeclared classes
+att.datable.custom.attributes |= empty
 att.duration.w3c.attributes |= empty
 att.duration.attributes |= empty
 model.entryPart |= notAllowed
@@ -569,12 +600,6 @@ model.global.spoken_sequence |= notAllowed
 model.global.spoken_sequenceOptional |= notAllowed
 model.global.spoken_sequenceOptionalRepeatable |= notAllowed
 model.global.spoken_sequenceRepeatable |= notAllowed
-model.placeTraitLike |= notAllowed
-model.placeTraitLike_alternation |= notAllowed
-model.placeTraitLike_sequence |= notAllowed
-model.placeTraitLike_sequenceOptional |= notAllowed
-model.placeTraitLike_sequenceOptionalRepeatable |= notAllowed
-model.placeTraitLike_sequenceRepeatable |= notAllowed
 model.placeNamePart |= notAllowed
 model.placeNamePart_alternation |= notAllowed
 model.placeNamePart_sequence |= notAllowed
@@ -593,6 +618,12 @@ model.placeEventLike_sequence |= notAllowed
 model.placeEventLike_sequenceOptional |= notAllowed
 model.placeEventLike_sequenceOptionalRepeatable |= notAllowed
 model.placeEventLike_sequenceRepeatable |= notAllowed
+model.orgPart |= notAllowed
+model.orgPart_alternation |= notAllowed
+model.orgPart_sequence |= notAllowed
+model.orgPart_sequenceOptional |= notAllowed
+model.orgPart_sequenceOptionalRepeatable |= notAllowed
+model.orgPart_sequenceRepeatable |= notAllowed
 model.persNamePart |= notAllowed
 model.persNamePart_alternation |= notAllowed
 model.persNamePart_sequence |= notAllowed
@@ -621,6 +652,7 @@ model.ptrLike.form_sequenceOptionalRepeatable |= notAllowed
 model.ptrLike.form_sequenceRepeatable |= notAllowed
 att.msExcerpt.attributes |= empty
 att.global.facs.attributes |= empty
+att.global.change.attributes |= empty
 model.resourceLike |= notAllowed
 model.resourceLike_alternation |= notAllowed
 model.resourceLike_sequence |= notAllowed
@@ -665,7 +697,8 @@ att.ranging.attributes =
   att.ranging.attribute.atLeast,
   att.ranging.attribute.atMost,
   att.ranging.attribute.min,
-  att.ranging.attribute.max
+  att.ranging.attribute.max,
+  att.ranging.attribute.confidence
 att.ranging.attribute.atLeast =
   
   ## gives a minimum estimated value for the approximate measurement.
@@ -683,9 +716,14 @@ att.ranging.attribute.min =
 att.ranging.attribute.max =
   
   ## where the measurement summarizes more than one observation
-  ##       or a range, supplies the maximum value
-  ##       observed.
+  ##         or a range, supplies the maximum value
+  ##         observed.
   attribute max { data.numeric }?
+att.ranging.attribute.confidence =
+  
+  ## The degree of statistical confidence (between zero and one) that a value falls within the range
+  ##         specified by min and max, or the proportion of observed values that fall within that range.
+  attribute confidence { data.probability }?
 att.dimensions.attributes =
   att.ranging.attributes,
   att.dimensions.attribute.unit,
@@ -771,18 +809,11 @@ att.breaking.attribute.break =
   ##	an orthographic token in the same way as whitespace.
   attribute break { data.enumerated }?
 att.datable.w3c.attributes =
-  att.datable.w3c.attribute.period,
   att.datable.w3c.attribute.when,
   att.datable.w3c.attribute.notBefore,
   att.datable.w3c.attribute.notAfter,
   att.datable.w3c.attribute.from,
   att.datable.w3c.attribute.to
-att.datable.w3c.attribute.period =
-  
-  ## supplies a pointer to some location defining a named
-  ##       period of time within which the datable item is understood to
-  ##       have occurred.
-  attribute period { data.pointer }?
 att.datable.w3c.attribute.when =
   
   ## supplies the value of the date or time in a standard form,
@@ -808,7 +839,22 @@ att.datable.w3c.attribute.to =
   ##	  form, e.g. yyyy-mm-dd.
   attribute to { data.temporal.w3c }?
 att.datable.attributes =
-  att.datable.w3c.attributes, att.datable.iso.attributes
+  att.datable.w3c.attributes,
+  att.datable.iso.attributes,
+  att.datable.custom.attributes,
+  att.datable.attribute.calendar,
+  att.datable.attribute.period
+att.datable.attribute.calendar =
+  
+  ## indicates the system or calendar to which the date represented by the content of this
+  ##         element belongs.
+  attribute calendar { data.pointer }?
+att.datable.attribute.period =
+  
+  ## supplies a pointer to some location defining a named
+  ##         period of time within which the datable item is understood to
+  ##         have occurred.
+  attribute period { data.pointer }?
 att.declarable.attributes = att.declarable.attribute.default
 att.declarable.attribute.default =
   
@@ -928,7 +974,8 @@ att.editLike.attributes =
   att.dimensions.attributes,
   att.responsibility.attributes,
   att.editLike.attribute.evidence,
-  att.editLike.attribute.source
+  att.editLike.attribute.source,
+  att.editLike.attribute.instant
 att.editLike.attribute.evidence =
   
   ## indicates the nature of the evidence supporting the reliability or accuracy of the
@@ -967,10 +1014,15 @@ att.editLike.attribute.source =
   attribute source {
     list { data.pointer, data.pointer* }
   }?
+att.editLike.attribute.instant =
+  
+  ## Is this an instant revision?
+  [ a:defaultValue = "false" ] attribute instant { data.xTruthValue }?
 att.global.attributes =
   att.global.linking.attributes,
   att.global.analytic.attributes,
   att.global.facs.attributes,
+  att.global.change.attributes,
   att.global.attribute.xmlid,
   att.global.attribute.n,
   att.global.attribute.xmllang,
@@ -1084,7 +1136,9 @@ att.internetMedia.attributes = att.internetMedia.attribute.mimeType
 att.internetMedia.attribute.mimeType =
   
   ## (MIME media type) specifies the applicable multimedia internet mail extension (MIME) media type
-  attribute mimeType { data.word }?
+  attribute mimeType {
+    list { data.word, data.word* }
+  }?
 att.interpLike.attributes =
   att.responsibility.attributes,
   att.interpLike.attribute.type,
@@ -1326,7 +1380,7 @@ att.pointing.group.attribute.domains =
 att.pointing.group.attribute.targFunc =
   
   ## (target function) describes the function of each of the values of the
-  ##       targets attribute of the enclosed link,
+  ##       target attribute of the enclosed link,
   ##       join, or alt tags.
   attribute targFunc {
     list { data.word, data.word, data.word* }
@@ -1387,6 +1441,11 @@ att.segLike.attribute.part =
       ## (final) the final part of an incomplete segment
       "F"
   }?
+att.sortable.attributes = att.sortable.attribute.sortKey
+att.sortable.attribute.sortKey =
+  
+  ## supplies the sort key for this element in an index, list or group which contains it.
+  attribute sortKey { data.word }?
 att.sourced.attributes = att.sourced.attribute.ed
 att.sourced.attribute.ed =
   
@@ -1448,6 +1507,7 @@ att.transcriptional.attributes =
   att.editLike.attributes,
   att.transcriptional.attribute.hand,
   att.transcriptional.attribute.status,
+  att.transcriptional.attribute.cause,
   att.transcriptional.attribute.seq
 att.transcriptional.attribute.hand =
   
@@ -1463,6 +1523,18 @@ att.transcriptional.attribute.status =
   ## Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] excessEnd; 5] shortStart; 6] shortEnd; 7] partial; 8] unremarkable
   [ a:defaultValue = "unremarkable" ]
   attribute status { data.enumerated }?
+att.transcriptional.attribute.cause =
+  
+  ## documents the presumed cause for the intervention.
+  attribute cause {
+    
+    ## repeated for the purpose of fixation
+    "fix"
+    | 
+      ## repeated to clarify a previously illegible or badly written text
+      ##    or mark
+      "unclear"
+  }?
 att.transcriptional.attribute.seq =
   
   ## (sequence) assigns a sequence number related to the order in which
@@ -1629,7 +1701,6 @@ model.pPart.msdesc =
   | signatures
   | stamp
   | watermark
-  | handShift
 model.pPart.msdesc_alternation =
   catchwords
   | dimensions
@@ -1644,7 +1715,6 @@ model.pPart.msdesc_alternation =
   | signatures
   | stamp
   | watermark
-  | handShift
 model.pPart.msdesc_sequence =
   catchwords,
   dimensions,
@@ -1658,8 +1728,7 @@ model.pPart.msdesc_sequence =
   secFol,
   signatures,
   stamp,
-  watermark,
-  handShift
+  watermark
 model.pPart.msdesc_sequenceOptional =
   catchwords?,
   dimensions?,
@@ -1673,8 +1742,7 @@ model.pPart.msdesc_sequenceOptional =
   secFol?,
   signatures?,
   stamp?,
-  watermark?,
-  handShift?
+  watermark?
 model.pPart.msdesc_sequenceOptionalRepeatable =
   catchwords*,
   dimensions*,
@@ -1688,8 +1756,7 @@ model.pPart.msdesc_sequenceOptionalRepeatable =
   secFol*,
   signatures*,
   stamp*,
-  watermark*,
-  handShift*
+  watermark*
 model.pPart.msdesc_sequenceRepeatable =
   catchwords+,
   dimensions+,
@@ -1703,8 +1770,7 @@ model.pPart.msdesc_sequenceRepeatable =
   secFol+,
   signatures+,
   stamp+,
-  watermark+,
-  handShift+
+  watermark+
 model.pPart.editorial = choice | abbr | expan | ex | am | subst
 model.pPart.editorial_alternation =
   choice | abbr | expan | ex | am | subst
@@ -1724,9 +1790,14 @@ model.pPart.transcriptional =
   | del
   | unclear
   | damage
+  | handShift
   | restore
   | supplied
   | surplus
+  | mod
+  | redo
+  | retrace
+  | undo
   | app
 model.pPart.transcriptional_alternation =
   sic
@@ -1737,9 +1808,14 @@ model.pPart.transcriptional_alternation =
   | del
   | unclear
   | damage
+  | handShift
   | restore
   | supplied
   | surplus
+  | mod
+  | redo
+  | retrace
+  | undo
   | app
 model.pPart.transcriptional_sequence =
   sic,
@@ -1750,9 +1826,14 @@ model.pPart.transcriptional_sequence =
   del,
   unclear,
   damage,
+  handShift,
   restore,
   supplied,
   surplus,
+  mod,
+  redo,
+  retrace,
+  undo,
   app
 model.pPart.transcriptional_sequenceOptional =
   sic?,
@@ -1763,9 +1844,14 @@ model.pPart.transcriptional_sequenceOptional =
   del?,
   unclear?,
   damage?,
+  handShift?,
   restore?,
   supplied?,
   surplus?,
+  mod?,
+  redo?,
+  retrace?,
+  undo?,
   app?
 model.pPart.transcriptional_sequenceOptionalRepeatable =
   sic*,
@@ -1776,9 +1862,14 @@ model.pPart.transcriptional_sequenceOptionalRepeatable =
   del*,
   unclear*,
   damage*,
+  handShift*,
   restore*,
   supplied*,
   surplus*,
+  mod*,
+  redo*,
+  retrace*,
+  undo*,
   app*
 model.pPart.transcriptional_sequenceRepeatable =
   sic+,
@@ -1789,9 +1880,14 @@ model.pPart.transcriptional_sequenceRepeatable =
   del+,
   unclear+,
   damage+,
+  handShift+,
   restore+,
   supplied+,
   surplus+,
+  mod+,
+  redo+,
+  retrace+,
+  undo+,
   app+
 model.pPart.edit = model.pPart.editorial | model.pPart.transcriptional
 model.pPart.edit_alternation =
@@ -1808,6 +1904,48 @@ model.pPart.edit_sequenceOptionalRepeatable =
 model.pPart.edit_sequenceRepeatable =
   model.pPart.editorial_sequenceRepeatable+,
   model.pPart.transcriptional_sequenceRepeatable+
+model.linePart =
+  model.segLike
+  | model.hiLike
+  | model.pPart.transcriptional
+  | choice
+  | zone
+  | line
+model.linePart_alternation =
+  model.segLike_alternation
+  | model.hiLike_alternation
+  | model.pPart.transcriptional_alternation
+  | choice
+  | zone
+  | line
+model.linePart_sequence =
+  model.segLike_sequence,
+  model.hiLike_sequence,
+  model.pPart.transcriptional_sequence,
+  choice,
+  zone,
+  line
+model.linePart_sequenceOptional =
+  model.segLike_sequenceOptional?,
+  model.hiLike_sequenceOptional?,
+  model.pPart.transcriptional_sequenceOptional?,
+  choice?,
+  zone?,
+  line?
+model.linePart_sequenceOptionalRepeatable =
+  model.segLike_sequenceOptionalRepeatable*,
+  model.hiLike_sequenceOptionalRepeatable*,
+  model.pPart.transcriptional_sequenceOptionalRepeatable*,
+  choice*,
+  zone*,
+  line*
+model.linePart_sequenceRepeatable =
+  model.segLike_sequenceRepeatable+,
+  model.hiLike_sequenceRepeatable+,
+  model.pPart.transcriptional_sequenceRepeatable+,
+  choice+,
+  zone+,
+  line+
 model.ptrLike = ptr | ref
 model.ptrLike_alternation = ptr | ref
 model.ptrLike_sequence = ptr, ref
@@ -1822,6 +1960,8 @@ model.lPart_sequenceOptionalRepeatable = caesura*, rhyme*
 model.lPart_sequenceRepeatable = caesura+, rhyme+
 model.global.meta =
   index
+  | substJoin
+  | listTranspose
   | link
   | linkGrp
   | timeline
@@ -1841,6 +1981,8 @@ model.global.meta =
   | respons
 model.global.meta_alternation =
   index
+  | substJoin
+  | listTranspose
   | link
   | linkGrp
   | timeline
@@ -1860,6 +2002,8 @@ model.global.meta_alternation =
   | respons
 model.global.meta_sequence =
   index,
+  substJoin,
+  listTranspose,
   link,
   linkGrp,
   timeline,
@@ -1879,6 +2023,8 @@ model.global.meta_sequence =
   respons
 model.global.meta_sequenceOptional =
   index?,
+  substJoin?,
+  listTranspose?,
   link?,
   linkGrp?,
   timeline?,
@@ -1898,6 +2044,8 @@ model.global.meta_sequenceOptional =
   respons?
 model.global.meta_sequenceOptionalRepeatable =
   index*,
+  substJoin*,
+  listTranspose*,
   link*,
   linkGrp*,
   timeline*,
@@ -1917,6 +2065,8 @@ model.global.meta_sequenceOptionalRepeatable =
   respons*
 model.global.meta_sequenceRepeatable =
   index+,
+  substJoin+,
+  listTranspose+,
   link+,
   linkGrp+,
   timeline+,
@@ -1934,16 +2084,16 @@ model.global.meta_sequenceRepeatable =
   precision+,
   certainty+,
   respons+
-model.milestoneLike = milestone | pb | lb | cb | fw | gb | anchor
+model.milestoneLike = milestone | gb | pb | lb | cb | fw | anchor
 model.milestoneLike_alternation =
-  milestone | pb | lb | cb | fw | gb | anchor
-model.milestoneLike_sequence = milestone, pb, lb, cb, fw, gb, anchor
+  milestone | gb | pb | lb | cb | fw | anchor
+model.milestoneLike_sequence = milestone, gb, pb, lb, cb, fw, anchor
 model.milestoneLike_sequenceOptional =
-  milestone?, pb?, lb?, cb?, fw?, gb?, anchor?
+  milestone?, gb?, pb?, lb?, cb?, fw?, anchor?
 model.milestoneLike_sequenceOptionalRepeatable =
-  milestone*, pb*, lb*, cb*, fw*, gb*, anchor*
+  milestone*, gb*, pb*, lb*, cb*, fw*, anchor*
 model.milestoneLike_sequenceRepeatable =
-  milestone+, pb+, lb+, cb+, fw+, gb+, anchor+
+  milestone+, gb+, pb+, lb+, cb+, fw+, anchor+
 model.gLike = g
 model.gLike_alternation = g
 model.gLike_sequence = g
@@ -1951,28 +2101,62 @@ model.gLike_sequenceOptional = g?
 model.gLike_sequenceOptionalRepeatable = g*
 model.gLike_sequenceRepeatable = g+
 model.oddDecl =
-  moduleSpec | specGrp | elementSpec | classSpec | macroSpec | listRef
+  moduleSpec
+  | specGrp
+  | specGrpRef
+  | elementSpec
+  | classSpec
+  | macroSpec
+  | listRef
 model.oddDecl_alternation =
-  moduleSpec | specGrp | elementSpec | classSpec | macroSpec | listRef
+  moduleSpec
+  | specGrp
+  | specGrpRef
+  | elementSpec
+  | classSpec
+  | macroSpec
+  | listRef
 model.oddDecl_sequence =
-  moduleSpec, specGrp, elementSpec, classSpec, macroSpec, listRef
+  moduleSpec,
+  specGrp,
+  specGrpRef,
+  elementSpec,
+  classSpec,
+  macroSpec,
+  listRef
 model.oddDecl_sequenceOptional =
-  moduleSpec?, specGrp?, elementSpec?, classSpec?, macroSpec?, listRef?
+  moduleSpec?,
+  specGrp?,
+  specGrpRef?,
+  elementSpec?,
+  classSpec?,
+  macroSpec?,
+  listRef?
 model.oddDecl_sequenceOptionalRepeatable =
-  moduleSpec*, specGrp*, elementSpec*, classSpec*, macroSpec*, listRef*
+  moduleSpec*,
+  specGrp*,
+  specGrpRef*,
+  elementSpec*,
+  classSpec*,
+  macroSpec*,
+  listRef*
 model.oddDecl_sequenceRepeatable =
-  moduleSpec+, specGrp+, elementSpec+, classSpec+, macroSpec+, listRef+
-model.oddRef = classRef | elementRef | macroRef | moduleRef | specGrpRef
-model.oddRef_alternation =
-  classRef | elementRef | macroRef | moduleRef | specGrpRef
-model.oddRef_sequence =
-  classRef, elementRef, macroRef, moduleRef, specGrpRef
+  moduleSpec+,
+  specGrp+,
+  specGrpRef+,
+  elementSpec+,
+  classSpec+,
+  macroSpec+,
+  listRef+
+model.oddRef = classRef | elementRef | macroRef | moduleRef
+model.oddRef_alternation = classRef | elementRef | macroRef | moduleRef
+model.oddRef_sequence = classRef, elementRef, macroRef, moduleRef
 model.oddRef_sequenceOptional =
-  classRef?, elementRef?, macroRef?, moduleRef?, specGrpRef?
+  classRef?, elementRef?, macroRef?, moduleRef?
 model.oddRef_sequenceOptionalRepeatable =
-  classRef*, elementRef*, macroRef*, moduleRef*, specGrpRef*
+  classRef*, elementRef*, macroRef*, moduleRef*
 model.oddRef_sequenceRepeatable =
-  classRef+, elementRef+, macroRef+, moduleRef+, specGrpRef+
+  classRef+, elementRef+, macroRef+, moduleRef+
 model.phrase.xml = att | gi | tag | val
 model.phrase.xml_alternation = att | gi | tag | val
 model.phrase.xml_sequence = att, gi, tag, val
@@ -1985,14 +2169,18 @@ model.specDescLike_sequence = specList, specDesc
 model.specDescLike_sequenceOptional = specList?, specDesc?
 model.specDescLike_sequenceOptionalRepeatable = specList*, specDesc*
 model.specDescLike_sequenceRepeatable = specList+, specDesc+
-model.biblLike = biblFull | bibl | biblStruct | msDesc
-model.biblLike_alternation = biblFull | bibl | biblStruct | msDesc
-model.biblLike_sequence = biblFull, bibl, biblStruct, msDesc
-model.biblLike_sequenceOptional = biblFull?, bibl?, biblStruct?, msDesc?
+model.biblLike =
+  biblFull | bibl | biblStruct | msDesc | listRelation | relationGrp
+model.biblLike_alternation =
+  biblFull | bibl | biblStruct | msDesc | listRelation | relationGrp
+model.biblLike_sequence =
+  biblFull, bibl, biblStruct, msDesc, listRelation, relationGrp
+model.biblLike_sequenceOptional =
+  biblFull?, bibl?, biblStruct?, msDesc?, listRelation?, relationGrp?
 model.biblLike_sequenceOptionalRepeatable =
-  biblFull*, bibl*, biblStruct*, msDesc*
+  biblFull*, bibl*, biblStruct*, msDesc*, listRelation*, relationGrp*
 model.biblLike_sequenceRepeatable =
-  biblFull+, bibl+, biblStruct+, msDesc+
+  biblFull+, bibl+, biblStruct+, msDesc+, listRelation+, relationGrp+
 model.headLike = head
 model.headLike_alternation = head
 model.headLike_sequence = head
@@ -2014,6 +2202,7 @@ model.listLike =
   | listPerson
   | listPlace
   | listNym
+  | table
 model.listLike_alternation =
   \list
   | listBibl
@@ -2023,6 +2212,7 @@ model.listLike_alternation =
   | listPerson
   | listPlace
   | listNym
+  | table
 model.listLike_sequence =
   \list,
   listBibl,
@@ -2031,7 +2221,8 @@ model.listLike_sequence =
   listEvent,
   listPerson,
   listPlace,
-  listNym
+  listNym,
+  table
 model.listLike_sequenceOptional =
   \list?,
   listBibl?,
@@ -2040,7 +2231,8 @@ model.listLike_sequenceOptional =
   listEvent?,
   listPerson?,
   listPlace?,
-  listNym?
+  listNym?,
+  table?
 model.listLike_sequenceOptionalRepeatable =
   \list*,
   listBibl*,
@@ -2049,7 +2241,8 @@ model.listLike_sequenceOptionalRepeatable =
   listEvent*,
   listPerson*,
   listPlace*,
-  listNym*
+  listNym*,
+  table*
 model.listLike_sequenceRepeatable =
   \list+,
   listBibl+,
@@ -2058,7 +2251,8 @@ model.listLike_sequenceRepeatable =
   listEvent+,
   listPerson+,
   listPlace+,
-  listNym+
+  listNym+,
+  table+
 model.noteLike = note | witDetail
 model.noteLike_alternation = note | witDetail
 model.noteLike_sequence = note, witDetail
@@ -2291,139 +2485,169 @@ model.divPart =
   | model.pLike
   | lg
   | sp
-  | floatingText
+  | spGrp
   | model.divPart.spoken
   | graph
   | tree
   | eTree
   | forest
-  | forestGrp
+  | listForest
   | schemaSpec
 model.divPart_alternation =
   model.lLike_alternation
   | model.pLike_alternation
   | lg
   | sp
-  | floatingText
+  | spGrp
   | model.divPart.spoken_alternation
   | graph
   | tree
   | eTree
   | forest
-  | forestGrp
+  | listForest
   | schemaSpec
 model.divPart_sequence =
   model.lLike_sequence,
   model.pLike_sequence,
   lg,
   sp,
-  floatingText,
+  spGrp,
   model.divPart.spoken_sequence,
   graph,
   tree,
   eTree,
   forest,
-  forestGrp,
+  listForest,
   schemaSpec
 model.divPart_sequenceOptional =
   model.lLike_sequenceOptional?,
   model.pLike_sequenceOptional?,
   lg?,
   sp?,
-  floatingText?,
+  spGrp?,
   model.divPart.spoken_sequenceOptional?,
   graph?,
   tree?,
   eTree?,
   forest?,
-  forestGrp?,
+  listForest?,
   schemaSpec?
 model.divPart_sequenceOptionalRepeatable =
   model.lLike_sequenceOptionalRepeatable*,
   model.pLike_sequenceOptionalRepeatable*,
   lg*,
   sp*,
-  floatingText*,
+  spGrp*,
   model.divPart.spoken_sequenceOptionalRepeatable*,
   graph*,
   tree*,
   eTree*,
   forest*,
-  forestGrp*,
+  listForest*,
   schemaSpec*
 model.divPart_sequenceRepeatable =
   model.lLike_sequenceRepeatable+,
   model.pLike_sequenceRepeatable+,
   lg+,
   sp+,
-  floatingText+,
+  spGrp+,
   model.divPart.spoken_sequenceRepeatable+,
   graph+,
   tree+,
   eTree+,
   forest+,
-  forestGrp+,
+  listForest+,
   schemaSpec+
-model.persTraitLike =
-  age | faith | langKnowledge | nationality | sex | socecStatus | trait
-model.persTraitLike_alternation =
-  age | faith | langKnowledge | nationality | sex | socecStatus | trait
-model.persTraitLike_sequence =
-  age, faith, langKnowledge, nationality, sex, socecStatus, trait
-model.persTraitLike_sequenceOptional =
-  age?, faith?, langKnowledge?, nationality?, sex?, socecStatus?, trait?
-model.persTraitLike_sequenceOptionalRepeatable =
-  age*, faith*, langKnowledge*, nationality*, sex*, socecStatus*, trait*
-model.persTraitLike_sequenceRepeatable =
-  age+, faith+, langKnowledge+, nationality+, sex+, socecStatus+, trait+
 model.persStateLike =
   persName
   | affiliation
+  | age
   | education
+  | faith
   | floruit
+  | langKnowledge
+  | nationality
   | occupation
   | residence
+  | sex
+  | socecStatus
   | state
+  | trait
 model.persStateLike_alternation =
   persName
   | affiliation
+  | age
   | education
+  | faith
   | floruit
+  | langKnowledge
+  | nationality
   | occupation
   | residence
+  | sex
+  | socecStatus
   | state
+  | trait
 model.persStateLike_sequence =
   persName,
   affiliation,
+  age,
   education,
+  faith,
   floruit,
+  langKnowledge,
+  nationality,
   occupation,
   residence,
-  state
+  sex,
+  socecStatus,
+  state,
+  trait
 model.persStateLike_sequenceOptional =
   persName?,
   affiliation?,
+  age?,
   education?,
+  faith?,
   floruit?,
+  langKnowledge?,
+  nationality?,
   occupation?,
   residence?,
-  state?
+  sex?,
+  socecStatus?,
+  state?,
+  trait?
 model.persStateLike_sequenceOptionalRepeatable =
   persName*,
   affiliation*,
+  age*,
   education*,
+  faith*,
   floruit*,
+  langKnowledge*,
+  nationality*,
   occupation*,
   residence*,
-  state*
+  sex*,
+  socecStatus*,
+  state*,
+  trait*
 model.persStateLike_sequenceRepeatable =
   persName+,
   affiliation+,
+  age+,
   education+,
+  faith+,
   floruit+,
+  langKnowledge+,
+  nationality+,
   occupation+,
   residence+,
-  state+
+  sex+,
+  socecStatus+,
+  state+,
+  trait+
 model.persEventLike = birth | death | event
 model.persEventLike_alternation = birth | death | event
 model.persEventLike_sequence = birth, death, event
@@ -2436,44 +2660,25 @@ model.personLike_sequence = org, person, personGrp
 model.personLike_sequenceOptional = org?, person?, personGrp?
 model.personLike_sequenceOptionalRepeatable = org*, person*, personGrp*
 model.personLike_sequenceRepeatable = org+, person+, personGrp+
-model.personPart =
-  model.persTraitLike | model.persStateLike | model.persEventLike | bibl
+model.personPart = model.persStateLike | model.persEventLike | bibl
 model.personPart_alternation =
-  model.persTraitLike_alternation
-  | model.persStateLike_alternation
+  model.persStateLike_alternation
   | model.persEventLike_alternation
   | bibl
 model.personPart_sequence =
-  model.persTraitLike_sequence,
-  model.persStateLike_sequence,
-  model.persEventLike_sequence,
-  bibl
+  model.persStateLike_sequence, model.persEventLike_sequence, bibl
 model.personPart_sequenceOptional =
-  model.persTraitLike_sequenceOptional?,
   model.persStateLike_sequenceOptional?,
   model.persEventLike_sequenceOptional?,
   bibl?
 model.personPart_sequenceOptionalRepeatable =
-  model.persTraitLike_sequenceOptionalRepeatable*,
   model.persStateLike_sequenceOptionalRepeatable*,
   model.persEventLike_sequenceOptionalRepeatable*,
   bibl*
 model.personPart_sequenceRepeatable =
-  model.persTraitLike_sequenceRepeatable+,
   model.persStateLike_sequenceRepeatable+,
   model.persEventLike_sequenceRepeatable+,
   bibl+
-model.placeTraitLike = climate | location | population | terrain | trait
-model.placeTraitLike_alternation =
-  climate | location | population | terrain | trait
-model.placeTraitLike_sequence =
-  climate, location, population, terrain, trait
-model.placeTraitLike_sequenceOptional =
-  climate?, location?, population?, terrain?, trait?
-model.placeTraitLike_sequenceOptionalRepeatable =
-  climate*, location*, population*, terrain*, trait*
-model.placeTraitLike_sequenceRepeatable =
-  climate+, location+, population+, terrain+, trait+
 model.placeNamePart =
   placeName | bloc | country | region | district | settlement | geogName
 model.placeNamePart_alternation =
@@ -2504,22 +2709,67 @@ model.placeNamePart_sequenceRepeatable =
   district+,
   settlement+,
   geogName+
-model.placeStateLike = model.placeNamePart | state
+model.placeStateLike =
+  model.placeNamePart
+  | climate
+  | location
+  | population
+  | state
+  | terrain
+  | trait
 model.placeStateLike_alternation =
-  model.placeNamePart_alternation | state
-model.placeStateLike_sequence = model.placeNamePart_sequence, state
+  model.placeNamePart_alternation
+  | climate
+  | location
+  | population
+  | state
+  | terrain
+  | trait
+model.placeStateLike_sequence =
+  model.placeNamePart_sequence,
+  climate,
+  location,
+  population,
+  state,
+  terrain,
+  trait
 model.placeStateLike_sequenceOptional =
-  model.placeNamePart_sequenceOptional?, state?
+  model.placeNamePart_sequenceOptional?,
+  climate?,
+  location?,
+  population?,
+  state?,
+  terrain?,
+  trait?
 model.placeStateLike_sequenceOptionalRepeatable =
-  model.placeNamePart_sequenceOptionalRepeatable*, state*
+  model.placeNamePart_sequenceOptionalRepeatable*,
+  climate*,
+  location*,
+  population*,
+  state*,
+  terrain*,
+  trait*
 model.placeStateLike_sequenceRepeatable =
-  model.placeNamePart_sequenceRepeatable+, state+
+  model.placeNamePart_sequenceRepeatable+,
+  climate+,
+  location+,
+  population+,
+  state+,
+  terrain+,
+  trait+
 model.placeEventLike = event
 model.placeEventLike_alternation = event
 model.placeEventLike_sequence = event
 model.placeEventLike_sequenceOptional = event?
 model.placeEventLike_sequenceOptionalRepeatable = event*
 model.placeEventLike_sequenceRepeatable = event+
+model.orgPart = listOrg | listPerson | listPlace
+model.orgPart_alternation = listOrg | listPerson | listPlace
+model.orgPart_sequence = listOrg, listPerson, listPlace
+model.orgPart_sequenceOptional = listOrg?, listPerson?, listPlace?
+model.orgPart_sequenceOptionalRepeatable =
+  listOrg*, listPerson*, listPlace*
+model.orgPart_sequenceRepeatable = listOrg+, listPerson+, listPlace+
 model.publicationStmtPart =
   distributor
   | authority
@@ -2574,33 +2824,66 @@ model.publicationStmtPart_sequenceRepeatable =
   date+,
   publisher+,
   pubPlace+
+model.availabilityPart = licence | p
+model.availabilityPart_alternation = licence | p
+model.availabilityPart_sequence = licence, p
+model.availabilityPart_sequenceOptional = licence?, p?
+model.availabilityPart_sequenceOptionalRepeatable = licence*, p*
+model.availabilityPart_sequenceRepeatable = licence+, p+
+model.certLike = certainty | respons
+model.certLike_alternation = certainty | respons
+model.certLike_sequence = certainty, respons
+model.certLike_sequenceOptional = certainty?, respons?
+model.certLike_sequenceOptionalRepeatable = certainty*, respons*
+model.certLike_sequenceRepeatable = certainty+, respons+
 model.glossLike =
-  desc | gloss | precision | certainty | respons | equiv | altIdent
+  model.certLike | desc | gloss | precision | equiv | altIdent
 model.glossLike_alternation =
-  desc | gloss | precision | certainty | respons | equiv | altIdent
+  model.certLike_alternation
+  | desc
+  | gloss
+  | precision
+  | equiv
+  | altIdent
 model.glossLike_sequence =
-  desc, gloss, precision, certainty, respons, equiv, altIdent
+  model.certLike_sequence, desc, gloss, precision, equiv, altIdent
 model.glossLike_sequenceOptional =
-  desc?, gloss?, precision?, certainty?, respons?, equiv?, altIdent?
+  model.certLike_sequenceOptional?,
+  desc?,
+  gloss?,
+  precision?,
+  equiv?,
+  altIdent?
 model.glossLike_sequenceOptionalRepeatable =
-  desc*, gloss*, precision*, certainty*, respons*, equiv*, altIdent*
+  model.certLike_sequenceOptionalRepeatable*,
+  desc*,
+  gloss*,
+  precision*,
+  equiv*,
+  altIdent*
 model.glossLike_sequenceRepeatable =
-  desc+, gloss+, precision+, certainty+, respons+, equiv+, altIdent+
+  model.certLike_sequenceRepeatable+,
+  desc+,
+  gloss+,
+  precision+,
+  equiv+,
+  altIdent+
 model.quoteLike = quote | cit
 model.quoteLike_alternation = quote | cit
 model.quoteLike_sequence = quote, cit
 model.quoteLike_sequenceOptional = quote?, cit?
 model.quoteLike_sequenceOptionalRepeatable = quote*, cit*
 model.quoteLike_sequenceRepeatable = quote+, cit+
-model.qLike = model.quoteLike | said | q
-model.qLike_alternation = model.quoteLike_alternation | said | q
-model.qLike_sequence = model.quoteLike_sequence, said, q
+model.qLike = model.quoteLike | said | q | floatingText
+model.qLike_alternation =
+  model.quoteLike_alternation | said | q | floatingText
+model.qLike_sequence = model.quoteLike_sequence, said, q, floatingText
 model.qLike_sequenceOptional =
-  model.quoteLike_sequenceOptional?, said?, q?
+  model.quoteLike_sequenceOptional?, said?, q?, floatingText?
 model.qLike_sequenceOptionalRepeatable =
-  model.quoteLike_sequenceOptionalRepeatable*, said*, q*
+  model.quoteLike_sequenceOptionalRepeatable*, said*, q*, floatingText*
 model.qLike_sequenceRepeatable =
-  model.quoteLike_sequenceRepeatable+, said+, q+
+  model.quoteLike_sequenceRepeatable+, said+, q+, floatingText+
 model.respLike =
   sponsor | funder | principal | author | editor | respStmt | meeting
 model.respLike_alternation =
@@ -3161,6 +3444,8 @@ model.global =
   | model.noteLike
   | model.global.edit
   | model.global.spoken
+  | metamark
+  | notatedMusic
   | figure
 model.global_alternation =
   model.global.meta_alternation
@@ -3168,6 +3453,8 @@ model.global_alternation =
   | model.noteLike_alternation
   | model.global.edit_alternation
   | model.global.spoken_alternation
+  | metamark
+  | notatedMusic
   | figure
 model.global_sequence =
   model.global.meta_sequence,
@@ -3175,6 +3462,8 @@ model.global_sequence =
   model.noteLike_sequence,
   model.global.edit_sequence,
   model.global.spoken_sequence,
+  metamark,
+  notatedMusic,
   figure
 model.global_sequenceOptional =
   model.global.meta_sequenceOptional?,
@@ -3182,6 +3471,8 @@ model.global_sequenceOptional =
   model.noteLike_sequenceOptional?,
   model.global.edit_sequenceOptional?,
   model.global.spoken_sequenceOptional?,
+  metamark?,
+  notatedMusic?,
   figure?
 model.global_sequenceOptionalRepeatable =
   model.global.meta_sequenceOptionalRepeatable*,
@@ -3189,6 +3480,8 @@ model.global_sequenceOptionalRepeatable =
   model.noteLike_sequenceOptionalRepeatable*,
   model.global.edit_sequenceOptionalRepeatable*,
   model.global.spoken_sequenceOptionalRepeatable*,
+  metamark*,
+  notatedMusic*,
   figure*
 model.global_sequenceRepeatable =
   model.global.meta_sequenceRepeatable+,
@@ -3196,6 +3489,8 @@ model.global_sequenceRepeatable =
   model.noteLike_sequenceRepeatable+,
   model.global.edit_sequenceRepeatable+,
   model.global.spoken_sequenceRepeatable+,
+  metamark+,
+  notatedMusic+,
   figure+
 model.featureVal = model.featureVal.complex | model.featureVal.single
 model.featureVal_alternation =
@@ -3218,48 +3513,60 @@ model.biblPart =
   | edition
   | extent
   | series
+  | bibl
   | relatedItem
   | msIdentifier
+  | textLang
 model.biblPart_alternation =
   model.respLike_alternation
   | model.imprintPart_alternation
   | edition
   | extent
   | series
+  | bibl
   | relatedItem
   | msIdentifier
+  | textLang
 model.biblPart_sequence =
   model.respLike_sequence,
   model.imprintPart_sequence,
   edition,
   extent,
   series,
+  bibl,
   relatedItem,
-  msIdentifier
+  msIdentifier,
+  textLang
 model.biblPart_sequenceOptional =
   model.respLike_sequenceOptional?,
   model.imprintPart_sequenceOptional?,
   edition?,
   extent?,
   series?,
+  bibl?,
   relatedItem?,
-  msIdentifier?
+  msIdentifier?,
+  textLang?
 model.biblPart_sequenceOptionalRepeatable =
   model.respLike_sequenceOptionalRepeatable*,
   model.imprintPart_sequenceOptionalRepeatable*,
   edition*,
   extent*,
   series*,
+  bibl*,
   relatedItem*,
-  msIdentifier*
+  msIdentifier*,
+  textLang*
 model.biblPart_sequenceRepeatable =
   model.respLike_sequenceRepeatable+,
   model.imprintPart_sequenceRepeatable+,
   edition+,
   extent+,
   series+,
+  bibl+,
   relatedItem+,
-  msIdentifier+
+  msIdentifier+,
+  textLang+
 model.frontPart = model.frontPart.drama | divGen | titlePage
 model.frontPart_alternation =
   model.frontPart.drama_alternation | divGen | titlePage
@@ -3327,69 +3634,57 @@ model.pPart.data_sequenceRepeatable =
 model.inter =
   model.egLike
   | model.oddDecl
-  | model.oddRef
   | model.biblLike
   | model.labelLike
   | model.listLike
   | model.stageLike
   | model.qLike
   | castList
-  | table
 model.inter_alternation =
   model.egLike_alternation
   | model.oddDecl_alternation
-  | model.oddRef_alternation
   | model.biblLike_alternation
   | model.labelLike_alternation
   | model.listLike_alternation
   | model.stageLike_alternation
   | model.qLike_alternation
   | castList
-  | table
 model.inter_sequence =
   model.egLike_sequence,
   model.oddDecl_sequence,
-  model.oddRef_sequence,
   model.biblLike_sequence,
   model.labelLike_sequence,
   model.listLike_sequence,
   model.stageLike_sequence,
   model.qLike_sequence,
-  castList,
-  table
+  castList
 model.inter_sequenceOptional =
   model.egLike_sequenceOptional?,
   model.oddDecl_sequenceOptional?,
-  model.oddRef_sequenceOptional?,
   model.biblLike_sequenceOptional?,
   model.labelLike_sequenceOptional?,
   model.listLike_sequenceOptional?,
   model.stageLike_sequenceOptional?,
   model.qLike_sequenceOptional?,
-  castList?,
-  table?
+  castList?
 model.inter_sequenceOptionalRepeatable =
   model.egLike_sequenceOptionalRepeatable*,
   model.oddDecl_sequenceOptionalRepeatable*,
-  model.oddRef_sequenceOptionalRepeatable*,
   model.biblLike_sequenceOptionalRepeatable*,
   model.labelLike_sequenceOptionalRepeatable*,
   model.listLike_sequenceOptionalRepeatable*,
   model.stageLike_sequenceOptionalRepeatable*,
   model.qLike_sequenceOptionalRepeatable*,
-  castList*,
-  table*
+  castList*
 model.inter_sequenceRepeatable =
   model.egLike_sequenceRepeatable+,
   model.oddDecl_sequenceRepeatable+,
-  model.oddRef_sequenceRepeatable+,
   model.biblLike_sequenceRepeatable+,
   model.labelLike_sequenceRepeatable+,
   model.listLike_sequenceRepeatable+,
   model.stageLike_sequenceRepeatable+,
   model.qLike_sequenceRepeatable+,
-  castList+,
-  table+
+  castList+
 model.common = model.divPart | model.inter | model.entryLike
 model.common_alternation =
   model.divPart_alternation
@@ -3482,20 +3777,23 @@ model.phrase_sequenceRepeatable =
   model.pPart.data_sequenceRepeatable+,
   model.ptrLike.form_sequenceRepeatable+
 model.limitedPhrase =
-  model.emphLike
+  model.hiLike
+  | model.emphLike
   | model.pPart.msdesc
   | model.pPart.editorial
   | model.ptrLike
   | model.phrase.xml
   | model.pPart.data
 model.limitedPhrase_alternation =
-  model.emphLike_alternation
+  model.hiLike_alternation
+  | model.emphLike_alternation
   | model.pPart.msdesc_alternation
   | model.pPart.editorial_alternation
   | model.ptrLike_alternation
   | model.phrase.xml_alternation
   | model.pPart.data_alternation
 model.limitedPhrase_sequence =
+  model.hiLike_sequence,
   model.emphLike_sequence,
   model.pPart.msdesc_sequence,
   model.pPart.editorial_sequence,
@@ -3503,6 +3801,7 @@ model.limitedPhrase_sequence =
   model.phrase.xml_sequence,
   model.pPart.data_sequence
 model.limitedPhrase_sequenceOptional =
+  model.hiLike_sequenceOptional?,
   model.emphLike_sequenceOptional?,
   model.pPart.msdesc_sequenceOptional?,
   model.pPart.editorial_sequenceOptional?,
@@ -3510,6 +3809,7 @@ model.limitedPhrase_sequenceOptional =
   model.phrase.xml_sequenceOptional?,
   model.pPart.data_sequenceOptional?
 model.limitedPhrase_sequenceOptionalRepeatable =
+  model.hiLike_sequenceOptionalRepeatable*,
   model.emphLike_sequenceOptionalRepeatable*,
   model.pPart.msdesc_sequenceOptionalRepeatable*,
   model.pPart.editorial_sequenceOptionalRepeatable*,
@@ -3517,6 +3817,7 @@ model.limitedPhrase_sequenceOptionalRepeatable =
   model.phrase.xml_sequenceOptionalRepeatable*,
   model.pPart.data_sequenceOptionalRepeatable*
 model.limitedPhrase_sequenceRepeatable =
+  model.hiLike_sequenceRepeatable+,
   model.emphLike_sequenceRepeatable+,
   model.pPart.msdesc_sequenceRepeatable+,
   model.pPart.editorial_sequenceRepeatable+,
@@ -3727,7 +4028,9 @@ model.profileDescPart =
   creation
   | langUsage
   | textClass
+  | calendarDesc
   | handNotes
+  | listTranspose
   | textDesc
   | particDesc
   | settingDesc
@@ -3735,7 +4038,9 @@ model.profileDescPart_alternation =
   creation
   | langUsage
   | textClass
+  | calendarDesc
   | handNotes
+  | listTranspose
   | textDesc
   | particDesc
   | settingDesc
@@ -3743,7 +4048,9 @@ model.profileDescPart_sequence =
   creation,
   langUsage,
   textClass,
+  calendarDesc,
   handNotes,
+  listTranspose,
   textDesc,
   particDesc,
   settingDesc
@@ -3751,7 +4058,9 @@ model.profileDescPart_sequenceOptional =
   creation?,
   langUsage?,
   textClass?,
+  calendarDesc?,
   handNotes?,
+  listTranspose?,
   textDesc?,
   particDesc?,
   settingDesc?
@@ -3759,7 +4068,9 @@ model.profileDescPart_sequenceOptionalRepeatable =
   creation*,
   langUsage*,
   textClass*,
+  calendarDesc*,
   handNotes*,
+  listTranspose*,
   textDesc*,
   particDesc*,
   settingDesc*
@@ -3767,16 +4078,19 @@ model.profileDescPart_sequenceRepeatable =
   creation+,
   langUsage+,
   textClass+,
+  calendarDesc+,
   handNotes+,
+  listTranspose+,
   textDesc+,
   particDesc+,
   settingDesc+
-model.resourceLike = facsimile | fsdDecl
-model.resourceLike_alternation = facsimile | fsdDecl
-model.resourceLike_sequence = facsimile, fsdDecl
-model.resourceLike_sequenceOptional = facsimile?, fsdDecl?
-model.resourceLike_sequenceOptionalRepeatable = facsimile*, fsdDecl*
-model.resourceLike_sequenceRepeatable = facsimile+, fsdDecl+
+model.resourceLike = facsimile | sourceDoc | fsdDecl
+model.resourceLike_alternation = facsimile | sourceDoc | fsdDecl
+model.resourceLike_sequence = facsimile, sourceDoc, fsdDecl
+model.resourceLike_sequenceOptional = facsimile?, sourceDoc?, fsdDecl?
+model.resourceLike_sequenceOptionalRepeatable =
+  facsimile*, sourceDoc*, fsdDecl*
+model.resourceLike_sequenceRepeatable = facsimile+, sourceDoc+, fsdDecl+
 model.orgStateLike = state
 model.orgStateLike_alternation = state
 model.orgStateLike_sequence = state
@@ -3879,9 +4193,3 @@ data.temporal.iso =
   | xsd:dateTime
   | xsd:token { pattern = "[0-9.,DHMPRSTWYZ/:+\-]+" }
 data.duration.iso = xsd:token { pattern = "[0-9.,DHMPRSTWYZ/:+\-]+" }
-macro.anyXML =
-  element * - (ns1:* | egXML) {
-    attribute * { text }*,
-    (text | macro.anyXML)*
-  }
-macro.schemaPattern = macro.anyXML

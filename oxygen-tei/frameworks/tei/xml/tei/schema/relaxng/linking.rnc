@@ -2,29 +2,44 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Linking, segmentation and alignment
 
@@ -100,7 +115,7 @@ att.global.linking.attribute.select =
 # 2. elements
 ab =
   
-  ## (anonymous block) contains any arbitrary component-level unit of text, acting as an anonymous container for phrase or inter level elements analogous to, but without the semantic baggage of, a paragraph.
+  ## (anonymous block) contains any arbitrary component-level unit of text, acting as an anonymous container for phrase or inter level elements analogous to, but without the semantic baggage of, a paragraph. []
   element ab { ab.content, ab.localattributes }
 ab.content = macro.paraContent
 ab.localattributes =
@@ -130,7 +145,7 @@ ab.localattributes =
   empty
 alt =
   
-  ## (alternation) identifies an alternation or a set of choices among elements or passages.
+  ## (alternation) identifies an alternation or a set of choices among elements or passages. []
   element alt { alt.content, alt.localattributes }
 alt.content =
   empty
@@ -224,7 +239,7 @@ alt.localattributes =
   empty
 altGrp =
   
-  ## (alternation group) groups a collection of alt elements and possibly pointers.
+  ## (alternation group) groups a collection of alt elements and possibly pointers. []
   element altGrp { altGrp.content, altGrp.localattributes }
 altGrp.content = (alt | ptr)*
 altGrp.localattributes =
@@ -247,14 +262,14 @@ altGrp.localattributes =
   empty
 anchor =
   
-  ## (anchor point) attaches an identifier to a point within a text, whether or not it corresponds with a textual element.
+  ## (anchor point) attaches an identifier to a point within a text, whether or not it corresponds with a textual element. [ ]
   element anchor { anchor.content, anchor.localattributes }
 anchor.content = empty
 anchor.localattributes =
   att.global.attributes, att.typed.attributes, empty
 join =
   
-  ## identifies a possibly fragmented segment of text, by pointing at the possibly discontiguous elements which compose it.
+  ## identifies a possibly fragmented segment of text, by pointing at the possibly discontiguous elements which compose it. []
   element join { join.content, join.localattributes }
 join.content =
   (model.glossLike*)
@@ -341,7 +356,7 @@ join.localattributes =
   empty
 joinGrp =
   
-  ## (join group) groups a collection of join elements and possibly pointers.
+  ## (join group) groups a collection of join elements and possibly pointers. []
   element joinGrp { joinGrp.content, joinGrp.localattributes }
 joinGrp.content = model.glossLike*, (join | ptr)+
 joinGrp.localattributes =
@@ -353,7 +368,7 @@ joinGrp.localattributes =
   empty
 link =
   
-  ## defines an association or hypertextual link among elements or passages, of some type not more precisely specifiable by other elements.
+  ## defines an association or hypertextual link among elements or passages, of some type not more precisely specifiable by other elements. []
   element link { link.content, link.localattributes }
 link.content =
   empty
@@ -426,14 +441,14 @@ link.localattributes =
   empty
 linkGrp =
   
-  ## (link group) defines a collection of associations or hypertextual links.
+  ## (link group) defines a collection of associations or hypertextual links. []
   element linkGrp { linkGrp.content, linkGrp.localattributes }
 linkGrp.content = (link | ptr)+
 linkGrp.localattributes =
   att.global.attributes, att.pointing.group.attributes, empty
 seg =
   
-  ## (arbitrary segment) represents any segmentation of text below the chunk level.
+  ## (arbitrary segment) represents any segmentation of text below the chunk level. [  ]
   element seg { seg.content, seg.localattributes }
 seg.content = macro.paraContent
 seg.localattributes =
@@ -444,7 +459,7 @@ seg.localattributes =
   empty
 timeline =
   
-  ## (timeline) provides a set of ordered points in time which can be linked to elements of a spoken text to create a temporal alignment of that text.
+  ## (timeline) provides a set of ordered points in time which can be linked to elements of a spoken text to create a temporal alignment of that text. []
   element timeline { timeline.content, timeline.localattributes }
 timeline.content = when+
 timeline.localattributes =
@@ -483,7 +498,7 @@ timeline.localattributes =
   empty
 when =
   
-  ## indicates a point in time either relative to other elements in the same timeline tag, or absolutely.
+  ## indicates a point in time either relative to other elements in the same timeline tag, or absolutely. []
   element when { when.content, when.localattributes }
 when.content = empty
 when.localattributes =

@@ -1,18 +1,16 @@
 
 <!--
-DTD Generated 2011-03-05T14:53:46Z. 
-	       
-This template file is freely available and you are
+DTD Generated 2012-02-02T20:36:06Z. 
+	       This template file is freely available and you are
 	       hereby authorised to copy, modify, and redistribute it in
 	       any way without further reference or permissions.
-	       
-When making such modifications, you are strongly
+	       When making such modifications, you are strongly
 	       recommended to change the present text to include an
 	       accurate statement of the licencing conditions applicable
 	       to your modified text.
 	     
-Edition: 1.9.0. Last updated on February 25th 2011.
-Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
 
 -->
 
@@ -23,6 +21,8 @@ medium|
 low|
 unknown)' >
 
+<!ENTITY % data.probability ' CDATA' >
+
 <!ENTITY % data.numeric ' CDATA' >
 
 <!ENTITY % data.count ' CDATA' >
@@ -32,6 +32,9 @@ unknown)' >
 <!ENTITY % data.duration.w3c ' CDATA' >
 
 <!ENTITY % data.truthValue ' CDATA' >
+
+<!ENTITY % data.xTruthValue '(unknown|
+inapplicable | true | false)' >
 
 <!ENTITY % data.pointer ' CDATA' >
 
@@ -146,8 +149,6 @@ unknown)' >
 <!ENTITY % macro.xtext '( #PCDATA |
  _DUMMY_model.gLike)*' >
 
-<!ENTITY % macro.anyXML ' ANY' >
-
 <!-- end patterns -->
 
 <!-- start elements -->
@@ -155,13 +156,13 @@ unknown)' >
 <!--doc:(bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
 consequent and antecedent are specified as feature structures or groups
 of feature structures; the constraint is satisfied if both
-subsume a given feature structure, or if both do not. -->
+subsume a given feature structure, or if both do not. [18.11. ] -->
 <!ELEMENT bicond ((fs |
  f),iff,(fs |
  f))>
 <!ATTLIST bicond xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(binary value) represents the value part of a feature-value specification which can contain either
-  of exactly two possible values. -->
+  of exactly two possible values. [18.2. ] -->
 <!ELEMENT binary EMPTY>
 <!ATTLIST binary xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST binary
@@ -170,17 +171,17 @@ value %data.truthValue;  #REQUIRED >
 and the antecedent are specified as feature structures or
 feature-structure collections; the constraint is satisfied if both the
 antecedent and the consequent subsume a given feature
-structure, or if the antecedent does not. -->
+structure, or if the antecedent does not. [18.11. ] -->
 <!ELEMENT cond ((fs |
  f),then,(fs |
  f))>
 <!ATTLIST cond xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(default feature value) represents the value part of a feature-value specification
-  which contains a defaulted value. -->
+  which contains a defaulted value. [18.9. ] -->
 <!ELEMENT default EMPTY>
 <!ATTLIST default xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(feature) represents a feature value specification, that
-  is, the association of a name with a value of any of several different types. -->
+  is, the association of a name with a value of any of several different types. [18.2. ] -->
 <!ELEMENT f ( #PCDATA |
  _DUMMY_model.gLike |
  %model.featureVal;)*>
@@ -189,71 +190,71 @@ structure, or if the antecedent does not. -->
 name %data.name;  #REQUIRED
 fVal %data.pointer;  #IMPLIED >
 <!--doc:(feature declaration) declares a single feature, specifying its name, organization,
-range of allowed values, and optionally its default value. -->
+range of allowed values, and optionally its default value. [18.11. ] -->
 <!ELEMENT fDecl (fDescr?,vRange,vDefault?)>
 <!ATTLIST fDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fDecl
 name %data.name;  #REQUIRED
 optional (true | false)  "true"  >
 <!--doc:(feature description (in FSD)) describes in prose what is represented by the feature being
-declared and its values. -->
+declared and its values. [18.11. ] -->
 <!ELEMENT fDescr %macro.limitedContent;>
 <!ATTLIST fDescr xmlns CDATA "http://www.tei-c.org/ns/1.0">
-<!--doc:(feature library) assembles a library of feature elements. -->
+<!--doc:(feature library) assembles a library of feature elements. [18.4. ] -->
 <!ELEMENT fLib (f)+>
 <!ATTLIST fLib xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(feature structure) represents a feature structure, that is, a
   collection of feature-value pairs organized as a
-structural unit. -->
+structural unit. [18.2. ] -->
 <!ELEMENT fs (f)*>
 <!ATTLIST fs xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fs
 type %data.enumerated;  #IMPLIED
 feats CDATA  #IMPLIED >
 <!--doc:(feature-structure constraints) specifies constraints on the content of valid feature
-structures. -->
+structures. [18.11. ] -->
 <!ELEMENT fsConstraints (cond |
  bicond)*>
 <!ATTLIST fsConstraints xmlns CDATA "http://www.tei-c.org/ns/1.0">
-<!--doc:(feature structure declaration) declares one type of feature structure. -->
+<!--doc:(feature structure declaration) declares one type of feature structure. [18.11. ] -->
 <!ELEMENT fsDecl (fsDescr?,fDecl+,fsConstraints?)>
 <!ATTLIST fsDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fsDecl
 type %data.enumerated;  #REQUIRED
 baseTypes NMTOKENS  #IMPLIED >
 <!--doc:(feature system description (in FSD)) describes in prose what is represented by the type of feature
-structure declared in the enclosing fsDecl. -->
+structure declared in the enclosing fsDecl. [18.11. ] -->
 <!ELEMENT fsDescr %macro.limitedContent;>
 <!ATTLIST fsDescr xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(feature system declaration) provides a feature system declaration comprising one or more
-  feature structure declarations or feature structure declaration links. -->
+  feature structure declarations or feature structure declaration links. [18.11. ] -->
 <!ELEMENT fsdDecl (fsDecl |
  fsdLink)+>
 <!ATTLIST fsdDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(feature structure declaration link) associates the name of a typed feature structure with a feature
-structure declaration for it. -->
+structure declaration for it. [18.11. ] -->
 <!ELEMENT fsdLink EMPTY>
 <!ATTLIST fsdLink xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fsdLink
 type %data.enumerated;  #REQUIRED
 target %data.pointer;  #REQUIRED >
 <!--doc:(feature-value library) assembles a library of reusable feature value elements
-  (including complete feature structures). -->
+  (including complete feature structures). [18.4. ] -->
 <!ELEMENT fvLib (%model.featureVal;)*>
 <!ATTLIST fvLib xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:defines a conditional default value for a feature; the condition
 is specified as a feature structure, and is met if it
 subsumes the feature structure in the text for which a
-default value is sought. -->
+default value is sought. [18.11. ] -->
 <!ELEMENT if ((fs |
  f),then,(%model.featureVal;))>
 <!ATTLIST if xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(if and only if) separates the condition from the consequence in a bicond
-element. -->
+element. [18.11. ] -->
 <!ELEMENT iff EMPTY>
 <!ATTLIST iff xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(numeric value) represents the value part of a feature-value specification
-  which contains a numeric value or range. -->
+  which contains a numeric value or range. [18.3. ] -->
 <!ELEMENT numeric EMPTY>
 <!ATTLIST numeric xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST numeric
@@ -261,21 +262,21 @@ value %data.numeric;  #REQUIRED
 max %data.numeric;  #IMPLIED
 trunc %data.truthValue;  #IMPLIED >
 <!--doc:(string value) represents the value part of a feature-value specification
-  which contains a string. -->
+  which contains a string. [18.3. ] -->
 <!ELEMENT string %macro.xtext;>
 <!ATTLIST string xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(symbolic value) represents the value part of a feature-value specification
-  which contains one of a finite list of symbols. -->
+  which contains one of a finite list of symbols. [18.3. ] -->
 <!ELEMENT symbol EMPTY>
 <!ATTLIST symbol xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST symbol
 value %data.word;  #REQUIRED >
 <!--doc:separates the condition from the default in an if, or
-the antecedent and the consequent in a cond element. -->
+the antecedent and the consequent in a cond element. [18.11. ] -->
 <!ELEMENT then EMPTY>
 <!ATTLIST then xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(value alternation) represents the value part of a feature-value specification
-  which contains a set of values, only one of which can be valid. -->
+  which contains a set of values, only one of which can be valid. [18.8.1. ] -->
 <!ELEMENT vAlt ((%model.featureVal;),(%model.featureVal;)+)>
 <!ATTLIST vAlt xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(collection of values) represents the value part of a feature-value specification
@@ -292,7 +293,7 @@ the org attribute of the enclosing fDecl) more
 fs elements or primitive values;
 if conditional, it is specified as
 one or more if elements; if no default is specified, or no
-condition matches, the value none is assumed. -->
+condition matches, the value none is assumed. [18.11. ] -->
 <!ELEMENT vDefault ((%model.featureVal;)+ |
  if+)>
 <!ATTLIST vDefault xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -304,12 +305,12 @@ condition matches, the value none is assumed. -->
 name %data.word;  #REQUIRED >
 <!--doc:(merged collection of values) represents a feature value which is the result of merging
   together the feature values contained by its children, using the organization
-  specified by the org attribute. -->
+  specified by the org attribute. [18.8.3. ] -->
 <!ELEMENT vMerge (%model.featureVal;)+>
 <!ATTLIST vMerge xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST vMerge
 org (set|bag|list) #IMPLIED >
-<!--doc:(value negation) represents a feature value which is the negation of its content. -->
+<!--doc:(value negation) represents a feature value which is the negation of its content. [18.8.2. ] -->
 <!ELEMENT vNot (%model.featureVal;)>
 <!ATTLIST vNot xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!--doc:(value range) defines the range of allowed values for a feature, in the form of
@@ -317,7 +318,7 @@ an fs, vAlt, or primitive value;
 for the value of an f to be valid, it must be
 subsumed by the specified range; if the f
 contains multiple values (as sanctioned by the org attribute),
-then each value must be subsumed by the vRange. -->
+then each value must be subsumed by the vRange. [18.11. ] -->
 <!ELEMENT vRange (%model.featureVal;)>
 <!ATTLIST vRange xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!-- end elements -->

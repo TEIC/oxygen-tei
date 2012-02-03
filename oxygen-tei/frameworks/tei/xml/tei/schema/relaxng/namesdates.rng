@@ -1,30 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
-	 Names and dates--><!--Definitions from module namesdates--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><define name="model.persNamePart">
+	 Names and dates--><!--Definitions from module namesdates--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><define name="att.datable.custom.attributes">
+      <ref name="att.datable.custom.attribute.when-custom"/>
+      <ref name="att.datable.custom.attribute.notBefore-custom"/>
+      <ref name="att.datable.custom.attribute.notAfter-custom"/>
+      <ref name="att.datable.custom.attribute.from-custom"/>
+      <ref name="att.datable.custom.attribute.to-custom"/>
+      <ref name="att.datable.custom.attribute.datingPoint"/>
+      <ref name="att.datable.custom.attribute.datingMethod"/>
+   </define>
+   <define name="att.datable.custom.attribute.when-custom">
+      <optional>
+         <attribute name="when-custom">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the value of a date or time in some standard form.</a:documentation>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.notBefore-custom">
+      <optional>
+         <attribute name="notBefore-custom">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the earliest possible date for the event in some custom standard form.</a:documentation>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.notAfter-custom">
+      <optional>
+         <attribute name="notAfter-custom">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the latest possible date for the event in some custom standard form.</a:documentation>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.from-custom">
+      <optional>
+         <attribute name="from-custom">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the starting point of the period in some standard form.</a:documentation>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.to-custom">
+      <optional>
+         <attribute name="to-custom">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the ending point of the period in some standard form.</a:documentation>
+            <list>
+               <ref name="data.word"/>
+               <zeroOrMore>
+                  <ref name="data.word"/>
+               </zeroOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.datingPoint">
+      <optional>
+         <attribute name="datingPoint">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a pointer to some location defining a named point in time with reference to which the datable item is understood to have occurred</a:documentation>
+            <ref name="data.pointer"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.datable.custom.attribute.datingMethod">
+      <optional>
+         <attribute name="datingMethod">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a pointer to a calendarDesc element or other means of interpreting the values of the custom dating attributes.</a:documentation>
+            <ref name="data.pointer"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="model.persNamePart">
       <choice>
          <ref name="surname"/>
          <ref name="forename"/>
@@ -173,7 +278,7 @@ For information about the TEI, including contact
    <!--2. elements--><define name="addName">
       <element name="addName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(additional name) contains an additional name component, such as a nickname, epithet, or alias, or any other descriptive phrase used within a personal
-    name.</a:documentation>
+    name. []</a:documentation>
          <ref name="addName.content"/>
          <ref name="addName.localattributes"/>
       </element>
@@ -190,7 +295,7 @@ For information about the TEI, including contact
    <define name="affiliation">
       <element name="affiliation">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(affiliation) contains an informal description of a person's present or past affiliation with some
-        organization, for example an employer or sponsor.</a:documentation>
+        organization, for example an employer or sponsor. []</a:documentation>
          <ref name="affiliation.content"/>
          <ref name="affiliation.localattributes"/>
       </element>
@@ -229,7 +334,7 @@ For information about the TEI, including contact
    </define>
    <define name="birth">
       <element name="birth">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth) contains information about a person's birth, such as its date and place.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth) contains information about a person's birth, such as its date and place. []</a:documentation>
          <ref name="birth.content"/>
          <ref name="birth.localattributes"/>
       </element>
@@ -247,7 +352,7 @@ For information about the TEI, including contact
    <define name="bloc">
       <element name="bloc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bloc) contains the name of a geo-political unit consisting of two or more nation states or
-    countries.</a:documentation>
+    countries. []</a:documentation>
          <ref name="bloc.content"/>
          <ref name="bloc.localattributes"/>
       </element>
@@ -308,7 +413,7 @@ For information about the TEI, including contact
    <define name="country">
       <element name="country">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(country) contains the name of a geo-political unit, such as a nation, country, colony, or
-    commonwealth, larger than or administratively superior to a region and smaller than a bloc.</a:documentation>
+    commonwealth, larger than or administratively superior to a region and smaller than a bloc. []</a:documentation>
          <ref name="country.content"/>
          <ref name="country.localattributes"/>
       </element>
@@ -325,7 +430,7 @@ For information about the TEI, including contact
    </define>
    <define name="death">
       <element name="death">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death) contains information about a person's death, such as its date and place.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death) contains information about a person's death, such as its date and place. []</a:documentation>
          <ref name="death.content"/>
          <ref name="death.localattributes"/>
       </element>
@@ -342,7 +447,7 @@ For information about the TEI, including contact
    </define>
    <define name="district">
       <element name="district">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the name of any kind of subdivision of a settlement, such as a parish, ward, or other administrative or geographic unit.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the name of any kind of subdivision of a settlement, such as a parish, ward, or other administrative or geographic unit. []</a:documentation>
          <ref name="district.content"/>
          <ref name="district.localattributes"/>
       </element>
@@ -359,7 +464,7 @@ For information about the TEI, including contact
    </define>
    <define name="education">
       <element name="education">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of the educational experience of a person.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of the educational experience of a person. []</a:documentation>
          <ref name="education.content"/>
          <ref name="education.localattributes"/>
       </element>
@@ -415,6 +520,7 @@ For information about the TEI, including contact
       <ref name="att.editLike.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.naming.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute name="where">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the location of an event by pointing to a place element</a:documentation>
@@ -437,6 +543,7 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.editLike.attributes"/>
       <ref name="att.datable.attributes"/>
+      <ref name="att.canonical.attributes"/>
       <empty/>
    </define>
    <define name="floruit">
@@ -457,7 +564,7 @@ For information about the TEI, including contact
    </define>
    <define name="forename">
       <element name="forename">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a forename, given or baptismal name.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a forename, given or baptismal name. []</a:documentation>
          <ref name="forename.content"/>
          <ref name="forename.localattributes"/>
       </element>
@@ -474,7 +581,7 @@ For information about the TEI, including contact
    <define name="genName">
       <element name="genName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(generational name component) contains a name component used to distinguish otherwise similar names on the basis of the relative ages or generations of the persons
-        named.</a:documentation>
+        named. []</a:documentation>
          <ref name="genName.content"/>
          <ref name="genName.localattributes"/>
       </element>
@@ -501,12 +608,13 @@ For information about the TEI, including contact
    </define>
    <define name="geo.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.declaring.attributes"/>
       <empty/>
    </define>
    <define name="geogFeat">
       <element name="geogFeat">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(geographical feature name) contains a common noun identifying some geographical feature contained within a geographic
-        name, such as valley, mount, etc.</a:documentation>
+        name, such as valley, mount, etc. []</a:documentation>
          <ref name="geogFeat.content"/>
          <ref name="geogFeat.localattributes"/>
       </element>
@@ -523,7 +631,7 @@ For information about the TEI, including contact
    </define>
    <define name="geogName">
       <element name="geogName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(geographical name) a name associated with some geographical feature such as Windrush Valley or Mount Sinai.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(geographical name) a name associated with some geographical feature such as Windrush Valley or Mount Sinai. []</a:documentation>
          <ref name="geogName.content"/>
          <ref name="geogName.localattributes"/>
       </element>
@@ -532,14 +640,11 @@ For information about the TEI, including contact
       <ref name="macro.phraseSeq"/>
    </define>
    <define name="geogName.localattributes">
+      <ref name="att.datable.attributes"/>
+      <ref name="att.editLike.attributes"/>
       <ref name="att.global.attributes"/>
       <ref name="att.naming.attributes"/>
-      <optional>
-         <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides more culture- linguistic- or application- specific information used to categorize this name component.</a:documentation>
-            <ref name="data.enumerated"/>
-         </attribute>
-      </optional>
+      <ref name="att.typed.attributes"/>
       <empty/>
    </define>
    <define name="langKnowledge">
@@ -576,7 +681,7 @@ For information about the TEI, including contact
    </define>
    <define name="langKnown">
       <element name="langKnown">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language known) summarizes the state of a person's linguistic competence, i.e., knowledge of a single language.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language known) summarizes the state of a person's linguistic competence, i.e., knowledge of a single language. []</a:documentation>
          <ref name="langKnown.content"/>
          <ref name="langKnown.localattributes"/>
       </element>
@@ -623,6 +728,7 @@ For information about the TEI, including contact
             <choice>
                <ref name="relation"/>
                <ref name="relationGrp"/>
+               <ref name="listRelation"/>
             </choice>
          </zeroOrMore>
       </group>
@@ -631,11 +737,12 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.declarable.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="listNym">
       <element name="listNym">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of canonical names) contains a list of nyms, that is, standardized names for any thing. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of canonical names) contains a list of nyms, that is, standardized names for any thing.  []</a:documentation>
          <ref name="listNym.content"/>
          <ref name="listNym.localattributes"/>
       </element>
@@ -653,6 +760,7 @@ For information about the TEI, including contact
          </oneOrMore>
          <zeroOrMore>
             <choice>
+               <ref name="listRelation"/>
                <ref name="relationGrp"/>
                <ref name="relation"/>
             </choice>
@@ -663,12 +771,13 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.declarable.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="listOrg">
       <element name="listOrg">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of organizations) contains a list of elements, each of which provides information about an identifiable
-        organization. </a:documentation>
+        organization.  []</a:documentation>
          <ref name="listOrg.content"/>
          <ref name="listOrg.localattributes"/>
       </element>
@@ -686,6 +795,7 @@ For information about the TEI, including contact
          </oneOrMore>
          <zeroOrMore>
             <choice>
+               <ref name="listRelation"/>
                <ref name="relationGrp"/>
                <ref name="relation"/>
             </choice>
@@ -696,13 +806,14 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.declarable.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="listPerson">
       <element name="listPerson">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of persons) contains a list of descriptions, each of which provides information about an identifiable
     person or a group of people, for example the participants in a language interaction, or the
-    people referred to in a historical source. </a:documentation>
+    people referred to in a historical source.  [  ]</a:documentation>
          <ref name="listPerson.content"/>
          <ref name="listPerson.localattributes"/>
       </element>
@@ -721,6 +832,7 @@ For information about the TEI, including contact
          <zeroOrMore>
             <choice>
                <ref name="relation"/>
+               <ref name="listRelation"/>
                <ref name="relationGrp"/>
             </choice>
          </zeroOrMore>
@@ -730,6 +842,7 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.declarable.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="listPlace">
@@ -753,6 +866,7 @@ For information about the TEI, including contact
          </oneOrMore>
          <zeroOrMore>
             <choice>
+               <ref name="listRelation"/>
                <ref name="relationGrp"/>
                <ref name="relation"/>
             </choice>
@@ -763,6 +877,31 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.declarable.attributes"/>
+      <ref name="att.sortable.attributes"/>
+      <empty/>
+   </define>
+   <define name="listRelation">
+      <element name="listRelation">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides information about relationships identified amongst people, places, and
+    organizations, either informally as prose or as formally expressed relation links.  []</a:documentation>
+         <ref name="listRelation.content"/>
+         <ref name="listRelation.localattributes"/>
+      </element>
+   </define>
+   <define name="listRelation.content">
+      <choice>
+         <oneOrMore>
+            <ref name="model.pLike"/>
+         </oneOrMore>
+         <oneOrMore>
+            <ref name="relation"/>
+         </oneOrMore>
+      </choice>
+   </define>
+   <define name="listRelation.localattributes">
+      <ref name="att.global.attributes"/>
+      <ref name="att.typed.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="location">
@@ -796,7 +935,7 @@ For information about the TEI, including contact
    <define name="nameLink">
       <element name="nameLink">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(name link) contains a connecting phrase or link used within a name but not regarded as part of it, such as van der or
-            of.</a:documentation>
+            of. []</a:documentation>
          <ref name="nameLink.content"/>
          <ref name="nameLink.localattributes"/>
       </element>
@@ -811,7 +950,7 @@ For information about the TEI, including contact
    </define>
    <define name="nationality">
       <element name="nationality">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an informal description of a person's present or past nationality or citizenship.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an informal description of a person's present or past nationality or citizenship. []</a:documentation>
          <ref name="nationality.content"/>
          <ref name="nationality.localattributes"/>
       </element>
@@ -828,7 +967,7 @@ For information about the TEI, including contact
    </define>
    <define name="nym">
       <element name="nym">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(canonical name) contains the definition for a canonical name or namepart of any kind.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(canonical name) contains the definition for a canonical name or namepart of any kind. []</a:documentation>
          <ref name="nym.content"/>
          <ref name="nym.localattributes"/>
       </element>
@@ -855,6 +994,7 @@ For information about the TEI, including contact
    <define name="nym.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute name="parts">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to constituent nyms </a:documentation>
@@ -1164,7 +1304,7 @@ For information about the TEI, including contact
    </define>
    <define name="occupation">
       <element name="occupation">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an informal description of a person's trade, profession or occupation.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an informal description of a person's trade, profession or occupation. []</a:documentation>
          <ref name="occupation.content"/>
          <ref name="occupation.localattributes"/>
       </element>
@@ -1179,8 +1319,8 @@ For information about the TEI, including contact
       <ref name="att.naming.attributes"/>
       <optional>
          <attribute name="scheme">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the classification system or taxonomy in use by supplying the identifier of a taxonomy element elsewhere in the
-                header.</a:documentation>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the classification system or taxonomy in use by supplying the identifier of a taxonomy element typically but not necessarily elsewhere in the
+                current document header.</a:documentation>
             <ref name="data.pointer"/>
          </attribute>
       </optional>
@@ -1196,7 +1336,7 @@ For information about the TEI, including contact
    <define name="offset">
       <element name="offset">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">that part of a relative temporal or spatial expression which indicates the direction of the offset between the two place names, dates, or
-        times involved in the expression. </a:documentation>
+        times involved in the expression.  []</a:documentation>
          <ref name="offset.content"/>
          <ref name="offset.localattributes"/>
       </element>
@@ -1212,7 +1352,7 @@ For information about the TEI, including contact
    <define name="org">
       <element name="org">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization) provides information about an identifiable organization such as a business, a tribe, or
-        any other grouping of people.</a:documentation>
+        any other grouping of people. []</a:documentation>
          <ref name="org.content"/>
          <ref name="org.localattributes"/>
       </element>
@@ -1233,6 +1373,7 @@ For information about the TEI, including contact
                   <ref name="model.labelLike"/>
                   <ref name="model.nameLike"/>
                   <ref name="model.placeLike"/>
+                  <ref name="model.orgPart"/>
                </choice>
             </zeroOrMore>
          </choice>
@@ -1251,6 +1392,7 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.editLike.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute name="role">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies a primary role or classification for the organization.</a:documentation>
@@ -1266,7 +1408,7 @@ For information about the TEI, including contact
    </define>
    <define name="orgName">
       <element name="orgName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name.  []</a:documentation>
          <ref name="orgName.content"/>
          <ref name="orgName.localattributes"/>
       </element>
@@ -1285,7 +1427,7 @@ For information about the TEI, including contact
    <define name="persName">
       <element name="persName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(personal name) contains a proper noun or proper-noun phrase referring to a person, possibly including any
-    or all of the person's forenames, surnames, honorifics, added names, etc.</a:documentation>
+    or all of the person's forenames, surnames, honorifics, added names, etc. []</a:documentation>
          <ref name="persName.content"/>
          <ref name="persName.localattributes"/>
       </element>
@@ -1304,7 +1446,7 @@ For information about the TEI, including contact
    <define name="person">
       <element name="person">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a
-        historical source.</a:documentation>
+        historical source. []</a:documentation>
          <ref name="person.content"/>
          <ref name="person.localattributes"/>
       </element>
@@ -1325,6 +1467,7 @@ For information about the TEI, including contact
    <define name="person.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.editLike.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute name="role">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies a primary role or classification for the person.</a:documentation>
@@ -1352,7 +1495,7 @@ For information about the TEI, including contact
    </define>
    <define name="personGrp">
       <element name="personGrp">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(personal group) describes a group of individuals treated as a single person for analytic purposes.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(personal group) describes a group of individuals treated as a single person for analytic purposes. []</a:documentation>
          <ref name="personGrp.content"/>
          <ref name="personGrp.localattributes"/>
       </element>
@@ -1369,6 +1512,7 @@ For information about the TEI, including contact
    </define>
    <define name="personGrp.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute name="role">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the role of this group of participants in the interaction.</a:documentation>
@@ -1425,7 +1569,6 @@ For information about the TEI, including contact
                <choice>
                   <ref name="model.labelLike"/>
                   <ref name="model.placeStateLike"/>
-                  <ref name="model.placeTraitLike"/>
                   <ref name="model.placeEventLike"/>
                </choice>
             </zeroOrMore>
@@ -1448,11 +1591,12 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
       <ref name="att.editLike.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="placeName">
       <element name="placeName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an absolute or relative place name. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an absolute or relative place name.  []</a:documentation>
          <ref name="placeName.content"/>
          <ref name="placeName.localattributes"/>
       </element>
@@ -1461,11 +1605,11 @@ For information about the TEI, including contact
       <ref name="macro.phraseSeq"/>
    </define>
    <define name="placeName.localattributes">
+      <ref name="att.datable.attributes"/>
+      <ref name="att.editLike.attributes"/>
       <ref name="att.global.attributes"/>
       <ref name="att.naming.attributes"/>
       <ref name="att.typed.attributes"/>
-      <ref name="att.datable.attributes"/>
-      <ref name="att.editLike.attributes"/>
       <empty/>
    </define>
    <define name="population">
@@ -1516,7 +1660,7 @@ For information about the TEI, including contact
    <define name="region">
       <element name="region">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the name of an administrative unit such as a state, province, or county, larger
-    than a settlement, but smaller than a country.</a:documentation>
+    than a settlement, but smaller than a country. []</a:documentation>
          <ref name="region.content"/>
          <ref name="region.localattributes"/>
       </element>
@@ -1533,7 +1677,8 @@ For information about the TEI, including contact
    </define>
    <define name="relation">
       <element name="relation">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relationship) describes any kind of relationship or linkage amongst a specified group of participants.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relationship) describes any kind of relationship or linkage amongst a
+  specified group of objects, places, events or people. []</a:documentation>
          <ref name="relation.content"/>
          <ref name="relation.localattributes"/>
       </element>
@@ -1567,7 +1712,8 @@ For information about the TEI, including contact
       <ref name="att.global.attributes"/>
       <ref name="att.datable.attributes"/>
       <ref name="att.editLike.attributes"/>
-      <ref name="att.naming.attributes"/>
+      <ref name="att.canonical.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <optional>
          <attribute xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" name="type"
                     a:defaultValue="personal">
@@ -1629,7 +1775,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    <define name="relationGrp">
       <element name="relationGrp">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relation group) provides information about relationships identified amongst people, places, and
-    organizations, either informally as prose or as formally expressed relation links. </a:documentation>
+    organizations, either informally as prose or as formally expressed relation links.  []</a:documentation>
          <ref name="relationGrp.content"/>
          <ref name="relationGrp.localattributes"/>
       </element>
@@ -1647,11 +1793,12 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    <define name="relationGrp.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.typed.attributes"/>
+      <ref name="att.sortable.attributes"/>
       <empty/>
    </define>
    <define name="residence">
       <element name="residence">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) describes a person's present or past places of residence.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) describes a person's present or past places of residence. []</a:documentation>
          <ref name="residence.content"/>
          <ref name="residence.localattributes"/>
       </element>
@@ -1669,7 +1816,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    <define name="roleName">
       <element name="roleName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a name component which indicates that the referent has a particular role or position in society, such as an official title or
-        rank.</a:documentation>
+        rank. []</a:documentation>
          <ref name="roleName.content"/>
          <ref name="roleName.localattributes"/>
       </element>
@@ -1685,7 +1832,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    </define>
    <define name="settlement">
       <element name="settlement">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the name of a settlement such as a city, town, or village identified as a single geo-political or administrative unit.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the name of a settlement such as a city, town, or village identified as a single geo-political or administrative unit. []</a:documentation>
          <ref name="settlement.content"/>
          <ref name="settlement.localattributes"/>
       </element>
@@ -1724,7 +1871,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    </define>
    <define name="socecStatus">
       <element name="socecStatus">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(socio-economic status) contains an informal description of a person's perceived social or economic status.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(socio-economic status) contains an informal description of a person's perceived social or economic status. []</a:documentation>
          <ref name="socecStatus.content"/>
          <ref name="socecStatus.localattributes"/>
       </element>
@@ -1753,7 +1900,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    </define>
    <define name="state">
       <element name="state">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some status or quality attributed to a person, place, or organization at some specific time.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some status or quality attributed to a person, place, or organization often at some specific time or for a specific date range.</a:documentation>
          <ref name="state.content"/>
          <ref name="state.localattributes"/>
       </element>
@@ -1798,7 +1945,7 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    </define>
    <define name="surname">
       <element name="surname">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a family (inherited) name, as opposed to a given, baptismal, or nick name.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a family (inherited) name, as opposed to a given, baptismal, or nick name. []</a:documentation>
          <ref name="surname.content"/>
          <ref name="surname.localattributes"/>
       </element>
@@ -1857,7 +2004,8 @@ Suggested values include: 1] social; 2] personal; 3] other</a:documentation>
    </define>
    <define name="trait">
       <element name="trait">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some culturally-determined and in principle unchanging characteristic attributed to a person or place.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some status or quality attributed to a person, place, or organization typically, but not necessarily, 
+    independent of the volition or action of the holder and usually not at some specific time or for a specific date range.</a:documentation>
          <ref name="trait.content"/>
          <ref name="trait.localattributes"/>
       </element>

@@ -1,28 +1,43 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Dictionaries
 
@@ -42,8 +57,7 @@ model.entryLike_sequenceOptional = superEntry?, entry?, entryFree?
 model.entryLike_sequenceOptionalRepeatable =
   superEntry*, entry*, entryFree*
 model.entryLike_sequenceRepeatable = superEntry+, entry+, entryFree+
-att.entryLike.attributes =
-  att.entryLike.attribute.type, att.entryLike.attribute.sortKey
+att.entryLike.attributes = att.entryLike.attribute.type
 att.entryLike.attribute.type =
   
   ## indicates type of entry, in dictionaries with multiple types.
@@ -77,11 +91,6 @@ att.entryLike.attribute.type =
       "foreign"
     | xsd:Name
   }?
-att.entryLike.attribute.sortKey =
-  
-  ## contains a (sortable) character sequence reflecting the entry's alphabetical position in
-  ##         the printed dictionary.
-  attribute sortKey { data.word }?
 att.lexicographic.attributes =
   att.lexicographic.attribute.expand,
   att.lexicographic.attribute.norm,
@@ -115,7 +124,7 @@ att.lexicographic.attribute.orig =
   attribute orig { text }?
 att.lexicographic.attribute.location =
   
-  ## provides a reference to an anchor element elsewhere in the document
+  ## provides a reference to an anchor element typically elsewhere in the document, but possibly in another document, 
   ##                 indicating the original location of this component.
   attribute location { data.pointer }?
 att.lexicographic.attribute.mergedIn =
@@ -213,14 +222,14 @@ model.ptrLike.form_sequenceRepeatable = oRef+, oVar+, pRef+, pVar+
 # 2. elements
 case =
   
-  ## contains grammatical case information given by a dictionary for a given form.
+  ## contains grammatical case information given by a dictionary for a given form. []
   element case { case.content, case.localattributes }
 case.content = macro.paraContent
 case.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 colloc =
   
-  ## (collocate) contains a collocate of the headword.
+  ## (collocate) contains a collocate of the headword. []
   element colloc { colloc.content, colloc.localattributes }
 colloc.content = macro.paraContent
 colloc.localattributes =
@@ -230,7 +239,7 @@ colloc.localattributes =
   empty
 def =
   
-  ## (definition) contains definition text in a dictionary entry.
+  ## (definition) contains definition text in a dictionary entry. []
   element def { def.content, def.localattributes }
 def.content = macro.paraContent
 def.localattributes =
@@ -238,7 +247,7 @@ def.localattributes =
 dictScrap =
   
   ## (dictionary scrap) encloses a part of a dictionary entry in which other phrase-level dictionary elements are
-  ##         freely combined.
+  ##         freely combined. [ ]
   element dictScrap { dictScrap.content, dictScrap.localattributes }
 dictScrap.content =
   (text
@@ -250,15 +259,20 @@ dictScrap.content =
 dictScrap.localattributes = att.global.attributes, empty
 entry =
   
-  ## contains a reasonably well-structured dictionary entry.
+  ## contains a single structured entry in any kind of lexical resource, such
+  ##   as a dictionary or lexicon. [ ]
   element entry { entry.content, entry.localattributes }
-entry.content = (hom | sense | model.entryPart.top | model.global)+
+entry.content =
+  (hom | sense | model.entryPart.top | model.global | model.ptrLike)+
 entry.localattributes =
-  att.global.attributes, att.entryLike.attributes, empty
+  att.global.attributes,
+  att.entryLike.attributes,
+  att.sortable.attributes,
+  empty
 entryFree =
   
-  ## (unstructured entry) contains a dictionary entry which does not necessarily conform to the constraints imposed
-  ##         by the entry element.
+  ## (unstructured entry) contains a single unstructured entry in any kind of lexical
+  ##   resource, such as a dictionary or lexicon. [ ]
   element entryFree { entryFree.content, entryFree.localattributes }
 entryFree.content =
   (text
@@ -271,10 +285,11 @@ entryFree.localattributes =
   att.global.attributes,
   att.entryLike.attributes,
   att.lexicographic.attributes,
+  att.sortable.attributes,
   empty
 etym =
   
-  ## (etymology) encloses the etymological information in a dictionary entry.
+  ## (etymology) encloses the etymological information in a dictionary entry. []
   element etym { etym.content, etym.localattributes }
 etym.content =
   (text
@@ -291,7 +306,7 @@ etym.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 form =
   
-  ## (form information group) groups all the information on the written and spoken forms of one headword.
+  ## (form information group) groups all the information on the written and spoken forms of one headword. []
   element form { form.content, form.localattributes }
 form.content =
   (text
@@ -333,7 +348,7 @@ form.localattributes =
   empty
 gen =
   
-  ## (gender) identifies the morphological gender of a lexical item, as given in the dictionary.
+  ## (gender) identifies the morphological gender of a lexical item, as given in the dictionary. []
   element gen { gen.content, gen.localattributes }
 gen.content = macro.paraContent
 gen.localattributes =
@@ -341,7 +356,7 @@ gen.localattributes =
 gram =
   
   ## (grammatical information) within an entry in a dictionary or a terminological data file, contains grammatical
-  ##     information relating to a term, word, or form.
+  ##     information relating to a term, word, or form. []
   element gram { gram.content, gram.localattributes }
 gram.content = macro.paraContent
 gram.localattributes =
@@ -350,14 +365,14 @@ gram.localattributes =
   
   ## classifies the grammatical information given according to some convenient typology — in
   ##         the case of terminological information, preferably the dictionary of data element types
-  ##         specified in ISO WD 12 620.
+  ##         specified in ISO 12620.
   ## Sample values include: 1] pos(part of speech) ; 2] gen(gender) ; 3] num(number) ; 4] animate; 5] proper
   attribute type { data.enumerated }?,
   empty
 gramGrp =
   
   ## (grammatical information group) groups morpho-syntactic information about a lexical item, e.g. pos, gen, number, case, or
-  ##         iType (inflectional class).
+  ##         iType (inflectional class). []
   element gramGrp { gramGrp.content, gramGrp.localattributes }
 gramGrp.content =
   (text
@@ -367,10 +382,13 @@ gramGrp.content =
    | model.gramPart
    | model.global)*
 gramGrp.localattributes =
-  att.global.attributes, att.lexicographic.attributes, empty
+  att.global.attributes,
+  att.lexicographic.attributes,
+  att.typed.attributes,
+  empty
 hom =
   
-  ## (homograph) groups information relating to one homograph within an entry.
+  ## (homograph) groups information relating to one homograph within an entry. []
   element hom { hom.content, hom.localattributes }
 hom.content = (sense | model.entryPart.top | model.global)*
 hom.localattributes =
@@ -378,14 +396,14 @@ hom.localattributes =
 hyph =
   
   ## (hyphenation) contains a hyphenated form of a dictionary headword, or hyphenation information in some
-  ##     other form.
+  ##     other form. []
   element hyph { hyph.content, hyph.localattributes }
 hyph.content = macro.paraContent
 hyph.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 iType =
   
-  ## (inflectional class) indicates the inflectional class associated with a lexical item.
+  ## (inflectional class) indicates the inflectional class associated with a lexical item. []
   element iType { iType.content, iType.localattributes }
 iType.content = macro.paraContent
 iType.localattributes =
@@ -401,7 +419,7 @@ iType.localattributes =
   empty
 lang =
   
-  ## (language name) name of a language mentioned in etymological or other linguistic discussion.
+  ## (language name) name of a language mentioned in etymological or other linguistic discussion. []
   element lang { lang.content, lang.localattributes }
 lang.content = macro.paraContent
 lang.localattributes =
@@ -409,7 +427,7 @@ lang.localattributes =
 lbl =
   
   ## (label) contains a label for a form, example, translation, or other piece of information, e.g.
-  ##     abbreviation for, contraction of, literally, approximately, synonyms:, etc.
+  ##     abbreviation for, contraction of, literally, approximately, synonyms:, etc. [  ]
   element lbl { lbl.content, lbl.localattributes }
 lbl.content = macro.paraContent
 lbl.localattributes =
@@ -422,21 +440,21 @@ lbl.localattributes =
 mood =
   
   ## contains information about the grammatical mood of verbs (e.g. indicative, subjunctive,
-  ##     imperative).
+  ##     imperative). []
   element mood { mood.content, mood.localattributes }
 mood.content = macro.paraContent
 mood.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 number =
   
-  ## indicates grammatical number associated with a form, as given in a dictionary.
+  ## indicates grammatical number associated with a form, as given in a dictionary. [ ]
   element number { number.content, number.localattributes }
 number.content = macro.paraContent
 number.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 oRef =
   
-  ## (orthographic-form reference) in a dictionary example, indicates a reference to the orthographic form(s) of the headword.
+  ## (orthographic-form reference) in a dictionary example, indicates a reference to the orthographic form(s) of the headword. []
   element oRef { oRef.content, oRef.localattributes }
 oRef.content = empty
 oRef.localattributes =
@@ -451,7 +469,7 @@ oRef.localattributes =
 oVar =
   
   ## (orthographic-variant reference) in a dictionary example, indicates a reference to variant orthographic form(s) of the
-  ##     headword.
+  ##     headword. []
   element oVar { oVar.content, oVar.localattributes }
 oVar.content = (text | model.gLike | oRef)*
 oVar.localattributes =
@@ -465,7 +483,7 @@ oVar.localattributes =
   empty
 orth =
   
-  ## (orthographic form) gives the orthographic form of a dictionary headword.
+  ## (orthographic form) gives the orthographic form of a dictionary headword. []
   element orth { orth.content, orth.localattributes }
 orth.content = macro.paraContent
 orth.localattributes =
@@ -481,7 +499,7 @@ orth.localattributes =
   empty
 pRef =
   
-  ## (pronunciation reference) in a dictionary example, indicates a reference to the pronunciation(s) of the headword.
+  ## (pronunciation reference) in a dictionary example, indicates a reference to the pronunciation(s) of the headword. []
   element pRef { pRef.content, pRef.localattributes }
 pRef.content = empty
 pRef.localattributes =
@@ -491,7 +509,7 @@ pRef.localattributes =
   empty
 pVar =
   
-  ## (pronunciation-variant reference) in a dictionary example, indicates a reference to variant pronunciation(s) of the headword.
+  ## (pronunciation-variant reference) in a dictionary example, indicates a reference to variant pronunciation(s) of the headword. []
   element pVar { pVar.content, pVar.localattributes }
 pVar.content = (text | model.gLike | pRef)*
 pVar.localattributes =
@@ -502,7 +520,7 @@ pVar.localattributes =
 per =
   
   ## (person) contains an indication of the grammatical person (1st, 2nd, 3rd, etc.) associated with a
-  ##     given inflected form in a dictionary.
+  ##     given inflected form in a dictionary. []
   element per { per.content, per.localattributes }
 per.content = macro.paraContent
 per.localattributes =
@@ -511,14 +529,14 @@ pos =
   
   ## (part of speech) indicates the part of speech assigned to a dictionary 
   ## headword  such as noun, verb, or adjective.
-  ##     
+  ##      []
   element pos { pos.content, pos.localattributes }
 pos.content = macro.paraContent
 pos.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 pron =
   
-  ## (pronunciation) contains the pronunciation(s) of the word.
+  ## (pronunciation) contains the pronunciation(s) of the word. []
   element pron { pron.content, pron.localattributes }
 pron.content = macro.paraContent
 pron.localattributes =
@@ -536,7 +554,7 @@ pron.localattributes =
 re =
   
   ## (related entry) contains a dictionary entry for a lexical item related to the headword, such as a compound
-  ##     phrase or derived form, embedded inside a larger entry.
+  ##     phrase or derived form, embedded inside a larger entry. []
   element re { re.content, re.localattributes }
 re.content =
   (text
@@ -553,7 +571,7 @@ re.localattributes =
 sense =
   
   ## groups together all information relating to one word sense in a dictionary entry, for
-  ##     example definitions, examples, and translation equivalents.
+  ##     example definitions, examples, and translation equivalents. []
   element sense { sense.content, sense.localattributes }
 sense.content =
   (text
@@ -571,42 +589,47 @@ sense.localattributes =
   empty
 stress =
   
-  ## contains the stress pattern for a dictionary headword, if given separately.
+  ## contains the stress pattern for a dictionary headword, if given separately. []
   element stress { stress.content, stress.localattributes }
 stress.content = macro.paraContent
 stress.localattributes = att.global.attributes, empty
 subc =
   
   ## (subcategorization) contains subcategorization information (transitive/intransitive, countable/non-countable,
-  ##         etc.)
+  ##         etc.) []
   element subc { subc.content, subc.localattributes }
 subc.content = macro.paraContent
 subc.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 superEntry =
   
-  ## groups successive entries for a set of homographs.
+  ## groups a sequence of entries within any kind of lexical resource, such
+  ##   as a dictionary or lexicon which function as a single unit, for
+  ##   example a set of homographs. []
   element superEntry { superEntry.content, superEntry.localattributes }
 superEntry.content = (form?, entry+) | dictScrap
 superEntry.localattributes =
-  att.global.attributes, att.entryLike.attributes, empty
+  att.global.attributes,
+  att.entryLike.attributes,
+  att.sortable.attributes,
+  empty
 syll =
   
-  ## (syllabification) contains the syllabification of the headword.
+  ## (syllabification) contains the syllabification of the headword. []
   element syll { syll.content, syll.localattributes }
 syll.content = macro.paraContent
 syll.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 tns =
   
-  ## (tense) indicates the grammatical tense associated with a given inflected form in a dictionary.
+  ## (tense) indicates the grammatical tense associated with a given inflected form in a dictionary. []
   element tns { tns.content, tns.localattributes }
 tns.content = macro.paraContent
 tns.localattributes =
   att.global.attributes, att.lexicographic.attributes, empty
 usg =
   
-  ## (usage) contains usage information in a dictionary entry.
+  ## (usage) contains usage information in a dictionary entry. []
   element usg { usg.content, usg.localattributes }
 usg.content = macro.paraContent
 usg.localattributes =
@@ -614,13 +637,13 @@ usg.localattributes =
   att.lexicographic.attributes,
   
   ## classifies the usage information using any convenient typology.
-  ## Sample values include: 1] geo(geographic) ; 2] time; 3] dom(domain) ; 4] reg(register) ; 5] style; 6] plev(preference level) ; 7] lang(language) ; 8] gram(grammatical) ; 9] syn(synonym) ; 10] hyper(hypernym) ; 11] colloc(collocation) ; 12] comp(complement) ; 13] obj(object) ; 14] subj(subject) ; 15] verb; 16] hint
+  ## Sample values include: 1] geo(geographic) ; 2] time; 3] dom(domain) ; 4] register(register) ; 5] style; 6] plev(preference level) ; 7] lang(language) ; 8] gram(grammatical) ; 9] syn(synonym) ; 10] hyper(hypernym) ; 11] colloc(collocation) ; 12] comp(complement) ; 13] obj(object) ; 14] subj(subject) ; 15] verb; 16] hint
   attribute type { data.enumerated }?,
   empty
 xr =
   
   ## (cross-reference phrase) contains a phrase, sentence, or icon referring the reader to some other location in this or
-  ##     another text.
+  ##     another text. []
   element xr { xr.content, xr.localattributes }
 xr.content =
   (text

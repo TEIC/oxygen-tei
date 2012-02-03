@@ -1,24 +1,21 @@
-default namespace = "http://www.tei-c.org/ns/Examples"
+default namespace = "http://www.tei-c.org/ns/1.0"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
-namespace ns2 = "http://www.tei-c.org/ns/1.0"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2011-03-05T14:53:38Z. 
-# Edition: 1.9.0. Last updated on February 25th 2011.
-# Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+# Schema generated from ODD source 2012-02-02T20:36:03Z. 
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
 #
 
-# 
 # This template file is freely available and you are
-#	       hereby authorised to copy, modify, and redistribute it in
-#	       any way without further reference or permissions.
-# 
+# hereby authorised to copy, modify, and redistribute it in
+# any way without further reference or permissions.
 # When making such modifications, you are strongly
-#	       recommended to change the present text to include an
-#	       accurate statement of the licencing conditions applicable
-#	       to your modified text.
+# recommended to change the present text to include an
+# accurate statement of the licencing conditions applicable
+# to your modified text.
 macro.limitedContent = (text | model.limitedPhrase | model.inter)*
 macro.xtext = (text | model.gLike)*
 data.numeric =
@@ -30,11 +27,6 @@ data.pointer = xsd:anyURI
 data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
 data.name = xsd:Name
 data.enumerated = data.name
-macro.anyXML =
-  element * - (ns2:* | egXML) {
-    attribute * { text }*,
-    (text | macro.anyXML)*
-  }
 model.global.meta = fs | fLib | fvLib
 model.global.meta_alternation = fs | fLib | fvLib
 model.global.meta_sequence = fs, fLib, fvLib
@@ -79,12 +71,12 @@ model.limitedPhrase = notAllowed
 fsdDecl =
   
   ## (feature system declaration) provides a feature system declaration comprising one or more
-  ##   feature structure declarations or feature structure declaration links.
-  element ns2:fsdDecl { (fsDecl | fsdLink)+ }
+  ##   feature structure declarations or feature structure declaration links. [18.11. ]
+  element fsdDecl { (fsDecl | fsdLink)+ }
 fsDecl =
   
-  ## (feature structure declaration) declares one type of feature structure.
-  element ns2:fsDecl {
+  ## (feature structure declaration) declares one type of feature structure. [18.11. ]
+  element fsDecl {
     (fsDescr?, fDecl+, fsConstraints?),
     
     ## gives a name for the type of feature structure being declared.
@@ -112,13 +104,13 @@ fsDecl =
 fsDescr =
   
   ## (feature system description (in FSD)) describes in prose what is represented by the type of feature
-  ## structure declared in the enclosing fsDecl.
-  element ns2:fsDescr { macro.limitedContent }
+  ## structure declared in the enclosing fsDecl. [18.11. ]
+  element fsDescr { macro.limitedContent }
 fsdLink =
   
   ## (feature structure declaration link) associates the name of a typed feature structure with a feature
-  ## structure declaration for it.
-  element ns2:fsdLink {
+  ## structure declaration for it. [18.11. ]
+  element fsdLink {
     empty,
     
     ## identifies the type of feature structure to be documented;
@@ -134,8 +126,8 @@ fsdLink =
 fDecl =
   
   ## (feature declaration) declares a single feature, specifying its name, organization,
-  ## range of allowed values, and optionally its default value.
-  element ns2:fDecl {
+  ## range of allowed values, and optionally its default value. [18.11. ]
+  element fDecl {
     (fDescr?, vRange, vDefault?),
     
     ## indicates the name of the feature being declared; matches the
@@ -150,8 +142,8 @@ fDecl =
 fDescr =
   
   ## (feature description (in FSD)) describes in prose what is represented by the feature being
-  ## declared and its values.
-  element ns2:fDescr { macro.limitedContent }
+  ## declared and its values. [18.11. ]
+  element fDescr { macro.limitedContent }
 vRange =
   
   ## (value range) defines the range of allowed values for a feature, in the form of
@@ -159,8 +151,8 @@ vRange =
   ## for the value of an f to be valid, it must be
   ## subsumed by the specified range; if the f
   ## contains multiple values (as sanctioned by the org attribute),
-  ## then each value must be subsumed by the vRange.
-  element ns2:vRange { model.featureVal }
+  ## then each value must be subsumed by the vRange. [18.11. ]
+  element vRange { model.featureVal }
 vDefault =
   
   ## (value default) declares the default value to be supplied when a feature structure
@@ -170,51 +162,51 @@ vDefault =
   ## fs elements or primitive values;
   ## if conditional, it is specified as
   ## one or more if elements; if no default is specified, or no
-  ## condition matches, the value none is assumed.
-  element ns2:vDefault { model.featureVal+ | if+ }
+  ## condition matches, the value none is assumed. [18.11. ]
+  element vDefault { model.featureVal+ | if+ }
 if =
   
   ## defines a conditional default value for a feature; the condition
   ## is specified as a feature structure, and is met if it
   ## subsumes the feature structure in the text for which a
-  ## default value is sought.
-  element ns2:if { (fs | f), then, model.featureVal }
+  ## default value is sought. [18.11. ]
+  element if { (fs | f), then, model.featureVal }
 then =
   
   ## separates the condition from the default in an if, or
-  ## the antecedent and the consequent in a cond element.
-  element ns2:then { empty }
+  ## the antecedent and the consequent in a cond element. [18.11. ]
+  element then { empty }
 fsConstraints =
   
   ## (feature-structure constraints) specifies constraints on the content of valid feature
-  ## structures.
-  element ns2:fsConstraints { (cond | bicond)* }
+  ## structures. [18.11. ]
+  element fsConstraints { (cond | bicond)* }
 cond =
   
   ## (conditional feature-structure constraint) defines a conditional feature-structure constraint; the consequent
   ## and the antecedent are specified as feature structures or
   ## feature-structure collections; the constraint is satisfied if both the
   ## antecedent and the consequent subsume a given feature
-  ## structure, or if the antecedent does not.
-  element ns2:cond { (fs | f), then, (fs | f) }
+  ## structure, or if the antecedent does not. [18.11. ]
+  element cond { (fs | f), then, (fs | f) }
 bicond =
   
   ## (bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
   ## consequent and antecedent are specified as feature structures or groups
   ## of feature structures; the constraint is satisfied if both
-  ## subsume a given feature structure, or if both do not.
-  element ns2:bicond { (fs | f), iff, (fs | f) }
+  ## subsume a given feature structure, or if both do not. [18.11. ]
+  element bicond { (fs | f), iff, (fs | f) }
 iff =
   
   ## (if and only if) separates the condition from the consequence in a bicond
-  ## element.
-  element ns2:iff { empty }
+  ## element. [18.11. ]
+  element iff { empty }
 fs =
   
   ## (feature structure) represents a feature structure, that is, a
   ##   collection of feature-value pairs organized as a
-  ## structural unit.
-  element ns2:fs {
+  ## structural unit. [18.2. ]
+  element fs {
     f*,
     
     ## specifies the type of the feature structure.
@@ -229,8 +221,8 @@ fs =
 f =
   
   ## (feature) represents a feature value specification, that
-  ##   is, the association of a name with a value of any of several different types.
-  element ns2:f {
+  ##   is, the association of a name with a value of any of several different types. [18.2. ]
+  element f {
     ((text | model.gLike | model.featureVal)*)
     >> ns1:pattern [
          id = "f-constraint-fValConstraints"
@@ -282,8 +274,8 @@ f =
 binary =
   
   ## (binary value) represents the value part of a feature-value specification which can contain either
-  ##   of exactly two possible values.
-  element ns2:binary {
+  ##   of exactly two possible values. [18.2. ]
+  element binary {
     empty,
     
     ## supplies a binary value.
@@ -293,8 +285,8 @@ binary =
 symbol =
   
   ## (symbolic value) represents the value part of a feature-value specification
-  ##   which contains one of a finite list of symbols.
-  element ns2:symbol {
+  ##   which contains one of a finite list of symbols. [18.3. ]
+  element symbol {
     empty,
     
     ## supplies the symbolic value for the feature, one of a finite list that
@@ -305,8 +297,8 @@ symbol =
 numeric =
   
   ## (numeric value) represents the value part of a feature-value specification
-  ##   which contains a numeric value or range.
-  element ns2:numeric {
+  ##   which contains a numeric value or range. [18.3. ]
+  element numeric {
     empty,
     
     ## supplies a lower bound for the numeric value represented,
@@ -324,13 +316,13 @@ numeric =
 \string =
   
   ## (string value) represents the value part of a feature-value specification
-  ##   which contains a string.
-  element ns2:string { macro.xtext }
+  ##   which contains a string. [18.3. ]
+  element string { macro.xtext }
 vLabel =
   
   ## (value label) represents the value part of a feature-value specification
   ##   which appears at more than one point in a feature structure.
-  element ns2:vLabel {
+  element vLabel {
     model.featureVal?,
     
     ## supplies a name for the sharing point.
@@ -341,7 +333,7 @@ vColl =
   
   ## (collection of values) represents the value part of a feature-value specification
   ##   which contains multiple values organized as a set, bag, or list.
-  element ns2:vColl {
+  element vColl {
     (fs | model.featureVal.single)*,
     
     ## (organization) indicates organization of given value or values as  set, bag or list.
@@ -365,23 +357,23 @@ vColl =
 \default =
   
   ## (default feature value) represents the value part of a feature-value specification
-  ##   which contains a defaulted value.
-  element ns2:default { empty }
+  ##   which contains a defaulted value. [18.9. ]
+  element default { empty }
 vAlt =
   
   ## (value alternation) represents the value part of a feature-value specification
-  ##   which contains a set of values, only one of which can be valid.
-  element ns2:vAlt { model.featureVal, model.featureVal+ }
+  ##   which contains a set of values, only one of which can be valid. [18.8.1. ]
+  element vAlt { model.featureVal, model.featureVal+ }
 vNot =
   
-  ## (value negation) represents a feature value which is the negation of its content.
-  element ns2:vNot { model.featureVal }
+  ## (value negation) represents a feature value which is the negation of its content. [18.8.2. ]
+  element vNot { model.featureVal }
 vMerge =
   
   ## (merged collection of values) represents a feature value which is the result of merging
   ##   together the feature values contained by its children, using the organization
-  ##   specified by the org attribute.
-  element ns2:vMerge {
+  ##   specified by the org attribute. [18.8.3. ]
+  element vMerge {
     model.featureVal+,
     
     ## indicates the organization of the resulting merged values as  set, bag or list.
@@ -401,11 +393,11 @@ vMerge =
   }
 fLib =
   
-  ## (feature library) assembles a library of feature elements.
-  element ns2:fLib { f+ }
+  ## (feature library) assembles a library of feature elements. [18.4. ]
+  element fLib { f+ }
 fvLib =
   
   ## (feature-value library) assembles a library of reusable feature value elements
-  ##   (including complete feature structures).
-  element ns2:fvLib { model.featureVal* }
+  ##   (including complete feature structures). [18.4. ]
+  element fvLib { model.featureVal* }
 start = fs | fvLib | fLib

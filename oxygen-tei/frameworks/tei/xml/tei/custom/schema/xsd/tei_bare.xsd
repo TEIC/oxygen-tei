@@ -2,20 +2,18 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/1.0" xmlns:ns1="http://www.tei-c.org/ns/1.0">
   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2004/10/xml.xsd"/>
   <!--
-    Schema generated from ODD source 2011-03-05T14:56:21Z. 
-    Edition: 1.9.0. Last updated on February 25th 2011.
-    Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+    Schema generated from ODD source 2012-02-02T21:16:15Z. 
+    Edition: 2.0.1 Last updated on 22nd December 2011.
+    Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
     
   -->
   <!--
-    
     This template file is freely available and you are hereby
-                authorised to copy, modify, and redistribute it in any way without
-                further reference or permissions.
-    
+      authorised to copy, modify, and redistribute it in any way without
+      further reference or permissions.
     When making such modifications, you are strongly recommended to
-                change the present text to include an accurate statement of the
-                licencing conditions applicable to your modified text.
+      change the present text to include an accurate statement of the
+      licencing conditions applicable to your modified text.
   -->
   <xs:complexType name="macro.paraContent" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -53,12 +51,6 @@
   <xs:simpleType name="data.enumerated">
     <xs:restriction base="ns1:data.name"/>
   </xs:simpleType>
-  <xs:group name="macro.anyXML">
-    <xs:choice>
-      <xs:any namespace="##other" processContents="skip"/>
-      <xs:any namespace="##local" processContents="skip"/>
-    </xs:choice>
-  </xs:group>
   <xs:attributeGroup name="att.canonical.attributes">
     <xs:attributeGroup ref="ns1:att.canonical.attribute.key"/>
     <xs:attributeGroup ref="ns1:att.canonical.attribute.ref"/>
@@ -90,9 +82,6 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-  </xs:attributeGroup>
-  <xs:attributeGroup name="att.declarable.attributes">
-    <xs:attributeGroup ref="ns1:att.declarable.attribute.default"/>
   </xs:attributeGroup>
   <xs:attributeGroup name="att.declarable.attribute.default">
     <xs:attribute name="default" default="false">
@@ -220,6 +209,16 @@ this name, for example the occupation of a person, or the status of a place. </x
     <xs:attribute name="subtype" type="ns1:data.enumerated">
       <xs:annotation>
         <xs:documentation>provides a sub-categorization of the element, if needed</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.sortable.attributes">
+    <xs:attributeGroup ref="ns1:att.sortable.attribute.sortKey"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.sortable.attribute.sortKey">
+    <xs:attribute name="sortKey" type="ns1:data.word">
+      <xs:annotation>
+        <xs:documentation>supplies the sort key for this element in an index, list or group which contains it.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
@@ -428,11 +427,6 @@ this name, for example the occupation of a person, or the status of a place. </x
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:model.pLike_sequenceOptionalRepeatable"/>
     </xs:sequence>
   </xs:group>
-  <xs:group name="model.divPart_sequenceRepeatable">
-    <xs:sequence>
-      <xs:group maxOccurs="unbounded" ref="ns1:model.pLike_sequenceRepeatable"/>
-    </xs:sequence>
-  </xs:group>
   <xs:group name="model.respLike">
     <xs:sequence>
       <xs:element ref="ns1:author"/>
@@ -581,7 +575,7 @@ this name, for example the occupation of a person, or the status of a place. </x
   </xs:group>
   <xs:element name="p">
     <xs:annotation>
-      <xs:documentation>(paragraph) marks paragraphs in prose.</xs:documentation>
+      <xs:documentation>(paragraph) marks paragraphs in prose. [3.1.  7.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -593,7 +587,7 @@ this name, for example the occupation of a person, or the status of a place. </x
   </xs:element>
   <xs:element name="list">
     <xs:annotation>
-      <xs:documentation>(list) contains any sequence of items organized as a list.</xs:documentation>
+      <xs:documentation>(list) contains any sequence of items organized as a list. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -607,6 +601,7 @@ this name, for example the occupation of a person, or the status of a place. </x
         </xs:choice>
       </xs:sequence>
       <xs:attributeGroup ref="ns1:att.global.attributes"/>
+      <xs:attributeGroup ref="ns1:att.sortable.attributes"/>
       <xs:attribute name="type" default="simple">
         <xs:annotation>
           <xs:documentation>describes the form of the list.
@@ -658,20 +653,21 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="item">
     <xs:annotation>
-      <xs:documentation>contains one component of a list.</xs:documentation>
+      <xs:documentation>contains one component of a list. [3.7.  2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="ns1:macro.specialPara">
           <xs:attributeGroup ref="ns1:att.global.attributes"/>
+          <xs:attributeGroup ref="ns1:att.sortable.attributes"/>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
   <xs:element name="label">
     <xs:annotation>
-      <xs:documentation>contains the label associated with an item in a list; in glossaries, marks the term being
-    defined.</xs:documentation>
+      <xs:documentation>contains any label or heading used to identify part of a text,
+  typically but not exclusively in a list or glossary. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -684,22 +680,22 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   <xs:element name="head">
     <xs:annotation>
       <xs:documentation>(heading) contains any type of heading, for example the title of a section, or the heading of a list,
-    glossary, manuscript description, etc.</xs:documentation>
+    glossary, manuscript description, etc. [4.2.1. ]</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="ns1:macro.paraContent">
-          <xs:attributeGroup ref="ns1:att.global.attributes"/>
-          <xs:attributeGroup ref="ns1:att.typed.attributes"/>
-        </xs:extension>
-      </xs:complexContent>
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:group ref="ns1:model.phrase"/>
+        <xs:group ref="ns1:model.inter"/>
+      </xs:choice>
+      <xs:attributeGroup ref="ns1:att.global.attributes"/>
+      <xs:attributeGroup ref="ns1:att.typed.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="author">
     <xs:annotation>
-      <xs:documentation>in a bibliographic reference, contains the name(s) of the
-  author(s), personal or corporate, of a work; for example in the same
-  form as that provided by a recognized bibliographic name authority. </xs:documentation>
+      <xs:documentation>in a bibliographic reference, contains the name(s) of an
+  author, personal or corporate, of a work; for example in the same
+  form as that provided by a recognized bibliographic name authority.  [3.11.2.2.  2.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -712,7 +708,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="title">
     <xs:annotation>
-      <xs:documentation>contains a title for any kind of work.</xs:documentation>
+      <xs:documentation>contains a title for any kind of work. [3.11.2.2.  2.2.1.  2.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -732,7 +728,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
   <xs:element name="teiHeader">
     <xs:annotation>
       <xs:documentation>(TEI Header) supplies the descriptive and declarative information making up an electronic title page
-    prefixed to every TEI-conformant text.</xs:documentation>
+    prefixed to every TEI-conformant text. [2.1.1.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -756,7 +752,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   </xs:complexType>
   <xs:element name="fileDesc">
     <xs:annotation>
-      <xs:documentation>(file description) contains a full bibliographic description of an electronic file.</xs:documentation>
+      <xs:documentation>(file description) contains a full bibliographic description of an electronic file. [2.2.  2.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -772,7 +768,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   <xs:element name="titleStmt">
     <xs:annotation>
       <xs:documentation>(title statement) groups information about the title of a work and those responsible for its intellectual
-    content.</xs:documentation>
+    content. [2.2.1.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -785,7 +781,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   <xs:element name="publicationStmt">
     <xs:annotation>
       <xs:documentation>(publication statement) groups information concerning the publication or distribution of an electronic or other
-    text. </xs:documentation>
+    text.  [2.2.4.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="ns1:model.pLike"/>
@@ -796,7 +792,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
     <xs:annotation>
       <xs:documentation>(source description) describes the source from which an electronic text was derived or generated, typically a
     bibliographic description in the case of a digitized text, or a phrase such as "born digital"
-    for a text which has no previous existence.</xs:documentation>
+    for a text which has no previous existence. [2.2.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -804,14 +800,13 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
         <xs:group maxOccurs="unbounded" ref="ns1:model.listLike"/>
       </xs:choice>
       <xs:attributeGroup ref="ns1:att.global.attributes"/>
-      <xs:attributeGroup ref="ns1:att.declarable.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="TEI">
     <xs:annotation>
       <xs:documentation>(TEI document) contains a single TEI-conformant document,
 comprising a TEI header and a text, either in isolation or as part of a
-teiCorpus element.</xs:documentation>
+teiCorpus element. [4.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -824,7 +819,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="text">
     <xs:annotation>
       <xs:documentation>contains a single text of any kind, whether unitary or composite, for example a poem or
-    drama, a collection of essays, a novel, a dictionary, or a corpus sample.</xs:documentation>
+    drama, a collection of essays, a novel, a dictionary, or a corpus sample. [4.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -838,7 +833,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="body">
     <xs:annotation>
-      <xs:documentation>(text body) contains the whole body of a single unitary text, excluding any front or back matter.</xs:documentation>
+      <xs:documentation>(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -859,7 +854,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div">
     <xs:annotation>
-      <xs:documentation>(text division) contains a subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(text division) contains a subdivision of the front, body, or back of a text. [4.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -880,7 +875,7 @@ teiCorpus element.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(front matter) contains any prefatory matter (headers,
 title page, prefaces, dedications, etc.)
-found  at the start of a document, before the main body.</xs:documentation>
+found  at the start of a document, before the main body. [4.6.  4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -895,7 +890,7 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="back">
     <xs:annotation>
-      <xs:documentation>(back matter) contains any appendixes, etc. following the main part of a text.</xs:documentation>
+      <xs:documentation>(back matter) contains any appendixes, etc. following the main part of a text. [4.7.  4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>

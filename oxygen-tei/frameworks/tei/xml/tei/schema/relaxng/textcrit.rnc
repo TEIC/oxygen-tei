@@ -1,29 +1,44 @@
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Critical Apparatus
 
@@ -100,7 +115,7 @@ att.textCritical.attribute.hand =
 app =
   
   ## (apparatus entry) contains one entry in a critical apparatus, with an optional
-  ## lemma and at least one reading.
+  ## lemma and at least one reading. []
   element app { app.content, app.localattributes }
 app.content =
   (model.global*,
@@ -152,7 +167,7 @@ app.localattributes =
 lacunaEnd =
   
   ## indicates the end of a lacuna in a mostly complete textual
-  ## witness.
+  ## witness. []
   element lacunaEnd { lacunaEnd.content, lacunaEnd.localattributes }
 lacunaEnd.content = empty
 lacunaEnd.localattributes =
@@ -160,7 +175,7 @@ lacunaEnd.localattributes =
 lacunaStart =
   
   ## indicates the beginning of a lacuna in the text of a mostly
-  ## complete textual witness.
+  ## complete textual witness. []
   element lacunaStart {
     lacunaStart.content, lacunaStart.localattributes
   }
@@ -169,7 +184,7 @@ lacunaStart.localattributes =
   att.global.attributes, att.rdgPart.attributes, empty
 lem =
   
-  ## (lemma) contains the lemma, or base text, of a textual variation.
+  ## (lemma) contains the lemma, or base text, of a textual variation. []
   element lem { lem.content, lem.localattributes }
 lem.content =
   (text
@@ -183,13 +198,14 @@ lem.localattributes =
 listWit =
   
   ## (witness list) lists definitions for all the witnesses referred to by a critical
-  ##   apparatus, optionally grouped hierarchically.
+  ##   apparatus, optionally grouped hierarchically. []
   element listWit { listWit.content, listWit.localattributes }
 listWit.content = model.headLike?, (witness | listWit)+
-listWit.localattributes = att.global.attributes, empty
+listWit.localattributes =
+  att.global.attributes, att.sortable.attributes, empty
 rdg =
   
-  ## (reading) contains a single reading within a textual variation.
+  ## (reading) contains a single reading within a textual variation. []
   element rdg { rdg.content, rdg.localattributes }
 rdg.content =
   (text
@@ -204,7 +220,7 @@ rdgGrp =
   
   ## (reading group) within a textual variation,
   ## groups two or more readings perceived to have a genetic
-  ## relationship or other affinity.
+  ## relationship or other affinity. []
   element rdgGrp { rdgGrp.content, rdgGrp.localattributes }
 rdgGrp.content =
   ((rdgGrp, wit?)
@@ -213,7 +229,7 @@ rdgGrp.localattributes =
   att.global.attributes, att.textCritical.attributes, empty
 variantEncoding =
   
-  ## declares the method used to encode text-critical variants.
+  ## declares the method used to encode text-critical variants. []
   element variantEncoding {
     variantEncoding.content, variantEncoding.localattributes
   }
@@ -252,7 +268,7 @@ variantEncoding.localattributes =
 wit =
   
   ## contains a list of one or more sigla of witnesses attesting a
-  ## given reading, in a textual variation.
+  ## given reading, in a textual variation. []
   element wit { wit.content, wit.localattributes }
 wit.content = macro.phraseSeq
 wit.localattributes =
@@ -260,7 +276,7 @@ wit.localattributes =
 witDetail =
   
   ## (witness detail) gives further information about a particular witness, or
-  ## witnesses, to a particular reading.
+  ## witnesses, to a particular reading. []
   element witDetail { witDetail.content, witDetail.localattributes }
 witDetail.content = macro.phraseSeq
 witDetail.localattributes =
@@ -281,7 +297,7 @@ witDetail.localattributes =
 witEnd =
   
   ## (fragmented witness end) indicates the end, or suspension, of the text of a fragmentary
-  ## witness.
+  ## witness. []
   element witEnd { witEnd.content, witEnd.localattributes }
 witEnd.content = empty
 witEnd.localattributes =
@@ -289,7 +305,7 @@ witEnd.localattributes =
 witStart =
   
   ## (fragmented witness start) indicates the beginning, or resumption, of the text of a
-  ## fragmentary witness.
+  ## fragmentary witness. []
   element witStart { witStart.content, witStart.localattributes }
 witStart.content = empty
 witStart.localattributes =
@@ -298,8 +314,9 @@ witness =
   
   ## contains either a description of a single witness referred to
   ## within the critical apparatus, or a list of witnesses which is to be
-  ## referred to by a single sigil.
+  ## referred to by a single sigil. []
   element witness { witness.content, witness.localattributes }
 witness.content = macro.limitedContent
-witness.localattributes = att.global.attributes, empty
+witness.localattributes =
+  att.global.attributes, att.sortable.attributes, empty
 # 3. macros

@@ -1,29 +1,44 @@
 
 <!--
-DTD module namesdates. Generated 2011-03-05T14:53:21Z. 
+DTD module namesdates. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Names and dates
 -->
 
@@ -31,7 +46,7 @@ Names and dates
 <![ %addName; [
 
 <!--doc:(additional name) contains an additional name component, such as a nickname, epithet, or alias, or any other descriptive phrase used within a personal
-    name. -->
+    name. [] -->
 <!ELEMENT %n.addName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.addName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.addName;
@@ -44,7 +59,7 @@ Names and dates
 <![ %affiliation; [
 
 <!--doc:(affiliation) contains an informal description of a person's present or past affiliation with some
-        organization, for example an employer or sponsor. -->
+        organization, for example an employer or sponsor. [] -->
 <!ELEMENT %n.affiliation; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.affiliation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.affiliation;
@@ -70,7 +85,7 @@ value %data.count;  #IMPLIED >
 <!ENTITY % birth 'INCLUDE' >
 <![ %birth; [
 
-<!--doc:(birth) contains information about a person's birth, such as its date and place. -->
+<!--doc:(birth) contains information about a person's birth, such as its date and place. [] -->
 <!ELEMENT %n.birth; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.birth; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.birth;
@@ -84,7 +99,7 @@ value %data.count;  #IMPLIED >
 <![ %bloc; [
 
 <!--doc:(bloc) contains the name of a geo-political unit consisting of two or more nation states or
-    countries. -->
+    countries. [] -->
 <!ELEMENT %n.bloc; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.bloc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.bloc;
@@ -114,7 +129,7 @@ value %data.count;  #IMPLIED >
 <![ %country; [
 
 <!--doc:(country) contains the name of a geo-political unit, such as a nation, country, colony, or
-    commonwealth, larger than or administratively superior to a region and smaller than a bloc. -->
+    commonwealth, larger than or administratively superior to a region and smaller than a bloc. [] -->
 <!ELEMENT %n.country; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.country; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.country;
@@ -127,7 +142,7 @@ value %data.count;  #IMPLIED >
 <!ENTITY % death 'INCLUDE' >
 <![ %death; [
 
-<!--doc:(death) contains information about a person's death, such as its date and place. -->
+<!--doc:(death) contains information about a person's death, such as its date and place. [] -->
 <!ELEMENT %n.death; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.death; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.death;
@@ -140,7 +155,7 @@ value %data.count;  #IMPLIED >
 <!ENTITY % district 'INCLUDE' >
 <![ %district; [
 
-<!--doc:contains the name of any kind of subdivision of a settlement, such as a parish, ward, or other administrative or geographic unit. -->
+<!--doc:contains the name of any kind of subdivision of a settlement, such as a parish, ward, or other administrative or geographic unit. [] -->
 <!ELEMENT %n.district; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.district; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.district;
@@ -153,7 +168,7 @@ value %data.count;  #IMPLIED >
 <!ENTITY % education 'INCLUDE' >
 <![ %education; [
 
-<!--doc:contains a description of the educational experience of a person. -->
+<!--doc:contains a description of the educational experience of a person. [] -->
 <!ELEMENT %n.education; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.education; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.education;
@@ -177,6 +192,7 @@ value %data.count;  #IMPLIED >
  %att.editLike.attributes;
  %att.typed.attributes;
  %att.naming.attributes;
+ %att.sortable.attributes;
 where %data.pointer;  #IMPLIED >
 ]]>
 
@@ -189,7 +205,8 @@ where %data.pointer;  #IMPLIED >
 <!ATTLIST %n.faith;
  %att.global.attributes;
  %att.editLike.attributes;
- %att.datable.attributes; >
+ %att.datable.attributes;
+ %att.canonical.attributes; >
 ]]>
 
 <!ENTITY % floruit 'INCLUDE' >
@@ -207,7 +224,7 @@ where %data.pointer;  #IMPLIED >
 <!ENTITY % forename 'INCLUDE' >
 <![ %forename; [
 
-<!--doc:contains a forename, given or baptismal name. -->
+<!--doc:contains a forename, given or baptismal name. [] -->
 <!ELEMENT %n.forename; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.forename; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.forename;
@@ -220,7 +237,7 @@ where %data.pointer;  #IMPLIED >
 <![ %genName; [
 
 <!--doc:(generational name component) contains a name component used to distinguish otherwise similar names on the basis of the relative ages or generations of the persons
-        named. -->
+        named. [] -->
 <!ELEMENT %n.genName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.genName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.genName;
@@ -237,14 +254,15 @@ where %data.pointer;  #IMPLIED >
 <!ELEMENT %n.geo; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.geo; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.geo;
- %att.global.attributes; >
+ %att.global.attributes;
+ %att.declaring.attributes; >
 ]]>
 
 <!ENTITY % geogFeat 'INCLUDE' >
 <![ %geogFeat; [
 
 <!--doc:(geographical feature name) contains a common noun identifying some geographical feature contained within a geographic
-        name, such as valley, mount, etc. -->
+        name, such as valley, mount, etc. [] -->
 <!ELEMENT %n.geogFeat; %om.RR; %macro.xtext;>
 <!ATTLIST %n.geogFeat; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.geogFeat;
@@ -257,13 +275,15 @@ where %data.pointer;  #IMPLIED >
 <!ENTITY % geogName 'INCLUDE' >
 <![ %geogName; [
 
-<!--doc:(geographical name) a name associated with some geographical feature such as Windrush Valley or Mount Sinai. -->
+<!--doc:(geographical name) a name associated with some geographical feature such as Windrush Valley or Mount Sinai. [] -->
 <!ELEMENT %n.geogName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.geogName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.geogName;
+ %att.datable.attributes;
+ %att.editLike.attributes;
  %att.global.attributes;
  %att.naming.attributes;
-type %data.enumerated;  #IMPLIED >
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % langKnowledge 'INCLUDE' >
@@ -283,7 +303,7 @@ tags CDATA  #IMPLIED >
 <!ENTITY % langKnown 'INCLUDE' >
 <![ %langKnown; [
 
-<!--doc:(language known) summarizes the state of a person's linguistic competence, i.e., knowledge of a single language. -->
+<!--doc:(language known) summarizes the state of a person's linguistic competence, i.e., knowledge of a single language. [] -->
 <!ELEMENT %n.langKnown; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.langKnown; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.langKnown;
@@ -301,41 +321,47 @@ level %data.word;  #IMPLIED >
     about an identifiable event.  -->
 <!ELEMENT %n.listEvent; %om.RR; ((%model.headLike;)*,(%n.event; |
  %n.listEvent;)+,(%n.relation; |
- %n.relationGrp;)*)>
+ %n.relationGrp; |
+ %n.listRelation;)*)>
 <!ATTLIST %n.listEvent; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listEvent;
  %att.global.attributes;
  %att.typed.attributes;
- %att.declarable.attributes; >
+ %att.declarable.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % listNym 'INCLUDE' >
 <![ %listNym; [
 
-<!--doc:(list of canonical names) contains a list of nyms, that is, standardized names for any thing.  -->
+<!--doc:(list of canonical names) contains a list of nyms, that is, standardized names for any thing.  [] -->
 <!ELEMENT %n.listNym; %om.RR; ((%model.headLike;)*,(%n.nym; |
- %n.listNym;)+,(%n.relationGrp; |
+ %n.listNym;)+,(%n.listRelation; |
+ %n.relationGrp; |
  %n.relation;)*)>
 <!ATTLIST %n.listNym; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listNym;
  %att.global.attributes;
  %att.typed.attributes;
- %att.declarable.attributes; >
+ %att.declarable.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % listOrg 'INCLUDE' >
 <![ %listOrg; [
 
 <!--doc:(list of organizations) contains a list of elements, each of which provides information about an identifiable
-        organization.  -->
+        organization.  [] -->
 <!ELEMENT %n.listOrg; %om.RR; ((%model.headLike;)*,(%n.org; |
- %n.listOrg;)+,(%n.relationGrp; |
+ %n.listOrg;)+,(%n.listRelation; |
+ %n.relationGrp; |
  %n.relation;)*)>
 <!ATTLIST %n.listOrg; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listOrg;
  %att.global.attributes;
  %att.typed.attributes;
- %att.declarable.attributes; >
+ %att.declarable.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % listPerson 'INCLUDE' >
@@ -343,15 +369,17 @@ level %data.word;  #IMPLIED >
 
 <!--doc:(list of persons) contains a list of descriptions, each of which provides information about an identifiable
     person or a group of people, for example the participants in a language interaction, or the
-    people referred to in a historical source.  -->
+    people referred to in a historical source.  [  ] -->
 <!ELEMENT %n.listPerson; %om.RR; ((%model.headLike;)*,(%model.personLike; |
  %n.listPerson;)+,(%n.relation; |
+ %n.listRelation; |
  %n.relationGrp;)*)>
 <!ATTLIST %n.listPerson; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listPerson;
  %att.global.attributes;
  %att.typed.attributes;
- %att.declarable.attributes; >
+ %att.declarable.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % listPlace 'INCLUDE' >
@@ -360,13 +388,29 @@ level %data.word;  #IMPLIED >
 <!--doc:(list of places) contains a list of places, optionally followed by a list of relationships (other than
         containment) defined amongst them.  -->
 <!ELEMENT %n.listPlace; %om.RR; ((%model.headLike;)*,(%model.placeLike; |
- %n.listPlace;)+,(%n.relationGrp; |
+ %n.listPlace;)+,(%n.listRelation; |
+ %n.relationGrp; |
  %n.relation;)*)>
 <!ATTLIST %n.listPlace; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.listPlace;
  %att.global.attributes;
  %att.typed.attributes;
- %att.declarable.attributes; >
+ %att.declarable.attributes;
+ %att.sortable.attributes; >
+]]>
+
+<!ENTITY % listRelation 'INCLUDE' >
+<![ %listRelation; [
+
+<!--doc:provides information about relationships identified amongst people, places, and
+    organizations, either informally as prose or as formally expressed relation links.  [] -->
+<!ELEMENT %n.listRelation; %om.RR; ((%model.pLike;)+ |
+ (%n.relation;)+)>
+<!ATTLIST %n.listRelation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST %n.listRelation;
+ %att.global.attributes;
+ %att.typed.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % location 'INCLUDE' >
@@ -393,7 +437,7 @@ level %data.word;  #IMPLIED >
 <![ %nameLink; [
 
 <!--doc:(name link) contains a connecting phrase or link used within a name but not regarded as part of it, such as van der or
-            of. -->
+            of. [] -->
 <!ELEMENT %n.nameLink; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.nameLink; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.nameLink;
@@ -404,7 +448,7 @@ level %data.word;  #IMPLIED >
 <!ENTITY % nationality 'INCLUDE' >
 <![ %nationality; [
 
-<!--doc:contains an informal description of a person's present or past nationality or citizenship. -->
+<!--doc:contains an informal description of a person's present or past nationality or citizenship. [] -->
 <!ELEMENT %n.nationality; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.nationality; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.nationality;
@@ -417,19 +461,20 @@ level %data.word;  #IMPLIED >
 <!ENTITY % nym 'INCLUDE' >
 <![ %nym; [
 
-<!--doc:(canonical name) contains the definition for a canonical name or namepart of any kind. -->
+<!--doc:(canonical name) contains the definition for a canonical name or namepart of any kind. [] -->
 <!ELEMENT %n.nym; %om.RR; ((%model.entryPart;)*,(%model.pLike;)*,(%n.nym;)*)>
 <!ATTLIST %n.nym; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.nym;
  %att.global.attributes;
  %att.typed.attributes;
+ %att.sortable.attributes;
 parts CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % occupation 'INCLUDE' >
 <![ %occupation; [
 
-<!--doc:contains an informal description of a person's trade, profession or occupation. -->
+<!--doc:contains an informal description of a person's trade, profession or occupation. [] -->
 <!ELEMENT %n.occupation; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.occupation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.occupation;
@@ -445,7 +490,7 @@ code %data.pointer;  #IMPLIED >
 <![ %offset; [
 
 <!--doc:that part of a relative temporal or spatial expression which indicates the direction of the offset between the two place names, dates, or
-        times involved in the expression.  -->
+        times involved in the expression.  [] -->
 <!ELEMENT %n.offset; %om.RR; %macro.xtext;>
 <!ATTLIST %n.offset; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.offset;
@@ -457,24 +502,26 @@ code %data.pointer;  #IMPLIED >
 <![ %org; [
 
 <!--doc:(organization) provides information about an identifiable organization such as a business, a tribe, or
-        any other grouping of people. -->
+        any other grouping of people. [] -->
 <!ELEMENT %n.org; %om.RR; ((%model.headLike;)*,((%model.pLike;)* |
  (%model.labelLike; |
  %model.nameLike; |
- %model.placeLike;)*),(%model.noteLike; |
+ %model.placeLike; |
+ %model.orgPart;)*),(%model.noteLike; |
  %model.biblLike;)*,(%model.personLike;)*)>
 <!ATTLIST %n.org; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.org;
  %att.global.attributes;
  %att.typed.attributes;
  %att.editLike.attributes;
+ %att.sortable.attributes;
 role CDATA  #IMPLIED >
 ]]>
 
 <!ENTITY % orgName 'INCLUDE' >
 <![ %orgName; [
 
-<!--doc:(organization name) contains an organizational name.  -->
+<!--doc:(organization name) contains an organizational name.  [] -->
 <!ELEMENT %n.orgName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.orgName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.orgName;
@@ -489,7 +536,7 @@ role CDATA  #IMPLIED >
 <![ %persName; [
 
 <!--doc:(personal name) contains a proper noun or proper-noun phrase referring to a person, possibly including any
-    or all of the person's forenames, surnames, honorifics, added names, etc. -->
+    or all of the person's forenames, surnames, honorifics, added names, etc. [] -->
 <!ELEMENT %n.persName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.persName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.persName;
@@ -504,7 +551,7 @@ role CDATA  #IMPLIED >
 <![ %person; [
 
 <!--doc:provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a
-        historical source. -->
+        historical source. [] -->
 <!ELEMENT %n.person; %om.RR; ((%model.pLike;)+ |
  (%model.personPart; |
  %model.global;)*)>
@@ -512,6 +559,7 @@ role CDATA  #IMPLIED >
 <!ATTLIST %n.person;
  %att.global.attributes;
  %att.editLike.attributes;
+ %att.sortable.attributes;
 role NMTOKENS  #IMPLIED
 sex %data.sex;  #IMPLIED
 age %data.enumerated;  #IMPLIED >
@@ -520,12 +568,13 @@ age %data.enumerated;  #IMPLIED >
 <!ENTITY % personGrp 'INCLUDE' >
 <![ %personGrp; [
 
-<!--doc:(personal group) describes a group of individuals treated as a single person for analytic purposes. -->
+<!--doc:(personal group) describes a group of individuals treated as a single person for analytic purposes. [] -->
 <!ELEMENT %n.personGrp; %om.RR; ((%model.pLike;)+ |
  (%model.personPart;)*)>
 <!ATTLIST %n.personGrp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.personGrp;
  %att.global.attributes;
+ %att.sortable.attributes;
 role %data.enumerated;  #IMPLIED
 sex CDATA #IMPLIED
 age %data.enumerated;  #IMPLIED
@@ -539,7 +588,6 @@ size CDATA  #IMPLIED >
 <!ELEMENT %n.place; %om.RR; ((%model.headLike;)*,((%model.pLike;)* |
  (%model.labelLike; |
  %model.placeStateLike; |
- %model.placeTraitLike; |
  %model.placeEventLike;)*),(%model.noteLike; |
  %model.biblLike;)*,(%model.placeLike; |
  %n.listPlace;)*)>
@@ -547,21 +595,22 @@ size CDATA  #IMPLIED >
 <!ATTLIST %n.place;
  %att.global.attributes;
  %att.typed.attributes;
- %att.editLike.attributes; >
+ %att.editLike.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % placeName 'INCLUDE' >
 <![ %placeName; [
 
-<!--doc:contains an absolute or relative place name.  -->
+<!--doc:contains an absolute or relative place name.  [] -->
 <!ELEMENT %n.placeName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.placeName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.placeName;
+ %att.datable.attributes;
+ %att.editLike.attributes;
  %att.global.attributes;
  %att.naming.attributes;
- %att.typed.attributes;
- %att.datable.attributes;
- %att.editLike.attributes; >
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % population 'INCLUDE' >
@@ -584,7 +633,7 @@ size CDATA  #IMPLIED >
 <![ %region; [
 
 <!--doc:contains the name of an administrative unit such as a state, province, or county, larger
-    than a settlement, but smaller than a country. -->
+    than a settlement, but smaller than a country. [] -->
 <!ELEMENT %n.region; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.region; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.region;
@@ -597,14 +646,16 @@ size CDATA  #IMPLIED >
 <!ENTITY % relation 'INCLUDE' >
 <![ %relation; [
 
-<!--doc:(relationship) describes any kind of relationship or linkage amongst a specified group of participants. -->
+<!--doc:(relationship) describes any kind of relationship or linkage amongst a
+  specified group of objects, places, events or people. [] -->
 <!ELEMENT %n.relation; %om.RR; (%n.desc;)?>
 <!ATTLIST %n.relation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.relation;
  %att.global.attributes;
  %att.datable.attributes;
  %att.editLike.attributes;
- %att.naming.attributes;
+ %att.canonical.attributes;
+ %att.sortable.attributes;
 type %data.enumerated;  "personal" 
 name %data.enumerated;  #REQUIRED
 active CDATA  #IMPLIED
@@ -616,19 +667,20 @@ passive CDATA  #IMPLIED >
 <![ %relationGrp; [
 
 <!--doc:(relation group) provides information about relationships identified amongst people, places, and
-    organizations, either informally as prose or as formally expressed relation links.  -->
+    organizations, either informally as prose or as formally expressed relation links.  [] -->
 <!ELEMENT %n.relationGrp; %om.RR; ((%model.pLike;)+ |
  (%n.relation;)+)>
 <!ATTLIST %n.relationGrp; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.relationGrp;
  %att.global.attributes;
- %att.typed.attributes; >
+ %att.typed.attributes;
+ %att.sortable.attributes; >
 ]]>
 
 <!ENTITY % residence 'INCLUDE' >
 <![ %residence; [
 
-<!--doc:(residence) describes a person's present or past places of residence. -->
+<!--doc:(residence) describes a person's present or past places of residence. [] -->
 <!ELEMENT %n.residence; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.residence; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.residence;
@@ -642,7 +694,7 @@ passive CDATA  #IMPLIED >
 <![ %roleName; [
 
 <!--doc:contains a name component which indicates that the referent has a particular role or position in society, such as an official title or
-        rank. -->
+        rank. [] -->
 <!ELEMENT %n.roleName; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.roleName; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.roleName;
@@ -654,7 +706,7 @@ passive CDATA  #IMPLIED >
 <!ENTITY % settlement 'INCLUDE' >
 <![ %settlement; [
 
-<!--doc:contains the name of a settlement such as a city, town, or village identified as a single geo-political or administrative unit. -->
+<!--doc:contains the name of a settlement such as a city, town, or village identified as a single geo-political or administrative unit. [] -->
 <!ELEMENT %n.settlement; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.settlement; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.settlement;
@@ -680,7 +732,7 @@ value %data.sex;  #IMPLIED >
 <!ENTITY % socecStatus 'INCLUDE' >
 <![ %socecStatus; [
 
-<!--doc:(socio-economic status) contains an informal description of a person's perceived social or economic status. -->
+<!--doc:(socio-economic status) contains an informal description of a person's perceived social or economic status. [] -->
 <!ELEMENT %n.socecStatus; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.socecStatus; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.socecStatus;
@@ -695,7 +747,7 @@ code %data.pointer;  #IMPLIED >
 <!ENTITY % state 'INCLUDE' >
 <![ %state; [
 
-<!--doc:contains a description of some status or quality attributed to a person, place, or organization at some specific time. -->
+<!--doc:contains a description of some status or quality attributed to a person, place, or organization often at some specific time or for a specific date range. -->
 <!ELEMENT %n.state; %om.RR; ((%n.state;)+ |
  ((%model.headLike;)*,(%model.pLike;)+,(%model.noteLike; |
  %model.biblLike;)*) |
@@ -714,7 +766,7 @@ code %data.pointer;  #IMPLIED >
 <!ENTITY % surname 'INCLUDE' >
 <![ %surname; [
 
-<!--doc:contains a family (inherited) name, as opposed to a given, baptismal, or nick name. -->
+<!--doc:contains a family (inherited) name, as opposed to a given, baptismal, or nick name. [] -->
 <!ELEMENT %n.surname; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.surname; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.surname;
@@ -742,7 +794,8 @@ code %data.pointer;  #IMPLIED >
 <!ENTITY % trait 'INCLUDE' >
 <![ %trait; [
 
-<!--doc:contains a description of some culturally-determined and in principle unchanging characteristic attributed to a person or place. -->
+<!--doc:contains a description of some status or quality attributed to a person, place, or organization typically, but not necessarily, 
+    independent of the volition or action of the holder and usually not at some specific time or for a specific date range. -->
 <!ELEMENT %n.trait; %om.RR; ((%n.trait;)+ |
  ((%model.headLike;)*,(%model.pLike;)+,(%model.noteLike; |
  %model.biblLike;)*) |

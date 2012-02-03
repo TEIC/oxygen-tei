@@ -1,28 +1,43 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Transcribed Speech
 
@@ -72,7 +87,7 @@ model.divPart.spoken_sequenceRepeatable = u+
 # 2. elements
 broadcast =
   
-  ## describes a broadcast used as the source of a spoken text.
+  ## describes a broadcast used as the source of a spoken text. [ ]
   element broadcast { broadcast.content, broadcast.localattributes }
 broadcast.content = model.pLike+ | model.biblLike | recording
 broadcast.localattributes =
@@ -80,7 +95,7 @@ broadcast.localattributes =
 equipment =
   
   ## provides technical details of the equipment and media used for
-  ## an audio or video recording used as the source for a spoken text.
+  ## an audio or video recording used as the source for a spoken text. [ ]
   element equipment { equipment.content, equipment.localattributes }
 equipment.content = model.pLike+
 equipment.localattributes =
@@ -89,7 +104,7 @@ incident =
   
   ## any phenomenon or occurrence, not necessarily vocalized or
   ## communicative, for example incidental noises or other events affecting
-  ## communication.
+  ## communication. []
   element incident { incident.content, incident.localattributes }
 incident.content = model.glossLike*
 incident.localattributes =
@@ -101,7 +116,7 @@ incident.localattributes =
 kinesic =
   
   ## any communicative phenomenon, not necessarily vocalized, for
-  ##   example a gesture, frown, etc.
+  ##   example a gesture, frown, etc. []
   element kinesic { kinesic.content, kinesic.localattributes }
 kinesic.content = model.glossLike*
 kinesic.localattributes =
@@ -116,7 +131,7 @@ kinesic.localattributes =
   empty
 pause =
   
-  ## a pause either between or within utterances.
+  ## a pause either between or within utterances. []
   element pause { pause.content, pause.localattributes }
 pause.content = empty
 pause.localattributes =
@@ -129,7 +144,7 @@ recording =
   
   ## (recording event) details of an audio or video recording event
   ## used as the source of a spoken text, either directly or from
-  ## a public broadcast. 
+  ## a public broadcast.  [ ]
   element recording { recording.content, recording.localattributes }
 recording.content = model.pLike+ | model.recordingPart*
 recording.localattributes =
@@ -151,7 +166,7 @@ recording.localattributes =
 recordingStmt =
   
   ## (recording statement) describes a set of recordings used as the basis for transcription of a
-  ## spoken text.
+  ## spoken text. [ ]
   element recordingStmt {
     recordingStmt.content, recordingStmt.localattributes
   }
@@ -160,7 +175,7 @@ recordingStmt.localattributes = att.global.attributes, empty
 scriptStmt =
   
   ## (script statement) contains a citation giving details of the script used for
-  ## a spoken text.
+  ## a spoken text. [  ]
   element scriptStmt { scriptStmt.content, scriptStmt.localattributes }
 scriptStmt.content = model.pLike+ | model.biblLike
 scriptStmt.localattributes =
@@ -168,7 +183,7 @@ scriptStmt.localattributes =
 shift =
   
   ## marks the point at which some paralinguistic feature of a series of
-  ## utterances by any one speaker changes.
+  ## utterances by any one speaker changes. []
   element shift { shift.content, shift.localattributes }
 shift.content = empty
 shift.localattributes =
@@ -210,7 +225,7 @@ shift.localattributes =
 u =
   
   ## (utterance) a stretch of speech usually preceded and followed by
-  ## silence or by a change of speaker.
+  ## silence or by a change of speaker. []
   element u { u.content, u.localattributes }
 u.content = (text | model.gLike | model.phrase | model.global)*
 u.localattributes =
@@ -240,7 +255,7 @@ u.localattributes =
 vocal =
   
   ## any vocalized but not necessarily lexical phenomenon, for
-  ##   example voiced pauses, non-lexical backchannels, etc.
+  ##   example voiced pauses, non-lexical backchannels, etc. []
   element vocal { vocal.content, vocal.localattributes }
 vocal.content = model.glossLike*
 vocal.localattributes =
@@ -255,7 +270,7 @@ vocal.localattributes =
 writing =
   
   ## a passage of written text revealed to participants in the
-  ##   course of a spoken text.
+  ##   course of a spoken text. []
   element writing { writing.content, writing.localattributes }
 writing.content = macro.paraContent
 writing.localattributes =
@@ -264,10 +279,12 @@ writing.localattributes =
   att.typed.attributes,
   att.timed.attributes,
   
-  ## points to a bibliographic citation in the header giving
+  ## points to a bibliographic citation  giving
   ##	a full description of the source or script of the
   ##	writing.
-  attribute source { data.code }?,
+  attribute source {
+    list { data.pointer, data.pointer* }
+  }?,
   
   ## indicates whether the writing is revealed all at once or
   ##	gradually.

@@ -1,29 +1,44 @@
 
 <!--
-DTD module tei. Generated 2011-03-05T14:53:21Z. 
+DTD module tei. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Declarations for classes, datatypes, and macros available to all
 TEI modules
 -->
@@ -88,6 +103,8 @@ list of element names
 <!ENTITY % n.c "c">
 <!ENTITY % n.cRefPattern "cRefPattern">
 <!ENTITY % n.caesura "caesura">
+<!ENTITY % n.calendar "calendar">
+<!ENTITY % n.calendarDesc "calendarDesc">
 <!ENTITY % n.camera "camera">
 <!ENTITY % n.caption "caption">
 <!ENTITY % n.case "case">
@@ -216,7 +233,6 @@ list of element names
 <!ENTITY % n.foreign "foreign">
 <!ENTITY % n.forename "forename">
 <!ENTITY % n.forest "forest">
-<!ENTITY % n.forestGrp "forestGrp">
 <!ENTITY % n.form "form">
 <!ENTITY % n.formula "formula">
 <!ENTITY % n.front "front">
@@ -298,16 +314,22 @@ list of element names
 <!ENTITY % n.leaf "leaf">
 <!ENTITY % n.lem "lem">
 <!ENTITY % n.lg "lg">
+<!ENTITY % n.licence "licence">
+<!ENTITY % n.line "line">
 <!ENTITY % n.link "link">
 <!ENTITY % n.linkGrp "linkGrp">
 <!ENTITY % n.list "list">
 <!ENTITY % n.listBibl "listBibl">
+<!ENTITY % n.listChange "listChange">
 <!ENTITY % n.listEvent "listEvent">
+<!ENTITY % n.listForest "listForest">
 <!ENTITY % n.listNym "listNym">
 <!ENTITY % n.listOrg "listOrg">
 <!ENTITY % n.listPerson "listPerson">
 <!ENTITY % n.listPlace "listPlace">
 <!ENTITY % n.listRef "listRef">
+<!ENTITY % n.listRelation "listRelation">
+<!ENTITY % n.listTranspose "listTranspose">
 <!ENTITY % n.listWit "listWit">
 <!ENTITY % n.localName "localName">
 <!ENTITY % n.locale "locale">
@@ -326,7 +348,9 @@ list of element names
 <!ENTITY % n.mentioned "mentioned">
 <!ENTITY % n.metDecl "metDecl">
 <!ENTITY % n.metSym "metSym">
+<!ENTITY % n.metamark "metamark">
 <!ENTITY % n.milestone "milestone">
+<!ENTITY % n.mod "mod">
 <!ENTITY % n.moduleRef "moduleRef">
 <!ENTITY % n.moduleSpec "moduleSpec">
 <!ENTITY % n.monogr "monogr">
@@ -346,6 +370,7 @@ list of element names
 <!ENTITY % n.nationality "nationality">
 <!ENTITY % n.node "node">
 <!ENTITY % n.normalization "normalization">
+<!ENTITY % n.notatedMusic "notatedMusic">
 <!ENTITY % n.note "note">
 <!ENTITY % n.notesStmt "notesStmt">
 <!ENTITY % n.num "num">
@@ -409,6 +434,7 @@ list of element names
 <!ENTITY % n.recordHist "recordHist">
 <!ENTITY % n.recording "recording">
 <!ENTITY % n.recordingStmt "recordingStmt">
+<!ENTITY % n.redo "redo">
 <!ENTITY % n.ref "ref">
 <!ENTITY % n.refState "refState">
 <!ENTITY % n.refsDecl "refsDecl">
@@ -425,6 +451,7 @@ list of element names
 <!ENTITY % n.respStmt "respStmt">
 <!ENTITY % n.respons "respons">
 <!ENTITY % n.restore "restore">
+<!ENTITY % n.retrace "retrace">
 <!ENTITY % n.revisionDesc "revisionDesc">
 <!ENTITY % n.rhyme "rhyme">
 <!ENTITY % n.role "role">
@@ -464,7 +491,9 @@ list of element names
 <!ENTITY % n.sound "sound">
 <!ENTITY % n.source "source">
 <!ENTITY % n.sourceDesc "sourceDesc">
+<!ENTITY % n.sourceDoc "sourceDoc">
 <!ENTITY % n.sp "sp">
+<!ENTITY % n.spGrp "spGrp">
 <!ENTITY % n.space "space">
 <!ENTITY % n.span "span">
 <!ENTITY % n.spanGrp "spanGrp">
@@ -481,15 +510,16 @@ list of element names
 <!ENTITY % n.street "street">
 <!ENTITY % n.stress "stress">
 <!ENTITY % n.string "string">
-<!ENTITY % n.stringVal "stringVal">
 <!ENTITY % n.subc "subc">
 <!ENTITY % n.subst "subst">
+<!ENTITY % n.substJoin "substJoin">
 <!ENTITY % n.summary "summary">
 <!ENTITY % n.superEntry "superEntry">
 <!ENTITY % n.supplied "supplied">
 <!ENTITY % n.support "support">
 <!ENTITY % n.supportDesc "supportDesc">
 <!ENTITY % n.surface "surface">
+<!ENTITY % n.surfaceGrp "surfaceGrp">
 <!ENTITY % n.surname "surname">
 <!ENTITY % n.surplus "surplus">
 <!ENTITY % n.surrogates "surrogates">
@@ -519,12 +549,14 @@ list of element names
 <!ENTITY % n.tns "tns">
 <!ENTITY % n.trailer "trailer">
 <!ENTITY % n.trait "trait">
+<!ENTITY % n.transpose "transpose">
 <!ENTITY % n.tree "tree">
 <!ENTITY % n.triangle "triangle">
 <!ENTITY % n.typeDesc "typeDesc">
 <!ENTITY % n.typeNote "typeNote">
 <!ENTITY % n.u "u">
 <!ENTITY % n.unclear "unclear">
+<!ENTITY % n.undo "undo">
 <!ENTITY % n.unicodeName "unicodeName">
 <!ENTITY % n.usg "usg">
 <!ENTITY % n.vAlt "vAlt">
@@ -637,8 +669,7 @@ Module declarations
 	]]>
 <!ENTITY % TEI.transcr 'IGNORE' >
 <![%TEI.transcr;[
-	<!ENTITY % file.transcr-decl PUBLIC '-//TEI P5//ENTITIES Transcription
-of Primary Sources//EN' 'transcr-decl.dtd' >
+	<!ENTITY % file.transcr-decl PUBLIC '-//TEI P5//ENTITIES Transcription of Primary Sources//EN' 'transcr-decl.dtd' >
 	%file.transcr-decl;
 	]]>
 <!ENTITY % TEI.textstructure 'IGNORE' >
@@ -699,7 +730,7 @@ Documentation//EN' 'gaiji-decl.dtd' >
 	]]>
 <!ENTITY % TEI.figures 'IGNORE' >
 <![%TEI.figures;[
-	<!ENTITY % file.figures-decl PUBLIC '-//TEI P5//ENTITIES Tables, Formulæ, Figures//EN' 'figures-decl.dtd' >
+	<!ENTITY % file.figures-decl PUBLIC '-//TEI P5//ENTITIES Tables, Formulæ, Notated Music, Figures//EN' 'figures-decl.dtd' >
 	%file.figures-decl;
 	]]>
 <!ENTITY % TEI.drama 'IGNORE' >
@@ -739,6 +770,7 @@ and Uncertainty//EN' 'certainty-decl.dtd' >
 Start of pre-declared classes
 -->
 
+<!ENTITY % att.datable.custom.attributes ''>
 <!ENTITY % att.duration.w3c.attributes ''>
 <!ENTITY % att.duration.attributes ''>
 <!ENTITY % x.model.entryPart "" >
@@ -790,20 +822,6 @@ Start of pre-declared classes
 <!ENTITY % model.global.spoken_sequenceOptionalRepeatable "%x.model.global.spoken_sequenceOptionalRepeatable; %n.pause;*, %n.vocal;*, %n.kinesic;*, %n.incident;*, %n.writing;*, %n.shift;*"> 
 <!ENTITY % x.model.global.spoken_sequenceRepeatable "" >
 <!ENTITY % model.global.spoken_sequenceRepeatable "%x.model.global.spoken_sequenceRepeatable; %n.pause;+, %n.vocal;+, %n.kinesic;+, %n.incident;+, %n.writing;+, %n.shift;+"> 
-<!ENTITY % x.model.placeTraitLike "" >
-<!ENTITY % model.placeTraitLike "%x.model.placeTraitLike; %n.climate; |
- %n.location; |
- %n.population; |
- %n.terrain; |
- %n.trait;"> 
-<!ENTITY % x.model.placeTraitLike_sequence "" >
-<!ENTITY % model.placeTraitLike_sequence "%x.model.placeTraitLike_sequence; %n.climate;, %n.location;, %n.population;, %n.terrain;, %n.trait;"> 
-<!ENTITY % x.model.placeTraitLike_sequenceOptional "" >
-<!ENTITY % model.placeTraitLike_sequenceOptional "%x.model.placeTraitLike_sequenceOptional; %n.climate;?, %n.location;?, %n.population;?, %n.terrain;?, %n.trait;?"> 
-<!ENTITY % x.model.placeTraitLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.placeTraitLike_sequenceOptionalRepeatable "%x.model.placeTraitLike_sequenceOptionalRepeatable; %n.climate;*, %n.location;*, %n.population;*, %n.terrain;*, %n.trait;*"> 
-<!ENTITY % x.model.placeTraitLike_sequenceRepeatable "" >
-<!ENTITY % model.placeTraitLike_sequenceRepeatable "%x.model.placeTraitLike_sequenceRepeatable; %n.climate;+, %n.location;+, %n.population;+, %n.terrain;+, %n.trait;+"> 
 <!ENTITY % x.model.placeNamePart "" >
 <!ENTITY % model.placeNamePart "%x.model.placeNamePart; %n.placeName; |
  %n.bloc; |
@@ -822,15 +840,20 @@ Start of pre-declared classes
 <!ENTITY % model.placeNamePart_sequenceRepeatable "%x.model.placeNamePart_sequenceRepeatable; %n.placeName;+, %n.bloc;+, %n.country;+, %n.region;+, %n.district;+, %n.settlement;+, %n.geogName;+"> 
 <!ENTITY % x.model.placeStateLike "" >
 <!ENTITY % model.placeStateLike "%x.model.placeStateLike; %model.placeNamePart; |
- %n.state;"> 
+ %n.climate; |
+ %n.location; |
+ %n.population; |
+ %n.state; |
+ %n.terrain; |
+ %n.trait;"> 
 <!ENTITY % x.model.placeStateLike_sequence "" >
-<!ENTITY % model.placeStateLike_sequence "%x.model.placeStateLike_sequence; %model.placeNamePart;, %n.state;"> 
+<!ENTITY % model.placeStateLike_sequence "%x.model.placeStateLike_sequence; %model.placeNamePart;, %n.climate;, %n.location;, %n.population;, %n.state;, %n.terrain;, %n.trait;"> 
 <!ENTITY % x.model.placeStateLike_sequenceOptional "" >
-<!ENTITY % model.placeStateLike_sequenceOptional "%x.model.placeStateLike_sequenceOptional; %model.placeNamePart;?, %n.state;?"> 
+<!ENTITY % model.placeStateLike_sequenceOptional "%x.model.placeStateLike_sequenceOptional; %model.placeNamePart;?, %n.climate;?, %n.location;?, %n.population;?, %n.state;?, %n.terrain;?, %n.trait;?"> 
 <!ENTITY % x.model.placeStateLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.placeStateLike_sequenceOptionalRepeatable "%x.model.placeStateLike_sequenceOptionalRepeatable; %model.placeNamePart;*, %n.state;*"> 
+<!ENTITY % model.placeStateLike_sequenceOptionalRepeatable "%x.model.placeStateLike_sequenceOptionalRepeatable; %model.placeNamePart;*, %n.climate;*, %n.location;*, %n.population;*, %n.state;*, %n.terrain;*, %n.trait;*"> 
 <!ENTITY % x.model.placeStateLike_sequenceRepeatable "" >
-<!ENTITY % model.placeStateLike_sequenceRepeatable "%x.model.placeStateLike_sequenceRepeatable; %model.placeNamePart;+, %n.state;+"> 
+<!ENTITY % model.placeStateLike_sequenceRepeatable "%x.model.placeStateLike_sequenceRepeatable; %model.placeNamePart;+, %n.climate;+, %n.location;+, %n.population;+, %n.state;+, %n.terrain;+, %n.trait;+"> 
 <!ENTITY % x.model.placeEventLike "" >
 <!ENTITY % model.placeEventLike "%x.model.placeEventLike; %n.event;"> 
 <!ENTITY % x.model.placeEventLike_sequence "" >
@@ -841,6 +864,18 @@ Start of pre-declared classes
 <!ENTITY % model.placeEventLike_sequenceOptionalRepeatable "%x.model.placeEventLike_sequenceOptionalRepeatable; %n.event;*"> 
 <!ENTITY % x.model.placeEventLike_sequenceRepeatable "" >
 <!ENTITY % model.placeEventLike_sequenceRepeatable "%x.model.placeEventLike_sequenceRepeatable; %n.event;+"> 
+<!ENTITY % x.model.orgPart "" >
+<!ENTITY % model.orgPart "%x.model.orgPart; %n.listOrg; |
+ %n.listPerson; |
+ %n.listPlace;"> 
+<!ENTITY % x.model.orgPart_sequence "" >
+<!ENTITY % model.orgPart_sequence "%x.model.orgPart_sequence; %n.listOrg;, %n.listPerson;, %n.listPlace;"> 
+<!ENTITY % x.model.orgPart_sequenceOptional "" >
+<!ENTITY % model.orgPart_sequenceOptional "%x.model.orgPart_sequenceOptional; %n.listOrg;?, %n.listPerson;?, %n.listPlace;?"> 
+<!ENTITY % x.model.orgPart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.orgPart_sequenceOptionalRepeatable "%x.model.orgPart_sequenceOptionalRepeatable; %n.listOrg;*, %n.listPerson;*, %n.listPlace;*"> 
+<!ENTITY % x.model.orgPart_sequenceRepeatable "" >
+<!ENTITY % model.orgPart_sequenceRepeatable "%x.model.orgPart_sequenceRepeatable; %n.listOrg;+, %n.listPerson;+, %n.listPlace;+"> 
 <!ENTITY % x.model.persNamePart "" >
 <!ENTITY % model.persNamePart "%x.model.persNamePart; %n.surname; |
  %n.forename; |
@@ -895,17 +930,19 @@ Start of pre-declared classes
 <!ENTITY % model.ptrLike.form_sequenceRepeatable "%x.model.ptrLike.form_sequenceRepeatable; %n.oRef;+, %n.oVar;+, %n.pRef;+, %n.pVar;+"> 
 <!ENTITY % att.msExcerpt.attributes ''>
 <!ENTITY % att.global.facs.attributes ''>
+<!ENTITY % att.global.change.attributes ''>
 <!ENTITY % x.model.resourceLike "" >
 <!ENTITY % model.resourceLike "%x.model.resourceLike; %n.facsimile; |
+ %n.sourceDoc; |
  %n.fsdDecl;"> 
 <!ENTITY % x.model.resourceLike_sequence "" >
-<!ENTITY % model.resourceLike_sequence "%x.model.resourceLike_sequence; %n.facsimile;, %n.fsdDecl;"> 
+<!ENTITY % model.resourceLike_sequence "%x.model.resourceLike_sequence; %n.facsimile;, %n.sourceDoc;, %n.fsdDecl;"> 
 <!ENTITY % x.model.resourceLike_sequenceOptional "" >
-<!ENTITY % model.resourceLike_sequenceOptional "%x.model.resourceLike_sequenceOptional; %n.facsimile;?, %n.fsdDecl;?"> 
+<!ENTITY % model.resourceLike_sequenceOptional "%x.model.resourceLike_sequenceOptional; %n.facsimile;?, %n.sourceDoc;?, %n.fsdDecl;?"> 
 <!ENTITY % x.model.resourceLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "%x.model.resourceLike_sequenceOptionalRepeatable; %n.facsimile;*, %n.fsdDecl;*"> 
+<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "%x.model.resourceLike_sequenceOptionalRepeatable; %n.facsimile;*, %n.sourceDoc;*, %n.fsdDecl;*"> 
 <!ENTITY % x.model.resourceLike_sequenceRepeatable "" >
-<!ENTITY % model.resourceLike_sequenceRepeatable "%x.model.resourceLike_sequenceRepeatable; %n.facsimile;+, %n.fsdDecl;+"> 
+<!ENTITY % model.resourceLike_sequenceRepeatable "%x.model.resourceLike_sequenceRepeatable; %n.facsimile;+, %n.sourceDoc;+, %n.fsdDecl;+"> 
 <!ENTITY % x.model.orgStateLike "" >
 <!ENTITY % model.orgStateLike "%x.model.orgStateLike; %n.state;"> 
 <!ENTITY % x.model.orgStateLike_sequence "" >
@@ -945,7 +982,8 @@ ref CDATA  #IMPLIED'>
 atLeast %data.numeric;  #IMPLIED
 atMost %data.numeric;  #IMPLIED
 min %data.numeric;  #IMPLIED
-max %data.numeric;  #IMPLIED'> 
+max %data.numeric;  #IMPLIED
+confidence %data.probability;  #IMPLIED'> 
 <!ENTITY % att.dimensions.attributes ' %att.ranging.attributes;
 unit %data.enumerated;  #IMPLIED
 quantity %data.numeric;  #IMPLIED
@@ -960,13 +998,14 @@ group CDATA  #IMPLIED'>
 <!ENTITY % att.breaking.attributes '
 break %data.enumerated;  #IMPLIED'> 
 <!ENTITY % att.datable.w3c.attributes '
-period %data.pointer;  #IMPLIED
 when %data.temporal.w3c;  #IMPLIED
 notBefore %data.temporal.w3c;  #IMPLIED
 notAfter %data.temporal.w3c;  #IMPLIED
 from %data.temporal.w3c;  #IMPLIED
 to %data.temporal.w3c;  #IMPLIED'> 
-<!ENTITY % att.datable.attributes ' %att.datable.w3c.attributes; %att.datable.iso.attributes;'> 
+<!ENTITY % att.datable.attributes ' %att.datable.w3c.attributes; %att.datable.iso.attributes; %att.datable.custom.attributes;
+calendar %data.pointer;  #IMPLIED
+period %data.pointer;  #IMPLIED'> 
 <!ENTITY % att.declarable.attributes '
 default (true|false) "false" '> 
 <!ENTITY % att.declaring.attributes '
@@ -984,8 +1023,9 @@ cert %data.certainty;  #IMPLIED
 resp CDATA  #IMPLIED'> 
 <!ENTITY % att.editLike.attributes ' %att.dimensions.attributes; %att.responsibility.attributes;
 evidence NMTOKENS  #IMPLIED
-source CDATA  #IMPLIED'> 
-<!ENTITY % att.global.attributes ' %att.global.linking.attributes; %att.global.analytic.attributes; %att.global.facs.attributes;
+source CDATA  #IMPLIED
+instant %data.xTruthValue;  "false" '> 
+<!ENTITY % att.global.attributes ' %att.global.linking.attributes; %att.global.analytic.attributes; %att.global.facs.attributes; %att.global.change.attributes;
 xml:id ID #IMPLIED
 n CDATA  #IMPLIED
 xml:lang %data.language;  #IMPLIED
@@ -1001,7 +1041,7 @@ scriptRef CDATA  #IMPLIED
 medium %data.enumerated;  #IMPLIED
 scope (sole|major|minor) #IMPLIED'> 
 <!ENTITY % att.internetMedia.attributes '
-mimeType %data.word;  #IMPLIED'> 
+mimeType CDATA  #IMPLIED'> 
 <!ENTITY % att.interpLike.attributes ' %att.responsibility.attributes;
 type %data.enumerated;  #IMPLIED
 inst CDATA  #IMPLIED'> 
@@ -1031,6 +1071,8 @@ match CDATA #IMPLIED'>
 <!ENTITY % att.segLike.attributes ' %att.metrical.attributes;
 function %data.enumerated;  #IMPLIED
 part (Y|N|I|M|F) "N" '> 
+<!ENTITY % att.sortable.attributes '
+sortKey %data.word;  #IMPLIED'> 
 <!ENTITY % att.sourced.attributes '
 ed CDATA  #IMPLIED'> 
 <!ENTITY % att.spanning.attributes '
@@ -1045,6 +1087,7 @@ end %data.pointer;  #IMPLIED'>
 <!ENTITY % att.transcriptional.attributes ' %att.editLike.attributes;
 hand %data.pointer;  #IMPLIED
 status %data.enumerated;  "unremarkable" 
+cause (fix|unclear) #IMPLIED
 seq CDATA  #IMPLIED'> 
 <!ENTITY % att.translatable.attributes '
 version %data.word;  #IMPLIED'> 
@@ -1204,16 +1247,15 @@ version %data.word;  #IMPLIED'>
  %n.secFol; |
  %n.signatures; |
  %n.stamp; |
- %n.watermark; |
- %n.handShift;"> 
+ %n.watermark;"> 
 <!ENTITY % x.model.pPart.msdesc_sequence "" >
-<!ENTITY % model.pPart.msdesc_sequence "%x.model.pPart.msdesc_sequence; %n.catchwords;, %n.dimensions;, %n.heraldry;, %n.locus;, %n.locusGrp;, %n.material;, %n.objectType;, %n.origDate;, %n.origPlace;, %n.secFol;, %n.signatures;, %n.stamp;, %n.watermark;, %n.handShift;"> 
+<!ENTITY % model.pPart.msdesc_sequence "%x.model.pPart.msdesc_sequence; %n.catchwords;, %n.dimensions;, %n.heraldry;, %n.locus;, %n.locusGrp;, %n.material;, %n.objectType;, %n.origDate;, %n.origPlace;, %n.secFol;, %n.signatures;, %n.stamp;, %n.watermark;"> 
 <!ENTITY % x.model.pPart.msdesc_sequenceOptional "" >
-<!ENTITY % model.pPart.msdesc_sequenceOptional "%x.model.pPart.msdesc_sequenceOptional; %n.catchwords;?, %n.dimensions;?, %n.heraldry;?, %n.locus;?, %n.locusGrp;?, %n.material;?, %n.objectType;?, %n.origDate;?, %n.origPlace;?, %n.secFol;?, %n.signatures;?, %n.stamp;?, %n.watermark;?, %n.handShift;?"> 
+<!ENTITY % model.pPart.msdesc_sequenceOptional "%x.model.pPart.msdesc_sequenceOptional; %n.catchwords;?, %n.dimensions;?, %n.heraldry;?, %n.locus;?, %n.locusGrp;?, %n.material;?, %n.objectType;?, %n.origDate;?, %n.origPlace;?, %n.secFol;?, %n.signatures;?, %n.stamp;?, %n.watermark;?"> 
 <!ENTITY % x.model.pPart.msdesc_sequenceOptionalRepeatable "" >
-<!ENTITY % model.pPart.msdesc_sequenceOptionalRepeatable "%x.model.pPart.msdesc_sequenceOptionalRepeatable; %n.catchwords;*, %n.dimensions;*, %n.heraldry;*, %n.locus;*, %n.locusGrp;*, %n.material;*, %n.objectType;*, %n.origDate;*, %n.origPlace;*, %n.secFol;*, %n.signatures;*, %n.stamp;*, %n.watermark;*, %n.handShift;*"> 
+<!ENTITY % model.pPart.msdesc_sequenceOptionalRepeatable "%x.model.pPart.msdesc_sequenceOptionalRepeatable; %n.catchwords;*, %n.dimensions;*, %n.heraldry;*, %n.locus;*, %n.locusGrp;*, %n.material;*, %n.objectType;*, %n.origDate;*, %n.origPlace;*, %n.secFol;*, %n.signatures;*, %n.stamp;*, %n.watermark;*"> 
 <!ENTITY % x.model.pPart.msdesc_sequenceRepeatable "" >
-<!ENTITY % model.pPart.msdesc_sequenceRepeatable "%x.model.pPart.msdesc_sequenceRepeatable; %n.catchwords;+, %n.dimensions;+, %n.heraldry;+, %n.locus;+, %n.locusGrp;+, %n.material;+, %n.objectType;+, %n.origDate;+, %n.origPlace;+, %n.secFol;+, %n.signatures;+, %n.stamp;+, %n.watermark;+, %n.handShift;+"> 
+<!ENTITY % model.pPart.msdesc_sequenceRepeatable "%x.model.pPart.msdesc_sequenceRepeatable; %n.catchwords;+, %n.dimensions;+, %n.heraldry;+, %n.locus;+, %n.locusGrp;+, %n.material;+, %n.objectType;+, %n.origDate;+, %n.origPlace;+, %n.secFol;+, %n.signatures;+, %n.stamp;+, %n.watermark;+"> 
 <!ENTITY % x.model.pPart.editorial "" >
 <!ENTITY % model.pPart.editorial "%x.model.pPart.editorial; %n.choice; |
  %n.abbr; |
@@ -1238,18 +1280,23 @@ version %data.word;  #IMPLIED'>
  %n.del; |
  %n.unclear; |
  %n.damage; |
+ %n.handShift; |
  %n.restore; |
  %n.supplied; |
  %n.surplus; |
+ %n.mod; |
+ %n.redo; |
+ %n.retrace; |
+ %n.undo; |
  %n.app;"> 
 <!ENTITY % x.model.pPart.transcriptional_sequence "" >
-<!ENTITY % model.pPart.transcriptional_sequence "%x.model.pPart.transcriptional_sequence; %n.sic;, %n.corr;, %n.reg;, %n.orig;, %n.add;, %n.del;, %n.unclear;, %n.damage;, %n.restore;, %n.supplied;, %n.surplus;, %n.app;"> 
+<!ENTITY % model.pPart.transcriptional_sequence "%x.model.pPart.transcriptional_sequence; %n.sic;, %n.corr;, %n.reg;, %n.orig;, %n.add;, %n.del;, %n.unclear;, %n.damage;, %n.handShift;, %n.restore;, %n.supplied;, %n.surplus;, %n.mod;, %n.redo;, %n.retrace;, %n.undo;, %n.app;"> 
 <!ENTITY % x.model.pPart.transcriptional_sequenceOptional "" >
-<!ENTITY % model.pPart.transcriptional_sequenceOptional "%x.model.pPart.transcriptional_sequenceOptional; %n.sic;?, %n.corr;?, %n.reg;?, %n.orig;?, %n.add;?, %n.del;?, %n.unclear;?, %n.damage;?, %n.restore;?, %n.supplied;?, %n.surplus;?, %n.app;?"> 
+<!ENTITY % model.pPart.transcriptional_sequenceOptional "%x.model.pPart.transcriptional_sequenceOptional; %n.sic;?, %n.corr;?, %n.reg;?, %n.orig;?, %n.add;?, %n.del;?, %n.unclear;?, %n.damage;?, %n.handShift;?, %n.restore;?, %n.supplied;?, %n.surplus;?, %n.mod;?, %n.redo;?, %n.retrace;?, %n.undo;?, %n.app;?"> 
 <!ENTITY % x.model.pPart.transcriptional_sequenceOptionalRepeatable "" >
-<!ENTITY % model.pPart.transcriptional_sequenceOptionalRepeatable "%x.model.pPart.transcriptional_sequenceOptionalRepeatable; %n.sic;*, %n.corr;*, %n.reg;*, %n.orig;*, %n.add;*, %n.del;*, %n.unclear;*, %n.damage;*, %n.restore;*, %n.supplied;*, %n.surplus;*, %n.app;*"> 
+<!ENTITY % model.pPart.transcriptional_sequenceOptionalRepeatable "%x.model.pPart.transcriptional_sequenceOptionalRepeatable; %n.sic;*, %n.corr;*, %n.reg;*, %n.orig;*, %n.add;*, %n.del;*, %n.unclear;*, %n.damage;*, %n.handShift;*, %n.restore;*, %n.supplied;*, %n.surplus;*, %n.mod;*, %n.redo;*, %n.retrace;*, %n.undo;*, %n.app;*"> 
 <!ENTITY % x.model.pPart.transcriptional_sequenceRepeatable "" >
-<!ENTITY % model.pPart.transcriptional_sequenceRepeatable "%x.model.pPart.transcriptional_sequenceRepeatable; %n.sic;+, %n.corr;+, %n.reg;+, %n.orig;+, %n.add;+, %n.del;+, %n.unclear;+, %n.damage;+, %n.restore;+, %n.supplied;+, %n.surplus;+, %n.app;+"> 
+<!ENTITY % model.pPart.transcriptional_sequenceRepeatable "%x.model.pPart.transcriptional_sequenceRepeatable; %n.sic;+, %n.corr;+, %n.reg;+, %n.orig;+, %n.add;+, %n.del;+, %n.unclear;+, %n.damage;+, %n.handShift;+, %n.restore;+, %n.supplied;+, %n.surplus;+, %n.mod;+, %n.redo;+, %n.retrace;+, %n.undo;+, %n.app;+"> 
 <!ENTITY % x.model.pPart.edit "" >
 <!ENTITY % model.pPart.edit "%x.model.pPart.edit; %model.pPart.editorial; |
  %model.pPart.transcriptional;"> 
@@ -1261,6 +1308,21 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.pPart.edit_sequenceOptionalRepeatable "%x.model.pPart.edit_sequenceOptionalRepeatable; %model.pPart.editorial;*, %model.pPart.transcriptional;*"> 
 <!ENTITY % x.model.pPart.edit_sequenceRepeatable "" >
 <!ENTITY % model.pPart.edit_sequenceRepeatable "%x.model.pPart.edit_sequenceRepeatable; %model.pPart.editorial;+, %model.pPart.transcriptional;+"> 
+<!ENTITY % x.model.linePart "" >
+<!ENTITY % model.linePart "%x.model.linePart; %model.segLike; |
+ %model.hiLike; |
+ %model.pPart.transcriptional; |
+ %n.choice; |
+ %n.zone; |
+ %n.line;"> 
+<!ENTITY % x.model.linePart_sequence "" >
+<!ENTITY % model.linePart_sequence "%x.model.linePart_sequence; %model.segLike;, %model.hiLike;, %model.pPart.transcriptional;, %n.choice;, %n.zone;, %n.line;"> 
+<!ENTITY % x.model.linePart_sequenceOptional "" >
+<!ENTITY % model.linePart_sequenceOptional "%x.model.linePart_sequenceOptional; %model.segLike;?, %model.hiLike;?, %model.pPart.transcriptional;?, %n.choice;?, %n.zone;?, %n.line;?"> 
+<!ENTITY % x.model.linePart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.linePart_sequenceOptionalRepeatable "%x.model.linePart_sequenceOptionalRepeatable; %model.segLike;*, %model.hiLike;*, %model.pPart.transcriptional;*, %n.choice;*, %n.zone;*, %n.line;*"> 
+<!ENTITY % x.model.linePart_sequenceRepeatable "" >
+<!ENTITY % model.linePart_sequenceRepeatable "%x.model.linePart_sequenceRepeatable; %model.segLike;+, %model.hiLike;+, %model.pPart.transcriptional;+, %n.choice;+, %n.zone;+, %n.line;+"> 
 <!ENTITY % x.model.ptrLike "" >
 <!ENTITY % model.ptrLike "%x.model.ptrLike; %n.ptr; |
  %n.ref;"> 
@@ -1285,6 +1347,8 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.lPart_sequenceRepeatable "%x.model.lPart_sequenceRepeatable; %n.caesura;+, %n.rhyme;+"> 
 <!ENTITY % x.model.global.meta "" >
 <!ENTITY % model.global.meta "%x.model.global.meta; %n.index; |
+ %n.substJoin; |
+ %n.listTranspose; |
  %n.link; |
  %n.linkGrp; |
  %n.timeline; |
@@ -1303,29 +1367,29 @@ version %data.word;  #IMPLIED'>
  %n.certainty; |
  %n.respons;"> 
 <!ENTITY % x.model.global.meta_sequence "" >
-<!ENTITY % model.global.meta_sequence "%x.model.global.meta_sequence; %n.index;, %n.link;, %n.linkGrp;, %n.timeline;, %n.join;, %n.joinGrp;, %n.alt;, %n.altGrp;, %n.span;, %n.spanGrp;, %n.interp;, %n.interpGrp;, %n.fs;, %n.fLib;, %n.fvLib;, %n.precision;, %n.certainty;, %n.respons;"> 
+<!ENTITY % model.global.meta_sequence "%x.model.global.meta_sequence; %n.index;, %n.substJoin;, %n.listTranspose;, %n.link;, %n.linkGrp;, %n.timeline;, %n.join;, %n.joinGrp;, %n.alt;, %n.altGrp;, %n.span;, %n.spanGrp;, %n.interp;, %n.interpGrp;, %n.fs;, %n.fLib;, %n.fvLib;, %n.precision;, %n.certainty;, %n.respons;"> 
 <!ENTITY % x.model.global.meta_sequenceOptional "" >
-<!ENTITY % model.global.meta_sequenceOptional "%x.model.global.meta_sequenceOptional; %n.index;?, %n.link;?, %n.linkGrp;?, %n.timeline;?, %n.join;?, %n.joinGrp;?, %n.alt;?, %n.altGrp;?, %n.span;?, %n.spanGrp;?, %n.interp;?, %n.interpGrp;?, %n.fs;?, %n.fLib;?, %n.fvLib;?, %n.precision;?, %n.certainty;?, %n.respons;?"> 
+<!ENTITY % model.global.meta_sequenceOptional "%x.model.global.meta_sequenceOptional; %n.index;?, %n.substJoin;?, %n.listTranspose;?, %n.link;?, %n.linkGrp;?, %n.timeline;?, %n.join;?, %n.joinGrp;?, %n.alt;?, %n.altGrp;?, %n.span;?, %n.spanGrp;?, %n.interp;?, %n.interpGrp;?, %n.fs;?, %n.fLib;?, %n.fvLib;?, %n.precision;?, %n.certainty;?, %n.respons;?"> 
 <!ENTITY % x.model.global.meta_sequenceOptionalRepeatable "" >
-<!ENTITY % model.global.meta_sequenceOptionalRepeatable "%x.model.global.meta_sequenceOptionalRepeatable; %n.index;*, %n.link;*, %n.linkGrp;*, %n.timeline;*, %n.join;*, %n.joinGrp;*, %n.alt;*, %n.altGrp;*, %n.span;*, %n.spanGrp;*, %n.interp;*, %n.interpGrp;*, %n.fs;*, %n.fLib;*, %n.fvLib;*, %n.precision;*, %n.certainty;*, %n.respons;*"> 
+<!ENTITY % model.global.meta_sequenceOptionalRepeatable "%x.model.global.meta_sequenceOptionalRepeatable; %n.index;*, %n.substJoin;*, %n.listTranspose;*, %n.link;*, %n.linkGrp;*, %n.timeline;*, %n.join;*, %n.joinGrp;*, %n.alt;*, %n.altGrp;*, %n.span;*, %n.spanGrp;*, %n.interp;*, %n.interpGrp;*, %n.fs;*, %n.fLib;*, %n.fvLib;*, %n.precision;*, %n.certainty;*, %n.respons;*"> 
 <!ENTITY % x.model.global.meta_sequenceRepeatable "" >
-<!ENTITY % model.global.meta_sequenceRepeatable "%x.model.global.meta_sequenceRepeatable; %n.index;+, %n.link;+, %n.linkGrp;+, %n.timeline;+, %n.join;+, %n.joinGrp;+, %n.alt;+, %n.altGrp;+, %n.span;+, %n.spanGrp;+, %n.interp;+, %n.interpGrp;+, %n.fs;+, %n.fLib;+, %n.fvLib;+, %n.precision;+, %n.certainty;+, %n.respons;+"> 
+<!ENTITY % model.global.meta_sequenceRepeatable "%x.model.global.meta_sequenceRepeatable; %n.index;+, %n.substJoin;+, %n.listTranspose;+, %n.link;+, %n.linkGrp;+, %n.timeline;+, %n.join;+, %n.joinGrp;+, %n.alt;+, %n.altGrp;+, %n.span;+, %n.spanGrp;+, %n.interp;+, %n.interpGrp;+, %n.fs;+, %n.fLib;+, %n.fvLib;+, %n.precision;+, %n.certainty;+, %n.respons;+"> 
 <!ENTITY % x.model.milestoneLike "" >
 <!ENTITY % model.milestoneLike "%x.model.milestoneLike; %n.milestone; |
+ %n.gb; |
  %n.pb; |
  %n.lb; |
  %n.cb; |
  %n.fw; |
- %n.gb; |
  %n.anchor;"> 
 <!ENTITY % x.model.milestoneLike_sequence "" >
-<!ENTITY % model.milestoneLike_sequence "%x.model.milestoneLike_sequence; %n.milestone;, %n.pb;, %n.lb;, %n.cb;, %n.fw;, %n.gb;, %n.anchor;"> 
+<!ENTITY % model.milestoneLike_sequence "%x.model.milestoneLike_sequence; %n.milestone;, %n.gb;, %n.pb;, %n.lb;, %n.cb;, %n.fw;, %n.anchor;"> 
 <!ENTITY % x.model.milestoneLike_sequenceOptional "" >
-<!ENTITY % model.milestoneLike_sequenceOptional "%x.model.milestoneLike_sequenceOptional; %n.milestone;?, %n.pb;?, %n.lb;?, %n.cb;?, %n.fw;?, %n.gb;?, %n.anchor;?"> 
+<!ENTITY % model.milestoneLike_sequenceOptional "%x.model.milestoneLike_sequenceOptional; %n.milestone;?, %n.gb;?, %n.pb;?, %n.lb;?, %n.cb;?, %n.fw;?, %n.anchor;?"> 
 <!ENTITY % x.model.milestoneLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.milestoneLike_sequenceOptionalRepeatable "%x.model.milestoneLike_sequenceOptionalRepeatable; %n.milestone;*, %n.pb;*, %n.lb;*, %n.cb;*, %n.fw;*, %n.gb;*, %n.anchor;*"> 
+<!ENTITY % model.milestoneLike_sequenceOptionalRepeatable "%x.model.milestoneLike_sequenceOptionalRepeatable; %n.milestone;*, %n.gb;*, %n.pb;*, %n.lb;*, %n.cb;*, %n.fw;*, %n.anchor;*"> 
 <!ENTITY % x.model.milestoneLike_sequenceRepeatable "" >
-<!ENTITY % model.milestoneLike_sequenceRepeatable "%x.model.milestoneLike_sequenceRepeatable; %n.milestone;+, %n.pb;+, %n.lb;+, %n.cb;+, %n.fw;+, %n.gb;+, %n.anchor;+"> 
+<!ENTITY % model.milestoneLike_sequenceRepeatable "%x.model.milestoneLike_sequenceRepeatable; %n.milestone;+, %n.gb;+, %n.pb;+, %n.lb;+, %n.cb;+, %n.fw;+, %n.anchor;+"> 
 <!ENTITY % x.model.gLike "" >
 <!ENTITY % model.gLike "%x.model.gLike; %n.g;"> 
 <!ENTITY % x.model.gLike_sequence "" >
@@ -1339,32 +1403,32 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.oddDecl "" >
 <!ENTITY % model.oddDecl "%x.model.oddDecl; %n.moduleSpec; |
  %n.specGrp; |
+ %n.specGrpRef; |
  %n.elementSpec; |
  %n.classSpec; |
  %n.macroSpec; |
  %n.listRef;"> 
 <!ENTITY % x.model.oddDecl_sequence "" >
-<!ENTITY % model.oddDecl_sequence "%x.model.oddDecl_sequence; %n.moduleSpec;, %n.specGrp;, %n.elementSpec;, %n.classSpec;, %n.macroSpec;, %n.listRef;"> 
+<!ENTITY % model.oddDecl_sequence "%x.model.oddDecl_sequence; %n.moduleSpec;, %n.specGrp;, %n.specGrpRef;, %n.elementSpec;, %n.classSpec;, %n.macroSpec;, %n.listRef;"> 
 <!ENTITY % x.model.oddDecl_sequenceOptional "" >
-<!ENTITY % model.oddDecl_sequenceOptional "%x.model.oddDecl_sequenceOptional; %n.moduleSpec;?, %n.specGrp;?, %n.elementSpec;?, %n.classSpec;?, %n.macroSpec;?, %n.listRef;?"> 
+<!ENTITY % model.oddDecl_sequenceOptional "%x.model.oddDecl_sequenceOptional; %n.moduleSpec;?, %n.specGrp;?, %n.specGrpRef;?, %n.elementSpec;?, %n.classSpec;?, %n.macroSpec;?, %n.listRef;?"> 
 <!ENTITY % x.model.oddDecl_sequenceOptionalRepeatable "" >
-<!ENTITY % model.oddDecl_sequenceOptionalRepeatable "%x.model.oddDecl_sequenceOptionalRepeatable; %n.moduleSpec;*, %n.specGrp;*, %n.elementSpec;*, %n.classSpec;*, %n.macroSpec;*, %n.listRef;*"> 
+<!ENTITY % model.oddDecl_sequenceOptionalRepeatable "%x.model.oddDecl_sequenceOptionalRepeatable; %n.moduleSpec;*, %n.specGrp;*, %n.specGrpRef;*, %n.elementSpec;*, %n.classSpec;*, %n.macroSpec;*, %n.listRef;*"> 
 <!ENTITY % x.model.oddDecl_sequenceRepeatable "" >
-<!ENTITY % model.oddDecl_sequenceRepeatable "%x.model.oddDecl_sequenceRepeatable; %n.moduleSpec;+, %n.specGrp;+, %n.elementSpec;+, %n.classSpec;+, %n.macroSpec;+, %n.listRef;+"> 
+<!ENTITY % model.oddDecl_sequenceRepeatable "%x.model.oddDecl_sequenceRepeatable; %n.moduleSpec;+, %n.specGrp;+, %n.specGrpRef;+, %n.elementSpec;+, %n.classSpec;+, %n.macroSpec;+, %n.listRef;+"> 
 <!ENTITY % x.model.oddRef "" >
 <!ENTITY % model.oddRef "%x.model.oddRef; %n.classRef; |
  %n.elementRef; |
  %n.macroRef; |
- %n.moduleRef; |
- %n.specGrpRef;"> 
+ %n.moduleRef;"> 
 <!ENTITY % x.model.oddRef_sequence "" >
-<!ENTITY % model.oddRef_sequence "%x.model.oddRef_sequence; %n.classRef;, %n.elementRef;, %n.macroRef;, %n.moduleRef;, %n.specGrpRef;"> 
+<!ENTITY % model.oddRef_sequence "%x.model.oddRef_sequence; %n.classRef;, %n.elementRef;, %n.macroRef;, %n.moduleRef;"> 
 <!ENTITY % x.model.oddRef_sequenceOptional "" >
-<!ENTITY % model.oddRef_sequenceOptional "%x.model.oddRef_sequenceOptional; %n.classRef;?, %n.elementRef;?, %n.macroRef;?, %n.moduleRef;?, %n.specGrpRef;?"> 
+<!ENTITY % model.oddRef_sequenceOptional "%x.model.oddRef_sequenceOptional; %n.classRef;?, %n.elementRef;?, %n.macroRef;?, %n.moduleRef;?"> 
 <!ENTITY % x.model.oddRef_sequenceOptionalRepeatable "" >
-<!ENTITY % model.oddRef_sequenceOptionalRepeatable "%x.model.oddRef_sequenceOptionalRepeatable; %n.classRef;*, %n.elementRef;*, %n.macroRef;*, %n.moduleRef;*, %n.specGrpRef;*"> 
+<!ENTITY % model.oddRef_sequenceOptionalRepeatable "%x.model.oddRef_sequenceOptionalRepeatable; %n.classRef;*, %n.elementRef;*, %n.macroRef;*, %n.moduleRef;*"> 
 <!ENTITY % x.model.oddRef_sequenceRepeatable "" >
-<!ENTITY % model.oddRef_sequenceRepeatable "%x.model.oddRef_sequenceRepeatable; %n.classRef;+, %n.elementRef;+, %n.macroRef;+, %n.moduleRef;+, %n.specGrpRef;+"> 
+<!ENTITY % model.oddRef_sequenceRepeatable "%x.model.oddRef_sequenceRepeatable; %n.classRef;+, %n.elementRef;+, %n.macroRef;+, %n.moduleRef;+"> 
 <!ENTITY % x.model.phrase.xml "" >
 <!ENTITY % model.phrase.xml "%x.model.phrase.xml; %n.att; |
  %n.gi; |
@@ -1393,15 +1457,17 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.biblLike "%x.model.biblLike; %n.biblFull; |
  %n.bibl; |
  %n.biblStruct; |
- %n.msDesc;"> 
+ %n.msDesc; |
+ %n.listRelation; |
+ %n.relationGrp;"> 
 <!ENTITY % x.model.biblLike_sequence "" >
-<!ENTITY % model.biblLike_sequence "%x.model.biblLike_sequence; %n.biblFull;, %n.bibl;, %n.biblStruct;, %n.msDesc;"> 
+<!ENTITY % model.biblLike_sequence "%x.model.biblLike_sequence; %n.biblFull;, %n.bibl;, %n.biblStruct;, %n.msDesc;, %n.listRelation;, %n.relationGrp;"> 
 <!ENTITY % x.model.biblLike_sequenceOptional "" >
-<!ENTITY % model.biblLike_sequenceOptional "%x.model.biblLike_sequenceOptional; %n.biblFull;?, %n.bibl;?, %n.biblStruct;?, %n.msDesc;?"> 
+<!ENTITY % model.biblLike_sequenceOptional "%x.model.biblLike_sequenceOptional; %n.biblFull;?, %n.bibl;?, %n.biblStruct;?, %n.msDesc;?, %n.listRelation;?, %n.relationGrp;?"> 
 <!ENTITY % x.model.biblLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.biblLike_sequenceOptionalRepeatable "%x.model.biblLike_sequenceOptionalRepeatable; %n.biblFull;*, %n.bibl;*, %n.biblStruct;*, %n.msDesc;*"> 
+<!ENTITY % model.biblLike_sequenceOptionalRepeatable "%x.model.biblLike_sequenceOptionalRepeatable; %n.biblFull;*, %n.bibl;*, %n.biblStruct;*, %n.msDesc;*, %n.listRelation;*, %n.relationGrp;*"> 
 <!ENTITY % x.model.biblLike_sequenceRepeatable "" >
-<!ENTITY % model.biblLike_sequenceRepeatable "%x.model.biblLike_sequenceRepeatable; %n.biblFull;+, %n.bibl;+, %n.biblStruct;+, %n.msDesc;+"> 
+<!ENTITY % model.biblLike_sequenceRepeatable "%x.model.biblLike_sequenceRepeatable; %n.biblFull;+, %n.bibl;+, %n.biblStruct;+, %n.msDesc;+, %n.listRelation;+, %n.relationGrp;+"> 
 <!ENTITY % x.model.headLike "" >
 <!ENTITY % model.headLike "%x.model.headLike; %n.head;"> 
 <!ENTITY % x.model.headLike_sequence "" >
@@ -1431,15 +1497,16 @@ version %data.word;  #IMPLIED'>
  %n.listEvent; |
  %n.listPerson; |
  %n.listPlace; |
- %n.listNym;"> 
+ %n.listNym; |
+ %n.table;"> 
 <!ENTITY % x.model.listLike_sequence "" >
-<!ENTITY % model.listLike_sequence "%x.model.listLike_sequence; %n.list;, %n.listBibl;, %n.listWit;, %n.listOrg;, %n.listEvent;, %n.listPerson;, %n.listPlace;, %n.listNym;"> 
+<!ENTITY % model.listLike_sequence "%x.model.listLike_sequence; %n.list;, %n.listBibl;, %n.listWit;, %n.listOrg;, %n.listEvent;, %n.listPerson;, %n.listPlace;, %n.listNym;, %n.table;"> 
 <!ENTITY % x.model.listLike_sequenceOptional "" >
-<!ENTITY % model.listLike_sequenceOptional "%x.model.listLike_sequenceOptional; %n.list;?, %n.listBibl;?, %n.listWit;?, %n.listOrg;?, %n.listEvent;?, %n.listPerson;?, %n.listPlace;?, %n.listNym;?"> 
+<!ENTITY % model.listLike_sequenceOptional "%x.model.listLike_sequenceOptional; %n.list;?, %n.listBibl;?, %n.listWit;?, %n.listOrg;?, %n.listEvent;?, %n.listPerson;?, %n.listPlace;?, %n.listNym;?, %n.table;?"> 
 <!ENTITY % x.model.listLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.listLike_sequenceOptionalRepeatable "%x.model.listLike_sequenceOptionalRepeatable; %n.list;*, %n.listBibl;*, %n.listWit;*, %n.listOrg;*, %n.listEvent;*, %n.listPerson;*, %n.listPlace;*, %n.listNym;*"> 
+<!ENTITY % model.listLike_sequenceOptionalRepeatable "%x.model.listLike_sequenceOptionalRepeatable; %n.list;*, %n.listBibl;*, %n.listWit;*, %n.listOrg;*, %n.listEvent;*, %n.listPerson;*, %n.listPlace;*, %n.listNym;*, %n.table;*"> 
 <!ENTITY % x.model.listLike_sequenceRepeatable "" >
-<!ENTITY % model.listLike_sequenceRepeatable "%x.model.listLike_sequenceRepeatable; %n.list;+, %n.listBibl;+, %n.listWit;+, %n.listOrg;+, %n.listEvent;+, %n.listPerson;+, %n.listPlace;+, %n.listNym;+"> 
+<!ENTITY % model.listLike_sequenceRepeatable "%x.model.listLike_sequenceRepeatable; %n.list;+, %n.listBibl;+, %n.listWit;+, %n.listOrg;+, %n.listEvent;+, %n.listPerson;+, %n.listPlace;+, %n.listNym;+, %n.table;+"> 
 <!ENTITY % x.model.noteLike "" >
 <!ENTITY % model.noteLike "%x.model.noteLike; %n.note; |
  %n.witDetail;"> 
@@ -1588,54 +1655,45 @@ version %data.word;  #IMPLIED'>
  %model.pLike; |
  %n.lg; |
  %n.sp; |
- %n.floatingText; |
+ %n.spGrp; |
  %model.divPart.spoken; |
  %n.graph; |
  %n.tree; |
  %n.eTree; |
  %n.forest; |
- %n.forestGrp; |
+ %n.listForest; |
  %n.schemaSpec;"> 
 <!ENTITY % x.model.divPart_sequence "" >
-<!ENTITY % model.divPart_sequence "%x.model.divPart_sequence; %model.lLike;, %model.pLike;, %n.lg;, %n.sp;, %n.floatingText;, %model.divPart.spoken;, %n.graph;, %n.tree;, %n.eTree;, %n.forest;, %n.forestGrp;, %n.schemaSpec;"> 
+<!ENTITY % model.divPart_sequence "%x.model.divPart_sequence; %model.lLike;, %model.pLike;, %n.lg;, %n.sp;, %n.spGrp;, %model.divPart.spoken;, %n.graph;, %n.tree;, %n.eTree;, %n.forest;, %n.listForest;, %n.schemaSpec;"> 
 <!ENTITY % x.model.divPart_sequenceOptional "" >
-<!ENTITY % model.divPart_sequenceOptional "%x.model.divPart_sequenceOptional; %model.lLike;?, %model.pLike;?, %n.lg;?, %n.sp;?, %n.floatingText;?, %model.divPart.spoken;?, %n.graph;?, %n.tree;?, %n.eTree;?, %n.forest;?, %n.forestGrp;?, %n.schemaSpec;?"> 
+<!ENTITY % model.divPart_sequenceOptional "%x.model.divPart_sequenceOptional; %model.lLike;?, %model.pLike;?, %n.lg;?, %n.sp;?, %n.spGrp;?, %model.divPart.spoken;?, %n.graph;?, %n.tree;?, %n.eTree;?, %n.forest;?, %n.listForest;?, %n.schemaSpec;?"> 
 <!ENTITY % x.model.divPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.divPart_sequenceOptionalRepeatable "%x.model.divPart_sequenceOptionalRepeatable; %model.lLike;*, %model.pLike;*, %n.lg;*, %n.sp;*, %n.floatingText;*, %model.divPart.spoken;*, %n.graph;*, %n.tree;*, %n.eTree;*, %n.forest;*, %n.forestGrp;*, %n.schemaSpec;*"> 
+<!ENTITY % model.divPart_sequenceOptionalRepeatable "%x.model.divPart_sequenceOptionalRepeatable; %model.lLike;*, %model.pLike;*, %n.lg;*, %n.sp;*, %n.spGrp;*, %model.divPart.spoken;*, %n.graph;*, %n.tree;*, %n.eTree;*, %n.forest;*, %n.listForest;*, %n.schemaSpec;*"> 
 <!ENTITY % x.model.divPart_sequenceRepeatable "" >
-<!ENTITY % model.divPart_sequenceRepeatable "%x.model.divPart_sequenceRepeatable; %model.lLike;+, %model.pLike;+, %n.lg;+, %n.sp;+, %n.floatingText;+, %model.divPart.spoken;+, %n.graph;+, %n.tree;+, %n.eTree;+, %n.forest;+, %n.forestGrp;+, %n.schemaSpec;+"> 
-<!ENTITY % x.model.persTraitLike "" >
-<!ENTITY % model.persTraitLike "%x.model.persTraitLike; %n.age; |
- %n.faith; |
- %n.langKnowledge; |
- %n.nationality; |
- %n.sex; |
- %n.socecStatus; |
- %n.trait;"> 
-<!ENTITY % x.model.persTraitLike_sequence "" >
-<!ENTITY % model.persTraitLike_sequence "%x.model.persTraitLike_sequence; %n.age;, %n.faith;, %n.langKnowledge;, %n.nationality;, %n.sex;, %n.socecStatus;, %n.trait;"> 
-<!ENTITY % x.model.persTraitLike_sequenceOptional "" >
-<!ENTITY % model.persTraitLike_sequenceOptional "%x.model.persTraitLike_sequenceOptional; %n.age;?, %n.faith;?, %n.langKnowledge;?, %n.nationality;?, %n.sex;?, %n.socecStatus;?, %n.trait;?"> 
-<!ENTITY % x.model.persTraitLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.persTraitLike_sequenceOptionalRepeatable "%x.model.persTraitLike_sequenceOptionalRepeatable; %n.age;*, %n.faith;*, %n.langKnowledge;*, %n.nationality;*, %n.sex;*, %n.socecStatus;*, %n.trait;*"> 
-<!ENTITY % x.model.persTraitLike_sequenceRepeatable "" >
-<!ENTITY % model.persTraitLike_sequenceRepeatable "%x.model.persTraitLike_sequenceRepeatable; %n.age;+, %n.faith;+, %n.langKnowledge;+, %n.nationality;+, %n.sex;+, %n.socecStatus;+, %n.trait;+"> 
+<!ENTITY % model.divPart_sequenceRepeatable "%x.model.divPart_sequenceRepeatable; %model.lLike;+, %model.pLike;+, %n.lg;+, %n.sp;+, %n.spGrp;+, %model.divPart.spoken;+, %n.graph;+, %n.tree;+, %n.eTree;+, %n.forest;+, %n.listForest;+, %n.schemaSpec;+"> 
 <!ENTITY % x.model.persStateLike "" >
 <!ENTITY % model.persStateLike "%x.model.persStateLike; %n.persName; |
  %n.affiliation; |
+ %n.age; |
  %n.education; |
+ %n.faith; |
  %n.floruit; |
+ %n.langKnowledge; |
+ %n.nationality; |
  %n.occupation; |
  %n.residence; |
- %n.state;"> 
+ %n.sex; |
+ %n.socecStatus; |
+ %n.state; |
+ %n.trait;"> 
 <!ENTITY % x.model.persStateLike_sequence "" >
-<!ENTITY % model.persStateLike_sequence "%x.model.persStateLike_sequence; %n.persName;, %n.affiliation;, %n.education;, %n.floruit;, %n.occupation;, %n.residence;, %n.state;"> 
+<!ENTITY % model.persStateLike_sequence "%x.model.persStateLike_sequence; %n.persName;, %n.affiliation;, %n.age;, %n.education;, %n.faith;, %n.floruit;, %n.langKnowledge;, %n.nationality;, %n.occupation;, %n.residence;, %n.sex;, %n.socecStatus;, %n.state;, %n.trait;"> 
 <!ENTITY % x.model.persStateLike_sequenceOptional "" >
-<!ENTITY % model.persStateLike_sequenceOptional "%x.model.persStateLike_sequenceOptional; %n.persName;?, %n.affiliation;?, %n.education;?, %n.floruit;?, %n.occupation;?, %n.residence;?, %n.state;?"> 
+<!ENTITY % model.persStateLike_sequenceOptional "%x.model.persStateLike_sequenceOptional; %n.persName;?, %n.affiliation;?, %n.age;?, %n.education;?, %n.faith;?, %n.floruit;?, %n.langKnowledge;?, %n.nationality;?, %n.occupation;?, %n.residence;?, %n.sex;?, %n.socecStatus;?, %n.state;?, %n.trait;?"> 
 <!ENTITY % x.model.persStateLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.persStateLike_sequenceOptionalRepeatable "%x.model.persStateLike_sequenceOptionalRepeatable; %n.persName;*, %n.affiliation;*, %n.education;*, %n.floruit;*, %n.occupation;*, %n.residence;*, %n.state;*"> 
+<!ENTITY % model.persStateLike_sequenceOptionalRepeatable "%x.model.persStateLike_sequenceOptionalRepeatable; %n.persName;*, %n.affiliation;*, %n.age;*, %n.education;*, %n.faith;*, %n.floruit;*, %n.langKnowledge;*, %n.nationality;*, %n.occupation;*, %n.residence;*, %n.sex;*, %n.socecStatus;*, %n.state;*, %n.trait;*"> 
 <!ENTITY % x.model.persStateLike_sequenceRepeatable "" >
-<!ENTITY % model.persStateLike_sequenceRepeatable "%x.model.persStateLike_sequenceRepeatable; %n.persName;+, %n.affiliation;+, %n.education;+, %n.floruit;+, %n.occupation;+, %n.residence;+, %n.state;+"> 
+<!ENTITY % model.persStateLike_sequenceRepeatable "%x.model.persStateLike_sequenceRepeatable; %n.persName;+, %n.affiliation;+, %n.age;+, %n.education;+, %n.faith;+, %n.floruit;+, %n.langKnowledge;+, %n.nationality;+, %n.occupation;+, %n.residence;+, %n.sex;+, %n.socecStatus;+, %n.state;+, %n.trait;+"> 
 <!ENTITY % x.model.persEventLike "" >
 <!ENTITY % model.persEventLike "%x.model.persEventLike; %n.birth; |
  %n.death; |
@@ -1661,32 +1719,17 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.personLike_sequenceRepeatable "" >
 <!ENTITY % model.personLike_sequenceRepeatable "%x.model.personLike_sequenceRepeatable; %n.org;+, %n.person;+, %n.personGrp;+"> 
 <!ENTITY % x.model.personPart "" >
-<!ENTITY % model.personPart "%x.model.personPart; %model.persTraitLike; |
- %model.persStateLike; |
+<!ENTITY % model.personPart "%x.model.personPart; %model.persStateLike; |
  %model.persEventLike; |
  %n.bibl;"> 
 <!ENTITY % x.model.personPart_sequence "" >
-<!ENTITY % model.personPart_sequence "%x.model.personPart_sequence; %model.persTraitLike;, %model.persStateLike;, %model.persEventLike;, %n.bibl;"> 
+<!ENTITY % model.personPart_sequence "%x.model.personPart_sequence; %model.persStateLike;, %model.persEventLike;, %n.bibl;"> 
 <!ENTITY % x.model.personPart_sequenceOptional "" >
-<!ENTITY % model.personPart_sequenceOptional "%x.model.personPart_sequenceOptional; %model.persTraitLike;?, %model.persStateLike;?, %model.persEventLike;?, %n.bibl;?"> 
+<!ENTITY % model.personPart_sequenceOptional "%x.model.personPart_sequenceOptional; %model.persStateLike;?, %model.persEventLike;?, %n.bibl;?"> 
 <!ENTITY % x.model.personPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.personPart_sequenceOptionalRepeatable "%x.model.personPart_sequenceOptionalRepeatable; %model.persTraitLike;*, %model.persStateLike;*, %model.persEventLike;*, %n.bibl;*"> 
+<!ENTITY % model.personPart_sequenceOptionalRepeatable "%x.model.personPart_sequenceOptionalRepeatable; %model.persStateLike;*, %model.persEventLike;*, %n.bibl;*"> 
 <!ENTITY % x.model.personPart_sequenceRepeatable "" >
-<!ENTITY % model.personPart_sequenceRepeatable "%x.model.personPart_sequenceRepeatable; %model.persTraitLike;+, %model.persStateLike;+, %model.persEventLike;+, %n.bibl;+"> 
-<!ENTITY % x.model.placeTraitLike "" >
-<!ENTITY % model.placeTraitLike "%x.model.placeTraitLike; %n.climate; |
- %n.location; |
- %n.population; |
- %n.terrain; |
- %n.trait;"> 
-<!ENTITY % x.model.placeTraitLike_sequence "" >
-<!ENTITY % model.placeTraitLike_sequence "%x.model.placeTraitLike_sequence; %n.climate;, %n.location;, %n.population;, %n.terrain;, %n.trait;"> 
-<!ENTITY % x.model.placeTraitLike_sequenceOptional "" >
-<!ENTITY % model.placeTraitLike_sequenceOptional "%x.model.placeTraitLike_sequenceOptional; %n.climate;?, %n.location;?, %n.population;?, %n.terrain;?, %n.trait;?"> 
-<!ENTITY % x.model.placeTraitLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.placeTraitLike_sequenceOptionalRepeatable "%x.model.placeTraitLike_sequenceOptionalRepeatable; %n.climate;*, %n.location;*, %n.population;*, %n.terrain;*, %n.trait;*"> 
-<!ENTITY % x.model.placeTraitLike_sequenceRepeatable "" >
-<!ENTITY % model.placeTraitLike_sequenceRepeatable "%x.model.placeTraitLike_sequenceRepeatable; %n.climate;+, %n.location;+, %n.population;+, %n.terrain;+, %n.trait;+"> 
+<!ENTITY % model.personPart_sequenceRepeatable "%x.model.personPart_sequenceRepeatable; %model.persStateLike;+, %model.persEventLike;+, %n.bibl;+"> 
 <!ENTITY % x.model.placeNamePart "" >
 <!ENTITY % model.placeNamePart "%x.model.placeNamePart; %n.placeName; |
  %n.bloc; |
@@ -1705,15 +1748,20 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.placeNamePart_sequenceRepeatable "%x.model.placeNamePart_sequenceRepeatable; %n.placeName;+, %n.bloc;+, %n.country;+, %n.region;+, %n.district;+, %n.settlement;+, %n.geogName;+"> 
 <!ENTITY % x.model.placeStateLike "" >
 <!ENTITY % model.placeStateLike "%x.model.placeStateLike; %model.placeNamePart; |
- %n.state;"> 
+ %n.climate; |
+ %n.location; |
+ %n.population; |
+ %n.state; |
+ %n.terrain; |
+ %n.trait;"> 
 <!ENTITY % x.model.placeStateLike_sequence "" >
-<!ENTITY % model.placeStateLike_sequence "%x.model.placeStateLike_sequence; %model.placeNamePart;, %n.state;"> 
+<!ENTITY % model.placeStateLike_sequence "%x.model.placeStateLike_sequence; %model.placeNamePart;, %n.climate;, %n.location;, %n.population;, %n.state;, %n.terrain;, %n.trait;"> 
 <!ENTITY % x.model.placeStateLike_sequenceOptional "" >
-<!ENTITY % model.placeStateLike_sequenceOptional "%x.model.placeStateLike_sequenceOptional; %model.placeNamePart;?, %n.state;?"> 
+<!ENTITY % model.placeStateLike_sequenceOptional "%x.model.placeStateLike_sequenceOptional; %model.placeNamePart;?, %n.climate;?, %n.location;?, %n.population;?, %n.state;?, %n.terrain;?, %n.trait;?"> 
 <!ENTITY % x.model.placeStateLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.placeStateLike_sequenceOptionalRepeatable "%x.model.placeStateLike_sequenceOptionalRepeatable; %model.placeNamePart;*, %n.state;*"> 
+<!ENTITY % model.placeStateLike_sequenceOptionalRepeatable "%x.model.placeStateLike_sequenceOptionalRepeatable; %model.placeNamePart;*, %n.climate;*, %n.location;*, %n.population;*, %n.state;*, %n.terrain;*, %n.trait;*"> 
 <!ENTITY % x.model.placeStateLike_sequenceRepeatable "" >
-<!ENTITY % model.placeStateLike_sequenceRepeatable "%x.model.placeStateLike_sequenceRepeatable; %model.placeNamePart;+, %n.state;+"> 
+<!ENTITY % model.placeStateLike_sequenceRepeatable "%x.model.placeStateLike_sequenceRepeatable; %model.placeNamePart;+, %n.climate;+, %n.location;+, %n.population;+, %n.state;+, %n.terrain;+, %n.trait;+"> 
 <!ENTITY % x.model.placeEventLike "" >
 <!ENTITY % model.placeEventLike "%x.model.placeEventLike; %n.event;"> 
 <!ENTITY % x.model.placeEventLike_sequence "" >
@@ -1724,6 +1772,18 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.placeEventLike_sequenceOptionalRepeatable "%x.model.placeEventLike_sequenceOptionalRepeatable; %n.event;*"> 
 <!ENTITY % x.model.placeEventLike_sequenceRepeatable "" >
 <!ENTITY % model.placeEventLike_sequenceRepeatable "%x.model.placeEventLike_sequenceRepeatable; %n.event;+"> 
+<!ENTITY % x.model.orgPart "" >
+<!ENTITY % model.orgPart "%x.model.orgPart; %n.listOrg; |
+ %n.listPerson; |
+ %n.listPlace;"> 
+<!ENTITY % x.model.orgPart_sequence "" >
+<!ENTITY % model.orgPart_sequence "%x.model.orgPart_sequence; %n.listOrg;, %n.listPerson;, %n.listPlace;"> 
+<!ENTITY % x.model.orgPart_sequenceOptional "" >
+<!ENTITY % model.orgPart_sequenceOptional "%x.model.orgPart_sequenceOptional; %n.listOrg;?, %n.listPerson;?, %n.listPlace;?"> 
+<!ENTITY % x.model.orgPart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.orgPart_sequenceOptionalRepeatable "%x.model.orgPart_sequenceOptionalRepeatable; %n.listOrg;*, %n.listPerson;*, %n.listPlace;*"> 
+<!ENTITY % x.model.orgPart_sequenceRepeatable "" >
+<!ENTITY % model.orgPart_sequenceRepeatable "%x.model.orgPart_sequenceRepeatable; %n.listOrg;+, %n.listPerson;+, %n.listPlace;+"> 
 <!ENTITY % x.model.publicationStmtPart "" >
 <!ENTITY % model.publicationStmtPart "%x.model.publicationStmtPart; %n.distributor; |
  %n.authority; |
@@ -1741,22 +1801,43 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.publicationStmtPart_sequenceOptionalRepeatable "%x.model.publicationStmtPart_sequenceOptionalRepeatable; %n.distributor;*, %n.authority;*, %n.idno;*, %n.availability;*, %n.address;*, %n.date;*, %n.publisher;*, %n.pubPlace;*"> 
 <!ENTITY % x.model.publicationStmtPart_sequenceRepeatable "" >
 <!ENTITY % model.publicationStmtPart_sequenceRepeatable "%x.model.publicationStmtPart_sequenceRepeatable; %n.distributor;+, %n.authority;+, %n.idno;+, %n.availability;+, %n.address;+, %n.date;+, %n.publisher;+, %n.pubPlace;+"> 
+<!ENTITY % x.model.availabilityPart "" >
+<!ENTITY % model.availabilityPart "%x.model.availabilityPart; %n.licence; |
+ %n.p;"> 
+<!ENTITY % x.model.availabilityPart_sequence "" >
+<!ENTITY % model.availabilityPart_sequence "%x.model.availabilityPart_sequence; %n.licence;, %n.p;"> 
+<!ENTITY % x.model.availabilityPart_sequenceOptional "" >
+<!ENTITY % model.availabilityPart_sequenceOptional "%x.model.availabilityPart_sequenceOptional; %n.licence;?, %n.p;?"> 
+<!ENTITY % x.model.availabilityPart_sequenceOptionalRepeatable "" >
+<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "%x.model.availabilityPart_sequenceOptionalRepeatable; %n.licence;*, %n.p;*"> 
+<!ENTITY % x.model.availabilityPart_sequenceRepeatable "" >
+<!ENTITY % model.availabilityPart_sequenceRepeatable "%x.model.availabilityPart_sequenceRepeatable; %n.licence;+, %n.p;+"> 
+<!ENTITY % x.model.certLike "" >
+<!ENTITY % model.certLike "%x.model.certLike; %n.certainty; |
+ %n.respons;"> 
+<!ENTITY % x.model.certLike_sequence "" >
+<!ENTITY % model.certLike_sequence "%x.model.certLike_sequence; %n.certainty;, %n.respons;"> 
+<!ENTITY % x.model.certLike_sequenceOptional "" >
+<!ENTITY % model.certLike_sequenceOptional "%x.model.certLike_sequenceOptional; %n.certainty;?, %n.respons;?"> 
+<!ENTITY % x.model.certLike_sequenceOptionalRepeatable "" >
+<!ENTITY % model.certLike_sequenceOptionalRepeatable "%x.model.certLike_sequenceOptionalRepeatable; %n.certainty;*, %n.respons;*"> 
+<!ENTITY % x.model.certLike_sequenceRepeatable "" >
+<!ENTITY % model.certLike_sequenceRepeatable "%x.model.certLike_sequenceRepeatable; %n.certainty;+, %n.respons;+"> 
 <!ENTITY % x.model.glossLike "" >
-<!ENTITY % model.glossLike "%x.model.glossLike; %n.desc; |
+<!ENTITY % model.glossLike "%x.model.glossLike; %model.certLike; |
+ %n.desc; |
  %n.gloss; |
  %n.precision; |
- %n.certainty; |
- %n.respons; |
  %n.equiv; |
  %n.altIdent;"> 
 <!ENTITY % x.model.glossLike_sequence "" >
-<!ENTITY % model.glossLike_sequence "%x.model.glossLike_sequence; %n.desc;, %n.gloss;, %n.precision;, %n.certainty;, %n.respons;, %n.equiv;, %n.altIdent;"> 
+<!ENTITY % model.glossLike_sequence "%x.model.glossLike_sequence; %model.certLike;, %n.desc;, %n.gloss;, %n.precision;, %n.equiv;, %n.altIdent;"> 
 <!ENTITY % x.model.glossLike_sequenceOptional "" >
-<!ENTITY % model.glossLike_sequenceOptional "%x.model.glossLike_sequenceOptional; %n.desc;?, %n.gloss;?, %n.precision;?, %n.certainty;?, %n.respons;?, %n.equiv;?, %n.altIdent;?"> 
+<!ENTITY % model.glossLike_sequenceOptional "%x.model.glossLike_sequenceOptional; %model.certLike;?, %n.desc;?, %n.gloss;?, %n.precision;?, %n.equiv;?, %n.altIdent;?"> 
 <!ENTITY % x.model.glossLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.glossLike_sequenceOptionalRepeatable "%x.model.glossLike_sequenceOptionalRepeatable; %n.desc;*, %n.gloss;*, %n.precision;*, %n.certainty;*, %n.respons;*, %n.equiv;*, %n.altIdent;*"> 
+<!ENTITY % model.glossLike_sequenceOptionalRepeatable "%x.model.glossLike_sequenceOptionalRepeatable; %model.certLike;*, %n.desc;*, %n.gloss;*, %n.precision;*, %n.equiv;*, %n.altIdent;*"> 
 <!ENTITY % x.model.glossLike_sequenceRepeatable "" >
-<!ENTITY % model.glossLike_sequenceRepeatable "%x.model.glossLike_sequenceRepeatable; %n.desc;+, %n.gloss;+, %n.precision;+, %n.certainty;+, %n.respons;+, %n.equiv;+, %n.altIdent;+"> 
+<!ENTITY % model.glossLike_sequenceRepeatable "%x.model.glossLike_sequenceRepeatable; %model.certLike;+, %n.desc;+, %n.gloss;+, %n.precision;+, %n.equiv;+, %n.altIdent;+"> 
 <!ENTITY % x.model.quoteLike "" >
 <!ENTITY % model.quoteLike "%x.model.quoteLike; %n.quote; |
  %n.cit;"> 
@@ -1771,15 +1852,16 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.qLike "" >
 <!ENTITY % model.qLike "%x.model.qLike; %model.quoteLike; |
  %n.said; |
- %n.q;"> 
+ %n.q; |
+ %n.floatingText;"> 
 <!ENTITY % x.model.qLike_sequence "" >
-<!ENTITY % model.qLike_sequence "%x.model.qLike_sequence; %model.quoteLike;, %n.said;, %n.q;"> 
+<!ENTITY % model.qLike_sequence "%x.model.qLike_sequence; %model.quoteLike;, %n.said;, %n.q;, %n.floatingText;"> 
 <!ENTITY % x.model.qLike_sequenceOptional "" >
-<!ENTITY % model.qLike_sequenceOptional "%x.model.qLike_sequenceOptional; %model.quoteLike;?, %n.said;?, %n.q;?"> 
+<!ENTITY % model.qLike_sequenceOptional "%x.model.qLike_sequenceOptional; %model.quoteLike;?, %n.said;?, %n.q;?, %n.floatingText;?"> 
 <!ENTITY % x.model.qLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.qLike_sequenceOptionalRepeatable "%x.model.qLike_sequenceOptionalRepeatable; %model.quoteLike;*, %n.said;*, %n.q;*"> 
+<!ENTITY % model.qLike_sequenceOptionalRepeatable "%x.model.qLike_sequenceOptionalRepeatable; %model.quoteLike;*, %n.said;*, %n.q;*, %n.floatingText;*"> 
 <!ENTITY % x.model.qLike_sequenceRepeatable "" >
-<!ENTITY % model.qLike_sequenceRepeatable "%x.model.qLike_sequenceRepeatable; %model.quoteLike;+, %n.said;+, %n.q;+"> 
+<!ENTITY % model.qLike_sequenceRepeatable "%x.model.qLike_sequenceRepeatable; %model.quoteLike;+, %n.said;+, %n.q;+, %n.floatingText;+"> 
 <!ENTITY % x.model.respLike "" >
 <!ENTITY % model.respLike "%x.model.respLike; %n.sponsor; |
  %n.funder; |
@@ -2081,15 +2163,17 @@ version %data.word;  #IMPLIED'>
  %model.noteLike; |
  %model.global.edit; |
  %model.global.spoken; |
+ %n.metamark; |
+ %n.notatedMusic; |
  %n.figure;"> 
 <!ENTITY % x.model.global_sequence "" >
-<!ENTITY % model.global_sequence "%x.model.global_sequence; %model.global.meta;, %model.milestoneLike;, %model.noteLike;, %model.global.edit;, %model.global.spoken;, %n.figure;"> 
+<!ENTITY % model.global_sequence "%x.model.global_sequence; %model.global.meta;, %model.milestoneLike;, %model.noteLike;, %model.global.edit;, %model.global.spoken;, %n.metamark;, %n.notatedMusic;, %n.figure;"> 
 <!ENTITY % x.model.global_sequenceOptional "" >
-<!ENTITY % model.global_sequenceOptional "%x.model.global_sequenceOptional; %model.global.meta;?, %model.milestoneLike;?, %model.noteLike;?, %model.global.edit;?, %model.global.spoken;?, %n.figure;?"> 
+<!ENTITY % model.global_sequenceOptional "%x.model.global_sequenceOptional; %model.global.meta;?, %model.milestoneLike;?, %model.noteLike;?, %model.global.edit;?, %model.global.spoken;?, %n.metamark;?, %n.notatedMusic;?, %n.figure;?"> 
 <!ENTITY % x.model.global_sequenceOptionalRepeatable "" >
-<!ENTITY % model.global_sequenceOptionalRepeatable "%x.model.global_sequenceOptionalRepeatable; %model.global.meta;*, %model.milestoneLike;*, %model.noteLike;*, %model.global.edit;*, %model.global.spoken;*, %n.figure;*"> 
+<!ENTITY % model.global_sequenceOptionalRepeatable "%x.model.global_sequenceOptionalRepeatable; %model.global.meta;*, %model.milestoneLike;*, %model.noteLike;*, %model.global.edit;*, %model.global.spoken;*, %n.metamark;*, %n.notatedMusic;*, %n.figure;*"> 
 <!ENTITY % x.model.global_sequenceRepeatable "" >
-<!ENTITY % model.global_sequenceRepeatable "%x.model.global_sequenceRepeatable; %model.global.meta;+, %model.milestoneLike;+, %model.noteLike;+, %model.global.edit;+, %model.global.spoken;+, %n.figure;+"> 
+<!ENTITY % model.global_sequenceRepeatable "%x.model.global_sequenceRepeatable; %model.global.meta;+, %model.milestoneLike;+, %model.noteLike;+, %model.global.edit;+, %model.global.spoken;+, %n.metamark;+, %n.notatedMusic;+, %n.figure;+"> 
 <!ENTITY % x.model.featureVal "" >
 <!ENTITY % model.featureVal "%x.model.featureVal; %model.featureVal.complex; |
  %model.featureVal.single;"> 
@@ -2107,16 +2191,18 @@ version %data.word;  #IMPLIED'>
  %n.edition; |
  %n.extent; |
  %n.series; |
+ %n.bibl; |
  %n.relatedItem; |
- %n.msIdentifier;"> 
+ %n.msIdentifier; |
+ %n.textLang;"> 
 <!ENTITY % x.model.biblPart_sequence "" >
-<!ENTITY % model.biblPart_sequence "%x.model.biblPart_sequence; %model.respLike;, %model.imprintPart;, %n.edition;, %n.extent;, %n.series;, %n.relatedItem;, %n.msIdentifier;"> 
+<!ENTITY % model.biblPart_sequence "%x.model.biblPart_sequence; %model.respLike;, %model.imprintPart;, %n.edition;, %n.extent;, %n.series;, %n.bibl;, %n.relatedItem;, %n.msIdentifier;, %n.textLang;"> 
 <!ENTITY % x.model.biblPart_sequenceOptional "" >
-<!ENTITY % model.biblPart_sequenceOptional "%x.model.biblPart_sequenceOptional; %model.respLike;?, %model.imprintPart;?, %n.edition;?, %n.extent;?, %n.series;?, %n.relatedItem;?, %n.msIdentifier;?"> 
+<!ENTITY % model.biblPart_sequenceOptional "%x.model.biblPart_sequenceOptional; %model.respLike;?, %model.imprintPart;?, %n.edition;?, %n.extent;?, %n.series;?, %n.bibl;?, %n.relatedItem;?, %n.msIdentifier;?, %n.textLang;?"> 
 <!ENTITY % x.model.biblPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.biblPart_sequenceOptionalRepeatable "%x.model.biblPart_sequenceOptionalRepeatable; %model.respLike;*, %model.imprintPart;*, %n.edition;*, %n.extent;*, %n.series;*, %n.relatedItem;*, %n.msIdentifier;*"> 
+<!ENTITY % model.biblPart_sequenceOptionalRepeatable "%x.model.biblPart_sequenceOptionalRepeatable; %model.respLike;*, %model.imprintPart;*, %n.edition;*, %n.extent;*, %n.series;*, %n.bibl;*, %n.relatedItem;*, %n.msIdentifier;*, %n.textLang;*"> 
 <!ENTITY % x.model.biblPart_sequenceRepeatable "" >
-<!ENTITY % model.biblPart_sequenceRepeatable "%x.model.biblPart_sequenceRepeatable; %model.respLike;+, %model.imprintPart;+, %n.edition;+, %n.extent;+, %n.series;+, %n.relatedItem;+, %n.msIdentifier;+"> 
+<!ENTITY % model.biblPart_sequenceRepeatable "%x.model.biblPart_sequenceRepeatable; %model.respLike;+, %model.imprintPart;+, %n.edition;+, %n.extent;+, %n.series;+, %n.bibl;+, %n.relatedItem;+, %n.msIdentifier;+, %n.textLang;+"> 
 <!ENTITY % x.model.frontPart "" >
 <!ENTITY % model.frontPart "%x.model.frontPart; %model.frontPart.drama; |
  %n.divGen; |
@@ -2159,22 +2245,20 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.inter "" >
 <!ENTITY % model.inter "%x.model.inter; %model.egLike; |
  %model.oddDecl; |
- %model.oddRef; |
  %model.biblLike; |
  %model.labelLike; |
  %model.listLike; |
  %model.stageLike; |
  %model.qLike; |
- %n.castList; |
- %n.table;"> 
+ %n.castList;"> 
 <!ENTITY % x.model.inter_sequence "" >
-<!ENTITY % model.inter_sequence "%x.model.inter_sequence; %model.egLike;, %model.oddDecl;, %model.oddRef;, %model.biblLike;, %model.labelLike;, %model.listLike;, %model.stageLike;, %model.qLike;, %n.castList;, %n.table;"> 
+<!ENTITY % model.inter_sequence "%x.model.inter_sequence; %model.egLike;, %model.oddDecl;, %model.biblLike;, %model.labelLike;, %model.listLike;, %model.stageLike;, %model.qLike;, %n.castList;"> 
 <!ENTITY % x.model.inter_sequenceOptional "" >
-<!ENTITY % model.inter_sequenceOptional "%x.model.inter_sequenceOptional; %model.egLike;?, %model.oddDecl;?, %model.oddRef;?, %model.biblLike;?, %model.labelLike;?, %model.listLike;?, %model.stageLike;?, %model.qLike;?, %n.castList;?, %n.table;?"> 
+<!ENTITY % model.inter_sequenceOptional "%x.model.inter_sequenceOptional; %model.egLike;?, %model.oddDecl;?, %model.biblLike;?, %model.labelLike;?, %model.listLike;?, %model.stageLike;?, %model.qLike;?, %n.castList;?"> 
 <!ENTITY % x.model.inter_sequenceOptionalRepeatable "" >
-<!ENTITY % model.inter_sequenceOptionalRepeatable "%x.model.inter_sequenceOptionalRepeatable; %model.egLike;*, %model.oddDecl;*, %model.oddRef;*, %model.biblLike;*, %model.labelLike;*, %model.listLike;*, %model.stageLike;*, %model.qLike;*, %n.castList;*, %n.table;*"> 
+<!ENTITY % model.inter_sequenceOptionalRepeatable "%x.model.inter_sequenceOptionalRepeatable; %model.egLike;*, %model.oddDecl;*, %model.biblLike;*, %model.labelLike;*, %model.listLike;*, %model.stageLike;*, %model.qLike;*, %n.castList;*"> 
 <!ENTITY % x.model.inter_sequenceRepeatable "" >
-<!ENTITY % model.inter_sequenceRepeatable "%x.model.inter_sequenceRepeatable; %model.egLike;+, %model.oddDecl;+, %model.oddRef;+, %model.biblLike;+, %model.labelLike;+, %model.listLike;+, %model.stageLike;+, %model.qLike;+, %n.castList;+, %n.table;+"> 
+<!ENTITY % model.inter_sequenceRepeatable "%x.model.inter_sequenceRepeatable; %model.egLike;+, %model.oddDecl;+, %model.biblLike;+, %model.labelLike;+, %model.listLike;+, %model.stageLike;+, %model.qLike;+, %n.castList;+"> 
 <!ENTITY % x.model.common "" >
 <!ENTITY % model.common "%x.model.common; %model.divPart; |
  %model.inter; |
@@ -2208,20 +2292,21 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.phrase_sequenceRepeatable "" >
 <!ENTITY % model.phrase_sequenceRepeatable "%x.model.phrase_sequenceRepeatable; %model.segLike;+, %model.highlighted;+, %model.graphicLike;+, %model.pPart.msdesc;+, %model.pPart.edit;+, %model.ptrLike;+, %model.lPart;+, %model.phrase.xml;+, %model.specDescLike;+, %model.pPart.data;+, %model.ptrLike.form;+"> 
 <!ENTITY % x.model.limitedPhrase "" >
-<!ENTITY % model.limitedPhrase "%x.model.limitedPhrase; %model.emphLike; |
+<!ENTITY % model.limitedPhrase "%x.model.limitedPhrase; %model.hiLike; |
+ %model.emphLike; |
  %model.pPart.msdesc; |
  %model.pPart.editorial; |
  %model.ptrLike; |
  %model.phrase.xml; |
  %model.pPart.data;"> 
 <!ENTITY % x.model.limitedPhrase_sequence "" >
-<!ENTITY % model.limitedPhrase_sequence "%x.model.limitedPhrase_sequence; %model.emphLike;, %model.pPart.msdesc;, %model.pPart.editorial;, %model.ptrLike;, %model.phrase.xml;, %model.pPart.data;"> 
+<!ENTITY % model.limitedPhrase_sequence "%x.model.limitedPhrase_sequence; %model.hiLike;, %model.emphLike;, %model.pPart.msdesc;, %model.pPart.editorial;, %model.ptrLike;, %model.phrase.xml;, %model.pPart.data;"> 
 <!ENTITY % x.model.limitedPhrase_sequenceOptional "" >
-<!ENTITY % model.limitedPhrase_sequenceOptional "%x.model.limitedPhrase_sequenceOptional; %model.emphLike;?, %model.pPart.msdesc;?, %model.pPart.editorial;?, %model.ptrLike;?, %model.phrase.xml;?, %model.pPart.data;?"> 
+<!ENTITY % model.limitedPhrase_sequenceOptional "%x.model.limitedPhrase_sequenceOptional; %model.hiLike;?, %model.emphLike;?, %model.pPart.msdesc;?, %model.pPart.editorial;?, %model.ptrLike;?, %model.phrase.xml;?, %model.pPart.data;?"> 
 <!ENTITY % x.model.limitedPhrase_sequenceOptionalRepeatable "" >
-<!ENTITY % model.limitedPhrase_sequenceOptionalRepeatable "%x.model.limitedPhrase_sequenceOptionalRepeatable; %model.emphLike;*, %model.pPart.msdesc;*, %model.pPart.editorial;*, %model.ptrLike;*, %model.phrase.xml;*, %model.pPart.data;*"> 
+<!ENTITY % model.limitedPhrase_sequenceOptionalRepeatable "%x.model.limitedPhrase_sequenceOptionalRepeatable; %model.hiLike;*, %model.emphLike;*, %model.pPart.msdesc;*, %model.pPart.editorial;*, %model.ptrLike;*, %model.phrase.xml;*, %model.pPart.data;*"> 
 <!ENTITY % x.model.limitedPhrase_sequenceRepeatable "" >
-<!ENTITY % model.limitedPhrase_sequenceRepeatable "%x.model.limitedPhrase_sequenceRepeatable; %model.emphLike;+, %model.pPart.msdesc;+, %model.pPart.editorial;+, %model.ptrLike;+, %model.phrase.xml;+, %model.pPart.data;+"> 
+<!ENTITY % model.limitedPhrase_sequenceRepeatable "%x.model.limitedPhrase_sequenceRepeatable; %model.hiLike;+, %model.emphLike;+, %model.pPart.msdesc;+, %model.pPart.editorial;+, %model.ptrLike;+, %model.phrase.xml;+, %model.pPart.data;+"> 
 <!ENTITY % x.model.divLike "" >
 <!ENTITY % model.divLike "%x.model.divLike; %n.div;"> 
 <!ENTITY % x.model.divLike_sequence "" >
@@ -2385,29 +2470,32 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % model.profileDescPart "%x.model.profileDescPart; %n.creation; |
  %n.langUsage; |
  %n.textClass; |
+ %n.calendarDesc; |
  %n.handNotes; |
+ %n.listTranspose; |
  %n.textDesc; |
  %n.particDesc; |
  %n.settingDesc;"> 
 <!ENTITY % x.model.profileDescPart_sequence "" >
-<!ENTITY % model.profileDescPart_sequence "%x.model.profileDescPart_sequence; %n.creation;, %n.langUsage;, %n.textClass;, %n.handNotes;, %n.textDesc;, %n.particDesc;, %n.settingDesc;"> 
+<!ENTITY % model.profileDescPart_sequence "%x.model.profileDescPart_sequence; %n.creation;, %n.langUsage;, %n.textClass;, %n.calendarDesc;, %n.handNotes;, %n.listTranspose;, %n.textDesc;, %n.particDesc;, %n.settingDesc;"> 
 <!ENTITY % x.model.profileDescPart_sequenceOptional "" >
-<!ENTITY % model.profileDescPart_sequenceOptional "%x.model.profileDescPart_sequenceOptional; %n.creation;?, %n.langUsage;?, %n.textClass;?, %n.handNotes;?, %n.textDesc;?, %n.particDesc;?, %n.settingDesc;?"> 
+<!ENTITY % model.profileDescPart_sequenceOptional "%x.model.profileDescPart_sequenceOptional; %n.creation;?, %n.langUsage;?, %n.textClass;?, %n.calendarDesc;?, %n.handNotes;?, %n.listTranspose;?, %n.textDesc;?, %n.particDesc;?, %n.settingDesc;?"> 
 <!ENTITY % x.model.profileDescPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.profileDescPart_sequenceOptionalRepeatable "%x.model.profileDescPart_sequenceOptionalRepeatable; %n.creation;*, %n.langUsage;*, %n.textClass;*, %n.handNotes;*, %n.textDesc;*, %n.particDesc;*, %n.settingDesc;*"> 
+<!ENTITY % model.profileDescPart_sequenceOptionalRepeatable "%x.model.profileDescPart_sequenceOptionalRepeatable; %n.creation;*, %n.langUsage;*, %n.textClass;*, %n.calendarDesc;*, %n.handNotes;*, %n.listTranspose;*, %n.textDesc;*, %n.particDesc;*, %n.settingDesc;*"> 
 <!ENTITY % x.model.profileDescPart_sequenceRepeatable "" >
-<!ENTITY % model.profileDescPart_sequenceRepeatable "%x.model.profileDescPart_sequenceRepeatable; %n.creation;+, %n.langUsage;+, %n.textClass;+, %n.handNotes;+, %n.textDesc;+, %n.particDesc;+, %n.settingDesc;+"> 
+<!ENTITY % model.profileDescPart_sequenceRepeatable "%x.model.profileDescPart_sequenceRepeatable; %n.creation;+, %n.langUsage;+, %n.textClass;+, %n.calendarDesc;+, %n.handNotes;+, %n.listTranspose;+, %n.textDesc;+, %n.particDesc;+, %n.settingDesc;+"> 
 <!ENTITY % x.model.resourceLike "" >
 <!ENTITY % model.resourceLike "%x.model.resourceLike; %n.facsimile; |
+ %n.sourceDoc; |
  %n.fsdDecl;"> 
 <!ENTITY % x.model.resourceLike_sequence "" >
-<!ENTITY % model.resourceLike_sequence "%x.model.resourceLike_sequence; %n.facsimile;, %n.fsdDecl;"> 
+<!ENTITY % model.resourceLike_sequence "%x.model.resourceLike_sequence; %n.facsimile;, %n.sourceDoc;, %n.fsdDecl;"> 
 <!ENTITY % x.model.resourceLike_sequenceOptional "" >
-<!ENTITY % model.resourceLike_sequenceOptional "%x.model.resourceLike_sequenceOptional; %n.facsimile;?, %n.fsdDecl;?"> 
+<!ENTITY % model.resourceLike_sequenceOptional "%x.model.resourceLike_sequenceOptional; %n.facsimile;?, %n.sourceDoc;?, %n.fsdDecl;?"> 
 <!ENTITY % x.model.resourceLike_sequenceOptionalRepeatable "" >
-<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "%x.model.resourceLike_sequenceOptionalRepeatable; %n.facsimile;*, %n.fsdDecl;*"> 
+<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "%x.model.resourceLike_sequenceOptionalRepeatable; %n.facsimile;*, %n.sourceDoc;*, %n.fsdDecl;*"> 
 <!ENTITY % x.model.resourceLike_sequenceRepeatable "" >
-<!ENTITY % model.resourceLike_sequenceRepeatable "%x.model.resourceLike_sequenceRepeatable; %n.facsimile;+, %n.fsdDecl;+"> 
+<!ENTITY % model.resourceLike_sequenceRepeatable "%x.model.resourceLike_sequenceRepeatable; %n.facsimile;+, %n.sourceDoc;+, %n.fsdDecl;+"> 
 <!ENTITY % x.model.orgStateLike "" >
 <!ENTITY % model.orgStateLike "%x.model.orgStateLike; %n.state;"> 
 <!ENTITY % x.model.orgStateLike_sequence "" >
@@ -2472,10 +2560,6 @@ Start rest of  macro declarations
 <!ENTITY % macro.xtext '( #PCDATA |
  %model.gLike;)*' >
 
-<!ENTITY % macro.anyXML ' ANY' >
-
-<!ENTITY % macro.schemaPattern '%macro.anyXML;' >
-
 <!--
 End macros
 -->
@@ -2489,8 +2573,7 @@ End macros
 	]]>
 
 <![%TEI.transcr;[
-	<!ENTITY % file.transcr PUBLIC '-//TEI P5//ELEMENTS Transcription
-of Primary Sources//EN' 'transcr.dtd' >
+	<!ENTITY % file.transcr PUBLIC '-//TEI P5//ELEMENTS Transcription of Primary Sources//EN' 'transcr.dtd' >
 	%file.transcr;
 	]]>
 
@@ -2551,7 +2634,7 @@ Documentation//EN' 'gaiji.dtd' >
 	]]>
 
 <![%TEI.figures;[
-	<!ENTITY % file.figures PUBLIC '-//TEI P5//ELEMENTS Tables, Formulæ, Figures//EN' 'figures.dtd' >
+	<!ENTITY % file.figures PUBLIC '-//TEI P5//ELEMENTS Tables, Formulæ, Notated Music, Figures//EN' 'figures.dtd' >
 	%file.figures;
 	]]>
 

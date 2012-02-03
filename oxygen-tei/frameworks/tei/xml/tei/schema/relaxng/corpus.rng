@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Corpus texts--><!--Definitions from module corpus--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><!--2. elements--><define name="activity">
       <element name="activity">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a brief informal description of what a participant in a
-language interaction is doing other than speaking, if anything.</a:documentation>
+language interaction is doing other than speaking, if anything. []</a:documentation>
          <ref name="activity.content"/>
          <ref name="activity.localattributes"/>
       </element>
@@ -43,7 +58,7 @@ language interaction is doing other than speaking, if anything.</a:documentation
       <element name="channel">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(primary channel) describes the medium or channel by which a text is delivered or
 experienced. For a written text, this might be print, manuscript, e-mail, etc.;
-for a spoken one, radio, telephone, face-to-face, etc.</a:documentation>
+for a spoken one, radio, telephone, face-to-face, etc. []</a:documentation>
          <ref name="channel.content"/>
          <ref name="channel.localattributes"/>
       </element>
@@ -81,7 +96,7 @@ for a spoken one, radio, telephone, face-to-face, etc.</a:documentation>
       <element name="constitution">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the internal composition of a text or text sample,
 for example
-as fragmentary, complete, etc.</a:documentation>
+as fragmentary, complete, etc. []</a:documentation>
          <ref name="constitution.content"/>
          <ref name="constitution.localattributes"/>
       </element>
@@ -118,7 +133,7 @@ as fragmentary, complete, etc.</a:documentation>
    </define>
    <define name="derivation">
       <element name="derivation">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the nature and extent of originality of this text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the nature and extent of originality of this text. []</a:documentation>
          <ref name="derivation.content"/>
          <ref name="derivation.localattributes"/>
       </element>
@@ -142,7 +157,7 @@ Sample values include: 1] original; 2] revision; 3] translation; 4] abridgment; 
       <element name="domain">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(domain of use) describes the most important social context in which the text was
 realized or for which it is intended, for example private vs. public,
-education, religion, etc.</a:documentation>
+education, religion, etc. []</a:documentation>
          <ref name="domain.content"/>
          <ref name="domain.localattributes"/>
       </element>
@@ -166,7 +181,7 @@ Sample values include: 1] art; 2] domestic; 3] religious; 4] business; 5] educat
       <element name="factuality">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the extent to which the text may be regarded as
 imaginative or non-imaginative, that is, as describing a fictional
-or a non-fictional world. </a:documentation>
+or a non-fictional world.  []</a:documentation>
          <ref name="factuality.content"/>
          <ref name="factuality.localattributes"/>
       </element>
@@ -203,7 +218,7 @@ or a non-fictional world. </a:documentation>
       <element name="interaction">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the extent, cardinality and nature of any interaction
 among those producing and experiencing the text, for example in the
-form of response or interjection, commentary, etc.</a:documentation>
+form of response or interjection, commentary, etc. []</a:documentation>
          <ref name="interaction.content"/>
          <ref name="interaction.localattributes"/>
       </element>
@@ -277,7 +292,7 @@ Suggested values include: 1] self; 2] single; 3] many; 4] group; 5] world</a:doc
    <define name="locale">
       <element name="locale">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a brief informal description of the kind of
-place concerned, for example: a room, a restaurant, a park bench, etc.</a:documentation>
+place concerned, for example: a room, a restaurant, a park bench, etc. []</a:documentation>
          <ref name="locale.content"/>
          <ref name="locale.localattributes"/>
       </element>
@@ -292,7 +307,7 @@ place concerned, for example: a room, a restaurant, a park bench, etc.</a:docume
    <define name="particDesc">
       <element name="particDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(participation description) describes the identifiable speakers, voices, or other participants
-in any kind of text. </a:documentation>
+in any kind of text.  []</a:documentation>
          <ref name="particDesc.content"/>
          <ref name="particDesc.localattributes"/>
       </element>
@@ -306,6 +321,7 @@ in any kind of text. </a:documentation>
             <choice>
                <ref name="model.personLike"/>
                <ref name="listPerson"/>
+               <ref name="listOrg"/>
             </choice>
          </oneOrMore>
       </choice>
@@ -318,7 +334,7 @@ in any kind of text. </a:documentation>
    <define name="preparedness">
       <element name="preparedness">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the extent to which a text may be regarded as
-prepared or spontaneous. </a:documentation>
+prepared or spontaneous.  []</a:documentation>
          <ref name="preparedness.content"/>
          <ref name="preparedness.localattributes"/>
       </element>
@@ -341,7 +357,7 @@ Sample values include: 1] none; 2] scripted; 3] formulaic; 4] revised</a:documen
    <define name="purpose">
       <element name="purpose">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes a single purpose or communicative function of the
-text.</a:documentation>
+text. []</a:documentation>
          <ref name="purpose.content"/>
          <ref name="purpose.localattributes"/>
       </element>
@@ -384,7 +400,7 @@ Suggested values include: 1] persuade; 2] express; 3] inform; 4] entertain</a:do
    <define name="setting">
       <element name="setting">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes one particular setting in which a language
-  interaction takes place.</a:documentation>
+  interaction takes place. []</a:documentation>
          <ref name="setting.content"/>
          <ref name="setting.localattributes"/>
       </element>
@@ -412,7 +428,7 @@ Suggested values include: 1] persuade; 2] express; 3] inform; 4] entertain</a:do
       <element name="settingDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(setting description) describes the setting or settings within which a language
 interaction takes place, either as a prose description or as a
-series of setting elements.</a:documentation>
+series of setting elements. [ ]</a:documentation>
          <ref name="settingDesc.content"/>
          <ref name="settingDesc.localattributes"/>
       </element>
@@ -439,7 +455,7 @@ series of setting elements.</a:documentation>
    <define name="textDesc">
       <element name="textDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text description) provides a description of a text in terms of its
-situational parameters.</a:documentation>
+situational parameters. []</a:documentation>
          <ref name="textDesc.content"/>
          <ref name="textDesc.localattributes"/>
       </element>

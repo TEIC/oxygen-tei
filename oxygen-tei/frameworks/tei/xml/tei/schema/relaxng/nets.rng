@@ -1,32 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Graphs, networks, and trees--><!--Definitions from module nets--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><!--2. elements--><define name="arc">
       <element name="arc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes an arc, the connection from one node to another in a graph.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes an arc, the connection from one node to another in a graph. []</a:documentation>
          <ref name="arc.content"/>
          <ref name="arc.localattributes"/>
       </element>
@@ -54,7 +69,7 @@ For information about the TEI, including contact
    <define name="eLeaf">
       <element name="eLeaf">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(leaf or terminal node of an embedding tree) provides explicitly for a leaf of an embedding tree, which may also
-be encoded with the eTree element.</a:documentation>
+be encoded with the eTree element. []</a:documentation>
          <ref name="eLeaf.content"/>
          <ref name="eLeaf.localattributes"/>
       </element>
@@ -83,7 +98,7 @@ structure or other analytic element.</a:documentation>
    </define>
    <define name="eTree">
       <element name="eTree">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(embedding tree) provides an alternative to tree element for representing ordered rooted tree structures.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(embedding tree) provides an alternative to tree element for representing ordered rooted tree structures. []</a:documentation>
          <ref name="eTree.content"/>
          <ref name="eTree.localattributes"/>
       </element>
@@ -117,7 +132,7 @@ structure or other analytic element.</a:documentation>
    </define>
    <define name="forest">
       <element name="forest">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides for groups of rooted trees.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides for groups of rooted trees. []</a:documentation>
          <ref name="forest.content"/>
          <ref name="forest.localattributes"/>
       </element>
@@ -141,32 +156,10 @@ structure or other analytic element.</a:documentation>
       </optional>
       <empty/>
    </define>
-   <define name="forestGrp">
-      <element name="forestGrp">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(forest group) provides for groups of forests.</a:documentation>
-         <ref name="forestGrp.content"/>
-         <ref name="forestGrp.localattributes"/>
-      </element>
-   </define>
-   <define name="forestGrp.content">
-      <oneOrMore>
-         <ref name="forest"/>
-      </oneOrMore>
-   </define>
-   <define name="forestGrp.localattributes">
-      <ref name="att.global.attributes"/>
-      <optional>
-         <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the type of the forest group.</a:documentation>
-            <ref name="data.enumerated"/>
-         </attribute>
-      </optional>
-      <empty/>
-   </define>
    <define name="graph">
       <element name="graph">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes a graph, which is a collection of nodes, and arcs which
-connect the nodes.</a:documentation>
+connect the nodes. []</a:documentation>
          <ref name="graph.content"/>
          <ref name="graph.localattributes"/>
       </element>
@@ -246,7 +239,7 @@ Suggested values include: 1] undirected; 2] directed; 3] transitionNetwork; 4] t
    </define>
    <define name="iNode">
       <element name="iNode">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(intermediate (or internal) node) represents an intermediate (or internal) node of a tree.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(intermediate (or internal) node) represents an intermediate (or internal) node of a tree. []</a:documentation>
          <ref name="iNode.content"/>
          <ref name="iNode.localattributes"/>
       </element>
@@ -306,7 +299,7 @@ children.</a:documentation>
    </define>
    <define name="leaf">
       <element name="leaf">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes the leaves (terminal nodes) of a tree.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes the leaves (terminal nodes) of a tree. []</a:documentation>
          <ref name="leaf.content"/>
          <ref name="leaf.localattributes"/>
       </element>
@@ -339,9 +332,31 @@ structure or other analytic element.</a:documentation>
       </optional>
       <empty/>
    </define>
+   <define name="listForest">
+      <element name="listForest">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides for lists of forests. []</a:documentation>
+         <ref name="listForest.content"/>
+         <ref name="listForest.localattributes"/>
+      </element>
+   </define>
+   <define name="listForest.content">
+      <oneOrMore>
+         <ref name="forest"/>
+      </oneOrMore>
+   </define>
+   <define name="listForest.localattributes">
+      <ref name="att.global.attributes"/>
+      <optional>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the type of the forest group.</a:documentation>
+            <ref name="data.enumerated"/>
+         </attribute>
+      </optional>
+      <empty/>
+   </define>
    <define name="node">
       <element name="node">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes a node, a possibly labeled point in a graph.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes a node, a possibly labeled point in a graph. []</a:documentation>
          <ref name="node.content"/>
          <ref name="node.localattributes"/>
       </element>
@@ -436,7 +451,7 @@ the node is incident.</a:documentation>
    </define>
    <define name="root">
       <element name="root">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(root node) represents the root node of a tree.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(root node) represents the root node of a tree. []</a:documentation>
          <ref name="root.content"/>
          <ref name="root.localattributes"/>
       </element>
@@ -482,7 +497,7 @@ the root node.</a:documentation>
    <define name="tree">
       <element name="tree">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">encodes a tree, which is made up of a root, internal nodes,
-leaves, and arcs from root to leaves.</a:documentation>
+leaves, and arcs from root to leaves. []</a:documentation>
          <ref name="tree.content"/>
          <ref name="tree.localattributes"/>
       </element>
@@ -545,7 +560,7 @@ unordered.</a:documentation>
       <element name="triangle">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(underspecified embedding tree, so called because of its
   characteristic shape when drawn) Provides for an underspecified eTree, that is, an eTree with
-  information left out.</a:documentation>
+  information left out. []</a:documentation>
          <ref name="triangle.content"/>
          <ref name="triangle.localattributes"/>
       </element>

@@ -1,29 +1,44 @@
 
 <!--
-DTD module corpus. Generated 2011-03-05T14:53:21Z. 
+DTD module corpus. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Corpus texts
 -->
 
@@ -31,7 +46,7 @@ Corpus texts
 <![ %activity; [
 
 <!--doc:contains a brief informal description of what a participant in a
-language interaction is doing other than speaking, if anything. -->
+language interaction is doing other than speaking, if anything. [] -->
 <!ELEMENT %n.activity; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.activity; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.activity;
@@ -43,7 +58,7 @@ language interaction is doing other than speaking, if anything. -->
 
 <!--doc:(primary channel) describes the medium or channel by which a text is delivered or
 experienced. For a written text, this might be print, manuscript, e-mail, etc.;
-for a spoken one, radio, telephone, face-to-face, etc. -->
+for a spoken one, radio, telephone, face-to-face, etc. [] -->
 <!ELEMENT %n.channel; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.channel; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.channel;
@@ -56,7 +71,7 @@ mode (s|w|sw|ws|m|x) "x"  >
 
 <!--doc:describes the internal composition of a text or text sample,
 for example
-as fragmentary, complete, etc. -->
+as fragmentary, complete, etc. [] -->
 <!ELEMENT %n.constitution; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.constitution; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.constitution;
@@ -67,7 +82,7 @@ type (single|composite|frags|unknown) "single"  >
 <!ENTITY % derivation 'INCLUDE' >
 <![ %derivation; [
 
-<!--doc:describes the nature and extent of originality of this text. -->
+<!--doc:describes the nature and extent of originality of this text. [] -->
 <!ELEMENT %n.derivation; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.derivation; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.derivation;
@@ -80,7 +95,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:(domain of use) describes the most important social context in which the text was
 realized or for which it is intended, for example private vs. public,
-education, religion, etc. -->
+education, religion, etc. [] -->
 <!ELEMENT %n.domain; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.domain; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.domain;
@@ -93,7 +108,7 @@ type %data.enumerated;  #IMPLIED >
 
 <!--doc:describes the extent to which the text may be regarded as
 imaginative or non-imaginative, that is, as describing a fictional
-or a non-fictional world.  -->
+or a non-fictional world.  [] -->
 <!ELEMENT %n.factuality; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.factuality; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.factuality;
@@ -106,7 +121,7 @@ type (fiction|fact|mixed|inapplicable) #IMPLIED >
 
 <!--doc:describes the extent, cardinality and nature of any interaction
 among those producing and experiencing the text, for example in the
-form of response or interjection, commentary, etc. -->
+form of response or interjection, commentary, etc. [] -->
 <!ELEMENT %n.interaction; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.interaction; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.interaction;
@@ -120,7 +135,7 @@ passive %data.enumerated;  #IMPLIED >
 <![ %locale; [
 
 <!--doc:contains a brief informal description of the kind of
-place concerned, for example: a room, a restaurant, a park bench, etc. -->
+place concerned, for example: a room, a restaurant, a park bench, etc. [] -->
 <!ELEMENT %n.locale; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.locale; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.locale;
@@ -131,10 +146,11 @@ place concerned, for example: a room, a restaurant, a park bench, etc. -->
 <![ %particDesc; [
 
 <!--doc:(participation description) describes the identifiable speakers, voices, or other participants
-in any kind of text.  -->
+in any kind of text.  [] -->
 <!ELEMENT %n.particDesc; %om.RR; ((%model.pLike;)+ |
  (%model.personLike; |
- %n.listPerson;)+)>
+ %n.listPerson; |
+ %n.listOrg;)+)>
 <!ATTLIST %n.particDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.particDesc;
  %att.global.attributes;
@@ -145,7 +161,7 @@ in any kind of text.  -->
 <![ %preparedness; [
 
 <!--doc:describes the extent to which a text may be regarded as
-prepared or spontaneous.  -->
+prepared or spontaneous.  [] -->
 <!ELEMENT %n.preparedness; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.preparedness; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.preparedness;
@@ -157,7 +173,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %purpose; [
 
 <!--doc:characterizes a single purpose or communicative function of the
-text. -->
+text. [] -->
 <!ELEMENT %n.purpose; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.purpose; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.purpose;
@@ -170,7 +186,7 @@ degree %data.certainty;  #IMPLIED >
 <![ %setting; [
 
 <!--doc:describes one particular setting in which a language
-  interaction takes place. -->
+  interaction takes place. [] -->
 <!ELEMENT %n.setting; %om.RR; ((%model.pLike;)+ |
  (%model.nameLike.agent; |
  %model.dateLike; |
@@ -186,7 +202,7 @@ degree %data.certainty;  #IMPLIED >
 
 <!--doc:(setting description) describes the setting or settings within which a language
 interaction takes place, either as a prose description or as a
-series of setting elements. -->
+series of setting elements. [ ] -->
 <!ELEMENT %n.settingDesc; %om.RR; ((%model.pLike;)+ |
  (%n.setting; |
  %model.placeLike; |
@@ -201,7 +217,7 @@ series of setting elements. -->
 <![ %textDesc; [
 
 <!--doc:(text description) provides a description of a text in terms of its
-situational parameters. -->
+situational parameters. [] -->
 <!ELEMENT %n.textDesc; %om.RR; (%model.textDescPart_sequence;,(%n.purpose;)+)>
 <!ATTLIST %n.textDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.textDesc;

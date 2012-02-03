@@ -5,7 +5,7 @@
   <xs:element name="egXML">
     <xs:annotation>
       <xs:documentation>(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element. </xs:documentation>
+    attribute, in which the egXML element itself functions as the root element.  [22.4.4.  22.4.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:macro.anyXML"/>
@@ -20,17 +20,17 @@ a schema.</xs:documentation>
             <xs:enumeration value="true">
               <xs:annotation>
                 <xs:documentation>the example is intended to be fully valid,
-assuming that its root element can be used as the root element in the
-schema concerned.</xs:documentation>
+assuming that its root element, or a provided root element, 
+could have been used as a possible root element in the schema concerned.</xs:documentation>
               </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="feasible">
               <xs:annotation>
                 <xs:documentation>the example could be transformed into
 a valid document by inserting any number of valid attributes and child
-elements anywhere within it; it is valid against a version of the
-schema concerned in which every data, list, element, or attribute
-element has been made optional.</xs:documentation>
+elements anywhere within it; or it is valid against a version of the
+schema concerned in which the provision of character data, list, element, or attribute
+values has been made optional.</xs:documentation>
               </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="false">

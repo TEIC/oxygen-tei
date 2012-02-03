@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Transcribed Speech--><!--Definitions from module spoken--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><define name="att.duration.attributes">
       <ref name="att.duration.w3c.attributes"/>
       <ref name="att.duration.iso.attributes"/>
@@ -210,7 +225,7 @@ For information about the TEI, including contact
    </define>
    <!--2. elements--><define name="broadcast">
       <element name="broadcast">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a broadcast used as the source of a spoken text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a broadcast used as the source of a spoken text. [ ]</a:documentation>
          <ref name="broadcast.content"/>
          <ref name="broadcast.localattributes"/>
       </element>
@@ -232,7 +247,7 @@ For information about the TEI, including contact
    <define name="equipment">
       <element name="equipment">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides technical details of the equipment and media used for
-an audio or video recording used as the source for a spoken text.</a:documentation>
+an audio or video recording used as the source for a spoken text. [ ]</a:documentation>
          <ref name="equipment.content"/>
          <ref name="equipment.localattributes"/>
       </element>
@@ -251,7 +266,7 @@ an audio or video recording used as the source for a spoken text.</a:documentati
       <element name="incident">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">any phenomenon or occurrence, not necessarily vocalized or
 communicative, for example incidental noises or other events affecting
-communication.</a:documentation>
+communication. []</a:documentation>
          <ref name="incident.content"/>
          <ref name="incident.localattributes"/>
       </element>
@@ -271,7 +286,7 @@ communication.</a:documentation>
    <define name="kinesic">
       <element name="kinesic">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">any communicative phenomenon, not necessarily vocalized, for
-  example a gesture, frown, etc.</a:documentation>
+  example a gesture, frown, etc. []</a:documentation>
          <ref name="kinesic.content"/>
          <ref name="kinesic.localattributes"/>
       </element>
@@ -298,7 +313,7 @@ communication.</a:documentation>
    </define>
    <define name="pause">
       <element name="pause">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a pause either between or within utterances.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a pause either between or within utterances. []</a:documentation>
          <ref name="pause.content"/>
          <ref name="pause.localattributes"/>
       </element>
@@ -317,7 +332,7 @@ communication.</a:documentation>
       <element name="recording">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(recording event) details of an audio or video recording event
 used as the source of a spoken text, either directly or from
-a public broadcast. </a:documentation>
+a public broadcast.  [ ]</a:documentation>
          <ref name="recording.content"/>
          <ref name="recording.localattributes"/>
       </element>
@@ -353,7 +368,7 @@ a public broadcast. </a:documentation>
    <define name="recordingStmt">
       <element name="recordingStmt">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(recording statement) describes a set of recordings used as the basis for transcription of a
-spoken text.</a:documentation>
+spoken text. [ ]</a:documentation>
          <ref name="recordingStmt.content"/>
          <ref name="recordingStmt.localattributes"/>
       </element>
@@ -375,7 +390,7 @@ spoken text.</a:documentation>
    <define name="scriptStmt">
       <element name="scriptStmt">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(script statement) contains a citation giving details of the script used for
-a spoken text.</a:documentation>
+a spoken text. [  ]</a:documentation>
          <ref name="scriptStmt.content"/>
          <ref name="scriptStmt.localattributes"/>
       </element>
@@ -396,7 +411,7 @@ a spoken text.</a:documentation>
    <define name="shift">
       <element name="shift">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">marks the point at which some paralinguistic feature of a series of
-utterances by any one speaker changes.</a:documentation>
+utterances by any one speaker changes. []</a:documentation>
          <ref name="shift.content"/>
          <ref name="shift.localattributes"/>
       </element>
@@ -445,7 +460,7 @@ paralinguistic feature.</a:documentation>
    <define name="u">
       <element name="u">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(utterance) a stretch of speech usually preceded and followed by
-silence or by a change of speaker.</a:documentation>
+silence or by a change of speaker. []</a:documentation>
          <ref name="u.content"/>
          <ref name="u.localattributes"/>
       </element>
@@ -487,7 +502,7 @@ silence or by a change of speaker.</a:documentation>
    <define name="vocal">
       <element name="vocal">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">any vocalized but not necessarily lexical phenomenon, for
-  example voiced pauses, non-lexical backchannels, etc.</a:documentation>
+  example voiced pauses, non-lexical backchannels, etc. []</a:documentation>
          <ref name="vocal.content"/>
          <ref name="vocal.localattributes"/>
       </element>
@@ -514,7 +529,7 @@ silence or by a change of speaker.</a:documentation>
    <define name="writing">
       <element name="writing">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a passage of written text revealed to participants in the
-  course of a spoken text.</a:documentation>
+  course of a spoken text. []</a:documentation>
          <ref name="writing.content"/>
          <ref name="writing.localattributes"/>
       </element>
@@ -529,10 +544,15 @@ silence or by a change of speaker.</a:documentation>
       <ref name="att.timed.attributes"/>
       <optional>
          <attribute name="source">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to a bibliographic citation in the header giving
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to a bibliographic citation  giving
 	a full description of the source or script of the
 	writing.</a:documentation>
-            <ref name="data.code"/>
+            <list>
+               <ref name="data.pointer"/>
+               <zeroOrMore>
+                  <ref name="data.pointer"/>
+               </zeroOrMore>
+            </list>
          </attribute>
       </optional>
       <optional>

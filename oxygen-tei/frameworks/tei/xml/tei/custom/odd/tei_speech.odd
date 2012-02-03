@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../p5odds.rnc" type="application/relax-ng-compact-syntax"?>
+<?oxygen RNGSchema="../p5odds.rnc" type="compact"?>
 <TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0"
   xmlns:rng="http://relaxng.org/ns/structure/1.0">
   <teiHeader>

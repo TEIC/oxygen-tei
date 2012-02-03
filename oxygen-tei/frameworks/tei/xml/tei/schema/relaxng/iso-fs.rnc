@@ -2,29 +2,44 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Feature structures
 
@@ -44,14 +59,14 @@ bicond =
   ## (bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
   ## consequent and antecedent are specified as feature structures or groups
   ## of feature structures; the constraint is satisfied if both
-  ## subsume a given feature structure, or if both do not.
+  ## subsume a given feature structure, or if both do not. []
   element bicond { bicond.content, bicond.localattributes }
 bicond.content = (fs | f), iff, (fs | f)
 bicond.localattributes = att.global.attributes, empty
 binary =
   
   ## (binary value) represents the value part of a feature-value specification which can contain either
-  ##   of exactly two possible values.
+  ##   of exactly two possible values. []
   element binary { binary.content, binary.localattributes }
 binary.content = empty
 binary.localattributes =
@@ -66,21 +81,21 @@ cond =
   ## and the antecedent are specified as feature structures or
   ## feature-structure collections; the constraint is satisfied if both the
   ## antecedent and the consequent subsume a given feature
-  ## structure, or if the antecedent does not.
+  ## structure, or if the antecedent does not. []
   element cond { cond.content, cond.localattributes }
 cond.content = (fs | f), then, (fs | f)
 cond.localattributes = att.global.attributes, empty
 \default =
   
   ## (default feature value) represents the value part of a feature-value specification
-  ##   which contains a defaulted value.
+  ##   which contains a defaulted value. []
   element default { default.content, default.localattributes }
 default.content = empty
 default.localattributes = att.global.attributes, empty
 f =
   
   ## (feature) represents a feature value specification, that
-  ##   is, the association of a name with a value of any of several different types.
+  ##   is, the association of a name with a value of any of several different types. []
   element f { f.content, f.localattributes }
 f.content =
   ((text | model.gLike | model.featureVal)*)
@@ -135,7 +150,7 @@ f.localattributes =
 fDecl =
   
   ## (feature declaration) declares a single feature, specifying its name, organization,
-  ## range of allowed values, and optionally its default value.
+  ## range of allowed values, and optionally its default value. []
   element fDecl { fDecl.content, fDecl.localattributes }
 fDecl.content = fDescr?, vRange, vDefault?
 fDecl.localattributes =
@@ -152,13 +167,13 @@ fDecl.localattributes =
 fDescr =
   
   ## (feature description (in FSD)) describes in prose what is represented by the feature being
-  ## declared and its values.
+  ## declared and its values. []
   element fDescr { fDescr.content, fDescr.localattributes }
 fDescr.content = macro.limitedContent
 fDescr.localattributes = att.global.attributes, empty
 fLib =
   
-  ## (feature library) assembles a library of feature elements.
+  ## (feature library) assembles a library of feature elements. []
   element fLib { fLib.content, fLib.localattributes }
 fLib.content = f+
 fLib.localattributes = att.global.attributes, empty
@@ -166,7 +181,7 @@ fs =
   
   ## (feature structure) represents a feature structure, that is, a
   ##   collection of feature-value pairs organized as a
-  ## structural unit.
+  ## structural unit. []
   element fs { fs.content, fs.localattributes }
 fs.content = f*
 fs.localattributes =
@@ -183,7 +198,7 @@ fs.localattributes =
 fsConstraints =
   
   ## (feature-structure constraints) specifies constraints on the content of valid feature
-  ## structures.
+  ## structures. []
   element fsConstraints {
     fsConstraints.content, fsConstraints.localattributes
   }
@@ -191,7 +206,7 @@ fsConstraints.content = (cond | bicond)*
 fsConstraints.localattributes = att.global.attributes, empty
 fsDecl =
   
-  ## (feature structure declaration) declares one type of feature structure.
+  ## (feature structure declaration) declares one type of feature structure. []
   element fsDecl { fsDecl.content, fsDecl.localattributes }
 fsDecl.content = fsDescr?, fDecl+, fsConstraints?
 fsDecl.localattributes =
@@ -221,21 +236,21 @@ fsDecl.localattributes =
 fsDescr =
   
   ## (feature system description (in FSD)) describes in prose what is represented by the type of feature
-  ## structure declared in the enclosing fsDecl.
+  ## structure declared in the enclosing fsDecl. []
   element fsDescr { fsDescr.content, fsDescr.localattributes }
 fsDescr.content = macro.limitedContent
 fsDescr.localattributes = att.global.attributes, empty
 fsdDecl =
   
   ## (feature system declaration) provides a feature system declaration comprising one or more
-  ##   feature structure declarations or feature structure declaration links.
+  ##   feature structure declarations or feature structure declaration links. []
   element fsdDecl { fsdDecl.content, fsdDecl.localattributes }
 fsdDecl.content = (fsDecl | fsdLink)+
 fsdDecl.localattributes = att.global.attributes, empty
 fsdLink =
   
   ## (feature structure declaration link) associates the name of a typed feature structure with a feature
-  ## structure declaration for it.
+  ## structure declaration for it. []
   element fsdLink { fsdLink.content, fsdLink.localattributes }
 fsdLink.content = empty
 fsdLink.localattributes =
@@ -253,7 +268,7 @@ fsdLink.localattributes =
 fvLib =
   
   ## (feature-value library) assembles a library of reusable feature value elements
-  ##   (including complete feature structures).
+  ##   (including complete feature structures). []
   element fvLib { fvLib.content, fvLib.localattributes }
 fvLib.content = model.featureVal*
 fvLib.localattributes = att.global.attributes, empty
@@ -262,21 +277,21 @@ if =
   ## defines a conditional default value for a feature; the condition
   ## is specified as a feature structure, and is met if it
   ## subsumes the feature structure in the text for which a
-  ## default value is sought.
+  ## default value is sought. []
   element if { if.content, if.localattributes }
 if.content = (fs | f), then, model.featureVal
 if.localattributes = att.global.attributes, empty
 iff =
   
   ## (if and only if) separates the condition from the consequence in a bicond
-  ## element.
+  ## element. []
   element iff { iff.content, iff.localattributes }
 iff.content = empty
 iff.localattributes = att.global.attributes, empty
 numeric =
   
   ## (numeric value) represents the value part of a feature-value specification
-  ##   which contains a numeric value or range.
+  ##   which contains a numeric value or range. []
   element numeric { numeric.content, numeric.localattributes }
 numeric.content = empty
 numeric.localattributes =
@@ -296,14 +311,14 @@ numeric.localattributes =
 \string =
   
   ## (string value) represents the value part of a feature-value specification
-  ##   which contains a string.
+  ##   which contains a string. []
   element string { string.content, string.localattributes }
 string.content = macro.xtext
 string.localattributes = att.global.attributes, empty
 symbol =
   
   ## (symbolic value) represents the value part of a feature-value specification
-  ##   which contains one of a finite list of symbols.
+  ##   which contains one of a finite list of symbols. []
   element symbol { symbol.content, symbol.localattributes }
 symbol.content = empty
 symbol.localattributes =
@@ -316,14 +331,14 @@ symbol.localattributes =
 then =
   
   ## separates the condition from the default in an if, or
-  ## the antecedent and the consequent in a cond element.
+  ## the antecedent and the consequent in a cond element. []
   element then { then.content, then.localattributes }
 then.content = empty
 then.localattributes = att.global.attributes, empty
 vAlt =
   
   ## (value alternation) represents the value part of a feature-value specification
-  ##   which contains a set of values, only one of which can be valid.
+  ##   which contains a set of values, only one of which can be valid. []
   element vAlt { vAlt.content, vAlt.localattributes }
 vAlt.content = model.featureVal, model.featureVal+
 vAlt.localattributes = att.global.attributes, empty
@@ -362,7 +377,7 @@ vDefault =
   ## fs elements or primitive values;
   ## if conditional, it is specified as
   ## one or more if elements; if no default is specified, or no
-  ## condition matches, the value none is assumed.
+  ## condition matches, the value none is assumed. []
   element vDefault { vDefault.content, vDefault.localattributes }
 vDefault.content = model.featureVal+ | if+
 vDefault.localattributes = att.global.attributes, empty
@@ -382,7 +397,7 @@ vMerge =
   
   ## (merged collection of values) represents a feature value which is the result of merging
   ##   together the feature values contained by its children, using the organization
-  ##   specified by the org attribute.
+  ##   specified by the org attribute. []
   element vMerge { vMerge.content, vMerge.localattributes }
 vMerge.content = model.featureVal+
 vMerge.localattributes =
@@ -404,7 +419,7 @@ vMerge.localattributes =
   empty
 vNot =
   
-  ## (value negation) represents a feature value which is the negation of its content.
+  ## (value negation) represents a feature value which is the negation of its content. []
   element vNot { vNot.content, vNot.localattributes }
 vNot.content = model.featureVal
 vNot.localattributes = att.global.attributes, empty
@@ -415,7 +430,7 @@ vRange =
   ## for the value of an f to be valid, it must be
   ## subsumed by the specified range; if the f
   ## contains multiple values (as sanctioned by the org attribute),
-  ## then each value must be subsumed by the vRange.
+  ## then each value must be subsumed by the vRange. []
   element vRange { vRange.content, vRange.localattributes }
 vRange.content = model.featureVal
 vRange.localattributes = att.global.attributes, empty
