@@ -1,26 +1,41 @@
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Certainty and uncertainty
 
@@ -38,12 +53,15 @@
 certainty =
   
   ## indicates the degree of certainty associated
-  ##   with some aspect of the text markup. 
+  ##   with some aspect of the text markup.  []
   element certainty { certainty.content, certainty.localattributes }
 certainty.content = model.glossLike*
 certainty.localattributes =
   att.global.attributes,
   att.scoping.attributes,
+  
+  ## (certainty) signifies the degree of certainty associated with the object pointed to by the certainty element.
+  attribute cert { data.certainty }?,
   
   ## indicates more exactly the aspect concerning which
   ##       certainty is being expressed: specifically, whether the markup
@@ -75,7 +93,7 @@ certainty.localattributes =
   },
   
   ## provides an alternative value for the aspect of the markup in
-  ## question—an alternative generic identifier, transcription,
+  ## question — an alternative generic identifier, transcription,
   ## or attribute value, or the identifier of an anchor element (to
   ## indicate an alternative starting or ending location).  If an
   ## assertedValue is given, the confidence level specified by
@@ -108,6 +126,10 @@ precision.localattributes =
   ##       value between 0 (none) and 1 (optimally precise)
   attribute degree { data.probability }?,
   
+  ## characterizes the precision of the element or attribute pointed 
+  ##         to by the precision element.
+  attribute precision { data.certainty }?,
+  
   ## supplies a standard deviation associated with the value in
   ##       question
   attribute stdDeviation { data.numeric }?,
@@ -115,7 +137,7 @@ precision.localattributes =
 respons =
   
   ## (responsibility) identifies the individual(s) responsible for some aspect of the
-  ## markup of particular element(s).
+  ## markup of particular element(s). []
   element respons { respons.content, respons.localattributes }
 respons.content = model.glossLike*
 respons.localattributes =

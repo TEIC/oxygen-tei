@@ -1,28 +1,43 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Corpus texts
 
@@ -40,7 +55,7 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 activity =
   
   ## contains a brief informal description of what a participant in a
-  ## language interaction is doing other than speaking, if anything.
+  ## language interaction is doing other than speaking, if anything. []
   element activity { activity.content, activity.localattributes }
 activity.content = macro.phraseSeq.limited
 activity.localattributes = att.global.attributes, empty
@@ -48,7 +63,7 @@ channel =
   
   ## (primary channel) describes the medium or channel by which a text is delivered or
   ## experienced. For a written text, this might be print, manuscript, e-mail, etc.;
-  ## for a spoken one, radio, telephone, face-to-face, etc.
+  ## for a spoken one, radio, telephone, face-to-face, etc. []
   element channel { channel.content, channel.localattributes }
 channel.content = macro.phraseSeq.limited
 channel.localattributes =
@@ -83,7 +98,7 @@ constitution =
   
   ## describes the internal composition of a text or text sample,
   ## for example
-  ## as fragmentary, complete, etc.
+  ## as fragmentary, complete, etc. []
   element constitution {
     constitution.content, constitution.localattributes
   }
@@ -117,7 +132,7 @@ constitution.localattributes =
   empty
 derivation =
   
-  ## describes the nature and extent of originality of this text.
+  ## describes the nature and extent of originality of this text. []
   element derivation { derivation.content, derivation.localattributes }
 derivation.content = macro.phraseSeq.limited
 derivation.localattributes =
@@ -132,7 +147,7 @@ domain =
   
   ## (domain of use) describes the most important social context in which the text was
   ## realized or for which it is intended, for example private vs. public,
-  ## education, religion, etc.
+  ## education, religion, etc. []
   element domain { domain.content, domain.localattributes }
 domain.content = macro.phraseSeq.limited
 domain.localattributes =
@@ -147,7 +162,7 @@ factuality =
   
   ## describes the extent to which the text may be regarded as
   ## imaginative or non-imaginative, that is, as describing a fictional
-  ## or a non-fictional world. 
+  ## or a non-fictional world.  []
   element factuality { factuality.content, factuality.localattributes }
 factuality.content = macro.phraseSeq.limited
 factuality.localattributes =
@@ -179,7 +194,7 @@ interaction =
   
   ## describes the extent, cardinality and nature of any interaction
   ## among those producing and experiencing the text, for example in the
-  ## form of response or interjection, commentary, etc.
+  ## form of response or interjection, commentary, etc. []
   element interaction {
     interaction.content, interaction.localattributes
   }
@@ -253,22 +268,23 @@ interaction.localattributes =
 locale =
   
   ## contains a brief informal description of the kind of
-  ## place concerned, for example: a room, a restaurant, a park bench, etc.
+  ## place concerned, for example: a room, a restaurant, a park bench, etc. []
   element locale { locale.content, locale.localattributes }
 locale.content = macro.phraseSeq.limited
 locale.localattributes = att.global.attributes, empty
 particDesc =
   
   ## (participation description) describes the identifiable speakers, voices, or other participants
-  ## in any kind of text. 
+  ## in any kind of text.  []
   element particDesc { particDesc.content, particDesc.localattributes }
-particDesc.content = model.pLike+ | (model.personLike | listPerson)+
+particDesc.content =
+  model.pLike+ | (model.personLike | listPerson | listOrg)+
 particDesc.localattributes =
   att.global.attributes, att.declarable.attributes, empty
 preparedness =
   
   ## describes the extent to which a text may be regarded as
-  ## prepared or spontaneous. 
+  ## prepared or spontaneous.  []
   element preparedness {
     preparedness.content, preparedness.localattributes
   }
@@ -284,7 +300,7 @@ preparedness.localattributes =
 purpose =
   
   ## characterizes a single purpose or communicative function of the
-  ## text.
+  ## text. []
   element purpose { purpose.content, purpose.localattributes }
 purpose.content = macro.phraseSeq.limited
 purpose.localattributes =
@@ -319,7 +335,7 @@ purpose.localattributes =
 setting =
   
   ## describes one particular setting in which a language
-  ##   interaction takes place.
+  ##   interaction takes place. []
   element setting { setting.content, setting.localattributes }
 setting.content =
   model.pLike+
@@ -330,7 +346,7 @@ settingDesc =
   
   ## (setting description) describes the setting or settings within which a language
   ## interaction takes place, either as a prose description or as a
-  ## series of setting elements.
+  ## series of setting elements. [ ]
   element settingDesc {
     settingDesc.content, settingDesc.localattributes
   }
@@ -341,7 +357,7 @@ settingDesc.localattributes =
 textDesc =
   
   ## (text description) provides a description of a text in terms of its
-  ## situational parameters.
+  ## situational parameters. []
   element textDesc { textDesc.content, textDesc.localattributes }
 textDesc.content = model.textDescPart_sequence, purpose+
 textDesc.localattributes =

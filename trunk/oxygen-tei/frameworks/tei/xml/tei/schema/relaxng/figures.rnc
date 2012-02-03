@@ -1,28 +1,43 @@
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
-# 
-#	 Tables, formulæ, and figures
+#	 Tables, formulæ, notated music, and figures
 
 # Definitions from module figures
 
@@ -37,7 +52,7 @@
 # 2. elements
 cell =
   
-  ## contains one cell of a table. 
+  ## contains one cell of a table.  []
   element cell { cell.content, cell.localattributes }
 cell.content = macro.paraContent
 cell.localattributes =
@@ -46,23 +61,22 @@ figDesc =
   
   ## (description of figure) contains a brief prose description of the appearance or content
   ## of a graphic figure, for use when documenting an image without
-  ## displaying it.
+  ## displaying it. []
   element figDesc { figDesc.content, figDesc.localattributes }
 figDesc.content = macro.limitedContent
 figDesc.localattributes = att.global.attributes, empty
 figure =
   
-  ## groups elements representing or containing graphic information such as an illustration or
-  ##     figure.
+  ## groups elements representing or containing graphic information
+  ##   such as an illustration, formula,  or    figure. []
   element figure { figure.content, figure.localattributes }
 figure.content =
   (model.headLike
-   | model.pLike
+   | model.common
    | figDesc
    | model.graphicLike
-   | model.egLike
-   | floatingText
-   | model.global)*
+   | model.global
+   | model.divBottomPart)*
 figure.localattributes =
   att.global.attributes,
   att.placement.attributes,
@@ -70,27 +84,42 @@ figure.localattributes =
   empty
 formula =
   
-  ## contains a mathematical or other formula.
+  ## contains a mathematical or other formula. []
   element formula { formula.content, formula.localattributes }
 formula.content = (text | model.graphicLike)*
 formula.localattributes =
   att.global.attributes,
   
-  ## supplies the name of a previously defined notation used for the content of the element.
-  attribute notation { data.code }?,
+  ## specifies the notation used for the content of the element.
+  attribute notation { data.enumerated }?,
+  empty
+notatedMusic =
+  
+  ## encodes the presence of music notation in a text
+  element notatedMusic {
+    notatedMusic.content, notatedMusic.localattributes
+  }
+notatedMusic.content =
+  (model.labelLike | model.ptrLike | graphic | binaryObject)*
+notatedMusic.localattributes =
+  att.global.attributes,
+  att.placement.attributes,
+  att.typed.attributes,
   empty
 row =
   
-  ## contains one row of a table. 
+  ## contains one row of a table.  []
   element row { row.content, row.localattributes }
 row.content = cell+
 row.localattributes =
   att.global.attributes, att.tableDecoration.attributes, empty
 table =
   
-  ## contains text displayed in tabular form, in rows and columns.
+  ## contains text displayed in tabular form, in rows and columns. []
   element table { table.content, table.localattributes }
-table.content = (model.headLike | model.global)*, (row, model.global*)+
+table.content =
+  ((model.headLike | model.global)*, (row, model.global*)+)
+  | model.graphicLike+
 table.localattributes =
   att.global.attributes,
   

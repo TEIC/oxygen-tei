@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Feature structures--><!--Definitions from module iso-fs--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><!--2. elements--><define name="bicond">
       <element name="bicond">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
 consequent and antecedent are specified as feature structures or groups
 of feature structures; the constraint is satisfied if both
-subsume a given feature structure, or if both do not.</a:documentation>
+subsume a given feature structure, or if both do not. []</a:documentation>
          <ref name="bicond.content"/>
          <ref name="bicond.localattributes"/>
       </element>
@@ -54,7 +69,7 @@ subsume a given feature structure, or if both do not.</a:documentation>
    <define name="binary">
       <element name="binary">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(binary value) represents the value part of a feature-value specification which can contain either
-  of exactly two possible values.</a:documentation>
+  of exactly two possible values. []</a:documentation>
          <ref name="binary.content"/>
          <ref name="binary.localattributes"/>
       </element>
@@ -76,7 +91,7 @@ subsume a given feature structure, or if both do not.</a:documentation>
 and the antecedent are specified as feature structures or
 feature-structure collections; the constraint is satisfied if both the
 antecedent and the consequent subsume a given feature
-structure, or if the antecedent does not.</a:documentation>
+structure, or if the antecedent does not. []</a:documentation>
          <ref name="cond.content"/>
          <ref name="cond.localattributes"/>
       </element>
@@ -101,7 +116,7 @@ structure, or if the antecedent does not.</a:documentation>
    <define name="default">
       <element name="default">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(default feature value) represents the value part of a feature-value specification
-  which contains a defaulted value.</a:documentation>
+  which contains a defaulted value. []</a:documentation>
          <ref name="default.content"/>
          <ref name="default.localattributes"/>
       </element>
@@ -116,7 +131,7 @@ structure, or if the antecedent does not.</a:documentation>
    <define name="f">
       <element name="f">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature) represents a feature value specification, that
-  is, the association of a name with a value of any of several different types.</a:documentation>
+  is, the association of a name with a value of any of several different types. []</a:documentation>
          <ref name="f.content"/>
          <ref name="f.localattributes"/>
       </element>
@@ -162,7 +177,7 @@ structure, or if the antecedent does not.</a:documentation>
    <define name="fDecl">
       <element name="fDecl">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature declaration) declares a single feature, specifying its name, organization,
-range of allowed values, and optionally its default value.</a:documentation>
+range of allowed values, and optionally its default value. []</a:documentation>
          <ref name="fDecl.content"/>
          <ref name="fDecl.localattributes"/>
       </element>
@@ -198,7 +213,7 @@ name attribute of f elements in the text.</a:documentation>
    <define name="fDescr">
       <element name="fDescr">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature description (in FSD)) describes in prose what is represented by the feature being
-declared and its values.</a:documentation>
+declared and its values. []</a:documentation>
          <ref name="fDescr.content"/>
          <ref name="fDescr.localattributes"/>
       </element>
@@ -212,7 +227,7 @@ declared and its values.</a:documentation>
    </define>
    <define name="fLib">
       <element name="fLib">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature library) assembles a library of feature elements.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature library) assembles a library of feature elements. []</a:documentation>
          <ref name="fLib.content"/>
          <ref name="fLib.localattributes"/>
       </element>
@@ -230,7 +245,7 @@ declared and its values.</a:documentation>
       <element name="fs">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure) represents a feature structure, that is, a
   collection of feature-value pairs organized as a
-structural unit.</a:documentation>
+structural unit. []</a:documentation>
          <ref name="fs.content"/>
          <ref name="fs.localattributes"/>
       </element>
@@ -264,7 +279,7 @@ structural unit.</a:documentation>
    <define name="fsConstraints">
       <element name="fsConstraints">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature-structure constraints) specifies constraints on the content of valid feature
-structures.</a:documentation>
+structures. []</a:documentation>
          <ref name="fsConstraints.content"/>
          <ref name="fsConstraints.localattributes"/>
       </element>
@@ -283,7 +298,7 @@ structures.</a:documentation>
    </define>
    <define name="fsDecl">
       <element name="fsDecl">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration) declares one type of feature structure.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration) declares one type of feature structure. []</a:documentation>
          <ref name="fsDecl.content"/>
          <ref name="fsDecl.localattributes"/>
       </element>
@@ -336,7 +351,7 @@ structures.</a:documentation>
    <define name="fsDescr">
       <element name="fsDescr">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature system description (in FSD)) describes in prose what is represented by the type of feature
-structure declared in the enclosing fsDecl.</a:documentation>
+structure declared in the enclosing fsDecl. []</a:documentation>
          <ref name="fsDescr.content"/>
          <ref name="fsDescr.localattributes"/>
       </element>
@@ -351,7 +366,7 @@ structure declared in the enclosing fsDecl.</a:documentation>
    <define name="fsdDecl">
       <element name="fsdDecl">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature system declaration) provides a feature system declaration comprising one or more
-  feature structure declarations or feature structure declaration links.</a:documentation>
+  feature structure declarations or feature structure declaration links. []</a:documentation>
          <ref name="fsdDecl.content"/>
          <ref name="fsdDecl.localattributes"/>
       </element>
@@ -371,7 +386,7 @@ structure declared in the enclosing fsDecl.</a:documentation>
    <define name="fsdLink">
       <element name="fsdLink">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration link) associates the name of a typed feature structure with a feature
-structure declaration for it.</a:documentation>
+structure declaration for it. []</a:documentation>
          <ref name="fsdLink.content"/>
          <ref name="fsdLink.localattributes"/>
       </element>
@@ -397,7 +412,7 @@ feature structure.</a:documentation>
    <define name="fvLib">
       <element name="fvLib">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature-value library) assembles a library of reusable feature value elements
-  (including complete feature structures).</a:documentation>
+  (including complete feature structures). []</a:documentation>
          <ref name="fvLib.content"/>
          <ref name="fvLib.localattributes"/>
       </element>
@@ -416,7 +431,7 @@ feature structure.</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">defines a conditional default value for a feature; the condition
 is specified as a feature structure, and is met if it
 subsumes the feature structure in the text for which a
-default value is sought.</a:documentation>
+default value is sought. []</a:documentation>
          <ref name="if.content"/>
          <ref name="if.localattributes"/>
       </element>
@@ -440,7 +455,7 @@ default value is sought.</a:documentation>
    <define name="iff">
       <element name="iff">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(if and only if) separates the condition from the consequence in a bicond
-element.</a:documentation>
+element. []</a:documentation>
          <ref name="iff.content"/>
          <ref name="iff.localattributes"/>
       </element>
@@ -455,7 +470,7 @@ element.</a:documentation>
    <define name="numeric">
       <element name="numeric">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(numeric value) represents the value part of a feature-value specification
-  which contains a numeric value or range.</a:documentation>
+  which contains a numeric value or range. []</a:documentation>
          <ref name="numeric.content"/>
          <ref name="numeric.localattributes"/>
       </element>
@@ -488,7 +503,7 @@ element.</a:documentation>
    <define name="string">
       <element name="string">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(string value) represents the value part of a feature-value specification
-  which contains a string.</a:documentation>
+  which contains a string. []</a:documentation>
          <ref name="string.content"/>
          <ref name="string.localattributes"/>
       </element>
@@ -503,7 +518,7 @@ element.</a:documentation>
    <define name="symbol">
       <element name="symbol">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(symbolic value) represents the value part of a feature-value specification
-  which contains one of a finite list of symbols.</a:documentation>
+  which contains one of a finite list of symbols. []</a:documentation>
          <ref name="symbol.content"/>
          <ref name="symbol.localattributes"/>
       </element>
@@ -523,7 +538,7 @@ may be specified in a feature declaration.</a:documentation>
    <define name="then">
       <element name="then">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">separates the condition from the default in an if, or
-the antecedent and the consequent in a cond element.</a:documentation>
+the antecedent and the consequent in a cond element. []</a:documentation>
          <ref name="then.content"/>
          <ref name="then.localattributes"/>
       </element>
@@ -538,7 +553,7 @@ the antecedent and the consequent in a cond element.</a:documentation>
    <define name="vAlt">
       <element name="vAlt">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value alternation) represents the value part of a feature-value specification
-  which contains a set of values, only one of which can be valid.</a:documentation>
+  which contains a set of values, only one of which can be valid. []</a:documentation>
          <ref name="vAlt.content"/>
          <ref name="vAlt.localattributes"/>
       </element>
@@ -605,7 +620,7 @@ the org attribute of the enclosing fDecl) more
 fs elements or primitive values;
 if conditional, it is specified as
 one or more if elements; if no default is specified, or no
-condition matches, the value none is assumed.</a:documentation>
+condition matches, the value none is assumed. []</a:documentation>
          <ref name="vDefault.content"/>
          <ref name="vDefault.localattributes"/>
       </element>
@@ -649,7 +664,7 @@ condition matches, the value none is assumed.</a:documentation>
       <element name="vMerge">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(merged collection of values) represents a feature value which is the result of merging
   together the feature values contained by its children, using the organization
-  specified by the org attribute.</a:documentation>
+  specified by the org attribute. []</a:documentation>
          <ref name="vMerge.content"/>
          <ref name="vMerge.localattributes"/>
       </element>
@@ -679,7 +694,7 @@ condition matches, the value none is assumed.</a:documentation>
    </define>
    <define name="vNot">
       <element name="vNot">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value negation) represents a feature value which is the negation of its content.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value negation) represents a feature value which is the negation of its content. []</a:documentation>
          <ref name="vNot.content"/>
          <ref name="vNot.localattributes"/>
       </element>
@@ -700,7 +715,7 @@ an fs, vAlt, or primitive value;
 for the value of an f to be valid, it must be
 subsumed by the specified range; if the f
 contains multiple values (as sanctioned by the org attribute),
-then each value must be subsumed by the vRange.</a:documentation>
+then each value must be subsumed by the vRange. []</a:documentation>
          <ref name="vRange.content"/>
          <ref name="vRange.localattributes"/>
       </element>

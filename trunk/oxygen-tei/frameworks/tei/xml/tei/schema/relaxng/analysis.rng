@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Simple analytic mechanisms--><!--Definitions from module analysis--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><define name="att.global.analytic.attributes">
       <ref name="att.global.analytic.attribute.ana"/>
    </define>
@@ -43,7 +58,7 @@ element on which the ana attribute appears.</a:documentation>
    </define>
    <!--2. elements--><define name="c">
       <element name="c">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(character) represents a character.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(character) represents a character. []</a:documentation>
          <ref name="c.content"/>
          <ref name="c.localattributes"/>
       </element>
@@ -59,7 +74,7 @@ element on which the ana attribute appears.</a:documentation>
    </define>
    <define name="cl">
       <element name="cl">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(clause) represents a grammatical clause.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(clause) represents a grammatical clause. []</a:documentation>
          <ref name="cl.content"/>
          <ref name="cl.localattributes"/>
       </element>
@@ -75,7 +90,7 @@ element on which the ana attribute appears.</a:documentation>
    </define>
    <define name="interp">
       <element name="interp">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(interpretation) summarizes a specific interpretative annotation which can be linked to a span of text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(interpretation) summarizes a specific interpretative annotation which can be linked to a span of text. []</a:documentation>
          <ref name="interp.content"/>
          <ref name="interp.localattributes"/>
       </element>
@@ -96,7 +111,7 @@ element on which the ana attribute appears.</a:documentation>
    </define>
    <define name="interpGrp">
       <element name="interpGrp">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(interpretation group) collects together a set of related interpretations which share responsibility or type.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(interpretation group) collects together a set of related interpretations which share responsibility or type. []</a:documentation>
          <ref name="interpGrp.content"/>
          <ref name="interpGrp.localattributes"/>
       </element>
@@ -118,7 +133,7 @@ element on which the ana attribute appears.</a:documentation>
    </define>
    <define name="m">
       <element name="m">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(morpheme) represents a grammatical morpheme.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(morpheme) represents a grammatical morpheme. []</a:documentation>
          <ref name="m.content"/>
          <ref name="m.localattributes"/>
       </element>
@@ -150,7 +165,7 @@ element on which the ana attribute appears.</a:documentation>
    <define name="pc">
       <element name="pc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"> (punctuation character) a character or string of characters regarded as constituting a
-  single punctuation mark.</a:documentation>
+  single punctuation mark. []</a:documentation>
          <ref name="pc.content"/>
          <ref name="pc.localattributes"/>
       </element>
@@ -200,7 +215,7 @@ word separator</a:documentation>
    </define>
    <define name="phr">
       <element name="phr">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(phrase) represents a grammatical phrase.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(phrase) represents a grammatical phrase. []</a:documentation>
          <ref name="phr.content"/>
          <ref name="phr.localattributes"/>
       </element>
@@ -216,7 +231,7 @@ word separator</a:documentation>
    </define>
    <define name="s">
       <element name="s">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(s-unit) contains a sentence-like division of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(s-unit) contains a sentence-like division of a text. [ ]</a:documentation>
          <ref name="s.content"/>
          <ref name="s.localattributes"/>
       </element>
@@ -240,7 +255,7 @@ word separator</a:documentation>
    </define>
    <define name="span">
       <element name="span">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">associates an interpretative annotation directly with a span of text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">associates an interpretative annotation directly with a span of text. []</a:documentation>
          <ref name="span.content"/>
          <ref name="span.localattributes"/>
       </element>
@@ -266,7 +281,7 @@ word separator</a:documentation>
    </define>
    <define name="spanGrp">
       <element name="spanGrp">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(span group) collects together span tags.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(span group) collects together span tags. []</a:documentation>
          <ref name="spanGrp.content"/>
          <ref name="spanGrp.localattributes"/>
       </element>
@@ -283,7 +298,7 @@ word separator</a:documentation>
    </define>
    <define name="w">
       <element name="w">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(word) represents a grammatical (not necessarily orthographic) word.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(word) represents a grammatical (not necessarily orthographic) word. []</a:documentation>
          <ref name="w.content"/>
          <ref name="w.localattributes"/>
       </element>

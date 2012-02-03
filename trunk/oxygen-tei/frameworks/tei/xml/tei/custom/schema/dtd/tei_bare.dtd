@@ -1,17 +1,15 @@
 
 <!--
-DTD Generated 2011-03-05T14:56:29Z. 
-          
-This template file is freely available and you are hereby
+DTD Generated 2012-02-02T21:16:17Z. 
+          This template file is freely available and you are hereby
             authorised to copy, modify, and redistribute it in any way without
             further reference or permissions.
-          
-When making such modifications, you are strongly recommended to
+          When making such modifications, you are strongly recommended to
             change the present text to include an accurate statement of the
             licencing conditions applicable to your modified text.
         
-Edition: 1.9.0. Last updated on February 25th 2011.
-Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+Edition: 2.0.1 Last updated on 22nd December 2011.
+Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
 
 -->
 
@@ -22,6 +20,8 @@ medium|
 low|
 unknown)' >
 
+<!ENTITY % data.probability ' CDATA' >
+
 <!ENTITY % data.numeric ' CDATA' >
 
 <!ENTITY % data.count ' CDATA' >
@@ -31,6 +31,9 @@ unknown)' >
 <!ENTITY % data.duration.w3c ' CDATA' >
 
 <!ENTITY % data.truthValue ' CDATA' >
+
+<!ENTITY % data.xTruthValue '(unknown|
+inapplicable | true | false)' >
 
 <!ENTITY % data.language ' CDATA' >
 
@@ -100,6 +103,10 @@ type %data.enumerated;  #IMPLIED'>
 
 <!ENTITY % att.typed.attribute.subtype '
 subtype %data.enumerated;  #IMPLIED'>
+<!ENTITY % att.sortable.attributes '
+sortKey %data.word;  #IMPLIED'> 
+<!ENTITY % att.sortable.attribute.sortKey '
+sortKey %data.word;  #IMPLIED'>
 
 <!ENTITY % model.emphLike "title"> 
 <!ENTITY % model.emphLike_sequence "title"> 
@@ -136,6 +143,11 @@ subtype %data.enumerated;  #IMPLIED'>
 <!ENTITY % model.listLike_sequenceOptional "list?"> 
 <!ENTITY % model.listLike_sequenceOptionalRepeatable "list*"> 
 <!ENTITY % model.listLike_sequenceRepeatable "list+"> 
+<!ENTITY % model.lLike ""> 
+<!ENTITY % model.lLike_sequence ""> 
+<!ENTITY % model.lLike_sequenceOptional ""> 
+<!ENTITY % model.lLike_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.lLike_sequenceRepeatable ""> 
 <!ENTITY % model.pLike "p"> 
 <!ENTITY % model.pLike_sequence "p"> 
 <!ENTITY % model.pLike_sequenceOptional "p?"> 
@@ -151,6 +163,11 @@ subtype %data.enumerated;  #IMPLIED'>
 <!ENTITY % model.publicationStmtPart_sequenceOptional ""> 
 <!ENTITY % model.publicationStmtPart_sequenceOptionalRepeatable ""> 
 <!ENTITY % model.publicationStmtPart_sequenceRepeatable ""> 
+<!ENTITY % model.availabilityPart "p"> 
+<!ENTITY % model.availabilityPart_sequence "p"> 
+<!ENTITY % model.availabilityPart_sequenceOptional "p?"> 
+<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "p*"> 
+<!ENTITY % model.availabilityPart_sequenceRepeatable "p+"> 
 <!ENTITY % model.respLike "author"> 
 <!ENTITY % model.respLike_sequence "author"> 
 <!ENTITY % model.respLike_sequenceOptional "author?"> 
@@ -283,15 +300,13 @@ subtype %data.enumerated;  #IMPLIED'>
  %model.divPart; |
  _DUMMY_model.global)*' >
 
-<!ENTITY % macro.anyXML ' ANY' >
-
 <!-- end patterns -->
 
 <!-- start elements -->
 
 <!--doc:(TEI document) contains a single TEI-conformant document,
 comprising a TEI header and a text, either in isolation or as part of a
-teiCorpus element. -->
+teiCorpus element. [4.  15.1. ] -->
 <!ELEMENT TEI (teiHeader,((_DUMMY_model.resourceLike+,text?) |
  text))>
 <!ATTLIST TEI xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -300,15 +315,15 @@ teiCorpus element. -->
 <!ATTLIST TEI xsi:schemaLocation CDATA #IMPLIED
  xmlns:xsi CDATA #FIXED 'http://www.w3.org/2001/XMLSchema-instance'
  >
-<!--doc:in a bibliographic reference, contains the name(s) of the
-  author(s), personal or corporate, of a work; for example in the same
-  form as that provided by a recognized bibliographic name authority.  -->
+<!--doc:in a bibliographic reference, contains the name(s) of an
+  author, personal or corporate, of a work; for example in the same
+  form as that provided by a recognized bibliographic name authority.  [3.11.2.2.  2.2.1. ] -->
 <!ELEMENT author %macro.phraseSeq;>
 <!ATTLIST author xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST author
  %att.global.attributes;
  %att.naming.attributes; >
-<!--doc:(back matter) contains any appendixes, etc. following the main part of a text. -->
+<!--doc:(back matter) contains any appendixes, etc. following the main part of a text. [4.7.  4. ] -->
 <!ELEMENT back ((_DUMMY_model.frontPart |
  %model.pLike.front; |
  _DUMMY_model.global)*,((_DUMMY_model.div1Like,(_DUMMY_model.frontPart |
@@ -321,7 +336,7 @@ teiCorpus element. -->
 <!ATTLIST back xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST back
  %att.global.attributes; >
-<!--doc:(text body) contains the whole body of a single unitary text, excluding any front or back matter. -->
+<!--doc:(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. ] -->
 <!ELEMENT body (_DUMMY_model.global*,((%model.divTop;),(_DUMMY_model.global |
  %model.divTop;)*)?,(_DUMMY_model.divGenLike,(_DUMMY_model.global |
  _DUMMY_model.divGenLike)*)?,(((%model.divLike;),(_DUMMY_model.global |
@@ -335,7 +350,7 @@ teiCorpus element. -->
 <!ATTLIST body xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST body
  %att.global.attributes; >
-<!--doc:(text division) contains a subdivision of the front, body, or back of a text. -->
+<!--doc:(text division) contains a subdivision of the front, body, or back of a text. [4.1. ] -->
 <!ELEMENT div ((%model.divTop; |
  _DUMMY_model.global)*,((((%model.divLike; |
  _DUMMY_model.divGenLike),_DUMMY_model.global*)+ |
@@ -346,14 +361,14 @@ teiCorpus element. -->
  %att.global.attributes;
  %att.divLike.attributes;
  %att.typed.attributes; >
-<!--doc:(file description) contains a full bibliographic description of an electronic file. -->
+<!--doc:(file description) contains a full bibliographic description of an electronic file. [2.2.  2.1.1. ] -->
 <!ELEMENT fileDesc ((titleStmt,publicationStmt),sourceDesc+)>
 <!ATTLIST fileDesc xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fileDesc
  %att.global.attributes; >
 <!--doc:(front matter) contains any prefatory matter (headers,
 title page, prefaces, dedications, etc.)
-found  at the start of a document, before the main body. -->
+found  at the start of a document, before the main body. [4.6.  4. ] -->
 <!ELEMENT front ((_DUMMY_model.frontPart |
  %model.pLike.front; |
  _DUMMY_model.global)*,((_DUMMY_model.div1Like,(_DUMMY_model.frontPart |
@@ -367,38 +382,45 @@ found  at the start of a document, before the main body. -->
 <!ATTLIST front
  %att.global.attributes; >
 <!--doc:(heading) contains any type of heading, for example the title of a section, or the heading of a list,
-    glossary, manuscript description, etc. -->
-<!ELEMENT head %macro.paraContent;>
+    glossary, manuscript description, etc. [4.2.1. ] -->
+<!ELEMENT head ( #PCDATA |
+ _DUMMY_model.gLike |
+ %model.phrase; |
+ %model.inter; |
+ _DUMMY_model.lLike |
+ _DUMMY_model.global)*>
 <!ATTLIST head xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST head
  %att.global.attributes;
  %att.typed.attributes; >
-<!--doc:contains one component of a list. -->
+<!--doc:contains one component of a list. [3.7.  2.5. ] -->
 <!ELEMENT item %macro.specialPara;>
 <!ATTLIST item xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST item
- %att.global.attributes; >
-<!--doc:contains the label associated with an item in a list; in glossaries, marks the term being
-    defined. -->
+ %att.global.attributes;
+ %att.sortable.attributes; >
+<!--doc:contains any label or heading used to identify part of a text,
+  typically but not exclusively in a list or glossary. [3.7. ] -->
 <!ELEMENT label %macro.phraseSeq;>
 <!ATTLIST label xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST label
  %att.global.attributes; >
-<!--doc:(list) contains any sequence of items organized as a list. -->
+<!--doc:(list) contains any sequence of items organized as a list. [3.7. ] -->
 <!ELEMENT list (((%model.divTop;) |
  _DUMMY_model.global)*,((item,_DUMMY_model.global*)+ |
  (label,_DUMMY_model.global*,item,_DUMMY_model.global*)+),(_DUMMY_model.divBottom,_DUMMY_model.global*)*)>
 <!ATTLIST list xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST list
  %att.global.attributes;
+ %att.sortable.attributes;
 type %data.enumerated;  "simple"  >
-<!--doc:(paragraph) marks paragraphs in prose. -->
+<!--doc:(paragraph) marks paragraphs in prose. [3.1.  7.2.5. ] -->
 <!ELEMENT p %macro.paraContent;>
 <!ATTLIST p xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST p
  %att.global.attributes; >
 <!--doc:(publication statement) groups information concerning the publication or distribution of an electronic or other
-    text.  -->
+    text.  [2.2.4.  2.2. ] -->
 <!ELEMENT publicationStmt ((%model.pLike;)+ |
  _DUMMY_model.publicationStmtPart+)>
 <!ATTLIST publicationStmt xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -406,30 +428,29 @@ type %data.enumerated;  "simple"  >
  %att.global.attributes; >
 <!--doc:(source description) describes the source from which an electronic text was derived or generated, typically a
     bibliographic description in the case of a digitized text, or a phrase such as "born digital"
-    for a text which has no previous existence. -->
+    for a text which has no previous existence. [2.2.7. ] -->
 <!ELEMENT sourceDesc ((%model.pLike;)+ |
  (_DUMMY_model.biblLike |
  _DUMMY_model.sourceDescPart |
  %model.listLike;)+)>
 <!ATTLIST sourceDesc xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST sourceDesc
- %att.global.attributes;
- %att.declarable.attributes; >
+ %att.global.attributes; >
 <!--doc:(TEI Header) supplies the descriptive and declarative information making up an electronic title page
-    prefixed to every TEI-conformant text. -->
+    prefixed to every TEI-conformant text. [2.1.1.  15.1. ] -->
 <!ELEMENT teiHeader (fileDesc,_DUMMY_model.teiHeaderPart*)>
 <!ATTLIST teiHeader xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST teiHeader
  %att.global.attributes;
 type %data.enumerated;  "text"  >
 <!--doc:contains a single text of any kind, whether unitary or composite, for example a poem or
-    drama, a collection of essays, a novel, a dictionary, or a corpus sample. -->
+    drama, a collection of essays, a novel, a dictionary, or a corpus sample. [4.  15.1. ] -->
 <!ELEMENT text (_DUMMY_model.global*,(front,_DUMMY_model.global*)?,body,_DUMMY_model.global*,(back,_DUMMY_model.global*)?)>
 <!ATTLIST text xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST text
  %att.global.attributes;
  %att.typed.attributes; >
-<!--doc:contains a title for any kind of work. -->
+<!--doc:contains a title for any kind of work. [3.11.2.2.  2.2.1.  2.2.5. ] -->
 <!ELEMENT title %macro.paraContent;>
 <!ATTLIST title xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST title
@@ -437,7 +458,7 @@ type %data.enumerated;  #IMPLIED
  %att.global.attributes;
  %att.canonical.attributes; >
 <!--doc:(title statement) groups information about the title of a work and those responsible for its intellectual
-    content. -->
+    content. [2.2.1.  2.2. ] -->
 <!ELEMENT titleStmt (title+,(%model.respLike;)*)>
 <!ATTLIST titleStmt xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST titleStmt

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2011-03-05T14:53:38Z. 
-Edition: 1.9.0. Last updated on February 25th 2011.
-Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+Schema generated from ODD source 2012-02-02T20:36:03Z. 
+Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
 
 -->
   <!--
-	       
-This template file is freely available and you are
+	       This template file is freely available and you are
 	       hereby authorised to copy, modify, and redistribute it in
 	       any way without further reference or permissions.
-	       
-When making such modifications, you are strongly
+	       When making such modifications, you are strongly
 	       recommended to change the present text to include an
 	       accurate statement of the licencing conditions applicable
 	       to your modified text.
@@ -59,27 +57,6 @@ When making such modifications, you are strongly
   </define>
   <define name="data.enumerated">
     <ref name="data.name"/>
-  </define>
-  <define name="macro.anyXML">
-    <element>
-      <anyName>
-        <except>
-          <nsName ns="http://www.tei-c.org/ns/1.0"/>
-          <name ns="http://www.tei-c.org/ns/Examples">egXML</name>
-        </except>
-      </anyName>
-      <zeroOrMore>
-        <attribute>
-          <anyName/>
-        </attribute>
-      </zeroOrMore>
-      <zeroOrMore>
-        <choice>
-          <text/>
-          <ref name="macro.anyXML"/>
-        </choice>
-      </zeroOrMore>
-    </element>
   </define>
   <define name="model.global.meta">
     <choice>
@@ -348,7 +325,7 @@ When making such modifications, you are strongly
   <define name="fsdDecl">
     <element name="fsdDecl">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature system declaration) provides a feature system declaration comprising one or more
-  feature structure declarations or feature structure declaration links.</a:documentation>
+  feature structure declarations or feature structure declaration links. [18.11. ]</a:documentation>
       <oneOrMore>
         <choice>
           <ref name="fsDecl"/>
@@ -359,7 +336,7 @@ When making such modifications, you are strongly
   </define>
   <define name="fsDecl">
     <element name="fsDecl">
-      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration) declares one type of feature structure.</a:documentation>
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration) declares one type of feature structure. [18.11. ]</a:documentation>
       <group>
         <optional>
           <ref name="fsDescr"/>
@@ -405,14 +382,14 @@ When making such modifications, you are strongly
   <define name="fsDescr">
     <element name="fsDescr">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature system description (in FSD)) describes in prose what is represented by the type of feature
-structure declared in the enclosing fsDecl.</a:documentation>
+structure declared in the enclosing fsDecl. [18.11. ]</a:documentation>
       <ref name="macro.limitedContent"/>
     </element>
   </define>
   <define name="fsdLink">
     <element name="fsdLink">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure declaration link) associates the name of a typed feature structure with a feature
-structure declaration for it.</a:documentation>
+structure declaration for it. [18.11. ]</a:documentation>
       <empty/>
       <attribute name="type">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the type of feature structure to be documented;
@@ -431,7 +408,7 @@ feature structure.</a:documentation>
   <define name="fDecl">
     <element name="fDecl">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature declaration) declares a single feature, specifying its name, organization,
-range of allowed values, and optionally its default value.</a:documentation>
+range of allowed values, and optionally its default value. [18.11. ]</a:documentation>
       <group>
         <optional>
           <ref name="fDescr"/>
@@ -459,7 +436,7 @@ name attribute of f elements in the text.</a:documentation>
   <define name="fDescr">
     <element name="fDescr">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature description (in FSD)) describes in prose what is represented by the feature being
-declared and its values.</a:documentation>
+declared and its values. [18.11. ]</a:documentation>
       <ref name="macro.limitedContent"/>
     </element>
   </define>
@@ -470,7 +447,7 @@ an fs, vAlt, or primitive value;
 for the value of an f to be valid, it must be
 subsumed by the specified range; if the f
 contains multiple values (as sanctioned by the org attribute),
-then each value must be subsumed by the vRange.</a:documentation>
+then each value must be subsumed by the vRange. [18.11. ]</a:documentation>
       <ref name="model.featureVal"/>
     </element>
   </define>
@@ -483,7 +460,7 @@ the org attribute of the enclosing fDecl) more
 fs elements or primitive values;
 if conditional, it is specified as
 one or more if elements; if no default is specified, or no
-condition matches, the value none is assumed.</a:documentation>
+condition matches, the value none is assumed. [18.11. ]</a:documentation>
       <choice>
         <oneOrMore>
           <ref name="model.featureVal"/>
@@ -499,7 +476,7 @@ condition matches, the value none is assumed.</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">defines a conditional default value for a feature; the condition
 is specified as a feature structure, and is met if it
 subsumes the feature structure in the text for which a
-default value is sought.</a:documentation>
+default value is sought. [18.11. ]</a:documentation>
       <group>
         <choice>
           <ref name="fs"/>
@@ -515,14 +492,14 @@ default value is sought.</a:documentation>
   <define name="then">
     <element name="then">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">separates the condition from the default in an if, or
-the antecedent and the consequent in a cond element.</a:documentation>
+the antecedent and the consequent in a cond element. [18.11. ]</a:documentation>
       <empty/>
     </element>
   </define>
   <define name="fsConstraints">
     <element name="fsConstraints">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature-structure constraints) specifies constraints on the content of valid feature
-structures.</a:documentation>
+structures. [18.11. ]</a:documentation>
       <zeroOrMore>
         <choice>
           <ref name="cond"/>
@@ -537,7 +514,7 @@ structures.</a:documentation>
 and the antecedent are specified as feature structures or
 feature-structure collections; the constraint is satisfied if both the
 antecedent and the consequent subsume a given feature
-structure, or if the antecedent does not.</a:documentation>
+structure, or if the antecedent does not. [18.11. ]</a:documentation>
       <group>
         <choice>
           <ref name="fs"/>
@@ -556,7 +533,7 @@ structure, or if the antecedent does not.</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
 consequent and antecedent are specified as feature structures or groups
 of feature structures; the constraint is satisfied if both
-subsume a given feature structure, or if both do not.</a:documentation>
+subsume a given feature structure, or if both do not. [18.11. ]</a:documentation>
       <group>
         <choice>
           <ref name="fs"/>
@@ -573,7 +550,7 @@ subsume a given feature structure, or if both do not.</a:documentation>
   <define name="iff">
     <element name="iff">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(if and only if) separates the condition from the consequence in a bicond
-element.</a:documentation>
+element. [18.11. ]</a:documentation>
       <empty/>
     </element>
   </define>
@@ -581,7 +558,7 @@ element.</a:documentation>
     <element name="fs">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature structure) represents a feature structure, that is, a
   collection of feature-value pairs organized as a
-structural unit.</a:documentation>
+structural unit. [18.2. ]</a:documentation>
       <zeroOrMore>
         <ref name="f"/>
       </zeroOrMore>
@@ -608,7 +585,7 @@ structural unit.</a:documentation>
   <define name="f">
     <element name="f">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature) represents a feature value specification, that
-  is, the association of a name with a value of any of several different types.</a:documentation>
+  is, the association of a name with a value of any of several different types. [18.2. ]</a:documentation>
       <zeroOrMore>
         <choice>
           <text/>
@@ -645,7 +622,7 @@ structural unit.</a:documentation>
   <define name="binary">
     <element name="binary">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(binary value) represents the value part of a feature-value specification which can contain either
-  of exactly two possible values.</a:documentation>
+  of exactly two possible values. [18.2. ]</a:documentation>
       <empty/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a binary value.</a:documentation>
@@ -657,7 +634,7 @@ structural unit.</a:documentation>
   <define name="symbol">
     <element name="symbol">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(symbolic value) represents the value part of a feature-value specification
-  which contains one of a finite list of symbols.</a:documentation>
+  which contains one of a finite list of symbols. [18.3. ]</a:documentation>
       <empty/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the symbolic value for the feature, one of a finite list that
@@ -670,7 +647,7 @@ may be specified in a feature declaration.</a:documentation>
   <define name="numeric">
     <element name="numeric">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(numeric value) represents the value part of a feature-value specification
-  which contains a numeric value or range.</a:documentation>
+  which contains a numeric value or range. [18.3. ]</a:documentation>
       <empty/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a lower bound for the numeric value represented,
@@ -696,7 +673,7 @@ may be specified in a feature declaration.</a:documentation>
   <define name="string">
     <element name="string">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(string value) represents the value part of a feature-value specification
-  which contains a string.</a:documentation>
+  which contains a string. [18.3. ]</a:documentation>
       <ref name="macro.xtext"/>
     </element>
   </define>
@@ -749,14 +726,14 @@ list.</a:documentation>
   <define name="default">
     <element name="default">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(default feature value) represents the value part of a feature-value specification
-  which contains a defaulted value.</a:documentation>
+  which contains a defaulted value. [18.9. ]</a:documentation>
       <empty/>
     </element>
   </define>
   <define name="vAlt">
     <element name="vAlt">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value alternation) represents the value part of a feature-value specification
-  which contains a set of values, only one of which can be valid.</a:documentation>
+  which contains a set of values, only one of which can be valid. [18.8.1. ]</a:documentation>
       <group>
         <group>
           <ref name="model.featureVal"/>
@@ -769,7 +746,7 @@ list.</a:documentation>
   </define>
   <define name="vNot">
     <element name="vNot">
-      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value negation) represents a feature value which is the negation of its content.</a:documentation>
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(value negation) represents a feature value which is the negation of its content. [18.8.2. ]</a:documentation>
       <group>
         <ref name="model.featureVal"/>
       </group>
@@ -779,7 +756,7 @@ list.</a:documentation>
     <element name="vMerge">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(merged collection of values) represents a feature value which is the result of merging
   together the feature values contained by its children, using the organization
-  specified by the org attribute.</a:documentation>
+  specified by the org attribute. [18.8.3. ]</a:documentation>
       <oneOrMore>
         <ref name="model.featureVal"/>
       </oneOrMore>
@@ -802,7 +779,7 @@ list.</a:documentation>
   </define>
   <define name="fLib">
     <element name="fLib">
-      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature library) assembles a library of feature elements.</a:documentation>
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature library) assembles a library of feature elements. [18.4. ]</a:documentation>
       <oneOrMore>
         <ref name="f"/>
       </oneOrMore>
@@ -811,7 +788,7 @@ list.</a:documentation>
   <define name="fvLib">
     <element name="fvLib">
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(feature-value library) assembles a library of reusable feature value elements
-  (including complete feature structures).</a:documentation>
+  (including complete feature structures). [18.4. ]</a:documentation>
       <zeroOrMore>
         <ref name="model.featureVal"/>
       </zeroOrMore>

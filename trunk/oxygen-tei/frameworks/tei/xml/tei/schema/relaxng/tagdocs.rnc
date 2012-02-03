@@ -1,32 +1,48 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
-namespace ns1 = "http://www.tei-c.org/ns/Examples"
+namespace ns1 = "http://www.tei-c.org/ns/1.0"
+namespace ns2 = "http://www.tei-c.org/ns/Examples"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace s = "http://www.ascc.net/xml/schematron"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Documentation of TEI modules
 
@@ -116,7 +132,7 @@ altIdent.localattributes =
   att.global.attributes, att.typed.attributes, empty
 att =
   
-  ## (attribute) contains the name of an attribute appearing within running text.
+  ## (attribute) contains the name of an attribute appearing within running text. []
   element att { att.content, att.localattributes }
 att.content = text
 att.localattributes =
@@ -128,7 +144,7 @@ att.localattributes =
   empty
 attDef =
   
-  ## (attribute definition) contains the definition of a single attribute.
+  ## (attribute definition) contains the definition of a single attribute. []
   element attDef { attDef.content, attDef.localattributes }
 attDef.content =
   model.glossLike*,
@@ -142,7 +158,7 @@ attDef.localattributes =
   att.global.attributes,
   att.identified.attributes,
   
-  ## specifies the optionality of an attribute or element. 
+  ## specifies the optionality of the attribute.
   [ a:defaultValue = "opt" ]
   attribute usage {
     
@@ -169,7 +185,7 @@ attDef.localattributes =
 attList =
   
   ## contains documentation for all the attributes associated with this element, as a series of
-  ##       attDef elements.
+  ##       attDef elements. [ ]
   element attList { attList.content, attList.localattributes }
 attList.content = (attRef | attDef | attList)+
 attList.localattributes =
@@ -219,13 +235,36 @@ classSpec =
   ##   which share some common attribute, or both.
   element classSpec { classSpec.content, classSpec.localattributes }
 classSpec.content =
-  model.glossLike*,
-  classes?,
-  constraintSpec*,
-  attList?,
-  exemplum*,
-  remarks*,
-  listRef*
+  (model.glossLike*,
+   classes?,
+   constraintSpec*,
+   attList?,
+   exemplum*,
+   remarks*,
+   listRef*)
+  >> sch:pattern [
+       id = "classSpec-constraint-classspec-in-module"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:classSpec"
+         "\x{a}" ~
+         "            "
+         sch:report [
+           test = "not(//tei:moduleSpec[@ident=current()/@module])"
+           "\x{a}" ~
+           "Class "
+           sch:value-of [ select = "@ident" ]
+           ": the value of the module attribute ["
+           sch:value-of [ select = "@module" ]
+           "]  must correspond to an existing moduleSpec"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
 classSpec.localattributes =
   att.global.attributes,
   att.identified.attributes,
@@ -336,7 +375,7 @@ classSpec.localattributes =
 classes =
   
   ## specifies all the classes of which the documented element or
-  ## class is a member or subclass.
+  ## class is a member or subclass. [ ]
   element classes { classes.content, classes.localattributes }
 classes.content = memberOf*
 classes.localattributes =
@@ -378,7 +417,7 @@ constraint.localattributes = att.global.attributes, empty
 constraintSpec =
   
   ##  (constraint on schema) contains  a constraint, expressed in some formal syntax,
-  ##   which cannot be expressed in the structural content model
+  ##   which cannot be expressed in the structural content model []
   element constraintSpec {
     constraintSpec.content, constraintSpec.localattributes
   }
@@ -458,7 +497,7 @@ constraintSpec.localattributes =
 content =
   
   ## (content model) contains the text of a declaration for the schema
-  ## documented.
+  ## documented. []
   element content { content.content, content.localattributes }
 content.content = macro.schemaPattern*
 content.localattributes =
@@ -486,7 +525,7 @@ content.localattributes =
 datatype =
   
   ## specifies the declared value for an attribute, by referring to
-  ##   any datatype defined by the chosen schema language.
+  ##   any datatype defined by the chosen schema language. [ ]
   element datatype { datatype.content, datatype.localattributes }
 datatype.content = macro.schemaPattern*
 datatype.localattributes =
@@ -503,21 +542,21 @@ datatype.localattributes =
   empty
 defaultVal =
   
-  ## (default value) specifies the default declared value for an attribute.
+  ## (default value) specifies the default declared value for an attribute. []
   element defaultVal { defaultVal.content, defaultVal.localattributes }
 defaultVal.content = text
 defaultVal.localattributes = att.global.attributes, empty
 eg =
   
-  ## (example) contains any kind of illustrative example. 
+  ## (example) contains any kind of illustrative example.  [ ]
   element eg { eg.content, eg.localattributes }
 eg.content = text
 eg.localattributes = att.global.attributes, empty
 egXML =
   
   ## (example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-  ##     attribute, in which the egXML element itself functions as the root element. 
-  element ns1:egXML { egXML.content, egXML.localattributes }
+  ##     attribute, in which the egXML element itself functions as the root element.  [ ]
+  element ns2:egXML { egXML.content, egXML.localattributes }
 egXML.content = (text | macro.anyXML)*
 egXML.localattributes =
   att.global.attributes,
@@ -528,15 +567,15 @@ egXML.localattributes =
   attribute valid {
     
     ## the example is intended to be fully valid,
-    ## assuming that its root element can be used as the root element in the
-    ## schema concerned.
+    ## assuming that its root element, or a provided root element, 
+    ## could have been used as a possible root element in the schema concerned.
     "true"
     | 
       ## the example could be transformed into
       ## a valid document by inserting any number of valid attributes and child
-      ## elements anywhere within it; it is valid against a version of the
-      ## schema concerned in which every data, list, element, or attribute
-      ## element has been made optional.
+      ## elements anywhere within it; or it is valid against a version of the
+      ## schema concerned in which the provision of character data, list, element, or attribute
+      ## values has been made optional.
       "feasible"
     | 
       ## the example is not intended to be valid,
@@ -559,20 +598,43 @@ elementRef.localattributes =
   empty
 elementSpec =
   
-  ## (element specification) documents the structure, content, and purpose of a single element type.
+  ## (element specification) documents the structure, content, and purpose of a single element type. [ ]
   element elementSpec {
     elementSpec.content, elementSpec.localattributes
   }
 elementSpec.content =
-  model.glossLike*,
-  classes?,
-  content?,
-  valList?,
-  constraintSpec*,
-  attList?,
-  exemplum*,
-  remarks*,
-  listRef*
+  (model.glossLike*,
+   classes?,
+   content?,
+   valList?,
+   constraintSpec*,
+   attList?,
+   exemplum*,
+   remarks*,
+   listRef*)
+  >> sch:pattern [
+       id = "elementSpec-constraint-elementspec-in-module"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:elementSpec"
+         "\x{a}" ~
+         "            "
+         sch:report [
+           test = "not(//tei:moduleSpec[@ident=current()/@module])"
+           "\x{a}" ~
+           "Macro "
+           sch:value-of [ select = "@ident" ]
+           ": the value of the module ["
+           sch:value-of [ select = "@module" ]
+           "] attribute must correspond to an existing moduleSpec"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
 elementSpec.localattributes =
   att.global.attributes,
   att.identified.attributes,
@@ -589,7 +651,7 @@ elementSpec.localattributes =
 equiv =
   
   ## (equivalent) specifies a component which is considered equivalent to the parent element, either by
-  ##     co-reference, or by external link.
+  ##     co-reference, or by external link. [   ]
   element equiv { equiv.content, equiv.localattributes }
 equiv.content = empty
 equiv.localattributes =
@@ -610,7 +672,7 @@ equiv.localattributes =
 exemplum =
   
   ## groups an example demonstrating the use of an element along with optional paragraphs of
-  ##     commentary.
+  ##     commentary. []
   element exemplum { exemplum.content, exemplum.localattributes }
 exemplum.content = model.pLike*, (egXML | eg), model.pLike*
 exemplum.localattributes =
@@ -620,7 +682,7 @@ exemplum.localattributes =
   empty
 gi =
   
-  ## (element name) contains the name (generic identifier) of an element.
+  ## (element name) contains the name (generic identifier) of an element. [ ]
   element gi { gi.content, gi.localattributes }
 gi.content = text
 gi.localattributes =
@@ -632,7 +694,7 @@ gi.localattributes =
   empty
 ident =
   
-  ## (identifier) contains an identifier or name for an object of some kind in a formal language.
+  ## (identifier) contains an identifier or name for an object of some kind in a formal language. ident is used for tokens such as variable names, class names, type names, function names etc. in formal programming languages. []
   element ident { ident.content, ident.localattributes }
 ident.content = text
 ident.localattributes =
@@ -662,12 +724,35 @@ macroSpec =
   ## (macro specification) documents the function and implementation of a pattern. 
   element macroSpec { macroSpec.content, macroSpec.localattributes }
 macroSpec.content =
-  model.glossLike*,
-  (stringVal | content)*,
-  constraintSpec*,
-  exemplum*,
-  remarks*,
-  listRef*
+  (model.glossLike*,
+   (content | valList)*,
+   constraintSpec*,
+   exemplum*,
+   remarks*,
+   listRef*)
+  >> sch:pattern [
+       id = "macroSpec-constraint-macrospec-in-module"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:macroSpec"
+         "\x{a}" ~
+         "            "
+         sch:report [
+           test = "not(//tei:moduleSpec[@ident=current()/@module])"
+           "\x{a}" ~
+           "Macro "
+           sch:value-of [ select = "@ident" ]
+           ": the value of the module attribute ["
+           sch:value-of [ select = "@module" ]
+           "]  must correspond to an existing moduleSpec"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
 macroSpec.localattributes =
   att.global.attributes,
   att.identified.attributes,
@@ -705,6 +790,12 @@ memberOf.localattributes =
       ## this declaration and all of its children are removed from the current setup
       "delete"
   }?,
+  
+  ## supplies the maximum number of times the element can occur in elements which use this model class in their content model
+  attribute max { data.numeric }?,
+  
+  ## supplies the minumum number of times the element must occur in elements which use this model class in their content model
+  attribute min { data.numeric }?,
   empty
 moduleRef =
   
@@ -723,9 +814,9 @@ moduleRef.content =
          sch:report [
            test = "* and @key"
            "\x{a}" ~
-           "	  child elements of moduleRef are only allowed when an external module\x{a}" ~
-           "	  is being loaded\x{a}" ~
-           "	"
+           "          child elements of moduleRef are only allowed when an external module\x{a}" ~
+           "          is being loaded\x{a}" ~
+           "        "
          ]
          "\x{a}" ~
          "         "
@@ -736,6 +827,31 @@ moduleRef.content =
 moduleRef.localattributes =
   att.global.attributes,
   att.readFrom.attributes,
+  (
+   ## specifies a default prefix which will be
+   ##       prepended to all patterns from the imported module
+   attribute prefix { xsd:NCName }?)
+  >> sch:pattern [
+       id = "prefix-constraint-not-same-prefix"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:moduleRef"
+         "\x{a}" ~
+         "	           "
+         sch:report [
+           test =
+             "//*[ not( generate-id(.) eq generate-id(      current() ) ) ]/@prefix = @prefix"
+           "The prefix attribute\x{a}" ~
+           "	    of a moduleRef element should not match that of any other\x{a}" ~
+           "	    element (it would defeat the purpose)"
+         ]
+         "\x{a}" ~
+         "          "
+       ]
+       "\x{a}" ~
+       "      "
+     ],
   (
    ## supplies a list of the elements which are to be copied from the
    ## specified module into the schema being defined.
@@ -771,7 +887,7 @@ moduleSpec.localattributes =
 remarks =
   
   ## contains any commentary or discussion about the usage of an element, attribute, class, or
-  ##     entity not otherwise documented within the containing element.
+  ##     entity not otherwise documented within the containing element. [   ]
   element remarks { remarks.content, remarks.localattributes }
 remarks.content = model.pLike+
 remarks.localattributes =
@@ -861,17 +977,10 @@ specList =
   element specList { specList.content, specList.localattributes }
 specList.content = specDesc+
 specList.localattributes = att.global.attributes, empty
-stringVal =
-  
-  ## contains the intended expansion for the entity documented by a macroSpec element,
-  ##     enclosed by quotation marks.
-  element stringVal { stringVal.content, stringVal.localattributes }
-stringVal.content = text
-stringVal.localattributes = att.global.attributes, empty
 tag =
   
   ## contains text of a complete start- or end-tag, possibly including attribute specifications,
-  ##     but excluding the opening and closing markup delimiter characters.
+  ##     but excluding the opening and closing markup delimiter characters. []
   element tag { tag.content, tag.localattributes }
 tag.content = text
 tag.localattributes =
@@ -915,7 +1024,7 @@ tag.localattributes =
   empty
 val =
   
-  ## (value) contains a single attribute value.
+  ## (value) contains a single attribute value. [ ]
   element val { val.content, val.localattributes }
 val.content = text
 val.localattributes = att.global.attributes, empty
@@ -923,7 +1032,7 @@ valDesc =
   
   ## (value description) specifies any semantic or syntactic constraint on the value that
   ## an attribute may take, additional to the information carried by the
-  ## datatype element.
+  ## datatype element. []
   element valDesc { valDesc.content, valDesc.localattributes }
 valDesc.content = macro.phraseSeq.limited
 valDesc.localattributes =
@@ -934,7 +1043,7 @@ valDesc.localattributes =
 valItem =
   
   ## documents a single attribute-value within a list of possible
-  ##   or mandatory items.
+  ##   or mandatory items. []
   element valItem { valItem.content, valItem.localattributes }
 valItem.content = model.glossLike*
 valItem.localattributes =
@@ -946,7 +1055,7 @@ valItem.localattributes =
   empty
 valList =
   
-  ## (value list) contains one or more valItem elements defining possible values for an attribute.
+  ## (value list) contains one or more valItem elements defining possible values for an attribute. []
   element valList { valList.content, valList.localattributes }
 valList.content = valItem*
 valList.localattributes =
@@ -969,3 +1078,9 @@ valList.localattributes =
   }?,
   empty
 # 3. macros
+macro.anyXML =
+  element * - (ns1:* | ns2:egXML) {
+    attribute * { text }*,
+    (text | macro.anyXML)*
+  }
+macro.schemaPattern = macro.anyXML

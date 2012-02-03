@@ -1,29 +1,44 @@
 
 <!--
-DTD module tagdocs. Generated 2011-03-05T14:53:21Z. 
+DTD module tagdocs. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Documentation of TEI modules
 -->
 
@@ -42,7 +57,7 @@ Documentation of TEI modules
 <!ENTITY % att 'INCLUDE' >
 <![ %att; [
 
-<!--doc:(attribute) contains the name of an attribute appearing within running text. -->
+<!--doc:(attribute) contains the name of an attribute appearing within running text. [] -->
 <!ELEMENT %n.att; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.att; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.att;
@@ -53,7 +68,7 @@ scheme %data.enumerated;  "TEI"  >
 <!ENTITY % attDef 'INCLUDE' >
 <![ %attDef; [
 
-<!--doc:(attribute definition) contains the definition of a single attribute. -->
+<!--doc:(attribute definition) contains the definition of a single attribute. [] -->
 <!ELEMENT %n.attDef; %om.RR; ((%model.glossLike;)*,(%n.datatype;)?,(%n.constraintSpec;)*,(%n.defaultVal;)?,(%n.valList; |
  (%n.valDesc;)+)?,(%n.exemplum;)*,(%n.remarks;)*)>
 <!ATTLIST %n.attDef; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -68,7 +83,7 @@ ns %data.namespace;  "http://www.tei-c.org/ns/1.0"  >
 <![ %attList; [
 
 <!--doc:contains documentation for all the attributes associated with this element, as a series of
-      attDef elements. -->
+      attDef elements. [ ] -->
 <!ELEMENT %n.attList; %om.RR; (%n.attRef; |
  %n.attDef; |
  %n.attList;)+>
@@ -121,7 +136,7 @@ generate NMTOKENS  #IMPLIED >
 <![ %classes; [
 
 <!--doc:specifies all the classes of which the documented element or
-class is a member or subclass. -->
+class is a member or subclass. [ ] -->
 <!ELEMENT %n.classes; %om.RR; (%n.memberOf;)*>
 <!ATTLIST %n.classes; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.classes;
@@ -155,7 +170,7 @@ lang %data.word;  #IMPLIED >
 <![ %constraintSpec; [
 
 <!--doc: (constraint on schema) contains  a constraint, expressed in some formal syntax,
-  which cannot be expressed in the structural content model -->
+  which cannot be expressed in the structural content model [] -->
 <!ELEMENT %n.constraintSpec; %om.RR; ((%model.glossLike;)*,(%n.constraint;)?)>
 <!ATTLIST %n.constraintSpec; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.constraintSpec;
@@ -169,7 +184,7 @@ scheme (schematron|isoschematron|xsl|private) #REQUIRED >
 <![ %content; [
 
 <!--doc:(content model) contains the text of a declaration for the schema
-documented. -->
+documented. [] -->
 <!ELEMENT %n.content; %om.RR; (%macro.schemaPattern;)*>
 <!ATTLIST %n.content; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.content;
@@ -181,7 +196,7 @@ autoPrefix (true|false) "true"  >
 <![ %datatype; [
 
 <!--doc:specifies the declared value for an attribute, by referring to
-  any datatype defined by the chosen schema language. -->
+  any datatype defined by the chosen schema language. [ ] -->
 <!ELEMENT %n.datatype; %om.RR; (%macro.schemaPattern;)*>
 <!ATTLIST %n.datatype; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.datatype;
@@ -193,7 +208,7 @@ maxOccurs CDATA "1"  >
 <!ENTITY % defaultVal 'INCLUDE' >
 <![ %defaultVal; [
 
-<!--doc:(default value) specifies the default declared value for an attribute. -->
+<!--doc:(default value) specifies the default declared value for an attribute. [] -->
 <!ELEMENT %n.defaultVal; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.defaultVal; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.defaultVal;
@@ -203,7 +218,7 @@ maxOccurs CDATA "1"  >
 <!ENTITY % eg 'INCLUDE' >
 <![ %eg; [
 
-<!--doc:(example) contains any kind of illustrative example.  -->
+<!--doc:(example) contains any kind of illustrative example.  [ ] -->
 <!ELEMENT %n.eg; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.eg; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.eg;
@@ -214,7 +229,7 @@ maxOccurs CDATA "1"  >
 <![ %egXML; [
 
 <!--doc:(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element.  -->
+    attribute, in which the egXML element itself functions as the root element.  [ ] -->
 <!ELEMENT %n.egXML; %om.RR; (#PCDATA)*>
 <!ATTLIST %n.egXML; xmlns CDATA "http://www.tei-c.org/ns/Examples">
 <!ATTLIST %n.egXML;
@@ -237,7 +252,7 @@ key CDATA #REQUIRED >
 <!ENTITY % elementSpec 'INCLUDE' >
 <![ %elementSpec; [
 
-<!--doc:(element specification) documents the structure, content, and purpose of a single element type. -->
+<!--doc:(element specification) documents the structure, content, and purpose of a single element type. [ ] -->
 <!ELEMENT %n.elementSpec; %om.RR; ((%model.glossLike;)*,(%n.classes;)?,(%n.content;)?,(%n.valList;)?,(%n.constraintSpec;)*,(%n.attList;)?,(%n.exemplum;)*,(%n.remarks;)*,(%n.listRef;)*)>
 <!ATTLIST %n.elementSpec; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.elementSpec;
@@ -251,7 +266,7 @@ prefix CDATA #IMPLIED >
 <![ %equiv; [
 
 <!--doc:(equivalent) specifies a component which is considered equivalent to the parent element, either by
-    co-reference, or by external link. -->
+    co-reference, or by external link. [   ] -->
 <!ELEMENT %n.equiv; %om.RR; EMPTY>
 <!ATTLIST %n.equiv; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.equiv;
@@ -266,7 +281,7 @@ filter %data.pointer;  #IMPLIED >
 <![ %exemplum; [
 
 <!--doc:groups an example demonstrating the use of an element along with optional paragraphs of
-    commentary. -->
+    commentary. [] -->
 <!ELEMENT %n.exemplum; %om.RR; ((%model.pLike;)*,(%n.egXML; |
  %n.eg;),(%model.pLike;)*)>
 <!ATTLIST %n.exemplum; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -279,7 +294,7 @@ filter %data.pointer;  #IMPLIED >
 <!ENTITY % gi 'INCLUDE' >
 <![ %gi; [
 
-<!--doc:(element name) contains the name (generic identifier) of an element. -->
+<!--doc:(element name) contains the name (generic identifier) of an element. [ ] -->
 <!ELEMENT %n.gi; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.gi; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.gi;
@@ -290,7 +305,7 @@ scheme %data.enumerated;  "TEI"  >
 <!ENTITY % ident 'INCLUDE' >
 <![ %ident; [
 
-<!--doc:(identifier) contains an identifier or name for an object of some kind in a formal language. -->
+<!--doc:(identifier) contains an identifier or name for an object of some kind in a formal language. ident is used for tokens such as variable names, class names, type names, function names etc. in formal programming languages. [] -->
 <!ELEMENT %n.ident; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.ident; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.ident;
@@ -325,8 +340,8 @@ key CDATA #REQUIRED >
 <![ %macroSpec; [
 
 <!--doc:(macro specification) documents the function and implementation of a pattern.  -->
-<!ELEMENT %n.macroSpec; %om.RR; ((%model.glossLike;)*,(%n.stringVal; |
- %n.content;)*,(%n.constraintSpec;)*,(%n.exemplum;)*,(%n.remarks;)*,(%n.listRef;)*)>
+<!ELEMENT %n.macroSpec; %om.RR; ((%model.glossLike;)*,(%n.content; |
+ %n.valList;)*,(%n.constraintSpec;)*,(%n.exemplum;)*,(%n.remarks;)*,(%n.listRef;)*)>
 <!ATTLIST %n.macroSpec; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.macroSpec;
  %att.global.attributes;
@@ -343,7 +358,9 @@ type (pe|dt) #IMPLIED >
 <!ATTLIST %n.memberOf;
  %att.global.attributes;
 key %data.name;  #IMPLIED
-mode (add|delete) "add"  >
+mode (add|delete) "add" 
+max %data.numeric;  #IMPLIED
+min %data.numeric;  #IMPLIED >
 ]]>
 
 <!ENTITY % moduleRef 'INCLUDE' >
@@ -355,6 +372,7 @@ mode (add|delete) "add"  >
 <!ATTLIST %n.moduleRef;
  %att.global.attributes;
  %att.readFrom.attributes;
+prefix CDATA  #IMPLIED
 include CDATA  #IMPLIED
 except CDATA  #IMPLIED
 key CDATA #IMPLIED
@@ -378,7 +396,7 @@ type CDATA  #IMPLIED >
 <![ %remarks; [
 
 <!--doc:contains any commentary or discussion about the usage of an element, attribute, class, or
-    entity not otherwise documented within the containing element. -->
+    entity not otherwise documented within the containing element. [   ] -->
 <!ELEMENT %n.remarks; %om.RR; (%model.pLike;)+>
 <!ATTLIST %n.remarks; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.remarks;
@@ -452,22 +470,11 @@ target %data.pointer;  #REQUIRED >
  %att.global.attributes; >
 ]]>
 
-<!ENTITY % stringVal 'INCLUDE' >
-<![ %stringVal; [
-
-<!--doc:contains the intended expansion for the entity documented by a macroSpec element,
-    enclosed by quotation marks. -->
-<!ELEMENT %n.stringVal; %om.RR;  (#PCDATA)>
-<!ATTLIST %n.stringVal; xmlns CDATA "http://www.tei-c.org/ns/1.0">
-<!ATTLIST %n.stringVal;
- %att.global.attributes; >
-]]>
-
 <!ENTITY % tag 'INCLUDE' >
 <![ %tag; [
 
 <!--doc:contains text of a complete start- or end-tag, possibly including attribute specifications,
-    but excluding the opening and closing markup delimiter characters. -->
+    but excluding the opening and closing markup delimiter characters. [] -->
 <!ELEMENT %n.tag; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.tag; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.tag;
@@ -479,7 +486,7 @@ scheme (TEI|DBK|XX) "TEI"  >
 <!ENTITY % val 'INCLUDE' >
 <![ %val; [
 
-<!--doc:(value) contains a single attribute value. -->
+<!--doc:(value) contains a single attribute value. [ ] -->
 <!ELEMENT %n.val; %om.RR;  (#PCDATA)>
 <!ATTLIST %n.val; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.val;
@@ -491,7 +498,7 @@ scheme (TEI|DBK|XX) "TEI"  >
 
 <!--doc:(value description) specifies any semantic or syntactic constraint on the value that
 an attribute may take, additional to the information carried by the
-datatype element. -->
+datatype element. [] -->
 <!ELEMENT %n.valDesc; %om.RR; %macro.phraseSeq.limited;>
 <!ATTLIST %n.valDesc; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.valDesc;
@@ -504,7 +511,7 @@ datatype element. -->
 <![ %valItem; [
 
 <!--doc:documents a single attribute-value within a list of possible
-  or mandatory items. -->
+  or mandatory items. [] -->
 <!ELEMENT %n.valItem; %om.RR; (%model.glossLike;)*>
 <!ATTLIST %n.valItem; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.valItem;
@@ -516,7 +523,7 @@ ident CDATA #REQUIRED >
 <!ENTITY % valList 'INCLUDE' >
 <![ %valList; [
 
-<!--doc:(value list) contains one or more valItem elements defining possible values for an attribute. -->
+<!--doc:(value list) contains one or more valItem elements defining possible values for an attribute. [] -->
 <!ELEMENT %n.valList; %om.RR; (%n.valItem;)*>
 <!ATTLIST %n.valList; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.valList;

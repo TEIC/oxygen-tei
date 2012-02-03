@@ -1,32 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Performance texts--><!--Definitions from module drama--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><!--2. elements--><define name="actor">
       <element name="actor">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Name of an actor appearing within a cast list.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Name of an actor appearing within a cast list. []</a:documentation>
          <ref name="actor.content"/>
          <ref name="actor.localattributes"/>
       </element>
@@ -40,7 +55,7 @@ For information about the TEI, including contact
    </define>
    <define name="camera">
       <element name="camera">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a particular camera angle or viewpoint in a screen play.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a particular camera angle or viewpoint in a screen play. [ ]</a:documentation>
          <ref name="camera.content"/>
          <ref name="camera.localattributes"/>
       </element>
@@ -56,7 +71,7 @@ For information about the TEI, including contact
    <define name="caption">
       <element name="caption">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the text of a caption or other text displayed as part of
-a film script or screenplay.</a:documentation>
+a film script or screenplay. [ ]</a:documentation>
          <ref name="caption.content"/>
          <ref name="caption.localattributes"/>
       </element>
@@ -71,7 +86,7 @@ a film script or screenplay.</a:documentation>
    <define name="castGroup">
       <element name="castGroup">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list grouping) groups one or more individual castItem
-elements within a cast list.</a:documentation>
+elements within a cast list. []</a:documentation>
          <ref name="castGroup.content"/>
          <ref name="castGroup.localattributes"/>
       </element>
@@ -109,7 +124,7 @@ elements within a cast list.</a:documentation>
    <define name="castItem">
       <element name="castItem">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list item) contains a single entry within a cast list, describing
-either a single role or a list of non-speaking roles.</a:documentation>
+either a single role or a list of non-speaking roles. []</a:documentation>
          <ref name="castItem.content"/>
          <ref name="castItem.localattributes"/>
       </element>
@@ -146,7 +161,7 @@ either a single role or a list of non-speaking roles.</a:documentation>
    </define>
    <define name="castList">
       <element name="castList">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list) contains a single cast list or dramatis personae.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list) contains a single cast list or dramatis personae. [ ]</a:documentation>
          <ref name="castList.content"/>
          <ref name="castList.localattributes"/>
       </element>
@@ -193,7 +208,7 @@ either a single role or a list of non-speaking roles.</a:documentation>
    <define name="epilogue">
       <element name="epilogue">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the epilogue to a drama, typically spoken by an actor out of character, possibly in
-    association with a particular performance or venue.</a:documentation>
+    association with a particular performance or venue. [ ]</a:documentation>
          <ref name="epilogue.content"/>
          <ref name="epilogue.localattributes"/>
       </element>
@@ -230,7 +245,7 @@ either a single role or a list of non-speaking roles.</a:documentation>
    </define>
    <define name="move">
       <element name="move">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(movement) marks the actual entrance or exit of one or more characters on stage.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(movement) marks the actual entrance or exit of one or more characters on stage. []</a:documentation>
          <ref name="move.content"/>
          <ref name="move.localattributes"/>
       </element>
@@ -284,7 +299,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    <define name="performance">
       <element name="performance">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a section of front or back matter describing how a dramatic piece is to be
-    performed in general or how it was performed on some specific occasion. </a:documentation>
+    performed in general or how it was performed on some specific occasion.  [ ]</a:documentation>
          <ref name="performance.content"/>
          <ref name="performance.localattributes"/>
       </element>
@@ -322,7 +337,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    <define name="prologue">
       <element name="prologue">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the prologue to a drama, typically spoken by an actor out of character, possibly in
-    association with a particular performance or venue.</a:documentation>
+    association with a particular performance or venue. [ ]</a:documentation>
          <ref name="prologue.content"/>
          <ref name="prologue.localattributes"/>
       </element>
@@ -359,7 +374,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    </define>
    <define name="role">
       <element name="role">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">the name of a dramatic role, as given in a cast list.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">the name of a dramatic role, as given in a cast list. []</a:documentation>
          <ref name="role.content"/>
          <ref name="role.localattributes"/>
       </element>
@@ -373,7 +388,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    </define>
    <define name="roleDesc">
       <element name="roleDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role description) describes a character's role in a drama.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role description) describes a character's role in a drama. []</a:documentation>
          <ref name="roleDesc.content"/>
          <ref name="roleDesc.localattributes"/>
       </element>
@@ -388,7 +403,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    <define name="set">
       <element name="set">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(setting) contains a description of the setting, time, locale, appearance, etc., of the action of a
-    play, typically found in the front matter of a printed performance text (not a stage direction).</a:documentation>
+    play, typically found in the front matter of a printed performance text (not a stage direction). []</a:documentation>
          <ref name="set.content"/>
          <ref name="set.localattributes"/>
       </element>
@@ -419,7 +434,7 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
    </define>
    <define name="sound">
       <element name="sound">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a sound effect or musical sequence specified within a screen play or radio script.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a sound effect or musical sequence specified within a screen play or radio script. [ ]</a:documentation>
          <ref name="sound.content"/>
          <ref name="sound.localattributes"/>
       </element>
@@ -444,10 +459,39 @@ Sample values include: 1] L(left) ; 2] R(right) ; 3] C(center) </a:documentation
       </optional>
       <empty/>
    </define>
+   <define name="spGrp">
+      <element name="spGrp">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"> (speech group) A group of speeches or songs in a performance text presented
+  in a source as constituting a single unit or
+  number. []</a:documentation>
+         <ref name="spGrp.content"/>
+         <ref name="spGrp.localattributes"/>
+      </element>
+   </define>
+   <define name="spGrp.content">
+      <group>
+         <optional>
+            <ref name="model.headLike"/>
+         </optional>
+         <oneOrMore>
+            <choice>
+               <ref name="model.global"/>
+               <ref name="sp"/>
+               <ref name="model.stageLike"/>
+            </choice>
+         </oneOrMore>
+      </group>
+   </define>
+   <define name="spGrp.localattributes">
+      <ref name="att.global.attributes"/>
+      <ref name="att.typed.attributes"/>
+      <ref name="att.ascribed.attributes"/>
+      <empty/>
+   </define>
    <define name="tech">
       <element name="tech">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(technical stage direction) describes a special-purpose stage direction that is not
-meant for the actors.</a:documentation>
+meant for the actors. []</a:documentation>
          <ref name="tech.content"/>
          <ref name="tech.localattributes"/>
       </element>
@@ -485,7 +529,7 @@ technical direction applies.</a:documentation>
       <element name="view">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the visual context of some part of a screen play in
 terms of what the spectator sees, generally independent of any
-dialogue.</a:documentation>
+dialogue. [ ]</a:documentation>
          <ref name="view.content"/>
          <ref name="view.localattributes"/>
       </element>

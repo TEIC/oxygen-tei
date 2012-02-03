@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/1.0" xmlns:ns1="http://www.tei-c.org/ns/1.0">
   <!--
-    Schema generated from ODD source 2011-03-05T14:53:38Z. 
-    Edition: 1.9.0. Last updated on February 25th 2011.
-    Edition Location: http://www.tei-c.org/Vault/P5/1.9.0/
+    Schema generated from ODD source 2012-02-02T20:36:03Z. 
+    Edition: 2.0.2 Last updated on 2nd February 2012.
+    Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
     
   -->
   <!--
-    
     This template file is freely available and you are
-    	       hereby authorised to copy, modify, and redistribute it in
-    	       any way without further reference or permissions.
-    
+    hereby authorised to copy, modify, and redistribute it in
+    any way without further reference or permissions.
     When making such modifications, you are strongly
-    	       recommended to change the present text to include an
-    	       accurate statement of the licencing conditions applicable
-    	       to your modified text.
+    recommended to change the present text to include an
+    accurate statement of the licencing conditions applicable
+    to your modified text.
   -->
   <xs:simpleType name="data.numeric">
     <xs:union memberTypes="xs:double xs:decimal">
@@ -43,12 +41,6 @@
   <xs:simpleType name="data.enumerated">
     <xs:restriction base="ns1:data.name"/>
   </xs:simpleType>
-  <xs:group name="macro.anyXML">
-    <xs:choice>
-      <xs:any namespace="##other" processContents="skip"/>
-      <xs:any namespace="##local" processContents="skip"/>
-    </xs:choice>
-  </xs:group>
   <xs:group name="model.global.meta">
     <xs:choice>
       <xs:element ref="ns1:fs"/>
@@ -214,7 +206,7 @@
   <xs:element name="fsdDecl">
     <xs:annotation>
       <xs:documentation>(feature system declaration) provides a feature system declaration comprising one or more
-  feature structure declarations or feature structure declaration links.</xs:documentation>
+  feature structure declarations or feature structure declaration links. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
@@ -225,7 +217,7 @@
   </xs:element>
   <xs:element name="fsDecl">
     <xs:annotation>
-      <xs:documentation>(feature structure declaration) declares one type of feature structure.</xs:documentation>
+      <xs:documentation>(feature structure declaration) declares one type of feature structure. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -273,13 +265,13 @@
   <xs:element name="fsDescr" type="xs:string">
     <xs:annotation>
       <xs:documentation>(feature system description (in FSD)) describes in prose what is represented by the type of feature
-structure declared in the enclosing fsDecl.</xs:documentation>
+structure declared in the enclosing fsDecl. [18.11. ]</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="fsdLink">
     <xs:annotation>
       <xs:documentation>(feature structure declaration link) associates the name of a typed feature structure with a feature
-structure declaration for it.</xs:documentation>
+structure declaration for it. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="type" use="required" type="ns1:data.enumerated">
@@ -300,7 +292,7 @@ feature structure.</xs:documentation>
   <xs:element name="fDecl">
     <xs:annotation>
       <xs:documentation>(feature declaration) declares a single feature, specifying its name, organization,
-range of allowed values, and optionally its default value.</xs:documentation>
+range of allowed values, and optionally its default value. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -325,7 +317,7 @@ name attribute of f elements in the text.</xs:documentation>
   <xs:element name="fDescr" type="xs:string">
     <xs:annotation>
       <xs:documentation>(feature description (in FSD)) describes in prose what is represented by the feature being
-declared and its values.</xs:documentation>
+declared and its values. [18.11. ]</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="vRange">
@@ -335,7 +327,7 @@ an fs, vAlt, or primitive value;
 for the value of an f to be valid, it must be
 subsumed by the specified range; if the f
 contains multiple values (as sanctioned by the org attribute),
-then each value must be subsumed by the vRange.</xs:documentation>
+then each value must be subsumed by the vRange. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group ref="ns1:model.featureVal"/>
@@ -350,7 +342,7 @@ the org attribute of the enclosing fDecl) more
 fs elements or primitive values;
 if conditional, it is specified as
 one or more if elements; if no default is specified, or no
-condition matches, the value none is assumed.</xs:documentation>
+condition matches, the value none is assumed. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -364,7 +356,7 @@ condition matches, the value none is assumed.</xs:documentation>
       <xs:documentation>defines a conditional default value for a feature; the condition
 is specified as a feature structure, and is met if it
 subsumes the feature structure in the text for which a
-default value is sought.</xs:documentation>
+default value is sought. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -380,14 +372,14 @@ default value is sought.</xs:documentation>
   <xs:element name="then">
     <xs:annotation>
       <xs:documentation>separates the condition from the default in an if, or
-the antecedent and the consequent in a cond element.</xs:documentation>
+the antecedent and the consequent in a cond element. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType/>
   </xs:element>
   <xs:element name="fsConstraints">
     <xs:annotation>
       <xs:documentation>(feature-structure constraints) specifies constraints on the content of valid feature
-structures.</xs:documentation>
+structures. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -402,7 +394,7 @@ structures.</xs:documentation>
 and the antecedent are specified as feature structures or
 feature-structure collections; the constraint is satisfied if both the
 antecedent and the consequent subsume a given feature
-structure, or if the antecedent does not.</xs:documentation>
+structure, or if the antecedent does not. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -423,7 +415,7 @@ structure, or if the antecedent does not.</xs:documentation>
       <xs:documentation>(bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both
 consequent and antecedent are specified as feature structures or groups
 of feature structures; the constraint is satisfied if both
-subsume a given feature structure, or if both do not.</xs:documentation>
+subsume a given feature structure, or if both do not. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -442,7 +434,7 @@ subsume a given feature structure, or if both do not.</xs:documentation>
   <xs:element name="iff">
     <xs:annotation>
       <xs:documentation>(if and only if) separates the condition from the consequence in a bicond
-element.</xs:documentation>
+element. [18.11. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType/>
   </xs:element>
@@ -450,7 +442,7 @@ element.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(feature structure) represents a feature structure, that is, a
   collection of feature-value pairs organized as a
-structural unit.</xs:documentation>
+structural unit. [18.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -483,7 +475,7 @@ structural unit.</xs:documentation>
   <xs:element name="f">
     <xs:annotation>
       <xs:documentation>(feature) represents a feature value specification, that
-  is, the association of a name with a value of any of several different types.</xs:documentation>
+  is, the association of a name with a value of any of several different types. [18.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:model.featureVal"/>
@@ -503,7 +495,7 @@ structural unit.</xs:documentation>
   <xs:element name="binary">
     <xs:annotation>
       <xs:documentation>(binary value) represents the value part of a feature-value specification which can contain either
-  of exactly two possible values.</xs:documentation>
+  of exactly two possible values. [18.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="value" use="required" type="ns1:data.truthValue">
@@ -516,7 +508,7 @@ structural unit.</xs:documentation>
   <xs:element name="symbol">
     <xs:annotation>
       <xs:documentation>(symbolic value) represents the value part of a feature-value specification
-  which contains one of a finite list of symbols.</xs:documentation>
+  which contains one of a finite list of symbols. [18.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="value" use="required" type="ns1:data.word">
@@ -530,7 +522,7 @@ may be specified in a feature declaration.</xs:documentation>
   <xs:element name="numeric">
     <xs:annotation>
       <xs:documentation>(numeric value) represents the value part of a feature-value specification
-  which contains a numeric value or range.</xs:documentation>
+  which contains a numeric value or range. [18.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="value" use="required" type="ns1:data.numeric">
@@ -555,7 +547,7 @@ may be specified in a feature declaration.</xs:documentation>
   <xs:element name="string" type="xs:string">
     <xs:annotation>
       <xs:documentation>(string value) represents the value part of a feature-value specification
-  which contains a string.</xs:documentation>
+  which contains a string. [18.3. ]</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="vLabel">
@@ -615,14 +607,14 @@ list.</xs:documentation>
   <xs:element name="default">
     <xs:annotation>
       <xs:documentation>(default feature value) represents the value part of a feature-value specification
-  which contains a defaulted value.</xs:documentation>
+  which contains a defaulted value. [18.9. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType/>
   </xs:element>
   <xs:element name="vAlt">
     <xs:annotation>
       <xs:documentation>(value alternation) represents the value part of a feature-value specification
-  which contains a set of values, only one of which can be valid.</xs:documentation>
+  which contains a set of values, only one of which can be valid. [18.8.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -633,7 +625,7 @@ list.</xs:documentation>
   </xs:element>
   <xs:element name="vNot">
     <xs:annotation>
-      <xs:documentation>(value negation) represents a feature value which is the negation of its content.</xs:documentation>
+      <xs:documentation>(value negation) represents a feature value which is the negation of its content. [18.8.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group ref="ns1:model.featureVal"/>
@@ -643,7 +635,7 @@ list.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(merged collection of values) represents a feature value which is the result of merging
   together the feature values contained by its children, using the organization
-  specified by the org attribute.</xs:documentation>
+  specified by the org attribute. [18.8.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="ns1:model.featureVal"/>
@@ -676,7 +668,7 @@ list.</xs:documentation>
   </xs:element>
   <xs:element name="fLib">
     <xs:annotation>
-      <xs:documentation>(feature library) assembles a library of feature elements.</xs:documentation>
+      <xs:documentation>(feature library) assembles a library of feature elements. [18.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -687,7 +679,7 @@ list.</xs:documentation>
   <xs:element name="fvLib">
     <xs:annotation>
       <xs:documentation>(feature-value library) assembles a library of reusable feature value elements
-  (including complete feature structures).</xs:documentation>
+  (including complete feature structures). [18.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:model.featureVal"/>

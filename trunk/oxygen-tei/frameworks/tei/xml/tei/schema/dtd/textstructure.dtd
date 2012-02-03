@@ -1,29 +1,44 @@
 
 <!--
-DTD module textstructure. Generated 2011-03-05T14:53:21Z. 
+DTD module textstructure. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	
-Edition: 1.9.1. Last updated on March 5th 2011.
+Edition: 2.0.2 Last updated on 2nd February 2012.
 Default
 text structure
 -->
@@ -33,7 +48,7 @@ text structure
 
 <!--doc:(TEI document) contains a single TEI-conformant document,
 comprising a TEI header and a text, either in isolation or as part of a
-teiCorpus element. -->
+teiCorpus element. [ ] -->
 <!ELEMENT %n.TEI; %om.RR; (%n.teiHeader;,(((%model.resourceLike;)+,(%n.text;)?) |
  %n.text;))>
 <!ATTLIST %n.TEI; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -49,7 +64,7 @@ version %data.version;  #IMPLIED >
 <![ %argument; [
 
 <!--doc:A formal list or prose description of the topics addressed by
-	a subdivision of a text. -->
+	a subdivision of a text. [ ] -->
 <!ELEMENT %n.argument; %om.RR; ((%model.global; |
  %model.headLike;)*,((%model.common;),(%model.global;)*)+)>
 <!ATTLIST %n.argument; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -60,7 +75,7 @@ version %data.version;  #IMPLIED >
 <!ENTITY % back 'INCLUDE' >
 <![ %back; [
 
-<!--doc:(back matter) contains any appendixes, etc. following the main part of a text. -->
+<!--doc:(back matter) contains any appendixes, etc. following the main part of a text. [ ] -->
 <!ELEMENT %n.back; %om.RR; ((%model.frontPart; |
  %model.pLike.front; |
  %model.global;)*,(((%model.div1Like;),(%model.frontPart; |
@@ -79,7 +94,7 @@ version %data.version;  #IMPLIED >
 <!ENTITY % body 'INCLUDE' >
 <![ %body; [
 
-<!--doc:(text body) contains the whole body of a single unitary text, excluding any front or back matter. -->
+<!--doc:(text body) contains the whole body of a single unitary text, excluding any front or back matter. [] -->
 <!ELEMENT %n.body; %om.RR; ((%model.global;)*,((%model.divTop;),(%model.global; |
  %model.divTop;)*)?,((%model.divGenLike;),(%model.global; |
  %model.divGenLike;)*)?,(((%model.divLike;),(%model.global; |
@@ -100,7 +115,7 @@ version %data.version;  #IMPLIED >
 <![ %byline; [
 
 <!--doc:contains the primary statement of responsibility given for a work
-on its title page or at the head or end of the work. -->
+on its title page or at the head or end of the work. [ ] -->
 <!ELEMENT %n.byline; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -115,7 +130,7 @@ on its title page or at the head or end of the work. -->
 <![ %closer; [
 
 <!--doc:groups together salutations, datelines, and similar phrases appearing as a final group at
-    the end of a division, especially of a letter. -->
+    the end of a division, especially of a letter. [ ] -->
 <!ELEMENT %n.closer; %om.RR; ( #PCDATA |
  %model.gLike; |
  %n.signed; |
@@ -132,7 +147,7 @@ on its title page or at the head or end of the work. -->
 <![ %dateline; [
 
 <!--doc:contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  -->
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [ ] -->
 <!ELEMENT %n.dateline; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.dateline; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.dateline;
@@ -142,7 +157,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div 'INCLUDE' >
 <![ %div; [
 
-<!--doc:(text division) contains a subdivision of the front, body, or back of a text. -->
+<!--doc:(text division) contains a subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.divLike; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -159,7 +174,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div1 'INCLUDE' >
 <![ %div1; [
 
-<!--doc:(level-1 text division) contains a first-level subdivision of the front, body, or back of a text. -->
+<!--doc:(level-1 text division) contains a first-level subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div1; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div2Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -177,7 +192,7 @@ on its title page or at the head or end of the work. -->
 <![ %div2; [
 
 <!--doc:(level-2 text division) contains a second-level subdivision of the front, body, or back of a
- text. -->
+ text. [] -->
 <!ELEMENT %n.div2; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div3Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -194,7 +209,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div3 'INCLUDE' >
 <![ %div3; [
 
-<!--doc:(level-3 text division) contains a third-level subdivision of the front, body, or back of a text. -->
+<!--doc:(level-3 text division) contains a third-level subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div3; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div4Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -211,7 +226,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div4 'INCLUDE' >
 <![ %div4; [
 
-<!--doc:(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text. -->
+<!--doc:(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div4; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div5Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -228,7 +243,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div5 'INCLUDE' >
 <![ %div5; [
 
-<!--doc:(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text. -->
+<!--doc:(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div5; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div6Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -245,7 +260,7 @@ on its title page or at the head or end of the work. -->
 <!ENTITY % div6 'INCLUDE' >
 <![ %div6; [
 
-<!--doc:(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text. -->
+<!--doc:(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text. [] -->
 <!ELEMENT %n.div6; %om.RR; ((%model.divTop; |
  %model.global;)*,((((%model.div7Like; |
  %model.divGenLike;),(%model.global;)*)+ |
@@ -263,7 +278,7 @@ on its title page or at the head or end of the work. -->
 <![ %div7; [
 
 <!--doc:(level-7 text division) contains the smallest possible subdivision of the front, body or back of a text, larger than
-    a paragraph. -->
+    a paragraph. [] -->
 <!ELEMENT %n.div7; %om.RR; ((%model.divTop; |
  %model.global;)*,(((%model.common;),(%model.global;)*)+,((%model.divBottom;),(%model.global;)*)*)?)>
 <!ATTLIST %n.div7; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -278,7 +293,7 @@ on its title page or at the head or end of the work. -->
 <![ %docAuthor; [
 
 <!--doc:(document author) contains the name of the author of the document, as given on the
-title page (often but not always contained in a byline). -->
+title page (often but not always contained in a byline). [] -->
 <!ELEMENT %n.docAuthor; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.docAuthor; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.docAuthor;
@@ -290,7 +305,7 @@ title page (often but not always contained in a byline). -->
 <![ %docDate; [
 
 <!--doc:(document date) contains the date of a document, as given
-(usually) on a title page. -->
+(usually) on a title page. [] -->
 <!ELEMENT %n.docDate; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.docDate; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.docDate;
@@ -302,7 +317,7 @@ when %data.temporal.w3c;  #IMPLIED >
 <![ %docEdition; [
 
 <!--doc:(document edition) contains an edition statement as presented on a title page of a
-document. -->
+document. [] -->
 <!ELEMENT %n.docEdition; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.docEdition; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.docEdition;
@@ -314,7 +329,7 @@ document. -->
 
 <!--doc:(document imprint) contains the imprint statement (place and date of publication,
 publisher name), as given
-(usually) at the foot of a title page. -->
+(usually) at the foot of a title page. [] -->
 <!ELEMENT %n.docImprint; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -331,7 +346,7 @@ publisher name), as given
 <![ %docTitle; [
 
 <!--doc:(document title) contains the title of a document, including all its
-constituents, as given on a title page. -->
+constituents, as given on a title page. [] -->
 <!ELEMENT %n.docTitle; %om.RR; ((%model.global;)*,(%n.titlePart;,(%model.global;)*)+)>
 <!ATTLIST %n.docTitle; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.docTitle;
@@ -342,8 +357,8 @@ constituents, as given on a title page. -->
 <!ENTITY % epigraph 'INCLUDE' >
 <![ %epigraph; [
 
-<!--doc:contains a quotation, anonymous or attributed, appearing at the start of a section or
-    chapter, or on a title page.  -->
+<!--doc:contains a quotation, anonymous or attributed, appearing at
+  the start or end of a section or on a title page.  [  ] -->
 <!ELEMENT %n.epigraph; %om.RR; (%model.common; |
  %model.global;)*>
 <!ATTLIST %n.epigraph; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -355,7 +370,7 @@ constituents, as given on a title page. -->
 <![ %floatingText; [
 
 <!--doc:contains a single text of any kind, whether unitary or composite, which interrupts the text
-    containing it at any point and after which the surrounding text resumes. -->
+    containing it at any point and after which the surrounding text resumes. [] -->
 <!ELEMENT %n.floatingText; %om.RR; ((%model.global;)*,(%n.front;,(%model.global;)*)?,(%n.body; |
  %n.group;),(%model.global;)*,(%n.back;,(%model.global;)*)?)>
 <!ATTLIST %n.floatingText; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -370,7 +385,7 @@ constituents, as given on a title page. -->
 
 <!--doc:(front matter) contains any prefatory matter (headers,
 title page, prefaces, dedications, etc.)
-found  at the start of a document, before the main body. -->
+found  at the start of a document, before the main body. [ ] -->
 <!ELEMENT %n.front; %om.RR; ((%model.frontPart; |
  %model.pLike.front; |
  %model.global;)*,(((%model.div1Like;),(%model.frontPart; |
@@ -391,7 +406,7 @@ found  at the start of a document, before the main body. -->
 
 <!--doc:contains the body of a composite text, grouping together a sequence of distinct texts (or
     groups of such texts) which are regarded as a unit for some purpose, for example the collected
-    works of an author, a sequence of prose essays, etc. -->
+    works of an author, a sequence of prose essays, etc. [  ] -->
 <!ELEMENT %n.group; %om.RR; ((%model.divTop; |
  %model.global;)*,((%n.text; |
  %n.group;),(%n.text; |
@@ -407,7 +422,7 @@ found  at the start of a document, before the main body. -->
 <![ %imprimatur; [
 
 <!--doc:contains a formal statement authorizing the publication of a work, sometimes required to
-    appear on a title page or its verso. -->
+    appear on a title page or its verso. [] -->
 <!ELEMENT %n.imprimatur; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.imprimatur; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.imprimatur;
@@ -418,7 +433,7 @@ found  at the start of a document, before the main body. -->
 <![ %opener; [
 
 <!--doc:groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter. -->
+    group at the start of a division, especially of a letter. [ ] -->
 <!ELEMENT %n.opener; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -437,8 +452,8 @@ found  at the start of a document, before the main body. -->
 <!ENTITY % postscript 'INCLUDE' >
 <![ %postscript; [
 
-<!--doc:contains a postscript, e.g. to a letter. -->
-<!ELEMENT %n.postscript; %om.RR; ((%model.common;) |
+<!--doc:contains a postscript, e.g. to a letter. [] -->
+<!ELEMENT %n.postscript; %om.RR; (((%model.divTopPart;)*,(%model.common;)+,(%model.divBottomPart;)*) |
  (%model.global;))*>
 <!ATTLIST %n.postscript; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.postscript;
@@ -449,7 +464,7 @@ found  at the start of a document, before the main body. -->
 <![ %salute; [
 
 <!--doc:(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc. -->
+    division of a text, or the salutation in the closing of a letter, preface, etc. [ ] -->
 <!ELEMENT %n.salute; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.salute; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.salute;
@@ -460,7 +475,7 @@ found  at the start of a document, before the main body. -->
 <![ %signed; [
 
 <!--doc:(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text.  -->
+dedicatory epistle, or other division of a text.  [ ] -->
 <!ELEMENT %n.signed; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.signed; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.signed;
@@ -471,7 +486,7 @@ dedicatory epistle, or other division of a text.  -->
 <![ %text; [
 
 <!--doc:contains a single text of any kind, whether unitary or composite, for example a poem or
-    drama, a collection of essays, a novel, a dictionary, or a corpus sample. -->
+    drama, a collection of essays, a novel, a dictionary, or a corpus sample. [ ] -->
 <!ELEMENT %n.text; %om.RR; ((%model.global;)*,(%n.front;,(%model.global;)*)?,(%n.body; |
  %n.group;),(%model.global;)*,(%n.back;,(%model.global;)*)?)>
 <!ATTLIST %n.text; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -484,7 +499,7 @@ dedicatory epistle, or other division of a text.  -->
 <!ENTITY % titlePage 'INCLUDE' >
 <![ %titlePage; [
 
-<!--doc:(title page) contains the title page of a text, appearing within the front or back matter.  -->
+<!--doc:(title page) contains the title page of a text, appearing within the front or back matter.  [] -->
 <!ELEMENT %n.titlePage; %om.RR; ((%model.global;)*,(%model.titlepagePart;),(%model.titlepagePart; |
  %model.global;)*)>
 <!ATTLIST %n.titlePage; xmlns CDATA "http://www.tei-c.org/ns/1.0">
@@ -497,7 +512,7 @@ type %data.enumerated;  #IMPLIED >
 <![ %titlePart; [
 
 <!--doc:contains a subsection or division of the title of a work, as
-indicated on a title page. -->
+indicated on a title page. [] -->
 <!ELEMENT %n.titlePart; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.titlePart; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.titlePart;
@@ -508,7 +523,7 @@ type %data.enumerated;  "main"  >
 <!ENTITY % trailer 'INCLUDE' >
 <![ %trailer; [
 
-<!--doc:contains a closing title or footer appearing at the end of a division of a text.  -->
+<!--doc:contains a closing title or footer appearing at the end of a division of a text.  [ ] -->
 <!ELEMENT %n.trailer; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.trailer; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.trailer;

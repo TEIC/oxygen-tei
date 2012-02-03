@@ -2,29 +2,44 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Manuscript Description
 
@@ -49,7 +64,7 @@ accMat =
   ## (accompanying material) contains details of any significant additional
   ## material which may be closely associated with the manuscript being
   ## described, such as non-contemporaneous documents or fragments bound in
-  ## with the manuscript at some earlier historical period.
+  ## with the manuscript at some earlier historical period. []
   element accMat { accMat.content, accMat.localattributes }
 accMat.content = macro.specialPara
 accMat.localattributes =
@@ -58,7 +73,7 @@ acquisition =
   
   ## contains any descriptive or other information
   ## concerning the process by which a manuscript or manuscript part entered the holding
-  ## institution. 
+  ## institution.  []
   element acquisition {
     acquisition.content, acquisition.localattributes
   }
@@ -69,14 +84,14 @@ additional =
   
   ## groups additional information, combining
   ## bibliographic information about a manuscript, or surrogate copies of
-  ## it with  curatorial or administrative information. 
+  ## it with  curatorial or administrative information.  []
   element additional { additional.content, additional.localattributes }
 additional.content = adminInfo?, surrogates?, listBibl?
 additional.localattributes = att.global.attributes, empty
 additions =
   
   ## contains a description of any significant additions found
-  ## within a manuscript, such as marginalia or other annotations. 
+  ## within a manuscript, such as marginalia or other annotations.  []
   element additions { additions.content, additions.localattributes }
 additions.content = macro.specialPara
 additions.localattributes = att.global.attributes, empty
@@ -84,7 +99,7 @@ adminInfo =
   
   ## (administrative information) contains information about the present
   ## custody and availability of the manuscript, and also about the record
-  ## description itself. 
+  ## description itself.  []
   element adminInfo { adminInfo.content, adminInfo.localattributes }
 adminInfo.content =
   recordHist?, availability?, custodialHist?, model.noteLike?
@@ -92,7 +107,7 @@ adminInfo.localattributes = att.global.attributes, empty
 altIdentifier =
   
   ## (alternative identifier) contains an alternative or former structured identifier used for
-  ## a manuscript, such as a former catalogue number.
+  ## a manuscript, such as a former catalogue number. []
   element altIdentifier {
     altIdentifier.content, altIdentifier.localattributes
   }
@@ -108,7 +123,7 @@ altIdentifier.localattributes =
 binding =
   
   ## contains a description of one binding, i.e. type of covering, boards,
-  ##     etc. applied to a manuscript.
+  ##     etc. applied to a manuscript. []
   element binding { binding.content, binding.localattributes }
 binding.content = (model.pLike | condition | decoNote)+
 binding.localattributes =
@@ -123,7 +138,7 @@ bindingDesc =
   
   ## (binding description) describes the present and former bindings of a manuscript, either
   ## as a series of paragraphs or as a series of distinct binding elements,
-  ## one for each binding of the manuscript. 
+  ## one for each binding of the manuscript.  []
   element bindingDesc {
     bindingDesc.content, bindingDesc.localattributes
   }
@@ -133,21 +148,21 @@ catchwords =
   
   ## describes the system used to ensure
   ## correct ordering of the quires making up a codex or incunable,
-  ## typically by means of annotations at the foot of the page.
+  ## typically by means of annotations at the foot of the page. []
   element catchwords { catchwords.content, catchwords.localattributes }
 catchwords.content = macro.phraseSeq
 catchwords.localattributes = att.global.attributes, empty
 collation =
   
   ## contains a description of how the leaves or bifolia are physically
-  ## arranged.
+  ## arranged. []
   element collation { collation.content, collation.localattributes }
 collation.content = macro.specialPara
 collation.localattributes = att.global.attributes, empty
 collection =
   
   ## contains the name of a collection of
-  ## manuscripts, not necessarily located within a single repository. 
+  ## manuscripts, not necessarily located within a single repository.  []
   element collection { collection.content, collection.localattributes }
 collection.content = macro.xtext
 collection.localattributes =
@@ -158,20 +173,20 @@ collection.localattributes =
 colophon =
   
   ## contains the  colophon
-  ## of a  manuscript item: that is, a statement providing information regarding the date, place, agency, or reason for production of the manuscript.
+  ## of a  manuscript item: that is, a statement providing information regarding the date, place, agency, or reason for production of the manuscript. []
   element colophon { colophon.content, colophon.localattributes }
 colophon.content = macro.phraseSeq
 colophon.localattributes = att.global.attributes, empty
 condition =
   
   ## contains a description of the physical
-  ## condition of the manuscript. 
+  ## condition of the manuscript.  []
   element condition { condition.content, condition.localattributes }
 condition.content = macro.specialPara
 condition.localattributes = att.global.attributes, empty
 custEvent =
   
-  ## (custodial event) describes a single event during the custodial history of a manuscript.
+  ## (custodial event) describes a single event during the custodial history of a manuscript. []
   element custEvent { custEvent.content, custEvent.localattributes }
 custEvent.content = macro.specialPara
 custEvent.localattributes =
@@ -182,7 +197,7 @@ custEvent.localattributes =
 custodialHist =
   
   ## (custodial history) contains a description of a manuscript's custodial history, either
-  ## as running prose or as a series of dated custodial events. 
+  ## as running prose or as a series of dated custodial events.  []
   element custodialHist {
     custodialHist.content, custodialHist.localattributes
   }
@@ -190,7 +205,7 @@ custodialHist.content = model.pLike+ | custEvent+
 custodialHist.localattributes = att.global.attributes, empty
 decoDesc =
   
-  ## (decoration description) contains a description of the decoration of a manuscript, either as a sequence of paragraphs, or as a sequence of topically organised decoNote elements.
+  ## (decoration description) contains a description of the decoration of a manuscript, either as a sequence of paragraphs, or as a sequence of topically organised decoNote elements. []
   element decoDesc { decoDesc.content, decoDesc.localattributes }
 decoDesc.content = model.pLike+ | (summary?, decoNote+)
 decoDesc.localattributes = att.global.attributes, empty
@@ -198,7 +213,7 @@ decoNote =
   
   ## (note on decoration) contains a note describing either a
   ## decorative component of a manuscript, or a fairly homogenous class of
-  ## such components.
+  ## such components. []
   element decoNote { decoNote.content, decoNote.localattributes }
 decoNote.content = macro.specialPara
 decoNote.localattributes =
@@ -207,7 +222,7 @@ depth =
   
   ## contains a measurement measured across the
   ##   spine of a book or codex, or (for other text-bearing objects) perpendicular to the measurement given by the
-  ##   width element. 
+  ##   width element.  []
   element depth { depth.content, depth.localattributes }
 depth.content = macro.xtext
 depth.localattributes =
@@ -215,7 +230,7 @@ depth.localattributes =
 dim =
   
   ## contains any single measurement forming part of a dimensional
-  ## specification of some sort.
+  ## specification of some sort. []
   element dim { dim.content, dim.localattributes }
 dim.content = macro.xtext
 dim.localattributes =
@@ -225,7 +240,7 @@ dim.localattributes =
   empty
 dimensions =
   
-  ## contains a dimensional specification.
+  ## contains a dimensional specification. []
   element dimensions { dimensions.content, dimensions.localattributes }
 dimensions.content =
   ((dim | model.dimLike)*)
@@ -302,7 +317,7 @@ explicit =
   ## contains the  explicit of a
   ## manuscript item, that is, the closing words of the text proper,
   ## exclusive of any rubric or colophon which might follow it.
-  ##   
+  ##    []
   element explicit { explicit.content, explicit.localattributes }
 explicit.content = macro.phraseSeq
 explicit.localattributes =
@@ -312,14 +327,14 @@ explicit.localattributes =
   empty
 filiation =
   
-  ## contains information concerning the manuscript's filiation, i.e. its relationship to other surviving manuscripts of the same text, its protographs, antigraphs and apographs.
+  ## contains information concerning the manuscript's filiation, i.e. its relationship to other surviving manuscripts of the same text, its protographs, antigraphs and apographs. []
   element filiation { filiation.content, filiation.localattributes }
 filiation.content = macro.specialPara
 filiation.localattributes =
   att.global.attributes, att.typed.attributes, empty
 finalRubric =
   
-  ## contains the string of words that denotes the end of a text division, often with an assertion as to its author and title, usually set off from the text itself by red ink, by a different size or type of script, or by some other such visual device.
+  ## contains the string of words that denotes the end of a text division, often with an assertion as to its author and title, usually set off from the text itself by red ink, by a different size or type of script, or by some other such visual device. []
   element finalRubric {
     finalRubric.content, finalRubric.localattributes
   }
@@ -329,13 +344,13 @@ finalRubric.localattributes =
 foliation =
   
   ## describes the numbering system or systems used to 
-  ## count the leaves or pages in a codex.
+  ## count the leaves or pages in a codex. []
   element foliation { foliation.content, foliation.localattributes }
 foliation.content = macro.specialPara
 foliation.localattributes = att.global.attributes, empty
 handDesc =
   
-  ## (description of hands) contains a description of all the different kinds of writing  used in a manuscript.
+  ## (description of hands) contains a description of all the different kinds of writing  used in a manuscript. []
   element handDesc { handDesc.content, handDesc.localattributes }
 handDesc.content = model.pLike+ | (summary?, handNote+)
 handDesc.localattributes =
@@ -348,7 +363,7 @@ height =
   
   ## contains a measurement measured along the
   ##   axis at right angles to the bottom of the written surface,
-  ##   i.e. parallel to the spine for a codex or book. 
+  ##   i.e. parallel to the spine for a codex or book.  []
   element height { height.content, height.localattributes }
 height.content = macro.xtext
 height.localattributes =
@@ -357,21 +372,21 @@ heraldry =
   
   ## contains a heraldic formula
   ## or phrase, typically found as part of a blazon, coat of arms, etc. 
-  ##
+  ##  []
   element heraldry { heraldry.content, heraldry.localattributes }
 heraldry.content = macro.phraseSeq
 heraldry.localattributes = att.global.attributes, empty
 history =
   
   ##  groups elements
-  ## describing the full history of a manuscript or manuscript part.
+  ## describing the full history of a manuscript or manuscript part. []
   element history { history.content, history.localattributes }
 history.content =
   model.pLike+ | (summary?, origin?, provenance*, acquisition?)
 history.localattributes = att.global.attributes, empty
 incipit =
   
-  ## contains the incipit of a manuscript item, that is the opening words of the text proper, exclusive of any rubric which might precede it, of sufficient length to identify the work uniquely; such incipts were, in fomer times, frequently used a means of reference to a work, in place of a title.
+  ## contains the incipit of a manuscript item, that is the opening words of the text proper, exclusive of any rubric which might precede it, of sufficient length to identify the work uniquely; such incipts were, in fomer times, frequently used a means of reference to a work, in place of a title. []
   element incipit { incipit.content, incipit.localattributes }
 incipit.content = macro.phraseSeq
 incipit.localattributes =
@@ -383,7 +398,7 @@ institution =
   
   ## contains the name of an organization such as a university or
   ##   library, with which a manuscript is identified, generally its
-  ##   holding institution.
+  ##   holding institution. []
   element institution {
     institution.content, institution.localattributes
   }
@@ -394,7 +409,7 @@ layout =
   
   ## describes how text is laid out on the
   ##   page, including information about any ruling, pricking, or other
-  ##   evidence of page-preparation techniques.
+  ##   evidence of page-preparation techniques. []
   element layout { layout.content, layout.localattributes }
 layout.content = macro.specialPara
 layout.localattributes =
@@ -418,14 +433,14 @@ layout.localattributes =
   empty
 layoutDesc =
   
-  ## (layout description) collects the set of layout descriptions applicable to a manuscript.
+  ## (layout description) collects the set of layout descriptions applicable to a manuscript. []
   element layoutDesc { layoutDesc.content, layoutDesc.localattributes }
 layoutDesc.content = model.pLike+ | (summary?, layout+)
 layoutDesc.localattributes = att.global.attributes, empty
 locus =
   
   ## defines a location within a manuscript or manuscript part, usually as a
-  ##     (possibly discontinuous) sequence of folio references. 
+  ##     (possibly discontinuous) sequence of folio references.  []
   element locus { locus.content, locus.localattributes }
 locus.content = macro.xtext
 locus.localattributes =
@@ -447,7 +462,7 @@ locusGrp =
   ## groups a number of locations which together form a
   ##   distinct but discontinuous item within a manuscript or manuscript
   ##   part, according to a specific foliation.
-  ##   
+  ##    []
   element locusGrp { locusGrp.content, locusGrp.localattributes }
 locusGrp.content = locus+
 locusGrp.localattributes =
@@ -461,7 +476,7 @@ material =
   
   ## contains a word or phrase describing the
   ##   material of which  the object being described is composed.
-  ##   
+  ##    []
   element material { material.content, material.localattributes }
 material.content = macro.phraseSeq
 material.localattributes =
@@ -469,7 +484,7 @@ material.localattributes =
 msContents =
   
   ## (manuscript contents) describes the intellectual content of a manuscript or manuscript
-  ##     part, either as a series of paragraphs or as a series of structured manuscript items.
+  ##     part, either as a series of paragraphs or as a series of structured manuscript items. []
   element msContents { msContents.content, msContents.localattributes }
 msContents.content =
   model.pLike+
@@ -479,23 +494,26 @@ msContents.localattributes =
   att.msExcerpt.attributes,
   
   ## identifies the text types or classifications applicable to this object.
-  attribute class { data.code }?,
+  attribute class {
+    list { data.pointer, data.pointer* }
+  }?,
   empty
 msDesc =
   
   ## (manuscript description) contains a description of a single identifiable
-  ## manuscript or other text-bearing object.
+  ## manuscript or other text-bearing object. []
   element msDesc { msDesc.content, msDesc.localattributes }
 msDesc.content =
   msIdentifier,
   model.headLike*,
   (model.pLike+
    | (msContents?, physDesc?, history?, additional?, msPart*))
-msDesc.localattributes = att.global.attributes, empty
+msDesc.localattributes =
+  att.global.attributes, att.sortable.attributes, empty
 msIdentifier =
   
   ## (manuscript identifier) contains the information required to identify
-  ## the  manuscript being described. 
+  ## the  manuscript being described.  []
   element msIdentifier {
     msIdentifier.content, msIdentifier.localattributes
   }
@@ -531,7 +549,7 @@ msIdentifier.localattributes = att.global.attributes, empty
 msItem =
   
   ## (manuscript item) describes an individual work or item within the intellectual
-  ##   content of a manuscript or manuscript part. 
+  ##   content of a manuscript or manuscript part.  []
   element msItem { msItem.content, msItem.localattributes }
 msItem.content =
   (locus | locusGrp)*,
@@ -543,13 +561,15 @@ msItem.localattributes =
   
   ## identifies the text types or classifications applicable to this
   ## item
-  attribute class { data.code }?,
+  attribute class {
+    list { data.pointer, data.pointer* }
+  }?,
   empty
 msItemStruct =
   
   ## (structured manuscript item) contains a structured description for an
   ##   individual work or item within the intellectual content of a
-  ##   manuscript or manuscript part.
+  ##   manuscript or manuscript part. []
   element msItemStruct {
     msItemStruct.content, msItemStruct.localattributes
   }
@@ -577,13 +597,15 @@ msItemStruct.localattributes =
   
   ## identifies the text types or classifications applicable to this
   ## item
-  attribute class { data.code }?,
+  attribute class {
+    list { data.pointer, data.pointer* }
+  }?,
   empty
 msName =
   
   ## (alternative name) contains any form of unstructured alternative
   ## name used for a manuscript, such as an  ocellus
-  ## nominum, or nickname. 
+  ## nominum, or nickname.  []
   element msName { msName.content, msName.localattributes }
 msName.content = macro.xtext
 msName.localattributes =
@@ -591,17 +613,17 @@ msName.localattributes =
 msPart =
   
   ## (manuscript part) contains information about an originally
-  ## distinct manuscript or part of a manuscript, now forming part of a composite manuscript.
+  ## distinct manuscript or part of a manuscript, now forming part of a composite manuscript. []
   element msPart { msPart.content, msPart.localattributes }
 msPart.content =
-  altIdentifier,
+  (altIdentifier | msIdentifier),
   model.headLike*,
   (model.pLike+
    | (msContents?, physDesc?, history?, additional?, msPart*))
 msPart.localattributes = att.global.attributes, empty
 musicNotation =
   
-  ## contains description of type of musical notation.
+  ## contains description of type of musical notation. []
   element musicNotation {
     musicNotation.content, musicNotation.localattributes
   }
@@ -610,7 +632,7 @@ musicNotation.localattributes = att.global.attributes, empty
 objectDesc =
   
   ## contains a description of the physical
-  ##   components making up the object which is being described.
+  ##   components making up the object which is being described. []
   element objectDesc { objectDesc.content, objectDesc.localattributes }
 objectDesc.content = model.pLike+ | (supportDesc?, layoutDesc?)
 objectDesc.localattributes =
@@ -624,7 +646,7 @@ objectDesc.localattributes =
 objectType =
   
   ## contains a word or phrase describing the type of object being refered to.
-  ##   
+  ##    []
   element objectType { objectType.content, objectType.localattributes }
 objectType.content = macro.phraseSeq
 objectType.localattributes =
@@ -633,7 +655,7 @@ origDate =
   
   ## (origin date) contains any form of date, used to
   ##   identify the date of origin for a manuscript or manuscript part.
-  ##   
+  ##    []
   element origDate { origDate.content, origDate.localattributes }
 origDate.content = (text | model.gLike | model.phrase | model.global)*
 origDate.localattributes =
@@ -645,7 +667,7 @@ origDate.localattributes =
 origPlace =
   
   ## (origin place) contains any form of place name, used to identify the
-  ## place of origin for a manuscript or manuscript part. 
+  ## place of origin for a manuscript or manuscript part.  []
   element origPlace { origPlace.content, origPlace.localattributes }
 origPlace.content = macro.phraseSeq
 origPlace.localattributes =
@@ -653,11 +675,12 @@ origPlace.localattributes =
   att.naming.attributes,
   att.datable.attributes,
   att.editLike.attributes,
+  att.typed.attributes,
   empty
 origin =
   
   ## contains any descriptive or other information
-  ## concerning the origin of  a manuscript or manuscript part. 
+  ## concerning the origin of  a manuscript or manuscript part.  []
   element origin { origin.content, origin.localattributes }
 origin.content = macro.specialPara
 origin.localattributes =
@@ -669,7 +692,7 @@ physDesc =
   
   ## (physical description) contains a full physical description of a
   ## manuscript or manuscript part, optionally subdivided using more
-  ## specialised elements from the model.physDescPart class.
+  ## specialised elements from the model.physDescPart class. []
   element physDesc { physDesc.content, physDesc.localattributes }
 physDesc.content = model.pLike*, model.physDescPart_sequenceOptional
 physDesc.localattributes = att.global.attributes, empty
@@ -677,21 +700,25 @@ provenance =
   
   ## contains any descriptive or other information
   ## concerning a single identifiable episode during the history of a manuscript
-  ## or manuscript part, after its creation but before its acquisition. 
+  ## or manuscript part, after its creation but before its acquisition.  []
   element provenance { provenance.content, provenance.localattributes }
 provenance.content = macro.specialPara
 provenance.localattributes =
-  att.global.attributes, att.datable.attributes, empty
+  att.global.attributes,
+  att.datable.attributes,
+  att.typed.attributes,
+  att.responsibility.attributes,
+  empty
 recordHist =
   
   ## (recorded history) provides information about the source and
-  ## revision status of the parent manuscript description itself. 
+  ## revision status of the parent manuscript description itself.  []
   element recordHist { recordHist.content, recordHist.localattributes }
 recordHist.content = model.pLike+ | (source, change*)
 recordHist.localattributes = att.global.attributes, empty
 repository =
   
-  ## contains the name of a repository within which manuscripts are stored, possibly forming part of an institution.
+  ## contains the name of a repository within which manuscripts are stored, possibly forming part of an institution. []
   element repository { repository.content, repository.localattributes }
 repository.content = macro.xtext
 repository.localattributes =
@@ -699,21 +726,21 @@ repository.localattributes =
 rubric =
   
   ## contains the text of any rubric or heading attached to a particular manuscript item, that is, a string of words through which a
-  ## manuscript signals the beginning of a text division, often with an assertion as to its author and title, which is in some way set off from the text itself, usually in red ink, or by use of different size or type of script, or some other such visual device.
+  ## manuscript signals the beginning of a text division, often with an assertion as to its author and title, which is in some way set off from the text itself, usually in red ink, or by use of different size or type of script, or some other such visual device. []
   element rubric { rubric.content, rubric.localattributes }
 rubric.content = macro.phraseSeq
 rubric.localattributes =
   att.global.attributes, att.typed.attributes, empty
 scriptDesc =
   
-  ## contains a description of the scripts used in a manuscript or similar source.
+  ## contains a description of the scripts used in a manuscript or similar source. []
   element scriptDesc { scriptDesc.content, scriptDesc.localattributes }
 scriptDesc.content = model.pLike+ | (summary?, scriptNote+)
 scriptDesc.localattributes = att.global.attributes, empty
 seal =
   
   ## contains a description of one seal or similar
-  ##   attachment applied to a manuscript.
+  ##   attachment applied to a manuscript. []
   element seal { seal.content, seal.localattributes }
 seal.content = (model.pLike | decoNote)+
 seal.localattributes =
@@ -729,7 +756,7 @@ sealDesc =
   
   ## (seal description) describes the seals or other external items attached to a manuscript, either
   ## as a series of paragraphs or as a series of distinct seal elements,
-  ## possibly with additional decoNotes. 
+  ## possibly with additional decoNotes.  []
   element sealDesc { sealDesc.content, sealDesc.localattributes }
 sealDesc.content = model.pLike+ | (decoNote | seal | condition)+
 sealDesc.localattributes = att.global.attributes, empty
@@ -740,26 +767,26 @@ secFol =
   ## second leaf) in order
   ## to provide a unique identifier for it.
   ## 
-  ##
+  ##  []
   element secFol { secFol.content, secFol.localattributes }
 secFol.content = macro.phraseSeq
 secFol.localattributes = att.global.attributes, empty
 signatures =
   
-  ## contains discussion of the leaf or quire signatures found within a codex.
+  ## contains discussion of the leaf or quire signatures found within a codex. []
   element signatures { signatures.content, signatures.localattributes }
 signatures.content = macro.phraseSeq
 signatures.localattributes = att.global.attributes, empty
 source =
   
-  ## describes the original source for the information contained with a manuscript description. 
+  ## describes the original source for the information contained with a manuscript description.  []
   element source { source.content, source.localattributes }
 source.content = macro.specialPara
 source.localattributes = att.global.attributes, empty
 stamp =
   
   ## contains a word or phrase describing a
-  ## stamp or similar device.
+  ## stamp or similar device. []
   element stamp { stamp.content, stamp.localattributes }
 stamp.content = macro.phraseSeq
 stamp.localattributes =
@@ -780,13 +807,13 @@ summary.localattributes = att.global.attributes, empty
 support =
   
   ## contains a description of the materials
-  ## etc. which make up the physical support for the written part of a manuscript.
+  ## etc. which make up the physical support for the written part of a manuscript. []
   element support { support.content, support.localattributes }
 support.content = macro.specialPara
 support.localattributes = att.global.attributes, empty
 supportDesc =
   
-  ## (support description) groups elements describing the physical support for the written part of a manuscript.
+  ## (support description) groups elements describing the physical support for the written part of a manuscript. []
   element supportDesc {
     supportDesc.content, supportDesc.localattributes
   }
@@ -814,39 +841,21 @@ supportDesc.localattributes =
 surrogates =
   
   ## contains information about any representations of the manuscript being described which
-  ## may exist in the holding institution or elsewhere. 
+  ## may exist in the holding institution or elsewhere.  []
   element surrogates { surrogates.content, surrogates.localattributes }
 surrogates.content = macro.specialPara
 surrogates.localattributes = att.global.attributes, empty
-textLang =
-  
-  ## (text language) in a manuscript description, describes
-  ##   the languages and writing systems identified within the manuscript
-  ##   being described. 
-  element textLang { textLang.content, textLang.localattributes }
-textLang.content = macro.phraseSeq
-textLang.localattributes =
-  att.global.attributes,
-  
-  ## (main language) supplies a code which identifies the chief language used in the manuscript.
-  attribute mainLang { data.language }?,
-  
-  ## (other languages) one or more codes identifying any other languages used in the manuscript.
-  attribute otherLangs {
-    list { data.language* }
-  }?,
-  empty
 typeDesc =
   
   ## contains a description of the typefaces or other aspects of
-  ##   the printing of an incunable or other printed source.
+  ##   the printing of an incunable or other printed source. []
   element typeDesc { typeDesc.content, typeDesc.localattributes }
 typeDesc.content = model.pLike+ | (summary?, typeNote+)
 typeDesc.localattributes = att.global.attributes, empty
 watermark =
   
   ## contains a word or phrase describing a
-  ## watermark or similar device.
+  ## watermark or similar device. []
   element watermark { watermark.content, watermark.localattributes }
 watermark.content = macro.phraseSeq
 watermark.localattributes = att.global.attributes, empty
@@ -854,7 +863,7 @@ width =
   
   ## contains a measurement measured along the
   ##   axis parallel to the bottom of the written surface, i.e. 
-  ## perpendicular to the spine of a book or codex. 
+  ## perpendicular to the spine of a book or codex.  []
   element width { width.content, width.localattributes }
 width.content = macro.xtext
 width.localattributes =

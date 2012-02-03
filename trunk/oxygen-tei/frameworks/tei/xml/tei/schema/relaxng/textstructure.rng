@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2011-03-05T14:52:51Z
-Edition: 1.9.1. Last updated on March 5th 2011.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
+Edition: 2.0.2 Last updated on 2nd February 2012.
+This material is dual-licensed.
 
+	  [http://creativecommons.org/licenses/by/3.0/] 
+	    Distributed under a Creative Commons Attribution 3.0 Unported License
 	  
-Copyright 2011 TEI Consortium.
+	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+	    Copyright 2011 TEI Consortium.
+	    All rights reserved.
+	    
+	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+	    
+	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+
+
+This software is provided by the copyright holders and contributors
+"as is" and any express or implied warranties, including, but not
+limited to, the implied warranties of merchantability and fitness for
+a particular purpose are disclaimed. In no event shall the copyright
+holder or contributors be liable for any direct, indirect, incidental,
+special, exemplary, or consequential damages (including, but not
+limited to, procurement of substitute goods or services; loss of use,
+data, or profits; or business interruption) however caused and on any
+theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use
+of this software, even if advised of the possibility of such
+damage.
+
+	  TEI  material can be licensed differently depending on the use you intend to 
+make of it. Hence it is made available under both the CC+BY and BSD-2 
+licences.  The CC+BY licence is generally appropriate for usages which 
+treat TEI content as data or documentation. The BSD-2 licence is 
+generally appropriate for usage of TEI content in a software 
+environment. For further information or clarification, please contact 
+the TEI Consortium.
 	  
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2.1 of the
-License, or (at your option) any later version. This library is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-details. You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-
-
-		
-For information about the TEI, including contact
-		details, consult the TEI web
-	      site at http://www.tei-c.org/. 
-		
-
 	 Default
 text structure--><!--Definitions from module textstructure--><!--Set global predeclared macros--><!--Set predeclared macros--><!--0. predeclared macros--><!--1. classes--><!--2. elements--><define name="TEI">
       <element name="TEI">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(TEI document) contains a single TEI-conformant document,
 comprising a TEI header and a text, either in isolation or as part of a
-teiCorpus element.</a:documentation>
+teiCorpus element. [ ]</a:documentation>
          <ref name="TEI.content"/>
          <ref name="TEI.localattributes"/>
       </element>
@@ -73,7 +88,7 @@ teiCorpus element.</a:documentation>
    <define name="argument">
       <element name="argument">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">A formal list or prose description of the topics addressed by
-	a subdivision of a text.</a:documentation>
+	a subdivision of a text. [ ]</a:documentation>
          <ref name="argument.content"/>
          <ref name="argument.localattributes"/>
       </element>
@@ -102,7 +117,7 @@ teiCorpus element.</a:documentation>
    </define>
    <define name="back">
       <element name="back">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(back matter) contains any appendixes, etc. following the main part of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(back matter) contains any appendixes, etc. following the main part of a text. [ ]</a:documentation>
          <ref name="back.content"/>
          <ref name="back.localattributes"/>
       </element>
@@ -168,7 +183,7 @@ teiCorpus element.</a:documentation>
    </define>
    <define name="body">
       <element name="body">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text body) contains the whole body of a single unitary text, excluding any front or back matter.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text body) contains the whole body of a single unitary text, excluding any front or back matter. []</a:documentation>
          <ref name="body.content"/>
          <ref name="body.localattributes"/>
       </element>
@@ -294,7 +309,7 @@ teiCorpus element.</a:documentation>
    <define name="byline">
       <element name="byline">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the primary statement of responsibility given for a work
-on its title page or at the head or end of the work.</a:documentation>
+on its title page or at the head or end of the work. [ ]</a:documentation>
          <ref name="byline.content"/>
          <ref name="byline.localattributes"/>
       </element>
@@ -317,7 +332,7 @@ on its title page or at the head or end of the work.</a:documentation>
    <define name="closer">
       <element name="closer">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groups together salutations, datelines, and similar phrases appearing as a final group at
-    the end of a division, especially of a letter.</a:documentation>
+    the end of a division, especially of a letter. [ ]</a:documentation>
          <ref name="closer.content"/>
          <ref name="closer.localattributes"/>
       </element>
@@ -342,7 +357,7 @@ on its title page or at the head or end of the work.</a:documentation>
    <define name="dateline">
       <element name="dateline">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer. </a:documentation>
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [ ]</a:documentation>
          <ref name="dateline.content"/>
          <ref name="dateline.localattributes"/>
       </element>
@@ -356,7 +371,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div">
       <element name="div">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text division) contains a subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text division) contains a subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div.content"/>
          <ref name="div.localattributes"/>
       </element>
@@ -422,7 +437,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div1">
       <element name="div1">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-1 text division) contains a first-level subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-1 text division) contains a first-level subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div1.content"/>
          <ref name="div1.localattributes"/>
       </element>
@@ -487,7 +502,7 @@ on its title page or at the head or end of the work.</a:documentation>
    <define name="div2">
       <element name="div2">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-2 text division) contains a second-level subdivision of the front, body, or back of a
- text.</a:documentation>
+ text. []</a:documentation>
          <ref name="div2.content"/>
          <ref name="div2.localattributes"/>
       </element>
@@ -551,7 +566,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div3">
       <element name="div3">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-3 text division) contains a third-level subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-3 text division) contains a third-level subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div3.content"/>
          <ref name="div3.localattributes"/>
       </element>
@@ -615,7 +630,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div4">
       <element name="div4">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div4.content"/>
          <ref name="div4.localattributes"/>
       </element>
@@ -679,7 +694,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div5">
       <element name="div5">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div5.content"/>
          <ref name="div5.localattributes"/>
       </element>
@@ -743,7 +758,7 @@ on its title page or at the head or end of the work.</a:documentation>
    </define>
    <define name="div6">
       <element name="div6">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text. []</a:documentation>
          <ref name="div6.content"/>
          <ref name="div6.localattributes"/>
       </element>
@@ -808,7 +823,7 @@ on its title page or at the head or end of the work.</a:documentation>
    <define name="div7">
       <element name="div7">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(level-7 text division) contains the smallest possible subdivision of the front, body or back of a text, larger than
-    a paragraph.</a:documentation>
+    a paragraph. []</a:documentation>
          <ref name="div7.content"/>
          <ref name="div7.localattributes"/>
       </element>
@@ -851,7 +866,7 @@ on its title page or at the head or end of the work.</a:documentation>
    <define name="docAuthor">
       <element name="docAuthor">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(document author) contains the name of the author of the document, as given on the
-title page (often but not always contained in a byline).</a:documentation>
+title page (often but not always contained in a byline). []</a:documentation>
          <ref name="docAuthor.content"/>
          <ref name="docAuthor.localattributes"/>
       </element>
@@ -867,7 +882,7 @@ title page (often but not always contained in a byline).</a:documentation>
    <define name="docDate">
       <element name="docDate">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(document date) contains the date of a document, as given
-(usually) on a title page.</a:documentation>
+(usually) on a title page. []</a:documentation>
          <ref name="docDate.content"/>
          <ref name="docDate.localattributes"/>
       </element>
@@ -888,7 +903,7 @@ title page (often but not always contained in a byline).</a:documentation>
    <define name="docEdition">
       <element name="docEdition">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(document edition) contains an edition statement as presented on a title page of a
-document.</a:documentation>
+document. []</a:documentation>
          <ref name="docEdition.content"/>
          <ref name="docEdition.localattributes"/>
       </element>
@@ -904,7 +919,7 @@ document.</a:documentation>
       <element name="docImprint">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(document imprint) contains the imprint statement (place and date of publication,
 publisher name), as given
-(usually) at the foot of a title page.</a:documentation>
+(usually) at the foot of a title page. []</a:documentation>
          <ref name="docImprint.content"/>
          <ref name="docImprint.localattributes"/>
       </element>
@@ -929,7 +944,7 @@ publisher name), as given
    <define name="docTitle">
       <element name="docTitle">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(document title) contains the title of a document, including all its
-constituents, as given on a title page.</a:documentation>
+constituents, as given on a title page. []</a:documentation>
          <ref name="docTitle.content"/>
          <ref name="docTitle.localattributes"/>
       </element>
@@ -954,8 +969,8 @@ constituents, as given on a title page.</a:documentation>
    </define>
    <define name="epigraph">
       <element name="epigraph">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a quotation, anonymous or attributed, appearing at the start of a section or
-    chapter, or on a title page. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a quotation, anonymous or attributed, appearing at
+  the start or end of a section or on a title page.  [  ]</a:documentation>
          <ref name="epigraph.content"/>
          <ref name="epigraph.localattributes"/>
       </element>
@@ -975,7 +990,7 @@ constituents, as given on a title page.</a:documentation>
    <define name="floatingText">
       <element name="floatingText">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a single text of any kind, whether unitary or composite, which interrupts the text
-    containing it at any point and after which the surrounding text resumes.</a:documentation>
+    containing it at any point and after which the surrounding text resumes. []</a:documentation>
          <ref name="floatingText.content"/>
          <ref name="floatingText.localattributes"/>
       </element>
@@ -1016,7 +1031,7 @@ constituents, as given on a title page.</a:documentation>
       <element name="front">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(front matter) contains any prefatory matter (headers,
 title page, prefaces, dedications, etc.)
-found  at the start of a document, before the main body.</a:documentation>
+found  at the start of a document, before the main body. [ ]</a:documentation>
          <ref name="front.content"/>
          <ref name="front.localattributes"/>
       </element>
@@ -1084,7 +1099,7 @@ found  at the start of a document, before the main body.</a:documentation>
       <element name="group">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains the body of a composite text, grouping together a sequence of distinct texts (or
     groups of such texts) which are regarded as a unit for some purpose, for example the collected
-    works of an author, a sequence of prose essays, etc.</a:documentation>
+    works of an author, a sequence of prose essays, etc. [  ]</a:documentation>
          <ref name="group.content"/>
          <ref name="group.localattributes"/>
       </element>
@@ -1123,7 +1138,7 @@ found  at the start of a document, before the main body.</a:documentation>
    <define name="imprimatur">
       <element name="imprimatur">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a formal statement authorizing the publication of a work, sometimes required to
-    appear on a title page or its verso.</a:documentation>
+    appear on a title page or its verso. []</a:documentation>
          <ref name="imprimatur.content"/>
          <ref name="imprimatur.localattributes"/>
       </element>
@@ -1138,7 +1153,7 @@ found  at the start of a document, before the main body.</a:documentation>
    <define name="opener">
       <element name="opener">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter.</a:documentation>
+    group at the start of a division, especially of a letter. [ ]</a:documentation>
          <ref name="opener.content"/>
          <ref name="opener.localattributes"/>
       </element>
@@ -1165,7 +1180,7 @@ found  at the start of a document, before the main body.</a:documentation>
    </define>
    <define name="postscript">
       <element name="postscript">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a postscript, e.g. to a letter.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a postscript, e.g. to a letter. []</a:documentation>
          <ref name="postscript.content"/>
          <ref name="postscript.localattributes"/>
       </element>
@@ -1174,7 +1189,15 @@ found  at the start of a document, before the main body.</a:documentation>
       <zeroOrMore>
          <choice>
             <group>
-               <ref name="model.common"/>
+               <zeroOrMore>
+                  <ref name="model.divTopPart"/>
+               </zeroOrMore>
+               <oneOrMore>
+                  <ref name="model.common"/>
+               </oneOrMore>
+               <zeroOrMore>
+                  <ref name="model.divBottomPart"/>
+               </zeroOrMore>
             </group>
             <group>
                <ref name="model.global"/>
@@ -1189,7 +1212,7 @@ found  at the start of a document, before the main body.</a:documentation>
    <define name="salute">
       <element name="salute">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc.</a:documentation>
+    division of a text, or the salutation in the closing of a letter, preface, etc. [ ]</a:documentation>
          <ref name="salute.content"/>
          <ref name="salute.localattributes"/>
       </element>
@@ -1204,7 +1227,7 @@ found  at the start of a document, before the main body.</a:documentation>
    <define name="signed">
       <element name="signed">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text. </a:documentation>
+dedicatory epistle, or other division of a text.  [ ]</a:documentation>
          <ref name="signed.content"/>
          <ref name="signed.localattributes"/>
       </element>
@@ -1219,7 +1242,7 @@ dedicatory epistle, or other division of a text. </a:documentation>
    <define name="text">
       <element name="text">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a single text of any kind, whether unitary or composite, for example a poem or
-    drama, a collection of essays, a novel, a dictionary, or a corpus sample.</a:documentation>
+    drama, a collection of essays, a novel, a dictionary, or a corpus sample. [ ]</a:documentation>
          <ref name="text.content"/>
          <ref name="text.localattributes"/>
       </element>
@@ -1258,7 +1281,7 @@ dedicatory epistle, or other division of a text. </a:documentation>
    </define>
    <define name="titlePage">
       <element name="titlePage">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title page) contains the title page of a text, appearing within the front or back matter. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title page) contains the title page of a text, appearing within the front or back matter.  []</a:documentation>
          <ref name="titlePage.content"/>
          <ref name="titlePage.localattributes"/>
       </element>
@@ -1292,7 +1315,7 @@ dedicatory epistle, or other division of a text. </a:documentation>
    <define name="titlePart">
       <element name="titlePart">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a subsection or division of the title of a work, as
-indicated on a title page.</a:documentation>
+indicated on a title page. []</a:documentation>
          <ref name="titlePart.content"/>
          <ref name="titlePart.localattributes"/>
       </element>
@@ -1330,7 +1353,7 @@ Suggested values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] 
    </define>
    <define name="trailer">
       <element name="trailer">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a closing title or footer appearing at the end of a division of a text. </a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a closing title or footer appearing at the end of a division of a text.  [ ]</a:documentation>
          <ref name="trailer.content"/>
          <ref name="trailer.localattributes"/>
       </element>

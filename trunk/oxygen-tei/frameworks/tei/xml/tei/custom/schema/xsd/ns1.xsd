@@ -5,7 +5,7 @@
   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
   <xs:element name="p">
     <xs:annotation>
-      <xs:documentation>(paragraph) marks paragraphs in prose.</xs:documentation>
+      <xs:documentation>(paragraph) marks paragraphs in prose. [3.1.  7.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -19,7 +19,7 @@
   <xs:element name="foreign">
     <xs:annotation>
       <xs:documentation>(foreign) identifies a word or phrase as belonging to some language other than that of the
-                surrounding text. </xs:documentation>
+                surrounding text.  [3.3.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -32,7 +32,7 @@
   <xs:element name="emph">
     <xs:annotation>
       <xs:documentation>(emphasized) marks words or phrases which are stressed or emphasized for
-        linguistic or rhetorical effect.</xs:documentation>
+        linguistic or rhetorical effect. [3.3.2.2.  3.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -46,7 +46,7 @@
     <xs:annotation>
       <xs:documentation>(highlighted) marks a word or phrase as graphically distinct from the
         surrounding text, for reasons concerning which no claim is
-        made. </xs:documentation>
+        made.  [3.3.2.2.  3.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -59,7 +59,7 @@
   <xs:element name="distinct">
     <xs:annotation>
       <xs:documentation>identifies any word or phrase which is regarded as linguistically distinct, for example as
-        archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage. </xs:documentation>
+        archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage.  [3.3.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -71,17 +71,17 @@
                 assigned</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="time" type="mathml:tei_data.code">
+          <xs:attribute name="time" type="mathml:tei_data.key">
             <xs:annotation>
               <xs:documentation>specifies how the phrase is distinct diachronically</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="space" type="mathml:tei_data.code">
+          <xs:attribute name="space" type="mathml:tei_data.key">
             <xs:annotation>
               <xs:documentation>specifies how the phrase is distinct diatopically</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="social" type="mathml:tei_data.code">
+          <xs:attribute name="social" type="mathml:tei_data.key">
             <xs:annotation>
               <xs:documentation>specifies how the phrase is distinct diastatically</xs:documentation>
             </xs:annotation>
@@ -93,7 +93,7 @@
   <xs:element name="said">
     <xs:annotation>
       <xs:documentation>(speech or thought) indicates passages thought or spoken aloud, whether explicitly indicated in the source or
-    not, whether directly or indirectly reported, whether by real people or fictional characters.</xs:documentation>
+    not, whether directly or indirectly reported, whether by real people or fictional characters. [3.3.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -119,7 +119,7 @@
   <xs:element name="quote">
     <xs:annotation>
       <xs:documentation>(quotation) contains a phrase or passage attributed by the narrator or author to some agency external
-        to the text.</xs:documentation>
+        to the text. [3.3.3.  4.3.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -135,7 +135,7 @@
       <xs:documentation>(separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
     surrounding text, for any one of a variety of reasons including, but not limited to: direct
     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
-    passages that are mentioned but not used.</xs:documentation>
+    passages that are mentioned but not used. [3.3.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -242,7 +242,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
     <xs:annotation>
       <xs:documentation>(cited quotation) contains a quotation from some other document, together with a bibliographic reference to
     its source. In a dictionary it may contain an example text with at least one occurrence of the
-    word form, used in the sense being described, or a translation of the headword, or an example. </xs:documentation>
+    word form, used in the sense being described, or a translation of the headword, or an example.  [3.3.3.  4.3.1.  9.3.5.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
@@ -257,7 +257,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   </xs:element>
   <xs:element name="mentioned">
     <xs:annotation>
-      <xs:documentation>marks words or phrases mentioned, not used.</xs:documentation>
+      <xs:documentation>marks words or phrases mentioned, not used. [3.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -270,7 +270,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="soCalled">
     <xs:annotation>
       <xs:documentation>contains a word or phrase for which the author or narrator indicates a disclaiming of
-    responsibility, for example by the use of scare quotes or italics.</xs:documentation>
+    responsibility, for example by the use of scare quotes or italics. [3.3.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -283,7 +283,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="desc">
     <xs:annotation>
       <xs:documentation>(description) contains a brief description of the object documented by its parent element, including its
-    intended usage, purpose, or application where this is appropriate.</xs:documentation>
+    intended usage, purpose, or application where this is appropriate. [22.4.4.  22.4.5.  22.4.6.  22.4.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -297,7 +297,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="gloss">
     <xs:annotation>
       <xs:documentation>identifies a phrase or word used to provide a gloss or definition for some other word or
-    phrase.</xs:documentation>
+    phrase. [3.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -320,7 +320,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="term">
     <xs:annotation>
       <xs:documentation>contains a single-word, multi-word, or symbolic designation which is regarded as a technical
-    term.</xs:documentation>
+    term. [3.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -330,15 +330,11 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
           <xs:attributeGroup ref="mathml:tei_att.pointing.attributes"/>
           <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
           <xs:attributeGroup ref="mathml:tei_att.canonical.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
           <xs:attribute name="cRef" type="mathml:tei_data.pointer">
             <xs:annotation>
               <xs:documentation>identifies the associated gloss element using a canonical reference from a
           scheme defined in a refsDecl element in the TEI header</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="sortKey" type="mathml:tei_data.word">
-            <xs:annotation>
-              <xs:documentation>supplies the sort key for this term in an index.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -348,7 +344,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="sic">
     <xs:annotation>
       <xs:documentation>(latin for thus or so
-  ) contains text reproduced although apparently incorrect or inaccurate.</xs:documentation>
+  ) contains text reproduced although apparently incorrect or inaccurate. [3.4.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -361,7 +357,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   </xs:element>
   <xs:element name="corr">
     <xs:annotation>
-      <xs:documentation>(correction) contains the correct form of a passage apparently erroneous in the copy text.</xs:documentation>
+      <xs:documentation>(correction) contains the correct form of a passage apparently erroneous in the copy text. [3.4.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -376,7 +372,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="choice">
     <xs:annotation>
       <xs:documentation>groups a number of alternative encodings for the same point in
-        a text.</xs:documentation>
+        a text. [3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -388,7 +384,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   </xs:element>
   <xs:element name="reg">
     <xs:annotation>
-      <xs:documentation>(regularization) contains a reading which has been regularized or normalized in some sense.</xs:documentation>
+      <xs:documentation>(regularization) contains a reading which has been regularized or normalized in some sense. [3.4.2.  12. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -403,7 +399,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
   <xs:element name="orig">
     <xs:annotation>
       <xs:documentation>(original form) contains a reading which is marked as following the original, rather than being normalized
-        or corrected.</xs:documentation>
+        or corrected. [3.4.2.  12. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -418,7 +414,7 @@ Suggested values include: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] for
     <xs:annotation>
       <xs:documentation>(gap) indicates a point where material has been omitted in a transcription, whether for editorial
     reasons described in the TEI header, as part of sampling practice, or because the material is
-    illegible, invisible, or inaudible.</xs:documentation>
+    illegible, invisible, or inaudible. [3.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.glossLike"/>
@@ -460,7 +456,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="add">
     <xs:annotation>
       <xs:documentation>(addition) contains letters, words, or phrases inserted in the text by an
-        author, scribe, annotator, or corrector.</xs:documentation>
+        author, scribe, annotator, or corrector. [3.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -476,7 +472,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="del">
     <xs:annotation>
       <xs:documentation>(deletion) contains a letter, word, or passage deleted, marked as deleted, or otherwise indicated as
-    superfluous or spurious in the copy text by an author, scribe, annotator, or corrector.</xs:documentation>
+    superfluous or spurious in the copy text by an author, scribe, annotator, or corrector. [3.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -491,7 +487,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="unclear">
     <xs:annotation>
       <xs:documentation>contains a word, phrase, or passage which cannot be transcribed with certainty because it
-        is illegible or inaudible in the source.</xs:documentation>
+        is illegible or inaudible in the source. [11.3.3.1.  3.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -534,7 +530,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   </xs:element>
   <xs:element name="name">
     <xs:annotation>
-      <xs:documentation>(name, proper noun) contains a proper noun or noun phrase.</xs:documentation>
+      <xs:documentation>(name, proper noun) contains a proper noun or noun phrase. [3.5.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -548,7 +544,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   </xs:element>
   <xs:element name="rs">
     <xs:annotation>
-      <xs:documentation>(referencing string) contains a general purpose name or referring string.</xs:documentation>
+      <xs:documentation>(referencing string) contains a general purpose name or referring string. [13.2.1.  3.5.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -558,8 +554,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
           <xs:attribute name="type" type="mathml:tei_data.enumerated">
             <xs:annotation>
               <xs:documentation>indicates more specifically the object referred to by the referencing string.
-                Values might include person, place, ship,
-                    element etc.</xs:documentation>
+        When suitable, values should be drawn from an existing ontology, such as the BBN's proposed answer categories.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -570,7 +565,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
     <xs:annotation>
       <xs:documentation>(electronic mail address) contains an e-mail address identifying a location to which
         e-mail messages can be delivered.
-    </xs:documentation>
+     [3.5.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -583,7 +578,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="address">
     <xs:annotation>
       <xs:documentation>contains a postal  address, for example of a
-        publisher, an organization, or an individual.</xs:documentation>
+        publisher, an organization, or an individual. [3.5.2.  2.2.4.  3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -598,7 +593,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   </xs:element>
   <xs:element name="addrLine">
     <xs:annotation>
-      <xs:documentation>(address line) contains one line of a postal address.</xs:documentation>
+      <xs:documentation>(address line) contains one line of a postal address. [3.5.2.  2.2.4.  3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -612,7 +607,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
     <xs:annotation>
       <xs:documentation>a full street address including any name or number identifying a
         building as well as the name of the street or route on which it is
-        located.</xs:documentation>
+        located. [3.5.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -625,7 +620,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="postCode">
     <xs:annotation>
       <xs:documentation>(postal code) contains a numerical or alphanumeric code used as part of a postal address to simplify
-        sorting or delivery of mail. </xs:documentation>
+        sorting or delivery of mail.  [3.5.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -634,7 +629,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   <xs:element name="postBox">
     <xs:annotation>
       <xs:documentation>(postal box or post office box) contains a number or other identifier for some postal delivery point other than a street
-    address. </xs:documentation>
+    address.  [3.5.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -642,7 +637,7 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</xs:documentation>
   </xs:element>
   <xs:element name="num">
     <xs:annotation>
-      <xs:documentation>(number) contains a number, written in any form.</xs:documentation>
+      <xs:documentation>(number) contains a number, written in any form. [3.5.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -707,7 +702,7 @@ Suggested values include: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</x
   <xs:element name="measure">
     <xs:annotation>
       <xs:documentation>contains a word or phrase referring to some quantity of an object or commodity, usually
-        comprising a number, a unit, and a commodity name.</xs:documentation>
+        comprising a number, a unit, and a commodity name. [3.5.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -726,7 +721,7 @@ Suggested values include: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</x
   <xs:element name="measureGrp">
     <xs:annotation>
       <xs:documentation>(measure group) contains a group of dimensional specifications which relate to the same object, for example
-    the height and width of a manuscript page.</xs:documentation>
+    the height and width of a manuscript page. [10.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.measureLike"/>
@@ -737,7 +732,7 @@ Suggested values include: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</x
   </xs:element>
   <xs:element name="date">
     <xs:annotation>
-      <xs:documentation>contains a date in any format.</xs:documentation>
+      <xs:documentation>contains a date in any format. [3.5.4.  2.2.4.  2.5.  3.11.2.3.  15.2.3.  13.3.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -748,94 +743,11 @@ Suggested values include: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</x
       <xs:attributeGroup ref="mathml:tei_att.datable.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.editLike.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
-      <xs:attribute name="calendar">
-        <xs:annotation>
-          <xs:documentation>indicates the system or calendar to which the date represented by the content of this
-        element belongs.
-Suggested values include: 1] Gregorian; 2] Julian; 3] Islamic; 4] Hebrew; 5] Revolutionary; 6] Iranian; 7] Coptic; 8] Chinese</xs:documentation>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:union memberTypes="xs:Name">
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Gregorian">
-                  <xs:annotation>
-                    <xs:documentation>Gregorian calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Julian">
-                  <xs:annotation>
-                    <xs:documentation>Julian calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Islamic">
-                  <xs:annotation>
-                    <xs:documentation>Islamic or Muslim (hijri) lunar calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Hebrew">
-                  <xs:annotation>
-                    <xs:documentation>Hebrew or Jewish lunisolar calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Revolutionary">
-                  <xs:annotation>
-                    <xs:documentation>French Revolutionary calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Iranian">
-                  <xs:annotation>
-                    <xs:documentation>Iranian or Persian (Jalaali) solar calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Coptic">
-                  <xs:annotation>
-                    <xs:documentation>Coptic or Alexandrian calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:enumeration value="Chinese">
-                  <xs:annotation>
-                    <xs:documentation>Chinese lunisolar calendar</xs:documentation>
-                  </xs:annotation>
-                </xs:enumeration>
-              </xs:restriction>
-            </xs:simpleType>
-          </xs:union>
-        </xs:simpleType>
-      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="time">
     <xs:annotation>
-      <xs:documentation>contains a phrase defining a time of day in any format.</xs:documentation>
+      <xs:documentation>contains a phrase defining a time of day in any format. [3.5.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -850,7 +762,7 @@ Suggested values include: 1] Gregorian; 2] Julian; 3] Islamic; 4] Hebrew; 5] Rev
   </xs:element>
   <xs:element name="abbr">
     <xs:annotation>
-      <xs:documentation>(abbreviation) contains an abbreviation of any sort.</xs:documentation>
+      <xs:documentation>(abbreviation) contains an abbreviation of any sort. [3.5.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -870,7 +782,7 @@ Sample values include: 1] suspension; 2] contraction; 3] brevigraph; 4] superscr
   </xs:element>
   <xs:element name="expan">
     <xs:annotation>
-      <xs:documentation>(expansion) contains the expansion of an abbreviation.</xs:documentation>
+      <xs:documentation>(expansion) contains the expansion of an abbreviation. [3.5.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -883,11 +795,12 @@ Sample values include: 1] suspension; 2] contraction; 3] brevigraph; 4] superscr
   </xs:element>
   <xs:element name="ptr">
     <xs:annotation>
-      <xs:documentation>(pointer) defines a pointer to another location.</xs:documentation>
+      <xs:documentation>(pointer) defines a pointer to another location. [3.6.  16.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.pointing.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.internetMedia.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declaring.attributes"/>
       <xs:attribute name="cRef">
@@ -912,13 +825,14 @@ Sample values include: 1] suspension; 2] contraction; 3] brevigraph; 4] superscr
   </xs:element>
   <xs:element name="ref">
     <xs:annotation>
-      <xs:documentation>(reference) defines a reference to another location, possibly modified by additional text or comment.</xs:documentation>
+      <xs:documentation>(reference) defines a reference to another location, possibly modified by additional text or comment. [3.6.  16.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="mathml:tei_macro.paraContent">
           <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
           <xs:attributeGroup ref="mathml:tei_att.pointing.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.internetMedia.attributes"/>
           <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
           <xs:attributeGroup ref="mathml:tei_att.declaring.attributes"/>
           <xs:attribute name="cRef">
@@ -945,7 +859,7 @@ Sample values include: 1] suspension; 2] contraction; 3] brevigraph; 4] superscr
   </xs:element>
   <xs:element name="list">
     <xs:annotation>
-      <xs:documentation>(list) contains any sequence of items organized as a list.</xs:documentation>
+      <xs:documentation>(list) contains any sequence of items organized as a list. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -975,6 +889,7 @@ Sample values include: 1] suspension; 2] contraction; 3] brevigraph; 4] superscr
         </xs:sequence>
       </xs:sequence>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
       <xs:attribute name="type" default="simple">
         <xs:annotation>
           <xs:documentation>describes the form of the list.
@@ -1026,20 +941,21 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="item">
     <xs:annotation>
-      <xs:documentation>contains one component of a list.</xs:documentation>
+      <xs:documentation>contains one component of a list. [3.7.  2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
         <xs:extension base="mathml:tei_macro.specialPara">
           <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
   <xs:element name="label">
     <xs:annotation>
-      <xs:documentation>contains the label associated with an item in a list; in glossaries, marks the term being
-    defined.</xs:documentation>
+      <xs:documentation>contains any label or heading used to identify part of a text,
+  typically but not exclusively in a list or glossary. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1052,21 +968,24 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   <xs:element name="head">
     <xs:annotation>
       <xs:documentation>(heading) contains any type of heading, for example the title of a section, or the heading of a list,
-    glossary, manuscript description, etc.</xs:documentation>
+    glossary, manuscript description, etc. [4.2.1. ]</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="mathml:tei_macro.paraContent">
-          <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
-          <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
-        </xs:extension>
-      </xs:complexContent>
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="ns1:lg"/>
+        <xs:group ref="mathml:tei_model.phrase"/>
+        <xs:group ref="mathml:tei_model.inter"/>
+        <xs:group ref="mathml:tei_model.lLike"/>
+        <xs:group ref="mathml:tei_model.global"/>
+      </xs:choice>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="headLabel">
     <xs:annotation>
       <xs:documentation>(heading for list labels) contains the heading for the label or term column in a glossary list or similar structured
-        list.</xs:documentation>
+        list. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1079,7 +998,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   <xs:element name="headItem">
     <xs:annotation>
       <xs:documentation>(heading for list items) contains the heading for the item or gloss column in a glossary list or similar structured
-        list.</xs:documentation>
+        list. [3.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1091,7 +1010,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="note">
     <xs:annotation>
-      <xs:documentation>contains a note or annotation.</xs:documentation>
+      <xs:documentation>contains a note or annotation. [3.8.1.  2.2.6.  3.11.2.6.  9.3.5.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1130,7 +1049,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="index">
     <xs:annotation>
-      <xs:documentation>(index entry) marks a location to be indexed for whatever purpose.</xs:documentation>
+      <xs:documentation>(index entry) marks a location to be indexed for whatever purpose. [3.8.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -1148,7 +1067,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
   </xs:element>
   <xs:element name="graphic">
     <xs:annotation>
-      <xs:documentation>indicates the location of an inline graphic, illustration, or figure.</xs:documentation>
+      <xs:documentation>indicates the location of an inline graphic, illustration, or figure. [3.9. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.glossLike"/>
@@ -1223,7 +1142,7 @@ Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss</xs:docum
     <xs:annotation>
       <xs:documentation>marks a boundary point separating any kind of section of a text, typically but not
     necessarily indicating a point at which some part of a standard reference system changes, where
-    the change is not represented by a structural element.</xs:documentation>
+    the change is not represented by a structural element. [3.10.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1360,9 +1279,21 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="gb">
+    <xs:annotation>
+      <xs:documentation> (gathering begins) marks the point in a transcribed codex at which a new
+  gathering or quire begins. [3.10.3. ]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.spanning.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.breaking.attributes"/>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="pb">
     <xs:annotation>
-      <xs:documentation>(page break) marks the boundary between one page of a text and the next in a standard reference system.</xs:documentation>
+      <xs:documentation>(page break) marks the boundary between one page of a text and the next in a standard reference system. [3.10.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1374,7 +1305,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   </xs:element>
   <xs:element name="lb">
     <xs:annotation>
-      <xs:documentation>(line break) marks the start of a new (typographic) line in some edition or version of a text.</xs:documentation>
+      <xs:documentation>(line break) marks the start of a new (typographic) line in some edition or version of a text. [3.10.3.  7.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1387,7 +1318,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   <xs:element name="cb">
     <xs:annotation>
       <xs:documentation>(column break) marks the boundary between one column of a text and the next
-        in a standard reference system.</xs:documentation>
+        in a standard reference system. [3.10.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1400,7 +1331,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   <xs:element name="analytic">
     <xs:annotation>
       <xs:documentation>(analytic level) contains bibliographic elements describing an item (e.g. an article or poem) published
-    within a monograph or journal and not as an independent publication.</xs:documentation>
+    within a monograph or journal and not as an independent publication. [3.11.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1410,6 +1341,8 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
         <xs:element ref="ns1:title"/>
         <xs:element ref="ns1:ref"/>
         <xs:element ref="ns1:date"/>
+        <xs:element ref="ns1:textLang"/>
+        <xs:element ref="ns1:idno"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
     </xs:complexType>
@@ -1417,7 +1350,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   <xs:element name="monogr">
     <xs:annotation>
       <xs:documentation>(monographic level) contains bibliographic elements describing an item (e.g. a book or journal) published as an
-    independent item (i.e. as a separate physical object).</xs:documentation>
+    independent item (i.e. as a separate physical object). [3.11.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -1436,6 +1369,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
             <xs:element maxOccurs="unbounded" ref="ns1:title"/>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
               <xs:element ref="ns1:idno"/>
+              <xs:element ref="ns1:textLang"/>
               <xs:element ref="ns1:editor"/>
               <xs:element ref="ns1:respStmt"/>
             </xs:choice>
@@ -1447,6 +1381,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
             </xs:choice>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
               <xs:element ref="ns1:idno"/>
+              <xs:element ref="ns1:textLang"/>
               <xs:element ref="ns1:author"/>
               <xs:element ref="ns1:editor"/>
               <xs:element ref="ns1:respStmt"/>
@@ -1478,7 +1413,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   <xs:element name="series">
     <xs:annotation>
       <xs:documentation>(series information) contains information about the series in which a book or other bibliographic item has
-    appeared.</xs:documentation>
+    appeared. [3.11.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1487,6 +1422,8 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
         <xs:element ref="ns1:editor"/>
         <xs:element ref="ns1:respStmt"/>
         <xs:element ref="ns1:biblScope"/>
+        <xs:element ref="ns1:idno"/>
+        <xs:element ref="ns1:textLang"/>
         <xs:group ref="mathml:tei_model.global"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1494,9 +1431,9 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   </xs:element>
   <xs:element name="author">
     <xs:annotation>
-      <xs:documentation>in a bibliographic reference, contains the name(s) of the
-  author(s), personal or corporate, of a work; for example in the same
-  form as that provided by a recognized bibliographic name authority. </xs:documentation>
+      <xs:documentation>in a bibliographic reference, contains the name(s) of an
+  author, personal or corporate, of a work; for example in the same
+  form as that provided by a recognized bibliographic name authority.  [3.11.2.2.  2.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1511,7 +1448,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
     <xs:annotation>
       <xs:documentation>secondary statement of responsibility for a bibliographic item, for example the name of an
     individual, institution or organization, (or of several such) acting as editor, compiler,
-    translator, etc. </xs:documentation>
+    translator, etc.  [3.11.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1526,7 +1463,8 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
     <xs:annotation>
       <xs:documentation>(statement of responsibility) supplies a statement of responsibility for the intellectual content of a text, edition,
     recording, or series, where the specialized elements for authors, editors, etc. do not suffice
-    or do not apply.</xs:documentation>
+    or do not apply. May also be used to encode information about individuals or organizations 
+    which have played a role in the production or distribution of a bibliographic work. [3.11.2.2.  2.2.1.  2.2.2.  2.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -1544,7 +1482,8 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   </xs:element>
   <xs:element name="resp">
     <xs:annotation>
-      <xs:documentation>(responsibility) contains a phrase describing the nature of a person's intellectual responsibility.</xs:documentation>
+      <xs:documentation>(responsibility) contains a phrase describing the nature of a person's intellectual responsibility, or an organization's role 
+    in the production or distribution of a work. [3.11.2.2.  2.2.1.  2.2.2.  2.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1557,7 +1496,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   </xs:element>
   <xs:element name="title">
     <xs:annotation>
-      <xs:documentation>contains a title for any kind of work.</xs:documentation>
+      <xs:documentation>contains a title for any kind of work. [3.11.2.2.  2.2.1.  2.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1620,7 +1559,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
     <xs:annotation>
       <xs:documentation>contains the formalized descriptive title for a meeting or conference, for use in a
     bibliographic description for an item derived from such a meeting, or as a heading or preamble
-    to publications emanating from it.</xs:documentation>
+    to publications emanating from it. [3.11.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1633,7 +1572,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
   <xs:element name="imprint">
     <xs:annotation>
       <xs:documentation>groups information relating to the publication or distribution
-        of a bibliographic item.</xs:documentation>
+        of a bibliographic item. [3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence maxOccurs="unbounded">
@@ -1641,6 +1580,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
           <xs:group ref="mathml:tei_model.imprintPart"/>
           <xs:group ref="mathml:tei_model.dateLike"/>
         </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="ns1:respStmt"/>
         <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.global"/>
       </xs:sequence>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -1649,7 +1589,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
   <xs:element name="publisher">
     <xs:annotation>
       <xs:documentation>provides the name of the organization responsible for the publication or distribution of a
-        bibliographic item.</xs:documentation>
+        bibliographic item. [3.11.2.3.  2.2.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1662,7 +1602,7 @@ Sample values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] sho
   <xs:element name="biblScope">
     <xs:annotation>
       <xs:documentation>(scope of citation) defines the scope of a bibliographic reference, for example as a
-        list of page numbers, or a named subdivision of a larger work.</xs:documentation>
+        list of page numbers, or a named subdivision of a larger work. [3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1751,7 +1691,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   </xs:element>
   <xs:element name="pubPlace">
     <xs:annotation>
-      <xs:documentation>(publication place) contains the name of the place where a bibliographic item was published.</xs:documentation>
+      <xs:documentation>(publication place) contains the name of the place where a bibliographic item was published. [3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1765,7 +1705,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   <xs:element name="bibl">
     <xs:annotation>
       <xs:documentation>(bibliographic citation) contains a loosely-structured bibliographic citation of which the sub-components may or may
-    not be explicitly tagged. </xs:documentation>
+    not be explicitly tagged.  [3.11.1.  2.2.7.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1779,12 +1719,13 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declarable.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="biblStruct">
     <xs:annotation>
       <xs:documentation>(structured bibliographic citation) contains a structured bibliographic citation, in which only bibliographic sub-elements
-    appear and in a specified order. </xs:documentation>
+    appear and in a specified order.  [3.11.1.  2.2.7.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -1802,11 +1743,12 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declarable.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="listBibl">
     <xs:annotation>
-      <xs:documentation>(citation list) contains a list of bibliographic citations of any kind. </xs:documentation>
+      <xs:documentation>(citation list) contains a list of bibliographic citations of any kind.  [3.11.1.  2.2.7.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -1818,6 +1760,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
         </xs:choice>
       </xs:sequence>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declarable.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
     </xs:complexType>
@@ -1825,7 +1768,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   <xs:element name="relatedItem">
     <xs:annotation>
       <xs:documentation>contains or references some other bibliographic item which is related to the present one in
-    some specified manner, for example as a constituent or alternative version of it.</xs:documentation>
+    some specified manner, for example as a constituent or alternative version of it. [3.11.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0">
@@ -1844,7 +1787,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   </xs:element>
   <xs:element name="l">
     <xs:annotation>
-      <xs:documentation>(verse line) contains a single, possibly incomplete, line of verse.</xs:documentation>
+      <xs:documentation>(verse line) contains a single, possibly incomplete, line of verse. [3.12.1.  3.12.  7.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1891,7 +1834,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   <xs:element name="lg">
     <xs:annotation>
       <xs:documentation>(line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
-        verse paragraph, etc.</xs:documentation>
+        verse paragraph, etc. [3.12.1.  3.12.  7.2.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -1901,12 +1844,16 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
         </xs:choice>
         <xs:choice>
           <xs:group ref="mathml:tei_model.lLike"/>
+          <xs:group ref="mathml:tei_model.stageLike"/>
+          <xs:group ref="mathml:tei_model.labelLike"/>
           <xs:element ref="ns1:lg"/>
         </xs:choice>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
           <xs:group ref="mathml:tei_model.lLike"/>
-          <xs:element ref="ns1:lg"/>
+          <xs:group ref="mathml:tei_model.stageLike"/>
+          <xs:group ref="mathml:tei_model.labelLike"/>
           <xs:group ref="mathml:tei_model.global"/>
+          <xs:element ref="ns1:lg"/>
         </xs:choice>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:group ref="mathml:tei_model.divBottom"/>
@@ -1922,7 +1869,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   <xs:element name="sp">
     <xs:annotation>
       <xs:documentation>(speech) An individual speech in a performance text, or a passage presented as such in a prose or
-    verse text.</xs:documentation>
+    verse text. [3.12.2.  3.12.  7.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -1933,9 +1880,10 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
         </xs:sequence>
         <xs:sequence maxOccurs="unbounded">
           <xs:choice>
-            <xs:group ref="mathml:tei_model.lLike"/>
             <xs:element ref="ns1:lg"/>
+            <xs:group ref="mathml:tei_model.lLike"/>
             <xs:group ref="mathml:tei_model.pLike"/>
+            <xs:group ref="mathml:tei_model.listLike"/>
             <xs:group ref="mathml:tei_model.stageLike"/>
             <xs:group ref="mathml:tei_model.qLike"/>
           </xs:choice>
@@ -1949,7 +1897,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   <xs:element name="speaker">
     <xs:annotation>
       <xs:documentation>A specialized form of heading or label, giving the name of one or more speakers in a
-        dramatic text or fragment.</xs:documentation>
+        dramatic text or fragment. [3.12.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -1961,7 +1909,7 @@ Suggested values include: 1] vol(volume) ; 2] issue; 3] pp(pages) ; 4] ll (lines
   </xs:element>
   <xs:element name="stage">
     <xs:annotation>
-      <xs:documentation>(stage direction) contains any kind of stage direction within a dramatic text or fragment.</xs:documentation>
+      <xs:documentation>(stage direction) contains any kind of stage direction within a dramatic text or fragment. [3.12.2.  3.12.  7.2.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2065,7 +2013,7 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
   <xs:element name="teiCorpus">
     <xs:annotation>
       <xs:documentation>contains the whole of a TEI encoded corpus, comprising a single corpus header and one or
-    more TEI elements, each containing a single text header and a text.</xs:documentation>
+    more TEI elements, each containing a single text header and a text. [4.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2086,7 +2034,7 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
   <xs:element name="divGen">
     <xs:annotation>
       <xs:documentation>(automatically generated text division) indicates the location at which a textual division generated
-        automatically by a text-processing application is to appear.</xs:documentation>
+        automatically by a text-processing application is to appear. [3.8.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.headLike"/>
@@ -2100,10 +2048,36 @@ Sample values include: 1] index; 2] toc; 3] figlist; 4] tablist</xs:documentatio
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="textLang">
+    <xs:annotation>
+      <xs:documentation>(text language) describes the languages and writing systems identified within the bibliographic work  
+  being described, rather than its description.  [3.11.2.3.  10.6.6. ]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mathml:tei_macro.phraseSeq">
+          <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+          <xs:attribute name="mainLang" type="mathml:tei_data.language">
+            <xs:annotation>
+              <xs:documentation>(main language) supplies a code which identifies the chief language used in the bibliographic work.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="otherLangs">
+            <xs:annotation>
+              <xs:documentation>(other languages) one or more codes identifying any other languages used in the bibliographic work.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:list itemType="mathml:tei_data.language"/>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="teiHeader">
     <xs:annotation>
       <xs:documentation>(TEI Header) supplies the descriptive and declarative information making up an electronic title page
-    prefixed to every TEI-conformant text.</xs:documentation>
+    prefixed to every TEI-conformant text. [2.1.1.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2123,7 +2097,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   </xs:element>
   <xs:element name="fileDesc">
     <xs:annotation>
-      <xs:documentation>(file description) contains a full bibliographic description of an electronic file.</xs:documentation>
+      <xs:documentation>(file description) contains a full bibliographic description of an electronic file. [2.2.  2.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2143,7 +2117,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   <xs:element name="titleStmt">
     <xs:annotation>
       <xs:documentation>(title statement) groups information about the title of a work and those responsible for its intellectual
-    content.</xs:documentation>
+    content. [2.2.1.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2155,7 +2129,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   </xs:element>
   <xs:element name="sponsor">
     <xs:annotation>
-      <xs:documentation>specifies the name of a sponsoring organization or institution.</xs:documentation>
+      <xs:documentation>specifies the name of a sponsoring organization or institution. [2.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2168,7 +2142,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   <xs:element name="funder">
     <xs:annotation>
       <xs:documentation>(funding body) specifies the name of an individual, institution, or organization responsible for the
-    funding of a project or text.</xs:documentation>
+    funding of a project or text. [2.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2181,7 +2155,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   <xs:element name="principal">
     <xs:annotation>
       <xs:documentation>(principal researcher) supplies the name of the principal researcher responsible for the
-creation of an electronic text.</xs:documentation>
+creation of an electronic text. [2.2.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2193,7 +2167,7 @@ creation of an electronic text.</xs:documentation>
   </xs:element>
   <xs:element name="editionStmt">
     <xs:annotation>
-      <xs:documentation>(edition statement) groups information relating to one edition of a text.</xs:documentation>
+      <xs:documentation>(edition statement) groups information relating to one edition of a text. [2.2.2.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2208,7 +2182,7 @@ creation of an electronic text.</xs:documentation>
   </xs:element>
   <xs:element name="edition">
     <xs:annotation>
-      <xs:documentation>(edition) describes the particularities of one edition of a text.</xs:documentation>
+      <xs:documentation>(edition) describes the particularities of one edition of a text. [2.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2221,7 +2195,7 @@ creation of an electronic text.</xs:documentation>
   <xs:element name="extent">
     <xs:annotation>
       <xs:documentation>describes the approximate size of a text as stored on some carrier medium, whether digital
-    or non-digital, specified in any convenient units.</xs:documentation>
+    or non-digital, specified in any convenient units. [2.2.3.  2.2.  3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2234,7 +2208,7 @@ creation of an electronic text.</xs:documentation>
   <xs:element name="publicationStmt">
     <xs:annotation>
       <xs:documentation>(publication statement) groups information concerning the publication or distribution of an electronic or other
-    text. </xs:documentation>
+    text.  [2.2.4.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2247,7 +2221,7 @@ creation of an electronic text.</xs:documentation>
   <xs:element name="distributor">
     <xs:annotation>
       <xs:documentation>supplies the name of a person or other agency responsible for the
-distribution of a text.</xs:documentation>
+distribution of a text. [2.2.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2261,7 +2235,7 @@ distribution of a text.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(release authority) supplies the name of a person or other agency responsible for
   making an electronic file available, other than a publisher or
-  distributor.</xs:documentation>
+  distributor. [2.2.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2275,10 +2249,11 @@ distribution of a text.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(identifier) supplies any form of identifier used to identify some object,
   such as a bibliographic item, a person, a title, an organization,
-  etc. in a standardized way.</xs:documentation>
+  etc. in a standardized way. [2.2.4.  2.2.5.  3.11.2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
       <xs:attribute name="type" type="mathml:tei_data.enumerated">
         <xs:annotation>
           <xs:documentation>categorizes the identifier, for example as an ISBN, Social
@@ -2290,10 +2265,10 @@ distribution of a text.</xs:documentation>
   <xs:element name="availability">
     <xs:annotation>
       <xs:documentation>supplies information about the availability of a text, for example any restrictions on its
-    use or distribution, its copyright status, etc.</xs:documentation>
+    use or distribution, its copyright status, any licence applying to it, etc. [2.2.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
+      <xs:group maxOccurs="unbounded" ref="mathml:tei_model.availabilityPart"/>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declarable.attributes"/>
       <xs:attribute name="status" default="unknown">
@@ -2322,9 +2297,24 @@ distribution of a text.</xs:documentation>
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="licence">
+    <xs:annotation>
+      <xs:documentation>contains information about a licence or other legal agreement
+  applicable to the text. [2.2.4. ]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mathml:tei_macro.specialPara">
+          <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.pointing.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.datable.attributes"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="seriesStmt">
     <xs:annotation>
-      <xs:documentation>(series statement) groups information about the series, if any, to which a publication belongs.</xs:documentation>
+      <xs:documentation>(series statement) groups information about the series, if any, to which a publication belongs. [2.2.5.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2332,8 +2322,12 @@ distribution of a text.</xs:documentation>
         <xs:sequence>
           <xs:element maxOccurs="unbounded" ref="ns1:title"/>
           <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="ns1:idno"/>
+            <xs:element ref="ns1:editor"/>
             <xs:element ref="ns1:respStmt"/>
+          </xs:choice>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="ns1:idno"/>
+            <xs:element ref="ns1:biblScope"/>
           </xs:choice>
         </xs:sequence>
       </xs:choice>
@@ -2343,7 +2337,7 @@ distribution of a text.</xs:documentation>
   <xs:element name="notesStmt">
     <xs:annotation>
       <xs:documentation>(notes statement) collects together any notes providing information about a text additional to that recorded
-    in other parts of the bibliographic description.</xs:documentation>
+    in other parts of the bibliographic description. [2.2.6.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.noteLike"/>
@@ -2354,7 +2348,7 @@ distribution of a text.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(source description) describes the source from which an electronic text was derived or generated, typically a
     bibliographic description in the case of a digitized text, or a phrase such as "born digital"
-    for a text which has no previous existence.</xs:documentation>
+    for a text which has no previous existence. [2.2.7. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2371,7 +2365,7 @@ distribution of a text.</xs:documentation>
   <xs:element name="biblFull">
     <xs:annotation>
       <xs:documentation>(fully-structured bibliographic citation) contains a fully-structured bibliographic citation, in which all components of the TEI file
-    description are present.</xs:documentation>
+    description are present. [3.11.1.  2.2.  2.2.7.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2387,12 +2381,13 @@ distribution of a text.</xs:documentation>
       </xs:sequence>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.declarable.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="encodingDesc">
     <xs:annotation>
       <xs:documentation>(encoding description) documents the relationship between an electronic text and the
-source or sources from which it was derived.</xs:documentation>
+source or sources from which it was derived. [2.3.  2.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
@@ -2406,7 +2401,7 @@ source or sources from which it was derived.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(project description) describes in detail the aim or purpose for which an electronic file was encoded, together
     with any other relevant information concerning the process by which it was assembled or
-    collected.</xs:documentation>
+    collected. [2.3.1.  2.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2417,7 +2412,7 @@ source or sources from which it was derived.</xs:documentation>
   <xs:element name="samplingDecl">
     <xs:annotation>
       <xs:documentation>(sampling declaration) contains a prose description of the rationale and methods used in sampling texts in the
-    creation of a corpus or collection.</xs:documentation>
+    creation of a corpus or collection. [2.3.2.  2.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2428,7 +2423,7 @@ source or sources from which it was derived.</xs:documentation>
   <xs:element name="editorialDecl">
     <xs:annotation>
       <xs:documentation>(editorial practice declaration) provides details of editorial principles and practices applied
-during the encoding of a text.</xs:documentation>
+during the encoding of a text. [2.3.3.  2.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
@@ -2441,7 +2436,7 @@ during the encoding of a text.</xs:documentation>
   </xs:element>
   <xs:element name="correction">
     <xs:annotation>
-      <xs:documentation>(correction principles) states how and under what circumstances corrections have been made in the text.</xs:documentation>
+      <xs:documentation>(correction principles) states how and under what circumstances corrections have been made in the text. [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2500,7 +2495,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="normalization">
     <xs:annotation>
       <xs:documentation>indicates the extent of normalization or regularization of the original source carried out
-    in converting it to electronic form.</xs:documentation>
+    in converting it to electronic form. [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2534,7 +2529,7 @@ during the encoding of a text.</xs:documentation>
   </xs:element>
   <xs:element name="quotation">
     <xs:annotation>
-      <xs:documentation>specifies editorial practice adopted with respect to quotation marks in the original. </xs:documentation>
+      <xs:documentation>specifies editorial practice adopted with respect to quotation marks in the original.  [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2574,7 +2569,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="hyphenation">
     <xs:annotation>
       <xs:documentation>summarizes the way in which hyphenation in a source text has been treated in an encoded
-    version of it.</xs:documentation>
+    version of it. [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2617,7 +2612,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="segmentation">
     <xs:annotation>
       <xs:documentation>describes the principles according to which the text has been segmented, for example into
-    sentences, tone-units, graphemic strata, etc.</xs:documentation>
+    sentences, tone-units, graphemic strata, etc. [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2627,7 +2622,7 @@ during the encoding of a text.</xs:documentation>
   </xs:element>
   <xs:element name="stdVals">
     <xs:annotation>
-      <xs:documentation>(standard values) specifies the format used when standardized date or number values are supplied.</xs:documentation>
+      <xs:documentation>(standard values) specifies the format used when standardized date or number values are supplied. [2.3.3.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2638,7 +2633,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="interpretation">
     <xs:annotation>
       <xs:documentation>describes the scope of any analytic or interpretive information added to the text in
-    addition to the transcription. </xs:documentation>
+    addition to the transcription.  [2.3.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2648,7 +2643,7 @@ during the encoding of a text.</xs:documentation>
   </xs:element>
   <xs:element name="tagsDecl">
     <xs:annotation>
-      <xs:documentation>(tagging declaration) provides detailed information about the tagging applied to a document.</xs:documentation>
+      <xs:documentation>(tagging declaration) provides detailed information about the tagging applied to a document. [2.3.4.  2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2660,7 +2655,7 @@ during the encoding of a text.</xs:documentation>
   </xs:element>
   <xs:element name="tagUsage">
     <xs:annotation>
-      <xs:documentation>supplies information about the usage of a specific element within a text. </xs:documentation>
+      <xs:documentation>supplies information about the usage of a specific element within a text.  [2.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2695,7 +2690,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="namespace">
     <xs:annotation>
       <xs:documentation>supplies the formal name of the namespace to which the elements documented by its children
-    belong. </xs:documentation>
+    belong.  [2.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2712,7 +2707,7 @@ during the encoding of a text.</xs:documentation>
   <xs:element name="rendition">
     <xs:annotation>
       <xs:documentation>supplies information about the rendition or appearance of one or more elements in the source
-    text.</xs:documentation>
+    text. [2.3.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -2761,7 +2756,7 @@ applicable to specific sub-portions of an element.</xs:documentation>
   <xs:element name="refsDecl">
     <xs:annotation>
       <xs:documentation>(references declaration) specifies how canonical references are constructed for this
-  text.</xs:documentation>
+  text. [2.3.5.3.  2.3.  2.3.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2776,7 +2771,7 @@ applicable to specific sub-portions of an element.</xs:documentation>
   <xs:element name="cRefPattern">
     <xs:annotation>
       <xs:documentation>(canonical reference pattern) specifies an expression and replacement pattern for transforming a canonical reference into
-    a URI. </xs:documentation>
+    a URI.  [2.3.5.3.  2.3.5.  2.3.5.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
@@ -2797,7 +2792,7 @@ applicable to specific sub-portions of an element.</xs:documentation>
   </xs:element>
   <xs:element name="refState">
     <xs:annotation>
-      <xs:documentation>(reference state) specifies one component of a canonical reference defined by the milestone method.</xs:documentation>
+      <xs:documentation>(reference state) specifies one component of a canonical reference defined by the milestone method. [2.3.5.3.  2.3.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -2926,7 +2921,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
   <xs:element name="classDecl">
     <xs:annotation>
       <xs:documentation>(classification declarations) contains one or more taxonomies defining any classificatory
-codes used elsewhere in the text.</xs:documentation>
+codes used elsewhere in the text. [2.3.6.  2.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2937,8 +2932,8 @@ codes used elsewhere in the text.</xs:documentation>
   </xs:element>
   <xs:element name="taxonomy">
     <xs:annotation>
-      <xs:documentation>defines a typology used to classify texts either implicitly, by means of a bibliographic
-    citation, or explicitly by a structured taxonomy.</xs:documentation>
+      <xs:documentation>defines a typology either implicitly, by means of a bibliographic
+    citation, or explicitly by a structured taxonomy. [2.3.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -2955,7 +2950,7 @@ codes used elsewhere in the text.</xs:documentation>
   <xs:element name="category">
     <xs:annotation>
       <xs:documentation>contains an individual descriptive category, possibly nested within a superordinate
-    category, within a user-defined taxonomy.</xs:documentation>
+    category, within a user-defined taxonomy. [2.3.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -2971,7 +2966,7 @@ codes used elsewhere in the text.</xs:documentation>
   <xs:element name="catDesc">
     <xs:annotation>
       <xs:documentation>(category description) describes some category within a taxonomy or text typology, either in the form of a brief
-    prose description or in terms of the situational parameters used by the TEI formal textDesc.</xs:documentation>
+    prose description or in terms of the situational parameters used by the TEI formal textDesc. [2.3.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.limitedPhrase"/>
@@ -3026,7 +3021,7 @@ codes used elsewhere in the text.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(text-profile description) provides a detailed description of non-bibliographic aspects of a text, specifically the
     languages and sublanguages used, the situation in which it was produced, the participants and
-    their setting.</xs:documentation>
+    their setting. [2.4.  2.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.profileDescPart"/>
@@ -3035,20 +3030,21 @@ codes used elsewhere in the text.</xs:documentation>
   </xs:element>
   <xs:element name="creation">
     <xs:annotation>
-      <xs:documentation>contains information about the creation of a text.</xs:documentation>
+      <xs:documentation>contains information about the creation of a text. [2.4.1.  2.4. ]</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="mathml:tei_macro.phraseSeq.limited">
-          <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
-        </xs:extension>
-      </xs:complexContent>
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:group ref="mathml:tei_model.limitedPhrase"/>
+        <xs:element ref="ns1:listChange"/>
+      </xs:choice>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.datable.attributes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="langUsage">
     <xs:annotation>
       <xs:documentation>(language usage) describes the languages, sublanguages, registers, dialects, etc.
-represented within a text.</xs:documentation>
+represented within a text. [2.4.2.  2.4.  15.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3060,7 +3056,7 @@ represented within a text.</xs:documentation>
   </xs:element>
   <xs:element name="language">
     <xs:annotation>
-      <xs:documentation>characterizes a single language or sublanguage used within a text.</xs:documentation>
+      <xs:documentation>characterizes a single language or sublanguage used within a text. [2.4.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3090,7 +3086,7 @@ represented within a text.</xs:documentation>
   <xs:element name="textClass">
     <xs:annotation>
       <xs:documentation>(text classification) groups information which describes the nature or topic of a text in terms of a standard
-    classification scheme, thesaurus, etc.</xs:documentation>
+    classification scheme, thesaurus, etc. [2.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3104,7 +3100,7 @@ represented within a text.</xs:documentation>
   </xs:element>
   <xs:element name="keywords">
     <xs:annotation>
-      <xs:documentation>contains a list of keywords or phrases identifying the topic or nature of a text.</xs:documentation>
+      <xs:documentation>contains a list of keywords or phrases identifying the topic or nature of a text. [2.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
@@ -3122,7 +3118,7 @@ represented within a text.</xs:documentation>
   </xs:element>
   <xs:element name="classCode">
     <xs:annotation>
-      <xs:documentation>(classification code) contains the classification code used for this text in some standard classification system.</xs:documentation>
+      <xs:documentation>(classification code) contains the classification code used for this text in some standard classification system. [2.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3139,7 +3135,7 @@ represented within a text.</xs:documentation>
   </xs:element>
   <xs:element name="catRef">
     <xs:annotation>
-      <xs:documentation>(category reference) specifies one or more defined categories within some taxonomy or text typology.</xs:documentation>
+      <xs:documentation>(category reference) specifies one or more defined categories within some taxonomy or text typology. [2.4.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -3152,13 +3148,36 @@ represented within a text.</xs:documentation>
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="calendarDesc">
+    <xs:annotation>
+      <xs:documentation>(calendar description) contains a description of the calendar system used in any
+  dating expression found in the text. [2.4.  2.4.4. ]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ns1:calendar"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="calendar">
+    <xs:annotation>
+      <xs:documentation>describes a calendar or dating system used in a dating formula in the text. [2.4.4. ]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:group maxOccurs="unbounded" ref="mathml:tei_model.pLike"/>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.pointing.attributes"/>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="revisionDesc">
     <xs:annotation>
-      <xs:documentation>(revision description) summarizes the revision history for a file.</xs:documentation>
+      <xs:documentation>(revision description) summarizes the revision history for a file. [2.5.  2.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice>
         <xs:element ref="ns1:list"/>
+        <xs:element ref="ns1:listChange"/>
         <xs:element maxOccurs="unbounded" ref="ns1:change"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -3167,19 +3186,56 @@ represented within a text.</xs:documentation>
   </xs:element>
   <xs:element name="change">
     <xs:annotation>
-      <xs:documentation>summarizes a particular change or correction made to a particular version of an electronic
-    text which is shared between several researchers.</xs:documentation>
+      <xs:documentation>documents a change or set of changes made during the production
+  of a source document, or during the revision of an electronic file. [2.5.  2.4.1. ]</xs:documentation>
     </xs:annotation>
-    <xs:complexType mixed="true">
-      <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:group ref="mathml:tei_model.limitedPhrase"/>
-        <xs:group ref="mathml:tei_model.inter"/>
-        <xs:group ref="mathml:tei_model.global"/>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mathml:tei_macro.specialPara">
+          <xs:attributeGroup ref="mathml:tei_att.ascribed.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.datable.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.docStatus.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+          <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
+          <xs:attribute name="target">
+            <xs:annotation>
+              <xs:documentation>points to one or more elements that belong to this change.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction>
+                <xs:simpleType>
+                  <xs:list>
+                    <xs:simpleType>
+                      <xs:union memberTypes="mathml:tei_data.pointer mathml:tei_data.pointer"/>
+                    </xs:simpleType>
+                  </xs:list>
+                </xs:simpleType>
+                <xs:minLength value="1"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="listChange">
+    <xs:annotation>
+      <xs:documentation>groups a number of change descriptions associated 
+with either the creation of a source text or the revision of an encoded text. </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="ns1:listChange"/>
+        <xs:element ref="ns1:change"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
-      <xs:attributeGroup ref="mathml:tei_att.ascribed.attributes"/>
-      <xs:attributeGroup ref="mathml:tei_att.datable.attributes"/>
-      <xs:attributeGroup ref="mathml:tei_att.docStatus.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.sortable.attributes"/>
+      <xs:attribute name="ordered" default="true" type="mathml:tei_data.truthValue">
+        <xs:annotation>
+          <xs:documentation>indicates whether the ordering of its child change
+elements is to be considered significant or not</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="geoDecl">
@@ -3248,7 +3304,7 @@ Suggested values include: 1] WGS84(World Geodetic System) ; 2] MGRS(Military Gri
     <xs:annotation>
       <xs:documentation>(TEI document) contains a single TEI-conformant document,
 comprising a TEI header and a text, either in isolation or as part of a
-teiCorpus element.</xs:documentation>
+teiCorpus element. [4.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3267,7 +3323,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="text">
     <xs:annotation>
       <xs:documentation>contains a single text of any kind, whether unitary or composite, for example a poem or
-    drama, a collection of essays, a novel, a dictionary, or a corpus sample.</xs:documentation>
+    drama, a collection of essays, a novel, a dictionary, or a corpus sample. [4.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3293,7 +3349,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="body">
     <xs:annotation>
-      <xs:documentation>(text body) contains the whole body of a single unitary text, excluding any front or back matter.</xs:documentation>
+      <xs:documentation>(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3363,7 +3419,7 @@ teiCorpus element.</xs:documentation>
     <xs:annotation>
       <xs:documentation>contains the body of a composite text, grouping together a sequence of distinct texts (or
     groups of such texts) which are regarded as a unit for some purpose, for example the collected
-    works of an author, a sequence of prose essays, etc.</xs:documentation>
+    works of an author, a sequence of prose essays, etc. [4.  4.3.1.  15.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3391,7 +3447,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="floatingText">
     <xs:annotation>
       <xs:documentation>contains a single text of any kind, whether unitary or composite, which interrupts the text
-    containing it at any point and after which the surrounding text resumes.</xs:documentation>
+    containing it at any point and after which the surrounding text resumes. [4.3.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3417,7 +3473,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div">
     <xs:annotation>
-      <xs:documentation>(text division) contains a subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(text division) contains a subdivision of the front, body, or back of a text. [4.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3462,7 +3518,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div1">
     <xs:annotation>
-      <xs:documentation>(level-1 text division) contains a first-level subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(level-1 text division) contains a first-level subdivision of the front, body, or back of a text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3508,7 +3564,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="div2">
     <xs:annotation>
       <xs:documentation>(level-2 text division) contains a second-level subdivision of the front, body, or back of a
- text.</xs:documentation>
+ text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3553,7 +3609,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div3">
     <xs:annotation>
-      <xs:documentation>(level-3 text division) contains a third-level subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(level-3 text division) contains a third-level subdivision of the front, body, or back of a text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3598,7 +3654,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div4">
     <xs:annotation>
-      <xs:documentation>(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(level-4 text division) contains a fourth-level subdivision of the front, body, or back of a text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3643,7 +3699,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div5">
     <xs:annotation>
-      <xs:documentation>(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(level-5 text division) contains a fifth-level subdivision of the front, body, or back of a text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3688,7 +3744,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="div6">
     <xs:annotation>
-      <xs:documentation>(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text.</xs:documentation>
+      <xs:documentation>(level-6 text division) contains a sixth-level subdivision of the front, body, or back of a text. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3734,7 +3790,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="div7">
     <xs:annotation>
       <xs:documentation>(level-7 text division) contains the smallest possible subdivision of the front, body or back of a text, larger than
-    a paragraph.</xs:documentation>
+    a paragraph. [4.1.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3761,7 +3817,7 @@ teiCorpus element.</xs:documentation>
   </xs:element>
   <xs:element name="trailer">
     <xs:annotation>
-      <xs:documentation>contains a closing title or footer appearing at the end of a division of a text. </xs:documentation>
+      <xs:documentation>contains a closing title or footer appearing at the end of a division of a text.  [4.2.4.  4.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3774,7 +3830,7 @@ teiCorpus element.</xs:documentation>
   <xs:element name="byline">
     <xs:annotation>
       <xs:documentation>contains the primary statement of responsibility given for a work
-on its title page or at the head or end of the work.</xs:documentation>
+on its title page or at the head or end of the work. [4.2.2.  4.5. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3788,7 +3844,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="dateline">
     <xs:annotation>
       <xs:documentation>contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer. </xs:documentation>
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [4.2.4.  4.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3801,7 +3857,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="argument">
     <xs:annotation>
       <xs:documentation>A formal list or prose description of the topics addressed by
-	a subdivision of a text.</xs:documentation>
+	a subdivision of a text. [4.2.  4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3819,8 +3875,8 @@ on its title page or at the head or end of the work.</xs:documentation>
   </xs:element>
   <xs:element name="epigraph">
     <xs:annotation>
-      <xs:documentation>contains a quotation, anonymous or attributed, appearing at the start of a section or
-    chapter, or on a title page. </xs:documentation>
+      <xs:documentation>contains a quotation, anonymous or attributed, appearing at
+  the start or end of a section or on a title page.  [4.2.3.  4.2.  4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3833,7 +3889,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="opener">
     <xs:annotation>
       <xs:documentation>groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter.</xs:documentation>
+    group at the start of a division, especially of a letter. [4.2.4.  4.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3852,7 +3908,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="closer">
     <xs:annotation>
       <xs:documentation>groups together salutations, datelines, and similar phrases appearing as a final group at
-    the end of a division, especially of a letter.</xs:documentation>
+    the end of a division, especially of a letter. [4.2.2.  4.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -3868,7 +3924,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="salute">
     <xs:annotation>
       <xs:documentation>(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc.</xs:documentation>
+    division of a text, or the salutation in the closing of a letter, preface, etc. [4.2.4.  4.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3881,7 +3937,7 @@ on its title page or at the head or end of the work.</xs:documentation>
   <xs:element name="signed">
     <xs:annotation>
       <xs:documentation>(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text. </xs:documentation>
+dedicatory epistle, or other division of a text.  [4.2.4.  4.2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -3893,11 +3949,15 @@ dedicatory epistle, or other division of a text. </xs:documentation>
   </xs:element>
   <xs:element name="postscript">
     <xs:annotation>
-      <xs:documentation>contains a postscript, e.g. to a letter.</xs:documentation>
+      <xs:documentation>contains a postscript, e.g. to a letter. [4.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:group ref="mathml:tei_model.common"/>
+        <xs:sequence>
+          <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.divTopPart"/>
+          <xs:group maxOccurs="unbounded" ref="mathml:tei_model.common"/>
+          <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.divBottomPart"/>
+        </xs:sequence>
         <xs:group ref="mathml:tei_model.global"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
@@ -3905,7 +3965,7 @@ dedicatory epistle, or other division of a text. </xs:documentation>
   </xs:element>
   <xs:element name="titlePage">
     <xs:annotation>
-      <xs:documentation>(title page) contains the title page of a text, appearing within the front or back matter. </xs:documentation>
+      <xs:documentation>(title page) contains the title page of a text, appearing within the front or back matter.  [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3927,7 +3987,7 @@ dedicatory epistle, or other division of a text. </xs:documentation>
   <xs:element name="docTitle">
     <xs:annotation>
       <xs:documentation>(document title) contains the title of a document, including all its
-constituents, as given on a title page.</xs:documentation>
+constituents, as given on a title page. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -3944,7 +4004,7 @@ constituents, as given on a title page.</xs:documentation>
   <xs:element name="titlePart">
     <xs:annotation>
       <xs:documentation>contains a subsection or division of the title of a work, as
-indicated on a title page.</xs:documentation>
+indicated on a title page. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4016,7 +4076,7 @@ Suggested values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] 
   <xs:element name="docAuthor">
     <xs:annotation>
       <xs:documentation>(document author) contains the name of the author of the document, as given on the
-title page (often but not always contained in a byline).</xs:documentation>
+title page (often but not always contained in a byline). [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4030,7 +4090,7 @@ title page (often but not always contained in a byline).</xs:documentation>
   <xs:element name="imprimatur">
     <xs:annotation>
       <xs:documentation>contains a formal statement authorizing the publication of a work, sometimes required to
-    appear on a title page or its verso.</xs:documentation>
+    appear on a title page or its verso. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4043,7 +4103,7 @@ title page (often but not always contained in a byline).</xs:documentation>
   <xs:element name="docEdition">
     <xs:annotation>
       <xs:documentation>(document edition) contains an edition statement as presented on a title page of a
-document.</xs:documentation>
+document. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4057,7 +4117,7 @@ document.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(document imprint) contains the imprint statement (place and date of publication,
 publisher name), as given
-(usually) at the foot of a title page.</xs:documentation>
+(usually) at the foot of a title page. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -4073,7 +4133,7 @@ publisher name), as given
   <xs:element name="docDate">
     <xs:annotation>
       <xs:documentation>(document date) contains the date of a document, as given
-(usually) on a title page.</xs:documentation>
+(usually) on a title page. [4.6. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4092,7 +4152,7 @@ publisher name), as given
     <xs:annotation>
       <xs:documentation>(front matter) contains any prefatory matter (headers,
 title page, prefaces, dedications, etc.)
-found  at the start of a document, before the main body.</xs:documentation>
+found  at the start of a document, before the main body. [4.6.  4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -4133,7 +4193,7 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="back">
     <xs:annotation>
-      <xs:documentation>(back matter) contains any appendixes, etc. following the main part of a text.</xs:documentation>
+      <xs:documentation>(back matter) contains any appendixes, etc. following the main part of a text. [4.7.  4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -4174,19 +4234,22 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="table">
     <xs:annotation>
-      <xs:documentation>contains text displayed in tabular form, in rows and columns.</xs:documentation>
+      <xs:documentation>contains text displayed in tabular form, in rows and columns. [14.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:sequence>
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-          <xs:group ref="mathml:tei_model.headLike"/>
-          <xs:group ref="mathml:tei_model.global"/>
-        </xs:choice>
-        <xs:sequence maxOccurs="unbounded">
-          <xs:element ref="ns1:row"/>
-          <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.global"/>
+      <xs:choice>
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="mathml:tei_model.headLike"/>
+            <xs:group ref="mathml:tei_model.global"/>
+          </xs:choice>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="ns1:row"/>
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="mathml:tei_model.global"/>
+          </xs:sequence>
         </xs:sequence>
-      </xs:sequence>
+        <xs:group maxOccurs="unbounded" ref="mathml:tei_model.graphicLike"/>
+      </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attribute name="rows" type="mathml:tei_data.count">
         <xs:annotation>
@@ -4202,7 +4265,7 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="row">
     <xs:annotation>
-      <xs:documentation>contains one row of a table. </xs:documentation>
+      <xs:documentation>contains one row of a table.  [14.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -4214,7 +4277,7 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="cell">
     <xs:annotation>
-      <xs:documentation>contains one cell of a table. </xs:documentation>
+      <xs:documentation>contains one cell of a table.  [14.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4227,33 +4290,49 @@ found  at the start of a document, before the main body.</xs:documentation>
   </xs:element>
   <xs:element name="formula">
     <xs:annotation>
-      <xs:documentation>contains a mathematical or other formula.</xs:documentation>
+      <xs:documentation>contains a mathematical or other formula. [14.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="mathml:math"/>
       </xs:sequence>
-      <xs:attribute name="notation" type="mathml:tei_data.code">
+      <xs:attribute name="notation" type="mathml:tei_data.enumerated">
         <xs:annotation>
-          <xs:documentation>supplies the name of a previously defined notation used for the content of the element.</xs:documentation>
+          <xs:documentation>specifies the notation used for the content of the element.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
     </xs:complexType>
   </xs:element>
+  <xs:element name="notatedMusic">
+    <xs:annotation>
+      <xs:documentation>encodes the presence of music notation in a text</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:group ref="mathml:tei_model.labelLike"/>
+        <xs:group ref="mathml:tei_model.ptrLike"/>
+        <xs:element ref="ns1:graphic"/>
+        <xs:element ref="ns1:binaryObject"/>
+      </xs:choice>
+      <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.placement.attributes"/>
+      <xs:attributeGroup ref="mathml:tei_att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="figure">
     <xs:annotation>
-      <xs:documentation>groups elements representing or containing graphic information such as an illustration or
-    figure.</xs:documentation>
+      <xs:documentation>groups elements representing or containing graphic information
+  such as an illustration, formula,  or    figure. [14.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:group ref="mathml:tei_model.headLike"/>
-        <xs:group ref="mathml:tei_model.pLike"/>
+        <xs:group ref="mathml:tei_model.common"/>
         <xs:element ref="ns1:figDesc"/>
         <xs:group ref="mathml:tei_model.graphicLike"/>
-        <xs:element ref="ns1:floatingText"/>
         <xs:group ref="mathml:tei_model.global"/>
+        <xs:group ref="mathml:tei_model.divBottomPart"/>
       </xs:choice>
       <xs:attributeGroup ref="mathml:tei_att.global.attributes"/>
       <xs:attributeGroup ref="mathml:tei_att.placement.attributes"/>
@@ -4264,7 +4343,7 @@ found  at the start of a document, before the main body.</xs:documentation>
     <xs:annotation>
       <xs:documentation>(description of figure) contains a brief prose description of the appearance or content
 of a graphic figure, for use when documenting an image without
-displaying it.</xs:documentation>
+displaying it. [14.4. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -4274,9 +4353,4 @@ displaying it.</xs:documentation>
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:group name="local">
-    <xs:sequence>
-      <xs:any namespace="##other" processContents="skip"/>
-    </xs:sequence>
-  </xs:group>
 </xs:schema>

@@ -2,29 +2,44 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2011-03-05T14:52:51Z
-# Edition: 1.9.1. Last updated on March 5th 2011.
+# Schema generated 2012-02-02T21:14:51Z
+# Edition: 2.0.2 Last updated on 2nd February 2012.
+# This material is dual-licensed.
+# 
+#	  [http://creativecommons.org/licenses/by/3.0/] 
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+# 
+#	  [http://www.opensource.org/licenses/BSD-2-Clause] 
+#	    Copyright 2011 TEI Consortium.
+#	    All rights reserved.
+# 
+#	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+# 
+#	      Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#	      Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 # 
 # 
-# Copyright 2011 TEI Consortium.
 # 
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of the
-# License, or (at your option) any later version. This library is
-# distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-# details. You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+# This software is provided by the copyright holders and contributors
+# "as is" and any express or implied warranties, including, but not
+# limited to, the implied warranties of merchantability and fitness for
+# a particular purpose are disclaimed. In no event shall the copyright
+# holder or contributors be liable for any direct, indirect, incidental,
+# special, exemplary, or consequential damages (including, but not
+# limited to, procurement of substitute goods or services; loss of use,
+# data, or profits; or business interruption) however caused and on any
+# theory of liability, whether in contract, strict liability, or tort
+# (including negligence or otherwise) arising in any way out of the use
+# of this software, even if advised of the possibility of such
+# damage.
 # 
-# 
-# 
-# For information about the TEI, including contact
-#		details, consult the TEI web
-#	      site at http://www.tei-c.org/. 
-# 
+#	  TEI  material can be licensed differently depending on the use you intend to 
+# make of it. Hence it is made available under both the CC+BY and BSD-2 
+# licences.  The CC+BY licence is generally appropriate for usages which 
+# treat TEI content as data or documentation. The BSD-2 licence is 
+# generally appropriate for usage of TEI content in a software 
+# environment. For further information or clarification, please contact 
+# the TEI Consortium.
 # 
 #	 Elements common to all TEI documents
 
@@ -41,7 +56,7 @@ namespace sch = "http://purl.oclc.org/dsdl/schematron"
 # 2. elements
 abbr =
   
-  ## (abbreviation) contains an abbreviation of any sort.
+  ## (abbreviation) contains an abbreviation of any sort. []
   element abbr { abbr.content, abbr.localattributes }
 abbr.content = macro.phraseSeq
 abbr.localattributes =
@@ -56,7 +71,7 @@ abbr.localattributes =
 add =
   
   ## (addition) contains letters, words, or phrases inserted in the text by an
-  ##         author, scribe, annotator, or corrector.
+  ##         author, scribe, annotator, or corrector. []
   element add { add.content, add.localattributes }
 add.content = macro.paraContent
 add.localattributes =
@@ -67,29 +82,30 @@ add.localattributes =
   empty
 addrLine =
   
-  ## (address line) contains one line of a postal address.
+  ## (address line) contains one line of a postal address. [  ]
   element addrLine { addrLine.content, addrLine.localattributes }
 addrLine.content = macro.phraseSeq
 addrLine.localattributes = att.global.attributes, empty
 address =
   
   ## contains a postal  address, for example of a
-  ##         publisher, an organization, or an individual.
+  ##         publisher, an organization, or an individual. [  ]
   element address { address.content, address.localattributes }
 address.content = model.global*, (model.addrPart, model.global*)+
 address.localattributes = att.global.attributes, empty
 analytic =
   
   ## (analytic level) contains bibliographic elements describing an item (e.g. an article or poem) published
-  ##     within a monograph or journal and not as an independent publication.
+  ##     within a monograph or journal and not as an independent publication. []
   element analytic { analytic.content, analytic.localattributes }
-analytic.content = (author | editor | respStmt | title | ref | date)*
+analytic.content =
+  (author | editor | respStmt | title | ref | date | textLang | idno)*
 analytic.localattributes = att.global.attributes, empty
 author =
   
-  ## in a bibliographic reference, contains the name(s) of the
-  ##   author(s), personal or corporate, of a work; for example in the same
-  ##   form as that provided by a recognized bibliographic name authority. 
+  ## in a bibliographic reference, contains the name(s) of an
+  ##   author, personal or corporate, of a work; for example in the same
+  ##   form as that provided by a recognized bibliographic name authority.  [ ]
   element author { author.content, author.localattributes }
 author.content = macro.phraseSeq
 author.localattributes =
@@ -97,7 +113,7 @@ author.localattributes =
 bibl =
   
   ## (bibliographic citation) contains a loosely-structured bibliographic citation of which the sub-components may or may
-  ##     not be explicitly tagged. 
+  ##     not be explicitly tagged.  [  ]
   element bibl { bibl.content, bibl.localattributes }
 bibl.content =
   (text
@@ -113,11 +129,12 @@ bibl.localattributes =
   att.global.attributes,
   att.declarable.attributes,
   att.typed.attributes,
+  att.sortable.attributes,
   empty
 biblScope =
   
   ## (scope of citation) defines the scope of a bibliographic reference, for example as a
-  ##         list of page numbers, or a named subdivision of a larger work.
+  ##         list of page numbers, or a named subdivision of a larger work. []
   element biblScope { biblScope.content, biblScope.localattributes }
 biblScope.content = macro.phraseSeq
 biblScope.localattributes =
@@ -159,7 +176,7 @@ biblScope.localattributes =
 biblStruct =
   
   ## (structured bibliographic citation) contains a structured bibliographic citation, in which only bibliographic sub-elements
-  ##     appear and in a specified order. 
+  ##     appear and in a specified order.  [  ]
   element biblStruct { biblStruct.content, biblStruct.localattributes }
 biblStruct.content =
   analytic*, (monogr, series*)+, (model.noteLike | idno | relatedItem)*
@@ -167,6 +184,7 @@ biblStruct.localattributes =
   att.global.attributes,
   att.declarable.attributes,
   att.typed.attributes,
+  att.sortable.attributes,
   empty
 binaryObject =
   
@@ -197,7 +215,7 @@ binaryObject.localattributes =
 cb =
   
   ## (column break) marks the boundary between one column of a text and the next
-  ##         in a standard reference system.
+  ##         in a standard reference system. []
   element cb { cb.content, cb.localattributes }
 cb.content = empty
 cb.localattributes =
@@ -210,7 +228,7 @@ cb.localattributes =
 choice =
   
   ## groups a number of alternative encodings for the same point in
-  ##         a text.
+  ##         a text. []
   element choice { choice.content, choice.localattributes }
 choice.content = (model.choicePart | choice)*
 choice.localattributes = att.global.attributes, empty
@@ -218,7 +236,7 @@ cit =
   
   ## (cited quotation) contains a quotation from some other document, together with a bibliographic reference to
   ##     its source. In a dictionary it may contain an example text with at least one occurrence of the
-  ##     word form, used in the sense being described, or a translation of the headword, or an example. 
+  ##     word form, used in the sense being described, or a translation of the headword, or an example.  [  ]
   element cit { cit.content, cit.localattributes }
 cit.content =
   (model.qLike
@@ -230,7 +248,7 @@ cit.content =
 cit.localattributes = att.global.attributes, att.typed.attributes, empty
 corr =
   
-  ## (correction) contains the correct form of a passage apparently erroneous in the copy text.
+  ## (correction) contains the correct form of a passage apparently erroneous in the copy text. []
   element corr { corr.content, corr.localattributes }
 corr.content = macro.paraContent
 corr.localattributes =
@@ -240,7 +258,7 @@ corr.localattributes =
   empty
 date =
   
-  ## contains a date in any format.
+  ## contains a date in any format. [     ]
   element date { date.content, date.localattributes }
 date.content = (text | model.gLike | model.phrase | model.global)*
 date.localattributes =
@@ -249,42 +267,11 @@ date.localattributes =
   att.duration.attributes,
   att.editLike.attributes,
   att.typed.attributes,
-  
-  ## indicates the system or calendar to which the date represented by the content of this
-  ##         element belongs.
-  ## Suggested values include: 1] Gregorian; 2] Julian; 3] Islamic; 4] Hebrew; 5] Revolutionary; 6] Iranian; 7] Coptic; 8] Chinese
-  attribute calendar {
-    
-    ## Gregorian calendar
-    "Gregorian"
-    | 
-      ## Julian calendar
-      "Julian"
-    | 
-      ## Islamic or Muslim (hijri) lunar calendar
-      "Islamic"
-    | 
-      ## Hebrew or Jewish lunisolar calendar
-      "Hebrew"
-    | 
-      ## French Revolutionary calendar
-      "Revolutionary"
-    | 
-      ## Iranian or Persian (Jalaali) solar calendar
-      "Iranian"
-    | 
-      ## Coptic or Alexandrian calendar
-      "Coptic"
-    | 
-      ## Chinese lunisolar calendar
-      "Chinese"
-    | xsd:Name
-  }?,
   empty
 del =
   
   ## (deletion) contains a letter, word, or passage deleted, marked as deleted, or otherwise indicated as
-  ##     superfluous or spurious in the copy text by an author, scribe, annotator, or corrector.
+  ##     superfluous or spurious in the copy text by an author, scribe, annotator, or corrector. []
   element del { del.content, del.localattributes }
 del.content = macro.paraContent
 del.localattributes =
@@ -295,7 +282,7 @@ del.localattributes =
 desc =
   
   ## (description) contains a brief description of the object documented by its parent element, including its
-  ##     intended usage, purpose, or application where this is appropriate.
+  ##     intended usage, purpose, or application where this is appropriate. [   ]
   element desc { desc.content, desc.localattributes }
 desc.content = macro.limitedContent
 desc.localattributes =
@@ -303,7 +290,7 @@ desc.localattributes =
 distinct =
   
   ## identifies any word or phrase which is regarded as linguistically distinct, for example as
-  ##         archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage. 
+  ##         archaic, technical, dialectal, non-preferred, etc., or as forming part of a sublanguage.  []
   element distinct { distinct.content, distinct.localattributes }
 distinct.content = macro.phraseSeq
 distinct.localattributes =
@@ -314,18 +301,18 @@ distinct.localattributes =
   attribute type { data.enumerated }?,
   
   ## specifies how the phrase is distinct diachronically
-  attribute time { data.code }?,
+  attribute time { data.key }?,
   
   ## specifies how the phrase is distinct diatopically
-  attribute space { data.code }?,
+  attribute space { data.key }?,
   
   ## specifies how the phrase is distinct diastatically
-  attribute social { data.code }?,
+  attribute social { data.key }?,
   empty
 divGen =
   
   ## (automatically generated text division) indicates the location at which a textual division generated
-  ##         automatically by a text-processing application is to appear.
+  ##         automatically by a text-processing application is to appear. []
   element divGen { divGen.content, divGen.localattributes }
 divGen.content = model.headLike*
 divGen.localattributes =
@@ -340,7 +327,7 @@ editor =
   
   ## secondary statement of responsibility for a bibliographic item, for example the name of an
   ##     individual, institution or organization, (or of several such) acting as editor, compiler,
-  ##     translator, etc. 
+  ##     translator, etc.  []
   element editor { editor.content, editor.localattributes }
 editor.content = macro.phraseSeq
 editor.localattributes =
@@ -349,20 +336,20 @@ email =
   
   ## (electronic mail address) contains an e-mail address identifying a location to which
   ##         e-mail messages can be delivered.
-  ##     
+  ##      []
   element email { email.content, email.localattributes }
 email.content = macro.phraseSeq
 email.localattributes = att.global.attributes, empty
 emph =
   
   ## (emphasized) marks words or phrases which are stressed or emphasized for
-  ##         linguistic or rhetorical effect.
+  ##         linguistic or rhetorical effect. [ ]
   element emph { emph.content, emph.localattributes }
 emph.content = macro.paraContent
 emph.localattributes = att.global.attributes, empty
 expan =
   
-  ## (expansion) contains the expansion of an abbreviation.
+  ## (expansion) contains the expansion of an abbreviation. []
   element expan { expan.content, expan.localattributes }
 expan.content = macro.phraseSeq
 expan.localattributes =
@@ -370,7 +357,7 @@ expan.localattributes =
 foreign =
   
   ## (foreign) identifies a word or phrase as belonging to some language other than that of the
-  ##                 surrounding text. 
+  ##                 surrounding text.  []
   element foreign { foreign.content, foreign.localattributes }
 foreign.content = macro.phraseSeq
 foreign.localattributes = att.global.attributes, empty
@@ -378,7 +365,7 @@ gap =
   
   ## (gap) indicates a point where material has been omitted in a transcription, whether for editorial
   ##     reasons described in the TEI header, as part of sampling practice, or because the material is
-  ##     illegible, invisible, or inaudible.
+  ##     illegible, invisible, or inaudible. []
   element gap { gap.content, gap.localattributes }
 gap.content = model.glossLike*
 gap.localattributes =
@@ -401,10 +388,22 @@ gap.localattributes =
   ## Sample values include: 1] rubbing; 2] mildew; 3] smoke
   attribute agent { data.enumerated }?,
   empty
+gb =
+  
+  ##  (gathering begins) marks the point in a transcribed codex at which a new
+  ##   gathering or quire begins. []
+  element gb { gb.content, gb.localattributes }
+gb.content = empty
+gb.localattributes =
+  att.global.attributes,
+  att.typed.attributes,
+  att.spanning.attributes,
+  att.breaking.attributes,
+  empty
 gloss =
   
   ## identifies a phrase or word used to provide a gloss or definition for some other word or
-  ##     phrase.
+  ##     phrase. []
   element gloss { gloss.content, gloss.localattributes }
 gloss.content = macro.phraseSeq
 gloss.localattributes =
@@ -420,7 +419,7 @@ gloss.localattributes =
   empty
 graphic =
   
-  ## indicates the location of an inline graphic, illustration, or figure.
+  ## indicates the location of an inline graphic, illustration, or figure. []
   element graphic { graphic.content, graphic.localattributes }
 graphic.content = model.glossLike*
 graphic.localattributes =
@@ -443,22 +442,29 @@ graphic.localattributes =
 head =
   
   ## (heading) contains any type of heading, for example the title of a section, or the heading of a list,
-  ##     glossary, manuscript description, etc.
+  ##     glossary, manuscript description, etc. []
   element head { head.content, head.localattributes }
-head.content = macro.paraContent
+head.content =
+  (text
+   | lg
+   | model.gLike
+   | model.phrase
+   | model.inter
+   | model.lLike
+   | model.global)*
 head.localattributes =
   att.global.attributes, att.typed.attributes, empty
 headItem =
   
   ## (heading for list items) contains the heading for the item or gloss column in a glossary list or similar structured
-  ##         list.
+  ##         list. []
   element headItem { headItem.content, headItem.localattributes }
 headItem.content = macro.phraseSeq
 headItem.localattributes = att.global.attributes, empty
 headLabel =
   
   ## (heading for list labels) contains the heading for the label or term column in a glossary list or similar structured
-  ##         list.
+  ##         list. []
   element headLabel { headLabel.content, headLabel.localattributes }
 headLabel.content = macro.phraseSeq
 headLabel.localattributes = att.global.attributes, empty
@@ -466,20 +472,21 @@ hi =
   
   ## (highlighted) marks a word or phrase as graphically distinct from the
   ##         surrounding text, for reasons concerning which no claim is
-  ##         made. 
+  ##         made.  [ ]
   element hi { hi.content, hi.localattributes }
 hi.content = macro.paraContent
 hi.localattributes = att.global.attributes, empty
 imprint =
   
   ## groups information relating to the publication or distribution
-  ##         of a bibliographic item.
+  ##         of a bibliographic item. []
   element imprint { imprint.content, imprint.localattributes }
-imprint.content = ((model.imprintPart | model.dateLike), model.global*)+
+imprint.content =
+  ((model.imprintPart | model.dateLike), respStmt*, model.global*)+
 imprint.localattributes = att.global.attributes, empty
 index =
   
-  ## (index entry) marks a location to be indexed for whatever purpose.
+  ## (index entry) marks a location to be indexed for whatever purpose. []
   element index { index.content, index.localattributes }
 index.content = (term, index?)*
 index.localattributes =
@@ -491,13 +498,14 @@ index.localattributes =
   empty
 item =
   
-  ## contains one component of a list.
+  ## contains one component of a list. [ ]
   element item { item.content, item.localattributes }
 item.content = macro.specialPara
-item.localattributes = att.global.attributes, empty
+item.localattributes =
+  att.global.attributes, att.sortable.attributes, empty
 l =
   
-  ## (verse line) contains a single, possibly incomplete, line of verse.
+  ## (verse line) contains a single, possibly incomplete, line of verse. [  ]
   element l { l.content, l.localattributes }
 l.content = macro.paraContent
 l.localattributes =
@@ -527,14 +535,14 @@ l.localattributes =
   empty
 label =
   
-  ## contains the label associated with an item in a list; in glossaries, marks the term being
-  ##     defined.
+  ## contains any label or heading used to identify part of a text,
+  ##   typically but not exclusively in a list or glossary. []
   element label { label.content, label.localattributes }
 label.content = macro.phraseSeq
 label.localattributes = att.global.attributes, empty
 lb =
   
-  ## (line break) marks the start of a new (typographic) line in some edition or version of a text.
+  ## (line break) marks the start of a new (typographic) line in some edition or version of a text. [ ]
   element lb { lb.content, lb.localattributes }
 lb.content = empty
 lb.localattributes =
@@ -547,12 +555,16 @@ lb.localattributes =
 lg =
   
   ## (line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
-  ##         verse paragraph, etc.
+  ##         verse paragraph, etc. [  ]
   element lg { lg.content, lg.localattributes }
 lg.content =
   (model.divTop | model.global)*,
-  (model.lLike | lg),
-  (model.lLike | lg | model.global)*,
+  (model.lLike | model.stageLike | model.labelLike | lg),
+  (model.lLike
+   | model.stageLike
+   | model.labelLike
+   | model.global
+   | lg)*,
   (model.divBottom, model.global*)*
 lg.localattributes =
   att.global.attributes,
@@ -562,7 +574,7 @@ lg.localattributes =
   empty
 \list =
   
-  ## (list) contains any sequence of items organized as a list.
+  ## (list) contains any sequence of items organized as a list. []
   element list { list.content, list.localattributes }
 list.content =
   (model.divTop | model.global)*,
@@ -573,6 +585,7 @@ list.content =
   (model.divBottom, model.global*)*
 list.localattributes =
   att.global.attributes,
+  att.sortable.attributes,
   
   ## describes the form of the list.
   ## Suggested values include: 1] ordered; 2] bulleted; 3] simple; 4] gloss
@@ -596,19 +609,20 @@ list.localattributes =
   empty
 listBibl =
   
-  ## (citation list) contains a list of bibliographic citations of any kind. 
+  ## (citation list) contains a list of bibliographic citations of any kind.  [  ]
   element listBibl { listBibl.content, listBibl.localattributes }
 listBibl.content =
   model.headLike*, (model.biblLike | model.milestoneLike | listBibl)+
 listBibl.localattributes =
   att.global.attributes,
+  att.sortable.attributes,
   att.declarable.attributes,
   att.typed.attributes,
   empty
 measure =
   
   ## contains a word or phrase referring to some quantity of an object or commodity, usually
-  ##         comprising a number, a unit, and a commodity name.
+  ##         comprising a number, a unit, and a commodity name. []
   element measure { measure.content, measure.localattributes }
 measure.content = macro.phraseSeq
 measure.localattributes =
@@ -621,7 +635,7 @@ measure.localattributes =
 measureGrp =
   
   ## (measure group) contains a group of dimensional specifications which relate to the same object, for example
-  ##     the height and width of a manuscript page.
+  ##     the height and width of a manuscript page. []
   element measureGrp { measureGrp.content, measureGrp.localattributes }
 measureGrp.content = (text | model.gLike | model.measureLike)*
 measureGrp.localattributes =
@@ -633,13 +647,13 @@ meeting =
   
   ## contains the formalized descriptive title for a meeting or conference, for use in a
   ##     bibliographic description for an item derived from such a meeting, or as a heading or preamble
-  ##     to publications emanating from it.
+  ##     to publications emanating from it. []
   element meeting { meeting.content, meeting.localattributes }
 meeting.content = macro.limitedContent
 meeting.localattributes = att.global.attributes, empty
 mentioned =
   
-  ## marks words or phrases mentioned, not used.
+  ## marks words or phrases mentioned, not used. []
   element mentioned { mentioned.content, mentioned.localattributes }
 mentioned.content = macro.phraseSeq
 mentioned.localattributes = att.global.attributes, empty
@@ -647,7 +661,7 @@ milestone =
   
   ## marks a boundary point separating any kind of section of a text, typically but not
   ##     necessarily indicating a point at which some part of a standard reference system changes, where
-  ##     the change is not represented by a structural element.
+  ##     the change is not represented by a structural element. []
   element milestone { milestone.content, milestone.localattributes }
 milestone.content = empty
 milestone.localattributes =
@@ -705,14 +719,15 @@ milestone.localattributes =
 monogr =
   
   ## (monographic level) contains bibliographic elements describing an item (e.g. a book or journal) published as an
-  ##     independent item (i.e. as a separate physical object).
+  ##     independent item (i.e. as a separate physical object). []
   element monogr { monogr.content, monogr.localattributes }
 monogr.content =
   (((author | editor | respStmt),
     (author | editor | respStmt)*,
     title+,
-    (idno | editor | respStmt)*)
-   | ((title | ref)+, (idno | author | editor | respStmt)*))?,
+    (idno | textLang | editor | respStmt)*)
+   | ((title | ref)+,
+      (idno | textLang | author | editor | respStmt)*))?,
   (model.noteLike | meeting)*,
   (edition, (idno | editor | respStmt)*)*,
   imprint,
@@ -720,7 +735,7 @@ monogr.content =
 monogr.localattributes = att.global.attributes, empty
 name =
   
-  ## (name, proper noun) contains a proper noun or noun phrase.
+  ## (name, proper noun) contains a proper noun or noun phrase. []
   element name { name.content, name.localattributes }
 name.content = macro.phraseSeq
 name.localattributes =
@@ -730,7 +745,7 @@ name.localattributes =
   empty
 note =
   
-  ## contains a note or annotation.
+  ## contains a note or annotation. [   ]
   element note { note.content, note.localattributes }
 note.content = macro.specialPara
 note.localattributes =
@@ -751,7 +766,7 @@ note.localattributes =
   empty
 num =
   
-  ## (number) contains a number, written in any form.
+  ## (number) contains a number, written in any form. []
   element num { num.content, num.localattributes }
 num.content = macro.phraseSeq
 num.localattributes =
@@ -782,21 +797,21 @@ num.localattributes =
 orig =
   
   ## (original form) contains a reading which is marked as following the original, rather than being normalized
-  ##         or corrected.
+  ##         or corrected. [ ]
   element orig { orig.content, orig.localattributes }
 orig.content = macro.paraContent
 orig.localattributes =
   att.global.attributes, att.responsibility.attributes, empty
 p =
   
-  ## (paragraph) marks paragraphs in prose.
+  ## (paragraph) marks paragraphs in prose. [ ]
   element p { p.content, p.localattributes }
 p.content = macro.paraContent
 p.localattributes =
   att.global.attributes, att.declaring.attributes, empty
 pb =
   
-  ## (page break) marks the boundary between one page of a text and the next in a standard reference system.
+  ## (page break) marks the boundary between one page of a text and the next in a standard reference system. []
   element pb { pb.content, pb.localattributes }
 pb.content = empty
 pb.localattributes =
@@ -809,20 +824,20 @@ pb.localattributes =
 postBox =
   
   ## (postal box or post office box) contains a number or other identifier for some postal delivery point other than a street
-  ##     address. 
+  ##     address.  []
   element postBox { postBox.content, postBox.localattributes }
 postBox.content = text
 postBox.localattributes = att.global.attributes, empty
 postCode =
   
   ## (postal code) contains a numerical or alphanumeric code used as part of a postal address to simplify
-  ##         sorting or delivery of mail. 
+  ##         sorting or delivery of mail.  []
   element postCode { postCode.content, postCode.localattributes }
 postCode.content = text
 postCode.localattributes = att.global.attributes, empty
 ptr =
   
-  ## (pointer) defines a pointer to another location.
+  ## (pointer) defines a pointer to another location. [ ]
   element ptr { ptr.content, ptr.localattributes }
 ptr.content =
   empty
@@ -848,6 +863,7 @@ ptr.content =
 ptr.localattributes =
   att.global.attributes,
   att.pointing.attributes,
+  att.internetMedia.attributes,
   att.typed.attributes,
   att.declaring.attributes,
   
@@ -859,7 +875,7 @@ ptr.localattributes =
   empty
 pubPlace =
   
-  ## (publication place) contains the name of the place where a bibliographic item was published.
+  ## (publication place) contains the name of the place where a bibliographic item was published. []
   element pubPlace { pubPlace.content, pubPlace.localattributes }
 pubPlace.content = macro.phraseSeq
 pubPlace.localattributes =
@@ -867,7 +883,7 @@ pubPlace.localattributes =
 publisher =
   
   ## provides the name of the organization responsible for the publication or distribution of a
-  ##         bibliographic item.
+  ##         bibliographic item. [ ]
   element publisher { publisher.content, publisher.localattributes }
 publisher.content = macro.phraseSeq
 publisher.localattributes = att.global.attributes, empty
@@ -876,7 +892,7 @@ q =
   ## (separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
   ##     surrounding text, for any one of a variety of reasons including, but not limited to: direct
   ##     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
-  ##     passages that are mentioned but not used.
+  ##     passages that are mentioned but not used. []
   element q { q.content, q.localattributes }
 q.content = macro.specialPara
 q.localattributes =
@@ -920,7 +936,7 @@ q.localattributes =
 quote =
   
   ## (quotation) contains a phrase or passage attributed by the narrator or author to some agency external
-  ##         to the text.
+  ##         to the text. [ ]
   element quote { quote.content, quote.localattributes }
 quote.content = macro.specialPara
 quote.localattributes =
@@ -930,7 +946,7 @@ quote.localattributes =
   empty
 ref =
   
-  ## (reference) defines a reference to another location, possibly modified by additional text or comment.
+  ## (reference) defines a reference to another location, possibly modified by additional text or comment. [ ]
   element ref { ref.content, ref.localattributes }
 ref.content =
   macro.paraContent
@@ -956,6 +972,7 @@ ref.content =
 ref.localattributes =
   att.global.attributes,
   att.pointing.attributes,
+  att.internetMedia.attributes,
   att.typed.attributes,
   att.declaring.attributes,
   
@@ -967,7 +984,7 @@ ref.localattributes =
   empty
 reg =
   
-  ## (regularization) contains a reading which has been regularized or normalized in some sense.
+  ## (regularization) contains a reading which has been regularized or normalized in some sense. [ ]
   element reg { reg.content, reg.localattributes }
 reg.content = macro.paraContent
 reg.localattributes =
@@ -978,7 +995,7 @@ reg.localattributes =
 relatedItem =
   
   ## contains or references some other bibliographic item which is related to the present one in
-  ##     some specified manner, for example as a constituent or alternative version of it.
+  ##     some specified manner, for example as a constituent or alternative version of it. []
   element relatedItem {
     relatedItem.content, relatedItem.localattributes
   }
@@ -1032,7 +1049,8 @@ relatedItem.localattributes =
   empty
 resp =
   
-  ## (responsibility) contains a phrase describing the nature of a person's intellectual responsibility.
+  ## (responsibility) contains a phrase describing the nature of a person's intellectual responsibility, or an organization's role 
+  ##     in the production or distribution of a work. [   ]
   element resp { resp.content, resp.localattributes }
 resp.content = macro.phraseSeq.limited
 resp.localattributes =
@@ -1041,14 +1059,15 @@ respStmt =
   
   ## (statement of responsibility) supplies a statement of responsibility for the intellectual content of a text, edition,
   ##     recording, or series, where the specialized elements for authors, editors, etc. do not suffice
-  ##     or do not apply.
+  ##     or do not apply. May also be used to encode information about individuals or organizations 
+  ##     which have played a role in the production or distribution of a bibliographic work. [   ]
   element respStmt { respStmt.content, respStmt.localattributes }
 respStmt.content =
   (resp+, model.nameLike.agent+) | (model.nameLike.agent+, resp+)
 respStmt.localattributes = att.global.attributes, empty
 rs =
   
-  ## (referencing string) contains a general purpose name or referring string.
+  ## (referencing string) contains a general purpose name or referring string. [ ]
   element rs { rs.content, rs.localattributes }
 rs.content = macro.phraseSeq
 rs.localattributes =
@@ -1056,14 +1075,13 @@ rs.localattributes =
   att.naming.attributes,
   
   ## indicates more specifically the object referred to by the referencing string.
-  ##                 Values might include person, place, ship,
-  ##                     element etc.
+  ##         When suitable, values should be drawn from an existing ontology, such as the BBN's proposed answer categories.
   attribute type { data.enumerated }?,
   empty
 said =
   
   ## (speech or thought) indicates passages thought or spoken aloud, whether explicitly indicated in the source or
-  ##     not, whether directly or indirectly reported, whether by real people or fictional characters.
+  ##     not, whether directly or indirectly reported, whether by real people or fictional characters. []
   element said { said.content, said.localattributes }
 said.content = macro.specialPara
 said.localattributes =
@@ -1081,7 +1099,7 @@ said.localattributes =
 series =
   
   ## (series information) contains information about the series in which a book or other bibliographic item has
-  ##     appeared.
+  ##     appeared. []
   element series { series.content, series.localattributes }
 series.content =
   (text
@@ -1091,12 +1109,14 @@ series.content =
    | editor
    | respStmt
    | biblScope
+   | idno
+   | textLang
    | model.global)*
 series.localattributes = att.global.attributes, empty
 sic =
   
   ## (latin for thus or so
-  ##   ) contains text reproduced although apparently incorrect or inaccurate.
+  ##   ) contains text reproduced although apparently incorrect or inaccurate. []
   element sic { sic.content, sic.localattributes }
 sic.content = macro.paraContent
 sic.localattributes =
@@ -1104,32 +1124,37 @@ sic.localattributes =
 soCalled =
   
   ## contains a word or phrase for which the author or narrator indicates a disclaiming of
-  ##     responsibility, for example by the use of scare quotes or italics.
+  ##     responsibility, for example by the use of scare quotes or italics. []
   element soCalled { soCalled.content, soCalled.localattributes }
 soCalled.content = macro.phraseSeq
 soCalled.localattributes = att.global.attributes, empty
 sp =
   
   ## (speech) An individual speech in a performance text, or a passage presented as such in a prose or
-  ##     verse text.
+  ##     verse text. [  ]
   element sp { sp.content, sp.localattributes }
 sp.content =
   model.global*,
   (speaker, model.global*)?,
-  ((model.lLike | lg | model.pLike | model.stageLike | model.qLike),
+  ((lg
+    | model.lLike
+    | model.pLike
+    | model.listLike
+    | model.stageLike
+    | model.qLike),
    model.global*)+
 sp.localattributes =
   att.global.attributes, att.ascribed.attributes, empty
 speaker =
   
   ## A specialized form of heading or label, giving the name of one or more speakers in a
-  ##         dramatic text or fragment.
+  ##         dramatic text or fragment. []
   element speaker { speaker.content, speaker.localattributes }
 speaker.content = macro.phraseSeq
 speaker.localattributes = att.global.attributes, empty
 stage =
   
-  ## (stage direction) contains any kind of stage direction within a dramatic text or fragment.
+  ## (stage direction) contains any kind of stage direction within a dramatic text or fragment. [  ]
   element stage { stage.content, stage.localattributes }
 stage.content = macro.specialPara
 stage.localattributes =
@@ -1172,14 +1197,14 @@ street =
   
   ## a full street address including any name or number identifying a
   ##         building as well as the name of the street or route on which it is
-  ##         located.
+  ##         located. []
   element street { street.content, street.localattributes }
 street.content = macro.phraseSeq
 street.localattributes = att.global.attributes, empty
 teiCorpus =
   
   ## contains the whole of a TEI encoded corpus, comprising a single corpus header and one or
-  ##     more TEI elements, each containing a single text header and a text.
+  ##     more TEI elements, each containing a single text header and a text. [ ]
   element teiCorpus { teiCorpus.content, teiCorpus.localattributes }
 teiCorpus.content = teiHeader, (TEI | teiCorpus)+
 teiCorpus.localattributes =
@@ -1191,7 +1216,7 @@ teiCorpus.localattributes =
 term =
   
   ## contains a single-word, multi-word, or symbolic designation which is regarded as a technical
-  ##     term.
+  ##     term. []
   element term { term.content, term.localattributes }
 term.content = macro.phraseSeq
 term.localattributes =
@@ -1200,17 +1225,32 @@ term.localattributes =
   att.pointing.attributes,
   att.typed.attributes,
   att.canonical.attributes,
+  att.sortable.attributes,
   
   ## identifies the associated gloss element using a canonical reference from a
   ##           scheme defined in a refsDecl element in the TEI header
   attribute cRef { data.pointer }?,
+  empty
+textLang =
   
-  ## supplies the sort key for this term in an index.
-  attribute sortKey { data.word }?,
+  ## (text language) describes the languages and writing systems identified within the bibliographic work  
+  ##   being described, rather than its description.  [ ]
+  element textLang { textLang.content, textLang.localattributes }
+textLang.content = macro.phraseSeq
+textLang.localattributes =
+  att.global.attributes,
+  
+  ## (main language) supplies a code which identifies the chief language used in the bibliographic work.
+  attribute mainLang { data.language }?,
+  
+  ## (other languages) one or more codes identifying any other languages used in the bibliographic work.
+  attribute otherLangs {
+    list { data.language* }
+  }?,
   empty
 time =
   
-  ## contains a phrase defining a time of day in any format.
+  ## contains a phrase defining a time of day in any format. []
   element time { time.content, time.localattributes }
 time.content = (text | model.gLike | model.phrase | model.global)*
 time.localattributes =
@@ -1222,7 +1262,7 @@ time.localattributes =
   empty
 title =
   
-  ## contains a title for any kind of work.
+  ## contains a title for any kind of work. [  ]
   element title { title.content, title.localattributes }
 title.content = macro.paraContent
 title.localattributes =
@@ -1263,7 +1303,7 @@ title.localattributes =
 unclear =
   
   ## contains a word, phrase, or passage which cannot be transcribed with certainty because it
-  ##         is illegible or inaudible in the source.
+  ##         is illegible or inaudible in the source. [ ]
   element unclear { unclear.content, unclear.localattributes }
 unclear.content = macro.paraContent
 unclear.localattributes =
