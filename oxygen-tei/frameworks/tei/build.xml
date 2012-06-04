@@ -104,7 +104,6 @@ oXygen frameworks folder and the library will be automatically detected.
 			<fileset dir=".">
 				<include name="**/*"/>
 				<exclude name="**/.svn"/>
-				<exclude name="README.txt"/>
 				<exclude name="build.xml"/>
 				<!-- Eclipse settings. -->
 				<exclude name=".settings/**"/>
@@ -113,6 +112,7 @@ oXygen frameworks folder and the library will be automatically detected.
 				<exclude name="dist/**"/>
 			</fileset>
 		</copy>
+		<copy file="../../LICENSE.TXT" todir="dist/tei"/>
 		<zip destfile="dist/tei.zip" basedir="dist" includes="tei/**" />
 		<delete dir="dist/tei"/>
 		<delete dir="classes"/>		

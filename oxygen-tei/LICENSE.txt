@@ -23,3 +23,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The views and conclusions contained in the software and documentation are those of the
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Syncro Soft SRL.
+
+THIRD-PARTY LIBRARIES
+The following libraries are redistributed in this package, and subject to their respective licenses.
+
+Name: Text Encoding Initiative (TEI) Consortium materials
+Link: http://www.tei-c.org/Guidelines/access.xml
+License: Dual-licensed: Creative Commons Attribution-ShareAlike 3.0 Unported License or BSD 2-Clause license.
