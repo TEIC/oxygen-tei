@@ -1,6 +1,6 @@
 
 <!--
-DTD Generated 2012-02-02T20:36:06Z. 
+DTD Generated 2012-06-18T08:02:15Z. 
 	       This template file is freely available and you are
 	       hereby authorised to copy, modify, and redistribute it in
 	       any way without further reference or permissions.
@@ -9,8 +9,8 @@ DTD Generated 2012-02-02T20:36:06Z.
 	       accurate statement of the licencing conditions applicable
 	       to your modified text.
 	     
-Edition: 2.0.2 Last updated on 2nd February 2012.
-Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
+Edition: 2.1.0. Last updated on 17th June 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 
 -->
 
@@ -36,11 +36,13 @@ unknown)' >
 <!ENTITY % data.xTruthValue '(unknown|
 inapplicable | true | false)' >
 
+<!ENTITY % data.language ' CDATA' >
+
 <!ENTITY % data.pointer ' CDATA' >
 
-<!ENTITY % data.key ' CDATA' >
-
 <!ENTITY % data.word ' CDATA' >
+
+<!ENTITY % data.text ' CDATA' >
 
 <!ENTITY % data.code ' CDATA' >
 
@@ -58,6 +60,14 @@ inapplicable | true | false)' >
 <!ENTITY % model.resourceLike_sequenceOptionalRepeatable "fsdDecl*"> 
 <!ENTITY % model.resourceLike_sequenceRepeatable "fsdDecl+"> 
 <!--end of predeclared classes -->
+<!ENTITY % att.datcat.attributes '
+datcat CDATA  #IMPLIED
+valueDatcat CDATA  #IMPLIED'> 
+<!ENTITY % att.datcat.attribute.datcat '
+datcat CDATA  #IMPLIED'>
+
+<!ENTITY % att.datcat.attribute.valueDatcat '
+valueDatcat CDATA  #IMPLIED'>
 
 <!ENTITY % model.global.meta "fs |
  fLib |
@@ -166,6 +176,7 @@ subsume a given feature structure, or if both do not. [18.11. ] -->
 <!ELEMENT binary EMPTY>
 <!ATTLIST binary xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST binary
+ %att.datcat.attributes;
 value %data.truthValue;  #REQUIRED >
 <!--doc:(conditional feature-structure constraint) defines a conditional feature-structure constraint; the consequent
 and the antecedent are specified as feature structures or
@@ -187,6 +198,7 @@ structure, or if the antecedent does not. [18.11. ] -->
  %model.featureVal;)*>
 <!ATTLIST f xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST f
+ %att.datcat.attributes;
 name %data.name;  #REQUIRED
 fVal %data.pointer;  #IMPLIED >
 <!--doc:(feature declaration) declares a single feature, specifying its name, organization,
@@ -209,6 +221,7 @@ structural unit. [18.2. ] -->
 <!ELEMENT fs (f)*>
 <!ATTLIST fs xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST fs
+ %att.datcat.attributes;
 type %data.enumerated;  #IMPLIED
 feats CDATA  #IMPLIED >
 <!--doc:(feature-structure constraints) specifies constraints on the content of valid feature
@@ -258,6 +271,7 @@ element. [18.11. ] -->
 <!ELEMENT numeric EMPTY>
 <!ATTLIST numeric xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST numeric
+ %att.datcat.attributes;
 value %data.numeric;  #REQUIRED
 max %data.numeric;  #IMPLIED
 trunc %data.truthValue;  #IMPLIED >
@@ -265,11 +279,14 @@ trunc %data.truthValue;  #IMPLIED >
   which contains a string. [18.3. ] -->
 <!ELEMENT string %macro.xtext;>
 <!ATTLIST string xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST string
+ %att.datcat.attributes; >
 <!--doc:(symbolic value) represents the value part of a feature-value specification
   which contains one of a finite list of symbols. [18.3. ] -->
 <!ELEMENT symbol EMPTY>
 <!ATTLIST symbol xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST symbol
+ %att.datcat.attributes;
 value %data.word;  #REQUIRED >
 <!--doc:separates the condition from the default in an if, or
 the antecedent and the consequent in a cond element. [18.11. ] -->

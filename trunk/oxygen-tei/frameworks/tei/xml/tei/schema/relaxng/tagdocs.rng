@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
-Edition: 2.0.2 Last updated on 2nd February 2012.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-06-18T08:40:58Z
+Edition: 2.1.0. Last updated on 17th June 2012.
 This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -143,7 +143,7 @@ not expected to do so except for correction of any errors.</a:documentation>
       </element>
    </define>
    <define name="att.content">
-      <text/>
+      <ref name="data.name"/>
    </define>
    <define name="att.localattributes">
       <ref name="att.global.attributes"/>
@@ -193,7 +193,19 @@ Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] X
             <ref name="remarks"/>
          </zeroOrMore>
       </group>
-   </define>
+    
+      <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+               id="attDef-constraint-attDefContents">
+         <rule context="tei:attDef">
+            <assert xmlns:s="http://www.ascc.net/xml/schematron"
+                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                    xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                    test="tei:datatype or tei:valList[@type='closed']">
+        Attribute [@<value-of select="@ident"/>] from [<value-of select="ancestor::*[@ident]/@ident"/>] must have a closed valList or a datatype</assert>
+         </rule>
+      </pattern>
+    
+  </define>
    <define name="attDef.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.identified.attributes"/>
@@ -694,7 +706,7 @@ avoid potential nameclashes. </a:documentation>
    <define name="egXML">
       <element name="egXML" ns="http://www.tei-c.org/ns/Examples">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element.  [ ]</a:documentation>
+    attribute, in which the egXML element itself functions as the root element.  []</a:documentation>
          <ref name="egXML.content"/>
          <ref name="egXML.localattributes"/>
       </element>
@@ -900,7 +912,7 @@ Macro <value-of select="@ident"/>: the value of the module [<value-of select="@m
       </element>
    </define>
    <define name="gi.content">
-      <text/>
+      <ref name="data.name"/>
    </define>
    <define name="gi.localattributes">
       <ref name="att.global.attributes"/>
@@ -1029,7 +1041,7 @@ Macro <value-of select="@ident"/>: the value of the module attribute [<value-of 
    </define>
    <define name="memberOf">
       <element name="memberOf">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies class membership of the parent element or class.</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies class membership of the documented element or class.</a:documentation>
          <ref name="memberOf.content"/>
          <ref name="memberOf.localattributes"/>
       </element>
@@ -1187,12 +1199,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
    <define name="moduleSpec.localattributes">
       <ref name="att.global.attributes"/>
       <ref name="att.identified.attributes"/>
-      <optional>
-         <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">type of module to be generated</a:documentation>
-            <text/>
-         </attribute>
-      </optional>
+      <ref name="att.typed.attributes"/>
       <empty/>
    </define>
    <define name="remarks">
@@ -1278,7 +1285,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
          <attribute name="targetLang">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(target language) specifies which language to use when creating
       the objects in a schema if names for elements or attributes are available in more
-      than one language, .</a:documentation>
+      than one language</a:documentation>
             <ref name="data.language"/>
          </attribute>
       </optional>
@@ -1286,7 +1293,7 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
          <attribute name="docLang">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(documentation language) specifies which languages to
       use when creating documentation if  the description for an element, attribute, class or macro
-      is available in more than one language, .</a:documentation>
+      is available in more than one language</a:documentation>
             <list>
                <ref name="data.language"/>
                <zeroOrMore>
@@ -1420,15 +1427,9 @@ module, i.e. a named and externally visible group of declarations.</a:documentat
       <optional>
          <attribute xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" name="scheme"
                     a:defaultValue="TEI">
-            <a:documentation>supplies the name of the schema in which this tag is defined.</a:documentation>
-            <choice>
-               <value>TEI</value>
-               <a:documentation>(text encoding initiative) This tag is defined as part of the TEI scheme.</a:documentation>
-               <value>DBK</value>
-               <a:documentation>(docbook) this tag is part of the Docbook scheme.</a:documentation>
-               <value>XX</value>
-               <a:documentation>(unknown) this tag is part of an unknown scheme.</a:documentation>
-            </choice>
+            <a:documentation>supplies the name of the schema in which this tag is defined.
+Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] XX(unknown) ; 4] Schematron; 5] HTML</a:documentation>
+            <ref name="data.enumerated"/>
          </attribute>
       </optional>
       <empty/>

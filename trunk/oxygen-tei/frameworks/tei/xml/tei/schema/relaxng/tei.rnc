@@ -1,14 +1,17 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace ns1 = "http://www.isocat.org/ns/dcr"
+namespace rng = "http://relaxng.org/ns/structure/1.0"
+namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2012-02-02T21:14:51Z
-# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Schema generated 2012-06-18T08:40:58Z
+# Edition: 2.1.0. Last updated on 17th June 2012.
 # This material is dual-licensed.
 # 
 #	  [http://creativecommons.org/licenses/by/3.0/] 
-#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 # 
 #	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-#	    Copyright 2011 TEI Consortium.
+#	    Copyright 2012 TEI Consortium.
 #	    All rights reserved.
 # 
 #	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -685,7 +688,7 @@ att.canonical.attribute.key =
   
   ## provides an externally-defined means of identifying the entity (or entities) being
   ##         named, using a coded value of some kind.
-  attribute key { data.key }?
+  attribute key { data.text }?
 att.canonical.attribute.ref =
   
   ## (reference) provides an explicit means of locating a full definition for the entity being named by
@@ -761,9 +764,7 @@ att.dimensions.attribute.extent =
   
   ## indicates the size of the object concerned using a project-specific vocabulary combining
   ##         quantity and units in a single string of words. 
-  attribute extent {
-    list { data.word, data.word* }
-  }?
+  attribute extent { data.text }?
 att.dimensions.attribute.precision =
   
   ## characterizes the precision of the values specified by the other attributes.
@@ -855,6 +856,23 @@ att.datable.attribute.period =
   ##         period of time within which the datable item is understood to
   ##         have occurred.
   attribute period { data.pointer }?
+att.datcat.attributes =
+  att.datcat.attribute.datcat, att.datcat.attribute.valueDatcat
+att.datcat.attribute.datcat =
+  
+  ## contains a PID (persistent identifier) that aligns the given element with the appropriate 
+  ##         Data Category (or categories) in ISOcat.
+  attribute ns1:datcat {
+    list { data.pointer, data.pointer* }
+  }?
+att.datcat.attribute.valueDatcat =
+  
+  ## contains a PID (persistent identifier) that aligns the content of the given
+  ##         element or the value of the given attribute with the appropriate simple Data
+  ##         Category (or categories) in ISOcat.
+  attribute ns1:valueDatcat {
+    list { data.pointer, data.pointer* }
+  }?
 att.declarable.attributes = att.declarable.attribute.default
 att.declarable.attribute.default =
   
@@ -1038,9 +1056,7 @@ att.global.attribute.n =
   
   ## (number) gives a number (or other label) for an element, which is not necessarily unique within
   ##         the document.
-  attribute n {
-    list { data.word, data.word* }
-  }?
+  attribute n { data.text }?
 att.global.attribute.xmllang =
   
   ## (language) indicates the language of the element content using a tag generated
@@ -1336,7 +1352,32 @@ att.typed.attribute.subtype =
   ## provides a sub-categorization of the element, if needed
   attribute subtype { data.enumerated }?
 att.pointing.attributes =
-  att.pointing.attribute.target, att.pointing.attribute.evaluate
+  att.pointing.attribute.targetLang,
+  att.pointing.attribute.target,
+  att.pointing.attribute.evaluate
+att.pointing.attribute.targetLang =
+  
+  ## specifies the language of the content to be found at the destination referenced by target, using a language tag generated
+  ##         according to BCP 47.
+  attribute targetLang { data.language }?
+sch:pattern [
+  id = "targetLang-constraint-targetLang"
+  "\x{a}" ~
+  "      "
+  sch:rule [
+    context = "tei:*[@targetLang]"
+    "\x{a}" ~
+    "            "
+    sch:assert [
+      test = "count(@target)"
+      "@targetLang can only be used if @target is specified."
+    ]
+    "\x{a}" ~
+    "          "
+  ]
+  "\x{a}" ~
+  "   "
+]
 att.pointing.attribute.target =
   
   ## specifies the destination of the reference by supplying one or more URI References
@@ -1411,6 +1452,7 @@ att.scoping.attribute.match =
   attribute match { text }?
 att.segLike.attributes =
   att.metrical.attributes,
+  att.datcat.attributes,
   att.segLike.attribute.function,
   att.segLike.attribute.part
 att.segLike.attribute.function =
@@ -1540,12 +1582,11 @@ att.transcriptional.attribute.seq =
   ## (sequence) assigns a sequence number related to the order in which
   ##       the encoded features carrying this attribute are believed to have occurred.
   attribute seq { data.count }?
-att.translatable.attributes = att.translatable.attribute.version
-att.translatable.attribute.version =
+att.translatable.attributes = att.translatable.attribute.versionDate
+att.translatable.attribute.versionDate =
   
-  ## specifies the version name or number of the source from
-  ##	which the translated version was derived
-  attribute version { data.word }?
+  ## specifies the date on which the source text was extracted and sent to the translator
+  attribute versionDate { data.temporal.w3c }?
 model.nameLike.agent = name | orgName | persName
 model.nameLike.agent_alternation = name | orgName | persName
 model.nameLike.agent_sequence = name, orgName, persName
@@ -2824,12 +2865,12 @@ model.publicationStmtPart_sequenceRepeatable =
   date+,
   publisher+,
   pubPlace+
-model.availabilityPart = licence | p
-model.availabilityPart_alternation = licence | p
-model.availabilityPart_sequence = licence, p
-model.availabilityPart_sequenceOptional = licence?, p?
-model.availabilityPart_sequenceOptionalRepeatable = licence*, p*
-model.availabilityPart_sequenceRepeatable = licence+, p+
+model.availabilityPart = licence
+model.availabilityPart_alternation = licence
+model.availabilityPart_sequence = licence
+model.availabilityPart_sequenceOptional = licence?
+model.availabilityPart_sequenceOptionalRepeatable = licence*
+model.availabilityPart_sequenceRepeatable = licence+
 model.certLike = certainty | respons
 model.certLike_alternation = certainty | respons
 model.certLike_sequence = certainty, respons
@@ -3911,6 +3952,7 @@ model.encodingDescPart =
   | variantEncoding
   | geoDecl
   | fsdDecl
+  | schemaSpec
 model.encodingDescPart_alternation =
   projectDesc
   | samplingDecl
@@ -3924,6 +3966,7 @@ model.encodingDescPart_alternation =
   | variantEncoding
   | geoDecl
   | fsdDecl
+  | schemaSpec
 model.encodingDescPart_sequence =
   projectDesc,
   samplingDecl,
@@ -3936,7 +3979,8 @@ model.encodingDescPart_sequence =
   metDecl,
   variantEncoding,
   geoDecl,
-  fsdDecl
+  fsdDecl,
+  schemaSpec
 model.encodingDescPart_sequenceOptional =
   projectDesc?,
   samplingDecl?,
@@ -3949,7 +3993,8 @@ model.encodingDescPart_sequenceOptional =
   metDecl?,
   variantEncoding?,
   geoDecl?,
-  fsdDecl?
+  fsdDecl?,
+  schemaSpec?
 model.encodingDescPart_sequenceOptionalRepeatable =
   projectDesc*,
   samplingDecl*,
@@ -3962,7 +4007,8 @@ model.encodingDescPart_sequenceOptionalRepeatable =
   metDecl*,
   variantEncoding*,
   geoDecl*,
-  fsdDecl*
+  fsdDecl*,
+  schemaSpec*
 model.encodingDescPart_sequenceRepeatable =
   projectDesc+,
   samplingDecl+,
@@ -3975,7 +4021,8 @@ model.encodingDescPart_sequenceRepeatable =
   metDecl+,
   variantEncoding+,
   geoDecl+,
-  fsdDecl+
+  fsdDecl+,
+  schemaSpec+
 model.editorialDeclPart =
   correction
   | normalization
@@ -4177,8 +4224,8 @@ data.point =
   xsd:token { pattern = "(\-?[0-9]+\.?[0-9]*,\-?[0-9]+\.?[0-9]*)" }
 data.pointer = xsd:anyURI
 data.version = xsd:token { pattern = "[\d]+(\.[\d]+){0,2}" }
-data.key = xsd:string
 data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
+data.text = xsd:string
 data.code = xsd:anyURI
 data.name = xsd:Name
 data.enumerated = data.name

@@ -1,12 +1,12 @@
 
 <!--
-DTD module tei. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+DTD module tei. Generated 2012-06-18T08:41:17Z. This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition: 2.1.0. Last updated on 17th June 2012.
 Declarations for classes, datatypes, and macros available to all
 TEI modules
 -->
@@ -630,9 +630,9 @@ inapplicable | true | false)' >
 
 <!ENTITY % data.version ' CDATA' >
 
-<!ENTITY % data.key ' CDATA' >
-
 <!ENTITY % data.word ' CDATA' >
+
+<!ENTITY % data.text ' CDATA' >
 
 <!ENTITY % data.code ' CDATA' >
 
@@ -976,7 +976,7 @@ Start of classes
 <!ENTITY % att.ascribed.attributes '
 who CDATA  #IMPLIED'> 
 <!ENTITY % att.canonical.attributes '
-key %data.key;  #IMPLIED
+key %data.text;  #IMPLIED
 ref CDATA  #IMPLIED'> 
 <!ENTITY % att.ranging.attributes '
 atLeast %data.numeric;  #IMPLIED
@@ -987,7 +987,7 @@ confidence %data.probability;  #IMPLIED'>
 <!ENTITY % att.dimensions.attributes ' %att.ranging.attributes;
 unit %data.enumerated;  #IMPLIED
 quantity %data.numeric;  #IMPLIED
-extent CDATA  #IMPLIED
+extent %data.text;  #IMPLIED
 precision %data.certainty;  #IMPLIED
 scope %data.enumerated;  #IMPLIED'> 
 <!ENTITY % att.damaged.attributes ' %att.dimensions.attributes;
@@ -1006,6 +1006,9 @@ to %data.temporal.w3c;  #IMPLIED'>
 <!ENTITY % att.datable.attributes ' %att.datable.w3c.attributes; %att.datable.iso.attributes; %att.datable.custom.attributes;
 calendar %data.pointer;  #IMPLIED
 period %data.pointer;  #IMPLIED'> 
+<!ENTITY % att.datcat.attributes '
+datcat CDATA  #IMPLIED
+valueDatcat CDATA  #IMPLIED'> 
 <!ENTITY % att.declarable.attributes '
 default (true|false) "false" '> 
 <!ENTITY % att.declaring.attributes '
@@ -1058,6 +1061,7 @@ place NMTOKENS  #IMPLIED'>
 type %data.enumerated;  #IMPLIED
 subtype %data.enumerated;  #IMPLIED'> 
 <!ENTITY % att.pointing.attributes '
+targetLang %data.language;  #IMPLIED
 target CDATA  #IMPLIED
 evaluate (all|one|none) #IMPLIED'> 
 <!ENTITY % att.pointing.group.attributes ' %att.pointing.attributes; %att.typed.attributes;
@@ -1068,7 +1072,7 @@ source CDATA #IMPLIED'>
 <!ENTITY % att.scoping.attributes '
 target CDATA  #IMPLIED
 match CDATA #IMPLIED'> 
-<!ENTITY % att.segLike.attributes ' %att.metrical.attributes;
+<!ENTITY % att.segLike.attributes ' %att.metrical.attributes; %att.datcat.attributes;
 function %data.enumerated;  #IMPLIED
 part (Y|N|I|M|F) "N" '> 
 <!ENTITY % att.sortable.attributes '
@@ -1090,7 +1094,7 @@ status %data.enumerated;  "unremarkable"
 cause (fix|unclear) #IMPLIED
 seq CDATA  #IMPLIED'> 
 <!ENTITY % att.translatable.attributes '
-version %data.word;  #IMPLIED'> 
+versionDate %data.temporal.w3c;  #IMPLIED'> 
 <!ENTITY % x.model.nameLike.agent "" >
 <!ENTITY % model.nameLike.agent "%x.model.nameLike.agent; %n.name; |
  %n.orgName; |
@@ -1802,16 +1806,15 @@ version %data.word;  #IMPLIED'>
 <!ENTITY % x.model.publicationStmtPart_sequenceRepeatable "" >
 <!ENTITY % model.publicationStmtPart_sequenceRepeatable "%x.model.publicationStmtPart_sequenceRepeatable; %n.distributor;+, %n.authority;+, %n.idno;+, %n.availability;+, %n.address;+, %n.date;+, %n.publisher;+, %n.pubPlace;+"> 
 <!ENTITY % x.model.availabilityPart "" >
-<!ENTITY % model.availabilityPart "%x.model.availabilityPart; %n.licence; |
- %n.p;"> 
+<!ENTITY % model.availabilityPart "%x.model.availabilityPart; %n.licence;"> 
 <!ENTITY % x.model.availabilityPart_sequence "" >
-<!ENTITY % model.availabilityPart_sequence "%x.model.availabilityPart_sequence; %n.licence;, %n.p;"> 
+<!ENTITY % model.availabilityPart_sequence "%x.model.availabilityPart_sequence; %n.licence;"> 
 <!ENTITY % x.model.availabilityPart_sequenceOptional "" >
-<!ENTITY % model.availabilityPart_sequenceOptional "%x.model.availabilityPart_sequenceOptional; %n.licence;?, %n.p;?"> 
+<!ENTITY % model.availabilityPart_sequenceOptional "%x.model.availabilityPart_sequenceOptional; %n.licence;?"> 
 <!ENTITY % x.model.availabilityPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "%x.model.availabilityPart_sequenceOptionalRepeatable; %n.licence;*, %n.p;*"> 
+<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "%x.model.availabilityPart_sequenceOptionalRepeatable; %n.licence;*"> 
 <!ENTITY % x.model.availabilityPart_sequenceRepeatable "" >
-<!ENTITY % model.availabilityPart_sequenceRepeatable "%x.model.availabilityPart_sequenceRepeatable; %n.licence;+, %n.p;+"> 
+<!ENTITY % model.availabilityPart_sequenceRepeatable "%x.model.availabilityPart_sequenceRepeatable; %n.licence;+"> 
 <!ENTITY % x.model.certLike "" >
 <!ENTITY % model.certLike "%x.model.certLike; %n.certainty; |
  %n.respons;"> 
@@ -2441,15 +2444,16 @@ version %data.word;  #IMPLIED'>
  %n.metDecl; |
  %n.variantEncoding; |
  %n.geoDecl; |
- %n.fsdDecl;"> 
+ %n.fsdDecl; |
+ %n.schemaSpec;"> 
 <!ENTITY % x.model.encodingDescPart_sequence "" >
-<!ENTITY % model.encodingDescPart_sequence "%x.model.encodingDescPart_sequence; %n.projectDesc;, %n.samplingDecl;, %n.editorialDecl;, %n.tagsDecl;, %n.refsDecl;, %n.classDecl;, %n.appInfo;, %n.charDecl;, %n.metDecl;, %n.variantEncoding;, %n.geoDecl;, %n.fsdDecl;"> 
+<!ENTITY % model.encodingDescPart_sequence "%x.model.encodingDescPart_sequence; %n.projectDesc;, %n.samplingDecl;, %n.editorialDecl;, %n.tagsDecl;, %n.refsDecl;, %n.classDecl;, %n.appInfo;, %n.charDecl;, %n.metDecl;, %n.variantEncoding;, %n.geoDecl;, %n.fsdDecl;, %n.schemaSpec;"> 
 <!ENTITY % x.model.encodingDescPart_sequenceOptional "" >
-<!ENTITY % model.encodingDescPart_sequenceOptional "%x.model.encodingDescPart_sequenceOptional; %n.projectDesc;?, %n.samplingDecl;?, %n.editorialDecl;?, %n.tagsDecl;?, %n.refsDecl;?, %n.classDecl;?, %n.appInfo;?, %n.charDecl;?, %n.metDecl;?, %n.variantEncoding;?, %n.geoDecl;?, %n.fsdDecl;?"> 
+<!ENTITY % model.encodingDescPart_sequenceOptional "%x.model.encodingDescPart_sequenceOptional; %n.projectDesc;?, %n.samplingDecl;?, %n.editorialDecl;?, %n.tagsDecl;?, %n.refsDecl;?, %n.classDecl;?, %n.appInfo;?, %n.charDecl;?, %n.metDecl;?, %n.variantEncoding;?, %n.geoDecl;?, %n.fsdDecl;?, %n.schemaSpec;?"> 
 <!ENTITY % x.model.encodingDescPart_sequenceOptionalRepeatable "" >
-<!ENTITY % model.encodingDescPart_sequenceOptionalRepeatable "%x.model.encodingDescPart_sequenceOptionalRepeatable; %n.projectDesc;*, %n.samplingDecl;*, %n.editorialDecl;*, %n.tagsDecl;*, %n.refsDecl;*, %n.classDecl;*, %n.appInfo;*, %n.charDecl;*, %n.metDecl;*, %n.variantEncoding;*, %n.geoDecl;*, %n.fsdDecl;*"> 
+<!ENTITY % model.encodingDescPart_sequenceOptionalRepeatable "%x.model.encodingDescPart_sequenceOptionalRepeatable; %n.projectDesc;*, %n.samplingDecl;*, %n.editorialDecl;*, %n.tagsDecl;*, %n.refsDecl;*, %n.classDecl;*, %n.appInfo;*, %n.charDecl;*, %n.metDecl;*, %n.variantEncoding;*, %n.geoDecl;*, %n.fsdDecl;*, %n.schemaSpec;*"> 
 <!ENTITY % x.model.encodingDescPart_sequenceRepeatable "" >
-<!ENTITY % model.encodingDescPart_sequenceRepeatable "%x.model.encodingDescPart_sequenceRepeatable; %n.projectDesc;+, %n.samplingDecl;+, %n.editorialDecl;+, %n.tagsDecl;+, %n.refsDecl;+, %n.classDecl;+, %n.appInfo;+, %n.charDecl;+, %n.metDecl;+, %n.variantEncoding;+, %n.geoDecl;+, %n.fsdDecl;+"> 
+<!ENTITY % model.encodingDescPart_sequenceRepeatable "%x.model.encodingDescPart_sequenceRepeatable; %n.projectDesc;+, %n.samplingDecl;+, %n.editorialDecl;+, %n.tagsDecl;+, %n.refsDecl;+, %n.classDecl;+, %n.appInfo;+, %n.charDecl;+, %n.metDecl;+, %n.variantEncoding;+, %n.geoDecl;+, %n.fsdDecl;+, %n.schemaSpec;+"> 
 <!ENTITY % x.model.editorialDeclPart "" >
 <!ENTITY % model.editorialDeclPart "%x.model.editorialDeclPart; %n.correction; |
  %n.normalization; |

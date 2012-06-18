@@ -3,9 +3,9 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2012-02-02T21:16:15Z. 
-# Edition: 2.0.1 Last updated on 22nd December 2011.
-# Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
+# Schema generated from ODD source 2012-06-18T08:05:21Z. 
+# Edition: 2.1.0. Last updated on 17th June 2012.
+# Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 #
 
 # This template file is freely available and you are hereby
@@ -26,8 +26,8 @@ macro.specialPara =
    | model.global)*
 data.language = xsd:language
 data.pointer = xsd:anyURI
-data.key = xsd:string
 data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
+data.text = xsd:string
 data.name = xsd:Name
 data.enumerated = data.name
 att.canonical.attributes =
@@ -36,7 +36,7 @@ att.canonical.attribute.key =
   
   ## provides an externally-defined means of identifying the entity (or entities) being
   ##         named, using a coded value of some kind.
-  attribute key { data.key }?
+  attribute key { data.text }?
 att.canonical.attribute.ref =
   
   ## (reference) provides an explicit means of locating a full definition for the entity being named by
@@ -72,9 +72,7 @@ att.global.attribute.n =
   
   ## (number) gives a number (or other label) for an element, which is not necessarily unique within
   ##         the document.
-  attribute n {
-    list { data.word, data.word* }
-  }?
+  attribute n { data.text }?
 att.global.attribute.xmllang =
   
   ## (language) indicates the language of the element content using a tag generated
@@ -355,8 +353,7 @@ fileDesc =
   }
 titleStmt =
   
-  ## (title statement) groups information about the title of a work and those responsible for its intellectual
-  ##     content. [2.2.1.  2.2. ]
+  ## (title statement) groups information about the title of a work and those responsible for its content. [2.2.1.  2.2. ]
   element titleStmt {
     (title+, model.respLike*), att.global.attributes, empty
   }

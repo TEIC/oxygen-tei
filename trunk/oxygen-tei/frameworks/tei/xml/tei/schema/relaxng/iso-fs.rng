@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
-Edition: 2.0.2 Last updated on 2nd February 2012.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-06-18T08:40:58Z
+Edition: 2.1.0. Last updated on 17th June 2012.
 This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -79,6 +79,7 @@ subsume a given feature structure, or if both do not. []</a:documentation>
    </define>
    <define name="binary.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a binary value.</a:documentation>
          <ref name="data.truthValue"/>
@@ -161,6 +162,7 @@ structure, or if the antecedent does not. []</a:documentation>
   </define>
    <define name="f.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="name">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides a name for the feature.</a:documentation>
          <ref name="data.name"/>
@@ -257,6 +259,7 @@ structural unit. []</a:documentation>
    </define>
    <define name="fs.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <optional>
          <attribute name="type">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the type of the feature structure.</a:documentation>
@@ -480,6 +483,7 @@ element. []</a:documentation>
    </define>
    <define name="numeric.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a lower bound for the numeric value represented,
       and also (if max is not supplied) its upper bound.</a:documentation>
@@ -513,6 +517,7 @@ element. []</a:documentation>
    </define>
    <define name="string.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <empty/>
    </define>
    <define name="symbol">
@@ -528,6 +533,7 @@ element. []</a:documentation>
    </define>
    <define name="symbol.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the symbolic value for the feature, one of a finite list that
 may be specified in a feature declaration.</a:documentation>

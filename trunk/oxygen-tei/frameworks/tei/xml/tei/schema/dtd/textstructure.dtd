@@ -1,12 +1,12 @@
 
 <!--
-DTD module textstructure. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+DTD module textstructure. Generated 2012-06-18T08:41:17Z. This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition: 2.1.0. Last updated on 17th June 2012.
 Default
 text structure
 -->
@@ -147,7 +147,7 @@ on its title page or at the head or end of the work. [ ] -->
 <![ %dateline; [
 
 <!--doc:contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [ ] -->
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [] -->
 <!ELEMENT %n.dateline; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.dateline; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.dateline;
@@ -433,7 +433,7 @@ found  at the start of a document, before the main body. [ ] -->
 <![ %opener; [
 
 <!--doc:groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter. [ ] -->
+    group at the start of a division, especially of a letter. [] -->
 <!ELEMENT %n.opener; %om.RR; ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -453,8 +453,9 @@ found  at the start of a document, before the main body. [ ] -->
 <![ %postscript; [
 
 <!--doc:contains a postscript, e.g. to a letter. [] -->
-<!ELEMENT %n.postscript; %om.RR; (((%model.divTopPart;)*,(%model.common;)+,(%model.divBottomPart;)*) |
- (%model.global;))*>
+<!ELEMENT %n.postscript; %om.RR; ((%model.global; |
+ %model.divTopPart;)*,(%model.common;),(%model.global; |
+ %model.common;)*,((%model.divBottomPart;),(%model.global;)*)*)>
 <!ATTLIST %n.postscript; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.postscript;
  %att.global.attributes; >
@@ -464,7 +465,7 @@ found  at the start of a document, before the main body. [ ] -->
 <![ %salute; [
 
 <!--doc:(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc. [ ] -->
+    division of a text, or the salutation in the closing of a letter, preface, etc. [] -->
 <!ELEMENT %n.salute; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.salute; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.salute;
@@ -475,7 +476,7 @@ found  at the start of a document, before the main body. [ ] -->
 <![ %signed; [
 
 <!--doc:(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text.  [ ] -->
+dedicatory epistle, or other division of a text.  [] -->
 <!ELEMENT %n.signed; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.signed; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.signed;
@@ -527,5 +528,6 @@ type %data.enumerated;  "main"  >
 <!ELEMENT %n.trailer; %om.RR; %macro.phraseSeq;>
 <!ATTLIST %n.trailer; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.trailer;
- %att.global.attributes; >
+ %att.global.attributes;
+ %att.typed.attributes; >
 ]]>

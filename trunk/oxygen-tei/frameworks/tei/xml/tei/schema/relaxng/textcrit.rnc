@@ -1,15 +1,15 @@
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2012-02-02T21:14:51Z
-# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Schema generated 2012-06-18T08:40:58Z
+# Edition: 2.1.0. Last updated on 17th June 2012.
 # This material is dual-licensed.
 # 
 #	  [http://creativecommons.org/licenses/by/3.0/] 
-#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 # 
 #	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-#	    Copyright 2011 TEI Consortium.
+#	    Copyright 2012 TEI Consortium.
 #	    All rights reserved.
 # 
 #	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -75,20 +75,20 @@ att.rdgPart.attribute.wit =
   attribute wit {
     list { data.pointer, data.pointer* }
   }?
-att.textCritical.attributes =
-  att.responsibility.attributes,
-  att.textCritical.attribute.wit,
-  att.textCritical.attribute.type,
-  att.textCritical.attribute.cause,
-  att.textCritical.attribute.varSeq,
-  att.textCritical.attribute.hand
-att.textCritical.attribute.wit =
+att.witnessed.attributes = att.witnessed.attribute.wit
+att.witnessed.attribute.wit =
   
   ## (witness or witnesses) contains a list of one or more pointers indicating the witnesses
   ## which attest to a given reading.
   attribute wit {
     list { data.pointer, data.pointer* }
   }?
+att.textCritical.attributes =
+  att.responsibility.attributes,
+  att.textCritical.attribute.type,
+  att.textCritical.attribute.cause,
+  att.textCritical.attribute.varSeq,
+  att.textCritical.attribute.hand
 att.textCritical.attribute.type =
   
   ## classifies the reading according to some useful typology.
@@ -136,6 +136,26 @@ app.content =
            "Only one <lem> element may appear within a single\x{a}" ~
            "      apparatus entry, whether it appears outside a <rdgGrp>\x{a}" ~
            "      element or within it."
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+  >> sch:pattern [
+       id = "app-constraint-atleast1rdg"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:app"
+         "\x{a}" ~
+         "            "
+         sch:assert [
+           test =
+             "count(descendant::tei:rdg[generate-id(current() ) = generate-id(ancestor::tei:app[1])]) > 0"
+           "An <app> \x{a}" ~
+           "        must contain at least one <rdg> element."
          ]
          "\x{a}" ~
          "         "
@@ -194,7 +214,10 @@ lem.content =
    | model.global
    | model.rdgPart)*
 lem.localattributes =
-  att.global.attributes, att.textCritical.attributes, empty
+  att.global.attributes,
+  att.textCritical.attributes,
+  att.witnessed.attributes,
+  empty
 listWit =
   
   ## (witness list) lists definitions for all the witnesses referred to by a critical
@@ -215,7 +238,10 @@ rdg.content =
    | model.global
    | model.rdgPart)*
 rdg.localattributes =
-  att.global.attributes, att.textCritical.attributes, empty
+  att.global.attributes,
+  att.textCritical.attributes,
+  att.witnessed.attributes,
+  empty
 rdgGrp =
   
   ## (reading group) within a textual variation,

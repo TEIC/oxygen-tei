@@ -1,12 +1,12 @@
 
 <!--
-DTD module tagdocs. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+DTD module tagdocs. Generated 2012-06-18T08:41:17Z. This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition: 2.1.0. Last updated on 17th June 2012.
 Documentation of TEI modules
 -->
 
@@ -229,7 +229,7 @@ maxOccurs CDATA "1"  >
 <![ %egXML; [
 
 <!--doc:(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element.  [ ] -->
+    attribute, in which the egXML element itself functions as the root element.  [] -->
 <!ELEMENT %n.egXML; %om.RR; (#PCDATA)*>
 <!ATTLIST %n.egXML; xmlns CDATA "http://www.tei-c.org/ns/Examples">
 <!ATTLIST %n.egXML;
@@ -352,7 +352,7 @@ type (pe|dt) #IMPLIED >
 <!ENTITY % memberOf 'INCLUDE' >
 <![ %memberOf; [
 
-<!--doc:specifies class membership of the parent element or class. -->
+<!--doc:specifies class membership of the documented element or class. -->
 <!ELEMENT %n.memberOf; %om.RR; %macro.xtext;>
 <!ATTLIST %n.memberOf; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.memberOf;
@@ -389,7 +389,7 @@ module, i.e. a named and externally visible group of declarations. -->
 <!ATTLIST %n.moduleSpec;
  %att.global.attributes;
  %att.identified.attributes;
-type CDATA  #IMPLIED >
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % remarks 'INCLUDE' >
@@ -480,7 +480,7 @@ target %data.pointer;  #REQUIRED >
 <!ATTLIST %n.tag;
  %att.global.attributes;
 type (start|end|empty|pi|comment|ms) #IMPLIED
-scheme (TEI|DBK|XX) "TEI"  >
+scheme %data.enumerated;  "TEI"  >
 ]]>
 
 <!ENTITY % val 'INCLUDE' >

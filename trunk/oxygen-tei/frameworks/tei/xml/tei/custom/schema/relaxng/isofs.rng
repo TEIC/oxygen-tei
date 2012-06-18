@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2012-02-02T20:36:03Z. 
-Edition: 2.0.2 Last updated on 2nd February 2012.
-Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
+Schema generated from ODD source 2012-06-18T08:02:11Z. 
+Edition: 2.1.0. Last updated on 17th June 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 
 -->
   <!--
@@ -57,6 +57,39 @@ Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
   </define>
   <define name="data.enumerated">
     <ref name="data.name"/>
+  </define>
+  <define name="att.datcat.attributes">
+    <ref name="att.datcat.attribute.datcat"/>
+    <ref name="att.datcat.attribute.valueDatcat"/>
+  </define>
+  <define name="att.datcat.attribute.datcat">
+    <optional>
+      <attribute name="datcat" ns="http://www.isocat.org/ns/dcr">
+        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a PID (persistent identifier) that aligns the given element with the appropriate 
+        Data Category (or categories) in ISOcat.</a:documentation>
+        <list>
+          <ref name="data.pointer"/>
+          <zeroOrMore>
+            <ref name="data.pointer"/>
+          </zeroOrMore>
+        </list>
+      </attribute>
+    </optional>
+  </define>
+  <define name="att.datcat.attribute.valueDatcat">
+    <optional>
+      <attribute name="valueDatcat" ns="http://www.isocat.org/ns/dcr">
+        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a PID (persistent identifier) that aligns the content of the given
+        element or the value of the given attribute with the appropriate simple Data
+        Category (or categories) in ISOcat.</a:documentation>
+        <list>
+          <ref name="data.pointer"/>
+          <zeroOrMore>
+            <ref name="data.pointer"/>
+          </zeroOrMore>
+        </list>
+      </attribute>
+    </optional>
   </define>
   <define name="model.global.meta">
     <choice>
@@ -562,6 +595,7 @@ structural unit. [18.2. ]</a:documentation>
       <zeroOrMore>
         <ref name="f"/>
       </zeroOrMore>
+      <ref name="att.datcat.attributes"/>
       <optional>
         <attribute name="type">
           <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the type of the feature structure.</a:documentation>
@@ -605,6 +639,7 @@ structural unit. [18.2. ]</a:documentation>
     only one child element</report>
         </rule>
       </pattern>
+      <ref name="att.datcat.attributes"/>
       <attribute name="name">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides a name for the feature.</a:documentation>
         <ref name="data.name"/>
@@ -624,6 +659,7 @@ structural unit. [18.2. ]</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(binary value) represents the value part of a feature-value specification which can contain either
   of exactly two possible values. [18.2. ]</a:documentation>
       <empty/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a binary value.</a:documentation>
         <ref name="data.truthValue"/>
@@ -636,6 +672,7 @@ structural unit. [18.2. ]</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(symbolic value) represents the value part of a feature-value specification
   which contains one of a finite list of symbols. [18.3. ]</a:documentation>
       <empty/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the symbolic value for the feature, one of a finite list that
 may be specified in a feature declaration.</a:documentation>
@@ -649,6 +686,7 @@ may be specified in a feature declaration.</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(numeric value) represents the value part of a feature-value specification
   which contains a numeric value or range. [18.3. ]</a:documentation>
       <empty/>
+      <ref name="att.datcat.attributes"/>
       <attribute name="value">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a lower bound for the numeric value represented,
       and also (if max is not supplied) its upper bound.</a:documentation>
@@ -675,6 +713,8 @@ may be specified in a feature declaration.</a:documentation>
       <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(string value) represents the value part of a feature-value specification
   which contains a string. [18.3. ]</a:documentation>
       <ref name="macro.xtext"/>
+      <ref name="att.datcat.attributes"/>
+      <empty/>
     </element>
   </define>
   <define name="vLabel">
@@ -783,6 +823,7 @@ list.</a:documentation>
       <oneOrMore>
         <ref name="f"/>
       </oneOrMore>
+      <ns xmlns="http://purl.oclc.org/dsdl/schematron" prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
     </element>
   </define>
   <define name="fvLib">

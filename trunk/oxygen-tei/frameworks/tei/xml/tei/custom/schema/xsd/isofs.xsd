@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/1.0" xmlns:ns1="http://www.tei-c.org/ns/1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/1.0" xmlns:dcr="http://www.isocat.org/ns/dcr" xmlns:ns1="http://www.tei-c.org/ns/1.0">
+  <xs:import namespace="http://www.isocat.org/ns/dcr" schemaLocation="dcr.xsd"/>
   <!--
-    Schema generated from ODD source 2012-02-02T20:36:03Z. 
-    Edition: 2.0.2 Last updated on 2nd February 2012.
-    Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
+    Schema generated from ODD source 2012-06-18T08:02:11Z. 
+    Edition: 2.1.0. Last updated on 17th June 2012.
+    Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
     
   -->
   <!--
@@ -41,6 +42,16 @@
   <xs:simpleType name="data.enumerated">
     <xs:restriction base="ns1:data.name"/>
   </xs:simpleType>
+  <xs:attributeGroup name="att.datcat.attributes">
+    <xs:attributeGroup ref="ns1:att.datcat.attribute.datcat"/>
+    <xs:attributeGroup ref="ns1:att.datcat.attribute.valueDatcat"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.datcat.attribute.datcat">
+    <xs:attribute ref="dcr:datcat"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.datcat.attribute.valueDatcat">
+    <xs:attribute ref="dcr:valueDatcat"/>
+  </xs:attributeGroup>
   <xs:group name="model.global.meta">
     <xs:choice>
       <xs:element ref="ns1:fs"/>
@@ -448,6 +459,7 @@ structural unit. [18.2. ]</xs:documentation>
       <xs:sequence>
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="ns1:f"/>
       </xs:sequence>
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
       <xs:attribute name="type" type="ns1:data.enumerated">
         <xs:annotation>
           <xs:documentation>specifies the type of the feature structure.</xs:documentation>
@@ -479,6 +491,7 @@ structural unit. [18.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:model.featureVal"/>
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
       <xs:attribute name="name" use="required" type="ns1:data.name">
         <xs:annotation>
           <xs:documentation>provides a name for the feature.</xs:documentation>
@@ -498,6 +511,7 @@ structural unit. [18.2. ]</xs:documentation>
   of exactly two possible values. [18.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
       <xs:attribute name="value" use="required" type="ns1:data.truthValue">
         <xs:annotation>
           <xs:documentation>supplies a binary value.</xs:documentation>
@@ -511,6 +525,7 @@ structural unit. [18.2. ]</xs:documentation>
   which contains one of a finite list of symbols. [18.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
       <xs:attribute name="value" use="required" type="ns1:data.word">
         <xs:annotation>
           <xs:documentation>supplies the symbolic value for the feature, one of a finite list that
@@ -525,6 +540,7 @@ may be specified in a feature declaration.</xs:documentation>
   which contains a numeric value or range. [18.3. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
       <xs:attribute name="value" use="required" type="ns1:data.numeric">
         <xs:annotation>
           <xs:documentation>supplies a lower bound for the numeric value represented,
@@ -544,11 +560,14 @@ may be specified in a feature declaration.</xs:documentation>
       </xs:attribute>
     </xs:complexType>
   </xs:element>
-  <xs:element name="string" type="xs:string">
+  <xs:element name="string">
     <xs:annotation>
       <xs:documentation>(string value) represents the value part of a feature-value specification
   which contains a string. [18.3. ]</xs:documentation>
     </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:attributeGroup ref="ns1:att.datcat.attributes"/>
+    </xs:complexType>
   </xs:element>
   <xs:element name="vLabel">
     <xs:annotation>
