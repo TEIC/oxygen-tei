@@ -3,15 +3,15 @@ namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace s = "http://www.ascc.net/xml/schematron"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2012-02-02T21:14:51Z
-# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Schema generated 2012-06-18T08:40:58Z
+# Edition: 2.1.0. Last updated on 17th June 2012.
 # This material is dual-licensed.
 # 
 #	  [http://creativecommons.org/licenses/by/3.0/] 
-#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 # 
 #	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-#	    Copyright 2011 TEI Consortium.
+#	    Copyright 2012 TEI Consortium.
 #	    All rights reserved.
 # 
 #	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -239,8 +239,7 @@ delSpan.content =
            test = "@spanTo"
            "The spanTo= attribute of "
            sch:name [ ]
-           "\x{a}" ~
-           "      is required."
+           " is required."
          ]
          "\x{a}" ~
          "         "
@@ -510,9 +509,8 @@ surface =
   ##   writing within them.
   element surface { surface.content, surface.localattributes }
 surface.content =
-  model.glossLike*,
-  model.graphicLike*,
-  (model.global | zone | line | surface | surfaceGrp)*
+  (model.global | model.labelLike | model.graphicLike)*,
+  ((zone | line | surface | surfaceGrp), model.global*)*
 surface.localattributes =
   att.global.attributes,
   att.coordinated.attributes,

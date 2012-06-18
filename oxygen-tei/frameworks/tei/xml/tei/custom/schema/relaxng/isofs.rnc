@@ -1,12 +1,13 @@
 default namespace = "http://www.tei-c.org/ns/1.0"
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
-namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
+namespace ns1 = "http://www.isocat.org/ns/dcr"
+namespace ns2 = "http://purl.oclc.org/dsdl/schematron"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2012-02-02T20:36:03Z. 
-# Edition: 2.0.2 Last updated on 2nd February 2012.
-# Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
+# Schema generated from ODD source 2012-06-18T08:02:11Z. 
+# Edition: 2.1.0. Last updated on 17th June 2012.
+# Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 #
 
 # This template file is freely available and you are
@@ -27,6 +28,23 @@ data.pointer = xsd:anyURI
 data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
 data.name = xsd:Name
 data.enumerated = data.name
+att.datcat.attributes =
+  att.datcat.attribute.datcat, att.datcat.attribute.valueDatcat
+att.datcat.attribute.datcat =
+  
+  ## contains a PID (persistent identifier) that aligns the given element with the appropriate 
+  ##         Data Category (or categories) in ISOcat.
+  attribute ns1:datcat {
+    list { data.pointer, data.pointer* }
+  }?
+att.datcat.attribute.valueDatcat =
+  
+  ## contains a PID (persistent identifier) that aligns the content of the given
+  ##         element or the value of the given attribute with the appropriate simple Data
+  ##         Category (or categories) in ISOcat.
+  attribute ns1:valueDatcat {
+    list { data.pointer, data.pointer* }
+  }?
 model.global.meta = fs | fLib | fvLib
 model.global.meta_alternation = fs | fLib | fvLib
 model.global.meta_sequence = fs, fLib, fvLib
@@ -208,6 +226,7 @@ fs =
   ## structural unit. [18.2. ]
   element fs {
     f*,
+    att.datcat.attributes,
     
     ## specifies the type of the feature structure.
     attribute type { data.enumerated }?,
@@ -224,15 +243,15 @@ f =
   ##   is, the association of a name with a value of any of several different types. [18.2. ]
   element f {
     ((text | model.gLike | model.featureVal)*)
-    >> ns1:pattern [
+    >> ns2:pattern [
          id = "f-constraint-fValConstraints"
          "\x{a}" ~
          "            "
-         ns1:rule [
+         ns2:rule [
            context = "tei:fVal"
            "\x{a}" ~
            "               "
-           ns1:assert [
+           ns2:assert [
              test = "not(tei:* and text)"
              " A feature value cannot\x{a}" ~
              "    contain both text and element content"
@@ -243,15 +262,15 @@ f =
          "\x{a}" ~
          "         "
        ]
-    >> ns1:pattern [
+    >> ns2:pattern [
          id = "f-constraint-fValConstraints"
          "\x{a}" ~
          "            "
-         ns1:rule [
+         ns2:rule [
            context = "tei:fVal"
            "\x{a}" ~
            "               "
-           ns1:report [
+           ns2:report [
              test = "count(tei:*)>1"
              " A feature value can contain\x{a}" ~
              "    only one child element"
@@ -262,6 +281,7 @@ f =
          "\x{a}" ~
          "         "
        ],
+    att.datcat.attributes,
     
     ## provides a name for the feature.
     attribute name { data.name },
@@ -277,6 +297,7 @@ binary =
   ##   of exactly two possible values. [18.2. ]
   element binary {
     empty,
+    att.datcat.attributes,
     
     ## supplies a binary value.
     attribute value { data.truthValue },
@@ -288,6 +309,7 @@ symbol =
   ##   which contains one of a finite list of symbols. [18.3. ]
   element symbol {
     empty,
+    att.datcat.attributes,
     
     ## supplies the symbolic value for the feature, one of a finite list that
     ## may be specified in a feature declaration.
@@ -300,6 +322,7 @@ numeric =
   ##   which contains a numeric value or range. [18.3. ]
   element numeric {
     empty,
+    att.datcat.attributes,
     
     ## supplies a lower bound for the numeric value represented,
     ##       and also (if max is not supplied) its upper bound.
@@ -317,7 +340,7 @@ numeric =
   
   ## (string value) represents the value part of a feature-value specification
   ##   which contains a string. [18.3. ]
-  element string { macro.xtext }
+  element string { macro.xtext, att.datcat.attributes, empty }
 vLabel =
   
   ## (value label) represents the value part of a feature-value specification
@@ -394,7 +417,10 @@ vMerge =
 fLib =
   
   ## (feature library) assembles a library of feature elements. [18.4. ]
-  element fLib { f+ }
+  element fLib {
+    (f+)
+    >> ns2:ns [ prefix = "tei" uri = "http://www.tei-c.org/ns/1.0" ]
+  }
 fvLib =
   
   ## (feature-value library) assembles a library of reusable feature value elements

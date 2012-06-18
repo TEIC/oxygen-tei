@@ -1,12 +1,12 @@
 
 <!--
-DTD module core. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+DTD module core. Generated 2012-06-18T08:41:17Z. This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition: 2.1.0. Last updated on 17th June 2012.
 Elements common to all TEI documents
 -->
 
@@ -296,9 +296,9 @@ encoding CDATA  #IMPLIED >
 <!ATTLIST %n.distinct;
  %att.global.attributes;
 type %data.enumerated;  #IMPLIED
-time %data.key;  #IMPLIED
-space %data.key;  #IMPLIED
-social %data.key;  #IMPLIED >
+time %data.text;  #IMPLIED
+space %data.text;  #IMPLIED
+social %data.text;  #IMPLIED >
 ]]>
 
 <!ENTITY % divGen 'INCLUDE' >
@@ -562,7 +562,7 @@ part (Y|N|I|M|F) "N"  >
 <!ENTITY % lg 'INCLUDE' >
 <![ %lg; [
 
-<!--doc:(line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
+<!--doc:(line group) contains one or more verse lines functioning as a formal unit, e.g. a stanza, refrain,
         verse paragraph, etc. [  ] -->
 <!ELEMENT %n.lg; %om.RR; ((%model.divTop; |
  %model.global;)*,(%model.lLike; |
@@ -846,8 +846,8 @@ cRef CDATA  #IMPLIED >
 <!ENTITY % q 'INCLUDE' >
 <![ %q; [
 
-<!--doc:(separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
-    surrounding text, for any one of a variety of reasons including, but not limited to: direct
+<!--doc:(quoted) contains material which is distinguished from the
+    surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct
     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
     passages that are mentioned but not used. [] -->
 <!ELEMENT %n.q; %om.RR; %macro.specialPara;>
@@ -947,7 +947,7 @@ target %data.pointer;  #IMPLIED >
 <!ATTLIST %n.rs;
  %att.global.attributes;
  %att.naming.attributes;
-type %data.enumerated;  #IMPLIED >
+ %att.typed.attributes; >
 ]]>
 
 <!ENTITY % said 'INCLUDE' >
@@ -987,8 +987,7 @@ direct %data.xTruthValue;  "true"  >
 <!ENTITY % sic 'INCLUDE' >
 <![ %sic; [
 
-<!--doc:(latin for thus or so
-  ) contains text reproduced although apparently incorrect or inaccurate. [] -->
+<!--doc:(Latin for thus or so) contains text reproduced although apparently incorrect or inaccurate. [] -->
 <!ELEMENT %n.sic; %om.RR; %macro.paraContent;>
 <!ATTLIST %n.sic; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.sic;

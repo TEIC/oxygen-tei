@@ -5,9 +5,9 @@ namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2012-02-02T21:15:56Z. 
-# Edition: 2.0.1 Last updated on 22nd December 2011.
-# Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
+# Schema generated from ODD source 2012-06-18T08:04:27Z. 
+# Edition: 2.1.0. Last updated on 17th June 2012.
+# Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 #
 
 # This template file is freely available and you are hereby
@@ -1332,7 +1332,6 @@ tei_macro.specialPara =
    | tei_model.inter
    | tei_model.divPart
    | tei_model.global)*
-tei_macro.xtext = (text | tei_model.gLike)*
 tei_data.certainty = "high" | "medium" | "low" | "unknown"
 tei_data.probability =
   xsd:double { minInclusive = "0" maxInclusive = "1" }
@@ -1362,8 +1361,8 @@ tei_data.outputMeasurement =
 tei_data.pattern = xsd:token
 tei_data.pointer = xsd:anyURI
 tei_data.version = xsd:token { pattern = "[\d]+(\.[\d]+){0,2}" }
-tei_data.key = xsd:string
 tei_data.word = xsd:token { pattern = "(\p{L}|\p{N}|\p{P}|\p{S})+" }
+tei_data.text = xsd:string
 tei_data.code = xsd:anyURI
 tei_data.name = xsd:Name
 tei_data.enumerated = tei_data.name
@@ -1380,7 +1379,7 @@ tei_att.canonical.attribute.key =
   
   ## provides an externally-defined means of identifying the entity (or entities) being
   ##         named, using a coded value of some kind.
-  attribute key { tei_data.key }?
+  attribute key { tei_data.text }?
 tei_att.canonical.attribute.ref =
   
   ## (reference) provides an explicit means of locating a full definition for the entity being named by
@@ -1456,9 +1455,7 @@ tei_att.dimensions.attribute.extent =
   
   ## indicates the size of the object concerned using a project-specific vocabulary combining
   ##         quantity and units in a single string of words. 
-  attribute extent {
-    list { tei_data.word, tei_data.word* }
-  }?
+  attribute extent { tei_data.text }?
 tei_att.dimensions.attribute.precision =
   
   ## characterizes the precision of the values specified by the other attributes.
@@ -1696,9 +1693,7 @@ tei_att.global.attribute.n =
   
   ## (number) gives a number (or other label) for an element, which is not necessarily unique within
   ##         the document.
-  attribute n {
-    list { tei_data.word, tei_data.word* }
-  }?
+  attribute n { tei_data.text }?
 tei_att.global.attribute.xmllang =
   
   ## (language) indicates the language of the element content using a tag generated
@@ -1979,7 +1974,32 @@ tei_att.typed.attribute.subtype =
   ## provides a sub-categorization of the element, if needed
   attribute subtype { tei_data.enumerated }?
 tei_att.pointing.attributes =
-  tei_att.pointing.attribute.target, tei_att.pointing.attribute.evaluate
+  tei_att.pointing.attribute.targetLang,
+  tei_att.pointing.attribute.target,
+  tei_att.pointing.attribute.evaluate
+tei_att.pointing.attribute.targetLang =
+  
+  ## specifies the language of the content to be found at the destination referenced by target, using a language tag generated
+  ##         according to BCP 47.
+  attribute targetLang { tei_data.language }?
+sch:pattern [
+  id = "targetLang-constraint-targetLang"
+  "\x{a}" ~
+  "      "
+  sch:rule [
+    context = "tei:*[@targetLang]"
+    "\x{a}" ~
+    "            "
+    sch:assert [
+      test = "count(@target)"
+      "@targetLang can only be used if @target is specified."
+    ]
+    "\x{a}" ~
+    "          "
+  ]
+  "\x{a}" ~
+  "   "
+]
 tei_att.pointing.attribute.target =
   
   ## specifies the destination of the reference by supplying one or more URI References
@@ -2092,12 +2112,12 @@ tei_att.transcriptional.attribute.seq =
   ## (sequence) assigns a sequence number related to the order in which
   ##       the encoded features carrying this attribute are believed to have occurred.
   attribute seq { tei_data.count }?
-tei_att.translatable.attributes = tei_att.translatable.attribute.version
-tei_att.translatable.attribute.version =
+tei_att.translatable.attributes =
+  tei_att.translatable.attribute.versionDate
+tei_att.translatable.attribute.versionDate =
   
-  ## specifies the version name or number of the source from
-  ##	which the translated version was derived
-  attribute version { tei_data.word }?
+  ## specifies the date on which the source text was extracted and sent to the translator
+  attribute versionDate { tei_data.temporal.w3c }?
 tei_model.nameLike.agent = tei_name
 tei_model.nameLike.agent_alternation = tei_name
 tei_model.nameLike.agent_sequence = tei_name
@@ -2405,7 +2425,7 @@ tei_model.publicationStmtPart =
   | tei_authority
   | tei_idno
   | tei_availability
-tei_model.availabilityPart = tei_p | tei_licence
+tei_model.availabilityPart = tei_licence
 tei_model.glossLike = tei_desc | tei_gloss
 tei_model.quoteLike = tei_quote | tei_cit
 tei_model.quoteLike_alternation = tei_quote | tei_cit
@@ -2816,13 +2836,13 @@ tei_distinct =
     attribute type { tei_data.enumerated }?,
     
     ## specifies how the phrase is distinct diachronically
-    attribute time { tei_data.key }?,
+    attribute time { tei_data.text }?,
     
     ## specifies how the phrase is distinct diatopically
-    attribute space { tei_data.key }?,
+    attribute space { tei_data.text }?,
     
     ## specifies how the phrase is distinct diastatically
-    attribute social { tei_data.key }?,
+    attribute social { tei_data.text }?,
     empty
   }
 tei_said =
@@ -2857,8 +2877,8 @@ tei_quote =
   }
 tei_q =
   
-  ## (separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
-  ##     surrounding text, for any one of a variety of reasons including, but not limited to: direct
+  ## (quoted) contains material which is distinguished from the
+  ##     surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct
   ##     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
   ##     passages that are mentioned but not used. [3.3.3. ]
   element ns1:q {
@@ -2919,7 +2939,7 @@ tei_cit =
   }
 tei_mentioned =
   
-  ## marks words or phrases mentioned, not used. [3.3.4. ]
+  ## marks words or phrases mentioned, not used. [3.3.3. ]
   element ns1:mentioned {
     tei_macro.phraseSeq, tei_att.global.attributes, empty
   }
@@ -2977,8 +2997,7 @@ tei_term =
   }
 tei_sic =
   
-  ## (latin for thus or so
-  ##   ) contains text reproduced although apparently incorrect or inaccurate. [3.4.1. ]
+  ## (Latin for thus or so) contains text reproduced although apparently incorrect or inaccurate. [3.4.1. ]
   element ns1:sic {
     tei_macro.paraContent,
     tei_att.global.attributes,
@@ -3114,10 +3133,7 @@ tei_rs =
     tei_macro.phraseSeq,
     tei_att.global.attributes,
     tei_att.naming.attributes,
-    
-    ## indicates more specifically the object referred to by the referencing string.
-    ##         When suitable, values should be drawn from an existing ontology, such as the BBN's proposed answer categories.
-    attribute type { tei_data.enumerated }?,
+    tei_att.typed.attributes,
     empty
   }
 tei_email =
@@ -3947,7 +3963,7 @@ tei_l =
   }
 tei_lg =
   
-  ## (line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
+  ## (line group) contains one or more verse lines functioning as a formal unit, e.g. a stanza, refrain,
   ##         verse paragraph, etc. [3.12.1.  3.12.  7.2.5. ]
   element ns1:lg {
     ((tei_model.divTop | tei_model.global)*,
@@ -3960,7 +3976,27 @@ tei_lg =
       | tei_model.labelLike
       | tei_model.global
       | tei_lg)*,
-     (tei_model.divBottom, tei_model.global*)*),
+     (tei_model.divBottom, tei_model.global*)*)
+    >> sch:pattern [
+         id = "lg-constraint-atleast1oflggapl"
+         "\x{a}" ~
+         "            "
+         sch:rule [
+           context = "tei:lg"
+           "\x{a}" ~
+           "               "
+           sch:assert [
+             test =
+               "count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) > 0"
+             "An <lg> \x{a}" ~
+             "        must contain at least one child <l>, <lg> or <gap>."
+           ]
+           "\x{a}" ~
+           "            "
+         ]
+         "\x{a}" ~
+         "         "
+       ],
     tei_att.global.attributes,
     tei_att.divLike.attributes,
     tei_att.typed.attributes,
@@ -4106,8 +4142,7 @@ tei_fileDesc =
   }
 tei_titleStmt =
   
-  ## (title statement) groups information about the title of a work and those responsible for its intellectual
-  ##     content. [2.2.1.  2.2. ]
+  ## (title statement) groups information about the title of a work and those responsible for its content. [2.2.1.  2.2. ]
   element ns1:titleStmt {
     (tei_title+, tei_model.respLike*), tei_att.global.attributes, empty
   }
@@ -4182,7 +4217,7 @@ tei_idno =
   ##   such as a bibliographic item, a person, a title, an organization,
   ##   etc. in a standardized way. [2.2.4.  2.2.5.  3.11.2.3. ]
   element ns1:idno {
-    tei_macro.xtext,
+    (text | tei_model.gLike | tei_idno)*,
     tei_att.global.attributes,
     tei_att.sortable.attributes,
     
@@ -4196,7 +4231,7 @@ tei_availability =
   ## supplies information about the availability of a text, for example any restrictions on its
   ##     use or distribution, its copyright status, any licence applying to it, etc. [2.2.4. ]
   element ns1:availability {
-    tei_model.availabilityPart+,
+    (tei_model.availabilityPart | tei_model.pLike)+,
     tei_att.global.attributes,
     tei_att.declarable.attributes,
     
@@ -4528,7 +4563,8 @@ tei_rendition =
     ## where CSS is used, provides a way of defining
     ## pseudo-elements, that is, styling rules
     ## applicable to specific sub-portions of an element.
-    attribute scope { text }?,
+    ## Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after
+    attribute scope { tei_data.enumerated }?,
     empty
   }
 tei_refsDecl =
@@ -4872,7 +4908,7 @@ tei_TEI =
        ],
     tei_att.global.attributes,
     
-    ## specifies the version number of the TEI Guidelines against
+    ## specifies the major version number of the TEI Guidelines against
     ##       which this document is valid.
     attribute version { tei_data.version }?,
     empty
@@ -5073,7 +5109,10 @@ tei_trailer =
   
   ## contains a closing title or footer appearing at the end of a division of a text.  [4.2.4.  4.2. ]
   element ns1:trailer {
-    tei_macro.phraseSeq, tei_att.global.attributes, empty
+    tei_macro.phraseSeq,
+    tei_att.global.attributes,
+    tei_att.typed.attributes,
+    empty
   }
 tei_byline =
   
@@ -5091,7 +5130,7 @@ tei_byline =
 tei_dateline =
   
   ## contains a brief description of the place, date, time, etc. of production of a letter,
-  ##     newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [4.2.4.  4.2.2. ]
+  ##     newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [4.2.2. ]
   element ns1:dateline {
     tei_macro.phraseSeq, tei_att.global.attributes, empty
   }
@@ -5117,7 +5156,7 @@ tei_epigraph =
 tei_opener =
   
   ## groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-  ##     group at the start of a division, especially of a letter. [4.2.4.  4.2. ]
+  ##     group at the start of a division, especially of a letter. [4.2. ]
   element ns1:opener {
     (text
      | tei_model.gLike
@@ -5150,14 +5189,14 @@ tei_closer =
 tei_salute =
   
   ## (salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-  ##     division of a text, or the salutation in the closing of a letter, preface, etc. [4.2.4.  4.2.2. ]
+  ##     division of a text, or the salutation in the closing of a letter, preface, etc. [4.2.2. ]
   element ns1:salute {
     tei_macro.phraseSeq, tei_att.global.attributes, empty
   }
 tei_signed =
   
   ## (signature) contains the closing salutation, etc., appended to a foreword,
-  ## dedicatory epistle, or other division of a text.  [4.2.4.  4.2.2. ]
+  ## dedicatory epistle, or other division of a text.  [4.2.2. ]
   element ns1:signed {
     tei_macro.phraseSeq, tei_att.global.attributes, empty
   }
@@ -5165,10 +5204,10 @@ tei_postscript =
   
   ## contains a postscript, e.g. to a letter. [4.2. ]
   element ns1:postscript {
-    ((tei_model.divTopPart*,
-      tei_model.common+,
-      tei_model.divBottomPart*)
-     | tei_model.global)*,
+    ((tei_model.global | tei_model.divTopPart)*,
+     tei_model.common,
+     (tei_model.global | tei_model.common)*,
+     (tei_model.divBottomPart, tei_model.global*)*),
     tei_att.global.attributes,
     empty
   }
@@ -5322,9 +5361,9 @@ tei_table =
   
   ## contains text displayed in tabular form, in rows and columns. [14.1.1. ]
   element ns1:table {
-    (((tei_model.headLike | tei_model.global)*,
-      (tei_row, tei_model.global*)+)
-     | tei_model.graphicLike+),
+    ((tei_model.headLike | tei_model.global)*,
+     ((tei_row, tei_model.global*)+
+      | (tei_model.graphicLike, tei_model.global*)+)),
     tei_att.global.attributes,
     
     ## indicates the number of rows in the table.
@@ -5358,7 +5397,7 @@ tei_formula =
   element ns1:formula {
     mathml.math,
     
-    ## specifies the notation used for the content of the element.
+    ## names the notation used for the content of the element.
     attribute notation { tei_data.enumerated }?,
     tei_att.global.attributes,
     empty

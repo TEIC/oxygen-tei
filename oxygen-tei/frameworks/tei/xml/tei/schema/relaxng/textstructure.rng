@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-02-02T21:14:51Z
-Edition: 2.0.2 Last updated on 2nd February 2012.
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"><!--Schema generated 2012-06-18T08:40:58Z
+Edition: 2.1.0. Last updated on 17th June 2012.
 This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ teiCorpus element. [ ]</a:documentation>
       <ref name="att.global.attributes"/>
       <optional>
          <attribute name="version">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the version number of the TEI Guidelines against
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the major version number of the TEI Guidelines against
       which this document is valid.</a:documentation>
             <ref name="data.version"/>
          </attribute>
@@ -357,7 +357,7 @@ on its title page or at the head or end of the work. [ ]</a:documentation>
    <define name="dateline">
       <element name="dateline">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [ ]</a:documentation>
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  []</a:documentation>
          <ref name="dateline.content"/>
          <ref name="dateline.localattributes"/>
       </element>
@@ -1153,7 +1153,7 @@ found  at the start of a document, before the main body. [ ]</a:documentation>
    <define name="opener">
       <element name="opener">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter. [ ]</a:documentation>
+    group at the start of a division, especially of a letter. []</a:documentation>
          <ref name="opener.content"/>
          <ref name="opener.localattributes"/>
       </element>
@@ -1186,24 +1186,31 @@ found  at the start of a document, before the main body. [ ]</a:documentation>
       </element>
    </define>
    <define name="postscript.content">
-      <zeroOrMore>
-         <choice>
-            <group>
-               <zeroOrMore>
-                  <ref name="model.divTopPart"/>
-               </zeroOrMore>
-               <oneOrMore>
-                  <ref name="model.common"/>
-               </oneOrMore>
-               <zeroOrMore>
-                  <ref name="model.divBottomPart"/>
-               </zeroOrMore>
-            </group>
-            <group>
+      <group>
+         <zeroOrMore>
+            <choice>
                <ref name="model.global"/>
+               <ref name="model.divTopPart"/>
+            </choice>
+         </zeroOrMore>
+         <group>
+            <ref name="model.common"/>
+         </group>
+         <zeroOrMore>
+            <choice>
+               <ref name="model.global"/>
+               <ref name="model.common"/>
+            </choice>
+         </zeroOrMore>
+         <zeroOrMore>
+            <group>
+               <ref name="model.divBottomPart"/>
             </group>
-         </choice>
-      </zeroOrMore>
+            <zeroOrMore>
+               <ref name="model.global"/>
+            </zeroOrMore>
+         </zeroOrMore>
+      </group>
    </define>
    <define name="postscript.localattributes">
       <ref name="att.global.attributes"/>
@@ -1212,7 +1219,7 @@ found  at the start of a document, before the main body. [ ]</a:documentation>
    <define name="salute">
       <element name="salute">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc. [ ]</a:documentation>
+    division of a text, or the salutation in the closing of a letter, preface, etc. []</a:documentation>
          <ref name="salute.content"/>
          <ref name="salute.localattributes"/>
       </element>
@@ -1227,7 +1234,7 @@ found  at the start of a document, before the main body. [ ]</a:documentation>
    <define name="signed">
       <element name="signed">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text.  [ ]</a:documentation>
+dedicatory epistle, or other division of a text.  []</a:documentation>
          <ref name="signed.content"/>
          <ref name="signed.localattributes"/>
       </element>
@@ -1363,6 +1370,7 @@ Suggested values include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] 
    </define>
    <define name="trailer.localattributes">
       <ref name="att.global.attributes"/>
+      <ref name="att.typed.attributes"/>
       <empty/>
    </define>
    <!--3. macros--></grammar>

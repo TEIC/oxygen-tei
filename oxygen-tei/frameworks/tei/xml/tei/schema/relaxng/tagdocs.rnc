@@ -5,15 +5,15 @@ namespace rng = "http://relaxng.org/ns/structure/1.0"
 namespace s = "http://www.ascc.net/xml/schematron"
 namespace sch = "http://purl.oclc.org/dsdl/schematron"
 
-# Schema generated 2012-02-02T21:14:51Z
-# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Schema generated 2012-06-18T08:40:58Z
+# Edition: 2.1.0. Last updated on 17th June 2012.
 # This material is dual-licensed.
 # 
 #	  [http://creativecommons.org/licenses/by/3.0/] 
-#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 # 
 #	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-#	    Copyright 2011 TEI Consortium.
+#	    Copyright 2012 TEI Consortium.
 #	    All rights reserved.
 # 
 #	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -134,7 +134,7 @@ att =
   
   ## (attribute) contains the name of an attribute appearing within running text. []
   element att { att.content, att.localattributes }
-att.content = text
+att.content = data.name
 att.localattributes =
   att.global.attributes,
   
@@ -147,13 +147,36 @@ attDef =
   ## (attribute definition) contains the definition of a single attribute. []
   element attDef { attDef.content, attDef.localattributes }
 attDef.content =
-  model.glossLike*,
-  datatype?,
-  constraintSpec*,
-  defaultVal?,
-  (valList | valDesc+)?,
-  exemplum*,
-  remarks*
+  (model.glossLike*,
+   datatype?,
+   constraintSpec*,
+   defaultVal?,
+   (valList | valDesc+)?,
+   exemplum*,
+   remarks*)
+  >> sch:pattern [
+       id = "attDef-constraint-attDefContents"
+       "\x{a}" ~
+       "         "
+       sch:rule [
+         context = "tei:attDef"
+         "\x{a}" ~
+         "            "
+         sch:assert [
+           test = "tei:datatype or tei:valList[@type='closed']"
+           "\x{a}" ~
+           "        Attribute [@"
+           sch:value-of [ select = "@ident" ]
+           "] from ["
+           sch:value-of [ select = "ancestor::*[@ident]/@ident" ]
+           "] must have a closed valList or a datatype"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
 attDef.localattributes =
   att.global.attributes,
   att.identified.attributes,
@@ -555,7 +578,7 @@ eg.localattributes = att.global.attributes, empty
 egXML =
   
   ## (example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-  ##     attribute, in which the egXML element itself functions as the root element.  [ ]
+  ##     attribute, in which the egXML element itself functions as the root element.  []
   element ns2:egXML { egXML.content, egXML.localattributes }
 egXML.content = (text | macro.anyXML)*
 egXML.localattributes =
@@ -684,7 +707,7 @@ gi =
   
   ## (element name) contains the name (generic identifier) of an element. [ ]
   element gi { gi.content, gi.localattributes }
-gi.content = text
+gi.content = data.name
 gi.localattributes =
   att.global.attributes,
   
@@ -770,7 +793,7 @@ macroSpec.localattributes =
   empty
 memberOf =
   
-  ## specifies class membership of the parent element or class.
+  ## specifies class membership of the documented element or class.
   element memberOf { memberOf.content, memberOf.localattributes }
 memberOf.content = macro.xtext
 memberOf.localattributes =
@@ -880,9 +903,7 @@ moduleSpec.content = model.glossLike*, exemplum*, remarks?, listRef*
 moduleSpec.localattributes =
   att.global.attributes,
   att.identified.attributes,
-  
-  ## type of module to be generated
-  attribute type { text }?,
+  att.typed.attributes,
   empty
 remarks =
   
@@ -924,12 +945,12 @@ schemaSpec.localattributes =
   
   ## (target language) specifies which language to use when creating
   ##       the objects in a schema if names for elements or attributes are available in more
-  ##       than one language, .
+  ##       than one language
   attribute targetLang { data.language }?,
   
   ## (documentation language) specifies which languages to
   ##       use when creating documentation if  the description for an element, attribute, class or macro
-  ##       is available in more than one language, .
+  ##       is available in more than one language
   attribute docLang {
     list { data.language, data.language* }
   }?,
@@ -1009,18 +1030,8 @@ tag.localattributes =
   }?,
   
   ## supplies the name of the schema in which this tag is defined.
-  [ a:defaultValue = "TEI" ]
-  attribute scheme {
-    
-    ## (text encoding initiative) This tag is defined as part of the TEI scheme.
-    "TEI"
-    | 
-      ## (docbook) this tag is part of the Docbook scheme.
-      "DBK"
-    | 
-      ## (unknown) this tag is part of an unknown scheme.
-      "XX"
-  }?,
+  ## Sample values include: 1] TEI(text encoding initiative) ; 2] DBK(docbook) ; 3] XX(unknown) ; 4] Schematron; 5] HTML
+  [ a:defaultValue = "TEI" ] attribute scheme { data.enumerated }?,
   empty
 val =
   

@@ -1,6 +1,6 @@
 
 <!--
-DTD Generated 2012-02-02T20:38:34Z. This material is dual-licensed.
+DTD Generated 2012-06-18T08:09:31Z. This material is dual-licensed.
 
 	[http://creativecommons.org/licenses/by-sa/3.0/] 
 	  Distributed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
@@ -38,8 +38,8 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
-Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
+Edition: 2.1.0. Last updated on 17th June 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 
 -->
 
@@ -60,6 +60,8 @@ Edition Location: http://www.tei-c.org/Vault/P5/2.0.2/
 <!ENTITY % data.pointer ' CDATA' >
 
 <!ENTITY % data.word ' CDATA' >
+
+<!ENTITY % data.text ' CDATA' >
 
 <!ENTITY % data.code ' CDATA' >
 
@@ -126,7 +128,11 @@ type %data.enumerated;  #IMPLIED'>
 <!ENTITY % att.typed.attribute.type '
 type %data.enumerated;  #IMPLIED'>
 <!ENTITY % att.pointing.attributes '
+targetLang %data.language;  #IMPLIED
 target CDATA  #IMPLIED'> 
+<!ENTITY % att.pointing.attribute.targetLang '
+targetLang %data.language;  #IMPLIED'>
+
 <!ENTITY % att.pointing.attribute.target '
 target CDATA  #IMPLIED'>
 <!ENTITY % att.sortable.attributes '
@@ -338,11 +344,6 @@ seq CDATA  #IMPLIED'>
 <!ENTITY % model.publicationStmtPart_sequenceOptional "address?, date?, publisher?, pubPlace?"> 
 <!ENTITY % model.publicationStmtPart_sequenceOptionalRepeatable "address*, date*, publisher*, pubPlace*"> 
 <!ENTITY % model.publicationStmtPart_sequenceRepeatable "address+, date+, publisher+, pubPlace+"> 
-<!ENTITY % model.availabilityPart "p"> 
-<!ENTITY % model.availabilityPart_sequence "p"> 
-<!ENTITY % model.availabilityPart_sequenceOptional "p?"> 
-<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "p*"> 
-<!ENTITY % model.availabilityPart_sequenceRepeatable "p+"> 
 <!ENTITY % model.glossLike "desc"> 
 <!ENTITY % model.glossLike_sequence "desc"> 
 <!ENTITY % model.glossLike_sequenceOptional "desc?"> 
@@ -781,7 +782,7 @@ ed %data.code;  #IMPLIED >
  %att.datable.w3c.attributes;
  %att.typed.attributes; >
 <!--doc:contains a brief description of the place, date, time, etc. of production of a letter,
-    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [4.2.4.  4.2.2. ] -->
+    newspaper story, or other work, prefixed or suffixed to it as a kind of heading or trailer.  [4.2.2. ] -->
 <!ELEMENT dateline %macro.phraseSeq;>
 <!ATTLIST dateline xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST dateline
@@ -958,7 +959,8 @@ constituents, as given on a title page. [4.6. ] -->
  %att.global.attributes; >
 <!--doc:contains a mathematical or other formula. [14.2. ] -->
 <!ELEMENT formula ( #PCDATA |
- %model.graphicLike;)*>
+ %model.graphicLike; |
+ %model.hiLike;)*>
 <!ATTLIST formula xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST formula
  %att.global.attributes; >
@@ -977,7 +979,7 @@ found  at the start of a document, before the main body. [4.6.  4. ] -->
 <!ATTLIST front xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST front
  %att.global.attributes; >
-<!--doc:(character or glyph) represents a non-standard character or glyph. -->
+<!--doc:(character or glyph) represents a non-standard character or glyph. [5. ] -->
 <!ELEMENT g  (#PCDATA)>
 <!ATTLIST g xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST g
@@ -1063,7 +1065,7 @@ new %data.pointer;  #IMPLIED >
 <!ATTLIST lb
  %att.global.attributes;
  %att.typed.attributes; >
-<!--doc:(line group) contains a group of verse lines functioning as a formal unit, e.g. a stanza, refrain,
+<!--doc:(line group) contains one or more verse lines functioning as a formal unit, e.g. a stanza, refrain,
         verse paragraph, etc. [3.12.1.  3.12.  7.2.5. ] -->
 <!ELEMENT lg ((%model.divTop; |
  %model.global;)*,(%model.lLike; |
@@ -1126,7 +1128,7 @@ unit %data.enumerated;  #REQUIRED >
 type %data.enumerated;  #IMPLIED
  %att.global.attributes; >
 <!--doc:groups together dateline, byline, salutation, and similar phrases appearing as a preliminary
-    group at the start of a division, especially of a letter. [4.2.4.  4.2. ] -->
+    group at the start of a division, especially of a letter. [4.2. ] -->
 <!ELEMENT opener ( #PCDATA |
  %model.gLike; |
  %model.phrase; |
@@ -1162,8 +1164,9 @@ type %data.enumerated;  #IMPLIED
  %att.global.attributes;
  %att.typed.attributes; >
 <!--doc:contains a postscript, e.g. to a letter. [4.2. ] -->
-<!ELEMENT postscript (((%model.divTopPart;)*,(%model.common;)+,(%model.divBottomPart;)*) |
- (%model.global;))*>
+<!ELEMENT postscript ((%model.global; |
+ %model.divTopPart;)*,(%model.common;),(%model.global; |
+ %model.common;)*,((%model.divBottomPart;),(%model.global;)*)*)>
 <!ATTLIST postscript xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST postscript
  %att.global.attributes; >
@@ -1185,8 +1188,8 @@ type %data.enumerated;  #IMPLIED
 <!ATTLIST publisher xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST publisher
  %att.global.attributes; >
-<!--doc:(separated from the surrounding text with quotation marks) contains material which is marked as (ostensibly) being somehow different than the
-    surrounding text, for any one of a variety of reasons including, but not limited to: direct
+<!--doc:(quoted) contains material which is distinguished from the
+    surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct
     speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and
     passages that are mentioned but not used. [3.3.3. ] -->
 <!ELEMENT q %macro.specialPara;>
@@ -1223,7 +1226,7 @@ type %data.enumerated;  #IMPLIED >
  %att.global.attributes;
  %att.tableDecoration.attributes; >
 <!--doc:(salutation) contains a salutation or greeting prefixed to a foreword, dedicatory epistle, or other
-    division of a text, or the salutation in the closing of a letter, preface, etc. [4.2.4.  4.2.2. ] -->
+    division of a text, or the salutation in the closing of a letter, preface, etc. [4.2.2. ] -->
 <!ELEMENT salute %macro.phraseSeq;>
 <!ATTLIST salute xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST salute
@@ -1235,7 +1238,7 @@ type %data.enumerated;  #IMPLIED >
  %att.global.attributes;
  %att.typed.attributes; >
 <!--doc:(signature) contains the closing salutation, etc., appended to a foreword,
-dedicatory epistle, or other division of a text.  [4.2.4.  4.2.2. ] -->
+dedicatory epistle, or other division of a text.  [4.2.2. ] -->
 <!ELEMENT signed %macro.phraseSeq;>
 <!ATTLIST signed xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST signed
@@ -1278,9 +1281,9 @@ dedicatory epistle, or other division of a text.  [4.2.4.  4.2.2. ] -->
 <!ATTLIST sup
  %att.global.attributes; >
 <!--doc:contains text displayed in tabular form, in rows and columns. [14.1.1. ] -->
-<!ELEMENT table (((%model.headLike; |
- %model.global;)*,(row,(%model.global;)*)+) |
- (%model.graphicLike;)+)>
+<!ELEMENT table ((%model.headLike; |
+ %model.global;)*,((row,(%model.global;)*)+ |
+ ((%model.graphicLike;),(%model.global;)*)+))>
 <!ATTLIST table xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST table
  %att.global.attributes;

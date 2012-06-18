@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/Examples" xmlns:ns1="http://www.tei-c.org/ns/1.0" xmlns:examples="http://www.tei-c.org/ns/Examples">
-  <xs:import namespace="http://www.tei-c.org/ns/1.0" schemaLocation="tei_all.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/Examples" xmlns:dcr="http://www.isocat.org/ns/dcr" xmlns:ns1="http://www.tei-c.org/ns/1.0" xmlns:examples="http://www.tei-c.org/ns/Examples">
+  <xs:import namespace="http://www.isocat.org/ns/dcr" schemaLocation="dcr.xsd"/>
+  <xs:import namespace="http://www.tei-c.org/ns/1.0" schemaLocation="teilite.xsd"/>
   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
   <xs:element name="egXML">
     <xs:annotation>
       <xs:documentation>(example of XML) contains a single well-formed XML fragment demonstrating the use of some XML element or
-    attribute, in which the egXML element itself functions as the root element.  [22.4.4.  22.4.5. ]</xs:documentation>
+    attribute, in which the egXML element itself functions as the root element.  [22.1.1. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType mixed="true">
       <xs:group minOccurs="0" maxOccurs="unbounded" ref="ns1:macro.anyXML"/>

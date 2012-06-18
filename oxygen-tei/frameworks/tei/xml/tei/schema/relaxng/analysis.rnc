@@ -1,15 +1,15 @@
 namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
 namespace rng = "http://relaxng.org/ns/structure/1.0"
 
-# Schema generated 2012-02-02T21:14:51Z
-# Edition: 2.0.2 Last updated on 2nd February 2012.
+# Schema generated 2012-06-18T08:40:58Z
+# Edition: 2.1.0. Last updated on 17th June 2012.
 # This material is dual-licensed.
 # 
 #	  [http://creativecommons.org/licenses/by/3.0/] 
-#	    Distributed under a Creative Commons Attribution 3.0 Unported License
+#	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 # 
 #	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-#	    Copyright 2011 TEI Consortium.
+#	    Copyright 2012 TEI Consortium.
 #	    All rights reserved.
 # 
 #	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -112,7 +112,7 @@ pc =
   ##  (punctuation character) a character or string of characters regarded as constituting a
   ##   single punctuation mark. []
   element pc { pc.content, pc.localattributes }
-pc.content = (text | model.gLike | c)*
+pc.content = (text | model.gLike | c | model.pPart.edit)*
 pc.localattributes =
   att.global.attributes,
   att.segLike.attributes,
@@ -128,8 +128,7 @@ pc.localattributes =
       ## the punctuation mark is not a word separator
       "weak"
     | 
-      ## the punctuation mark may or may not be a
-      ## word separator
+      ## the punctuation mark may or may not be a word separator
       "inter"
   }?,
   
@@ -225,7 +224,7 @@ w.localattributes =
   
   ## provides a lemma for the word, such as an uninflected
   ##       dictionary entry form.
-  attribute lemma { data.key }?,
+  attribute lemma { data.text }?,
   
   ## provides a pointer to a definition of the lemma for the
   ##       word, for example in an online lexicon. 

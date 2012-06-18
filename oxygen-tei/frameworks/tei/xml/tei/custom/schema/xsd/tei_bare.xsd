@@ -2,9 +2,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.tei-c.org/ns/1.0" xmlns:ns1="http://www.tei-c.org/ns/1.0">
   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2004/10/xml.xsd"/>
   <!--
-    Schema generated from ODD source 2012-02-02T21:16:15Z. 
-    Edition: 2.0.1 Last updated on 22nd December 2011.
-    Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
+    Schema generated from ODD source 2012-06-18T08:05:21Z. 
+    Edition: 2.1.0. Last updated on 17th June 2012.
+    Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
     
   -->
   <!--
@@ -37,13 +37,13 @@
   <xs:simpleType name="data.pointer">
     <xs:restriction base="xs:anyURI"/>
   </xs:simpleType>
-  <xs:simpleType name="data.key">
-    <xs:restriction base="xs:string"/>
-  </xs:simpleType>
   <xs:simpleType name="data.word">
     <xs:restriction base="xs:token">
       <xs:pattern value="(\p{L}|\p{N}|\p{P}|\p{S})+"/>
     </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="data.text">
+    <xs:restriction base="xs:string"/>
   </xs:simpleType>
   <xs:simpleType name="data.name">
     <xs:restriction base="xs:Name"/>
@@ -56,7 +56,7 @@
     <xs:attributeGroup ref="ns1:att.canonical.attribute.ref"/>
   </xs:attributeGroup>
   <xs:attributeGroup name="att.canonical.attribute.key">
-    <xs:attribute name="key" type="ns1:data.key">
+    <xs:attribute name="key" type="ns1:data.text">
       <xs:annotation>
         <xs:documentation>provides an externally-defined means of identifying the entity (or entities) being
         named, using a coded value of some kind.</xs:documentation>
@@ -116,23 +116,11 @@ only one of its kind, in which case it is selected if its parent is selected.</x
     <xs:attribute ref="xml:id"/>
   </xs:attributeGroup>
   <xs:attributeGroup name="att.global.attribute.n">
-    <xs:attribute name="n">
+    <xs:attribute name="n" type="ns1:data.text">
       <xs:annotation>
         <xs:documentation>(number) gives a number (or other label) for an element, which is not necessarily unique within
         the document.</xs:documentation>
       </xs:annotation>
-      <xs:simpleType>
-        <xs:restriction>
-          <xs:simpleType>
-            <xs:list>
-              <xs:simpleType>
-                <xs:union memberTypes="ns1:data.word ns1:data.word"/>
-              </xs:simpleType>
-            </xs:list>
-          </xs:simpleType>
-          <xs:minLength value="1"/>
-        </xs:restriction>
-      </xs:simpleType>
     </xs:attribute>
   </xs:attributeGroup>
   <xs:attributeGroup name="att.global.attribute.xmllang">
@@ -767,8 +755,7 @@ Sample values include: 1] text; 2] corpus</xs:documentation>
   </xs:element>
   <xs:element name="titleStmt">
     <xs:annotation>
-      <xs:documentation>(title statement) groups information about the title of a work and those responsible for its intellectual
-    content. [2.2.1.  2.2. ]</xs:documentation>
+      <xs:documentation>(title statement) groups information about the title of a work and those responsible for its content. [2.2.1.  2.2. ]</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>

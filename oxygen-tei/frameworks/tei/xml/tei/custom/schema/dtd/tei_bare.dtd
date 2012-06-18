@@ -1,6 +1,6 @@
 
 <!--
-DTD Generated 2012-02-02T21:16:17Z. 
+DTD Generated 2012-06-18T08:05:25Z. 
           This template file is freely available and you are hereby
             authorised to copy, modify, and redistribute it in any way without
             further reference or permissions.
@@ -8,8 +8,8 @@ DTD Generated 2012-02-02T21:16:17Z.
             change the present text to include an accurate statement of the
             licencing conditions applicable to your modified text.
         
-Edition: 2.0.1 Last updated on 22nd December 2011.
-Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
+Edition: 2.1.0. Last updated on 17th June 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 
 -->
 
@@ -39,9 +39,9 @@ inapplicable | true | false)' >
 
 <!ENTITY % data.pointer ' CDATA' >
 
-<!ENTITY % data.key ' CDATA' >
-
 <!ENTITY % data.word ' CDATA' >
+
+<!ENTITY % data.text ' CDATA' >
 
 <!ENTITY % data.code ' CDATA' >
 
@@ -60,10 +60,10 @@ inapplicable | true | false)' >
 <!ENTITY % model.resourceLike_sequenceRepeatable ""> 
 <!--end of predeclared classes -->
 <!ENTITY % att.canonical.attributes '
-key %data.key;  #IMPLIED
+key %data.text;  #IMPLIED
 ref CDATA  #IMPLIED'> 
 <!ENTITY % att.canonical.attribute.key '
-key %data.key;  #IMPLIED'>
+key %data.text;  #IMPLIED'>
 
 <!ENTITY % att.canonical.attribute.ref '
 ref CDATA  #IMPLIED'>
@@ -163,11 +163,6 @@ sortKey %data.word;  #IMPLIED'>
 <!ENTITY % model.publicationStmtPart_sequenceOptional ""> 
 <!ENTITY % model.publicationStmtPart_sequenceOptionalRepeatable ""> 
 <!ENTITY % model.publicationStmtPart_sequenceRepeatable ""> 
-<!ENTITY % model.availabilityPart "p"> 
-<!ENTITY % model.availabilityPart_sequence "p"> 
-<!ENTITY % model.availabilityPart_sequenceOptional "p?"> 
-<!ENTITY % model.availabilityPart_sequenceOptionalRepeatable "p*"> 
-<!ENTITY % model.availabilityPart_sequenceRepeatable "p+"> 
 <!ENTITY % model.respLike "author"> 
 <!ENTITY % model.respLike_sequence "author"> 
 <!ENTITY % model.respLike_sequenceOptional "author?"> 
@@ -457,8 +452,7 @@ type %data.enumerated;  "text"  >
 type %data.enumerated;  #IMPLIED
  %att.global.attributes;
  %att.canonical.attributes; >
-<!--doc:(title statement) groups information about the title of a work and those responsible for its intellectual
-    content. [2.2.1.  2.2. ] -->
+<!--doc:(title statement) groups information about the title of a work and those responsible for its content. [2.2.1.  2.2. ] -->
 <!ELEMENT titleStmt (title+,(%model.respLike;)*)>
 <!ATTLIST titleStmt xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST titleStmt

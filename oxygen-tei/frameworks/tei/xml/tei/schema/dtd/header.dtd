@@ -1,12 +1,12 @@
 
 <!--
-DTD module header. Generated 2012-02-02T21:15:02Z. This material is dual-licensed.
+DTD module header. Generated 2012-06-18T08:41:17Z. This material is dual-licensed.
 
 	  [http://creativecommons.org/licenses/by/3.0/] 
-	    Distributed under a Creative Commons Attribution 3.0 Unported License
+	    Distributed under a Creative Commons Attribution 3.0 Unported License.
 	  
 	  [http://www.opensource.org/licenses/BSD-2-Clause] 
-	    Copyright 2011 TEI Consortium.
+	    Copyright 2012 TEI Consortium.
 	    All rights reserved.
 	    
 	    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ environment. For further information or clarification, please contact
 the TEI Consortium.
 	  
 	
-Edition: 2.0.2 Last updated on 2nd February 2012.
+Edition: 2.1.0. Last updated on 17th June 2012.
 The TEI
 Header
 -->
@@ -86,7 +86,8 @@ version CDATA #REQUIRED >
 
 <!--doc:supplies information about the availability of a text, for example any restrictions on its
     use or distribution, its copyright status, any licence applying to it, etc. [] -->
-<!ELEMENT %n.availability; %om.RR; (%model.availabilityPart;)+>
+<!ELEMENT %n.availability; %om.RR; (%model.availabilityPart; |
+ %model.pLike;)+>
 <!ATTLIST %n.availability; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.availability;
  %att.global.attributes;
@@ -375,7 +376,9 @@ eol (all|some|hard|none) "some"  >
 <!--doc:(identifier) supplies any form of identifier used to identify some object,
   such as a bibliographic item, a person, a title, an organization,
   etc. in a standardized way. [  ] -->
-<!ELEMENT %n.idno; %om.RR; %macro.xtext;>
+<!ELEMENT %n.idno; %om.RR; ( #PCDATA |
+ %model.gLike; |
+ %n.idno;)*>
 <!ATTLIST %n.idno; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.idno;
  %att.global.attributes;
@@ -594,7 +597,7 @@ delim CDATA #IMPLIED >
 <!ATTLIST %n.rendition;
  %att.global.attributes;
 scheme (css|xslfo|free|other) #IMPLIED
-scope CDATA  #IMPLIED >
+scope %data.enumerated;  #IMPLIED >
 ]]>
 
 <!ENTITY % revisionDesc 'INCLUDE' >
@@ -762,8 +765,7 @@ type %data.enumerated;  "text"  >
 <!ENTITY % titleStmt 'INCLUDE' >
 <![ %titleStmt; [
 
-<!--doc:(title statement) groups information about the title of a work and those responsible for its intellectual
-    content. [ ] -->
+<!--doc:(title statement) groups information about the title of a work and those responsible for its content. [ ] -->
 <!ELEMENT %n.titleStmt; %om.RR; ((%n.title;)+,(%model.respLike;)*)>
 <!ATTLIST %n.titleStmt; xmlns CDATA "http://www.tei-c.org/ns/1.0">
 <!ATTLIST %n.titleStmt;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://www.tei-c.org/ns/1.0">
   <!--
-Schema generated from ODD source 2012-02-02T21:16:15Z. 
-Edition: 2.0.1 Last updated on 22nd December 2011.
-Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
+Schema generated from ODD source 2012-06-18T08:05:21Z. 
+Edition: 2.1.0. Last updated on 17th June 2012.
+Edition Location: http://www.tei-c.org/Vault/P5/2.1.0/
 
 -->
   <!--
@@ -53,13 +53,13 @@ Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
   <define name="data.pointer">
     <data type="anyURI"/>
   </define>
-  <define name="data.key">
-    <data type="string"/>
-  </define>
   <define name="data.word">
     <data type="token">
       <param name="pattern">(\p{L}|\p{N}|\p{P}|\p{S})+</param>
     </data>
+  </define>
+  <define name="data.text">
+    <data type="string"/>
   </define>
   <define name="data.name">
     <data type="Name"/>
@@ -76,7 +76,7 @@ Edition Location: http://www.tei-c.org/Vault/P5/2.0.1/
       <attribute name="key">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides an externally-defined means of identifying the entity (or entities) being
         named, using a coded value of some kind.</a:documentation>
-        <ref name="data.key"/>
+        <ref name="data.text"/>
       </attribute>
     </optional>
   </define>
@@ -131,12 +131,7 @@ only one of its kind, in which case it is selected if its parent is selected.</a
       <attribute name="n">
         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(number) gives a number (or other label) for an element, which is not necessarily unique within
         the document.</a:documentation>
-        <list>
-          <ref name="data.word"/>
-          <zeroOrMore>
-            <ref name="data.word"/>
-          </zeroOrMore>
-        </list>
+        <ref name="data.text"/>
       </attribute>
     </optional>
   </define>
@@ -883,8 +878,7 @@ Sample values include: 1] text; 2] corpus</a:documentation>
   </define>
   <define name="titleStmt">
     <element name="titleStmt">
-      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title statement) groups information about the title of a work and those responsible for its intellectual
-    content. [2.2.1.  2.2. ]</a:documentation>
+      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title statement) groups information about the title of a work and those responsible for its content. [2.2.1.  2.2. ]</a:documentation>
       <group>
         <oneOrMore>
           <ref name="title"/>
