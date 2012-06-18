@@ -1,3 +1,8 @@
+#!/bin/sh
+# Sebastian Rahtz July 2012
+# Grab the latest TEIP5 and XSL builds from Jenkins, rebuild
+# the distribution, and upload to Google for release
+#
 JENKINS=http://tei.oucs.ox.ac.uk/jenkins
 TEIVERSION=2.1.0
 XSLVERSION=6.12
