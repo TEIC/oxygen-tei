@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="13.2" xml:space="preserve">
+<serialized version="14.0" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -14,14 +14,16 @@
 								<Integer>1</Integer>
 							</field>
 							<field name="uri">
-								<String>${frameworks}/tei/tei2xml.dtd</String>
+								<String>${framework}/tei2xml.dtd</String>
 							</field>
 						</docTypeSchema>
 					</field>
 					<field name="classpath">
 						<String-array>
-							<String>${frameworks}/tei/tei.jar</String>
-							<String>${frameworks}/tei/resources/</String>
+							<String>${framework}/tei.jar</String>
+							<String>${framework}/tei-node-customizer.jar</String>
+							<String>${framework}/resources/</String>
+							<String>${framework}/i18n/</String>
 						</String-array>
 					</field>
 					<field name="authorExtensionDescriptor">
@@ -30,7 +32,7 @@
 								<cssFile-array>
 									<cssFile>
 										<field name="href">
-											<String>${frameworks}/tei/xml/tei/css/tei_oxygen.css</String>
+											<String>${framework}/xml/tei/css/tei_oxygen.css</String>
 										</field>
 										<field name="title">
 											<String></String>
@@ -51,10 +53,10 @@
 											<String>bold</String>
 										</field>
 										<field name="name">
-											<String>Bold</String>
+											<String>${i18n(bold)}</String>
 										</field>
 										<field name="description">
-											<String>Highlight text. Insert the hi[rend="bold"] element.</String>
+											<String>${i18n(bold_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Bold20.gif</String>
@@ -94,10 +96,10 @@
 											<String>italic</String>
 										</field>
 										<field name="name">
-											<String>Italic</String>
+											<String>${i18n(italic)}</String>
 										</field>
 										<field name="description">
-											<String>Highlight text. Insert the hi[rend="italic"] element.</String>
+											<String>${i18n(italic_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Italic20.gif</String>
@@ -137,10 +139,10 @@
 											<String>underline</String>
 										</field>
 										<field name="name">
-											<String>Underline</String>
+											<String>${i18n(underline)}</String>
 										</field>
 										<field name="description">
-											<String>Highlight text. Insert the hi[rend="ul"] element.</String>
+											<String>${i18n(underline_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Underline20.gif</String>
@@ -180,10 +182,10 @@
 											<String>paragraph</String>
 										</field>
 										<field name="name">
-											<String>Insert Paragraph</String>
+											<String>${i18n(paragraph)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a new paragraph</String>
+											<String>${i18n(paragraph_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Paragraph20.gif</String>
@@ -247,10 +249,10 @@
 											<String>item</String>
 										</field>
 										<field name="name">
-											<String>Insert List Item</String>
+											<String>${i18n(item)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a list item</String>
+											<String>${i18n(item_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/ListItem20.gif</String>
@@ -338,10 +340,10 @@
 											<String>ordered list</String>
 										</field>
 										<field name="name">
-											<String>Insert Ordered List</String>
+											<String>${i18n(ordered list)}</String>
 										</field>
 										<field name="description">
-											<String>Insert an ordered list at the caret position</String>
+											<String>${i18n(ordered list_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/OrderedList20.gif</String>
@@ -401,10 +403,10 @@
 											<String>itemizedlist</String>
 										</field>
 										<field name="name">
-											<String>Insert Itemized List</String>
+											<String>${i18n(itemizedlist)}</String>
 										</field>
 										<field name="description">
-											<String>Insert an itemized list at the caret position</String>
+											<String>${i18n(itemizedlist_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/UnorderedList20.gif</String>
@@ -464,10 +466,10 @@
 											<String>insert.table</String>
 										</field>
 										<field name="name">
-											<String>Insert Table</String>
+											<String>${i18n(insert.table)}</String>
 										</field>
 										<field name="description">
-											<String>Customize and insert table</String>
+											<String>${i18n(insert.table_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Table20.gif</String>
@@ -502,10 +504,10 @@
 											<String>insert.table.row</String>
 										</field>
 										<field name="name">
-											<String>Insert Row</String>
+											<String>${i18n(insert.table.row)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a table row with cells</String>
+											<String>${i18n(insert.table.row_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableRow20.gif</String>
@@ -565,10 +567,10 @@
 											<String>insert.table.cell</String>
 										</field>
 										<field name="name">
-											<String>Insert Cell</String>
+											<String>${i18n(insert.table.cell)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a table cell</String>
+											<String>${i18n(insert.table.cell_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableCell20.gif</String>
@@ -632,10 +634,10 @@
 											<String>section</String>
 										</field>
 										<field name="name">
-											<String>Insert Section</String>
+											<String>${i18n(section)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a new section/subsection in the document</String>
+											<String>${i18n(section_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Section20.gif</String>
@@ -1259,10 +1261,10 @@
 											<String>insert image</String>
 										</field>
 										<field name="name">
-											<String>Insert Image</String>
+											<String>${i18n(insert image)}</String>
 										</field>
 										<field name="description">
-											<String>Insert TEI Image</String>
+											<String>${i18n(insert image_description2)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Image20.gif</String>
@@ -1297,10 +1299,10 @@
 											<String>insert.table.column</String>
 										</field>
 										<field name="name">
-											<String>Insert Column</String>
+											<String>${i18n(insert.table.column)}</String>
 										</field>
 										<field name="description">
-											<String>Insert a table column</String>
+											<String>${i18n(insert.table.column_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableColumn20.gif</String>
@@ -1335,10 +1337,10 @@
 											<String>table.join.row.cells</String>
 										</field>
 										<field name="name">
-											<String>Join Row Cells</String>
+											<String>${i18n(table.join.row.cells)}</String>
 										</field>
 										<field name="description">
-											<String>Join the content of the selected cells. The operation is available only if the selected cells are from the same row and they have the same column span.</String>
+											<String>${i18n(table.join.row.cells_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableJoinRowCells20.gif</String>
@@ -1373,10 +1375,10 @@
 											<String>table.split.left</String>
 										</field>
 										<field name="name">
-											<String>Split Cell To The Left</String>
+											<String>${i18n(table.split.left)}</String>
 										</field>
 										<field name="description">
-											<String>Split the content of a table cell that spans over multiple columns</String>
+											<String>${i18n(table.split.left_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableSplitCellLeft20.gif</String>
@@ -1416,10 +1418,10 @@
 											<String>table.split.right</String>
 										</field>
 										<field name="name">
-											<String>Split Cell To The Right</String>
+											<String>${i18n(table.split.right)}</String>
 										</field>
 										<field name="description">
-											<String>Split the content of a table cell that spans over multiple columns</String>
+											<String>${i18n(table.split.right_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableSplitCellRight20.gif</String>
@@ -1459,10 +1461,10 @@
 											<String>table.join.cell.above</String>
 										</field>
 										<field name="name">
-											<String>Join Cell Above</String>
+											<String>${i18n(table.join.cell.above)}</String>
 										</field>
 										<field name="description">
-											<String>Join the content of the selected cell with the content of the cell above. The operation is available only if there is an above cell and both cells have the same column span.</String>
+											<String>${i18n(table.join.cell.above_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableJoinCellUp20.gif</String>
@@ -1480,7 +1482,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell</String>
+														<String>ancestor-or-self::*:cell | ancestor-or-self::row</String>
 													</field>
 													<field name="argValues">
 														<map>
@@ -1502,10 +1504,10 @@
 											<String>table.join.cell.below</String>
 										</field>
 										<field name="name">
-											<String>Join Cell Below</String>
+											<String>${i18n(table.join.cell.below)}</String>
 										</field>
 										<field name="description">
-											<String>Join the content of the selected cell with the content of the cell below. The operation is available only if there is an below cell and both cells have the same column span.</String>
+											<String>${i18n(table.join.cell.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableJoinCellDown20.gif</String>
@@ -1523,7 +1525,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell</String>
+														<String>ancestor-or-self::*:cell | ancestor-or-self::row</String>
 													</field>
 													<field name="argValues">
 														<map>
@@ -1545,10 +1547,10 @@
 											<String>table.split.below</String>
 										</field>
 										<field name="name">
-											<String>Split Cell Below</String>
+											<String>${i18n(table.split.below)}</String>
 										</field>
 										<field name="description">
-											<String>Split the content of a table cell that spans over multiple rows</String>
+											<String>${i18n(table.split.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableSplitCellDown20.gif</String>
@@ -1588,10 +1590,10 @@
 											<String>table.split.above</String>
 										</field>
 										<field name="name">
-											<String>Split Cell Above</String>
+											<String>${i18n(table.split.above)}</String>
 										</field>
 										<field name="description">
-											<String>Split the content of a table cell that spans over multiple rows</String>
+											<String>${i18n(table.split.above_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableSplitCellUp20.gif</String>
@@ -1631,10 +1633,10 @@
 											<String>delete.table.column</String>
 										</field>
 										<field name="name">
-											<String>Delete Column</String>
+											<String>${i18n(delete.table.column)}</String>
 										</field>
 										<field name="description">
-											<String>Delete a table column</String>
+											<String>${i18n(delete.table.column_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/DeleteColumn20.gif</String>
@@ -1652,7 +1654,8 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::cell</String>
+														<String>(ancestor-or-self::cell |
+ancestor-or-self::row)</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -1669,10 +1672,10 @@
 											<String>delete.table.row</String>
 										</field>
 										<field name="name">
-											<String>Delete Row</String>
+											<String>${i18n(delete.table.row)}</String>
 										</field>
 										<field name="description">
-											<String>Delete a table row</String>
+											<String>${i18n(delete.table.row_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/DeleteRow20.gif</String>
@@ -1690,7 +1693,8 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::row</String>
+														<String>ancestor-or-self::row |
+ancestor-or-self::table</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -1707,10 +1711,10 @@
 											<String>id.options</String>
 										</field>
 										<field name="name">
-											<String>ID Options...</String>
+											<String>${i18n(id.options)}</String>
 										</field>
 										<field name="description">
-											<String>Options for IDs handling</String>
+											<String>${i18n(id.options_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String></String>
@@ -1745,10 +1749,10 @@
 											<String>generate.ids</String>
 										</field>
 										<field name="name">
-											<String>Generate IDs</String>
+											<String>${i18n(generate.ids)}</String>
 										</field>
 										<field name="description">
-											<String>Generate IDs for the current selection</String>
+											<String>${i18n(generate.ids_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String></String>
@@ -1783,16 +1787,16 @@
 											<String>show.TEIp4.documentation</String>
 										</field>
 										<field name="name">
-											<String>Browse reference manual...</String>
+											<String>${i18n(show.TEIp4.documentation)}</String>
 										</field>
 										<field name="description">
-											<String>Shows the current element documentation in TEI P4 reference manual</String>
+											<String>${i18n(show.TEIp4.documentation_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String></String>
 										</field>
 										<field name="smallIconPath">
-											<String></String>
+											<String>/images/BrowseReferenceManual16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1870,7 +1874,7 @@
 											<menuSeparator/>
 											<menu>
 												<field name="label">
-													<String>List</String>
+													<String>${i18n(list)}</String>
 												</field>
 												<field name="accessKey">
 													<String></String>
@@ -1900,7 +1904,7 @@
 											</menu>
 											<menu>
 												<field name="label">
-													<String>Table</String>
+													<String>${i18n(table)}</String>
 												</field>
 												<field name="accessKey">
 													<String></String>
@@ -2021,7 +2025,7 @@
 											<menuSeparator/>
 											<menu>
 												<field name="label">
-													<String>Table</String>
+													<String>${i18n(table)}</String>
 												</field>
 												<field name="accessKey">
 													<String></String>
@@ -2156,11 +2160,6 @@
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
-													<String>paragraph</String>
-												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
 													<String>insert image</String>
 												</field>
 											</toolbarItem>
@@ -2211,43 +2210,60 @@
 													<String>delete.table.row</String>
 												</field>
 											</toolbarItem>
-											<toolbarSeparator/>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.join.row.cells</String>
+											<toolbar>
+												<field name="id">
+													<String>${i18n(table.join.split)}</String>
 												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.join.cell.above</String>
+												<field name="type">
+													<Integer>3</Integer>
 												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.join.cell.below</String>
+												<field name="largeIconPath">
+													<String>/images/TableJoinSplit20.gif</String>
 												</field>
-											</toolbarItem>
-											<toolbarSeparator/>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.split.left</String>
+												<field name="smallIconPath">
+													<String>/images/TableJoinSplit16.gif</String>
 												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.split.right</String>
+												<field name="toolbarEntriesDescriptorList">
+													<toolbarEntry-array>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.join.row.cells</String>
+															</field>
+														</toolbarItem>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.join.cell.above</String>
+															</field>
+														</toolbarItem>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.join.cell.below</String>
+															</field>
+														</toolbarItem>
+														<toolbarSeparator/>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.split.left</String>
+															</field>
+														</toolbarItem>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.split.right</String>
+															</field>
+														</toolbarItem>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.split.above</String>
+															</field>
+														</toolbarItem>
+														<toolbarItem>
+															<field name="actionID">
+																<String>table.split.below</String>
+															</field>
+														</toolbarItem>
+													</toolbarEntry-array>
 												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.split.above</String>
-												</field>
-											</toolbarItem>
-											<toolbarItem>
-												<field name="actionID">
-													<String>table.split.below</String>
-												</field>
-											</toolbarItem>
+											</toolbar>
 										</toolbarEntry-array>
 									</field>
 								</toolbar>
@@ -2269,7 +2285,7 @@
 													<String>insert.table</String>
 												</field>
 												<field name="alias">
-													<String>table wizard</String>
+													<String>${i18n(table.wizard)}</String>
 												</field>
 											</contextItem>
 											<contextItem>
@@ -2282,7 +2298,7 @@
 													<String>insert.table.row</String>
 												</field>
 												<field name="alias">
-													<String>row wizard</String>
+													<String>${i18n(row.wizard)}</String>
 												</field>
 											</contextItem>
 										</contextItem-array>
@@ -2311,14 +2327,14 @@
 					</field>
 					<field name="templatesLocations">
 						<String-array>
-							<String>${frameworksDir}/tei/templates/TEI P4</String>
+							<String>${frameworkDir}/templates/TEI P4</String>
 						</String-array>
 					</field>
 					<field name="xmlCatalogs">
 						<String-array>
-							<String>${frameworks}/tei/xml/teip4/custom/schema/dtd/catalog.xml</String>
-							<String>${frameworks}/tei/xml/teip4/schema/dtd/catalog.xml</String>
-							<String>${frameworks}/tei/xml/teip4/stylesheet/catalog.xml</String>
+							<String>${framework}/xml/teip4/custom/schema/dtd/catalog.xml</String>
+							<String>${framework}/xml/teip4/schema/dtd/catalog.xml</String>
+							<String>${framework}/xml/teip4/stylesheet/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
@@ -2342,6 +2358,15 @@
 								<field name="javaRuleClass">
 									<null/>
 								</field>
+								<field name="attributeLocalName">
+									<String>*</String>
+								</field>
+								<field name="attributeNamespace">
+									<String>*</String>
+								</field>
+								<field name="attributeValue">
+									<String>*</String>
+								</field>
 							</documentTypeRule>
 							<documentTypeRule>
 								<field name="namespace">
@@ -2358,6 +2383,15 @@
 								</field>
 								<field name="javaRuleClass">
 									<null/>
+								</field>
+								<field name="attributeLocalName">
+									<String>*</String>
+								</field>
+								<field name="attributeNamespace">
+									<String>*</String>
+								</field>
+								<field name="attributeValue">
+									<String>*</String>
 								</field>
 							</documentTypeRule>
 						</documentTypeRule-array>
@@ -2387,7 +2421,7 @@
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${frameworks}/tei/xml/teip4/stylesheet/html/tei.xsl</String>
+									<String>${framework}/xml/teip4/stylesheet/html/tei.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2470,7 +2504,7 @@
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${frameworks}/tei/xml/tei/stylesheet/tools/p4top5.xsl</String>
+									<String>${framework}/xml/tei/stylesheet/tools/p4top5.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2553,7 +2587,7 @@
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${frameworks}/tei/xml/teip4/stylesheet/fo/tei.xsl</String>
+									<String>${framework}/xml/teip4/stylesheet/fo/tei.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2618,10 +2652,10 @@
 					<field name="validationScenarios">
 						<validationScenario-array/>
 					</field>
-					<field name="defaultValidationScenarioName">
+					<field name="defaultValidationScenarios">
 						<null/>
 					</field>
-					<field name="defaultTransformationScenarioName">
+					<field name="defaultTransformationScenarios">
 						<null/>
 					</field>
 					<field name="extensionsBundleClassName">
@@ -2658,6 +2692,9 @@
 						<Integer>2</Integer>
 					</field>
 					<field name="xmlNodeCustomizerExtension">
+						<null/>
+					</field>
+					<field name="externalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>
