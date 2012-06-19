@@ -57,6 +57,6 @@ cd ../..
 unzip brown
 rm tei.zip xsl.zip
 ant
-mv dist/tei.zip tei-$TEIVERSION.zip
-python googlecode_upload.py -s "TEI release $TEIVERSION and XSL $XSLVERSION" -p oxygen-tei  tei-$TEIVERSION.zip   
+mv dist/tei.zip tei-$TEIVERSION-$XSLVERSION.zip
+python googlecode_upload.py -s "TEI release $TEIVERSION and XSL $XSLVERSION" -p oxygen-tei  tei-$TEIVERSION-$XSLVERSION.zip   
 
