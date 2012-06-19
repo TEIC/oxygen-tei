@@ -44,12 +44,12 @@ echo Download $JENKINS/job/Stylesheets/lastSuccessfulBuild/artifact/tei-xsl-$XSL
 curl -s -o xsl.zip $JENKINS/job/Stylesheets/lastSuccessfulBuild/artifact/tei-xsl-$XSLVERSION.zip
 cd frameworks/tei
 echo zap any old versions
-rm -rf xml/tei/stylesheet
+rm -rf xml/tei/Test 
+rm -rf xml/tei/custom/odd
+rm -rf xml/tei/custom/schema
 rm -rf xml/tei/odd
 rm -rf xml/tei/schema
-rm -rf xml/tei/custom/schema
-rm -rf xml/tei/custom/odd
-rm -rf xml/tei/Test 
+rm -rf xml/tei/stylesheet
 rm -rf xml/tei/xquery
 echo unpack new files
 unzip -o -q ../../tei.zip
@@ -57,12 +57,12 @@ unzip -o -q ../../xsl.zip
 echo remove unwanted material
 rm -rf doc
 rm -rf xml/tei/Test 
-rm -rf xml/tei/xquery
+rm -rf xml/tei/odd/ReleaseNotes
 rm -rf xml/tei/odd/Source
 rm -rf xml/tei/odd/Utilities
-rm -rf xml/tei/odd/webnav
-rm -rf xml/tei/odd/ReleaseNotes
 rm -rf xml/tei/odd/p5odds-examples.*
+rm -rf xml/tei/odd/webnav
+rm -rf xml/tei/xquery
 cd ../..
 echo add Brown specifics
 unzip brown
