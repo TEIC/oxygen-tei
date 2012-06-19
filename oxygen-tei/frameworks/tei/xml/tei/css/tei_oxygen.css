@@ -70,7 +70,7 @@ graphic{
  * Support for displaying unparsed entity images.
 */
 figure[entity]{
-     content: url(oxy_unparsed-entity-uri(attr(entity))); 
+     content: oxy_url(oxy_unparsed-entity-uri(attr(entity))); 
 }
 
 hi[rend="sc"] {
@@ -90,8 +90,8 @@ div4,
 div5, 
 div6, 
 div7 {
-    foldable:true;
-    not-foldable-child: head;
+    -oxy-foldable:true;
+    -oxy-not-foldable-child: head;
 }
 
 
@@ -106,7 +106,7 @@ titleStmt{
 
 /*EXM-16532 Set some styles for gap*/
 gap {
-    display: morph;
+    display: -oxy-morph;
     content: "[...]";
     font-style: italic;
 }

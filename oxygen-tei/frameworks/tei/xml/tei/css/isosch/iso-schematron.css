@@ -95,7 +95,7 @@ sch|phase:before {
     content : 'Phase ';
 }
 sch|phase {
-    foldable : true;
+    -oxy-foldable : true;
     display : block;
     content : attr('id');
     border : 1px solid gray;
@@ -144,7 +144,7 @@ sch|pattern[is-a][abstract='true']:before {
     content : 'Abstract pattern ' attr('id') ' → ' url(img/link.png) attr('is-a');
 }
 sch|pattern {
-    foldable : true;
+    -oxy-foldable : true;
     border : 1px solid gray;
     margin : 8px;
     display : block;
@@ -234,7 +234,7 @@ sch|rule {
     content : attr('context') ' {';
     padding-left : 8px;
     margin-bottom : 8px;
-    foldable :true;
+    -oxy-foldable :true;
     margin-right : 8px;
     background-color : #FFFFFC;
 }
@@ -338,7 +338,7 @@ sch|diagnostics:before {
     font-weight : bold;
 }
 sch|diagnostics {
-    foldable : true;
+    -oxy-foldable : true;
     display : block;
     margin : 8px;
     background-color : #FFFCFC;
