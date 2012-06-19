@@ -201,4 +201,28 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
       }
     }
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getIgnoredRowAttributes()
+   */
+  @Override
+  public String[] getIgnoredRowAttributes() {
+    return new String[] {
+        ATTRIBUTE_NAME_XML_ID, 
+        ATTRIBUTE_NAME_ID, 
+        ATTRIBUTE_NAME_ROWS,
+    };
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getIgnoredColumnAttributes()
+   */
+  @Override
+  public String[] getIgnoredColumnAttributes() {
+    return new String[] {
+        ATTRIBUTE_NAME_XML_ID, 
+        ATTRIBUTE_NAME_ID, 
+        ATTRIBUTE_NAME_COLS,
+    };
+  }
 }

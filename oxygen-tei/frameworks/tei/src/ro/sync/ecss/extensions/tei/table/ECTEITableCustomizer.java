@@ -57,34 +57,46 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
+import ro.sync.ecss.extensions.commons.table.operations.TableCustomizer;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 
 /**
  * Customize a TEI table. It is used on Eclipse platform implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class ECTEITableCustomizer {
-  /**
-   * Session persistent user input.
-   */
-  private static TableInfo tableInfo;
+public class ECTEITableCustomizer extends TableCustomizer {
   
   /**
-   * Ask the user to customize a new table.
-   * 
-   * @param authorAccess Access to author functionality.
-   * @return The information describing the table or <code>null</code> if canceled.
+   * The singleton instance.
    */
-  public TableInfo customizeTable(AuthorAccess authorAccess) {
+  private static ECTEITableCustomizer instance;
+
+  /**
+   * Get the singleton instance.
+   * @return The singleton instance.
+   */
+  public static ECTEITableCustomizer getInstance(){
+    if(instance == null){
+      instance = new ECTEITableCustomizer();
+    }
+    return instance;
+  }
+  
+  /**
+   *  Constructor.
+   */
+  private ECTEITableCustomizer() {}
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   */
+  @Override
+  protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
+      int predefinedColumnsCount) {
     //Eclipse table customization
     ECTableCustomizerDialog tableCustomizerDialog = new ECTEITableCustomizerDialog(
-        (Shell) authorAccess.getWorkspaceAccess().getParentFrame());
-    TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
-    
-    // Store the new table info only if not cancel pressed.
-    if (newTableInfo != null) {
-      tableInfo = newTableInfo;
-    }
-    return newTableInfo;
+        (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
+        predefinedRowsCount, predefinedColumnsCount);
+    return tableCustomizerDialog.showDialog(tableInfo);
   }
 }

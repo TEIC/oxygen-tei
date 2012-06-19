@@ -90,6 +90,16 @@ oXygen frameworks folder and the library will be automatically detected.
 
 	<!-- Build the classes in a jar and put it inside the tei folder -->
 	<target name="jar" depends="compile">
+		<jar jarfile="tei-node-customizer.jar">
+			<fileset dir="classes">
+				<include name="ro/sync/ecss/extensions/tei/TEINodeRendererCustomizer.class"/>
+			</fileset>
+			<fileset dir="src">
+				<include name="images/node-customizer/*.png"/>
+				<include name="images/node-customizer/*.gif"/>
+			</fileset>
+		</jar>
+		
 		<jar basedir="classes" jarfile="tei.jar">
 			<include name="**/*"/>
 			<exclude name="**/*Test*"/>

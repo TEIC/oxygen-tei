@@ -87,14 +87,6 @@ public class InsertRowOperation extends InsertRowOperationBase implements TEICon
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#getIgnoredAttributes()
-   */
-  @Override
-  protected String[] getIgnoredAttributes() {
-    return new String[] {ATTRIBUTE_NAME_XML_ID, ATTRIBUTE_NAME_ID, ATTRIBUTE_NAME_ROWS };
-  }
-  
-  /**
    * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#useCurrentRowTemplateOnInsert()
    */
   @Override

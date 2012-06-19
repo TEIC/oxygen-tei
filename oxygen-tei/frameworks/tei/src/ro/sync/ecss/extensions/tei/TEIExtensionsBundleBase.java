@@ -57,6 +57,7 @@ import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.ExtensionsBundle;
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
+import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 
 /**
  * The TEI framework extensions bundle.
@@ -93,5 +94,13 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
       teiSchemaAwareEditingHandler = new TEISchemaAwareEditingHandler(getDocumentNamespace());
     }
     return teiSchemaAwareEditingHandler;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createXMLNodeCustomizer()
+   */
+  @Override
+  public XMLNodeRendererCustomizer createXMLNodeCustomizer() {
+    return new TEINodeRendererCustomizer();
   }
 }

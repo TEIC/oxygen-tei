@@ -57,6 +57,8 @@ import javax.swing.JCheckBox;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorResourceBundle;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
 
 /**
@@ -70,9 +72,12 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    * Constructor.
    * 
    * @param parentFrame The parent frame for this dialog.
+   * @param authorResourceBundle The author resource bundle.
+   * @param predefinedColumnsCount The predefined number of columns.
+   * @param predefinedRowsCount The predefined number of rows.
    */
-  public SATEITableCustomizerDialog(Frame parentFrame) {
-    super(parentFrame, false, false, false);
+  public SATEITableCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle, int predefinedRowsCount, int predefinedColumnsCount) {
+    super(parentFrame, false, false, false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
 
   /**
@@ -90,8 +95,8 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox("Head");
-    titleCheckBox.setToolTipText("The title for the table");
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.HEAD));
+    titleCheckBox.setToolTipText(authorResourceBundle.getMessage(ExtensionTags.TITLE_TABLE));
     titleCheckBox.setName("Head checkbox");
     return titleCheckBox;
   }
