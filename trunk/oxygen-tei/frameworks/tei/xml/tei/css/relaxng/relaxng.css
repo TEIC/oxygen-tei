@@ -109,7 +109,7 @@ rng|div {
     
     border-left : 1px dotted #AFAAAE;
     margin-left : 8px;
-    foldable : true;
+    -oxy-foldable : true;
 }
 rng|div:after {
     content : '}';
@@ -470,7 +470,7 @@ oxy|comment:before {
     content : '# ';
 }
 oxy|comment {
-    display:morph !important;
+    display:-oxy-morph !important;
     color: green !important;
     background-color: #F5F5FF !important;
     white-space:pre !important;

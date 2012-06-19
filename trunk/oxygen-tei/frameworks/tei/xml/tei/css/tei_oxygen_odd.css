@@ -42,7 +42,7 @@ valList {
     margin-left:10px;
     display:block;
     font-weight:normal;
-    foldable:true;
+    -oxy-foldable:true;
 }
 
 valList:before {
