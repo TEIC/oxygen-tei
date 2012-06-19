@@ -58,13 +58,18 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
+import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
+import ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
+import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 
 /**
  * The operation used to insert a TEI table. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class InsertTableOperation implements AuthorOperation {
+public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
   
   /**
    * Argument specifying a default namespace for the table.
@@ -84,62 +89,50 @@ public class InsertTableOperation implements AuthorOperation {
    */
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
-    // Show the 'Insert table' dialog
-    TableInfo tableInfo = null;
-    if(authorAccess.getWorkspaceAccess().isStandalone()) {
-      tableInfo = new SATEITableCustomizer().customizeTable(authorAccess);
-    } else {
-      tableInfo = new ECTEITableCustomizer().customizeTable(authorAccess);
+    Object defaultNamespaceObj =  args.getArgumentValue(ARGUMENT_NAME);
+    String namespace = null;
+    if (defaultNamespaceObj != null && defaultNamespaceObj instanceof String) {
+      namespace = (String) defaultNamespaceObj;
     }
-    if (tableInfo != null) {
-      // Create the table XML fragment
-      StringBuffer tableXMLFragment = new StringBuffer();
-      // Table element
-      tableXMLFragment.append("<table ");
-      Object defaultNamespaceObj =  args.getArgumentValue(ARGUMENT_NAME);
-      if (defaultNamespaceObj != null && defaultNamespaceObj instanceof String) {
-        tableXMLFragment.append("xmlns=\"").append(defaultNamespaceObj).append("\" ");
-      }
-      tableXMLFragment.append("rows=\"").append(tableInfo.getRowsNumber()).append("\" cols=\"").
-      append(tableInfo.getColumnsNumber()).append("\">");
-      if(tableInfo.getTitle() != null) {
-        // Title was specified, insert a table with title
-        tableXMLFragment.append("<head>" + tableInfo.getTitle() + "</head>");
-      }
-      
-      if (tableInfo.isGenerateHeader()) {
-        // Add table header
-        addTableHeader(tableXMLFragment, tableInfo);
-      }
-      
-      // Add table body
-      addTableBody(tableXMLFragment, tableInfo);
-      
-      tableXMLFragment.append("</table>");
-      
-      // Insert the table 
-      authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-          tableXMLFragment.toString(), 
-          authorAccess.getEditorAccess().getCaretOffset());
-    } else {
-      // User canceled the operation 
-    }
+    insertTable(null, false, authorAccess, namespace, null);
   }
 
   /**
    * Add the body of this table.
    * 
-   * @param tableXMLFragment The table XML fragment buffer to which to add the 
-   * table body representation.
-   * @param tableInfo Information about the table.
+   * @param tableXMLFragment  The table XML fragment buffer to which to add the table body representation.
+   * @param tableInfo         Information about the table.
+   * @param fragments         An array of {@link AuthorDocumentFragment}s that are used as content
+   *                          of the inserted cells.  
+   * @param cellsFragments    If the value is <code>true</code> then the fragments where originally cells. 
+   * @param authorAccess      The author access.
+   * @param tableHelper       Table helper.
+   * @param namespace         The namespace.
+   * 
+   * @throws AuthorOperationException 
    */
-  private void addTableBody(StringBuffer tableXMLFragment, TableInfo tableInfo) {
+  private void addTableBody(StringBuilder tableXMLFragment, TableInfo tableInfo, 
+      AuthorDocumentFragment[] fragments, boolean cellsFragments, 
+      AuthorAccess authorAccess, AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
     int rows = tableInfo.getRowsNumber();
     int cols = tableInfo.getColumnsNumber();
+
     for (int i = 0; i < rows; i++) {
       tableXMLFragment.append("<row>");
       for (int j = 0; j < cols; j++) {
-        tableXMLFragment.append("<cell/>");
+        if (j == 0 && fragments != null) {
+          String cellXMLFragment = TableOperationsUtil.createCellXMLFragment(
+              authorAccess, 
+              fragments, 
+              cellsFragments, 
+              "cell", 
+              tableInfo.isGenerateHeader() ? (i + 1) : i, 
+              namespace, 
+              tableHelper);
+          tableXMLFragment.append(cellXMLFragment);
+        } else {
+          tableXMLFragment.append("<cell/>");
+        }
       }
       tableXMLFragment.append("</row>");
     }
@@ -148,15 +141,36 @@ public class InsertTableOperation implements AuthorOperation {
   /**
    * Add a header to the table.
    * 
-   * @param tableXMLFragment The table XML fragment buffer to which to add the 
-   * table header representation.
-   * @param tableInfo Information about the table.
+   * @param tableXMLFragment  The table XML fragment buffer to which to add the table header representation.
+   * @param tableInfo         Information about the table.
+   * @param namespace         The namespace.
+   * @param tableHelper       Table helper.
+   * @param authorAccess      Author access.
+   * @param cellsFragments    <code>true</code> if the fragments are wrapped in cells.
+   * @param fragments         Cells fragments.
+   *
+   * @throws AuthorOperationException 
    */
-  private void addTableHeader(StringBuffer tableXMLFragment, TableInfo tableInfo) {
+  private void addTableHeader(StringBuilder tableXMLFragment, TableInfo tableInfo, 
+      AuthorDocumentFragment[] fragments, boolean cellsFragments, 
+      AuthorAccess authorAccess, AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
     tableXMLFragment.append("<row role=\"label\">");
+
     int cols = tableInfo.getColumnsNumber();
     for (int i = 1; i <= cols; i++) {
-      tableXMLFragment.append("<cell/>");
+      if (i == 1 && fragments != null) {
+        String cellXMLFragment = TableOperationsUtil.createCellXMLFragment(
+            authorAccess, 
+            fragments, 
+            cellsFragments, 
+            "cell", 
+            0, 
+            namespace, 
+            tableHelper);
+        tableXMLFragment.append(cellXMLFragment);
+      } else {
+        tableXMLFragment.append("<cell/>");
+      }
     }
     tableXMLFragment.append("</row>");
   }
@@ -173,5 +187,64 @@ public class InsertTableOperation implements AuthorOperation {
    */
   public String getDescription() {
     return "Insert a TEI table";
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper)
+   */
+  @Override
+  public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
+      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper)
+      throws AuthorOperationException {
+    int rowsCount = 0;
+    int columnsCount = 0;
+    if (fragments != null) {
+      rowsCount = fragments.length;
+      columnsCount = 1;
+    }
+    // Show the 'Insert table' dialog
+    TableInfo tableInfo = null;
+    if(authorAccess.getWorkspaceAccess().isStandalone()) {
+      tableInfo = SATEITableCustomizer.getInstance().customizeTable(
+          authorAccess, rowsCount, columnsCount);
+    } else {
+      tableInfo = ECTEITableCustomizer.getInstance().customizeTable(
+          authorAccess, rowsCount, columnsCount);
+    }
+    if (tableInfo != null) {
+      // Create the table XML fragment
+      StringBuilder tableXMLFragment = new StringBuilder();
+      // Table element
+      tableXMLFragment.append("<table ");
+      if (namespace != null) {
+        tableXMLFragment.append("xmlns=\"").append(namespace).append("\" ");
+      }
+      tableXMLFragment.append("rows=\"").append(tableInfo.getRowsNumber()).append("\" cols=\"").
+      append(tableInfo.getColumnsNumber()).append("\">");
+      if(tableInfo.getTitle() != null) {
+        // Title was specified, insert a table with title
+        tableXMLFragment.append("<head>" + tableInfo.getTitle() + "</head>");
+      }
+
+      if (tableInfo.isGenerateHeader()) {
+        // Add table header
+        addTableHeader(tableXMLFragment, tableInfo, fragments, cellsFragments, 
+            authorAccess, tableHelper, namespace);
+      }
+
+      // Add table body
+      addTableBody(tableXMLFragment, tableInfo, fragments, cellsFragments, 
+          authorAccess, tableHelper, namespace);
+
+      tableXMLFragment.append("</table>");
+
+      // Insert the table 
+      authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+          tableXMLFragment.toString(), 
+          authorAccess.getEditorAccess().getCaretOffset());
+    } else {
+      // User canceled the operation 
+      throw new AuthorOperationStoppedByUserException("Cancelled by user");
+    }
   }
 }

@@ -57,6 +57,7 @@ import ro.sync.ecss.extensions.api.AuthorExtensionStateListener;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
 import ro.sync.ecss.extensions.api.content.ClipboardFragmentProcessor;
+import ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler;
 import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
 
 /**
@@ -64,7 +65,10 @@ import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
-  
+  /**
+   * Table operations handler
+   */
+  private TEIAuthorTableOperationsHandler tableOperationsHandler;
   /**
    * Unique attrs recognizer
    */
@@ -125,4 +129,15 @@ public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
   public AuthorExternalObjectInsertionHandler createExternalObjectInsertionHandler() {
     return new TEIP5ExternalObjectInsertionHandler();
   };
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorTableOperationsHandler()
+   */
+  @Override
+  public AuthorTableOperationsHandler getAuthorTableOperationsHandler() {
+    if (tableOperationsHandler == null) {
+      tableOperationsHandler  = new TEIAuthorTableOperationsHandler(getDocumentNamespace());
+    }
+    return tableOperationsHandler;
+  }
 }

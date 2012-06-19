@@ -60,6 +60,8 @@ import org.eclipse.swt.widgets.Shell;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorResourceBundle;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 
 /**
@@ -72,9 +74,14 @@ public class ECTEITableCustomizerDialog extends ECTableCustomizerDialog {
    * Constructor.
    * 
    * @param parentShell The parent shell for the dialog.
+   * @param authorResourceBundle The author resource bundle.
+   * @param predefinedRowsCount The predefined number of rows.
+   * @param predefinedColumnsCount The predefined number of columns.
    */
-  public ECTEITableCustomizerDialog(Shell parentShell) {
-    super(parentShell, false, false, false);
+  public ECTEITableCustomizerDialog(Shell parentShell, AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount, int predefinedColumnsCount) {
+    super(parentShell, false, false, false, authorResourceBundle,  
+        predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
@@ -101,8 +108,8 @@ public class ECTEITableCustomizerDialog extends ECTableCustomizerDialog {
   @Override
   protected Button createTitleCheckbox(Composite parent) {
     Button titleCheckBox = new Button(parent, SWT.CHECK | SWT.LEFT);
-    titleCheckBox.setText("Head");
-    titleCheckBox.setToolTipText("The title for the table");
+    titleCheckBox.setText(authorResourceBundle.getMessage(ExtensionTags.HEAD));
+    titleCheckBox.setToolTipText(authorResourceBundle.getMessage(ExtensionTags.TITLE_TABLE));
     return titleCheckBox;
   }
   

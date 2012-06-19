@@ -58,34 +58,48 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
+import ro.sync.ecss.extensions.commons.table.operations.TableCustomizer;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 
 /**
  * Customize a TEI table. It is used on standalone implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class SATEITableCustomizer {
-  /**
-   * The last table info specified by the user. Session level persistence. 
-   */
-  private static TableInfo tableInfo;
+public class SATEITableCustomizer extends TableCustomizer {
 
   /**
-   * Ask the user to customize a new table.
-   * 
-   * @param authorAccess Access to author functionality.
-   * @return The information from the user or <code>null</code> if canceled.
+   * The singleton instance.
    */
-  public TableInfo customizeTable(AuthorAccess authorAccess) {
+  private static SATEITableCustomizer instance;
+
+  /**
+   * Get the singleton instance.
+   * @return The singleton instance.
+   */
+  public static SATEITableCustomizer getInstance(){
+    if(instance == null){
+      instance = new SATEITableCustomizer();
+    }
+    return instance;
+  }
+  
+  /**
+   *  Constructor.
+   */
+  private SATEITableCustomizer() {}
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   */
+  @Override
+  protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
+      int predefinedColumnsCount) {
     SATableCustomizerDialog tableCustomizerDialog = new SATEITableCustomizerDialog(
-        (Frame) authorAccess.getWorkspaceAccess().getParentFrame());
+        (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
+        predefinedRowsCount, predefinedColumnsCount);
     tableCustomizerDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
     TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
     
-    // Store the new table info only if not cancel pressed.
-    if (newTableInfo != null) {
-      tableInfo = newTableInfo;
-    }
     return newTableInfo;
   }
 }

@@ -82,7 +82,9 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
       int colEndIndex) throws AuthorOperationException {
     // Update the table column span after deleting a column.
     tableHelper.updateTableColSpan(
+        // Author acccess
         authorAccess,
+        // Table cell span provider
         spanProvider, 
         cell, 
         colStartIndex,
