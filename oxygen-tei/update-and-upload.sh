@@ -51,7 +51,10 @@ rm -rf xml/tei/xquery
 unzip -o -q ../../tei.zip
 unzip -o -q ../../xsl.zip
 rm -rf doc
+rm -rf xml/tei/Test 
+rm -rf xml/tei/xquery
 cd ../..
+unzip brown
 rm tei.zip xsl.zip
 ant
 mv dist/tei.zip tei-$TEIVERSION.zip
