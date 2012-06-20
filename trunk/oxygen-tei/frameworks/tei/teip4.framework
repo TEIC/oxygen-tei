@@ -2495,16 +2495,16 @@ ancestor-or-self::table</String>
 									<String></String>
 								</field>
 								<field name="fOPMethod">
-									<null/>
+									<String>pdf</String>
 								</field>
 								<field name="fOProcessorName">
-									<null/>
+									<String>Apache FOP</String>
 								</field>
 								<field name="headerURL">
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/xml/tei/stylesheet/tools/p4top5.xsl</String>
+									<String>${framework}/xml/tei/stylesheet/profiles/default/p4/from.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2531,7 +2531,7 @@ ancestor-or-self::table</String>
 									<Boolean>false</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String></String>
+									<null/>
 								</field>
 								<field name="openInEditor">
 									<Boolean>true</Boolean>
@@ -2558,7 +2558,7 @@ ancestor-or-self::table</String>
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Saxon6.5.5</String>
+									<String>Saxon-PE</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
