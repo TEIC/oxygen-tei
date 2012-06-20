@@ -122,7 +122,7 @@ oXygen frameworks folder and the library will be automatically detected.
 				<exclude name="dist/**"/>
 			</fileset>
 		</copy>
-		<copy file="../../LICENSE.TXT" todir="dist/tei"/>
+		<copy file="../../LICENSE.txt" todir="dist/tei"/>
 		<zip destfile="dist/tei.zip" basedir="dist" includes="tei/**" />
 		<delete dir="dist/tei"/>
 		<delete dir="classes"/>		
