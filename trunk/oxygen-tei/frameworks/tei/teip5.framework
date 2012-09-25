@@ -11,7 +11,7 @@
 					<field name="schemaDescriptor">
 						<docTypeSchema>
 							<field name="type">
-								<Integer>4</Integer>
+								<Integer>6</Integer>
 							</field>
 							<field name="uri">
 								<String>${framework}/xml/tei/custom/schema/relaxng/tei_all.rng</String>
