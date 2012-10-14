@@ -63,8 +63,10 @@ rm -rf xml/tei/odd/Utilities
 rm -rf xml/tei/odd/p5odds-examples.*
 rm -rf xml/tei/odd/webnav
 rm -rf xml/tei/xquery
+rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
+cd ../..
 echo add Brown specifics
 unzip brown
 rm -f tei.zip xsl.zip dist/tei.zip
