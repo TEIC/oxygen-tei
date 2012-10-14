@@ -6,7 +6,7 @@
 			<documentTypeDescriptor-array>
 				<documentTypeDescriptor>
 					<field name="name">
-						<String>TEI P4</String>
+						<String>TEI P4 (deprecated, use TEI P5)</String>
 					</field>
 					<field name="schemaDescriptor">
 						<docTypeSchema>
@@ -1830,7 +1830,7 @@ ancestor-or-self::table</String>
 							<field name="menubarDescriptor">
 								<menu>
 									<field name="label">
-										<String>TEI P4</String>
+										<String>TEI P4 (deprecated)</String>
 									</field>
 									<field name="accessKey">
 										<String>I</String>
