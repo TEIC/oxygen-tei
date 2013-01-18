@@ -15,10 +15,12 @@ die()
 JENKINS=http://tei.oucs.ox.ac.uk/jenkins
 TEIVERSION=
 XSLVERSION=
+DEBUG=0
 while test $# -gt 0; do
   case $1 in
     --teiversion=*)   TEIVERSION=`echo $1 | sed 's/.*=//'`;;
     --xslversion=*)   XSLVERSION=`echo $1 | sed 's/.*=//'`;;
+    --debug) DEBUG=1;;
    *) if test "$1" = "${1#--}" ; then 
 	   break
 	else
@@ -55,6 +57,11 @@ echo unpack new files
 unzip -o -q ../../tei.zip
 unzip -o -q ../../xsl.zip
 echo remove unwanted material
+rm -f xml/tei/Exemplars/*epub
+rm -f xml/tei/Exemplars/*html
+rm -f xml/tei/Exemplars/*pdf
+rm -f xml/tei/Exemplars/*tex
+rm -f xml/tei/Exemplars/*compiled
 rm -rf doc
 rm -rf xml/tei/Test 
 rm -rf xml/tei/odd/ReleaseNotes
