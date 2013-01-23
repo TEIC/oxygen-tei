@@ -11,7 +11,7 @@
 					<field name="schemaDescriptor">
 						<docTypeSchema>
 							<field name="type">
-								<Integer>6</Integer>
+								<Integer>4</Integer>
 							</field>
 							<field name="uri">
 								<String>${framework}/xml/tei/custom/schema/relaxng/tei_all.rng</String>
@@ -21,7 +21,6 @@
 					<field name="classpath">
 						<String-array>
 							<String>${framework}/tei.jar</String>
-							<String>${framework}/tei-node-customizer.jar</String>
 							<String>${framework}/resources/</String>
 							<String>${framework}/i18n/</String>
 						</String-array>
@@ -1688,8 +1687,8 @@ ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0'])</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>(ancestor-or-self::*:row | 
-ancestor-or-self::*:table)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::node()[self::*:row | 
+self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -2151,6 +2150,11 @@ ancestor-or-self::*:table)[namespace-uri()='http://www.tei-c.org/ns/1.0']</Strin
 											<toolbarItem>
 												<field name="actionID">
 													<String>section</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>paragraph</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>

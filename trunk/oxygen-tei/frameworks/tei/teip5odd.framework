@@ -14,7 +14,7 @@
 								<Integer>6</Integer>
 							</field>
 							<field name="uri">
-								<String>${framework}/xml/tei/custom/schema/relaxng/tei_odds.rng</String>
+								<String>${framework}/xml/tei/custom/schema/relaxng/brown_odds.rng</String>
 							</field>
 						</docTypeSchema>
 					</field>
@@ -2097,6 +2097,11 @@
 											<toolbarItem>
 												<field name="actionID">
 													<String>section</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
+													<String>paragraph</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>
