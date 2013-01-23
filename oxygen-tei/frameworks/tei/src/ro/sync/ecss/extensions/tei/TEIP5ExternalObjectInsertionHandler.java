@@ -109,7 +109,7 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
    */
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
-    return "xhtml2tei5.xsl";
+    return "xhtml2tei5Driver.xsl";
   }
   
   /**

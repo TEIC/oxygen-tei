@@ -470,10 +470,8 @@ oxy|comment:before {
     content : '# ';
 }
 oxy|comment {
-    display:-oxy-morph !important;
     color: green !important;
     background-color: #F5F5FF !important;
-    white-space:pre !important;
     margin-left : 0px !important;
     margin-top : 0px !important;
     margin-bottom : 0px !important;

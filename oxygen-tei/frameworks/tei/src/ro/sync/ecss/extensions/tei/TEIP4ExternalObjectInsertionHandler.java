@@ -100,7 +100,7 @@ public class TEIP4ExternalObjectInsertionHandler extends AuthorExternalObjectIns
    */
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
-    return "xhtml2tei4.xsl";
+    return "xhtml2tei4Driver.xsl";
   }
   
   /**

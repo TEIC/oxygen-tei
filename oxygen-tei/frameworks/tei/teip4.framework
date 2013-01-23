@@ -6,7 +6,7 @@
 			<documentTypeDescriptor-array>
 				<documentTypeDescriptor>
 					<field name="name">
-						<String>TEI P4 (deprecated, use TEI P5)</String>
+						<String>TEI P4 (deprecated)</String>
 					</field>
 					<field name="schemaDescriptor">
 						<docTypeSchema>
@@ -21,7 +21,6 @@
 					<field name="classpath">
 						<String-array>
 							<String>${framework}/tei.jar</String>
-							<String>${framework}/tei-node-customizer.jar</String>
 							<String>${framework}/resources/</String>
 							<String>${framework}/i18n/</String>
 						</String-array>
@@ -1830,13 +1829,13 @@ ancestor-or-self::table</String>
 							<field name="menubarDescriptor">
 								<menu>
 									<field name="label">
-										<String>TEI P4 (deprecated)</String>
+										<String>TEI P4</String>
 									</field>
 									<field name="accessKey">
 										<String>I</String>
 									</field>
 									<field name="iconPath">
-										<null/>
+										<String></String>
 									</field>
 									<field name="menuEntriesDescriptorList">
 										<menuEntry-array>
@@ -2160,6 +2159,11 @@ ancestor-or-self::table</String>
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
+													<String>paragraph</String>
+												</field>
+											</toolbarItem>
+											<toolbarItem>
+												<field name="actionID">
 													<String>insert image</String>
 												</field>
 											</toolbarItem>
@@ -2338,7 +2342,8 @@ ancestor-or-self::table</String>
 						</String-array>
 					</field>
 					<field name="description">
-						<String>The Text Encoding Initiative (TEI) Guidelines is an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation.</String>
+						<String>This framework is deprecared. Please consider using TEI P5 instead. 
+The Text Encoding Initiative (TEI) Guidelines is an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation.</String>
 					</field>
 					<field name="doctypeRules">
 						<documentTypeRule-array>
