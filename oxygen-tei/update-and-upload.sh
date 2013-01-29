@@ -62,6 +62,9 @@ rm -f xml/tei/Exemplars/*html
 rm -f xml/tei/Exemplars/*pdf
 rm -f xml/tei/Exemplars/*tex
 rm -f xml/tei/Exemplars/*compiled
+rm tei/xml/tei/odd/p5subset.js
+rm tei/xml/tei/odd/p5subset.json
+rm tei/xml/tei/odd/p5attlist.txt
 rm -rf doc
 rm -rf xml/tei/Test 
 rm -rf xml/tei/odd/ReleaseNotes
