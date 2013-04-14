@@ -1,6 +1,7 @@
 #!/bin/sh
+#
 # Sebastian Rahtz July 2012
-# Grab the latest TEIP5 and XSL builds from Jenkins, rebuild
+# Grab TEIP5 and XSL builds from Sourceforge, rebuild
 # the distribution, and upload to Google for release
 #
 die()
@@ -11,8 +12,8 @@ die()
     echo "$D. That was a fatal error"
     exit 1
 }
-
-JENKINS=http://tei.oucs.ox.ac.uk/jenkins
+SFP5="http://downloads.sourceforge.net/project/tei/TEI-P5-all"
+SFXSL="http://downloads.sourceforge.net/project/tei/Stylesheets"
 TEIVERSION=
 XSLVERSION=
 DEBUG=0
@@ -40,10 +41,10 @@ then
  echo You must use the --xslversion option to specify which version of TEI Stylesheets  you are installing
  exit 1
 fi
-echo Download $JENKINS/job/TEIP5/lastSuccessfulBuild/artifact/tei-$TEIVERSION.zip
-curl -s -o tei.zip $JENKINS/job/TEIP5/lastSuccessfulBuild/artifact/tei-$TEIVERSION.zip
-echo Download $JENKINS/job/Stylesheets/lastSuccessfulBuild/artifact/tei-xsl-$XSLVERSION.zip
-curl -s -o xsl.zip $JENKINS/job/Stylesheets/lastSuccessfulBuild/artifact/tei-xsl-$XSLVERSION.zip
+echo Download $SFP5/tei-$TEIVERSION.zip
+curl  -L -s -o tei.zip $SFP5/tei-$TEIVERSION.zip
+echo Download $SFXSL/tei-xsl-$XSLVERSION.zip
+curl  -L -s -o xsl.zip $SFXSL/tei-xsl-$XSLVERSION.zip
 cd frameworks/tei
 echo zap any old versions
 rm -rf xml/tei/Test 
@@ -51,6 +52,7 @@ rm -rf xml/tei/custom/odd
 rm -rf xml/tei/custom/schema
 rm -rf xml/tei/odd
 rm -rf xml/tei/schema
+rm -rf xml/tei/css
 rm -rf xml/tei/stylesheet
 rm -rf xml/tei/xquery
 echo unpack new files
@@ -69,6 +71,10 @@ rm -rf doc
 rm -rf xml/tei/Test 
 rm -rf xml/tei/odd/ReleaseNotes
 rm -rf xml/tei/odd/Source
+rm -rf xml/tei/odd/Exemplars
+rm -rf xml/tei/Exemplars
+rm -rf xml/tei/odd/*.css
+rm -rf xml/tei/odd/p5subset.j*
 rm -rf xml/tei/odd/Utilities
 rm -rf xml/tei/odd/p5odds-examples.*
 rm -rf xml/tei/odd/webnav
@@ -77,8 +83,8 @@ rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 cd ../..
-echo add Brown specifics
-unzip brown
+#echo add Brown specifics
+#unzip brown
 rm -f tei.zip xsl.zip dist/tei.zip
 echo do Ant build
 ant
