@@ -52,7 +52,6 @@ rm -rf xml/tei/custom/odd
 rm -rf xml/tei/custom/schema
 rm -rf xml/tei/odd
 rm -rf xml/tei/schema
-rm -rf xml/tei/css
 rm -rf xml/tei/stylesheet
 rm -rf xml/tei/xquery
 echo unpack new files
