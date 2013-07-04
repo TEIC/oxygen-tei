@@ -5,7 +5,7 @@ This project contains the oXygen XML Editor specific support for TEI.
 It is organized as follows:
 - the "frameworks" folder contains the actual TEI frameworks.
 - the "lib" folder contains the jars required for building the JAVA extensions from
-each framework.
+  each framework.
 - the "tools" folder is intended for required tools like the Apache ANT.
 - the "dist" folder will contain the packed distribution of all frameworks.
 
@@ -18,9 +18,9 @@ not distributed with this project. There are a few possibilities make that
 library available:
 
 - you can copy oxygen.jar from the lib folder of an oXygen installation inside 
-the project lib folder
+  the project lib folder
 - edit the build.properties file and add an entry like
-oxygen.jar = path/to/your/oxygen.jar
+  oxygen.jar = path/to/your/oxygen.jar
 
 As an alternative, if the project frameworks/tei folder is checked out as the 
 oXygen frameworks/tei folder then the oxygen.jar will be found automatically by
