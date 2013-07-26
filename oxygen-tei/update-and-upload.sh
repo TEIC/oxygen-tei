@@ -81,7 +81,9 @@ rm -rf xml/tei/xquery
 rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
+cp 
 cd ../..
+cp build-to.xml frameworks/tei/xml/tei/stylesheet/fo2
 #echo add Brown specifics
 #unzip brown
 rm -f tei.zip xsl.zip dist/tei.zip
