@@ -2339,6 +2339,7 @@ ancestor-or-self::table</String>
 							<String>${framework}/xml/teip4/custom/schema/dtd/catalog.xml</String>
 							<String>${framework}/xml/teip4/schema/dtd/catalog.xml</String>
 							<String>${framework}/xml/teip4/stylesheet/catalog.xml</String>
+							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
