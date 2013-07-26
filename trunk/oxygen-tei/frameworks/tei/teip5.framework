@@ -2347,6 +2347,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 							<String>${framework}/xml/tei/custom/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/stylesheet/catalog.xml</String>
+							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">

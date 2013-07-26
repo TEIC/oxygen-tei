@@ -2293,6 +2293,8 @@
 						<String-array>
 							<String>${framework}/xml/tei/custom/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/schema/catalog.xml</String>
+							<String>${framework}/xml/tei/stylesheet/catalog.xml</String>
+							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
