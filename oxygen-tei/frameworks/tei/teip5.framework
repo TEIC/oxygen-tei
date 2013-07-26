@@ -2627,153 +2627,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									</String-array>
 								</field>
 							</antScenario>
-							<antScenario>
-								<field name="additionalAntArgs">
-									<String></String>
-								</field>
-								<field name="buildTarget">
-									<String></String>
-								</field>
-								<field name="buildFilePath">
-									<String>${frameworkDir}/xml/tei/stylesheet/fo/build-to.xml</String>
-								</field>
-								<field name="ditaParams">
-									<list>
-										<antParameter>
-											<field name="name">
-												<String>inputFile</String>
-											</field>
-											<field name="description">
-												<String>Path to the TEI XML file.</String>
-											</field>
-											<field name="value">
-												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output PDF will be saved</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.pdf</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the PDF output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>lang</String>
-											</field>
-											<field name="description">
-												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
-											</field>
-											<field name="value">
-												<String>en</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>oxygenlib</String>
-											</field>
-											<field name="description">
-												<String>Path to the Oxygen library folder</String>
-											</field>
-											<field name="value">
-												<String>${oxygenInstallDir}/lib</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-									</list>
-								</field>
-								<field name="jvmArgs">
-									<String>-Xmx256m</String>
-								</field>
-								<field name="useCustomJavaHome">
-									<Boolean>false</Boolean>
-								</field>
-								<field name="customJavaHomeDir">
-									<String></String>
-								</field>
-								<field name="useCustomANTHome">
-									<Boolean>false</Boolean>
-								</field>
-								<field name="customANTHomeDir">
-									<String></String>
-								</field>
-								<field name="workingDir">
-									<String>${cfd}</String>
-								</field>
+							<scenario>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -2781,10 +2635,10 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<String>TEI P5 PDF</String>
 								</field>
 								<field name="baseURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="footerURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="fOPMethod">
 									<String>pdf</String>
@@ -2793,22 +2647,22 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<String>Apache FOP</String>
 								</field>
 								<field name="headerURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<null/>
+									<String>${framework}/xml/tei/stylesheet/profiles/default/fo/to.xsl</String>
 								</field>
 								<field name="inputXMLURL">
-									<null/>
+									<String>${currentFileURL}</String>
 								</field>
 								<field name="defaultScenario">
 									<Boolean>false</Boolean>
 								</field>
 								<field name="isFOPPerforming">
-									<Boolean>false</Boolean>
+									<Boolean>true</Boolean>
 								</field>
 								<field name="type">
-									<String>ANT</String>
+									<String>XSL</String>
 								</field>
 								<field name="saveAs">
 									<Boolean>true</Boolean>
@@ -2817,13 +2671,13 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<Boolean>true</Boolean>
 								</field>
 								<field name="outputFile">
-									<null/>
+									<File>${cfd}/${cfn}.pdf</File>
 								</field>
 								<field name="openOtherLocationInBrowser">
-									<Boolean>true</Boolean>
+									<Boolean>false</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/out/${cfn}.pdf</String>
+									<null/>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -2841,7 +2695,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<Boolean>false</Boolean>
 								</field>
 								<field name="useXSLTInput">
-									<Boolean>false</Boolean>
+									<Boolean>true</Boolean>
 								</field>
 								<field name="xsltParams">
 									<list/>
@@ -2850,26 +2704,12 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>ANT</String>
+									<String>Saxon-PE</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-									</String-array>
+									<String-array/>
 								</field>
-							</antScenario>
+							</scenario>
 							<antScenario>
 								<field name="additionalAntArgs">
 									<String></String>
