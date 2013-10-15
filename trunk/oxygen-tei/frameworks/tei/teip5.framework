@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="14.2" xml:space="preserve">
+<serialized version="15.2" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -24,6 +24,9 @@
 							<String>${framework}/resources/</String>
 							<String>${framework}/i18n/</String>
 						</String-array>
+					</field>
+					<field name="parentClassLoaderID">
+						<null/>
 					</field>
 					<field name="authorExtensionDescriptor">
 						<authorExtension>
@@ -58,7 +61,7 @@
 											<String>${i18n(bold_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Bold20.gif</String>
+											<String>/images/Bold20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Bold16.gif</String>
@@ -101,7 +104,7 @@
 											<String>${i18n(italic_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Italic20.gif</String>
+											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Italic16.gif</String>
@@ -144,7 +147,7 @@
 											<String>${i18n(underline_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Underline20.gif</String>
+											<String>/images/Underline20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Underline16.gif</String>
@@ -187,7 +190,7 @@
 											<String>${i18n(paragraph_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Paragraph20.gif</String>
+											<String>/images/Paragraph20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Paragraph16.gif</String>
@@ -486,23 +489,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:ab| self::*:add| self::*:camera| self::*:caption| self::*:case| self::*:cell| self::*:colloc| self::*:corr
-| self::*:damage| self::*:def| self::*:del| self::*:docEdition| self::*:emph| self::*:gen| self::*:gram| self::*:head
-| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur| self::*:l| self::*:lang| self::*:lbl| self::*:mood
-| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per| self::*:pos| self::*:pron| self::*:ref
-| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic| self::*:sound| self::*:stress
-| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title| self::*:titlePart
-| self::*:tns| self::*:unclear| self::*:usg| self::*:writing
-| self::*:accMat| self::*:acquisition| self::*:additions| self::*:collation| self::*:condition| self::*:custEvent
-| self::*:decoNote| self::*:filiation| self::*:foliation| self::*:handNote| self::*:item| self::*:layout
-| self::*:musicNotation| self::*:note| self::*:origin| self::*:provenance| self::*:q| self::*:quote| self::*:said
-| self::*:source| self::*:stage| self::*:support| self::*:surrogates| self::*:typeNote| self::*:view
-| self::*:argument| self::*:body| self::*:castList| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4
-| self::*:div5| self::*:div6| self::*:div7| self::*:epigraph| self::*:epilogue| self::*:performance
-| self::*:postscript| self::*:prologue| self::*:set
-| self::*:change| self::*:dictScrap| self::*:entryFree| self::*:etym| self::*:form| self::*:gramGrp| self::*:lem
-| self::*:rdg| self::*:xr| self::*:desc| self::*:fDescr| self::*:figDesc| self::*:fsDescr| self::*:meeting
-| self::*:rendition| self::*:tagUsage| self::*:witness</String>
+														<String>oxy:allows-child-element("*:table")</String>
 													</field>
 													<field name="argValues">
 														<map>
@@ -668,7 +655,7 @@
 											<String>${i18n(section_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Section20.gif</String>
+											<String>/images/Section20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Section16.gif</String>
@@ -1223,7 +1210,7 @@
 											<String>${i18n(insert image_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Image20.gif</String>
+											<String>/images/Image20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Image16.gif</String>
@@ -1238,38 +1225,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:char| self::*:glyph | self::*:address| self::*:app| self::*:argument| self::*:back| self::*:bibl| self::*:body
-| self::*:byline| self::*:castGroup| self::*:castItem| self::*:castList| self::*:change| self::*:cit| self::*:closer
-| self::*:date| self::*:dictScrap| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4| self::*:div5
-| self::*:div6| self::*:div7| self::*:docImprint| self::*:docTitle| self::*:entry| self::*:entryFree| self::*:epigraph
-| self::*:epilogue| self::*:etym| self::*:figure| self::*:floatingText| self::*:form| self::*:front| self::*:gramGrp
-| self::*:graph| self::*:group| self::*:hom| self::*:imprint| self::*:lem| self::*:lg| self::*:list| self::*:m
-| self::*:msItem| self::*:opener| self::*:performance| self::*:person| self::*:postscript| self::*:prologue| self::*:rdg
-| self::*:re| self::*:sense| self::*:series| self::*:set| self::*:sp| self::*:table| self::*:text| self::*:time
-| self::*:titlePage| self::*:u| self::*:w| self::*:xr | self::*:ab| self::*:add| self::*:camera| self::*:caption
-| self::*:case| self::*:cell| self::*:colloc| self::*:corr| self::*:damage| self::*:def| self::*:del| self::*:docEdition
-| self::*:emph| self::*:gen| self::*:gram| self::*:head| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur
-| self::*:l| self::*:lang| self::*:lbl| self::*:mood| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per
-| self::*:pos| self::*:pron| self::*:ref| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic
-| self::*:sound| self::*:stress| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title
-| self::*:titlePart| self::*:tns| self::*:unclear| self::*:usg| self::*:writing | self::*:abbr| self::*:actor
-| self::*:addName| self::*:addrLine| self::*:affiliation| self::*:author| self::*:biblScope| self::*:birth| self::*:bloc
-| self::*:catchwords| self::*:cl| self::*:colophon| self::*:country| self::*:dateline| self::*:death| self::*:distinct
-| self::*:distributor| self::*:district| self::*:docAuthor| self::*:docDate| self::*:edition| self::*:editor
-| self::*:education| self::*:email| self::*:expan| self::*:explicit| self::*:extent| self::*:faith| self::*:finalRubric
-| self::*:floruit| self::*:foreign| self::*:forename| self::*:fw| self::*:genName| self::*:geoDecl| self::*:geogName
-| self::*:gloss| self::*:headItem| self::*:headLabel| self::*:heraldry| self::*:incipit| self::*:label| self::*:material
-| self::*:measure| self::*:mentioned| self::*:name| self::*:nameLink| self::*:nationality| self::*:num
-| self::*:occupation| self::*:orgName| self::*:persName| self::*:phr| self::*:placeName| self::*:pubPlace
-| self::*:publisher| self::*:region| self::*:residence| self::*:role| self::*:roleDesc| self::*:roleName| self::*:rs
-| self::*:rubric| self::*:s| self::*:salute| self::*:secFol| self::*:settlement| self::*:sex| self::*:signatures
-| self::*:signed| self::*:soCalled| self::*:socecStatus| self::*:speaker| self::*:stamp| self::*:street| self::*:summary
-| self::*:surname| self::*:term| self::*:textLang| self::*:trailer| self::*:watermark| self::*:wit| self::*:witDetail
-| self::*:activity| self::*:age| self::*:authority| self::*:channel| self::*:classCode| self::*:constitution
-| self::*:creation| self::*:derivation| self::*:domain| self::*:factuality| self::*:funder| self::*:interaction
-| self::*:langKnown| self::*:language| self::*:locale| self::*:metSym| self::*:preparedness| self::*:principal
-| self::*:purpose| self::*:resp| self::*:span| self::*:sponsor| self::*:valDesc
-</String>
+														<String>oxy:allows-child-element("*:figure")</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -1819,6 +1775,98 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 											</actionMode-array>
 										</field>
 									</action>
+									<action>
+										<field name="id">
+											<String>sort</String>
+										</field>
+										<field name="name">
+											<String>${i18n(sort)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(sort_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Sort20.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Sort16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:table] |
+oxy:current-selected-element()[self::*:row] |
+ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:list] |
+ancestor-or-self::*:list</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.sort.TEIListSortOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>sort_table</String>
+										</field>
+										<field name="name">
+											<String>${i18n(sort)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(sort_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Sort20.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Sort16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:table] |
+oxy:current-selected-element()[self::*:row] |
+ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
 								</action-array>
 							</field>
 							<field name="menubarDescriptor">
@@ -1984,6 +2032,11 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 													<String>id.options</String>
 												</field>
 											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>generate.ids</String>
+												</field>
+											</menuItem>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2003,20 +2056,14 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 										<menuEntry-array>
 											<menuItem>
 												<field name="actionID">
-													<String>section</String>
+													<String>insert.table.row</String>
 												</field>
 											</menuItem>
 											<menuItem>
 												<field name="actionID">
-													<String>paragraph</String>
+													<String>insert.table.column</String>
 												</field>
 											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>insert image</String>
-												</field>
-											</menuItem>
-											<menuSeparator/>
 											<menu>
 												<field name="label">
 													<String>${i18n(table)}</String>
@@ -2029,11 +2076,6 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 												</field>
 												<field name="menuEntriesDescriptorList">
 													<menuEntry-array>
-														<menuItem>
-															<field name="actionID">
-																<String>insert.table</String>
-															</field>
-														</menuItem>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.row</String>
@@ -2096,13 +2138,46 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 																<String>table.split.below</String>
 															</field>
 														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>sort_table</String>
+															</field>
+														</menuItem>
 													</menuEntry-array>
 												</field>
 											</menu>
 											<menuSeparator/>
 											<menuItem>
 												<field name="actionID">
+													<String>section</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>paragraph</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>insert image</String>
+												</field>
+											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>insert.table</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
 													<String>generate.ids</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>sort</String>
 												</field>
 											</menuItem>
 											<menuSeparator/>
@@ -2176,6 +2251,12 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 											<toolbarItem>
 												<field name="actionID">
 													<String>itemizedlist</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>sort</String>
 												</field>
 											</toolbarItem>
 											<toolbarSeparator/>
@@ -2385,179 +2466,33 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 					</field>
 					<field name="scenarios">
 						<scenario-array>
-							<antScenario>
-								<field name="additionalAntArgs">
-									<String></String>
-								</field>
-								<field name="buildTarget">
-									<String></String>
-								</field>
-								<field name="buildFilePath">
-									<String>${frameworkDir}/xml/tei/stylesheet/html/build-to.xml</String>
-								</field>
-								<field name="ditaParams">
-									<list>
-										<antParameter>
-											<field name="name">
-												<String>inputFile</String>
-											</field>
-											<field name="description">
-												<String>Path to the TEI XML file.</String>
-											</field>
-											<field name="value">
-												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output HTML will be saved</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.html</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the HTML output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>lang</String>
-											</field>
-											<field name="description">
-												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
-											</field>
-											<field name="value">
-												<String>en</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>oxygenlib</String>
-											</field>
-											<field name="description">
-												<String>Path to the Oxygen library folder</String>
-											</field>
-											<field name="value">
-												<String>${oxygenInstallDir}/lib</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-									</list>
-								</field>
-								<field name="jvmArgs">
-									<String>-Xmx256m</String>
-								</field>
-								<field name="useCustomJavaHome">
-									<Boolean>false</Boolean>
-								</field>
-								<field name="customJavaHomeDir">
-									<String></String>
-								</field>
-								<field name="useCustomANTHome">
-									<Boolean>false</Boolean>
-								</field>
-								<field name="customANTHomeDir">
-									<String></String>
-								</field>
-								<field name="workingDir">
-									<String>${cfd}</String>
-								</field>
+							<scenario>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
 								<field name="name">
-									<String>TEI P5 HTML</String>
+									<String>TEI P5 XHTML</String>
 								</field>
 								<field name="baseURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="footerURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="fOPMethod">
-									<null/>
+									<String>pdf</String>
 								</field>
 								<field name="fOProcessorName">
-									<null/>
+									<String>Apache FOP</String>
 								</field>
 								<field name="headerURL">
-									<null/>
+									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<null/>
+									<String>${framework}/xml/tei/stylesheet/html/html.xsl</String>
 								</field>
 								<field name="inputXMLURL">
-									<null/>
+									<String>${currentFileURL}</String>
 								</field>
 								<field name="defaultScenario">
 									<Boolean>false</Boolean>
@@ -2566,7 +2501,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<Boolean>false</Boolean>
 								</field>
 								<field name="type">
-									<String>ANT</String>
+									<String>XSL</String>
 								</field>
 								<field name="saveAs">
 									<Boolean>true</Boolean>
@@ -2575,13 +2510,13 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<Boolean>true</Boolean>
 								</field>
 								<field name="outputFile">
-									<null/>
+									<File>${cfd}/${cfn}.html</File>
 								</field>
 								<field name="openOtherLocationInBrowser">
-									<Boolean>true</Boolean>
+									<Boolean>false</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/out/${cfn}.html</String>
+									<null/>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -2599,7 +2534,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<Boolean>false</Boolean>
 								</field>
 								<field name="useXSLTInput">
-									<Boolean>false</Boolean>
+									<Boolean>true</Boolean>
 								</field>
 								<field name="xsltParams">
 									<list/>
@@ -2608,26 +2543,12 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>ANT</String>
+									<String>Saxon-PE</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-									</String-array>
+									<String-array/>
 								</field>
-							</antScenario>
+							</scenario>
 							<scenario>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -2651,7 +2572,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/xml/tei/stylesheet/profiles/default/fo/to.xsl</String>
+									<String>${framework}/xml/tei/stylesheet/fo/fo.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2748,52 +2669,6 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output EPUB will be saved</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.epub</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
 												<String>lang</String>
 											</field>
 											<field name="description">
@@ -2801,6 +2676,29 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 											</field>
 											<field name="value">
 												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output EPUB will be saved</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.epub</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -2838,6 +2736,29 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 												<null/>
 											</field>
 										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
 									</list>
 								</field>
 								<field name="jvmArgs">
@@ -2857,6 +2778,9 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -2991,52 +2915,6 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output DOCX file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.docx</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
 												<String>lang</String>
 											</field>
 											<field name="description">
@@ -3044,6 +2922,29 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 											</field>
 											<field name="value">
 												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output DOCX file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.docx</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3081,6 +2982,29 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 												<null/>
 											</field>
 										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="isPredefined">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+										</antParameter>
 									</list>
 								</field>
 								<field name="jvmArgs">
@@ -3100,6 +3024,9 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -3344,6 +3271,9 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -3488,6 +3418,9 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 						<null/>
 					</field>
 					<field name="externalObjectInsertionHandler">
+						<null/>
+					</field>
+					<field name="customAttributeValueEditor">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

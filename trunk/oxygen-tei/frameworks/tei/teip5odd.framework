@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="14.2" xml:space="preserve">
+<serialized version="15.2" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -14,7 +14,7 @@
 								<Integer>6</Integer>
 							</field>
 							<field name="uri">
-								<String>${framework}/xml/tei/custom/schema/relaxng/brown_odds.rng</String>
+								<String>${framework}/xml/tei/custom/schema/relaxng/tei_odds.rng</String>
 							</field>
 						</docTypeSchema>
 					</field>
@@ -24,6 +24,9 @@
 							<String>${framework}/resources/</String>
 							<String>${framework}/i18n</String>
 						</String-array>
+					</field>
+					<field name="parentClassLoaderID">
+						<null/>
 					</field>
 					<field name="authorExtensionDescriptor">
 						<authorExtension>
@@ -58,7 +61,7 @@
 											<String>${i18n(bold_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Bold20.gif</String>
+											<String>/images/Bold20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Bold16.gif</String>
@@ -101,7 +104,7 @@
 											<String>${i18n(italic_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Italic20.gif</String>
+											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Italic16.gif</String>
@@ -144,7 +147,7 @@
 											<String>${i18n(underline_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Underline20.gif</String>
+											<String>/images/Underline20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Underline16.gif</String>
@@ -187,7 +190,7 @@
 											<String>${i18n(paragraph_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Paragraph20.gif</String>
+											<String>/images/Paragraph20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Paragraph16.gif</String>
@@ -486,23 +489,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:ab| self::*:add| self::*:camera| self::*:caption| self::*:case| self::*:cell| self::*:colloc| self::*:corr
-| self::*:damage| self::*:def| self::*:del| self::*:docEdition| self::*:emph| self::*:gen| self::*:gram| self::*:head
-| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur| self::*:l| self::*:lang| self::*:lbl| self::*:mood
-| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per| self::*:pos| self::*:pron| self::*:ref
-| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic| self::*:sound| self::*:stress
-| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title| self::*:titlePart
-| self::*:tns| self::*:unclear| self::*:usg| self::*:writing
-| self::*:accMat| self::*:acquisition| self::*:additions| self::*:collation| self::*:condition| self::*:custEvent
-| self::*:decoNote| self::*:filiation| self::*:foliation| self::*:handNote| self::*:item| self::*:layout
-| self::*:musicNotation| self::*:note| self::*:origin| self::*:provenance| self::*:q| self::*:quote| self::*:said
-| self::*:source| self::*:stage| self::*:support| self::*:surrogates| self::*:typeNote| self::*:view
-| self::*:argument| self::*:body| self::*:castList| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4
-| self::*:div5| self::*:div6| self::*:div7| self::*:epigraph| self::*:epilogue| self::*:performance
-| self::*:postscript| self::*:prologue| self::*:set
-| self::*:change| self::*:dictScrap| self::*:entryFree| self::*:etym| self::*:form| self::*:gramGrp| self::*:lem
-| self::*:rdg| self::*:xr| self::*:desc| self::*:fDescr| self::*:figDesc| self::*:fsDescr| self::*:meeting
-| self::*:rendition| self::*:tagUsage| self::*:witness</String>
+														<String>oxy:allows-child-element("*:table")</String>
 													</field>
 													<field name="argValues">
 														<map>
@@ -668,7 +655,7 @@
 											<String>${i18n(section_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Section20.gif</String>
+											<String>/images/Section20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Section16.gif</String>
@@ -1223,7 +1210,7 @@
 											<String>${i18n(insert image_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Image20.gif</String>
+											<String>/images/Image20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Image16.gif</String>
@@ -1238,38 +1225,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:char| self::*:glyph | self::*:address| self::*:app| self::*:argument| self::*:back| self::*:bibl| self::*:body
-| self::*:byline| self::*:castGroup| self::*:castItem| self::*:castList| self::*:change| self::*:cit| self::*:closer
-| self::*:date| self::*:dictScrap| self::*:div| self::*:div1| self::*:div2| self::*:div3| self::*:div4| self::*:div5
-| self::*:div6| self::*:div7| self::*:docImprint| self::*:docTitle| self::*:entry| self::*:entryFree| self::*:epigraph
-| self::*:epilogue| self::*:etym| self::*:figure| self::*:floatingText| self::*:form| self::*:front| self::*:gramGrp
-| self::*:graph| self::*:group| self::*:hom| self::*:imprint| self::*:lem| self::*:lg| self::*:list| self::*:m
-| self::*:msItem| self::*:opener| self::*:performance| self::*:person| self::*:postscript| self::*:prologue| self::*:rdg
-| self::*:re| self::*:sense| self::*:series| self::*:set| self::*:sp| self::*:table| self::*:text| self::*:time
-| self::*:titlePage| self::*:u| self::*:w| self::*:xr | self::*:ab| self::*:add| self::*:camera| self::*:caption
-| self::*:case| self::*:cell| self::*:colloc| self::*:corr| self::*:damage| self::*:def| self::*:del| self::*:docEdition
-| self::*:emph| self::*:gen| self::*:gram| self::*:head| self::*:hi| self::*:hyph| self::*:iType| self::*:imprimatur
-| self::*:l| self::*:lang| self::*:lbl| self::*:mood| self::*:number| self::*:orig| self::*:orth| self::*:p| self::*:per
-| self::*:pos| self::*:pron| self::*:ref| self::*:reg| self::*:restore| self::*:rhyme| self::*:seg| self::*:sic
-| self::*:sound| self::*:stress| self::*:subc| self::*:supplied| self::*:surplus| self::*:syll| self::*:tech| self::*:title
-| self::*:titlePart| self::*:tns| self::*:unclear| self::*:usg| self::*:writing | self::*:abbr| self::*:actor
-| self::*:addName| self::*:addrLine| self::*:affiliation| self::*:author| self::*:biblScope| self::*:birth| self::*:bloc
-| self::*:catchwords| self::*:cl| self::*:colophon| self::*:country| self::*:dateline| self::*:death| self::*:distinct
-| self::*:distributor| self::*:district| self::*:docAuthor| self::*:docDate| self::*:edition| self::*:editor
-| self::*:education| self::*:email| self::*:expan| self::*:explicit| self::*:extent| self::*:faith| self::*:finalRubric
-| self::*:floruit| self::*:foreign| self::*:forename| self::*:fw| self::*:genName| self::*:geoDecl| self::*:geogName
-| self::*:gloss| self::*:headItem| self::*:headLabel| self::*:heraldry| self::*:incipit| self::*:label| self::*:material
-| self::*:measure| self::*:mentioned| self::*:name| self::*:nameLink| self::*:nationality| self::*:num
-| self::*:occupation| self::*:orgName| self::*:persName| self::*:phr| self::*:placeName| self::*:pubPlace
-| self::*:publisher| self::*:region| self::*:residence| self::*:role| self::*:roleDesc| self::*:roleName| self::*:rs
-| self::*:rubric| self::*:s| self::*:salute| self::*:secFol| self::*:settlement| self::*:sex| self::*:signatures
-| self::*:signed| self::*:soCalled| self::*:socecStatus| self::*:speaker| self::*:stamp| self::*:street| self::*:summary
-| self::*:surname| self::*:term| self::*:textLang| self::*:trailer| self::*:watermark| self::*:wit| self::*:witDetail
-| self::*:activity| self::*:age| self::*:authority| self::*:channel| self::*:classCode| self::*:constitution
-| self::*:creation| self::*:derivation| self::*:domain| self::*:factuality| self::*:funder| self::*:interaction
-| self::*:langKnown| self::*:language| self::*:locale| self::*:metSym| self::*:preparedness| self::*:principal
-| self::*:purpose| self::*:resp| self::*:span| self::*:sponsor| self::*:valDesc
-</String>
+														<String>oxy:allows-child-element("*:figure")</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -1937,6 +1893,11 @@
 													<String>id.options</String>
 												</field>
 											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>generate.ids</String>
+												</field>
+											</menuItem>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2293,8 +2254,6 @@
 						<String-array>
 							<String>${framework}/xml/tei/custom/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/schema/catalog.xml</String>
-							<String>${framework}/xml/tei/stylesheet/catalog.xml</String>
-							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
@@ -2356,7 +2315,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/xml/tei/stylesheet/odds2/odd2odd.xsl</String>
+									<String>${framework}/xml/tei/stylesheet/odds/odd2odd.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2430,8 +2389,8 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="cascadingStylesheets">
 									<String-array>
-										<String>${framework}/xml/tei/stylesheet/odds2/odd2lite.xsl</String>
-										<String>${framework}/xml/tei/stylesheet/xhtml2/tei.xsl</String>
+										<String>${framework}/xml/tei/stylesheet/odds/odd2lite.xsl</String>
+										<String>${framework}/xml/tei/stylesheet/html/html.xsl</String>
 									</String-array>
 								</field>
 								<field name="xslTransformer">
@@ -2464,7 +2423,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String></String>
 								</field>
 								<field name="inputXSLURL">
-									<String>${framework}/xml/tei/stylesheet/odds2/odd2odd.xsl</String>
+									<String>${framework}/xml/tei/stylesheet/odds/odd2odd.xsl</String>
 								</field>
 								<field name="inputXMLURL">
 									<String>${currentFileURL}</String>
@@ -2538,8 +2497,8 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="cascadingStylesheets">
 									<String-array>
-										<String>${framework}/xml/tei/stylesheet/odds2/odd2lite.xsl</String>
-										<String>${framework}/xml/tei/stylesheet/fo2/teiCustom.xsl</String>
+										<String>${framework}/xml/tei/stylesheet/odds/odd2lite.xsl</String>
+										<String>${framework}/xml/tei/stylesheet/fo/fo.xsl</String>
 									</String-array>
 								</field>
 								<field name="xslTransformer">
@@ -2741,6 +2700,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -3031,6 +2993,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -3320,6 +3285,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -3585,6 +3553,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -3852,6 +3823,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -4117,6 +4091,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -4385,6 +4362,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -4530,6 +4510,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 						<null/>
 					</field>
 					<field name="externalObjectInsertionHandler">
+						<null/>
+					</field>
+					<field name="customAttributeValueEditor">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

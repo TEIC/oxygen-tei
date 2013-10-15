@@ -1,0 +1,758 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace ns1 = "http://purl.oclc.org/dsdl/schematron"
+namespace rng = "http://relaxng.org/ns/structure/1.0"
+
+# Schema generated 2013-07-26T10:33:21Z
+# Edition: 2.5.0. Last updated on
+#	26th July 2013.
+# This material is dual-licensed.
+# [http://creativecommons.org/licenses/by/3.0/] Distributed under a Creative Commons Attribution 3.0 Unported License.  [http://www.opensource.org/licenses/BSD-2-Clause] Copyright 2013 TEI Consortium. All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. This software is provided by the copyright holders and contributors "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage. TEI material can be licensed differently depending on the use you intend to make of it. Hence it is made available under both the CC+BY and BSD-2 licences. The CC+BY licence is generally appropriate for usages which treat TEI content as data or documentation. The BSD-2 licence is generally appropriate for usage of TEI content in a software environment. For further information or clarification, please contact the TEI Consortium. The TEI Header
+
+# Definitions from module header
+
+# Set global predeclared macros
+
+# Set predeclared macros
+
+# 0. predeclared macros
+
+# 1. classes
+att.patternReplacement.attributes =
+  att.patternReplacement.attribute.matchPattern,
+  att.patternReplacement.attribute.replacementPattern
+att.patternReplacement.attribute.matchPattern =
+  
+  ## specifies a regular expression against which the values of other attributes can be matched.
+  attribute matchPattern { data.pattern }
+att.patternReplacement.attribute.replacementPattern =
+  
+  ## specifies a replacement pattern which, once subpattern substitution has been performed, provides a URI.
+  attribute replacementPattern { data.replacement }
+# 2. elements
+appInfo =
+  
+  ## (application information) records information about an application which has edited the TEI file.  []
+  element appInfo { appInfo.content, appInfo.localattributes }
+appInfo.content = model.applicationLike+
+appInfo.localattributes = att.global.attributes, empty
+application =
+  
+  ## provides information about an application which has acted upon the document. []
+  element application {
+    application.content, application.localattributes
+  }
+application.content = model.labelLike+, (model.ptrLike* | model.pLike*)
+application.localattributes =
+  att.global.attributes,
+  att.typed.attributes,
+  att.datable.attributes,
+  
+  ## supplies an identifier for the application, independent of its version number or display name.
+  attribute ident { data.name },
+  
+  ## supplies a version number for the application, independent of its identifier or display name.
+  attribute version { data.versionNumber },
+  empty
+authority =
+  
+  ## (release authority) supplies the name of a person or other agency responsible for making a work available, other than a publisher or distributor. []
+  element authority { authority.content, authority.localattributes }
+authority.content = macro.phraseSeq.limited
+authority.localattributes = att.global.attributes, empty
+availability =
+  
+  ## supplies information about the availability of a text, for example any restrictions on its use or distribution, its copyright status, any licence applying to it, etc. []
+  element availability {
+    availability.content, availability.localattributes
+  }
+availability.content = (model.availabilityPart | model.pLike)+
+availability.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## supplies a code identifying the current availability of the text. 
+  [ a:defaultValue = "unknown" ]
+  attribute status {
+    
+    ## the text is freely available. 
+    "free"
+    | 
+      ## the status of the text is unknown. 
+      "unknown"
+    | 
+      ## the text is not freely available. 
+      "restricted"
+  }?,
+  empty
+biblFull =
+  
+  ## (fully-structured bibliographic citation) contains a fully-structured bibliographic citation, in which all components of the TEI file description are present. [   ]
+  element biblFull { biblFull.content, biblFull.localattributes }
+biblFull.content =
+  (titleStmt,
+   editionStmt?,
+   extent?,
+   publicationStmt,
+   seriesStmt?,
+   notesStmt?),
+  sourceDesc*
+biblFull.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  att.sortable.attributes,
+  att.docStatus.attributes,
+  empty
+cRefPattern =
+  
+  ## (canonical reference pattern) specifies an expression and replacement pattern for transforming a canonical reference into a URI.  [  ]
+  element cRefPattern {
+    cRefPattern.content, cRefPattern.localattributes
+  }
+cRefPattern.content = model.pLike*
+cRefPattern.localattributes =
+  att.global.attributes, att.patternReplacement.attributes, empty
+calendar =
+  
+  ## describes a calendar or dating system used in a dating formula in the text. []
+  element calendar { calendar.content, calendar.localattributes }
+calendar.content = model.pLike+
+calendar.localattributes =
+  att.global.attributes, att.pointing.attributes, empty
+calendarDesc =
+  
+  ## (calendar description) contains a description of the calendar system used in any dating expression found in the text. [ ]
+  element calendarDesc {
+    calendarDesc.content, calendarDesc.localattributes
+  }
+calendarDesc.content = calendar+
+calendarDesc.localattributes = att.global.attributes, empty
+catDesc =
+  
+  ## (category description) describes some category within a taxonomy or text typology, either in the form of a brief prose description or in terms of the situational parameters used by the TEI formal textDesc. []
+  element catDesc { catDesc.content, catDesc.localattributes }
+catDesc.content = (text | model.limitedPhrase | model.catDescPart)*
+catDesc.localattributes = att.global.attributes, empty
+catRef =
+  
+  ## (category reference) specifies one or more defined categories within some taxonomy or text typology. []
+  element catRef { catRef.content, catRef.localattributes }
+catRef.content = empty
+catRef.localattributes =
+  att.global.attributes,
+  att.pointing.attributes,
+  
+  ## identifies the classification scheme within which the set of categories concerned is defined 
+  attribute scheme { data.pointer }?,
+  empty
+category =
+  
+  ## contains an individual descriptive category, possibly nested within a superordinate category, within a user-defined taxonomy. []
+  element category { category.content, category.localattributes }
+category.content =
+  (catDesc+ | (model.descLike | model.glossLike)*),
+  category*
+category.localattributes = att.global.attributes, empty
+change =
+  
+  ## documents a change or set of changes made during the production of a source document, or during the revision of an electronic file. [ ]
+  element change { change.content, change.localattributes }
+change.content = macro.specialPara
+change.localattributes =
+  att.ascribed.attributes,
+  att.datable.attributes,
+  att.docStatus.attributes,
+  att.global.attributes,
+  att.typed.attributes,
+  
+  ## points to one or more elements that belong to this change.
+  attribute target {
+    list { data.pointer+ }
+  }?,
+  empty
+classCode =
+  
+  ## (classification code) contains the classification code used for this text in some standard classification system. []
+  element classCode { classCode.content, classCode.localattributes }
+classCode.content = macro.phraseSeq.limited
+classCode.localattributes =
+  att.global.attributes,
+  
+  ## identifies the classification system or taxonomy in use.
+  attribute scheme { data.pointer },
+  empty
+classDecl =
+  
+  ## (classification declarations) contains one or more taxonomies defining any classificatory codes used elsewhere in the text. [ ]
+  element classDecl { classDecl.content, classDecl.localattributes }
+classDecl.content = taxonomy+
+classDecl.localattributes = att.global.attributes, empty
+correction =
+  
+  ## (correction principles) states how and under what circumstances corrections have been made in the text. [ ]
+  element correction { correction.content, correction.localattributes }
+correction.content = model.pLike+
+correction.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## indicates the degree of correction applied to the text. 
+  [ a:defaultValue = "unknown" ]
+  attribute status {
+    
+    ## the text has been thoroughly checked and proofread. 
+    "high"
+    | 
+      ## the text has been checked at least once. 
+      "medium"
+    | 
+      ## the text has not been checked. 
+      "low"
+    | 
+      ## the correction status of the text is unknown. 
+      "unknown"
+  }?,
+  
+  ## indicates the method adopted to indicate corrections within the text. 
+  [ a:defaultValue = "silent" ]
+  attribute method {
+    
+    ## corrections have been made silently 
+    "silent"
+    | 
+      ## corrections have been represented using markup
+      "markup"
+  }?,
+  empty
+creation =
+  
+  ## contains information about the creation of a text. [ ]
+  element creation { creation.content, creation.localattributes }
+creation.content = (text | model.limitedPhrase | listChange)*
+creation.localattributes =
+  att.global.attributes, att.datable.attributes, empty
+distributor =
+  
+  ## supplies the name of a person or other agency responsible for the distribution of a text. []
+  element distributor {
+    distributor.content, distributor.localattributes
+  }
+distributor.content = macro.phraseSeq
+distributor.localattributes = att.global.attributes, empty
+edition =
+  
+  ## (edition) describes the particularities of one edition of a text. []
+  element edition { edition.content, edition.localattributes }
+edition.content = macro.phraseSeq
+edition.localattributes = att.global.attributes, empty
+editionStmt =
+  
+  ## (edition statement) groups information relating to one edition of a text. [ ]
+  element editionStmt {
+    editionStmt.content, editionStmt.localattributes
+  }
+editionStmt.content = model.pLike+ | (edition, model.respLike*)
+editionStmt.localattributes = att.global.attributes, empty
+editorialDecl =
+  
+  ## (editorial practice declaration) provides details of editorial principles and practices applied during the encoding of a text. [  ]
+  element editorialDecl {
+    editorialDecl.content, editorialDecl.localattributes
+  }
+editorialDecl.content = (model.pLike | model.editorialDeclPart)+
+editorialDecl.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+encodingDesc =
+  
+  ## (encoding description) documents the relationship between an electronic text and the source or sources from which it was derived. [ ]
+  element encodingDesc {
+    encodingDesc.content, encodingDesc.localattributes
+  }
+encodingDesc.content = (model.encodingDescPart | model.pLike)+
+encodingDesc.localattributes = att.global.attributes, empty
+extent =
+  
+  ## describes the approximate size of a text stored on some carrier medium or of some other object, digital or non-digital, specified in any convenient units. [   ]
+  element extent { extent.content, extent.localattributes }
+extent.content = macro.phraseSeq
+extent.localattributes = att.global.attributes, empty
+fileDesc =
+  
+  ## (file description) contains a full bibliographic description of an electronic file. [ ]
+  element fileDesc { fileDesc.content, fileDesc.localattributes }
+fileDesc.content =
+  (titleStmt,
+   editionStmt?,
+   extent?,
+   publicationStmt,
+   seriesStmt?,
+   notesStmt?),
+  sourceDesc+
+fileDesc.localattributes = att.global.attributes, empty
+funder =
+  
+  ## (funding body) specifies the name of an individual, institution, or organization responsible for the funding of a project or text. []
+  element funder { funder.content, funder.localattributes }
+funder.content = macro.phraseSeq.limited
+funder.localattributes = att.global.attributes, empty
+geoDecl =
+  
+  ## (geographic coordinates declaration) documents the notation and the datum used for geographic coordinates expressed as content of the geo element elsewhere within the document. []
+  element geoDecl { geoDecl.content, geoDecl.localattributes }
+geoDecl.content = macro.phraseSeq
+geoDecl.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## supplies a commonly used code name for the datum employed.
+  ## Suggested values include: 1] WGS84(World Geodetic System) ; 2] MGRS(Military Grid Reference System) ; 3] OSGB36(ordnance survey great britain) ; 4] ED50(European Datum coordinate system) 
+  [ a:defaultValue = "WGS84" ]
+  attribute datum {
+    
+    ## (World Geodetic System) a pair of numbers to be interpreted as latitude followed by longitude according to the World Geodetic System.
+    "WGS84"
+    | 
+      ## (Military Grid Reference System) the values supplied are geospatial entity object codes, based on
+      "MGRS"
+    | 
+      ## (ordnance survey great britain) the value supplied is to be interpreted as a British National Grid Reference.
+      "OSGB36"
+    | 
+      ## (European Datum coordinate system) the value supplied is to be interpreted as latitude followed by longitude according to the European Datum coordinate system.
+      "ED50"
+    | xsd:Name
+  }?,
+  empty
+handNote =
+  
+  ## (note on hand) describes a particular style or hand distinguished within a manuscript. []
+  element handNote { handNote.content, handNote.localattributes }
+handNote.content = macro.specialPara
+handNote.localattributes =
+  att.global.attributes, att.handFeatures.attributes, empty
+hyphenation =
+  
+  ## summarizes the way in which hyphenation in a source text has been treated in an encoded version of it. [ ]
+  element hyphenation {
+    hyphenation.content, hyphenation.localattributes
+  }
+hyphenation.content = model.pLike+
+hyphenation.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## (end-of-line) indicates whether or not end-of-line hyphenation has been retained in a text.
+  [ a:defaultValue = "some" ]
+  attribute eol {
+    
+    ## all end-of-line hyphenation has been retained, even though the lineation of the original may not have been. 
+    "all"
+    | 
+      ## end-of-line hyphenation has been retained in some cases. 
+      "some"
+    | 
+      ## all soft end-of-line hyphenation has been removed: any remaining end-od-line hyphenation should be retained. 
+      "hard"
+    | 
+      ## all end-of-line hyphenation has been removed: any remaining hyphenation occurred within the line. 
+      "none"
+  }?,
+  empty
+idno =
+  
+  ## (identifier) supplies any form of identifier used to identify some object, such as a bibliographic item, a person, a title, an organization, etc. in a standardized way. [  ]
+  element idno { idno.content, idno.localattributes }
+idno.content = (text | model.gLike | idno)*
+idno.localattributes =
+  att.global.attributes,
+  att.sortable.attributes,
+  
+  ## categorizes the identifier, for example as an ISBN, Social Security number, etc. 
+  attribute type { data.enumerated }?,
+  empty
+interpretation =
+  
+  ## describes the scope of any analytic or interpretive information added to the text in addition to the transcription.  []
+  element interpretation {
+    interpretation.content, interpretation.localattributes
+  }
+interpretation.content = model.pLike+
+interpretation.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+keywords =
+  
+  ## contains a list of keywords or phrases identifying the topic or nature of a text. []
+  element keywords { keywords.content, keywords.localattributes }
+keywords.content = term+ | \list
+keywords.localattributes =
+  att.global.attributes,
+  
+  ## identifies the controlled vocabulary within which the set of keywords concerned is defined. 
+  attribute scheme { data.pointer }?,
+  empty
+langUsage =
+  
+  ## (language usage) describes the languages, sublanguages, registers, dialects, etc. represented within a text. [  ]
+  element langUsage { langUsage.content, langUsage.localattributes }
+langUsage.content = language+
+langUsage.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+language =
+  
+  ## characterizes a single language or sublanguage used within a text. []
+  element language { language.content, language.localattributes }
+language.content = macro.phraseSeq.limited
+language.localattributes =
+  att.global.attributes,
+  
+  ## (identifier) Supplies a language code constructed as defined in BCP 47 which is used to identify the language documented by this element, and which is referenced by the global xml:lang attribute.
+  attribute ident { data.language },
+  
+  ## specifies the approximate percentage (by volume) of the text which uses this language. 
+  attribute usage {
+    xsd:nonNegativeInteger { maxInclusive = "100" }
+  }?,
+  empty
+licence =
+  
+  ## contains information about a licence or other legal agreement applicable to the text. []
+  element licence { licence.content, licence.localattributes }
+licence.content = macro.specialPara
+licence.localattributes =
+  att.global.attributes,
+  att.pointing.attributes,
+  att.datable.attributes,
+  empty
+listChange =
+  
+  ## groups a number of change descriptions associated with either the creation of a source text or the revision of an encoded text.  [ ]
+  element listChange { listChange.content, listChange.localattributes }
+listChange.content = (listChange | change)+
+listChange.localattributes =
+  att.global.attributes,
+  att.sortable.attributes,
+  
+  ## indicates whether the ordering of its child change elements is to be considered significant or not
+  [ a:defaultValue = "true" ] attribute ordered { data.truthValue }?,
+  empty
+listPrefixDef =
+  
+  ##  (list of prefix definitions) contains a list of definitions of prefixing schemes used in data.pointer values, showing how abbreviated URIs using each scheme may be expanded into full URIs. []
+  element listPrefixDef {
+    listPrefixDef.content, listPrefixDef.localattributes
+  }
+listPrefixDef.content = (prefixDef | listPrefixDef)+
+listPrefixDef.localattributes = att.global.attributes, empty
+\namespace =
+  
+  ## supplies the formal name of the namespace to which the elements documented by its children belong.  []
+  element namespace { namespace.content, namespace.localattributes }
+namespace.content = tagUsage+
+namespace.localattributes =
+  att.global.attributes,
+  
+  ## specifies the full formal name of the namespace concerned.
+  attribute name { data.namespace },
+  empty
+normalization =
+  
+  ## indicates the extent of normalization or regularization of the original source carried out in converting it to electronic form. [ ]
+  element normalization {
+    normalization.content, normalization.localattributes
+  }
+normalization.content = model.pLike+
+normalization.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## indicates the authority for any normalization carried out. 
+  attribute source { data.pointer }?,
+  
+  ## indicates the method adopted to indicate normalizations within the text. 
+  [ a:defaultValue = "silent" ]
+  attribute method {
+    
+    ## normalization made silently 
+    "silent"
+    | 
+      ## normalization represented using markup 
+      "markup"
+  }?,
+  empty
+notesStmt =
+  
+  ## (notes statement) collects together any notes providing information about a text additional to that recorded in other parts of the bibliographic description. [ ]
+  element notesStmt { notesStmt.content, notesStmt.localattributes }
+notesStmt.content = (model.noteLike | relatedItem)+
+notesStmt.localattributes = att.global.attributes, empty
+prefixDef =
+  
+  ##  (prefixing scheme used in data.pointer values) defines a prefixing scheme used in data.pointer values, showing how abbreviated URIs using the scheme may be expanded into full URIs. []
+  element prefixDef { prefixDef.content, prefixDef.localattributes }
+prefixDef.content = model.pLike*
+prefixDef.localattributes =
+  att.global.attributes,
+  att.patternReplacement.attributes,
+  
+  ## supplies the identifier which functions as the prefix for an abbreviated pointing scheme such as a private URI scheme. The prefix constitutes the text preceding the first colon.
+  attribute ident { data.name },
+  empty
+principal =
+  
+  ## (principal researcher) supplies the name of the principal researcher responsible for the creation of an electronic text. []
+  element principal { principal.content, principal.localattributes }
+principal.content = macro.phraseSeq.limited
+principal.localattributes = att.global.attributes, empty
+profileDesc =
+  
+  ## (text-profile description) provides a detailed description of non-bibliographic aspects of a text, specifically the languages and sublanguages used, the situation in which it was produced, the participants and their setting. [ ]
+  element profileDesc {
+    profileDesc.content, profileDesc.localattributes
+  }
+profileDesc.content = model.profileDescPart*
+profileDesc.localattributes = att.global.attributes, empty
+projectDesc =
+  
+  ## (project description) describes in detail the aim or purpose for which an electronic file was encoded, together with any other relevant information concerning the process by which it was assembled or collected. [  ]
+  element projectDesc {
+    projectDesc.content, projectDesc.localattributes
+  }
+projectDesc.content = model.pLike+
+projectDesc.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+publicationStmt =
+  
+  ## (publication statement) groups information concerning the publication or distribution of an electronic or other text.  [ ]
+  element publicationStmt {
+    publicationStmt.content, publicationStmt.localattributes
+  }
+publicationStmt.content = model.pLike+ | model.publicationStmtPart+
+publicationStmt.localattributes = att.global.attributes, empty
+quotation =
+  
+  ## specifies editorial practice adopted with respect to quotation marks in the original.  [ ]
+  element quotation { quotation.content, quotation.localattributes }
+quotation.content =
+  (model.pLike*)
+  >> ns1:pattern [
+       id = "quotation-constraint-quotationContents"
+       "\x{a}" ~
+       "         "
+       ns1:rule [
+         context = "tei:quotation"
+         "\x{a}" ~
+         "            "
+         ns1:report [
+           test = "not(@marks) and not (tei:p)"
+           "\x{a}" ~
+           "On "
+           ns1:name [ ]
+           ", either the @marks attribute should be used, or a paragraph of description provided"
+         ]
+         "\x{a}" ~
+         "         "
+       ]
+       "\x{a}" ~
+       "      "
+     ]
+quotation.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  
+  ## (quotation marks) indicates whether or not quotation marks have been retained as content within the text. 
+  attribute marks {
+    
+    ## no quotation marks have been retained 
+    "none"
+    | 
+      ## some quotation marks have been retained 
+      "some"
+    | 
+      ## all quotation marks have been retained 
+      "all"
+  }?,
+  
+  ## specifies how quotation marks are indicated within the text.
+  [ a:defaultValue = "unknown" ] attribute form { data.enumerated }?,
+  empty
+refState =
+  
+  ## (reference state) specifies one component of a canonical reference defined by the milestone method. [ ]
+  element refState { refState.content, refState.localattributes }
+refState.content = empty
+refState.localattributes =
+  att.global.attributes,
+  att.milestoneUnit.attributes,
+  att.edition.attributes,
+  
+  ## specifies the fixed length of the reference component.
+  attribute length { data.count }?,
+  
+  ## (delimiter) supplies a delimiting string following the reference component.
+  attribute delim { data.text }?,
+  empty
+refsDecl =
+  
+  ## (references declaration) specifies how canonical references are constructed for this text. [  ]
+  element refsDecl { refsDecl.content, refsDecl.localattributes }
+refsDecl.content = model.pLike+ | cRefPattern+ | refState+
+refsDecl.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+rendition =
+  
+  ## supplies information about the rendition or appearance of one or more elements in the source text. []
+  element rendition { rendition.content, rendition.localattributes }
+rendition.content = macro.limitedContent
+rendition.localattributes =
+  att.global.attributes,
+  att.styleDef.attributes,
+  
+  ## where CSS is used, provides a way of defining pseudo-elements, that is, styling rules applicable to specific sub-portions of an element.
+  ## Sample values include: 1] first-line; 2] first-letter; 3] before; 4] after
+  attribute scope { data.enumerated }?,
+  empty
+revisionDesc =
+  
+  ## (revision description) summarizes the revision history for a file. [ ]
+  element revisionDesc {
+    revisionDesc.content, revisionDesc.localattributes
+  }
+revisionDesc.content = \list | listChange | change+
+revisionDesc.localattributes =
+  att.global.attributes, att.docStatus.attributes, empty
+samplingDecl =
+  
+  ## (sampling declaration) contains a prose description of the rationale and methods used in sampling texts in the creation of a corpus or collection. [  ]
+  element samplingDecl {
+    samplingDecl.content, samplingDecl.localattributes
+  }
+samplingDecl.content = model.pLike+
+samplingDecl.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+scriptNote =
+  
+  ## describes a particular script distinguished within the description of a manuscript or similar resource. []
+  element scriptNote { scriptNote.content, scriptNote.localattributes }
+scriptNote.content = macro.specialPara
+scriptNote.localattributes =
+  att.global.attributes, att.handFeatures.attributes, empty
+segmentation =
+  
+  ## describes the principles according to which the text has been segmented, for example into sentences, tone-units, graphemic strata, etc. [ ]
+  element segmentation {
+    segmentation.content, segmentation.localattributes
+  }
+segmentation.content = model.pLike+
+segmentation.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+seriesStmt =
+  
+  ## (series statement) groups information about the series, if any, to which a publication belongs. [ ]
+  element seriesStmt { seriesStmt.content, seriesStmt.localattributes }
+seriesStmt.content =
+  model.pLike+
+  | (title+, (editor | respStmt)*, (idno | biblScope)*)
+seriesStmt.localattributes = att.global.attributes, empty
+sourceDesc =
+  
+  ## (source description) describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence. []
+  element sourceDesc { sourceDesc.content, sourceDesc.localattributes }
+sourceDesc.content =
+  model.pLike+
+  | (model.biblLike | model.sourceDescPart | model.listLike)+
+sourceDesc.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+sponsor =
+  
+  ## specifies the name of a sponsoring organization or institution. []
+  element sponsor { sponsor.content, sponsor.localattributes }
+sponsor.content = macro.phraseSeq.limited
+sponsor.localattributes = att.global.attributes, empty
+stdVals =
+  
+  ## (standard values) specifies the format used when standardized date or number values are supplied. [ ]
+  element stdVals { stdVals.content, stdVals.localattributes }
+stdVals.content = model.pLike+
+stdVals.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+styleDefDecl =
+  
+  ##  (style definition language declaration) specifies the name of the formal language in which style or renditional information is supplied elsewhere in the document. The specific version of the scheme may also be supplied. []
+  element styleDefDecl {
+    styleDefDecl.content, styleDefDecl.localattributes
+  }
+styleDefDecl.content = model.pLike*
+styleDefDecl.localattributes =
+  att.global.attributes,
+  att.declarable.attributes,
+  att.styleDef.attributes,
+  empty
+tagUsage =
+  
+  ## supplies information about the usage of a specific element within a text.  []
+  element tagUsage { tagUsage.content, tagUsage.localattributes }
+tagUsage.content = macro.limitedContent
+tagUsage.localattributes =
+  att.global.attributes,
+  
+  ## (element name) specifies the name (generic identifier) of the element indicated by the tag.
+  attribute gi { data.name },
+  
+  ## specifies the number of occurrences of this element within the text.
+  attribute occurs { data.count }?,
+  
+  ## (with unique identifier) specifies the number of occurrences of this element within the text which bear a distinct value for the global xml:id attribute.
+  attribute withId { data.count }?,
+  
+  ## specifies the identifier of a rendition element which defines how this element was rendered in the source text.
+  attribute render {
+    list { data.pointer+ }
+  }?,
+  empty
+tagsDecl =
+  
+  ## (tagging declaration) provides detailed information about the tagging applied to a document. [ ]
+  element tagsDecl { tagsDecl.content, tagsDecl.localattributes }
+tagsDecl.content = rendition*, \namespace*
+tagsDecl.localattributes = att.global.attributes, empty
+taxonomy =
+  
+  ## defines a typology either implicitly, by means of a bibliographic citation, or explicitly by a structured taxonomy. []
+  element taxonomy { taxonomy.content, taxonomy.localattributes }
+taxonomy.content =
+  (model.glossLike | model.descLike)*
+  | category+
+  | (model.biblLike, category*)
+taxonomy.localattributes = att.global.attributes, empty
+teiHeader =
+  
+  ## (TEI header) supplies the descriptive and declarative information making up an electronic title page prefixed to every TEI-conformant text. [ ]
+  element teiHeader { teiHeader.content, teiHeader.localattributes }
+teiHeader.content = fileDesc, model.teiHeaderPart*, revisionDesc?
+teiHeader.localattributes =
+  att.global.attributes,
+  
+  ## specifies the kind of document to which the header is attached, for example whether it is a corpus or individual text.
+  ## Sample values include: 1] text; 2] corpus
+  [ a:defaultValue = "text" ] attribute type { data.enumerated }?,
+  empty
+textClass =
+  
+  ## (text classification) groups information which describes the nature or topic of a text in terms of a standard classification scheme, thesaurus, etc. []
+  element textClass { textClass.content, textClass.localattributes }
+textClass.content = (classCode | catRef | keywords)*
+textClass.localattributes =
+  att.global.attributes, att.declarable.attributes, empty
+titleStmt =
+  
+  ## (title statement) groups information about the title of a work and those responsible for its content. [ ]
+  element titleStmt { titleStmt.content, titleStmt.localattributes }
+titleStmt.content = title+, model.respLike*
+titleStmt.localattributes = att.global.attributes, empty
+typeNote =
+  
+  ## describes a particular font or other significant typographic feature distinguished within the description of a printed resource. []
+  element typeNote { typeNote.content, typeNote.localattributes }
+typeNote.content = macro.specialPara
+typeNote.localattributes =
+  att.global.attributes, att.handFeatures.attributes, empty
+# 3. macros

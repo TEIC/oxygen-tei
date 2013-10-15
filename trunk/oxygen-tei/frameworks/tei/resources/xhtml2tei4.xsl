@@ -22,10 +22,18 @@
 
   <xsl:template match="e:p">
      <xsl:choose>
-          <xsl:when test="((parent::e:td | parent::e:th) and count(parent::*[1]/e:p) = 1) or parent::e:p">
-              <xsl:apply-templates select="@* | node()"/>
-          </xsl:when>
-          <xsl:otherwise>
+         <xsl:when test="((parent::e:td | parent::e:th) and count(parent::*[1]/e:p) = 1) or parent::e:p">
+             <xsl:apply-templates select="@* | node()"/>
+         </xsl:when>
+         <xsl:when test="parent::e:ul | parent::e:ol">
+             <!-- EXM-27834  Workaround for bug in OpenOffice/LibreOffice -->
+             <item>
+                 <p>
+                     <xsl:apply-templates select="@* | node()"/>
+                 </p>
+             </item>
+         </xsl:when>
+         <xsl:otherwise>
               <p>
                  <xsl:apply-templates select="@* | node()"/>
               </p>
@@ -67,10 +75,15 @@
     </item>
   </xsl:template>
   
+    <xsl:template match="e:br[parent::e:code | parent::pre]">
+        <lb/>
+    </xsl:template>
+    
   <xsl:template match="e:pre | e:code | e:blockquote">
     <xsl:choose>
-      <xsl:when test="($context.path.last.name = 'quote') and $context.path.last.uri = ''">
-         <xsl:apply-templates select="@* | node()"/>
+      <xsl:when test="($context.path.last.name = 'quote') 
+          and ($context.path.last.uri = '' or empty($context.path.last.uri))">
+          <xsl:apply-templates select="@* | node()"/>
       </xsl:when>
       <xsl:otherwise>
       <quote>
@@ -331,36 +344,6 @@
    </xsl:choose>
   </xsl:template>
   
-  <xsl:template match="e:a[@href != '' 
-                        and not(boolean(ancestor::e:p|ancestor::e:li))]" 
-                priority="1">
-      <p>
-          <ptr>
-              <xsl:attribute name="target">
-                  <xsl:call-template name="makeID">
-                      <xsl:with-param name="string" select="normalize-space(@href)"/>
-                  </xsl:call-template>
-              </xsl:attribute>
-          </ptr>
-          <xsl:apply-templates/>
-      </p>
-  </xsl:template>
-  
-  <xsl:template match="e:a[contains(@href,'#') 
-                      and not(boolean(ancestor::e:p|ancestor::e:li))]" 
-                priority="1.1">
-   <p>
-   <ptr>
-    <xsl:attribute name="target">
-     <xsl:call-template name="makeID">
-       <xsl:with-param name="string" select="normalize-space(@href)"/>
-     </xsl:call-template>
-    </xsl:attribute>
-   </ptr>
-          <xsl:apply-templates/>
-   </p>
-  </xsl:template>
-  
   <!-- Table conversion -->
   
   <!-- In TEI P4 the XHTML table elements are transformed to the elements of TEI table. -->
@@ -419,7 +402,8 @@
     <xsl:template name="insertParaInSection">
         <xsl:param name="childOfPara"/>
         <xsl:choose>
-            <xsl:when test="parent::e:section or parent::*[e:br]">
+            <xsl:when test="parent::e:section 
+                or parent::*[not(empty(e:br intersect current()/preceding-sibling::*))]">
                 <p><xsl:copy-of select="$childOfPara"/></p>
             </xsl:when>
             <xsl:otherwise><xsl:copy-of select="$childOfPara"/></xsl:otherwise>
