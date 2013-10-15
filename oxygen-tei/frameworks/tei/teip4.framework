@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="14.2" xml:space="preserve">
+<serialized version="15.2" xml:space="preserve">
 	<map>
 		<entry>
 			<String>document.types</String>
@@ -58,7 +58,7 @@
 											<String>${i18n(bold_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Bold20.gif</String>
+											<String>/images/Bold20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Bold16.gif</String>
@@ -101,7 +101,7 @@
 											<String>${i18n(italic_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Italic20.gif</String>
+											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Italic16.gif</String>
@@ -144,7 +144,7 @@
 											<String>${i18n(underline_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Underline20.gif</String>
+											<String>/images/Underline20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Underline16.gif</String>
@@ -187,7 +187,7 @@
 											<String>${i18n(paragraph_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Paragraph20.gif</String>
+											<String>/images/Paragraph20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Paragraph16.gif</String>
@@ -486,7 +486,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::ab| self::add| self::admin| self::argument| self::body| self::camera| self::caption| self::case| self::castList| self::cell| self::colloc| self::corr| self::country| self::damage| self::def| self::descrip| self::dictScrap| self::div| self::div0| self::div1| self::div2| self::div3| self::div4| self::div5| self::div6| self::div7| self::docEdition| self::emph| self::entryFree| self::epigraph| self::epilogue| self::etym| self::figDesc| self::foreign| self::form| self::gen| self::gram| self::gramGrp| self::head| self::hi| self::hyph| self::imprimatur| self::item| self::itype| self::l| self::lang| self::lbl| self::lem| self::meeting| self::metDecl| self::mood| self::note| self::number| self::orth| self::otherForm| self::p| self::per| self::performance| self::pos| self::prologue| self::pron| self::q| self::quote| self::rdg| self::ref| self::region| self::rendition| self::row| self::seg| self::set| self::sic| self::sound| self::stage| self::stress| self::subc| self::supplied| self::syll| self::tagUsage| self::tech| self::title| self::titlePart| self::tns| self::tr| self::trans| self::unclear| self::usg| self::view| self::wit| self::witDetail| self::witness| self::writing| self::xr| self::xref</String>
+														<String>oxy:allows-child-element("*:table")</String>
 													</field>
 													<field name="argValues">
 														<map/>
@@ -639,7 +639,7 @@
 											<String>${i18n(section_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Section20.gif</String>
+											<String>/images/Section20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Section16.gif</String>
@@ -1266,7 +1266,7 @@
 											<String>${i18n(insert image_description2)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Image20.gif</String>
+											<String>/images/Image20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Image16.gif</String>
@@ -1824,6 +1824,98 @@ ancestor-or-self::table</String>
 											</actionMode-array>
 										</field>
 									</action>
+									<action>
+										<field name="id">
+											<String>sort</String>
+										</field>
+										<field name="name">
+											<String>${i18n(sort)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(sort_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Sort20.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Sort16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:table] |
+oxy:current-selected-element()[self::*:row] |
+ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:list] |
+ancestor-or-self::*:list</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.commons.sort.TEIListSortOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>sort_table</String>
+										</field>
+										<field name="name">
+											<String>${i18n(sort)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(sort_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/Sort20.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/Sort16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:current-selected-element()[self::*:table] |
+oxy:current-selected-element()[self::*:row] |
+ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
+													</field>
+													<field name="argValues">
+														<map/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
 								</action-array>
 							</field>
 							<field name="menubarDescriptor">
@@ -1989,6 +2081,11 @@ ancestor-or-self::table</String>
 													<String>id.options</String>
 												</field>
 											</menuItem>
+											<menuItem>
+												<field name="actionID">
+													<String>generate.ids</String>
+												</field>
+											</menuItem>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2101,6 +2198,12 @@ ancestor-or-self::table</String>
 																<String>table.split.below</String>
 															</field>
 														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>sort_table</String>
+															</field>
+														</menuItem>
 													</menuEntry-array>
 												</field>
 											</menu>
@@ -2108,6 +2211,12 @@ ancestor-or-self::table</String>
 											<menuItem>
 												<field name="actionID">
 													<String>generate.ids</String>
+												</field>
+											</menuItem>
+											<menuSeparator/>
+											<menuItem>
+												<field name="actionID">
+													<String>sort</String>
 												</field>
 											</menuItem>
 											<menuSeparator/>
@@ -2181,6 +2290,12 @@ ancestor-or-self::table</String>
 											<toolbarItem>
 												<field name="actionID">
 													<String>itemizedlist</String>
+												</field>
+											</toolbarItem>
+											<toolbarSeparator/>
+											<toolbarItem>
+												<field name="actionID">
+													<String>sort</String>
 												</field>
 											</toolbarItem>
 											<toolbarSeparator/>
@@ -2339,7 +2454,6 @@ ancestor-or-self::table</String>
 							<String>${framework}/xml/teip4/custom/schema/dtd/catalog.xml</String>
 							<String>${framework}/xml/teip4/schema/dtd/catalog.xml</String>
 							<String>${framework}/xml/teip4/stylesheet/catalog.xml</String>
-							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
@@ -2701,6 +2815,9 @@ The Text Encoding Initiative (TEI) Guidelines is an international and interdisci
 						<null/>
 					</field>
 					<field name="externalObjectInsertionHandler">
+						<null/>
+					</field>
+					<field name="customAttributeValueEditor">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

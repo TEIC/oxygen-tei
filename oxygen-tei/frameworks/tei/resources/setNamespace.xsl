@@ -30,5 +30,11 @@
         </xsl:copy>
     </xsl:template>
     
+    <xsl:template match="xhtml:span[ancestor::xhtml:p | ancestor::xhtml:div]
+                                   [not(contains(@style, 'mso-list:'))]" 
+                  mode="setNamespace">
+        <xsl:apply-templates mode="setNamespace"/>
+    </xsl:template>
+    
     <xsl:template match="xhtml:head" mode="setNamespace"/>
 </xsl:stylesheet>

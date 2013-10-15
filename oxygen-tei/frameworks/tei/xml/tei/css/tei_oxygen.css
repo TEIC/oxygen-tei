@@ -94,7 +94,9 @@ div7 {
     -oxy-not-foldable-child: head;
 }
 
-
+:root {
+    -oxy-foldable:false;
+}
 /*Avoids displaying the empty element placeholder.*/
 lb:before{
     content:"";

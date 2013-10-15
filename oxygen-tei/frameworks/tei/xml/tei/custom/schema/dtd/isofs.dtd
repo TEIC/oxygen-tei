@@ -1,0 +1,324 @@
+
+<!--
+DTD Generated 2013-07-26T11:00:04Z. This template file is freely available and you are hereby authorised to copy, modify, and redistribute it in any way without further reference or permissions. When making such modifications, you are strongly recommended to change the present text to include an accurate statement of the licencing conditions applicable to your modified text.
+Edition: 2.5.0. Last updated on
+	26th July 2013.
+Edition Location: http://www.tei-c.org/Vault/P5/2.5.0/
+
+-->
+
+<!-- start datatypes -->
+
+<!ENTITY % data.certainty '(high|medium|low|unknown)' >
+
+<!ENTITY % data.probability ' CDATA ' >
+
+<!ENTITY % data.numeric ' CDATA' >
+
+<!ENTITY % data.count ' CDATA ' >
+
+<!ENTITY % data.temporal.w3c ' CDATA' >
+
+<!ENTITY % data.duration.w3c ' CDATA ' >
+
+<!ENTITY % data.truthValue ' CDATA ' >
+
+<!ENTITY % data.xTruthValue ' CDATA' >
+
+<!ENTITY % data.language ' CDATA' >
+
+<!ENTITY % data.outputMeasurement ' CDATA ' >
+
+<!ENTITY % data.pointer ' CDATA ' >
+
+<!ENTITY % data.versionNumber ' CDATA ' >
+
+<!ENTITY % data.word ' CDATA ' >
+
+<!ENTITY % data.text ' CDATA ' >
+
+<!ENTITY % data.name ' CDATA ' >
+
+<!ENTITY % data.enumerated '%data.name;' >
+
+<!ENTITY % data.duration.iso ' CDATA ' >
+
+<!-- end datatypes -->
+
+<!--predeclared classes -->
+
+<!ENTITY % model.resourceLike "fsdDecl"> 
+<!ENTITY % model.resourceLike_sequence "fsdDecl"> 
+<!ENTITY % model.resourceLike_sequenceOptional "fsdDecl?"> 
+<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "fsdDecl*"> 
+<!ENTITY % model.resourceLike_sequenceRepeatable "fsdDecl+"> 
+<!--end of predeclared classes -->
+
+<!ENTITY % att.datcat.attribute.datcat '
+datcat CDATA  #IMPLIED'>
+
+<!ENTITY % att.datcat.attribute.valueDatcat '
+valueDatcat CDATA  #IMPLIED'>
+<!ENTITY % att.datcat.attributes '
+ %att.datcat.attribute.datcat;
+ %att.datcat.attribute.valueDatcat;'> 
+<!ENTITY % att.global.attribute.xmlid '
+xml:id ID #IMPLIED'>
+
+<!ENTITY % att.global.attribute.xmllang '
+xml:lang %data.language;  #IMPLIED'>
+
+<!ENTITY % att.global.attribute.style '
+style CDATA  #IMPLIED'>
+
+<!ENTITY % att.global.attribute.xmlbase '
+xml:base %data.pointer;  #IMPLIED'>
+<!ENTITY % att.global.attributes '
+ %att.global.attribute.xmlid;
+ %att.global.attribute.xmllang;
+ %att.global.attribute.style;
+ %att.global.attribute.xmlbase;'> 
+<!ENTITY % model.global.meta "fs |fLib |fvLib"> 
+<!ENTITY % model.global.meta_sequence "fs, fLib, fvLib"> 
+<!ENTITY % model.global.meta_sequenceOptional "fs?, fLib?, fvLib?"> 
+<!ENTITY % model.global.meta_sequenceOptionalRepeatable "fs*, fLib*, fvLib*"> 
+<!ENTITY % model.global.meta_sequenceRepeatable "fs+, fLib+, fvLib+"> 
+<!ENTITY % model.gLike ""> 
+<!ENTITY % model.gLike_sequence ""> 
+<!ENTITY % model.gLike_sequenceOptional ""> 
+<!ENTITY % model.gLike_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.gLike_sequenceRepeatable ""> 
+<!ENTITY % model.featureVal.complex "fs |vColl |vNot |vMerge"> 
+<!ENTITY % model.featureVal.complex_sequence "fs, vColl, vNot, vMerge"> 
+<!ENTITY % model.featureVal.complex_sequenceOptional "fs?, vColl?, vNot?, vMerge?"> 
+<!ENTITY % model.featureVal.complex_sequenceOptionalRepeatable "fs*, vColl*, vNot*, vMerge*"> 
+<!ENTITY % model.featureVal.complex_sequenceRepeatable "fs+, vColl+, vNot+, vMerge+"> 
+<!ENTITY % model.featureVal.single "binary |symbol |numeric |string |vLabel |default |vAlt"> 
+<!ENTITY % model.featureVal.single_sequence "binary, symbol, numeric, string, vLabel, default, vAlt"> 
+<!ENTITY % model.featureVal.single_sequenceOptional "binary?, symbol?, numeric?, string?, vLabel?, default?, vAlt?"> 
+<!ENTITY % model.featureVal.single_sequenceOptionalRepeatable "binary*, symbol*, numeric*, string*, vLabel*, default*, vAlt*"> 
+<!ENTITY % model.featureVal.single_sequenceRepeatable "binary+, symbol+, numeric+, string+, vLabel+, default+, vAlt+"> 
+<!ENTITY % model.divPart ""> 
+<!ENTITY % model.divPart_sequence ""> 
+<!ENTITY % model.divPart_sequenceOptional ""> 
+<!ENTITY % model.divPart_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.divPart_sequenceRepeatable ""> 
+<!ENTITY % model.global "%model.global.meta;"> 
+<!ENTITY % model.global_sequence "%model.global.meta;"> 
+<!ENTITY % model.global_sequenceOptional "%model.global.meta;?"> 
+<!ENTITY % model.global_sequenceOptionalRepeatable "%model.global.meta;*"> 
+<!ENTITY % model.global_sequenceRepeatable "%model.global.meta;+"> 
+<!ENTITY % model.featureVal "%model.featureVal.complex; |%model.featureVal.single;"> 
+<!ENTITY % model.featureVal_sequence "%model.featureVal.complex;, %model.featureVal.single;"> 
+<!ENTITY % model.featureVal_sequenceOptional "%model.featureVal.complex;?, %model.featureVal.single;?"> 
+<!ENTITY % model.featureVal_sequenceOptionalRepeatable "%model.featureVal.complex;*, %model.featureVal.single;*"> 
+<!ENTITY % model.featureVal_sequenceRepeatable "%model.featureVal.complex;+, %model.featureVal.single;+"> 
+<!ENTITY % model.inter ""> 
+<!ENTITY % model.inter_sequence ""> 
+<!ENTITY % model.inter_sequenceOptional ""> 
+<!ENTITY % model.inter_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.inter_sequenceRepeatable ""> 
+<!ENTITY % model.common ""> 
+<!ENTITY % model.common_sequence ""> 
+<!ENTITY % model.common_sequenceOptional ""> 
+<!ENTITY % model.common_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.common_sequenceRepeatable ""> 
+<!ENTITY % model.phrase ""> 
+<!ENTITY % model.phrase_sequence ""> 
+<!ENTITY % model.phrase_sequenceOptional ""> 
+<!ENTITY % model.phrase_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.phrase_sequenceRepeatable ""> 
+<!ENTITY % model.limitedPhrase ""> 
+<!ENTITY % model.limitedPhrase_sequence ""> 
+<!ENTITY % model.limitedPhrase_sequenceOptional ""> 
+<!ENTITY % model.limitedPhrase_sequenceOptionalRepeatable ""> 
+<!ENTITY % model.limitedPhrase_sequenceRepeatable ""> 
+<!ENTITY % model.encodingDescPart "fsdDecl"> 
+<!ENTITY % model.encodingDescPart_sequence "fsdDecl"> 
+<!ENTITY % model.encodingDescPart_sequenceOptional "fsdDecl?"> 
+<!ENTITY % model.encodingDescPart_sequenceOptionalRepeatable "fsdDecl*"> 
+<!ENTITY % model.encodingDescPart_sequenceRepeatable "fsdDecl+"> 
+<!ENTITY % model.resourceLike "fsdDecl"> 
+<!ENTITY % model.resourceLike_sequence "fsdDecl"> 
+<!ENTITY % model.resourceLike_sequenceOptional "fsdDecl?"> 
+<!ENTITY % model.resourceLike_sequenceOptionalRepeatable "fsdDecl*"> 
+<!ENTITY % model.resourceLike_sequenceRepeatable "fsdDecl+"> 
+<!-- start predeclared patterns -->
+
+<!-- end predeclared patterns -->
+
+<!-- start rest of patterns -->
+
+<!ENTITY % macro.limitedContent '(#PCDATA|_DUMMY_model.limitedPhrase|_DUMMY_model.inter)*' >
+
+<!ENTITY % macro.xtext '(#PCDATA|_DUMMY_model.gLike)*' >
+
+<!-- end patterns -->
+
+<!-- start elements -->
+
+<!--doc:(bi-conditional feature-structure constraint) defines a biconditional feature-structure constraint; both consequent and antecedent are specified as feature structures or groups of feature structures; the constraint is satisfied if both subsume a given feature structure, or if both do not. [18.11. ] -->
+<!ELEMENT bicond ((fs|f),iff,(fs|f))>
+<!ATTLIST bicond xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST bicond
+ %att.global.attributes; >
+<!--doc:(binary value) represents the value part of a feature-value specification which can contain either of exactly two possible values. [18.2. ] -->
+<!ELEMENT binary EMPTY>
+<!ATTLIST binary xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST binary
+ %att.global.attributes;
+ %att.datcat.attributes;
+value %data.truthValue;  #REQUIRED >
+<!--doc:(conditional feature-structure constraint) defines a conditional feature-structure constraint; the consequent and the antecedent are specified as feature structures or feature-structure collections; the constraint is satisfied if both the antecedent and the consequent subsume a given feature structure, or if the antecedent does not. [18.11. ] -->
+<!ELEMENT cond ((fs|f),then,(fs|f))>
+<!ATTLIST cond xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST cond
+ %att.global.attributes; >
+<!--doc:(default feature value) represents the value part of a feature-value specification which contains a defaulted value. [18.9. ] -->
+<!ELEMENT default EMPTY>
+<!ATTLIST default xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST default
+ %att.global.attributes; >
+<!--doc:(feature) represents a feature value specification, that is, the association of a name with a value of any of several different types. [18.2. ] -->
+<!ELEMENT f (#PCDATA|_DUMMY_model.gLike|%model.featureVal;)*>
+<!ATTLIST f xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST f
+ %att.global.attributes;
+ %att.datcat.attributes;
+name %data.name;  #REQUIRED
+fVal %data.pointer;  #IMPLIED >
+<!--doc:(feature declaration) declares a single feature, specifying its name, organization, range of allowed values, and optionally its default value. [18.11. ] -->
+<!ELEMENT fDecl (fDescr?,vRange,vDefault?)>
+<!ATTLIST fDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fDecl
+ %att.global.attributes;
+name %data.name;  #REQUIRED
+optional %data.truthValue;  "true"  >
+<!--doc:(feature description (in FSD)) describes in prose what is represented by the feature being declared and its values. [18.11. ] -->
+<!ELEMENT fDescr %macro.limitedContent;>
+<!ATTLIST fDescr xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fDescr
+ %att.global.attributes; >
+<!--doc:(feature library) assembles a library of feature elements. [18.4. ] -->
+<!ELEMENT fLib (f)+>
+<!ATTLIST fLib xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fLib
+ %att.global.attributes; >
+<!--doc:(feature structure) represents a feature structure, that is, a collection of feature-value pairs organized as a structural unit. [18.2. ] -->
+<!ELEMENT fs (f)*>
+<!ATTLIST fs xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fs
+ %att.global.attributes;
+ %att.datcat.attributes;
+type %data.enumerated;  #IMPLIED
+feats CDATA  #IMPLIED >
+<!--doc:(feature-structure constraints) specifies constraints on the content of valid feature structures. [18.11. ] -->
+<!ELEMENT fsConstraints (cond|bicond)*>
+<!ATTLIST fsConstraints xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fsConstraints
+ %att.global.attributes; >
+<!--doc:(feature structure declaration) declares one type of feature structure. [18.11. ] -->
+<!ELEMENT fsDecl (fsDescr?,fDecl+,fsConstraints?)>
+<!ATTLIST fsDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fsDecl
+ %att.global.attributes;
+type %data.enumerated;  #REQUIRED
+baseTypes NMTOKENS  #IMPLIED >
+<!--doc:(feature system description (in FSD)) describes in prose what is represented by the type of feature structure declared in the enclosing fsDecl. [18.11. ] -->
+<!ELEMENT fsDescr %macro.limitedContent;>
+<!ATTLIST fsDescr xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fsDescr
+ %att.global.attributes; >
+<!--doc:(feature system declaration) provides a feature system declaration comprising one or more feature structure declarations or feature structure declaration links. [18.11. ] -->
+<!ELEMENT fsdDecl (fsDecl|fsdLink)+>
+<!ATTLIST fsdDecl xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fsdDecl
+ %att.global.attributes; >
+<!--doc:(feature structure declaration link) associates the name of a typed feature structure with a feature structure declaration for it. [18.11. ] -->
+<!ELEMENT fsdLink EMPTY>
+<!ATTLIST fsdLink xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fsdLink
+ %att.global.attributes;
+type %data.enumerated;  #REQUIRED
+target %data.pointer;  #REQUIRED >
+<!--doc:(feature-value library) assembles a library of reusable feature value elements (including complete feature structures). [18.4. ] -->
+<!ELEMENT fvLib (%model.featureVal;)*>
+<!ATTLIST fvLib xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST fvLib
+ %att.global.attributes; >
+<!--doc:defines a conditional default value for a feature; the condition is specified as a feature structure, and is met if it subsumes the feature structure in the text for which a default value is sought. [18.11. ] -->
+<!ELEMENT if ((fs|f),then,(%model.featureVal;))>
+<!ATTLIST if xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST if
+ %att.global.attributes; >
+<!--doc:(if and only if) separates the condition from the consequence in a bicond element. [18.11. ] -->
+<!ELEMENT iff EMPTY>
+<!ATTLIST iff xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST iff
+ %att.global.attributes; >
+<!--doc:(numeric value) represents the value part of a feature-value specification which contains a numeric value or range. [18.3. ] -->
+<!ELEMENT numeric EMPTY>
+<!ATTLIST numeric xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST numeric
+ %att.global.attributes;
+ %att.datcat.attributes;
+value %data.numeric;  #REQUIRED
+max %data.numeric;  #IMPLIED
+trunc %data.truthValue;  #IMPLIED >
+<!--doc:(string value) represents the value part of a feature-value specification which contains a string. [18.3. ] -->
+<!ELEMENT string %macro.xtext;>
+<!ATTLIST string xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST string
+ %att.global.attributes;
+ %att.datcat.attributes; >
+<!--doc:(symbolic value) represents the value part of a feature-value specification which contains one of a finite list of symbols. [18.3. ] -->
+<!ELEMENT symbol EMPTY>
+<!ATTLIST symbol xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST symbol
+ %att.global.attributes;
+ %att.datcat.attributes;
+value %data.word;  #REQUIRED >
+<!--doc:separates the condition from the default in an if, or the antecedent and the consequent in a cond element. [18.11. ] -->
+<!ELEMENT then EMPTY>
+<!ATTLIST then xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST then
+ %att.global.attributes; >
+<!--doc:(value alternation) represents the value part of a feature-value specification which contains a set of values, only one of which can be valid. [18.8.1. ] -->
+<!ELEMENT vAlt ((%model.featureVal;),(%model.featureVal;)+)>
+<!ATTLIST vAlt xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vAlt
+ %att.global.attributes; >
+<!--doc:(collection of values) represents the value part of a feature-value specification which contains multiple values organized as a set, bag, or list. [18.7. ] -->
+<!ELEMENT vColl (fs|%model.featureVal.single;)*>
+<!ATTLIST vColl xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vColl
+ %att.global.attributes;
+org (set|bag|list) #IMPLIED >
+<!--doc:(value default) declares the default value to be supplied when a feature structure does not contain an instance of f for this name; if unconditional, it is specified as one (or, depending on the value of the org attribute of the enclosing fDecl) more fs elements or primitive values; if conditional, it is specified as one or more if elements; if no default is specified, or no condition matches, the value none is assumed. [18.11. ] -->
+<!ELEMENT vDefault ((%model.featureVal;)+|if+)>
+<!ATTLIST vDefault xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vDefault
+ %att.global.attributes; >
+<!--doc:(value label) represents the value part of a feature-value specification which appears at more than one point in a feature structure. [18.6. ] -->
+<!ELEMENT vLabel (%model.featureVal;)?>
+<!ATTLIST vLabel xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vLabel
+ %att.global.attributes;
+name %data.word;  #REQUIRED >
+<!--doc:(merged collection of values) represents a feature value which is the result of merging together the feature values contained by its children, using the organization specified by the org attribute. [18.8.3. ] -->
+<!ELEMENT vMerge (%model.featureVal;)+>
+<!ATTLIST vMerge xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vMerge
+ %att.global.attributes;
+org (set|bag|list) #IMPLIED >
+<!--doc:(value negation) represents a feature value which is the negation of its content. [18.8.2. ] -->
+<!ELEMENT vNot (%model.featureVal;)>
+<!ATTLIST vNot xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vNot
+ %att.global.attributes; >
+<!--doc:(value range) defines the range of allowed values for a feature, in the form of an fs, vAlt, or primitive value; for the value of an f to be valid, it must be subsumed by the specified range; if the f contains multiple values (as sanctioned by the org attribute), then each value must be subsumed by the vRange. [18.11. ] -->
+<!ELEMENT vRange (%model.featureVal;)>
+<!ATTLIST vRange xmlns CDATA "http://www.tei-c.org/ns/1.0">
+<!ATTLIST vRange
+ %att.global.attributes; >
+<!-- end elements -->

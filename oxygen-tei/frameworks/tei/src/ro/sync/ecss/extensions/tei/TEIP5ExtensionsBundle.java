@@ -57,7 +57,9 @@ import ro.sync.ecss.extensions.api.AuthorExtensionStateListener;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
 import ro.sync.ecss.extensions.api.content.ClipboardFragmentProcessor;
+import ro.sync.ecss.extensions.api.link.IDTypeRecognizer;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler;
+import ro.sync.ecss.extensions.tei.id.TEIP5IDTypeRecognizer;
 import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
 
 /**
@@ -86,6 +88,7 @@ public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "TEI P5 extensions bundle implementation";
   }
@@ -140,4 +143,13 @@ public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
     }
     return tableOperationsHandler;
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createIDTypeRecognizer()
+   */
+  @Override
+  public IDTypeRecognizer createIDTypeRecognizer() {
+    return new TEIP5IDTypeRecognizer();
+  }
+
 }

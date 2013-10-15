@@ -23,7 +23,8 @@
             <xsl:copy>
                 <xsl:apply-templates select="@*" mode="nestedLists"/>
                 <xsl:for-each-group select="* | text()[string-length(normalize-space()) > 0]" 
-                        group-adjacent="if (self::xhtml:p[contains(@style, 'level')]) then 1 else 0">
+                        group-adjacent="if (self::xhtml:p[contains(@style, 'level') 
+                                            or contains(@class, 'MsoList')]) then 1 else 0">
                     <xsl:choose>
                         <xsl:when test="current-grouping-key() = 1">
                             <xsl:call-template name="createList">
@@ -90,7 +91,25 @@
     
     <xsl:function name="f:getListIdLevelNumber" as="item()+">
         <xsl:param name="node" as="element()"/>
-        <xsl:variable name="styleOfFirstPara" select="$node/@style" as="xs:string"/>
+        <xsl:variable name="styleOfFirstPara" select="$node/@style" as="xs:string*"/>
+        <xsl:choose>
+            <xsl:when test="empty($styleOfFirstPara)">
+                <!-- 
+                MS Word list items are marked in the clipboard XHTML by only a class attribute, for example:
+                    
+                    class="MsoListBulletCxSpFirst"
+                    
+                       or:
+                           
+                   class="MsoListBulletCxSpMiddle"
+                           
+                       or:
+                           
+                   class="MsoListBulletCxSpLast"
+                -->
+                <xsl:sequence select="()"/>
+            </xsl:when>
+        </xsl:choose>
         <xsl:variable name="indexOfMsoList" select="string-length(substring-before($styleOfFirstPara, 'mso-list:'))"/>
         <xsl:variable name="substringListID" select="substring($styleOfFirstPara, $indexOfMsoList + 10)"/>
         <xsl:variable name="indexOfListID" select="string-length(substring-before($substringListID, 'l'))"/>

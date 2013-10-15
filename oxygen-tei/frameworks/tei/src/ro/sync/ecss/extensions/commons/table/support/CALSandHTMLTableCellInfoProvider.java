@@ -1,0 +1,243 @@
+/*
+ *  The Syncro Soft SRL License
+ *
+ *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistribution of source or in binary form is allowed only with
+ *  the prior written permission of Syncro Soft SRL.
+ *
+ *  2. Redistributions of source code must retain the above copyright
+ *  notice, this list of conditions and the following disclaimer.
+ *
+ *  3. Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in
+ *  the documentation and/or other materials provided with the
+ *  distribution.
+ *
+ *  4. The end-user documentation included with the redistribution,
+ *  if any, must include the following acknowledgment:
+ *  "This product includes software developed by the
+ *  Syncro Soft SRL (http://www.sync.ro/)."
+ *  Alternately, this acknowledgment may appear in the software itself,
+ *  if and wherever such third-party acknowledgments normally appear.
+ *
+ *  5. The names "Oxygen" and "Syncro Soft SRL" must
+ *  not be used to endorse or promote products derived from this
+ *  software without prior written permission. For written
+ *  permission, please contact support@oxygenxml.com.
+ *
+ *  6. Products derived from this software may not be called "Oxygen",
+ *  nor may "Oxygen" appear in their name, without prior written
+ *  permission of the Syncro Soft SRL.
+ *
+ *  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *  DISCLAIMED.  IN NO EVENT SHALL THE SYNCRO SOFT SRL OR
+ *  ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ *  USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ *  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
+ */
+package ro.sync.ecss.extensions.commons.table.support;
+
+import java.util.List;
+
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.AuthorTableColumnWidthProviderBase;
+import ro.sync.ecss.extensions.api.WidthRepresentation;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
+
+/**
+ * A table cell span and column width info provider used for frameworks that have both CALS and HTML tables.
+ */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
+  
+  /**
+   * The CALS table cell info provider.
+   */
+  private CALSTableCellInfoProvider calsTableCellInfoProvider = new CALSTableCellInfoProvider();
+  
+  /**
+   * The HTML table cell info provider.
+   */
+  private HTMLTableCellInfoProvider htmlTableCellInfoProvider = new HTMLTableCellInfoProvider();
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getColSpan(AuthorElement)
+   */
+  public Integer getColSpan(AuthorElement cellElement) {
+    Integer toReturn = htmlTableCellInfoProvider.getColSpan(cellElement);
+    if (toReturn == null) {
+      toReturn = calsTableCellInfoProvider.getColSpan(cellElement);
+    }
+    return toReturn;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getRowSpan(AuthorElement)
+   */
+  public Integer getRowSpan(AuthorElement cellElement) {
+    Integer toReturn = htmlTableCellInfoProvider.getRowSpan(cellElement);
+    if (toReturn == null) {
+      toReturn = calsTableCellInfoProvider.getRowSpan(cellElement);
+    }
+    return toReturn;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#init(AuthorElement)
+   */
+  public void init(AuthorElement tableNode) {
+    calsTableCellInfoProvider.init(tableNode);
+    htmlTableCellInfoProvider.init(tableNode);
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
+   */
+  public String getDescription() {
+    return "Provides information about cells in CALS and HTML tables";
+  }
+
+  /**
+   * Get the table span provider for the CALS table model. 
+   * 
+   * @return The table span provider for the CALS table model.
+   */
+  public AuthorTableCellSpanProvider getCALSTableCellSpanProvider() {
+    return calsTableCellInfoProvider;
+  }
+
+  /**
+   * Get the table span provider for the HTML table model.
+   * 
+   * @return The table span provider for the HTML table model.
+   */
+  public AuthorTableCellSpanProvider getXHTMLTableCellSpanProvider() {
+    return htmlTableCellInfoProvider;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#hasColumnSpecifications(ro.sync.ecss.extensions.api.node.AuthorElement)
+   */
+  public boolean hasColumnSpecifications(AuthorElement tableElement) {
+    boolean hasCols = false;
+    if (CALSConstants.ELEMENT_NAME_TGROUP.equals(tableElement.getName())) {
+      // This is a CALS table.
+      hasCols = calsTableCellInfoProvider.hasColumnSpecifications(tableElement);
+    } else {
+      hasCols = htmlTableCellInfoProvider.hasColumnSpecifications(tableElement);
+    }
+    return hasCols;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getCellWidth(ro.sync.ecss.extensions.api.node.AuthorElement, int, int)
+   */
+  public List<WidthRepresentation> getCellWidth(AuthorElement cellElement, int colNumberStart, int colSpan) {
+    List<WidthRepresentation> toReturn = htmlTableCellInfoProvider.getCellWidth(cellElement, colNumberStart, colSpan);
+    if (toReturn == null) {
+      toReturn = calsTableCellInfoProvider.getCellWidth(cellElement, colNumberStart, colSpan);
+    }
+    return toReturn;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitColumnWidthModifications(AuthorDocumentController, ro.sync.ecss.extensions.api.WidthRepresentation[], java.lang.String)
+   */
+  public void commitColumnWidthModifications(AuthorDocumentController authorDocumentController,
+      WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
+    calsTableCellInfoProvider.commitColumnWidthModifications(authorDocumentController, colWidths, tableCellsTagName);
+    htmlTableCellInfoProvider.commitColumnWidthModifications(authorDocumentController, colWidths, tableCellsTagName);
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
+   */
+  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
+    calsTableCellInfoProvider.commitTableWidthModification(
+        authorDocumentController, newTableWidth, tableCellsTagName);
+    htmlTableCellInfoProvider.commitTableWidthModification(
+        authorDocumentController, newTableWidth, tableCellsTagName);
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getTableWidth(java.lang.String)
+   */
+  public WidthRepresentation getTableWidth(String tableCellsTagName) {
+    WidthRepresentation toReturn = calsTableCellInfoProvider.getTableWidth(tableCellsTagName);
+    if (toReturn == null) {
+      toReturn = htmlTableCellInfoProvider.getTableWidth(tableCellsTagName);
+    }
+    return toReturn;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAcceptingWidth(java.lang.String)
+   */
+  public boolean isTableAcceptingWidth(String tableCellsTagName) {
+    return calsTableCellInfoProvider.isTableAcceptingWidth(tableCellsTagName)
+      || htmlTableCellInfoProvider.isTableAcceptingWidth(tableCellsTagName);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAndColumnsResizable(java.lang.String)
+   */
+  public boolean isTableAndColumnsResizable(String tableCellsTagName) {
+    return calsTableCellInfoProvider.isTableAndColumnsResizable(tableCellsTagName)
+      || htmlTableCellInfoProvider.isTableAndColumnsResizable(tableCellsTagName);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingFixedColumnWidths(java.lang.String)
+   */
+  public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
+    return calsTableCellInfoProvider.isAcceptingFixedColumnWidths(tableCellsTagName)
+    || htmlTableCellInfoProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingPercentageColumnWidths(java.lang.String)
+   */
+  public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
+    return calsTableCellInfoProvider.isAcceptingPercentageColumnWidths(tableCellsTagName)
+    || htmlTableCellInfoProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingProportionalColumnWidths(java.lang.String)
+   */
+  public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
+    return calsTableCellInfoProvider.isAcceptingProportionalColumnWidths(tableCellsTagName)
+    || htmlTableCellInfoProvider.isAcceptingProportionalColumnWidths(tableCellsTagName);
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProviderBase#getAllColspecWidthRepresentations()
+   */
+  @Override
+  public List<WidthRepresentation> getAllColspecWidthRepresentations() {
+    List<WidthRepresentation> toReturn = htmlTableCellInfoProvider.getAllColspecWidthRepresentations();
+    if (toReturn == null) {
+      toReturn = calsTableCellInfoProvider.getAllColspecWidthRepresentations();
+    }
+    return toReturn;
+  }
+}
