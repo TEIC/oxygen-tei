@@ -14,11 +14,13 @@ die()
 }
 SFP5="http://downloads.sourceforge.net/project/tei/TEI-P5-all"
 SFXSL="http://downloads.sourceforge.net/project/tei/Stylesheets"
+SFUSER=rahtz
 TEIVERSION=
 XSLVERSION=
 DEBUG=0
 while test $# -gt 0; do
   case $1 in
+    --sfuser=*)      SFUSER=`echo $1 | sed 's/.*=//'`;;
     --teiversion=*)   TEIVERSION=`echo $1 | sed 's/.*=//'`;;
     --xslversion=*)   XSLVERSION=`echo $1 | sed 's/.*=//'`;;
     --debug) DEBUG=1;;
@@ -63,9 +65,9 @@ rm -f xml/tei/Exemplars/*html
 rm -f xml/tei/Exemplars/*pdf
 rm -f xml/tei/Exemplars/*tex
 rm -f xml/tei/Exemplars/*compiled
-rm tei/xml/tei/odd/p5subset.js
-rm tei/xml/tei/odd/p5subset.json
-rm tei/xml/tei/odd/p5attlist.txt
+rm -f tei/xml/tei/odd/p5subset.js
+rm -f tei/xml/tei/odd/p5subset.json
+rm -f tei/xml/tei/odd/p5attlist.txt
 rm -rf doc
 rm -rf xml/tei/Test 
 rm -rf xml/tei/odd/ReleaseNotes
@@ -89,6 +91,6 @@ echo do Ant build
 ant
 echo move result to tei-$TEIVERSION-$XSLVERSION.zip
 mv dist/tei.zip tei-$TEIVERSION-$XSLVERSION.zip
-echo upload to Google
-python ./googlecode_upload.py -s "TEI release $TEIVERSION and XSL $XSLVERSION" -p oxygen-tei  tei-$TEIVERSION-$XSLVERSION.zip   
+echo upload tei-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
+${ECHO} rsync -e ssh SFUSER=rahtz tei-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/tei-$TEIVERSION-$XSLVERSION.zip 
 rm tei-$TEIVERSION-$XSLVERSION.zip
