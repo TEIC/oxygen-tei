@@ -92,5 +92,5 @@ ant
 echo move result to tei-$TEIVERSION-$XSLVERSION.zip
 mv dist/tei.zip tei-$TEIVERSION-$XSLVERSION.zip
 echo upload tei-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
-${ECHO} rsync -e ssh SFUSER=rahtz tei-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/tei-$TEIVERSION-$XSLVERSION.zip 
+${ECHO} rsync -e ssh tei-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/tei-$TEIVERSION-$XSLVERSION.zip 
 rm tei-$TEIVERSION-$XSLVERSION.zip
