@@ -5,126 +5,129 @@
 	   resources that are used only to build the project.
 -->
 <project basedir="." default="dist" name="tei-framework">
-	<!-- Jars location -->
-	<property name="lib" location="../../lib"/>
-	<!-- SWT required jars location -->
-	<property name="eclipseJars" location="${lib}/eclipse3"/>
-	<!-- Configuration file. -->
-	<property name="propertiesFile" location="../../build.properties"/>
-	<!-- The frameworks part of the project. -->
-	<property name="frameworks" location=".."/>
-	
-	
-	<!-- Clean the output folder. -->
-	<target name="clean">
-		<delete dir="dist" />
-	</target>
+        <!-- Jars location -->
+        <property name="lib" location="../../lib"/>
+        <!-- SWT required jars location -->
+        <property name="eclipseJars" location="${lib}/eclipse3"/>
+        <!-- Configuration file. -->
+        <property name="propertiesFile" location="../../build.properties"/>
+        <!-- The frameworks part of the project. -->
+        <property name="frameworks" location=".."/>
+		
+    <!-- Clean the output folder. -->
+    <target name="clean">
+        <delete dir="dist"/>
+    </target>
 
-	<!-- Check if oxygen jar is found in the lib folder. -->
-	<target name="checkJars">
-		<!-- Check if oxygen.jar is available inside the lib folder. -->
-		<available file="${lib}/oxygen.jar" property="oxygen.present"/>
-		<available file="${oxygen.jar}" property="oxygen.present"/>
-		<fail unless="oxygen.present">
+    <!-- Check if oxygen jar is found in the lib folder. -->
+    <target name="checkJars">
+        <!-- Check if oxygen.jar is available inside the lib folder. -->
+        <available file="${lib}/oxygen.jar" property="oxygen.present"/>
+        <available file="${oxygen.jar}" property="oxygen.present"/>
+        <fail unless="oxygen.present">
 Unable to find oxygen.jar. 
-***
+*** 
 oxygen.jar is required to build this project and it was not found. 
-This library is available in oXygen, inside the oXygen lib folder.
+This library is available in oXygen, inside the oXygen lib folder. 
 This library is not distributed with this project so you need to make it
-available using one of the options described below:
-- edit the ${propertiesFile} file and add an entry like
-oxygen.jar = path/to/your/oxygen.jar
-- copy oxygen.jar into ${lib} folder  
+available using one of the options described below: 
+
+- edit the ${propertiesFile} file and add an entry like 
+  oxygen.jar = path/to/your/oxygen.jar
+  
+- copy oxygen.jar into ${lib} folder 
 
 Alternatively you can checkout the ${frameworks}/tei folder into your 
-oXygen frameworks folder and the library will be automatically detected.
-***
-		</fail>
-		
-		<!-- Check if required eclipse jars are found -->
-		<fail message="Unable to find org.eclipse.jface or org.eclipse.swt required for compile. Searched in ${eclipseJars}">
-			<condition>
-				<not>
-				<and>
-					<resourceexists>
-						<file file="${eclipseJars}"/>
-					</resourceexists>
-					
-					<resourcecount property="eclipse.jars.jface" count="1" when="ge">
-						<fileset dir="${eclipseJars}" >
-							<include name="org.eclipse.jface*.jar"/>
-						</fileset>
-					</resourcecount>
-					<resourcecount property="eclipse.jars.jface" count="1" when="ge">
-						<fileset dir="${eclipseJars}" >
-							<include name="org.eclipse.jface*.jar"/>
-						</fileset>
-					</resourcecount>
-				</and>
-				</not>
-			</condition>
-		</fail>
-			
-	</target>
+oXygen frameworks folder and the library will be automatically detected. 
+*** 
+            </fail>
+        <!-- Check if required eclipse jars are found -->
+        <fail
+            message="Unable to find all Eclipse jar files required for compilation. I looked in: in ${eclipseJars}">
+            <condition>
+                <not>
+                    <and>
+                        <resourceexists>
+                            <file file="${eclipseJars}"/>
+                        </resourceexists>
+                        <resourcecount property="eclipse.jar.files" count="8" when="ge">
+                            <fileset dir="${eclipseJars}">
+                                <include name="org.eclipse.core.commands_*.jar"/>
+                                <include name="org.eclipse.core.runtime_*.jar"/>
+                                <include name="org.eclipse.jface.text_*.jar"/>
+                                <include name="org.eclipse.jface_*.jar"/>
+                                <include name="org.eclipse.swt.win32.win32.x86_*.jar"/>
+                                <include name="org.eclipse.text_*.jar"/>
+                                <include name="org.eclipse.ui.editors_*.jar"/>
+                                <include name="org.eclipse.ui.workbench_*.jar"/>
+                            </fileset>
+                        </resourcecount>
+                    </and>
+                </not>
+            </condition>
+        </fail>
+    </target>
 
-	<!-- Compile java sources. -->
-	<target name="compile" depends="clean, checkJars">
-		<delete dir="classes" />
-		<mkdir dir="classes"/>
-		<javac srcdir="src" destdir="classes">
-			<classpath>
-				<fileset dir="${lib}">
-					<include name="*.jar" />
-				</fileset>
-				
-				<!-- Maybe the path to oxygen.jar is given as a property-->
-				<fileset file="${oxygen.jar}"></fileset>
-				<!-- Put the eclipse jars in the class path because we use SWT
+    <!-- Compile java sources. -->
+    <target name="compile" depends="clean, checkJars">
+        <delete dir="classes"/>
+        <mkdir dir="classes"/>
+        <javac destdir="classes">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="*.jar"/>
+                </fileset>
+                <!-- Maybe the path to oxygen.jar is given as a property-->
+                <fileset file="${oxygen.jar}"/>
+                <!-- Put the eclipse jars in the class path because we use SWT
 				for Oxygen eclipse plugin -->
-				<fileset dir="${eclipseJars}">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-	</target>
+                <fileset dir="${eclipseJars}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <src path="src"/>
+            <include name="ro/sync/ecss/extensions/tei/**/*.java"/>
+            <include name="ro/sync/ecss/extensions/commons/**/*.java"/>
+            <exclude name="**/*Test.java"/> 
+        </javac>
+    </target>
 
-	<!-- Build the classes in a jar and put it inside the tei folder -->
-	<target name="jar" depends="compile">
-		<jar jarfile="tei-node-customizer.jar">
-			<fileset dir="classes">
-				<include name="ro/sync/ecss/extensions/tei/TEINodeRendererCustomizer.class"/>
-			</fileset>
-			<fileset dir="src">
-				<include name="images/node-customizer/*.png"/>
-				<include name="images/node-customizer/*.gif"/>
-			</fileset>
-		</jar>
-		
-		<jar basedir="classes" jarfile="tei.jar">
-			<include name="**/*"/>
-			<exclude name="**/*Test*"/>
-		</jar>
-	</target>
-	
-	<!-- Create a zip archive from the content of the tei folder. -->
-	<target name="dist" depends="jar">
-		<mkdir dir="dist"/>
-		<mkdir dir="dist/tei"/>
-		<copy todir="dist/tei">
-			<fileset dir=".">
-				<include name="**/*"/>
-				<exclude name="**/.svn"/>
-				<exclude name="build.xml"/>
-				<!-- Eclipse settings. -->
-				<exclude name=".settings/**"/>
-				<exclude name="classes/**"/>
-				<exclude name="src/**"/>
-				<exclude name="dist/**"/>
-			</fileset>
-		</copy>
-		<copy file="../../LICENSE.txt" todir="dist/tei"/>
-		<zip destfile="dist/tei.zip" basedir="dist" includes="tei/**" />
-		<delete dir="dist/tei"/>
-		<delete dir="classes"/>		
-	</target>
+    <!-- Build the classes in a jar and put it inside the tei folder -->
+    <target name="jar" depends="compile">
+        <jar jarfile="tei-node-customizer.jar">
+            <fileset dir="classes">
+                <include name="ro/sync/ecss/extensions/tei/TEINodeRendererCustomizer.class"/>
+            </fileset>
+            <fileset dir="src">
+                <include name="images/node-customizer/*.png"/>
+                <include name="images/node-customizer/*.gif"/>
+            </fileset>
+        </jar>
+        <jar basedir="classes" jarfile="tei.jar">
+            <include name="**/*"/>
+            <exclude name="**/*Test*"/>
+        </jar>
+    </target>
+
+    <!-- Create a zip archive from the content of the tei folder. -->
+    <target name="dist" depends="jar">
+        <mkdir dir="dist"/>
+        <mkdir dir="dist/tei"/>
+        <copy todir="dist/tei">
+            <fileset dir=".">
+                <include name="**/*"/>
+                <exclude name="**/.svn"/>
+                <exclude name="build.xml"/>
+                <!-- Eclipse settings. -->
+                <exclude name=".settings/**"/>
+                <exclude name="classes/**"/>
+                <exclude name="src/**"/>
+                <exclude name="dist/**"/>
+            </fileset>
+        </copy>
+        <copy file="../../LICENSE.txt" todir="dist/tei"/>
+        <zip destfile="dist/tei.zip" basedir="dist" includes="tei/**"/>
+        <delete dir="dist/tei"/>
+        <delete dir="classes"/>
+    </target>
 </project>

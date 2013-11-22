@@ -393,7 +393,6 @@ public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, Ke
   /**
    * @see org.eclipse.jface.dialogs.Dialog#isResizable()
    */
-  @Override
   protected boolean isResizable() {
     return true;
   }
