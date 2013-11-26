@@ -93,4 +93,4 @@ echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
 ${ECHO} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
-rm tei-$TEIVERSION-$XSLVERSION.zip
+rm teioxygen-$TEIVERSION-$XSLVERSION.zip
