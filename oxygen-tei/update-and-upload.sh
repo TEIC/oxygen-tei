@@ -17,13 +17,13 @@ SFXSL="http://downloads.sourceforge.net/project/tei/Stylesheets"
 SFUSER=rahtz
 TEIVERSION=
 XSLVERSION=
-DEBUG=0
+DEBUG=
 while test $# -gt 0; do
   case $1 in
     --sfuser=*)      SFUSER=`echo $1 | sed 's/.*=//'`;;
     --teiversion=*)   TEIVERSION=`echo $1 | sed 's/.*=//'`;;
     --xslversion=*)   XSLVERSION=`echo $1 | sed 's/.*=//'`;;
-    --debug) DEBUG=1;;
+    --debug) DEBUG=echo;;
    *) if test "$1" = "${1#--}" ; then 
 	   break
 	else
@@ -45,8 +45,17 @@ then
 fi
 echo Download $SFP5/tei-$TEIVERSION.zip
 curl  -L -s -o tei.zip $SFP5/tei-$TEIVERSION.zip
+if [ $? -ne 0 ]; then
+    echo curl failed
+    exit 1
+fi
 echo Download $SFXSL/tei-xsl-$XSLVERSION.zip
 curl  -L -s -o xsl.zip $SFXSL/tei-xsl-$XSLVERSION.zip
+if [ $? -ne 0 ]; then
+    echo curl failed
+    exit 1
+fi
+
 cd frameworks/tei
 echo zap any old versions
 rm -rf xml/tei/Test 
@@ -83,6 +92,7 @@ rm -rf xml/tei/xquery
 rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
+rm templates/TEI\ P5/tei_*.doc.xml
 cd ../..
 #echo add Brown specifics
 #unzip brown
@@ -92,5 +102,5 @@ ant
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
-${ECHO} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
-rm teioxygen-$TEIVERSION-$XSLVERSION.zip
+${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
+${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
