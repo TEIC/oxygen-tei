@@ -94,8 +94,8 @@ mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 rm templates/TEI\ P5/tei_*.doc.xml
 cd ../..
-#echo add Brown specifics
-#unzip brown
+echo add Brown specifics
+unzip brown
 rm -f tei.zip xsl.zip dist/tei.zip
 echo do Ant build
 ant
