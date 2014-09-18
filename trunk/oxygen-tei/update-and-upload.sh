@@ -96,11 +96,11 @@ rm templates/TEI\ P5/tei_*.doc.xml
 cd ../..
 echo add Brown specifics
 unzip brown
-rm -f tei.zip xsl.zip dist/tei.zip
+rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo do Ant build
-ant
+(cd frameworks/tei; ant)
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
-mv dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
+mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
 ${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
 ${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
