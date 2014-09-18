@@ -7,6 +7,118 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="Insert">
+        <comment>Name for 'OK' buttons from an insertion dialog.</comment>
+        <val lang="en_US">Insert</val>
+        <val lang="de_DE">Insert</val>
+        <val lang="fr_FR">Insert</val>
+        <val lang="ja_JP">Insert</val>
+        <val lang="nl_NL">Insert</val>
+    </key>
+<key value="Alignment">
+        <comment>Name for the alignment table attribute.</comment>
+        <val lang="en_US">Alignment</val>
+        <val lang="de_DE">Ausrichtung</val>
+        <val lang="fr_FR">Alignement</val>
+        <val lang="ja_JP">配置</val>
+        <val lang="nl_NL">Uitlijning</val>
+    </key>
+<key type="action" value="show.table.properties.description">
+        <comment>Show table properties action description.</comment>
+        <val lang="en_US">Action that allows to edit the properties for a table.</val>
+        <val lang="de_DE">Aktion, die es erlaubt, die Eigenschaften einer Tabelle zu bearbeiten.</val>
+        <val lang="fr_FR">Action permettant de modifier les propriétés d'une table.</val>
+        <val lang="ja_JP">テーブルのプロパティを編集することを可能にするアクション。</val>
+        <val lang="nl_NL">Actie die het mogelijk maakt om de eigenschappen van een tabel te bewerken.</val>
+    </key>
+<key type="action" value="insert.table.column">
+        <comment>Insert Column action name.</comment>
+        <val lang="en_US">Insert Column</val>
+        <val lang="de_DE">Spalte einfügen</val>
+        <val lang="fr_FR">Insérer Colonne</val>
+        <val lang="ja_JP">列の挿入</val>
+        <val lang="nl_NL">Voeg kolom in</val>
+    </key>
+<key type="action" value="insert.table.row.above">
+        <comment>Insert row above action name.</comment>
+        <val lang="en_US">Insert Row Above</val>
+        <val lang="de_DE">Zeile oberhalb einfügen</val>
+        <val lang="fr_FR">Insérer rangée dessus</val>
+        <val lang="ja_JP">上に行を挿入する</val>
+        <val lang="nl_NL">Rij boven invoegen</val>
+    </key>
+<key type="action" value="insert.table.row.above_description">
+        <comment>Insert Row above action description.</comment>
+        <val lang="en_US">Insert a new table row above the current row</val>
+        <val lang="de_DE">Eine Tabellenzeile über der aktuellen Zeile einfügen</val>
+        <val lang="fr_FR">Insérez une nouvelle rangée de table au-dessus de la rangée actuelle</val>
+        <val lang="ja_JP">現在の行の上に新しいテーブル行を挿入する</val>
+        <val lang="nl_NL">Voeg een nieuwe tabelrij in boven de huidige rij</val>
+    </key>
+<key type="action" value="insert.table.row.below">
+        <comment>Insert row below action name.</comment>
+        <val lang="en_US">Insert Row Below</val>
+        <val lang="de_DE">Zeile unterhalb einfügen</val>
+        <val lang="fr_FR">Insérer rangée dessous</val>
+        <val lang="ja_JP">下に行を挿入する</val>
+        <val lang="nl_NL">Rij onder invoegen</val>
+    </key>
+<key type="action" value="insert.table.row.below_description">
+        <comment>Insert row below action description.</comment>
+        <val lang="en_US">Insert a new table row below the current row</val>
+        <val lang="de_DE">Eine Tabellenzeile unter der aktuellen Zeile einfügen</val>
+        <val lang="fr_FR">Insérez une nouvelle rangée de table sous la rangée actuelle</val>
+        <val lang="ja_JP">現在の行の下に新しいテーブル行を挿入する</val>
+        <val lang="nl_NL">Voeg een nieuwe tabelrij in onder de huidige rij</val>
+    </key>
+<key type="action" value="insert.table.column.after">
+        <comment>Insert column after action name.</comment>
+        <val lang="en_US">Insert Column After</val>
+        <val lang="de_DE">Spalte rechts einfügen</val>
+        <val lang="fr_FR">Insérer colonne après</val>
+        <val lang="ja_JP">後に列を挿入する</val>
+        <val lang="nl_NL">Kolom rechts invoegen</val>
+    </key>
+<key type="action" value="insert.table.column.after_description">
+        <comment>Insert column after action description.</comment>
+        <val lang="en_US">Insert a new table column after the current column</val>
+        <val lang="de_DE">Eine Tabellenspalte rechts neben der aktuellen Spalte einfügen</val>
+        <val lang="fr_FR">Insérez une nouvelle colonne de table après la colonne actuelle</val>
+        <val lang="ja_JP">現在の列の後に新しいテーブル列を挿入する</val>
+        <val lang="nl_NL">Voeg een nieuwe tabelkolom rechts van de huidige kolom in</val>
+    </key>
+<key type="action" value="insert.table.column.before">
+        <comment>Insert column before action name.</comment>
+        <val lang="en_US">Insert Column Before</val>
+        <val lang="de_DE">Spalte links einfügen</val>
+        <val lang="fr_FR">Insérer colonne avant</val>
+        <val lang="ja_JP">前に列を挿入する</val>
+        <val lang="nl_NL">Kolom links invoegen</val>
+    </key>
+<key type="action" value="insert.table.column.before_description">
+        <comment>Insert Column Before action description.</comment>
+        <val lang="en_US">Insert a new table column before the current column</val>
+        <val lang="de_DE">Eine Tabellenspalte links neben der aktuellen Spalte einfügen</val>
+        <val lang="fr_FR">Insérez une nouvelle colonne de table avant la colonne actuelle</val>
+        <val lang="ja_JP">現在の列の前に新しいテーブル列を挿入する</val>
+        <val lang="nl_NL">Voeg een nieuwe tabelkolom links van de huidige kolom in</val>
+    </key>
+<key type="action" value="table.toggle.colspec">
+        <comment>An action that toggles the visibility of the column specification elements from a table (the name of the element is "colspec"). </comment>
+        <val lang="en_US">colspecs...</val>
+        <val lang="de_DE">Spalteneinstellungen...</val>
+        <val lang="fr_FR">spécscol...</val>
+        <val lang="ja_JP">列指定要...</val>
+        <val lang="nl_NL">kolomspecificaties...</val>
+    </key>
+<key type="action" value="table.toggle.colspec_description">
+        <comment>The description of the action that toggles the visibility of the column specification elements from a table.</comment>
+        <val lang="en_US">Toggles on/off the visibility of the column specification elements from the table.</val>
+        <val lang="de_DE">Element für die Spalteneinstellungen der Tabelle ein-/ausblenden</val>
+        <val lang="fr_FR">Affiche/Masque les éléments de spécification de la colonne de la table.</val>
+        <val lang="ja_JP">テーブルの列指定要素の可視性のオン/オフを切り替えます。</val>
+        <val lang="nl_NL">Schakelt het tonen van de kolomspecificatie-elementen in de tabel in en uit.</val>
+    </key>
 <key type="action" value="Criterion">
         <comment>Name of a section in the Sort dialog.</comment>
         <val lang="en_US">Criterion</val>
@@ -338,27 +450,35 @@
     </key>
 <key type="action" value="insert.table">
         <comment>Insert Table action name.</comment>
+        <val lang="en_US">Insert Table...</val>
+        <val lang="de_DE">Tabelle einfügen...</val>
+        <val lang="fr_FR">Insérer Table...</val>
+        <val lang="ja_JP">テーブルの挿入...</val>
+        <val lang="nl_NL">Voeg tabel in...</val>
+    </key>
+<key type="action" value="insert.table_description">
+        <comment>Insert Table action description.</comment>
         <val lang="en_US">Insert Table</val>
         <val lang="de_DE">Tabelle einfügen</val>
         <val lang="fr_FR">Insérer Table</val>
         <val lang="ja_JP">テーブルの挿入</val>
         <val lang="nl_NL">Voeg tabel in</val>
     </key>
-<key type="action" value="insert.table_description">
-        <comment>Insert Table action description.</comment>
-        <val lang="en_US">Customize and insert table</val>
-        <val lang="de_DE">Tabelle anpassen und einfügen</val>
-        <val lang="fr_FR">Personnalisez et insérer une table</val>
-        <val lang="ja_JP">カスタマイズしてテーブルを挿入</val>
-        <val lang="nl_NL">Pas aan en voeg tabel in</val>
+<key type="action" value="insert.image">
+        <comment>Insert Image action name.</comment>
+        <val lang="en_US">Insert Image...</val>
+        <val lang="de_DE">Grafik einfügen...</val>
+        <val lang="fr_FR">Insérer Image...</val>
+        <val lang="ja_JP">画像の挿入...</val>
+        <val lang="nl_NL">Voeg afbeelding in...</val>
     </key>
-<key type="action" value="insert.table.row_description">
-        <comment>Insert Row action description.</comment>
-        <val lang="en_US">Insert a table row with cells</val>
-        <val lang="de_DE">Eine Tabellenzeile mit Zellen einfügen</val>
-        <val lang="fr_FR">Insérer une rangée de table avec cellules</val>
-        <val lang="ja_JP">テーブル行とセルの挿入</val>
-        <val lang="nl_NL">Voeg toabelrij met cellen in</val>
+<key type="action" value="insert.image_description">
+        <comment>Insert Image action description.</comment>
+        <val lang="en_US">Insert Image Reference</val>
+        <val lang="de_DE">Grafikreferenz einfügen</val>
+        <val lang="fr_FR">Insert Image Reference</val>
+        <val lang="ja_JP">画像参照の挿入</val>
+        <val lang="nl_NL">Voeg afbeeldingreferentie in</val>
     </key>
 <key type="action" value="table.join.row.cells">
         <comment>Join Row Cells action name.</comment>
@@ -482,22 +602,6 @@
         <val lang="fr_FR">Ceindre le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
         <val lang="ja_JP">複数の行にわたってまたがるテーブルセルの内容を分割</val>
         <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere rijen overspant</val>
-    </key>
-<key type="action" value="insert.table.column">
-        <comment>Insert Column action name.</comment>
-        <val lang="en_US">Insert Column</val>
-        <val lang="de_DE">Spalte einfügen</val>
-        <val lang="fr_FR">Insérer Colonne</val>
-        <val lang="ja_JP">列の挿入</val>
-        <val lang="nl_NL">Voeg kolom in</val>
-    </key>
-<key type="action" value="insert.table.column_description">
-        <comment>Insert Column action description.</comment>
-        <val lang="en_US">Insert a table column</val>
-        <val lang="de_DE">Eine Tabellenspalte einfügen</val>
-        <val lang="fr_FR">Insérer Colonne de Table</val>
-        <val lang="ja_JP">テーブル列の挿入</val>
-        <val lang="nl_NL">Voeg een tabelkolom in</val>
     </key>
 <key type="action" value="delete.table.column">
         <comment>Delete Column action name.</comment>
@@ -635,22 +739,6 @@
         <val lang="ja_JP">文書に新しいセクション/サブセクションの挿入</val>
         <val lang="nl_NL">Voeg een nieuwe sectie/subsectie in, in het document</val>
     </key>
-<key type="action" value="insert image">
-        <comment>Insert Image action name.</comment>
-        <val lang="en_US">Insert Image</val>
-        <val lang="de_DE">Grafik einfügen</val>
-        <val lang="fr_FR">Insérer Image</val>
-        <val lang="ja_JP">画像の挿入</val>
-        <val lang="nl_NL">Voeg afbeelding toe</val>
-    </key>
-<key type="action" value="insert image_description">
-        <comment>Insert Image action description.</comment>
-        <val lang="en_US">Insert Image Reference</val>
-        <val lang="de_DE">Grafikreferenz einfügen</val>
-        <val lang="fr_FR">Insérer Référence Image</val>
-        <val lang="ja_JP">画像参照の挿入</val>
-        <val lang="nl_NL">Voeg afbeeldingreferentie toe</val>
-    </key>
 <key value="id.options">
         <comment>ID Options... action name.</comment>
         <val lang="en_US">ID Options...</val>
@@ -698,14 +786,6 @@
         <val lang="fr_FR">Affiche la documentation de l'élément courant dans le manuel de référence TEI P5</val>
         <val lang="ja_JP">TEI P5 リファレンスマニュアルで現在の要素のドキュメントを表示</val>
         <val lang="nl_NL">Toont de documentatie voor het huidige element in de TEI P5-referentiehandleiding</val>
-    </key>
-<key type="action" value="insert image_description2">
-        <comment>Insert Image action description.</comment>
-        <val lang="en_US">Insert TEI Image</val>
-        <val lang="de_DE">TEI Grafik einfügen</val>
-        <val lang="fr_FR">Insert TEI Image</val>
-        <val lang="ja_JP">TEI 画像の挿入</val>
-        <val lang="nl_NL">Voeg TEI-afbeelding in</val>
     </key>
 <key type="action" value="show.TEIp4.documentation">
         <comment>Browse reference manual... action name.</comment>
@@ -838,11 +918,11 @@
     </key>
 <key value="Column_widths">
         <comment>Column widths.</comment>
-        <val lang="en_US">Column widths </val>
-        <val lang="de_DE">Spaltenbreite </val>
-        <val lang="fr_FR">Largeur des colonnes </val>
-        <val lang="ja_JP">列幅 </val>
-        <val lang="nl_NL">Kolombreedte </val>
+        <val lang="en_US">Column widths</val>
+        <val lang="de_DE">Spaltenbreite</val>
+        <val lang="fr_FR">Largeur des colonnes</val>
+        <val lang="ja_JP">列幅</val>
+        <val lang="nl_NL">Kolombreedte</val>
     </key>
 <key value="Frame">
         <comment>'Frame' label text.</comment>
@@ -892,13 +972,13 @@
         <val lang="ja_JP">モデル</val>
         <val lang="nl_NL">Model</val>
     </key>
-<key type="action" value="insert.table.row">
-        <comment>Insert Row action name.</comment>
-        <val lang="en_US">Insert Row</val>
-        <val lang="de_DE">Zeile einfügen</val>
-        <val lang="fr_FR">Insérer la rangée</val>
-        <val lang="ja_JP">行の挿入</val>
-        <val lang="nl_NL">Voeg rij in</val>
+<key type="action" value="insert">
+        <comment>Insert menu item name.</comment>
+        <val lang="en_US">Insert</val>
+        <val lang="de_DE">Einfügen</val>
+        <val lang="fr_FR">Insérer</val>
+        <val lang="ja_JP">挿入</val>
+        <val lang="nl_NL">Voeg in</val>
     </key>
 <key value="table">
         <comment>Table menu item name.</comment>

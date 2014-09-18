@@ -9,15 +9,21 @@
     exclude-result-prefixes="xsl xhtml e f">
     
     <xsl:import href="filterNodes.xsl"/>
-    <xsl:import href="wrapGlobalText.xsl"/>
+    <xsl:import href="breakLines.xsl"/>
+    <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>
     <xsl:import href="nestedSections.xsl"/>
     <xsl:import href="nestedLists.xsl"/>
     <xsl:import href="setNamespace.xsl"/>
     <xsl:include href="xhtml2tei5.xsl"/>
     
-    <xsl:output method="xml" indent="no" omit-xml-declaration="yes"/>
+    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
     
     <xsl:param name="folderOfPasteTargetXml"/>
+    
+    <!-- 
+        The item separator.
+      -->
+    <xsl:param name="context.item.separator" select="','"/>
     
     <!-- 
       The context where the generated fragment will be inserted. 
@@ -35,15 +41,16 @@
     <xsl:param name="context.path.uris.sequence" 
                         select="tokenize($context.path.uris, $context.item.separator)"/>
     
-    <!-- 
-      The item separator.
-    -->
-    <xsl:param name="context.item.separator" select="','"/>
-    
     <!-- Helper variables. -->
     <xsl:variable name="context.path.last.name" select="tokenize($context.path.names, $context.item.separator)[last()]"/>
     <xsl:variable name="context.path.last.uri" select="tokenize($context.path.uris, $context.item.separator)[last()]"/>
 
+    <!-- Replace <br/> element with TEI specific element. -->
+    <xsl:template match="xhtml:br[parent::xhtml:code | parent::xhtml:pre | parent::xhtml:blockquote]" 
+        mode="breakLines">
+        <xhtml:lb/>
+    </xsl:template>
+    
     <xsl:template match="/">
         <!--
         <xsl:message>======== folderOfPasteTargetXml: <xsl:value-of select="$folderOfPasteTargetXml"/></xsl:message>
@@ -52,24 +59,35 @@
         <xsl:message>======== context.item.separator: <xsl:value-of select="$context.item.separator"/></xsl:message>
         -->
 
-        <!-- Transform MS Word titles to H1 elements. -->
+        <!-- Filter unused tags, transform MS Word titles to H1 elements. -->
         <xsl:variable name="processedFilterNodes">
             <xsl:apply-templates mode="filterNodes"/>
         </xsl:variable>
         <!--
         <xsl:message>111111111  <xsl:copy-of select="$processedFilterNodes"/></xsl:message>
-        <xsl:result-document href="output-filterNodes.xml">
+        <xsl:result-document href="output-filterNodes-1.xml">
             <xsl:copy-of select="$processedFilterNodes"/>
         </xsl:result-document>
         -->
         
-        <!-- Wrap all text from global level (xhtml:body) in xhtml:p elements. -->
-        <xsl:variable name="processedWrapGlobalText">
-            <xsl:apply-templates select="$processedFilterNodes" mode="wrapGlobalText"/>
+        <!-- Breask lines at <br/> elements. -->
+        <xsl:variable name="processedBreakLines">
+            <xsl:apply-templates select="$processedFilterNodes" mode="breakLines"/>
         </xsl:variable>
         <!--
-        <xsl:message>222222222  <xsl:copy-of select="$processedWrapGlobalText"/></xsl:message>
-        <xsl:result-document href="output-wrapGlobalText.xml">
+        <xsl:message>222222222  <xsl:copy-of select="$processedBreakLines"/></xsl:message>
+        <xsl:result-document href="output-breakLines-2.xml">
+            <xsl:copy-of select="$processedBreakLines"/>
+        </xsl:result-document>
+        -->
+        
+        <!-- Wrap inline nodes at global level (xhtml:body) in xhtml:p elements. -->
+        <xsl:variable name="processedWrapGlobalText">
+            <xsl:apply-templates select="$processedBreakLines" mode="wrapGlobalText"/>
+        </xsl:variable>
+        <!--
+        <xsl:message>333333333  <xsl:copy-of select="$processedWrapGlobalText"/></xsl:message>
+        <xsl:result-document href="output-wrapGlobalText-3.xml">
             <xsl:copy-of select="$processedWrapGlobalText"/>
         </xsl:result-document>
         -->
@@ -79,8 +97,8 @@
             <xsl:apply-templates select="$processedWrapGlobalText" mode="nestedSections"/>
         </xsl:variable>
         <!--
-        <xsl:message>333333333  <xsl:copy-of select="$processedSections"/></xsl:message>
-        <xsl:result-document href="output-sections.xml">
+        <xsl:message>444444444  <xsl:copy-of select="$processedSections"/></xsl:message>
+        <xsl:result-document href="output-sections-4.xml">
             <xsl:copy-of select="$processedSections"/>
         </xsl:result-document>
         -->
@@ -90,21 +108,20 @@
             <xsl:apply-templates select="$processedSections" mode="nestedLists"/>
         </xsl:variable>
         <!--
-        <xsl:message>444444444   <xsl:copy-of select="$processedLists"/></xsl:message>
-        <xsl:result-document href="output-lists.xml">
+        <xsl:message>555555555   <xsl:copy-of select="$processedLists"/></xsl:message>
+        <xsl:result-document href="output-lists-5.xml">
             <xsl:copy-of select="$processedLists"/>
         </xsl:result-document>
         -->
-
+        
         <xsl:variable name="processedNamespace">
             <xsl:apply-templates select="$processedLists" mode="setNamespace"/>
         </xsl:variable>
-        
         <!--
-        <xsl:message>555555555
+        <xsl:message>666666666
             <xsl:copy-of select="$processedNamespace"/>
         </xsl:message>
-        <xsl:result-document href="output-namespace.xml">
+        <xsl:result-document href="output-namespace-6.xml">
             <xsl:copy-of select="$processedNamespace"/>
         </xsl:result-document>
         -->

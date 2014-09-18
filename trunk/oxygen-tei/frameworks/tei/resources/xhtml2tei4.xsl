@@ -47,38 +47,6 @@
      </p>
    </xsl:template>
    
-   <xsl:template match="e:div[e:br] | e:p[e:br]">
-    <xsl:call-template name="brContent"/>
-  </xsl:template>
-  
-  <xsl:template name="brContent">
-    <xsl:variable name="preceding-text">
-        <xsl:apply-templates select="node()[not(preceding-sibling::e:br)]"/>
-    </xsl:variable>
-    <xsl:if test="string-length(normalize-space($preceding-text)) > 0">
-      <xsl:copy-of select="$preceding-text"/>
-    </xsl:if>
-    <xsl:for-each select="e:br">
-      <lb/>
-      <xsl:variable name="following-text">
-          <xsl:apply-templates select="parent::*[1]/node()[current() is preceding-sibling::e:br[1]]"/>
-      </xsl:variable>
-      <xsl:if test="string-length(normalize-space($following-text)) > 0">
-        <xsl:copy-of select="$following-text"/>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
-  
-  <xsl:template match="e:li[e:br]">
-    <item>
-          <xsl:call-template name="brContent"/>
-    </item>
-  </xsl:template>
-  
-    <xsl:template match="e:br[parent::e:code | parent::pre]">
-        <lb/>
-    </xsl:template>
-    
   <xsl:template match="e:pre | e:code | e:blockquote">
     <xsl:choose>
       <xsl:when test="($context.path.last.name = 'quote') 
@@ -296,9 +264,11 @@
               <xsl:apply-templates select="@* | node()"/>
           </hi>
       </xsl:variable>
-      <xsl:call-template name="insertParaInSection">
-          <xsl:with-param name="childOfPara" select="$hi"/>
-      </xsl:call-template>
+      <xsl:if test="string-length(normalize-space($hi)) > 0">
+          <xsl:call-template name="insertParaInSection">
+              <xsl:with-param name="childOfPara" select="$hi"/>
+          </xsl:call-template>
+      </xsl:if>
   </xsl:template>
 
   <xsl:template match="e:i | e:em">
@@ -307,9 +277,11 @@
               <xsl:apply-templates select="@* | node()"/>
           </hi>
       </xsl:variable>
-      <xsl:call-template name="insertParaInSection">
-          <xsl:with-param name="childOfPara" select="$hi"/>
-      </xsl:call-template>
+      <xsl:if test="string-length(normalize-space($hi)) > 0">
+          <xsl:call-template name="insertParaInSection">
+              <xsl:with-param name="childOfPara" select="$hi"/>
+          </xsl:call-template>
+      </xsl:if>
   </xsl:template>
 
   <xsl:template match="e:u">
@@ -318,9 +290,15 @@
               <xsl:apply-templates select="@* | node()"/>
           </hi>
       </xsl:variable>
-      <xsl:call-template name="insertParaInSection">
-          <xsl:with-param name="childOfPara" select="$hi"/>
-      </xsl:call-template>
+      <xsl:if test="string-length(normalize-space($hi)) > 0">
+          <xsl:call-template name="insertParaInSection">
+              <xsl:with-param name="childOfPara" select="$hi"/>
+          </xsl:call-template>
+      </xsl:if>
+  </xsl:template>
+    
+  <xsl:template match="e:lb">
+      <lb/>
   </xsl:template>
           
   <!-- Ignored elements -->
@@ -334,8 +312,7 @@
     <xsl:when test="normalize-space() = ''"><xsl:text> </xsl:text></xsl:when>
     <xsl:otherwise>
         <xsl:choose>
-            <xsl:when test="parent::e:section or parent::e:span/parent::e:section 
-                                   or parent::e:p[e:br] or parent::e:span/parent::e:p[e:br]">
+            <xsl:when test="parent::e:section or parent::e:span/parent::e:section">
                 <p><xsl:value-of select="translate(., '&#xA0;', ' ')"/></p>
             </xsl:when>
             <xsl:otherwise><xsl:value-of select="translate(., '&#xA0;', ' ')"/></xsl:otherwise>
@@ -402,8 +379,7 @@
     <xsl:template name="insertParaInSection">
         <xsl:param name="childOfPara"/>
         <xsl:choose>
-            <xsl:when test="parent::e:section 
-                or parent::*[not(empty(e:br intersect current()/preceding-sibling::*))]">
+            <xsl:when test="parent::e:section">
                 <p><xsl:copy-of select="$childOfPara"/></p>
             </xsl:when>
             <xsl:otherwise><xsl:copy-of select="$childOfPara"/></xsl:otherwise>
