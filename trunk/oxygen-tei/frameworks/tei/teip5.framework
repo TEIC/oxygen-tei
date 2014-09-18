@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="15.2" xml:space="preserve">
-	<map>
+<serialized version="16.0" xml:space="preserve">
+	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
 			<documentTypeDescriptor-array>
 				<documentTypeDescriptor>
+					<field name="extensionPatch">
+						<null/>
+					</field>
 					<field name="name">
 						<String>TEI P5</String>
 					</field>
@@ -79,12 +82,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>element</String>
 																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="bold"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
@@ -122,12 +125,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>element</String>
 																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="italic"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
@@ -165,12 +168,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>element</String>
 																<String>&lt;hi xmlns="http://www.tei-c.org/ns/1.0" rend="ul"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.ToggleSurroundWithElementOperation</String>
@@ -205,23 +208,23 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:p[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>ancestor-or-self::*:p</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;p xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:p[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+																<String>ancestor-or-self::*:p[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -232,12 +235,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;p xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
@@ -272,15 +275,15 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>self::*:list</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
@@ -288,23 +291,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::node()[namespace-uri() = "http://www.tei-c.org/ns/1.0"][self::*:list | self::*:item][1][self::*:list]</String>
+														<String>ancestor-or-self::node()[self::*:list | self::*:item][1][self::*:list]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::node()[parent::*:list][namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+																<String>ancestor-or-self::node()[parent::*:list][1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -312,23 +315,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:item[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>ancestor-or-self::*:item</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:item[1][namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+																<String>ancestor-or-self::*:item[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -363,10 +366,10 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>self::*:list</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
@@ -375,7 +378,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -386,12 +389,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
@@ -426,10 +429,10 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>self::*:list</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
@@ -438,7 +441,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -449,12 +452,12 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
@@ -492,12 +495,12 @@
 														<String>oxy:allows-child-element("*:table")</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>defaultNamespace</String>
 																<String>http://www.tei-c.org/ns/1.0</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.InsertTableOperation</String>
@@ -508,13 +511,13 @@
 									</action>
 									<action>
 										<field name="id">
-											<String>insert.table.row</String>
+											<String>insert.table.row.below</String>
 										</field>
 										<field name="name">
-											<String>${i18n(insert.table.row)}</String>
+											<String>${i18n(insert.table.row.below)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(insert.table.row_description)}</String>
+											<String>${i18n(insert.table.row.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableRow20.gif</String>
@@ -532,10 +535,10 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:table[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>self::*:table</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
@@ -544,7 +547,7 @@
 																<String>namespace</String>
 																<String>http://www.tei-c.org/ns/1.0</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
@@ -552,13 +555,13 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>ancestor-or-self::*:row</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+																<String>ancestor-or-self::*:row[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
@@ -568,7 +571,7 @@
 																<String>namespace</String>
 																<String>http://www.tei-c.org/ns/1.0</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
@@ -603,15 +606,15 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:row[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>self::*:row</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;cell xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
@@ -619,23 +622,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
+														<String>ancestor-or-self::*:cell</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;cell xmlns="http://www.tei-c.org/ns/1.0"/></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:cell[namespace-uri() = "http://www.tei-c.org/ns/1.0"][1]</String>
+																<String>ancestor-or-self::*:cell[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -670,10 +673,10 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div6</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div7 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div7></String>
@@ -686,7 +689,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -694,23 +697,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div6]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div6]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div6[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -718,23 +721,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div6</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div7 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div7></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div6[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div6[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -742,10 +745,10 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div5</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
@@ -758,7 +761,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -766,23 +769,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div5]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div5]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div5[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -790,23 +793,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div5</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div6 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div6></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div5[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div5[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -814,10 +817,10 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div4</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
@@ -830,7 +833,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -838,23 +841,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div4]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div4]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div4[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -862,23 +865,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div4</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div5 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div5></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div4[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div4[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -886,10 +889,10 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div3</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
@@ -902,7 +905,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -910,23 +913,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div3]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div3]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div3[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -934,23 +937,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div3</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div4 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div4></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div3[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div3[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -958,10 +961,10 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div2</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
@@ -974,7 +977,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -982,23 +985,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div2]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div2]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div2[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1006,23 +1009,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div2</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div3 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div3></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div2[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div2[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1030,10 +1033,10 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>self::*:div1</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
@@ -1046,7 +1049,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1054,23 +1057,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div1]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div1]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div1 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div1></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div1[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1078,23 +1081,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div1</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div2 xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div2></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div1[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div1[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1102,23 +1105,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:head[namespace-uri()='http://www.tei-c.org/ns/1.0'][1][parent::*:div]</String>
+														<String>ancestor-or-self::*:head[1][parent::*:div]</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]</String>
+																<String>ancestor-or-self::*:div[1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1126,23 +1129,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:div</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::*:div[namespace-uri()='http://www.tei-c.org/ns/1.0'][1]/child::node()[last()]</String>
+																<String>ancestor-or-self::*:div[1]/child::node()[last()]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1150,23 +1153,23 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>(ancestor::*:back | ancestor::*:body | ancestor::*:front)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>(ancestor::*:back | ancestor::*:body | ancestor::*:front)</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
 															</entry>
 															<entry>
 																<String>insertLocation</String>
-																<String>ancestor-or-self::node()[namespace-uri()='http://www.tei-c.org/ns/1.0'][parent::*:back or parent::*:body or parent::*:front][1]</String>
+																<String>ancestor-or-self::node()[parent::*:back or parent::*:body or parent::*:front][1]</String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
 																<String>After</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1177,7 +1180,7 @@
 														<String></String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
 																<String>&lt;div xmlns="http://www.tei-c.org/ns/1.0">&lt;head/>&lt;p/>&lt;/div></String>
@@ -1190,7 +1193,7 @@
 																<String>insertPosition</String>
 																<String>Inside as first child</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
@@ -1228,7 +1231,7 @@
 														<String>oxy:allows-child-element("*:figure")</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.InsertImageOperationP5</String>
@@ -1239,13 +1242,13 @@
 									</action>
 									<action>
 										<field name="id">
-											<String>insert.table.column</String>
+											<String>insert.table.column.after</String>
 										</field>
 										<field name="name">
-											<String>${i18n(insert.table.column)}</String>
+											<String>${i18n(insert.table.column.after)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(insert.table.column_description)}</String>
+											<String>${i18n(insert.table.column.after_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/TableColumn20.gif</String>
@@ -1263,15 +1266,15 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:row</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>namespace</String>
 																<String>http://www.tei-c.org/ns/1.0</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
@@ -1306,10 +1309,10 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:row</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.JoinRowCellsOperation</String>
@@ -1344,15 +1347,15 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:cell</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Split point</String>
 																<String>Left</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.SplitLeftRightOperation</String>
@@ -1387,15 +1390,15 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:cell</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Split point</String>
 																<String>Right</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.SplitLeftRightOperation</String>
@@ -1431,15 +1434,15 @@
 												<actionMode>
 													<field name="xpathCondition">
 														<String>(ancestor-or-self::*:cell | 
-ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+ancestor-or-self::*:row)</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Join direction</String>
 																<String>Above</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.JoinCellAboveBelowOperation</String>
@@ -1475,15 +1478,15 @@ ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
 												<actionMode>
 													<field name="xpathCondition">
 														<String>(ancestor-or-self::*:cell | 
-ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+ancestor-or-self::*:row)</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Join direction</String>
 																<String>Below</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.JoinCellAboveBelowOperation</String>
@@ -1518,15 +1521,15 @@ ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:cell</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Split point</String>
 																<String>Below</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.SplitCellAboveBelowOperation</String>
@@ -1561,15 +1564,15 @@ ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+														<String>ancestor-or-self::*:cell</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>Split point</String>
 																<String>Above</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.SplitCellAboveBelowOperation</String>
@@ -1604,11 +1607,11 @@ ancestor-or-self::*:row)[namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>(ancestor-or-self::*:cell[namespace-uri()='http://www.tei-c.org/ns/1.0'] |
-ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0'])</String>
+														<String>(ancestor-or-self::*:cell |
+ancestor-or-self::*:row)</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.DeleteColumnOperation</String>
@@ -1644,10 +1647,10 @@ ancestor-or-self::*:row[namespace-uri()='http://www.tei-c.org/ns/1.0'])</String>
 												<actionMode>
 													<field name="xpathCondition">
 														<String>ancestor-or-self::node()[self::*:row | 
-self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</String>
+self::*:table][1][self::*:row]</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.DeleteRowOperation</String>
@@ -1685,7 +1688,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 														<String>true()</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.id.TEIConfigureAutoIDElementsOperation</String>
@@ -1723,7 +1726,7 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 														<String>true()</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.id.GenerateIDsTEIP5Operation</String>
@@ -1761,12 +1764,12 @@ self::*:table][1][self::*:row][namespace-uri()='http://www.tei-c.org/ns/1.0']</S
 														<String>true()</String>
 													</field>
 													<field name="argValues">
-														<map>
+														<serializableOrderedMap>
 															<entry>
 																<String>URL pattern</String>
 																<String>http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-{Element_name}.html</String>
 															</entry>
-														</map>
+														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.operations.ShowElementDocumentationOperation</String>
@@ -1806,7 +1809,7 @@ oxy:current-selected-element()[self::*:row] |
 ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
@@ -1818,7 +1821,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 ancestor-or-self::*:list</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.commons.sort.TEIListSortOperation</String>
@@ -1858,10 +1861,128 @@ oxy:current-selected-element()[self::*:row] |
 ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</field>
 													<field name="argValues">
-														<map/>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
 														<String>ro.sync.ecss.extensions.tei.table.TEITableSortOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.row.above</String>
+										</field>
+										<field name="name">
+											<String>${i18n(insert.table.row.above)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(insert.table.row.above_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableRowAbove20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableRowAbove16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:table</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:row[1]</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Before</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.column.before</String>
+										</field>
+										<field name="name">
+											<String>${i18n(insert.table.column.before)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(insert.table.column.before_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableColumnBefore20.gif</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableColumnBefore16.gif</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>insertPosition</String>
+																<String>Before</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -1961,19 +2082,31 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 																<String>insert.table</String>
 															</field>
 														</menuItem>
+														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.row</String>
+																<String>insert.table.row.above</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.column</String>
+																<String>insert.table.row.below</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.cell</String>
+																<String>delete.table.row</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column.before</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column.after</String>
 															</field>
 														</menuItem>
 														<menuItem>
@@ -1981,9 +2114,10 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 																<String>delete.table.column</String>
 															</field>
 														</menuItem>
+														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
-																<String>delete.table.row</String>
+																<String>insert.table.cell</String>
 															</field>
 														</menuItem>
 														<menuSeparator/>
@@ -2056,12 +2190,12 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 										<menuEntry-array>
 											<menuItem>
 												<field name="actionID">
-													<String>insert.table.row</String>
+													<String>insert.table.row.below</String>
 												</field>
 											</menuItem>
 											<menuItem>
 												<field name="actionID">
-													<String>insert.table.column</String>
+													<String>insert.table.column.after</String>
 												</field>
 											</menuItem>
 											<menu>
@@ -2078,17 +2212,28 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<menuEntry-array>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.row</String>
+																<String>insert.table.row.above</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.column</String>
+																<String>insert.table.row.below</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.cell</String>
+																<String>delete.table.row</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column.before</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.column.after</String>
 															</field>
 														</menuItem>
 														<menuItem>
@@ -2096,9 +2241,10 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 																<String>delete.table.column</String>
 															</field>
 														</menuItem>
+														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
-																<String>delete.table.row</String>
+																<String>insert.table.cell</String>
 															</field>
 														</menuItem>
 														<menuSeparator/>
@@ -2267,12 +2413,12 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
-													<String>insert.table.row</String>
+													<String>insert.table.row.below</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
-													<String>insert.table.column</String>
+													<String>insert.table.column.after</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>
@@ -2388,7 +2534,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</list>
 												</field>
 												<field name="actionID">
-													<String>insert.table.row</String>
+													<String>insert.table.row.below</String>
 												</field>
 												<field name="alias">
 													<String>${i18n(row.wizard)}</String>
@@ -2432,7 +2578,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 						</String-array>
 					</field>
 					<field name="description">
-						<String>The Text Encoding Initiative (TEI) Guidelines are an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation.</String>
+						<String>The Text Encoding Initiative (TEI) Guidelines are an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation. </String>
 					</field>
 					<field name="doctypeRules">
 						<documentTypeRule-array>
@@ -3426,5 +3572,5 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 				</documentTypeDescriptor>
 			</documentTypeDescriptor-array>
 		</entry>
-	</map>
+	</serializableOrderedMap>
 </serialized>
