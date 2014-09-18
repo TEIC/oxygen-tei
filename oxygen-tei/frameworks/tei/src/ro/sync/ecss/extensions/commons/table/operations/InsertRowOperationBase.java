@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
@@ -323,7 +325,9 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
 
         // Copy referenced row structure
         List<AuthorNode> contentNodes = referenceRowElement.getContentNodes();
-        String[] ignoredAttributes = tableHelper.getIgnoredRowAttributes();
+        String[] ignoredAttributes = mergeArrays(tableHelper.getIgnoredRowAttributes(), tableHelper.getIgnoredCellIDAttributes());
+        List<String> allIgnoredAttrs = new ArrayList<String>();
+        allIgnoredAttrs.addAll(Arrays.asList(ignoredAttributes));
         for (AuthorNode cellNode : contentNodes) {
           // Create the new cells fragments 
           if (cellNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
@@ -362,6 +366,26 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     
     return newRowStructure == null ? null : newRowStructure.toString();
   }
+  
+  /**
+   * Merges the two arrays in one.
+   * 
+   * @param array1 The first array.
+   * @param array2 The second array.
+   * @return The newly created array.
+   */
+  private static String[] mergeArrays(String[] array1, String[] array2) {
+    if(array1 == null) {
+      return array2;
+    } else if(array2 == null) {
+      return array1;
+    } else {
+      String[] result = new String[array1.length + array2.length];
+      System.arraycopy(array1, 0, result, 0, array1.length);
+      System.arraycopy(array2, 0, result, array1.length, array2.length);
+      return result;
+    }
+  } 
   
   /**
    * Create a cell XML fragment by copying the element and attributes

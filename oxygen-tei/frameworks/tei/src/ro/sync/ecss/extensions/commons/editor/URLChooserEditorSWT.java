@@ -102,7 +102,6 @@ import ro.sync.exml.view.graphics.Rectangle;
  * 
  * @author costi
  * @author adriana
- *
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextOperationTarget {
@@ -222,14 +221,19 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
     textViewer.getTextWidget().addVerifyKeyListener(new VerifyKeyListener() {
       @Override
       public void verifyKey(VerifyEvent event) {
-        if (event.keyCode == SWT.TAB) {
-          // TAB takes us to the next edit position so we don't want it in the editor.
-          event.doit = false;
-        } else if ((event.keyCode == SWT.CR || event.keyCode == SWT.LF) 
-            && (event.stateMask & SWT.CONTROL) == 0) {
-          // Stop editing.
-          event.doit = false;
-          stopEditing(true);
+        switch (event.keyCode) {
+          case SWT.TAB:
+            // TAB takes us to the next edit position so we don't want it in the editor.
+            event.doit = false;
+            break;
+          case SWT.CR:
+          case SWT.KEYPAD_CR:
+          case SWT.LF:
+            if ((event.stateMask & SWT.CONTROL) == 0) {
+              // Stop editing.
+              event.doit = false;
+              stopEditing(true);
+            }
         }
       }
     });

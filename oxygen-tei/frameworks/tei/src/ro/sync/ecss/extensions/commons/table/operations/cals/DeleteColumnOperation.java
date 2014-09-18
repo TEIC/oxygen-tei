@@ -63,6 +63,7 @@ import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
@@ -74,10 +75,18 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements CALSConstants {
   
   /**
-   * Constructor.
+   * Default constructor.
    */
   public DeleteColumnOperation() {
-    super(new CALSDocumentTypeHelper());
+    this(new CALSDocumentTypeHelper());
+  }
+  
+  /**
+   * Constructor.
+   * @param documentTypeHelper The document type helper.
+   */
+  public DeleteColumnOperation(AuthorTableHelper documentTypeHelper) {
+    super(documentTypeHelper);
   }
   
   /**

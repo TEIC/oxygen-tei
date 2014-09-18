@@ -128,6 +128,21 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    */
   private String selectedFrame;
   
+  /**
+   * The selected row separator value.
+   */
+  private String selectedRowsep;
+  
+  /**
+   * The selected column separator value.
+   */
+  private String selectedColsep;
+  
+  /**
+   * The selected align value.
+   */
+  private String selectedAlign;
+  
   //Customization parameters.
   /**
    * The table that is customized by this dialog has a footer.
@@ -159,6 +174,21 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * Frame values combo.
    */
   private ComboViewer framesCombo;
+  
+  /**
+   * Row separator values combo.
+   */
+  private ComboViewer rowsepCombo;
+  
+  /**
+   * Column separator values combo.
+   */
+  private ComboViewer colsepCombo;
+  
+  /**
+   * Align values combo.
+   */
+  private ComboViewer alignCombo;
 
   /**
    * The table can be have a simple model.
@@ -225,6 +255,18 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * <code>true</code> to show choice table dialog wizard.
    */
   private final boolean showChoiceTable;
+  /**
+   * <code>true</code> if the table allows row separators.
+   */
+  private boolean hasRowSep;
+  /**
+   * <code>true</code> if the table allows column separators.
+   */
+  private boolean hasColsep;
+  /**
+   * <code>true</code> if the table allows align attribute.
+   */
+  private boolean hasAlign;
   
   /**
    * Constructor for TrangDialog.
@@ -246,8 +288,8 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, false, false, 
-        authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, false, 
+        false, false, false, false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
 
   /**
@@ -260,6 +302,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    *                              one of CALS or HTML.
    * @param showSimpleModel       <code>true</code> to show the simple model radio in the model chooser.
    * @param innerCalsTable        <code>true</code> if this is an inner calls table.
+   * @param hasRowsep             <code>true</code> if the table has rowsep attribute.
+   * @param hasColsep             <code>true</code> if the table has colsep attribute.
+   * @param hasAlign              <code>true</code> if the table has align attribute.
    * @param authorResourceBundle  The author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
@@ -271,6 +316,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       boolean showModelChooser,
       boolean showSimpleModel,
       boolean innerCalsTable,
+      boolean hasRowsep,
+      boolean hasColsep,
+      boolean hasAlign,
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
@@ -281,6 +329,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         showSimpleModel, 
         false, 
         innerCalsTable, 
+        hasRowsep,
+        hasColsep,
+        hasAlign,
         authorResourceBundle, 
         predefinedRowsCount, 
         predefinedColumnsCount);
@@ -297,6 +348,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * @param showSimpleModel       <code>true</code> to show the simple model radio in the model chooser.
    * @param showChoiceTable       <code>true</code> to show the dialog for choice table.
    * @param innerCalsTable        <code>true</code> if this is an inner calls table.
+   * @param hasRowsep             <code>true</code> if the table has rowsep attribute.
+   * @param hasColsep             <code>true</code> if the table has colsep attribute.
+   * @param hasAlign              <code>true</code> if the table has align attribute.
    * @param authorResourceBundle  The author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
@@ -309,6 +363,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       boolean showSimpleModel,
       boolean showChoiceTable,
       boolean innerCalsTable,
+      boolean hasRowsep,
+      boolean hasColsep,
+      boolean hasAlign,
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
@@ -322,6 +379,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     this.authorResourceBundle = authorResourceBundle;
     this.predefinedRowsCount = predefinedRowsCount;
     this.predefinedColumnsCount = predefinedColumnsCount;
+    this.hasRowSep = hasRowsep;
+    this.hasColsep = hasColsep;
+    this.hasAlign = hasAlign;
   }
 
   /**
@@ -535,7 +595,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     if (columnsWidths != null) {
       // Cols label
       Label colsLabel = new Label(composite, SWT.LEFT);
-      colsLabel.setText(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS));
+      colsLabel.setText(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS) + ": ");
       
       // Cols combo box
       colWidthsCombobox = new ComboViewer(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -575,7 +635,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     if (hasFrameAttribute) {
       // 'Frame' label.
       Label frameLabel = new Label(composite, SWT.LEFT);
-      frameLabel.setText(authorResourceBundle.getMessage(ExtensionTags.FRAME));
+      frameLabel.setText(authorResourceBundle.getMessage(ExtensionTags.FRAME) + ": ");
 
       // Frame combo box
       framesCombo = new ComboViewer(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -590,8 +650,64 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       setFrameComboInput(getFrameValues(getTableModel()));
     }
     
-    initialize();
+    // EXM-29536 Add rowsep and colsep 
+    if (hasRowSep) {
+      // 'Row sep' label.
+      Label rowsepLabel = new Label(composite, SWT.LEFT);
+      rowsepLabel.setText(authorResourceBundle.getMessage(ExtensionTags.ROW_SEPARATOR) + ": ");
+
+      // Row sep combo box
+      rowsepCombo = new ComboViewer(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+      rowsepCombo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+      rowsepCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+        @Override
+        public void selectionChanged(SelectionChangedEvent event) {
+          selectedRowsep = (String) ((StructuredSelection)event.getSelection()).getFirstElement();
+        }
+      });
+      rowsepCombo.setContentProvider(new ListContentProvider()); 
+      setRowsepComboInput(getRowsepValues(getTableModel()));
+    }
     
+    // EXM-29536 Add rowsep and colsep attribute when inserting a table 
+    if (hasColsep) {
+      // 'Colsep' label.
+      Label colsepLabel = new Label(composite, SWT.LEFT);
+      colsepLabel.setText(authorResourceBundle.getMessage(ExtensionTags.COLUMN_SEPARATOR) + ": ");
+
+      // Col sep combo box
+      colsepCombo = new ComboViewer(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+      colsepCombo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+      colsepCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+        @Override
+        public void selectionChanged(SelectionChangedEvent event) {
+          selectedColsep = (String) ((StructuredSelection)event.getSelection()).getFirstElement();
+        }
+      });
+      colsepCombo.setContentProvider(new ListContentProvider()); 
+      setColsepComboInput(getColsepValues(getTableModel()));
+    }
+    
+    // EXM-29536 Add align attribute when inserting a table 
+    if (hasAlign) {
+      // 'Align' label.
+      Label alignLabel = new Label(composite, SWT.LEFT);
+      alignLabel.setText(authorResourceBundle.getMessage(ExtensionTags.ALIGNMENT) + ": ");
+
+      // Align combo box
+      alignCombo = new ComboViewer(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+      alignCombo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+      alignCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+        @Override
+        public void selectionChanged(SelectionChangedEvent event) {
+          selectedAlign = (String) ((StructuredSelection)event.getSelection()).getFirstElement();
+        }
+      });
+      alignCombo.setContentProvider(new ListContentProvider()); 
+      setAlignComboInput(getAlignValues(getTableModel()));
+    }
+    
+    initialize();
     return composite;
   }
   
@@ -603,6 +719,43 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       framesCombo.setInput(Arrays.asList(frames));
       framesCombo.setSelection(new StructuredSelection(getDefaultFrameValue(getTableModel())), true);
     }
+  }
+  
+  /**
+   * Set the row separator values.
+   * 
+   * @param values List of possible rowsep values.
+   */
+  private void setRowsepComboInput(String[] values) {
+    if (rowsepCombo != null) {
+      rowsepCombo.setInput(Arrays.asList(values));
+      rowsepCombo.setSelection(new StructuredSelection(getDefaultRowsepValue(getTableModel())), true);
+    }
+  }
+  
+  /**
+   * Set the column separator values.
+   * 
+   * @param values List of possible colsep values.
+   */
+  private void setColsepComboInput(String[] values) {
+    if (colsepCombo != null) {
+      colsepCombo.setInput(Arrays.asList(values));
+      colsepCombo.setSelection(new StructuredSelection(getDefaultColsepValue(getTableModel())), true);
+    }
+  }
+  
+  /**
+   * Set the align values.
+   * 
+   * @param values List of possible align values.
+   */
+  private void setAlignComboInput(String[] values) {
+    if (alignCombo != null) {
+      alignCombo.setInput(Arrays.asList(values));
+      alignCombo.setSelection(new StructuredSelection(getDefaultAlignValue(getTableModel())), true);
+    }
+  
   }
 
   /**
@@ -618,32 +771,105 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   /**
    * Compute the possible values for <code>'frame'</code> attribute.
    * 
-   * @param tableModel The table model. 
+   * @param tableModelType The table model type. 
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * @return Returns the possible values for <code>'frame'</code> attribute. 
    */
-  protected abstract String[] getFrameValues(int tableModel);
+  protected abstract String[] getFrameValues(int tableModelType);
+  
+  /**
+   * Compute the possible values for <code>'rowsep'</code> attribute.
+   * 
+   * @param tableModelType The table model type. 
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * @return Returns the possible values for <code>'rowsep'</code> attribute. 
+   */
+  protected abstract String[] getRowsepValues(int tableModelType);
+  
+  /**
+   * Compute the possible values for <code>'colsep'</code> attribute.
+   * 
+   * @param tableModelType The table model. 
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * @return Returns the possible values for <code>'colsep'</code> attribute. 
+   */
+  protected abstract String[] getColsepValues(int tableModelType);
+  
+  /**
+   * Compute the possible values for <code>'align'</code> attribute.
+   * 
+   * @param tableModelType The table model type. 
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * @return Returns the possible values for <code>'align'</code> attribute. 
+   */
+  protected abstract String[] getAlignValues(int tableModelType);
   
   /**
    * Get the default frame value.
    * 
-   * @param tableModel The table model.
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
    * @return The default frame value
    */
-  protected abstract String getDefaultFrameValue(int tableModel);
+  protected abstract String getDefaultFrameValue(int tableModelType);
+  
+  /**
+   * Get the default row separator value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default row separator value
+   */
+  protected abstract String getDefaultRowsepValue(int tableModelType);
+  
+  /**
+   * Get the default column separator value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default column separator value
+   */
+  protected abstract String getDefaultColsepValue(int tableModelType);
+  
+  /**
+   * Get the default align value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default align value
+   */
+  protected abstract String getDefaultAlignValue(int tableModelType);
   
   /**
    * Compute the possible values for the column widths specifications.
    * 
-   * @param tableModel The table model. 
+   * @param tableModelType The table model type. 
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * @return Returns the possible values for the column widths modifications. 
    */
-  protected abstract List<ColumnWidthsType> getColumnWidthsSpecifications(int tableModel);
+  protected abstract List<ColumnWidthsType> getColumnWidthsSpecifications(int tableModelType);
 
   /**
    * Create a checkbox with an implementation specific title.
@@ -681,9 +907,12 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           createHeader, 
           hasFooter? createFooter : false, 
           // EXM-23110 If the user chose the "<unspecified>" value for frame attribute, don't insert any frame attribute
-          hasFrameAttribute ? (!FRAME_UNSPECIFIED.equals(selectedFrame) ? selectedFrame : null) : null,
+          hasFrameAttribute ? (!UNSPECIFIED.equals(selectedFrame) ? selectedFrame : null) : null,
           tableModel, 
-          selectedColWidthsType);
+          selectedColWidthsType,
+          hasRowSep ? (!UNSPECIFIED.equals(selectedRowsep) ? selectedRowsep : null) : null,
+          hasColsep ? (!UNSPECIFIED.equals(selectedColsep) ? selectedColsep : null) : null,
+          hasAlign ? (!UNSPECIFIED.equals(selectedAlign) ? selectedAlign : null) : null);
     } else {
       // Cancel was pressed
     }
@@ -755,8 +984,42 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           framesCombo.setSelection(new StructuredSelection(selectedFrame));
         } else {
           // EXM-23110 If the table has no frame attribute, then the frame combo selection should be "<unspecified>"
-          selectedFrame = FRAME_UNSPECIFIED;
+          selectedFrame = UNSPECIFIED;
           framesCombo.setSelection(new StructuredSelection(selectedFrame));
+        }
+      }
+      
+      if (rowsepCombo != null) {
+        if (tableInfo.getRowsep() != null) {
+          selectedRowsep = tableInfo.getRowsep();
+          rowsepCombo.setSelection(new StructuredSelection(selectedRowsep));
+        } else {
+          // EXM-23110 If the table has no row separator attribute, then the frame combo selection should be "<unspecified>"
+          selectedRowsep = UNSPECIFIED;
+          rowsepCombo.setSelection(new StructuredSelection(selectedRowsep));
+        }
+      
+      }
+      
+      // Colsep value
+      if (colsepCombo != null) {
+        if (tableInfo.getColsep() != null) {
+          selectedColsep = tableInfo.getColsep();
+          colsepCombo.setSelection(new StructuredSelection(selectedColsep));
+        } else {
+          selectedColsep = UNSPECIFIED;
+          colsepCombo.setSelection(new StructuredSelection(selectedColsep));
+        }
+      }
+      
+      // Align value
+      if (alignCombo != null) {
+        if (tableInfo.getAlign() != null) {
+          selectedAlign = tableInfo.getAlign();
+          alignCombo.setSelection(new StructuredSelection(selectedAlign));
+        } else {
+          selectedAlign = UNSPECIFIED;
+          alignCombo.setSelection(new StructuredSelection(selectedAlign));
         }
       }
     } else {
@@ -794,27 +1057,27 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   }
 
   /**
-   * @return The table model depending on the state of the dialog.
+   * @return The table model type depending on the state of the dialog.
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    */
   private int getTableModel() {
-    int tableModel = TableInfo.TABLE_MODEL_CUSTOM;
+    int tableModelType = TableInfo.TABLE_MODEL_CUSTOM;
     if (showModelChooser) {
       if (makeCalsTable) {
-        tableModel = TableInfo.TABLE_MODEL_CALS;
+        tableModelType = TableInfo.TABLE_MODEL_CALS;
       } else {
         if (simpleTableModel) {
-          tableModel = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
         } else {
-          tableModel = TableInfo.TABLE_MODEL_HTML;
+          tableModelType = TableInfo.TABLE_MODEL_HTML;
         }
       }
     } else if (showChoiceTable) {
-      tableModel = TableInfo.TABLE_MODEL_DITA_CHOICE;
+      tableModelType = TableInfo.TABLE_MODEL_DITA_CHOICE;
     }
-    return tableModel;
+    return tableModelType;
   }
   
   /**
@@ -830,6 +1093,33 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   }
   
   /**
+   * Update the state of the separators combos.
+   * 
+   * @param enabled <code>true</code> if the separators should be enabled.
+   */
+  private void updateSeparatorsState(boolean enabled) {
+    // Update title state
+    if (rowsepCombo != null) {
+      rowsepCombo.getCombo().setEnabled(enabled);
+    }
+
+    if (colsepCombo != null) {
+      colsepCombo.getCombo().setEnabled(enabled);
+    }
+  }
+  
+  /**
+   * Update the state of the align combo.
+   * 
+   * @param enabled <code>true</code> if the align combo is enabled.
+   */
+  private void updateAlignState(boolean enabled) {
+    if (alignCombo != null) {
+      alignCombo.getCombo().setEnabled(enabled);
+    }
+  }
+  
+  /**
    * Update controls for the given selected table model.
    */
   private void tableModelChanged(int model) {
@@ -838,5 +1128,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     // TABLE_MODEL_DITA_SIMPLE and TABLE_MODEL_DITA_CHOICE do not support title
     updateTitleState(
         model != TableInfo.TABLE_MODEL_DITA_SIMPLE && model != TableInfo.TABLE_MODEL_DITA_CHOICE);
+    // Update the separators
+    updateSeparatorsState(model == TableInfo.TABLE_MODEL_CALS);
+    // Update the align combo
+    updateAlignState(model == TableInfo.TABLE_MODEL_CALS || model == TableInfo.TABLE_MODEL_HTML);
   }
 }

@@ -195,6 +195,7 @@ public class TableOperationsUtil {
       for (int i = 0; i < ignoredAttributes.length; i++) {
         if (attrName.equals(ignoredAttributes[i])) {
           shouldBeIgnored = true;
+          break;
         }
       }
     }
@@ -205,6 +206,7 @@ public class TableOperationsUtil {
         for (int i = 0; i < ignoredAttributes.length; i++) {
           if (attrName.equals(ignoredAttributes[i])) {
             shouldBeIgnored = true;
+            break;
           }
         }
       }

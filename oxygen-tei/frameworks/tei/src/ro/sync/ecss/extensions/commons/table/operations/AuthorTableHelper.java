@@ -207,4 +207,12 @@ public interface AuthorTableHelper {
    * @return The attributes which should be skipped.
    */
   String[] getIgnoredColumnAttributes();
+  
+  /**
+   * Gets the ID attribute names which should be skipped when inserting a new column or row and
+   *  the attributes from source cell fragments must be copied.
+   * 
+   * @return The ID attributes which should be skipped.
+   */
+  String[] getIgnoredCellIDAttributes();
 }

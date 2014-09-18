@@ -55,6 +55,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -64,6 +67,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
 /**
  * 'Sort list' operation for XHTML.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class XHTMLListSortOperation extends SortOperation {
 
   /**

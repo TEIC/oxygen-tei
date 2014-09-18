@@ -86,7 +86,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getFrameValues(int)
    */
   @Override
-  protected String[] getFrameValues(int tableModel) {
+  protected String[] getFrameValues(int tableModelType) {
     return null;
   }
 
@@ -105,7 +105,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getColumnWidthsSpecifications(int)
    */
   @Override
-  protected ColumnWidthsType[] getColumnWidthsSpecifications(int tableModel) {
+  protected ColumnWidthsType[] getColumnWidthsSpecifications(int tableModelType) {
     return null;
   }
   
@@ -113,7 +113,55 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultFrameValue(int)
    */
   @Override
-  protected String getDefaultFrameValue(int tableModel) {
+  protected String getDefaultFrameValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getRowsepValues(int)
+   */
+  @Override
+  protected String[] getRowsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultRowsepValue(int)
+   */
+  @Override
+  protected String getDefaultRowsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getColsepValues(int)
+   */
+  @Override
+  protected String[] getColsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultColsepValue(int)
+   */
+  @Override
+  protected String getDefaultColsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getAlignValues(int)
+   */
+  @Override
+  protected String[] getAlignValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultAlignValue(int)
+   */
+  @Override
+  protected String getDefaultAlignValue(int tableModelType) {
     return null;
   }
 }

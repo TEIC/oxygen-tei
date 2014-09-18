@@ -67,8 +67,8 @@ import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
 import ro.sync.ecss.extensions.api.access.AuthorWorkspaceAccess;
+import ro.sync.ecss.extensions.commons.CannotEditException;
 import ro.sync.ecss.images.ImageHandlerDispatcher;
-import ro.sync.ecss.images.xmlimages.AbstractXMLImageHandler.CannotEditException;
 import ro.sync.ecss.images.xmlimages.XMLImageHandler;
 
 /**
@@ -142,9 +142,12 @@ public class InsertEquationOperation implements AuthorOperation {
         // then the MathML editor should use code character entities.
         List<NameValue> allowedEntities = null;
         AuthorSchemaManager asm = controller.getAuthorSchemaManager();
-        if(asm != null){
-          allowedEntities = asm.getEntities();
-        }         
+        //EXM-29228 If we do not have a document type associated, do not use the entities in the schema manager.
+        if(serializedDoctype != null) {
+          if(asm != null){
+            allowedEntities = asm.getEntities();
+          }         
+        }
         //The default MathML to edit
         String xmlFragment = createDefaultFragmentToEdit(authorAccess, asm);
         Object fragment = args.getArgumentValue(ARGUMENT_FRAGMENT_WITH_MATHML);

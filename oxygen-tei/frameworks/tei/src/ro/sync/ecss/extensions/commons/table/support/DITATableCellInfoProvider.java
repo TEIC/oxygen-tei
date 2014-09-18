@@ -51,8 +51,10 @@
 package ro.sync.ecss.extensions.commons.table.support;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -76,22 +78,22 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * The DITA simpletable class attribute value. 
    */
-  private static final String SIMPLETABLE_CLASS_VALUE = "- topic/simpletable";
+  private static final String SIMPLETABLE_CLASS_VALUE = " topic/simpletable ";
   
   /**
    * The cell of the simpletable class attribute value.
    */
-  private static final String SIMPLETABLE_CELL_CLASS_VALUE = "- topic/stentry";
+  private static final String SIMPLETABLE_CELL_CLASS_VALUE = " topic/stentry ";
   
   /**
    * The row of the simpletable class attribute value.
    */
-  private static final String SIMPLETABLE_ROW_CLASS_VALUE = "- topic/strow";
+  private static final String SIMPLETABLE_ROW_CLASS_VALUE = " topic/strow ";
   
   /**
    * The head of the simpletable class attribute value.
    */
-  private static final String SIMPLETABLE_HEAD_CLASS_VALUE = "- topic/sthead";
+  private static final String SIMPLETABLE_HEAD_CLASS_VALUE = " topic/sthead ";
   
   /**
    * The attribute name class.
@@ -120,7 +122,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * The tag name for the table cells (eg: stentry, choption, chdesc, propvalue, proptype, propdesc etc.)
    */
-  private List<String> cellTagNames = new ArrayList<String>();
+  private Set<String> simpleTableCellTagNames = new HashSet<String>();
 
   /**
    * The table element.
@@ -137,33 +139,9 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AttrValue classAttrVal = tableElement.getAttribute(ATTRIBUTE_NAME_CLASS);
     if (classAttrVal != null 
         && classAttrVal.getRawValue() != null 
-        && classAttrVal.getRawValue().startsWith(SIMPLETABLE_CLASS_VALUE)) {
-      
-      // Determine the table cell tag name.
-      List<AuthorNode> tableChildren = tableElement.getContentNodes();
-      for (Iterator<AuthorNode> iterator = tableChildren.iterator(); iterator.hasNext();) {
-         AuthorNode tableChild = iterator.next();
-         if (tableChild.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-           classAttrVal = ((AuthorElement) tableChild).getAttribute(ATTRIBUTE_NAME_CLASS);
-           if (classAttrVal != null 
-               && classAttrVal.getRawValue() != null 
-               && (classAttrVal.getRawValue().startsWith(SIMPLETABLE_ROW_CLASS_VALUE)
-                   || classAttrVal.getRawValue().startsWith(SIMPLETABLE_HEAD_CLASS_VALUE))) {
-             List<AuthorNode> rowChildren = ((AuthorElement) tableChild).getContentNodes();
-             for (Iterator<AuthorNode> iterator2 = rowChildren.iterator(); iterator2.hasNext();) {
-               AuthorNode rowChild = iterator2.next();
-               if (rowChild.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-                 classAttrVal = ((AuthorElement) rowChild).getAttribute(ATTRIBUTE_NAME_CLASS);
-                 if (classAttrVal != null 
-                     && classAttrVal.getRawValue() != null 
-                     && classAttrVal.getRawValue().startsWith(SIMPLETABLE_CELL_CLASS_VALUE)) {
-                   cellTagNames.add(((AuthorElement) rowChild).getLocalName());
-                 }
-               }
-            }
-           }
-         }
-      }
+        && classAttrVal.getRawValue().contains(SIMPLETABLE_CLASS_VALUE)) {
+      //Detect simple table cell tag names.
+      simpleTableCellTagNames = detectSimpleTableCellTagNames(tableElement);
       
       // Init the table column widths list
       AttrValue relColWidthAttr = tableElement.getAttribute(ATTRIBUTE_NAME_RELCOLWIDTH);
@@ -198,9 +176,45 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       }
     } else {
       // The table is not a simpletable so init the CALS table support.
-      calsProvider = new CALSTableCellInfoProvider();
+      //But be flexible with the cell name.
+      calsProvider = new DITACALSTableCellInfoProvider();
       calsProvider.init(tableElement);
     }
+  }
+
+  /**
+   * Determine the list of cell tag names.
+   * 
+   * @param tableElement The table element.
+   */
+  private static Set<String> detectSimpleTableCellTagNames(AuthorElement tableElement) {
+    Set<String> cellTagNames = new  HashSet<String>();
+    // Determine the table cell tag name.
+    List<AuthorNode> tableChildren = tableElement.getContentNodes();
+    for (Iterator<AuthorNode> iterator = tableChildren.iterator(); iterator.hasNext();) {
+      AuthorNode tableChild = iterator.next();
+      if (tableChild.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+        AttrValue classAttrVal = ((AuthorElement) tableChild).getAttribute(ATTRIBUTE_NAME_CLASS);
+        if (classAttrVal != null 
+            && classAttrVal.getRawValue() != null 
+            && (classAttrVal.getRawValue().contains(SIMPLETABLE_ROW_CLASS_VALUE)
+                || classAttrVal.getRawValue().contains(SIMPLETABLE_HEAD_CLASS_VALUE))) {
+          List<AuthorNode> rowChildren = ((AuthorElement) tableChild).getContentNodes();
+          for (Iterator<AuthorNode> iterator2 = rowChildren.iterator(); iterator2.hasNext();) {
+            AuthorNode rowChild = iterator2.next();
+            if (rowChild.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+              classAttrVal = ((AuthorElement) rowChild).getAttribute(ATTRIBUTE_NAME_CLASS);
+              if (classAttrVal != null 
+                  && classAttrVal.getRawValue() != null 
+                  && classAttrVal.getRawValue().contains(SIMPLETABLE_CELL_CLASS_VALUE)) {
+                cellTagNames.add(((AuthorElement) rowChild).getLocalName());
+              }
+            }
+          }
+        }
+      }
+    }
+    return cellTagNames;
   }
   
   /**
@@ -211,8 +225,8 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return <code>true</code> if the given tag name is a cell 
    * tag name for the current table.
    */
-  private boolean isTableCell(String cellTagName) {
-    return cellTagNames.contains(cellTagName);
+  private boolean isSimpleTableCell(String cellTagName) {
+    return simpleTableCellTagNames.contains(cellTagName);
   }
 
   /**
@@ -289,7 +303,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public void commitColumnWidthModifications(AuthorDocumentController authorDocumentController,
       WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
-    if (isTableCell(tableCellsTagName)) {
+    if (isSimpleTableCell(tableCellsTagName)) {
       columnWidths.clear();
       StringBuilder newWidth = new StringBuilder();
       for (int i = 0; i < colWidths.length; i++) {
@@ -345,7 +359,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isTableAndColumnsResizable(String tableCellsTagName) {
-    boolean toReturn = isTableCell(tableCellsTagName);
+    boolean toReturn = isSimpleTableCell(tableCellsTagName);
     if (!toReturn && calsProvider != null) {
       toReturn = calsProvider.isTableAndColumnsResizable(tableCellsTagName);
     }
@@ -357,7 +371,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isTableCell(tableCellsTagName);
+    boolean toReturn = isSimpleTableCell(tableCellsTagName);
     if (!toReturn && calsProvider != null) {
       toReturn = calsProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
     } else {
@@ -371,7 +385,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isTableCell(tableCellsTagName);
+    boolean toReturn = isSimpleTableCell(tableCellsTagName);
     if (!toReturn && calsProvider != null) {
       toReturn = calsProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
     } else {
@@ -385,7 +399,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isTableCell(tableCellsTagName);
+    boolean toReturn = isSimpleTableCell(tableCellsTagName);
     if (!toReturn && calsProvider != null) {
       toReturn = calsProvider.isAcceptingProportionalColumnWidths(tableCellsTagName);
     }

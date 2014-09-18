@@ -87,6 +87,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#checkTableColSpanIsDefined(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider, ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public void checkTableColSpanIsDefined(
       AuthorAccess authorAccess,
       AuthorTableCellSpanProvider tableSpanSupport,
@@ -121,6 +122,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getTableCellSpanProvider(ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public AuthorTableCellSpanProvider getTableCellSpanProvider(AuthorElement tableElement) {
     HTMLTableCellInfoProvider tableSpanSupport = new HTMLTableCellInfoProvider();
     tableSpanSupport.init(tableElement);
@@ -132,6 +134,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableColSpan(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider, ro.sync.ecss.extensions.api.node.AuthorElement, int, int)
    */
+  @Override
   public void updateTableColSpan(
       AuthorAccess authorAccess, 
       AuthorTableCellSpanProvider tableSupport, 
@@ -154,6 +157,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableRowSpan(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableRowSpan(
       AuthorAccess authorAccess, 
       AuthorElement cellElement, 
@@ -173,6 +177,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableColumnNumber(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableColumnNumber(AuthorAccess authorAccess, AuthorElement tableElement, int colNum) {
     // Not implemented
   }
@@ -180,6 +185,7 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableRowNumber(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableRowNumber(AuthorAccess authorAccess, AuthorElement tableElement,
       int rowsNumber) {
     // Nothing to do here.
@@ -191,11 +197,20 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   @Override
   public String[] getIgnoredColumnAttributes() {
     return new String[] {
-        ATTRIBUTE_NAME_XML_ID, 
-        ATTRIBUTE_NAME_ID,
         ATTRIBUTE_NAME_ROWSPAN,
         ATTRIBUTE_NAME_COLSPAN,
     };
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getIgnoredCellIDAttributes()
+   */
+  @Override
+  public String[] getIgnoredCellIDAttributes() {
+      return new String[] {
+              ATTRIBUTE_NAME_XML_ID, 
+              ATTRIBUTE_NAME_ID,
+          };
   }
   
   /**
@@ -204,8 +219,6 @@ public class XHTMLDocumentTypeHelper extends AbstractDocumentTypeHelper implemen
   @Override
   public String[] getIgnoredRowAttributes() {
     return new String[] {
-        ATTRIBUTE_NAME_XML_ID, 
-        ATTRIBUTE_NAME_ID,
         ATTRIBUTE_NAME_ROWSPAN,
     };
   }

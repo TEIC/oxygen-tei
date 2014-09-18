@@ -88,6 +88,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#checkTableColSpanIsDefined(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider, ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public void checkTableColSpanIsDefined(AuthorAccess authorAccess, AuthorTableCellSpanProvider tableCellSpanProvider,
       AuthorElement cellElement) throws AuthorOperationException {
     // Always is defined
@@ -120,6 +121,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getTableCellSpanProvider(ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public AuthorTableCellSpanProvider getTableCellSpanProvider(AuthorElement tableElement) {
     TEITableCellSpanProvider tableCellSpanProvider = new TEITableCellSpanProvider();
     tableCellSpanProvider.init(tableElement);
@@ -131,6 +133,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableColSpan(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider, ro.sync.ecss.extensions.api.node.AuthorElement, int, int)
    */
+  @Override
   public void updateTableColSpan(
       AuthorAccess authorAccess, 
       AuthorTableCellSpanProvider tableCellSpanProvider, 
@@ -155,6 +158,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableRowSpan(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableRowSpan(AuthorAccess authorAccess, AuthorElement cellElement, int rowSpan) {
     if (rowSpan > 1) {
       authorAccess.getDocumentController().setAttribute(
@@ -173,6 +177,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableColumnNumber(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableColumnNumber(AuthorAccess authorAccess, AuthorElement tableElement, int colNumber) {
     authorAccess.getDocumentController().setAttribute(
         ATTRIBUTE_NAME_COLS, 
@@ -185,6 +190,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
    * 
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#updateTableRowNumber(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
+  @Override
   public void updateTableRowNumber(AuthorAccess authorAccess, AuthorElement tableElement,
       int relativeValue) {
     AttrValue oldValue = tableElement.getAttribute(ATTRIBUTE_NAME_ROWS);
@@ -208,10 +214,19 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
   @Override
   public String[] getIgnoredRowAttributes() {
     return new String[] {
-        ATTRIBUTE_NAME_XML_ID, 
-        ATTRIBUTE_NAME_ID, 
         ATTRIBUTE_NAME_ROWS,
     };
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getIgnoredCellIDAttributes()
+   */
+  @Override
+  public String[] getIgnoredCellIDAttributes() {
+      return new String[] {
+              ATTRIBUTE_NAME_XML_ID, 
+              ATTRIBUTE_NAME_ID,
+          };
   }
   
   /**
@@ -220,8 +235,6 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
   @Override
   public String[] getIgnoredColumnAttributes() {
     return new String[] {
-        ATTRIBUTE_NAME_XML_ID, 
-        ATTRIBUTE_NAME_ID, 
         ATTRIBUTE_NAME_COLS,
     };
   }

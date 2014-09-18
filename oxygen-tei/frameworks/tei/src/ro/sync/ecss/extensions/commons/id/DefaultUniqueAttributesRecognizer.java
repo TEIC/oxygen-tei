@@ -101,6 +101,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @see ro.sync.ecss.extensions.api.UniqueAttributesRecognizer#copyAttributeOnSplit(java.lang.String, ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public boolean copyAttributeOnSplit(String attrQName, AuthorElement element) {
     return ! idAttrQname.equals(attrQName);
   }
@@ -108,6 +109,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @see ro.sync.ecss.extensions.api.AuthorExtensionStateListener#activated(ro.sync.ecss.extensions.api.AuthorAccess)
    */
+  @Override
   public void activated(final AuthorAccess authorAccess) {
 //    logger.info("Author extension activated+++++++++++++++");
 //    logger.info("Editor location " + authorAccess.getDocumentController().getAuthorDocumentNode().getSystemID());
@@ -177,6 +179,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @see ro.sync.ecss.extensions.api.AuthorExtensionStateListener#deactivated(ro.sync.ecss.extensions.api.AuthorAccess)
    */
+  @Override
   public void deactivated(AuthorAccess authorAccess) {
 //    logger.info("Author extension deactivated-------------------");
 //    logger.info("Editor location " + authorAccess.getDocumentController().getAuthorDocumentNode().getSystemID());
@@ -191,6 +194,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @return true if auto generation is active and we have elements for which to generate.
    */
+  @Override
   public boolean isAutoIDGenerationActive() {
     GenerateIDElementsInfo generateIDElementsInfo = getGenerateIDElementsInfo();
     return generateIDElementsInfo != null 
@@ -241,6 +245,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @see ro.sync.ecss.extensions.api.UniqueAttributesRecognizer#assignUniqueIDs(int, int, boolean)
    */
+  @Override
   public void assignUniqueIDs(int startOffset, int endOffset, boolean forceGeneration) {
     if(authorAccess != null) {
       GenerateIDElementsInfo currentElemsInfo = getGenerateIDElementsInfo();
@@ -344,6 +349,7 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
   /**
    * @see ro.sync.ecss.extensions.api.content.ClipboardFragmentProcessor#process(ro.sync.ecss.extensions.api.content.ClipboardFragmentInformation)
    */
+  @Override
   public void process(ClipboardFragmentInformation fragmentInformation) {
     if(authorAccess == null) {
       //EXM-20948 partial fix for NPE

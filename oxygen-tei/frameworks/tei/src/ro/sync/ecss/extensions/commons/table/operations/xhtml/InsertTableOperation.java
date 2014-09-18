@@ -298,6 +298,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     if (tableInfo.getFrame() != null) {
       tableXMLFragment.append(" frame=\"").append(tableInfo.getFrame()).append("\"");
     }
+    // EXM-29536 Add align attribute
+    if (tableInfo.getAlign() != null) {
+      tableXMLFragment.append(" align=\"").append(tableInfo.getAlign()).append("\"");
+    }
+    
     tableXMLFragment.append(">");
 
     if (tableInfo.getTitle() != null) {

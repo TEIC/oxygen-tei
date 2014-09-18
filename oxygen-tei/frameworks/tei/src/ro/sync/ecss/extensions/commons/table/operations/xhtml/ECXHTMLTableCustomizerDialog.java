@@ -85,7 +85,19 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
     FRAME_RHS,
     FRAME_BORDER,
     FRAME_BOX,
-    FRAME_UNSPECIFIED };
+    UNSPECIFIED };
+  
+  /**
+   * Array with common possible values for alignment. 
+   */
+  public static final String[] ALIGN_VALUES = new String[] {
+    LEFT,
+    RIGHT,
+    CENTER,
+    JUSTIFY,
+    CHAR,
+    UNSPECIFIED,
+  };
   
   /**
    * Constructor.
@@ -97,7 +109,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    */
   public ECXHTMLTableCustomizerDialog(Shell parentShell, AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, int predefinedColumnsCount) {
-    super(parentShell, true, true, false, authorResourceBundle, 
+    super(parentShell, true, true, false, false, false, false, false, false, true, authorResourceBundle, 
         predefinedRowsCount, predefinedColumnsCount);
   }
 
@@ -105,7 +117,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getFrameValues(int)
    */
   @Override
-  protected String[] getFrameValues(int tableModel) {
+  protected String[] getFrameValues(int tableModelType) {
     return TABLE_FRAME_VALUES;
   }
   
@@ -113,7 +125,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getColumnWidthsSpecifications(int)
    */
   @Override
-  protected List<ColumnWidthsType> getColumnWidthsSpecifications(int tableModel) {
+  protected List<ColumnWidthsType> getColumnWidthsSpecifications(int tableModelType) {
     return Arrays.asList(HTML_WIDTHS_SPECIFICATIONS);
   }
 
@@ -131,7 +143,55 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getDefaultFrameValue(int)
    */
   @Override
-  protected String getDefaultFrameValue(int tableModel) {
+  protected String getDefaultFrameValue(int tableModelType) {
     return FRAME_VOID;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getRowsepValues(int)
+   */
+  @Override
+  protected String[] getRowsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getColsepValues(int)
+   */
+  @Override
+  protected String[] getColsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getDefaultRowsepValue(int)
+   */
+  @Override
+  protected String getDefaultRowsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getDefaultColsepValue(int)
+   */
+  @Override
+  protected String getDefaultColsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getAlignValues(int)
+   */
+  @Override
+  protected String[] getAlignValues(int tableModelType) {
+    return ALIGN_VALUES;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getDefaultAlignValue(int)
+   */
+  @Override
+  protected String getDefaultAlignValue(int tableModelType) {
+    return UNSPECIFIED;
   }
 }

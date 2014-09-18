@@ -50,8 +50,11 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 
@@ -61,6 +64,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
+import ro.sync.ecss.extensions.api.UniqueAttributesProcessor;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -231,10 +235,27 @@ public abstract class AbstractTableOperation implements AuthorOperation {
       AuthorNode node = (AuthorNode) fragNodes.get(0);
       if (node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
         AuthorElement clonedElement = (AuthorElement) node;
-        if (skippedAttributes != null) {
-          for (int i = 0; i < skippedAttributes.length; i++) {
-            String attrName = skippedAttributes[i];
-            clonedElement.removeAttribute(attrName);
+        Set<String> skippedAttrsSet = new HashSet<String>();
+        if(skippedAttributes != null) {
+          //Add skipped attributes.
+          skippedAttrsSet.addAll(Arrays.asList(skippedAttributes));
+        }
+        //Also delegate to unique attributes processor.
+        UniqueAttributesProcessor attrsProcessor = controller.getUniqueAttributesProcessor();
+        if(attrsProcessor != null) {
+          int attrsCount = clonedElement.getAttributesCount();
+          for (int i = 0; i < attrsCount; i++) { 
+            String attrQName = clonedElement.getAttributeAtIndex(i);
+            if(! attrsProcessor.copyAttributeOnSplit(attrQName, clonedElement)) {
+              skippedAttrsSet.add(attrQName);
+            }
+          }
+        }
+        //Remove all attributes which should have been skipped,
+        if (! skippedAttrsSet.isEmpty()) {
+          Iterator<String> iter = skippedAttrsSet.iterator();
+          while(iter.hasNext()) {
+            clonedElement.removeAttribute(iter.next());
           }
         }
       }

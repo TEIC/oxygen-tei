@@ -89,7 +89,7 @@ public class ImageFileChooser {
     //EXM-19644 Use remote image chooser
     String sel = authorAccess.getWorkspaceAccess().chooseURLPath(
         authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CHOOSE_IMAGE), 
-        new String[] { "gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai"},
+        new String[] { "gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf"},
         authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.IMAGE_FILES));
     if (sel != null) {
       AuthorUtilAccess util = authorAccess.getUtilAccess();

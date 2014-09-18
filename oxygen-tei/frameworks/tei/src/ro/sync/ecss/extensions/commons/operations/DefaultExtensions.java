@@ -97,6 +97,14 @@ public interface DefaultExtensions {
       OpenInSystemAppOperation.class,
       //Run transformation scenario operation.
       ExecuteTransformationScenariosOperation.class,
+      // Set a pseudo-class 
+      SetPseudoClassOperation.class,
+      // Removes a pseudo-class 
+      RemovePseudoClassOperation.class,
+      // Toggles a pseudo-class
+      TogglePseudoClassOperation.class,
+      // Execute a sequence of actions operation
+      ExecuteMultipleActionsOperation.class
   };
   
   /**

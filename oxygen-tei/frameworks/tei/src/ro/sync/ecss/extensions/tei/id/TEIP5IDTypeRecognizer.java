@@ -55,6 +55,9 @@ import java.util.List;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.contentcompletion.xml.Context;
 import ro.sync.contentcompletion.xml.ContextElement;
 import ro.sync.ecss.extensions.api.link.CannotRecognizeIDException;
@@ -70,6 +73,7 @@ import ro.sync.ecss.extensions.api.link.IDTypeRecognizer;
  * 
  * @author radu_pisoi
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIP5IDTypeRecognizer extends IDTypeRecognizer {
   
   /**

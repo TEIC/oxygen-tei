@@ -51,16 +51,23 @@
 package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
+import javax.xml.namespace.QName;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.node.NamespaceContext;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
+import ro.sync.util.Equaler;
+import ro.sync.xml.XmlUtil;
 
 /**
  * Util methods for common Author operations.
@@ -181,12 +188,134 @@ public class CommonsOperationsUtil {
   public static int surroundWithFragment(AuthorAccess authorAccess, String xmlFragment, int start, int end)
     throws AuthorOperationException {
     // We have selection. Do a simple insert.
+    // EXM-29818 Balance the selection
+    int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(start, end + 1);
     authorAccess.getDocumentController().surroundInFragment(
         xmlFragment, 
-        start,
-        end);
+        balancedSelection[0],
+        // Inclusive end offset
+        balancedSelection[1] - 1);
 
     //Modify the offset to be used for restoring the caret position.
     return authorAccess.getEditorAccess().getSelectionStart();
+  }
+  
+  /**
+   * Sets an attribute value. If the value is <code>null</code> the attribute will
+   * be removed from the element. If the value is the empty string and removeIfEmpty
+   * is <code>true</code> the attribute will also be removed.
+   * 
+   * @param ctrl Attribute controller. 
+   * @param targetElement The target element.
+   * @param attributeQName Attribute to edit.
+   * @param value Current value. Illegal characters in the value WILL NOT be escaped. 
+   * @param removeIfEmpty <code>true</code> to remove the attribute when an empty 
+   * value is set.
+   * 
+   * @return The QName with which the attribute was committed. From the given attributeQName
+   * only the local name and namespace are taken into account. 
+   */
+  public static String setAttributeValue(
+      AuthorDocumentController ctrl, 
+      AuthorElement targetElement, 
+      QName attributeQName, 
+      String value,
+      boolean removeIfEmpty) {
+    boolean addNamespaceDeclaration = false;    
+    String attributeName = attributeQName.getLocalPart();
+    String prefix = null;
+    String namespace = attributeQName.getNamespaceURI();
+    if (namespace != null && !"".equals(namespace)) {
+      String attributeQNameOnElement = getAttributeQName(
+          targetElement, 
+          attributeQName.getLocalPart(), 
+          attributeQName.getNamespaceURI());
+      if (attributeQNameOnElement != null) {
+        // The attribute is already present on this element. We should use this QName
+        // just in case there are multiple prefixes bounded for the same namespace.
+        attributeName = attributeQNameOnElement;
+      } else {
+        NamespaceContext namespaceContext = targetElement.getNamespaceContext();
+        prefix = namespaceContext.getPrefixForNamespace(namespace);
+        if (prefix != null && !"".equals(prefix)) {
+          attributeName = prefix + ":" + attributeName;
+        } else {
+          prefix = buildFreshPrefix(namespaceContext);
+          addNamespaceDeclaration = true;
+          attributeName = prefix + ":" + attributeName;
+        }
+      }
+    }
+    
+    
+    if (value == null 
+        || ("".equals(value) 
+            && removeIfEmpty)) {
+      //Remove it.
+      if (!addNamespaceDeclaration) {
+        ctrl.removeAttribute(attributeName, targetElement);
+      } else {
+        //The prefix was not declared in the document.??!!
+      }
+    } else {
+      if (addNamespaceDeclaration) {
+        //Add a namespace declaration.
+        AttrValue nsAttrValue = new AttrValue(namespace);
+        ctrl.setAttribute("xmlns:" + prefix, nsAttrValue, targetElement);
+      }
+      AttrValue attrValue = new AttrValue(value);
+      ctrl.setAttribute(attributeName, attrValue, targetElement);
+    }
+    
+    return attributeName;
+  }
+
+  /**
+   * Identifies in the already existing attributes of an element the one with the
+   * given name and namespace. Returns the QName used in the element for that attribute.
+   *
+   * @param element       The element.
+   * @param attrLocalName Attribute local name
+   * @param attrNSURI     Attribute namespace URI.
+   *
+   * @return The QName as it's being used in the element.
+   */
+  private static String getAttributeQName(AuthorElement element, String attrLocalName,
+      String attrNSURI) {
+    String match = null;
+    int attrsCount = element.getAttributesCount();
+    for (int i = 0; i < attrsCount; i++) {
+      String attributeName = element.getAttributeAtIndex(i);
+      if (attrLocalName.equals(XmlUtil.getLocalName(attributeName))) {
+        //Same local name.
+        if (Equaler.verifyEquals(attrNSURI, 
+            element.getAttributeNamespace(XmlUtil.getProxy(attributeName)))) {
+          //Found it...
+          match = attributeName;
+          break;
+        }
+      }
+    }
+    
+    return match;
+  }
+
+  /**
+   * Generates a prefix that is not yet bound to a namespace.
+   * 
+   * @param namespaceContext Namespace context.
+   * 
+   * @return A prefix not bound in the given context.
+   */
+  public static String buildFreshPrefix(NamespaceContext namespaceContext) {
+    String prefix = null;
+    //The prefix is not bound yet, we have to find a candidate
+    int candidate = 1;
+    while (namespaceContext.getNamespaceForPrefix("ns" + candidate) != null) {
+      candidate ++;
+    }
+    prefix = "ns" + candidate;
+    
+    return prefix;
   }
 }

@@ -228,14 +228,14 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
       
       if(specifyColName) {
         String newColSpecName = null;
-//        if (columnSpecification instanceof CALSTableColumnSpecificationInformation) {
-//          // We could impose the column name from the initial column configuration
-//          newColSpecName = ((CALSTableColumnSpecificationInformation)columnSpecification).getColumnName();
-//        }
-//        if (newColSpecName == null) {
-//           //There was no imposed column name
+        if (columnSpecification instanceof CALSTableColumnSpecificationInformation) {
+          // We could impose the column name from the initial column configuration
+          newColSpecName = ((CALSTableColumnSpecificationInformation)columnSpecification).getColumnName();
+        }
+        if (newColSpecName == null) {
+           //There was no imposed column name
           newColSpecName = getUniqueColSpecName(colSpecs, newColumnIndex + 1);
-//        }
+        }
         
         //Set also a column name to the colspec
         newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNAME);

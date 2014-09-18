@@ -100,7 +100,7 @@ public interface TableCustomizerConstants {
    * Do not insert frame attribute.
    * The value is <code><unspecified></code>.
    */
-  public static final String FRAME_UNSPECIFIED = "<unspecified>";
+  public static final String UNSPECIFIED = "<unspecified>";
   
   /**
    * Frame the left and right sides of the table.
@@ -173,6 +173,30 @@ public interface TableCustomizerConstants {
    * The value is <code>void</code>.
    */
   public static final String FRAME_VOID = "void";
+  /**
+   * Value for horizontal alignment.
+   */
+  String LEFT = "left";
+  /**
+   * Value for horizontal alignment.
+   */
+  String RIGHT = "right";
+  /**
+   * Value for horizontal alignment.
+   */
+  String CENTER = "center";
+  /**
+   * Value for horizontal alignment.
+   */
+  String JUSTIFY = "justify";
+  /**
+   * Value for horizontal alignment.
+   */
+  String CHAR = "char";
+  /**
+   * DITA specific frame value.
+   */
+  public static final String DITA_CONREF = "-dita-use-conref-target";
   
   /**
    * Dynamic column widths.
@@ -218,9 +242,9 @@ public interface TableCustomizerConstants {
   /**
    * Default value for relative col widths.
    */
-  public static String REL_COL_WIDTH_DEFAULT_VALUE = "1.0*";
+  public static final String REL_COL_WIDTH_DEFAULT_VALUE = "1.0*";
   /**
    * Fixed col width default value
    */
-  public static String FIXED_COL_WIDTH_DEFAULT_VALUE = "75pt";
+  public static final String FIXED_COL_WIDTH_DEFAULT_VALUE = "75pt";
 }

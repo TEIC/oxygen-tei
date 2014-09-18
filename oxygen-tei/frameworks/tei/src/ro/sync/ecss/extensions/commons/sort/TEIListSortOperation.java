@@ -55,6 +55,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -64,6 +67,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
 /**
  * The implementation for TEI list sort operation.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIListSortOperation extends SortOperation {
 
   /**

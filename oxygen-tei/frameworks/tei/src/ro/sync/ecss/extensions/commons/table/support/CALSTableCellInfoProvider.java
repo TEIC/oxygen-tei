@@ -66,6 +66,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorTableCellSepProvider;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.AuthorTableColumnWidthProviderBase;
 import ro.sync.ecss.extensions.api.WidthRepresentation;
@@ -78,11 +79,11 @@ import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
  * Provides informations about the cell spanning and column width for Docbook CALS tables. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider, CALSConstants {
+public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider, CALSConstants, AuthorTableCellSepProvider {
   /**
    * The default width representation.
    */
-  public static WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false); 
+  private static final WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false); 
   /**
    * CALS Docbook table cell name.
    */
@@ -111,6 +112,12 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   private static final String COLSPEC_NAME_PREFIX = "c";
   
   /**
+   * The default visibility for the row and column separators. For DITA they 
+   * are hidden, for Docbook are visible. 
+   */
+  private boolean colsepAndRowSepAreVisibleByDefault = false;
+  
+  /**
    * Compare two table column specifications by index.
    */
   private static class ColspecComparator implements Comparator {
@@ -130,6 +137,26 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     }    
   }
   
+  /**
+   * Constructor.
+   * 
+   * @param colsepAndRowSepAreVisibleByDefault The default visibility for the rowsep and 
+   * colsep. (i.e. if no <code>colsep</code> or <code>rowsep</code> attributes are present 
+   * in the table).
+   */
+  public CALSTableCellInfoProvider(boolean colsepAndRowSepAreVisibleByDefault) {
+    this.colsepAndRowSepAreVisibleByDefault  = colsepAndRowSepAreVisibleByDefault;    
+  }
+
+  /**
+   * Constructor. The default visibility for the rowsep and 
+   * colsep. (i.e. if no <code>colsep</code> or <code>rowsep</code> attributes are present 
+   * in the table) is hidden.
+   */
+  public CALSTableCellInfoProvider() {
+    this(false);    
+  }
+
   /**
    * Compute the number of columns the cell spans across by looking 
    * at the 'spanspec' attribute. In case the 'spanspec' attribute is missing 
@@ -268,7 +295,21 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
             textAlign = attrValue.getValue();
           }
 
-          CALSColSpec cs = new CALSColSpec(colspecIndex, colSpecNumber, colNumberSpecified, colspecName, colWidth);
+          // "colsep" attribute
+          attrValue = child.getAttribute(ATTRIBUTE_NAME_COLSEP);
+          Boolean colsep = null;
+          if (attrValue != null) {
+            colsep = "1".equals(attrValue.getValue());
+          }
+
+          // "rowsep" attribute
+          attrValue = child.getAttribute(ATTRIBUTE_NAME_ROWSEP);
+          Boolean rowsep = null;
+          if (attrValue != null) {
+            rowsep = "1".equals(attrValue.getValue());
+          }
+
+          CALSColSpec cs = new CALSColSpec(colspecIndex, colSpecNumber, colNumberSpecified, colspecName, colWidth, colsep, rowsep);
           cs.setAlign(textAlign);
           colspecInfosMap.put(cs, child);
           colspecIndex ++;
@@ -392,6 +433,28 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     }
     return colSpec;
   }
+  
+  
+  /**
+   * Find the column specification for a table cell, either by the column name specified in the 
+   * element attributes, or the column index, as fallback.
+   * 
+   * @param cellElement The table cell element. 
+   * @param columnIndex The index of the column. (used only when there is no colname on the element.)
+   * @return The column specification or <code>null</code> if no column specification was defined 
+   * for the given cell.
+   */
+  private CALSColSpec getColumnSpec(AuthorElement cellElement, int columnIndex) {
+    CALSColSpec colSpec = null;
+    // First, test if 'colname' attribute is present
+    AttrValue attrValue = cellElement.getAttribute(ATTRIBUTE_NAME_COLNAME);
+    if (attrValue != null) {
+      colSpec = getColSpec(attrValue.getValue());
+    } else {
+      colSpec = getColSpec(columnIndex);
+    }
+    return colSpec;
+  }
 
   /**
    * Find a column specification by name.
@@ -418,7 +481,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * 
    * @param columnNumber The column number, one based.
    * @return The column specification or <code>null</code> if no column specification is defined for 
-   * the given column number.
+   * the given column number. 1 based.
    */
   public CALSColSpec getColSpec(int columnNumber) {
     CALSColSpec colSpec = null;
@@ -569,7 +632,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public void commitColumnWidthModifications(AuthorDocumentController authorDocumentController,
       WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
-    if (CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName)) {
+    if (isTableCell(tableCellsTagName)) {
       if (colWidths != null && authorDocumentController != null && tableElement != null) {
         int currentOffset = tableElement.getStartOffset() + 1;
         try {
@@ -607,6 +670,16 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         }
       }
     }
+  }
+
+  /**
+   * Check if the name of an element is a table cell.
+   * 
+   * @param tableCellsTagName  The name of an element.
+   * @return <code>true</code> if the name of an element is a table cell.
+   */
+  protected boolean isTableCell(String tableCellsTagName) {
+    return CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName);
   }
 
   /**
@@ -655,17 +728,16 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AuthorElement tblElem = tableElement;
     if (tblElem != null) {
       // Find the element named "table" if any.
-      boolean stop = false;
-      while(!stop) {
+      while(true) {
         if (ELEMENT_NAME_TABLE.equals(tblElem.getName())) {
-          stop = true;
+          break;
         } else {
           AuthorNode parent = tblElem.getParent();
           if (parent != null && parent instanceof AuthorElement) {
             tblElem = (AuthorElement) parent;
           } else {
             tblElem = null;
-            stop = true;
+            break;
           }
         }
       }
@@ -681,7 +753,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
-    if (CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName)) {
+    if (isTableCell(tableCellsTagName)) {
       AuthorElement tblElem = getTableElement();
       if (newTableWidth > 0 && authorDocumentController != null) {
         if (tblElem != null) {
@@ -707,7 +779,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public WidthRepresentation getTableWidth(String tableCellsTagName) {
     WidthRepresentation toReturn = null;
-    if (CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName)) {
+    if (isTableCell(tableCellsTagName)) {
       toReturn = getTableWidth();
     }
     return toReturn;
@@ -751,7 +823,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isTableAndColumnsResizable(String tableCellsTagName) {
-    return CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName);
+    return isTableCell(tableCellsTagName);
   }
   
   /**
@@ -759,7 +831,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
-    return CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName);
+    return isTableCell(tableCellsTagName);
   }
   
   /**
@@ -775,7 +847,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
-    return CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName);
+    return isTableCell(tableCellsTagName);
   }
 
   /**
@@ -817,5 +889,133 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       }
     }
     return toReturn;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSepProvider#getColSep(ro.sync.ecss.extensions.api.node.AuthorElement, int)
+   */
+  @Override
+  public boolean getColSep(AuthorElement cellElem, int columnIndex) {
+    
+    Boolean desc[] = getColSepOrRowSepFromAttributes(cellElem, true);
+    Boolean colsep = desc[0];
+    Boolean colsepFromTable = desc[1];
+    
+    if (colsep == null || colsepFromTable) {
+      // Not found in the attributes or given by the table element.
+      // The table element is weaker than the column specification.
+      CALSColSpec colspec = getColumnSpec(cellElem, columnIndex);
+      if (colspec != null && colspec.getColSep() != null) {
+          colsep = colspec.getColSep();
+      }
+    }
+
+    if (colsep == null) {
+      // Docbook and DITA defaults differs.
+      colsep = colsepAndRowSepAreVisibleByDefault;
+    }
+    
+    return colsep;  
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSepProvider#getRowSep(ro.sync.ecss.extensions.api.node.AuthorElement, int)
+   */
+  @Override
+  public boolean getRowSep(AuthorElement cellElem, int columnIndex) {
+    Boolean desc[] = getColSepOrRowSepFromAttributes(cellElem, false);
+    Boolean rowsep = desc[0];
+    Boolean rowsepFromTable = desc[1];
+        
+    if (rowsep == null || rowsepFromTable) {
+      // Not found in the attributes or given by the table element.
+      // The table element is weaker than the column specification.
+      CALSColSpec colspec = getColumnSpec(cellElem, columnIndex);
+      if (colspec != null && colspec.getRowSep() != null) {
+          rowsep = colspec.getRowSep();
+      }
+    }
+    
+    if (rowsep == null) {
+      // Docbook and DITA defaults differs.
+      rowsep = colsepAndRowSepAreVisibleByDefault;
+    }
+    
+    return rowsep;  
+  }
+  
+  /**
+   * Scans the hierarchy up to the table element, and finds the closest 
+   * definition for the rowsep or colsep.
+   * 
+   * @param cellElem The cell element.
+   * @param needingColSep <code>true</code> if the <code>colsep</code> is needed, 
+   * <code>false</code> for the <code>rowsep</code>.
+   * @return an array with two elements, on the first the <code>colsep</code> or <code>rowsep </code>
+   * and on the second position <code>true</code> if it was collected from 
+   * the table structure: the CALS <code>table</code> or <code>tgroup</code> element. The second 
+   * position is never <code>null</code>.
+   */
+  private Boolean[] getColSepOrRowSepFromAttributes(AuthorElement cellElem, boolean needingColSep) {
+    Boolean separator = null;
+    boolean fromTable = false;
+    
+    // Try from cell or its parents, up to the table.
+    AuthorNode current = cellElem;
+    while (current instanceof AuthorElement) {
+      AuthorElement element = (AuthorElement) current;
+      
+      boolean isTableElement = isTableElement(element);
+      boolean isTgroupElement = isTgroupElement(element);
+      
+      AttrValue attr;     
+      if (needingColSep) {
+        // Colsep
+        attr = element.getAttribute(ATTRIBUTE_NAME_COLSEP);
+      } else {
+        // Rowsep
+        attr = element.getAttribute(ATTRIBUTE_NAME_ROWSEP);
+      }
+      
+      if(attr != null) {
+        separator = "1".equals(attr.getValue());
+        fromTable = isTableElement || isTgroupElement;
+        break;
+      }
+      
+      if (isTableElement) {
+        // Analyzed all parents up to the table, including the parent of 
+        // the element with table layout. It may happen that the 'table' 
+        // to be a block, while the 'tgroup' is table. We are interested also in
+        // the attributes of the parent. 
+        
+        // Stop now.
+        break;
+      } else {
+        current = current.getParent();
+      }      
+    }
+    return new Boolean[] {separator, fromTable};
+  }
+
+  /**
+   * Check if this element is a <code>table</code> element.
+   * 
+   * @param element The analyzed element.
+   * @return <code>true</code> if this element is a CALS <code>table</code> element.
+   */
+  protected boolean isTableElement(AuthorElement element) {
+    return element == tableElement.getParent() ||       
+        "table".equals(element.getLocalName());
+  }
+  
+  /**
+   * Check if this element is a <code>tgroup</code> element.
+   * 
+   * @param element The analyzed element.
+   * @return <code>true</code> if this element is a CALS <code>tgroup</code> element.
+   */
+  protected boolean isTgroupElement(AuthorElement element) {
+    return "tgroup".equals(element.getLocalName());
   }
 }

@@ -52,6 +52,9 @@ package ro.sync.ecss.extensions.commons.sort;
 
 import java.util.List;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.SelectionInterpretationMode;
@@ -61,6 +64,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 /**
  * Util class for table sort operations.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TableSortUtil {
 
   /**

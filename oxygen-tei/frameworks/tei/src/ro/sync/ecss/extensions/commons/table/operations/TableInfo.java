@@ -93,6 +93,21 @@ public class TableInfo {
   private final String frame;
   
   /**
+   * Row separator value.
+   */
+  private final String rowsep;
+  
+  /**
+   * Column separator value.
+   */
+  private final String colsep;
+  
+  /**
+   * Alignment value.
+   */
+  private final String align;
+  
+  /**
    * The table model. 
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
@@ -167,7 +182,8 @@ public class TableInfo {
       boolean generateFooter, 
       String frame, 
       int tableModel) {
-        this(title, rowsNumber, columnsNumber, generateHeader, generateFooter, frame, tableModel, null);
+        this(title, rowsNumber, columnsNumber, generateHeader, generateFooter, 
+            frame, tableModel, null, null, null, null);
   }
 
   /**
@@ -184,6 +200,9 @@ public class TableInfo {
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * @param columnsWidthsType The columns widths type.
+   * @param rowsep Specifies the row separator value.
+   * @param colsep Specifies the column separator value
+   * @param align  Specifies the alignment for the current table.
    */
   public TableInfo(
       String title, 
@@ -193,7 +212,10 @@ public class TableInfo {
       boolean generateFooter, 
       String frame, 
       int tableModel, 
-      ColumnWidthsType columnsWidthsType) {
+      ColumnWidthsType columnsWidthsType,
+      String rowsep,
+      String colsep,
+      String align) {
         this.title = title;
         this.rowsNumber = rowsNumber;
         this.columnsNumber = columnsNumber;
@@ -202,6 +224,9 @@ public class TableInfo {
         this.frame = frame;
         this.tableModel = tableModel;
         this.columnsWidthsType = columnsWidthsType;
+        this.rowsep = rowsep;
+        this.colsep = colsep;
+        this.align = align;
   }
 
   /**
@@ -250,6 +275,33 @@ public class TableInfo {
    */
   public String getFrame() {
     return frame;
+  }
+  
+  /**
+   * Obtain the value for the row separator attribute.
+   * 
+   * @return Specifies the row separator value.
+   */
+  public String getRowsep() {
+    return rowsep;
+  }
+  
+  /**
+   * Obtain the value for the column separator attribute.
+   * 
+   * @return Specifies the column separator value.
+   */
+  public String getColsep() {
+    return colsep;
+  }
+  
+  /**
+   * Obtain the value for the alignment attribute.
+   * 
+   * @return Specifies the alignment value.
+   */
+  public String getAlign() {
+    return align;
   }
   
   /**
