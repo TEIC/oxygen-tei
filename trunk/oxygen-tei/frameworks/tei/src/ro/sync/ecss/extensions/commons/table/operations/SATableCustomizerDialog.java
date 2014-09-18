@@ -131,6 +131,21 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   private JComboBox frameCombo;
   
   /**
+   * Combo used to chose the table row separator value.
+   */
+  private JComboBox rowsepCombo;
+  
+  /**
+   * Combo used to chose the table column separator value.
+   */
+  private JComboBox colsepCombo;
+  
+  /**
+   * Combo used to chose the table align value.
+   */
+  private JComboBox alignCombo;
+  
+  /**
    * <code>true</code> if the table that is customized by this dialog has a footer.
    */
   private final boolean hasFooter;
@@ -139,6 +154,21 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * <code>true</code> if the table customized by this dialog has a frame attribute.
    */
   private final boolean hasFrameAttribute;
+  
+  /**
+   * <code>true</code> if the table customized by this dialog has a row separator attribute.
+   */
+  private final boolean hasRowsepAttribute;
+  
+  /**
+   * <code>true</code> if the table customized by this dialog has a column separator attribute.
+   */
+  private final boolean hasColsepAttribute;
+  
+  /**
+   * <code>true</code> if the table customized by this dialog has an align attribute.
+   */
+  private final boolean hasAlignAttribute;
   
   /**
    * If <code>true</code> the table model chooser will be shown.
@@ -201,8 +231,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
     this(
-        parentFrame, hasFooter, hasFrameAttribute, showModelChooser, false, false,
-        authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+        parentFrame, hasFooter, hasFrameAttribute, showModelChooser, false, false, false, false,
+        false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
@@ -215,6 +245,9 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    *                          model, one of CALS or HTML.
    * @param simpleTableModel  <code>true</code> to use the simple table model instead of the HTML model.
    * @param innerCallsTable   <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute <code>true</code> if the table has a row separator attribute.
+   * @param hasColsepAttribute <code>true</code> if the table has a column separator attribute.
+   * @param hasAlignAttribute <code>true</code> if the table has an align attribute.
    * @param authorResourceBundle Author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
@@ -226,11 +259,15 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       boolean showModelChooser,
       boolean simpleTableModel,
       boolean innerCallsTable,
+      boolean hasRowsepAttribute,
+      boolean hasColsepAttribute,
+      boolean hasAlignAttribute,
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount,
       int predefinedColumnsCount) { 
     this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, simpleTableModel, false,
-         innerCallsTable, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+         innerCallsTable, hasRowsepAttribute, hasColsepAttribute, hasAlignAttribute, 
+         authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
@@ -244,6 +281,9 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * @param simpleTableModel  <code>true</code> to use the simple table model instead of the HTML model.
    * @param choiceTableModel 
    * @param innerCallsTable   <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute <code>true</code> if the table has a row separator attribute.
+   * @param hasColsepAttribute <code>true</code> if the table has a column separator attribute.
+   * @param hasAlignAttribute <code>true</code> if the table has an align attribute.
    * @param authorResourceBundle Author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
@@ -256,6 +296,9 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       boolean simpleTableModel,
       boolean choiceTableModel,
       boolean innerCallsTable,
+      boolean hasRowsepAttribute,
+      boolean hasColsepAttribute,
+      boolean hasAlignAttribute,
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount,
       int predefinedColumnsCount) { 
@@ -268,6 +311,9 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     this.showModelChooser = showModelChooser;
     this.simpleTableModel = simpleTableModel;
     this.choiceTableModel = choiceTableModel;
+    this.hasRowsepAttribute = hasRowsepAttribute;
+    this.hasColsepAttribute = hasColsepAttribute;
+    this.hasAlignAttribute = hasAlignAttribute;
     this.authorResourceBundle = authorResourceBundle;
     this.predefinedRowsCount = predefinedRowsCount;
     this.predefinedColumnsCount = predefinedColumnsCount;
@@ -301,6 +347,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           // Update column widths combo
           updateColumnsWidthsCombo(getColumnWidthsSpecifications(TableInfo.TABLE_MODEL_CALS));
           updateTitleState(true);
+          updateElementsState(true);
+          updateAlignState(true);
         }
       }
     });
@@ -323,6 +371,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
               updateColumnsWidthsCombo(getColumnWidthsSpecifications(TableInfo.TABLE_MODEL_DITA_SIMPLE));
               addValuesToFrameCombo(TableInfo.TABLE_MODEL_DITA_SIMPLE);
               updateTitleState(false);
+              updateElementsState(false);
+              updateAlignState(false);
             }
           }
         });
@@ -342,6 +392,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
               // Update column widths combo
               updateColumnsWidthsCombo(getColumnWidthsSpecifications(TableInfo.TABLE_MODEL_HTML));
               addValuesToFrameCombo(TableInfo.TABLE_MODEL_HTML);
+              updateElementsState(false);
+              updateAlignState(true);
             }
           }
         });
@@ -354,11 +406,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       modelPanel.setVisible(false);
     }
     
-    int tableModel = innerCallsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
+    int tableModelType = innerCallsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
     if (showModelChooser) {
       // Model chooser panel must be visible
       mainPanel.add(modelPanel, gridBagConstr);      
-      tableModel = TableInfo.TABLE_MODEL_CALS;
+      tableModelType = TableInfo.TABLE_MODEL_CALS;
     }
     
     if(! innerCallsTable && !choiceTableModel) {
@@ -450,7 +502,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     gridBagConstr.gridx = 0;
     gridBagConstr.gridy ++;
     gridBagConstr.gridwidth = 2;
-    gridBagConstr.insets = new Insets(5, 0, 5, 0);
+    gridBagConstr.insets = new Insets(5, 0, 1, 0);
     mainPanel.add(headerFooterPanel, gridBagConstr);
     
     // 'Header' check box
@@ -469,10 +521,10 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     }
     
     // Column widths
-    ColumnWidthsType[] columnsWidths = getColumnWidthsSpecifications(tableModel);
+    ColumnWidthsType[] columnsWidths = getColumnWidthsSpecifications(tableModelType);
     if (columnsWidths != null) {
       // Column widths label
-      JLabel colWidthsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS));
+      JLabel colWidthsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS) + ": ");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
@@ -508,6 +560,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
+      gridBagConstr.insets = new Insets(5, 5, 1, 0);
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       // Add column widths combo
       mainPanel.add(colWidthsCombobox, gridBagConstr);
@@ -516,29 +569,102 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     
     if (hasFrameAttribute) {
       // 'Frame' label
-      JLabel frameLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.FRAME));
+      JLabel frameLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.FRAME) + ": ");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
+      gridBagConstr.insets = new Insets(5, 0, 1, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(frameLabel, gridBagConstr);
 
       // Frame combo box
       frameCombo = new JComboBox();
       frameCombo.setName("Frame combo");
-      addValuesToFrameCombo(tableModel);
+      addValuesToFrameCombo(tableModelType);
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
+      gridBagConstr.insets = new Insets(5, 5, 1, 0);
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(frameCombo, gridBagConstr);
+    }
+    
+    if (hasRowsepAttribute) {
+      // 'Rowsep' label
+      JLabel rowsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROW_SEPARATOR) + ": ");
+      gridBagConstr.gridx = 0;
+      gridBagConstr.gridy ++;
+      gridBagConstr.gridwidth = 1;
+      gridBagConstr.weightx = 0;
+      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.fill = GridBagConstraints.NONE;
+      mainPanel.add(rowsepLabel, gridBagConstr);
+
+      // Rowsep combo box
+      rowsepCombo = new JComboBox();
+      rowsepCombo.setName("Rowsep combo");
+      addValuesToRowsepCombo(tableModelType);
+
+      gridBagConstr.gridx ++;
+      gridBagConstr.weightx = 1;
+      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
+      mainPanel.add(rowsepCombo, gridBagConstr);
+    }
+    
+    if (hasColsepAttribute) {
+      // 'Colsep' label
+      JLabel colsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_SEPARATOR) + ": ");
+      gridBagConstr.gridx = 0;
+      gridBagConstr.gridy ++;
+      gridBagConstr.gridwidth = 1;
+      gridBagConstr.weightx = 0;
+      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.fill = GridBagConstraints.NONE;
+      mainPanel.add(colsepLabel, gridBagConstr);
+
+      // Column separator combo box
+      colsepCombo = new JComboBox();
+      colsepCombo.setName("Colsep combo");
+      addValuesToColsepCombo(tableModelType);
+
+      gridBagConstr.gridx ++;
+      gridBagConstr.weightx = 1;
+      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
+      mainPanel.add(colsepCombo, gridBagConstr);
+    }
+    
+    if (hasAlignAttribute) {
+      // 'Align' label
+      JLabel alignLabel = new JLabel(authorResourceBundle.getMessage(
+    		  ExtensionTags.ALIGNMENT) + ": ");
+      gridBagConstr.gridx = 0;
+      gridBagConstr.gridy ++;
+      gridBagConstr.gridwidth = 1;
+      gridBagConstr.weightx = 0;
+      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.fill = GridBagConstraints.NONE;
+      mainPanel.add(alignLabel, gridBagConstr);
+
+      // Align combo box
+      alignCombo = new JComboBox();
+      alignCombo.setName("Align combo");
+      addValuesToAlignCombo(tableModelType);
+
+      gridBagConstr.gridx ++;
+      gridBagConstr.weightx = 1;
+      gridBagConstr.insets = new Insets(5, 5, 5, 0);
+      gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
+      mainPanel.add(alignCombo, gridBagConstr);
     }
 
     //Add the main panel
     getContentPane().add(mainPanel, BorderLayout.CENTER);
     
     pack();
+    setSize(320, getSize().height);
     setResizable(false);
   }
   
@@ -566,36 +692,138 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       titleTextField.setEditable(enabled && titleCheckbox.isSelected());
     }
   }
+  
+  /**
+   * Update the state for row separator and column separator attributes combos.
+   * 
+   * @param enabled <code>true</code> if the combos will be enabled.
+   */
+  private void updateElementsState(boolean enabled) {
+    if(rowsepCombo != null) {
+      rowsepCombo.setEnabled(enabled);
+    }
+    
+    if(colsepCombo != null) {
+      colsepCombo.setEnabled(enabled);
+    }
+  }
+  
+  /**
+   * Update the enabled state of the align combo.
+   * 
+   * @param enabled <code>true</code> if the align combo is enabled.
+   */
+  private void updateAlignState(boolean enabled) {
+    if(alignCombo != null) {
+      alignCombo.setEnabled(enabled);
+    }
+  }
 
   /**
    * Compute the possible values for the <code>frame</code> attribute.
    * 
-   * @param tableModel The table model. 
+   * @param tableModelType The table model type. 
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
    * @return Returns the possible values for the <code>frame</code> attribute. 
    */
-  protected abstract String[] getFrameValues(int tableModel);
+  protected abstract String[] getFrameValues(int tableModelType);
   
   /**
    * Get the default frame value.
    * 
-   * @param tableModel The table model.
-   * @return The table model.
+   *  @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default frame value.
    */
-  protected abstract String getDefaultFrameValue(int tableModel);
+  protected abstract String getDefaultFrameValue(int tableModelType);
+  
+  /**
+   * Compute the possible values for the <code>rowsep</code> attribute.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return Returns the possible values for the <code>rowsep</code> attribute. 
+   */
+  protected abstract String[] getRowsepValues(int tableModelType);
+  
+  /**
+   * Get the default rowsep value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default row separator value.
+   */
+  protected abstract String getDefaultRowsepValue(int tableModelType);
+  
+  /**
+   * Compute the possible values for the <code>colsep</code> attribute.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * @return Returns the possible values for the <code>colsep</code> attribute. 
+   */
+  protected abstract String[] getColsepValues(int tableModelType);
+  
+  /**
+   * Compute the possible values for the <code>align</code> attribute.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return Returns the possible values for the <code>align</code> attribute. 
+   */
+  protected abstract String[] getAlignValues(int tableModelType);
+  
+  /**
+   * Get the default column separator value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return Thedefault column separator value.
+   */
+  protected abstract String getDefaultColsepValue(int tableModelType);
+  
+  /**
+   * Get the default alignment value.
+   * 
+   * @param tableModelType The table model type.
+   * One of the constants: 
+   * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * 
+   * @return The default align value.
+   */
+  protected abstract String getDefaultAlignValue(int tableModelType);
   
   /**
    * Compute the possible values for the column widths specifications.
    * 
-   * @param tableModel The table model. 
+   * @param tableModelType The table model type.
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * @return Returns the possible values for the column widths modifications. 
    */
-  protected abstract ColumnWidthsType[] getColumnWidthsSpecifications(int tableModel);
+  protected abstract ColumnWidthsType[] getColumnWidthsSpecifications(int tableModelType);
 
   /**
    * Creates the title checkbox with an implementation specific name.
@@ -606,17 +834,63 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
   /**
    * Add the possible values to the frame combo.
+   * 
+   * @param tableModelType The table model type.
    */
-  private void addValuesToFrameCombo(int tableModel) {
-    String[] frameValues = getFrameValues(tableModel);
+  private void addValuesToFrameCombo(int tableModelType) {
+    String[] frameValues = getFrameValues(tableModelType);
     frameCombo.removeAllItems();
     for (int i = 0; i < frameValues.length; i++) {
       frameCombo.addItem(frameValues[i]);
     }
 
-    frameCombo.setSelectedItem(getDefaultFrameValue(tableModel));
+    frameCombo.setSelectedItem(getDefaultFrameValue(tableModelType));
+  }
+  
+  /**
+   * Add the possible values to the row separator combo.
+   * 
+   * @param tableModelType The table model type.
+   */
+  private void addValuesToRowsepCombo(int tableModelType) {
+    String[] values = getRowsepValues(tableModelType);
+    rowsepCombo.removeAllItems();
+    for (int i = 0; i < values.length; i++) {
+      rowsepCombo.addItem(values[i]);
+    }
+
+    rowsepCombo.setSelectedItem(getDefaultRowsepValue(tableModelType));
+  }
+  
+  /**
+   * Add the possible values to the column separator combo.
+   * 
+   * @param tableModelType The table model type.
+   */
+  private void addValuesToColsepCombo(int tableModelType) {
+    String[] values = getColsepValues(tableModelType);
+    colsepCombo.removeAllItems();
+    for (int i = 0; i < values.length; i++) {
+      colsepCombo.addItem(values[i]);
+    }
+
+    colsepCombo.setSelectedItem(getDefaultColsepValue(tableModelType));
   }
 
+  /**
+   * Add the possible values to the align combo.
+   * 
+   * @param tableModelType The table model type.
+   */
+  private void addValuesToAlignCombo(int tableModelType) {
+    String[] values = getAlignValues(tableModelType);
+    alignCombo.removeAllItems();
+    for (int i = 0; i < values.length; i++) {
+      alignCombo.addItem(values[i]);
+    }
+
+    alignCombo.setSelectedItem(getDefaultAlignValue(tableModelType));
+  }
   /**
    * Show the dialog to customize the table attributes.
    * @param previousTableInfo Table info to be used for initializing the controls.
@@ -645,7 +919,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
         columnsNumber = ((Integer)columnsSpinner.getValue()).intValue();
       }
       // Compute the value of the table model
-      int tableModel = getTableModel();
+      int tableModelType = getTableModelType();
       tableInfo = 
         new TableInfo(
             title, 
@@ -656,12 +930,28 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
             // EXM-23110 If the user chose "<unspecified>" value for Frame 
             // attribute, don't insert any frame attribute into table element
             hasFrameAttribute
-              ? (!FRAME_UNSPECIFIED.equals(frameCombo.getSelectedItem())
+              ? (!UNSPECIFIED.equals(frameCombo.getSelectedItem())
                     ? (String) frameCombo.getSelectedItem()
                     : null)
               : null,
-            tableModel, 
-            colWidthsCombobox != null ? (ColumnWidthsType) colWidthsCombobox.getSelectedItem() : null);
+            tableModelType, 
+            colWidthsCombobox != null ? (ColumnWidthsType) colWidthsCombobox.getSelectedItem() : null, 
+            // EXM-29536 Add row separator and column separator  
+            hasRowsepAttribute
+            ? (!UNSPECIFIED.equals(rowsepCombo.getSelectedItem())
+                  ? (String) rowsepCombo.getSelectedItem()
+                  : null)
+            : null, 
+            hasColsepAttribute
+            ? (!UNSPECIFIED.equals(colsepCombo.getSelectedItem())
+                ? (String) colsepCombo.getSelectedItem()
+                : null)
+              : null,
+            hasAlignAttribute
+              ? (!UNSPECIFIED.equals(alignCombo.getSelectedItem())
+                  ? (String) alignCombo.getSelectedItem()
+                  : null)
+                : null);
     } else {
       // Cancel was pressed
     }
@@ -669,24 +959,26 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   }
 
   /**
-   * @return The table model.
+   * Obtain the table model type.
+   * 
+   * @return The table model type.
    */
-  protected int getTableModel() {
-    int tableModel = TableInfo.TABLE_MODEL_CUSTOM;
+  protected int getTableModelType() {
+    int tableModelType = TableInfo.TABLE_MODEL_CUSTOM;
     if(showModelChooser) {
       if (calsModelRadio.isSelected()) {
-        tableModel = TableInfo.TABLE_MODEL_CALS;
+        tableModelType = TableInfo.TABLE_MODEL_CALS;
       } else {
         if (simpleTableModel) {
-          tableModel = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
         } else {
-          tableModel = TableInfo.TABLE_MODEL_HTML;
+          tableModelType = TableInfo.TABLE_MODEL_HTML;
         }
       }
     } else if (choiceTableModel) {
-      tableModel = TableInfo.TABLE_MODEL_DITA_CHOICE;
+      tableModelType = TableInfo.TABLE_MODEL_DITA_CHOICE;
     }
-    return tableModel;
+    return tableModelType;
   }
 
   /**
@@ -746,7 +1038,24 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           frameCombo.setSelectedItem(previousTableInfo.getFrame());
         } else {
           // EXM-23110 The user previously chose default value for frame attribute.
-          frameCombo.setSelectedItem(FRAME_UNSPECIFIED);
+          frameCombo.setSelectedItem(UNSPECIFIED);
+        }
+      }
+      // Rowsep
+      if (rowsepCombo != null) {
+        if (previousTableInfo.getRowsep() != null) {
+          rowsepCombo.setSelectedItem(previousTableInfo.getRowsep());
+        } else {
+          rowsepCombo.setSelectedItem(UNSPECIFIED);
+        }
+      }
+      
+      // Colsep
+      if (colsepCombo != null) {
+        if (previousTableInfo.getColsep() != null) {
+          colsepCombo.setSelectedItem(previousTableInfo.getColsep());
+        } else {
+          colsepCombo.setSelectedItem(UNSPECIFIED);
         }
       }
     } else {

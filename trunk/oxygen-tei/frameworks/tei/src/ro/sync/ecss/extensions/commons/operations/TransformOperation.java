@@ -528,9 +528,17 @@ public abstract class TransformOperation implements AuthorOperation {
       
       // Put the result of the XSLT transformation back into the document.
       if (ACTION_REPLACE.equals(action)) {
-        authorAccess.getDocumentController().insertXMLFragment(
-          result, targetNode, ACTION_INSERT_BEFORE);
-        authorAccess.getDocumentController().deleteNode(targetNode);
+        if (targetNode.getParent().getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
+          AuthorDocumentFragment authorFragment = authorAccess.getDocumentController().createNewDocumentFragmentInContext(
+              result, 
+              targetNode.getStartOffset());
+          // Root replace.
+          authorAccess.getDocumentController().replaceRoot(authorFragment);
+        } else {
+          authorAccess.getDocumentController().insertXMLFragment(
+              result, targetNode, ACTION_INSERT_BEFORE);
+          authorAccess.getDocumentController().deleteNode(targetNode);
+        }
       } else if (ACTION_AT_CARET.equals(action)){
         authorAccess.getDocumentController().insertXMLFragment(
             result, authorAccess.getEditorAccess().getCaretOffset());

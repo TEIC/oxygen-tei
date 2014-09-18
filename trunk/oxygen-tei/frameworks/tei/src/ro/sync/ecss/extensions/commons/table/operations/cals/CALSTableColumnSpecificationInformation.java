@@ -74,7 +74,7 @@ public class CALSTableColumnSpecificationInformation extends TableColumnSpecific
   /**
    * The name of the column.
    */
-  private final String columnName;
+  private String columnName;
 
   /**
    * Constructor.
@@ -96,5 +96,14 @@ public class CALSTableColumnSpecificationInformation extends TableColumnSpecific
    */
   public String getColumnName() {
     return columnName;
+  }
+
+  /**
+   * Set the column name.
+   * 
+   * @param colName The new column name.
+   */
+  public void setColumnName(String colName) {
+    this.columnName = colName;
   }
 }

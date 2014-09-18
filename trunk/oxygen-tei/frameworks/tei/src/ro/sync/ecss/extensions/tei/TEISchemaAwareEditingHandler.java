@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.tei;
 
+import java.util.List;
+
 import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
@@ -108,7 +110,10 @@ public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandle
    * TEI table cell
    */
   private static final String TABLE_CELL = "cell";
-
+  /**
+   * TEI head element
+   */
+  private static final String HEAD = "head";
   /**
    * Constructor.
    * 
@@ -408,5 +413,24 @@ public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandle
       }
     }
     return handleEvent;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandlerAdapter#changeElementsToMoveUpDown(java.util.List)
+   */
+  @Override
+  public boolean changeElementsToMoveUpDown(List<AuthorNode> selectedElements) {
+    boolean elementsChanged = false;
+    AuthorNode authorNode = selectedElements.get(0);
+    if (isElementWithNameAndNamespace(authorNode, HEAD)) {
+      // If the selected element is a head element take into account its parent when move operation is invoked.
+      AuthorNode parent = authorNode.getParent();
+      if (parent != null) {
+        selectedElements.clear();
+        selectedElements.add(parent);
+        elementsChanged = true;
+      }
+    }
+    return elementsChanged;
   }
 }

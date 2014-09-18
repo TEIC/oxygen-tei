@@ -62,6 +62,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -77,6 +78,24 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class InsertColumnOperationBase extends AbstractTableOperation {
+  /**
+   * The <code>insertPosition</code> argument descriptor.
+   */
+  public static final String POSITION_ARGUMENT = "insertPosition";
+  
+  /**
+   * The <code>position</code> argument descriptor.
+   */
+  public static final ArgumentDescriptor POSITION_ARGUMENT_DESCRIPTOR =
+    new ArgumentDescriptor(POSITION_ARGUMENT, 
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "The insert position relative to the current column determined by the XPath expression.\n" +
+            "Can be: " + 
+            AuthorConstants.POSITION_BEFORE + ", " +
+            AuthorConstants.POSITION_AFTER + ".\n" +
+            "Note: If the XPath expression is not defined this argument is ignored.",
+        new String[] {AuthorConstants.POSITION_AFTER, AuthorConstants.POSITION_BEFORE},
+        AuthorConstants.POSITION_AFTER);
   
   /**
    * Constructor.
@@ -92,7 +111,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * Arguments.
    */
   private static final ArgumentDescriptor[] ARGUMENTS = 
-    new ArgumentDescriptor[] { NAMESPACE_ARGUMENT_DESCRIPTOR };
+    new ArgumentDescriptor[] { NAMESPACE_ARGUMENT_DESCRIPTOR, POSITION_ARGUMENT_DESCRIPTOR };
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
@@ -106,9 +125,16 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
     Object namespaceObj =  args.getArgumentValue(NAMESPACE_ARGUMENT);
     if (namespaceObj instanceof String) {
       namespace = (String) namespaceObj;
+    }
+    
+    // position argument
+    String position = AuthorConstants.POSITION_AFTER;
+    Object posObj =  args.getArgumentValue(POSITION_ARGUMENT);
+    if (posObj instanceof String) {
+      position = (String) posObj;
     } 
     // Insert column
-    performInsertColumn(authorAccess, namespace, null, null, false, null, null);
+    performInsertColumn(authorAccess, namespace, position, null, null, false, null, null);
   }
   
   /**
@@ -130,6 +156,43 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
   public void performInsertColumn(
       AuthorAccess authorAccess, 
       String namespace, 
+      AuthorDocumentFragment[] fragments, 
+      TableColumnSpecificationInformation columnSpecification, 
+      boolean cellsFragments, 
+      InsertRowOperationBase insertRowOperation,
+      InsertTableOperationBase insertTableOperation) throws AuthorOperationException {
+    performInsertColumn(
+        authorAccess,
+        namespace,
+        AuthorConstants.POSITION_AFTER,
+        fragments,
+        columnSpecification,
+        cellsFragments,
+        insertRowOperation,
+        insertTableOperation);
+  }
+  
+  /**
+   * Insert column.
+   * 
+   * @param authorAccess The author access.
+   * @param namespace The cells namespace.
+   * @param insertPosition The relative position where the new column will be inserted.
+   * @param fragments An array of AuthorDocumentFragments that are used as content of the inserted cells.  
+   * @param columnSpecification The column specification data.
+   * @param cellsFragments If the value is <code>true</code> then the fragments 
+   * where originally cells. 
+   * @param insertRowOperation The insert row operation used to insert new rows when 
+   * there are fragments that cannot be inserted in the new column. 
+   * @param insertTableOperation The insert table operation used to insert the column 
+   * wrapped in a new table when the insert offset is not inside a table.
+   * @throws IllegalArgumentException
+   * @throws AuthorOperationException
+   */
+  public void performInsertColumn(
+      AuthorAccess authorAccess, 
+      String namespace, 
+      String insertPosition,
       AuthorDocumentFragment[] fragments, 
       TableColumnSpecificationInformation columnSpecification, 
       boolean cellsFragments, 
@@ -171,7 +234,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
             int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex(cell);
             if (cellIndex != null) {
               Integer colSpan = tableSupport.getColSpan(cell);
-              newColumnIndex = cellIndex[1] + (colSpan != null ? colSpan.intValue() : 1);
+              newColumnIndex = cellIndex[1] + (AuthorConstants.POSITION_AFTER.equals(insertPosition) ? (colSpan != null ? colSpan.intValue() : 1) : 1);
             } else {            
               throw new AuthorOperationException(
                   "Cannot obtain the index of cell in table. The cell is: " + cell);
@@ -180,6 +243,11 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
             throw new AuthorOperationException(
             "Cannot find a cell in the table at the current caret position.");
           }
+        }
+        
+        // EXM-23743: The new column can be inserted before or after the current column.
+        if (AuthorConstants.POSITION_BEFORE.equals(insertPosition) && newColumnIndex > 0) {
+          newColumnIndex --;
         }
         
         // The current number of columns 

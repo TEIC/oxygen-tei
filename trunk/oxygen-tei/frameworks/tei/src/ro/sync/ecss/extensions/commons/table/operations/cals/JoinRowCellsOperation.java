@@ -57,6 +57,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.JoinRowCellsOperationBase;
 
 /**
@@ -74,9 +75,17 @@ public class JoinRowCellsOperation extends JoinRowCellsOperationBase implements 
 
   /**
    * Constructor.
+   * @param tableHelper The table helper
+   */
+  public JoinRowCellsOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
+  }
+  
+  /**
+   * Constructor.
    */
   public JoinRowCellsOperation() {
-    super(new CALSDocumentTypeHelper());
+    this(new CALSDocumentTypeHelper());
   }
   
   /**

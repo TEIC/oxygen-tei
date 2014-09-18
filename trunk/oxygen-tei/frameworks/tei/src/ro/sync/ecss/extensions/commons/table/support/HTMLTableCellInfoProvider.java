@@ -157,6 +157,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * 
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getColSpan(AuthorElement)
    */
+  @Override
   public Integer getColSpan(AuthorElement cellElement) {
     Integer colspan = null;
     AttrValue attrValue = cellElement.getAttribute("colspan");
@@ -177,6 +178,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * 
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getRowSpan(AuthorElement)
    */
+  @Override
   public Integer getRowSpan(AuthorElement cellElement) {
     Integer rowspan = null;
     AttrValue attrValue = cellElement.getAttribute("rowspan");
@@ -194,6 +196,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#init(AuthorElement)
    */
+  @Override
   public void init(AuthorElement tableElement) {
     this.tableElement = tableElement;
     AuthorElement[] colGroupChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COLGROUP);
@@ -283,7 +286,9 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         // add ColWidth objects for the columns it spans over.
         if (colgroupSpan > 0) {
           for (int j = 0; j < colgroupSpan; j ++) {
-            colWidthSpecs.add(new WidthRepresentation(colgroupWidth, true));
+            WidthRepresentation widthRepresentation = new WidthRepresentation(colgroupWidth, true);
+            widthRepresentation.setAlign(cgAlignValue);
+            colWidthSpecs.add(widthRepresentation);
           }
         }
       }
@@ -333,6 +338,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Provides information about cells in HTML tables";
   }
@@ -340,6 +346,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#hasColumnSpecifications(ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public boolean hasColumnSpecifications(AuthorElement tableElement) {
     return true;
   }
@@ -347,6 +354,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getCellWidth(ro.sync.ecss.extensions.api.node.AuthorElement, int, int)
    */
+  @Override
   public List<WidthRepresentation> getCellWidth(AuthorElement cellElement, int colNumberStart, int colSpan) {
     List<WidthRepresentation> toReturn = null;
     int size = colWidthSpecs.size();
@@ -364,30 +372,42 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitColumnWidthModifications(AuthorDocumentController, ro.sync.ecss.extensions.api.WidthRepresentation[], java.lang.String)
    */
+  @Override
   public void commitColumnWidthModifications(AuthorDocumentController authorDocumentController,
       WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
     if (isHTMLTableCellTagName(tableCellsTagName)) {
       // Find the cols start offset and cols end offset 
       AuthorElement[] colGroupChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COLGROUP);
+      // EXM-28950: Marks the fact that the col element are already present in document and only their attributes were modified.
+      boolean colsModifiedInDoc = false;
       if (colGroupChildren != null && colGroupChildren.length > 0) {
+        colsModifiedInDoc = true;
+        int colWidthsIdx = 0;
         for (int i = 0; i < colGroupChildren.length; i++) { 
           // Verify if the current table child is a 'colgroup' element. 
           AuthorElement child = colGroupChildren[i];
-          authorDocumentController.deleteNode(child);
+          AuthorElement[] colChildren = child.getElementsByLocalName(ELEMENT_NAME_COL);
+          for (int j = 0; j < colChildren.length; j++) {
+        	  // EXM-28950: Modify the width attribute.
+            AuthorElement colChild = colChildren[j];
+            colChild.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[colWidthsIdx ++].getWidthRepresentation()));
+          }
         }
       } else {
         // Maybe the cols are directly children of the 'table' element.
         AuthorElement[] colChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COL);
         if (colChildren != null && colChildren.length > 0) {
+          colsModifiedInDoc = true;
           for (int i = 0; i < colChildren.length; i++) { 
             AuthorElement colChild = colChildren[i];
-            authorDocumentController.deleteNode(colChild);
+            // EXM-28950: Modify the width attribute.
+            colChild.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[i].getWidthRepresentation()));
           }
         }
       }
 
-      if (colWidths != null && authorDocumentController != null && tableElement != null) {
-        // Creates the XML fragment representing the column specifications. 
+      if (!colsModifiedInDoc && colWidths != null && authorDocumentController != null && tableElement != null) {
+        // Fallback creates the XML fragment representing the column specifications. 
         String xmlFragment = createXMLFragment(colWidths);
         int offset = getInsertColsOffset();
         if (offset == -1) {
@@ -466,6 +486,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
    */
+  @Override
   public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
     if (isHTMLTableCellTagName(tableCellsTagName)) {
       if (newTableWidth > 0 && authorDocumentController != null) {
@@ -486,6 +507,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getTableWidth(java.lang.String)
    */
+  @Override
   public WidthRepresentation getTableWidth(String tableCellsTagName) {
     WidthRepresentation toReturn = null;
     if (isHTMLTableCellTagName(tableCellsTagName)) {
@@ -516,6 +538,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAcceptingWidth(java.lang.String)
    */
+  @Override
   public boolean isTableAcceptingWidth(String tableCellsTagName) {
     return isHTMLTableCellTagName(tableCellsTagName);
   }
@@ -523,6 +546,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAndColumnsResizable(java.lang.String)
    */
+  @Override
   public boolean isTableAndColumnsResizable(String tableCellsTagName) {
     return isHTMLTableCellTagName(tableCellsTagName);
   }
@@ -530,6 +554,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingFixedColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
     return isHTMLTableCellTagName(tableCellsTagName);
   }
@@ -537,6 +562,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingPercentageColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
     return isHTMLTableCellTagName(tableCellsTagName);
   }
@@ -544,6 +570,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingProportionalColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
     return isHTMLTableCellTagName(tableCellsTagName);
   }

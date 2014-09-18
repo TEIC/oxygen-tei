@@ -94,6 +94,59 @@ public class CALSColSpec {
   private String align;
   
   /**
+   * Tests the presence of the column separator. 
+   * 
+   * @return <code>true</code> if the separator 
+   * should be painted at the right of the cell, <code>false</code> if no separator 
+   * is needed, or <code>null</code> if the default specified by the document type 
+   * should be applied.
+   * For instance in Docbook, the default value is <code>true</code> while in DITA 
+   * is <code>false</code>.
+   * If the cell is the last in the row, this value is disregarded.
+   */
+  public Boolean getColSep() {
+    return colSep;
+  }
+
+  /**
+   * Tests the presence of the row separator.
+   * 
+   * @return <code>true</code> if the separator 
+   * should be painted below the cell, <code>false</code> if no separator 
+   * is needed, or <code>null</code> if the default specified by the document type 
+   * should be applied.
+   * For instance in Docbook, the default value is <code>true</code> while in DITA 
+   * is <code>false</code>.
+   * If the cell is the in the last row, this value is disregarded.
+   */
+  public Boolean getRowSep() {
+    return rowSep;
+  }
+
+  /**
+   * Flag for the column separator. This can be <code>true</code> if the separator 
+   * should be painted at the right of the cell, <code>false</code> if no separator 
+   * is needed, or <code>null</code> if the default specified by the document type 
+   * should be applied.
+   * For instance in Docbook, the default value is <code>true</code> while in DITA 
+   * is <code>false</code>.
+   * If the cell is the last in the row, this value is disregarded.
+   */
+  private Boolean colSep;
+  
+  /**
+   * Flag for the row separator. This can be <code>true</code> if the separator 
+   * should be painted below the cell, <code>false</code> if no separator 
+   * is needed, or <code>null</code> if the default specified by the document type 
+   * should be applied.
+   * For instance in Docbook, the default value is <code>true</code> while in DITA 
+   * is <code>false</code>.
+   * If the cell is the in the last row, this value is disregarded.
+   */
+  private Boolean rowSep;
+  
+  
+  /**
    * Constructor.
    * @param indexInDocument Index in colspec elements list.
    * @param colNumber The number of the column. It is 1 based. 
@@ -101,8 +154,14 @@ public class CALSColSpec {
    * @param colName The name of the column.
    * @param colWidth The string representation of the column width 
    * as described in the {@link WidthRepresentation}.
+   * @param colSep <code>true</code> if the column separators are needed for that column, 
+   *   <code>false</code> if not, <code>null</code> if the framework default should apply. 
+   *   For instance Docbook has the colsep on true by default, while DITA on false.
+   * @param rowSep <code>true</code> if the row separators are needed for that column, 
+   *   <code>false</code> if not, <code>null</code> if the framework default should apply. 
+   *   For instance Docbook has the rowsep on true by default, while DITA on false.
    */
-  public CALSColSpec(int indexInDocument, int colNumber, boolean colNumberSpecified, String colName, String colWidth) {
+  public CALSColSpec(int indexInDocument, int colNumber, boolean colNumberSpecified, String colName, String colWidth, Boolean colSep, Boolean rowSep) {
     this.indexInDocument = indexInDocument;
     this.colNumber = colNumber;
     this.colNumberSpecified = colNumberSpecified;
@@ -110,16 +169,19 @@ public class CALSColSpec {
     if (colWidth != null) {
       this.colWidth = new WidthRepresentation(colWidth, false);
     }
+    this.colSep = colSep;
+    this.rowSep = rowSep;
   }
   
   /**
    * Constructor.
+   * The rowsep and colsep are set to null, i.e. the document type default.
    * 
+   * @param indexInDocument Index in colspec elements list.
    * @param colNumber The number of this column. It is 1 based. 
    * @param colNumberSpecified <code>true</code> if the column number was specified as an attribute
    * @param colName The name of this column.
    * @param colWidth The column width representation.
-   * @param indexInDocument Index in colspec elements list.
    */
   public CALSColSpec(int indexInDocument, int colNumber, boolean colNumberSpecified, String colName, WidthRepresentation colWidth) {
     this.indexInDocument = indexInDocument;

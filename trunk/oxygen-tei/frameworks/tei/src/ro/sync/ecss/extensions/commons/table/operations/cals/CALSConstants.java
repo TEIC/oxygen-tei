@@ -129,6 +129,22 @@ public interface CALSConstants {
   String ATTRIBUTE_NAME_SPANNAME = "spanname";
   
   /**
+   * The name of the attribute that identifies a column separator 
+   * specification for a table cell.
+   * 
+   * The value is <code>'colsep'</code>.
+   */
+  String ATTRIBUTE_NAME_COLSEP = "colsep";  
+
+  /**
+   * The name of the attribute that identifies a row separator 
+   * specification for a table cell.
+   * 
+   * The value is <code>'rowsep'</code>.
+   */
+  String ATTRIBUTE_NAME_ROWSEP = "rowsep";
+  
+  /**
    * The name of the <code>'colspec'</code> element attribute that specifies 
    * the column number.
    * The value is <code>'colnum'</code>. 

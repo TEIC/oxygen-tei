@@ -52,6 +52,9 @@ package ro.sync.ecss.extensions.tei;
 
 import java.util.List;
 
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.contentcompletion.xml.CIValue;
 import ro.sync.contentcompletion.xml.Context;
 import ro.sync.contentcompletion.xml.StyleGuideSchemaManagerFilterBase;
@@ -60,6 +63,7 @@ import ro.sync.contentcompletion.xml.WhatPossibleValuesHasAttributeContext;
 /**
  * The TEI Schema Manager filter.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEISchemaManagerFilter extends StyleGuideSchemaManagerFilterBase {
 
   /**

@@ -180,11 +180,92 @@ public interface ExtensionTags {
    */
   String COLUMNS = "Columns";
   /**
+   * Column
+   * 
+   * en: Column
+   */
+  String COLUMN = "Column";
+  /**
+   * Cells
+   * 
+   * en: Cells
+   */
+  String CELLS = "Cells";
+  /**
+   * Cell
+   * 
+   * en: Cell
+   */
+  String CELL = "Cell";
+  /**
+   * Label used to specify how many columns are affected by modifications from
+   * table properties dialog.
+   * 
+   * en: {0} column(s) will be affected.
+   */
+  String AFFECTED_COLUMNS = "Affected_columns";
+  /**
+   * Label used to specify how many cells are affected by modifications from
+   * table properties dialog.
+   * 
+   * en: {0} cell(s) will be affected.
+   */
+  String AFFECTED_CELLS = "Affected_cells";
+  /**
+   * Label used to specify how many rows are affected by modifications from
+   * table properties dialog.
+   * 
+   * en: {0} row(s) will be affected.
+   */
+  String AFFECTED_ROWS = "Affected_rows";
+  /**
+   * Horizontal alignment render string.
+   * 
+   * en: Horizontal alignment
+   */
+  String HORIZONTAL_ALIGNMENT = "Horizontal_alignment";
+  /**
+   * Vertical alignment render string.
+   * 
+   * en: Vertical alignment
+   */
+  String VERTICAL_ALIGNMENT = "Vertical_alignment";
+  /**
+   * Column separator render string.
+   * 
+   * en: Column separator
+   */
+  String COLUMN_SEPARATOR = "Column_separator";
+  /**
+   * Name for the alignment table attribute.
+   * 
+   * en: Alignment
+   */
+  String ALIGNMENT = "Alignment";
+  /**
+   * Row separator render string.
+   * 
+   * en: Row separator
+   */
+  String ROW_SEPARATOR = "Row_separator";
+  /**
+   * Separators group title.
+   * 
+   * en: Separators
+   */
+  String SEPARATORS = "Separators";
+  /**
    * Rows
    * 
    * en: Rows
    */
   String ROWS = "Rows";
+  /**
+   * Row
+   * 
+   * en: Row
+   */
+  String ROW = "Row";
   /**
    * Table size.
    * 
@@ -370,11 +451,50 @@ public interface ExtensionTags {
    */
   String SCOPE = "Scope";
   /**
-   * 
+   * en: All rows
    */
   String ALL_ROWS = "All_rows";
   /**
-   * 
+   * en: All items
    */
   String ALL_ITEMS = "All_items";
+  /**
+   * "Table properties" preview group title.
+   * 
+   * en: Preview
+   */
+  String PREVIEW = "Preview";
+  /**
+   * "Table properties" dialog title.
+   * 
+   * en: Table properties
+   */
+  String TABLE_PROPERTIES = "Table_properties";
+  /**
+   * Table
+   * 
+   * en: Table
+   */
+  String TABLE = "Table";
+  /**
+   * Message that explain why the table properties operation cannot be performed.
+   * 
+   * en: The operation cannot be performed on multiple tables.
+   */
+  String CANNOT_PERFORM_TABLE_PROPERTIES_OPERATION = "Cannot_perform_table_properties_operation";
+  
+  /**
+   * Message shown when the "Table properties" operation cannot be performed because there
+   * are no elements detected to modified properties for.
+   * 
+   * en: Current action cannot be performed because there is no element whose properties can be modified. 
+   */
+  String CANNOT_PERFORM_OPERATION_NO_ELEMENT_TO_EDIT_PROPERTIES_FOR = "Cannot_perform_operation_no_element_to_edit_properties_for";
+  /**
+   * Row type property render string. It refers to the type a row. A row can be header row,
+   * body row or footer row.
+   * 
+   * en: Row type
+   */
+  String ROW_TYPE = "Row_type";
 }

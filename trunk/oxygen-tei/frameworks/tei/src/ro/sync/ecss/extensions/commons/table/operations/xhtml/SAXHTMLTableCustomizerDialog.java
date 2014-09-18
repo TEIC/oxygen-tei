@@ -81,7 +81,18 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
     FRAME_RHS,
     FRAME_BORDER,
     FRAME_BOX,
-    FRAME_UNSPECIFIED };
+    UNSPECIFIED };
+  /**
+   * Array with common possible values for alignment. 
+   */
+  public static final String[] ALIGN_VALUES = new String[] {
+    LEFT,
+    RIGHT,
+    CENTER,
+    JUSTIFY,
+    CHAR,
+    UNSPECIFIED,
+  };
   
   /**
    * Constructor.
@@ -92,14 +103,15 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    * @param predefinedRowsCount The predefined number of rows.
    */
   public SAXHTMLTableCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle, int predefinedRowsCount, int predefinedColumnsCount) {
-    super(parentFrame, true, true, false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+    super(parentFrame, true, true, false, true, false, false, false, true, 
+        authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getColumnWidthsSpecifications(int)
    */
   @Override
-  protected ColumnWidthsType[] getColumnWidthsSpecifications(int tableModel) {
+  protected ColumnWidthsType[] getColumnWidthsSpecifications(int tableModelType) {
     return HTML_WIDTHS_SPECIFICATIONS;
   }
 
@@ -107,7 +119,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getFrameValues(int)
    */
   @Override
-  protected String[] getFrameValues(int tableModel) {
+  protected String[] getFrameValues(int tableModelType) {
     return TABLE_FRAME_VALUES;
   }
 
@@ -134,7 +146,55 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultFrameValue(int)
    */
   @Override
-  protected String getDefaultFrameValue(int tableModel) {
+  protected String getDefaultFrameValue(int tableModelType) {
     return FRAME_VOID;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getRowsepValues(int)
+   */
+  @Override
+  protected String[] getRowsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultRowsepValue(int)
+   */
+  @Override
+  protected String getDefaultRowsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getColsepValues(int)
+   */
+  @Override
+  protected String[] getColsepValues(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultColsepValue(int)
+   */
+  @Override
+  protected String getDefaultColsepValue(int tableModelType) {
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getAlignValues(int)
+   */
+  @Override
+  protected String[] getAlignValues(int tableModelType) {
+    return ALIGN_VALUES;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog#getDefaultAlignValue(int)
+   */
+  @Override
+  protected String getDefaultAlignValue(int tableModelType) {
+    return UNSPECIFIED;
   }
 }

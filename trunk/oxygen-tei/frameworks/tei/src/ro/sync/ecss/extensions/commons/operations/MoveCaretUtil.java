@@ -62,8 +62,10 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
+import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AuthorParentNode;
+import ro.sync.exml.view.graphics.Rectangle;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
@@ -101,7 +103,15 @@ public class MoveCaretUtil {
     if (caretPI != null) {
       int caretOffset = caretPI.getStartOffset();
       authorAccess.getDocumentController().deleteNode(caretPI);
-      authorAccess.getEditorAccess().setCaretPosition(caretOffset);
+      AuthorEditorAccess edAccess = authorAccess.getEditorAccess();
+      edAccess.setCaretPosition(caretOffset);
+      Rectangle rect = edAccess.modelToViewRectangle(edAccess.getCaretOffset());
+      if(rect != null) {
+        if(rect.y > 100) {
+          rect.y -= 100;
+          edAccess.scrollToRectangle(rect);
+        }
+      }
     } else {
       //Defaults to 0 for CT's
     }

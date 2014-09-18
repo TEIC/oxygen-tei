@@ -125,7 +125,10 @@ public abstract class TableCustomizer {
             newTableInfo.isGenerateFooter(), 
             newTableInfo.getFrame(), 
             newTableInfo.getTableModel(), 
-            newTableInfo.getColumnsWidthsType());
+            newTableInfo.getColumnsWidthsType(),
+            newTableInfo.getRowsep(),
+            newTableInfo.getColsep(),
+            newTableInfo.getAlign());
         
         // Update predefined rows count
         if (tableInfo.isGenerateHeader() || tableInfo.isGenerateFooter()) {
@@ -147,7 +150,10 @@ public abstract class TableCustomizer {
               newTableInfo.isGenerateFooter(), 
               newTableInfo.getFrame(), 
               newTableInfo.getTableModel(), 
-              newTableInfo.getColumnsWidthsType());
+              newTableInfo.getColumnsWidthsType(),
+              newTableInfo.getRowsep(),
+              newTableInfo.getColsep(),
+              newTableInfo.getAlign());
         }
       } else {
         tableInfo = newTableInfo;
