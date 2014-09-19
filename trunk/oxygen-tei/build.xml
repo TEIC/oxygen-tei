@@ -3,7 +3,7 @@
 	1. Build the tei.jar from the sources
 	2. Make a zip distribution containing the TEI framework, excluding the
 	   resources that are used only to build the project.
--->
+--> 
 <project basedir="." default="dist" name="oxygen-framework">
 	<property file="build.properties"/>
 	<!-- 
