@@ -390,7 +390,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           for (int j = 0; j < colChildren.length; j++) {
         	  // EXM-28950: Modify the width attribute.
             AuthorElement colChild = colChildren[j];
-            colChild.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[colWidthsIdx ++].getWidthRepresentation()));
+            authorDocumentController.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[colWidthsIdx ++].getWidthRepresentation()), colChild);
           }
         }
       } else {
@@ -401,7 +401,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           for (int i = 0; i < colChildren.length; i++) { 
             AuthorElement colChild = colChildren[i];
             // EXM-28950: Modify the width attribute.
-            colChild.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[i].getWidthRepresentation()));
+            authorDocumentController.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[i].getWidthRepresentation()), colChild);
           }
         }
       }
