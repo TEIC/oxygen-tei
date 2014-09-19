@@ -72,13 +72,14 @@ oXygen frameworks folder and the library will be automatically detected.
     <target name="compile" depends="clean, checkJars">
         <delete dir="classes"/>
         <mkdir dir="classes"/>
-        <javac destdir="classes">
+        <javac destdir="classes" source="1.6" target="1.6">
             <classpath>
                 <fileset dir="${lib}">
                     <include name="*.jar"/>
                 </fileset>
                 <!-- Maybe the path to oxygen.jar is given as a property-->
-                <fileset file="${oxygen.jar}"/>
+                <fileset file="${oxygen.jar}" erroronmissingdir="false"/>
+                
                 <!-- Put the eclipse jars in the class path because we use SWT
 				for Oxygen eclipse plugin -->
                 <fileset dir="${eclipseJars}">
