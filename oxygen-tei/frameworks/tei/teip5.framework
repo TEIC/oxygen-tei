@@ -1207,10 +1207,10 @@
 											<String>insert image</String>
 										</field>
 										<field name="name">
-											<String>${i18n(insert image)}</String>
+											<String>${i18n(insert.image)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(insert image_description)}</String>
+											<String>${i18n(insert.image_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Image20.png</String>
@@ -1309,7 +1309,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:row</String>
+														<String>oxy:current-selected-element()[self::*:row][1] or ancestor-or-self::*:row</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -1691,7 +1691,7 @@ self::*:table][1][self::*:row]</String>
 														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.tei.id.TEIConfigureAutoIDElementsOperation</String>
+														<String>ro.sync.ecss.extensions.tei.id.TEIP5ConfigureAutoIDElementsOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
