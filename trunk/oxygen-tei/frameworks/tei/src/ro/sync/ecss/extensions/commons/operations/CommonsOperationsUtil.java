@@ -221,6 +221,33 @@ public class CommonsOperationsUtil {
       QName attributeQName, 
       String value,
       boolean removeIfEmpty) {
+    return setAttributeValue(ctrl, targetElement, attributeQName, value, value, removeIfEmpty);
+  }
+  
+  /**
+   * Sets an attribute value. If the value is <code>null</code> the attribute will
+   * be removed from the element. If the value is the empty string and removeIfEmpty
+   * is <code>true</code> the attribute will also be removed.
+   * 
+   * @param ctrl Attribute controller. 
+   * @param targetElement The target element.
+   * @param attributeQName Attribute to edit.
+   * @param value Current value. Illegal characters in the value WILL NOT be escaped. All entities
+   * must be already escaped in this value. For example:   <pre>ab&amp;quot;c&amp;amp;&amp;#36;</pre>
+   * @param normalizedValue The value with normalized whitespaces and expanded entities. For example: <pre>ab"c&$</pre>
+   * @param removeIfEmpty <code>true</code> to remove the attribute when an empty 
+   * value is set.
+   * 
+   * @return The QName with which the attribute was committed. From the given attributeQName
+   * only the local name and namespace are taken into account. 
+   */
+  public static String setAttributeValue(
+      AuthorDocumentController ctrl, 
+      AuthorElement targetElement, 
+      QName attributeQName, 
+      String value,
+      String normalizedValue,
+      boolean removeIfEmpty) {
     boolean addNamespaceDeclaration = false;    
     String attributeName = attributeQName.getLocalPart();
     String prefix = null;
@@ -263,7 +290,7 @@ public class CommonsOperationsUtil {
         AttrValue nsAttrValue = new AttrValue(namespace);
         ctrl.setAttribute("xmlns:" + prefix, nsAttrValue, targetElement);
       }
-      AttrValue attrValue = new AttrValue(value);
+      AttrValue attrValue = new AttrValue(normalizedValue, value, true);
       ctrl.setAttribute(attributeName, attrValue, targetElement);
     }
     

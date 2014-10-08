@@ -53,8 +53,6 @@ package ro.sync.ecss.extensions.tei.id;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
-import ro.sync.ecss.extensions.commons.id.GenerateIDElementsInfo;
-
 
 /**
  * Operation used to insert a Link in TEI documents.
@@ -67,14 +65,6 @@ public class TEIConfigureAutoIDElementsOperation extends ro.sync.ecss.extensions
    */
   public String getDescription() {
     return "Configure the list of elements for which to generate automatic IDs";
-  }
-  
-  /**
-   * @see ro.sync.ecss.extensions.commons.id.ConfigureAutoIDElementsOperation#getDefaultOptions()
-   */
-  @Override
-  protected GenerateIDElementsInfo getDefaultOptions() {
-    return TEIP4UniqueAttributesRecognizer.GENERATE_ID_DEFAULTS;
   }
   
   /**

@@ -83,7 +83,12 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
    * The default width representation.
    */
-  private static final WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false); 
+  private static final WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false) {
+    @Override
+    public boolean isSpecified() {
+      return false;
+    }
+  }; 
   /**
    * CALS Docbook table cell name.
    */
@@ -580,7 +585,15 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           
           if(colspec.getAlign() != null && colWidth == DEFAULT_WIDTH_REPRESENTATION) {
             //Pass the text align, do not alter the constant.
-            colWidth = new WidthRepresentation(0, null, 1, false);
+            colWidth = new WidthRepresentation(0, null, 1, false) {
+              /**
+               * @see ro.sync.ecss.extensions.api.WidthRepresentation#isSpecified()
+               */
+              @Override
+              public boolean isSpecified() {
+                return false;
+              }
+            };
             colWidth.setAlign(colspec.getAlign());
           }
           
@@ -606,7 +619,15 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           
           if(colspec.getAlign() != null && colWidth == DEFAULT_WIDTH_REPRESENTATION) {
             //Pass the text align, do not alter the constant.
-            colWidth = new WidthRepresentation(0, null, 1, false);
+            colWidth = new WidthRepresentation(0, null, 1, false) {
+              /**
+               * @see ro.sync.ecss.extensions.api.WidthRepresentation#isSpecified()
+               */
+              @Override
+              public boolean isSpecified() {
+                return false;
+              }
+            };
             colWidth.setAlign(colspec.getAlign());
           }
           

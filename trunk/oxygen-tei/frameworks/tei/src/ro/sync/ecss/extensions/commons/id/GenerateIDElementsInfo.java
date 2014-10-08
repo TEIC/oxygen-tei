@@ -50,8 +50,20 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -64,6 +76,11 @@ import ro.sync.util.editorvars.EditorVariables;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class GenerateIDElementsInfo {
+  
+  /**
+   * The logger.
+   */
+  private static final Logger logger = Logger.getLogger(GenerateIDElementsInfo.class);
   /**
    * The key from options
    */
@@ -141,6 +158,11 @@ public class GenerateIDElementsInfo {
    * The pattern tooltip
    */
   private String patternTooltip = PATTERN_TOOLTIP;
+  
+  /**
+   * The QName of the attribute for which to generate.
+   */
+  private String attrQname;
   
   /**
    * Constructor.
@@ -284,7 +306,7 @@ public class GenerateIDElementsInfo {
   public void saveToOptions(AuthorAccess authorAccess) {
     //Store the auto ID elements info to options.
     //Save back as comma separated.
-    StringBuffer toSave = new StringBuffer();
+    StringBuilder toSave = new StringBuilder();
     toSave.append(getElementsAsOptionsString());
     authorAccess.getOptionsStorage().setOption(
         GENERATE_ID_ELEMENTS_KEY, toSave.toString());
@@ -301,7 +323,7 @@ public class GenerateIDElementsInfo {
   }
   
   private String getElementsAsOptionsString() {
-    StringBuffer toSave = new StringBuffer();
+    StringBuilder toSave = new StringBuilder();
     for (int i = 0; i < elementsWithIDGeneration.length; i++) { 
       toSave.append(elementsWithIDGeneration[i]).append(",");
     }
@@ -398,5 +420,119 @@ public class GenerateIDElementsInfo {
    */
   public void setPatternTooltip(String patternTooltip) {
     this.patternTooltip = patternTooltip;
+  }
+  
+  /**
+   * Load from the XML configuration.
+   * 
+   * @param authorAccess The author access
+   * @param proposedXMLResourceName The proposed name of the resource from which to load the configuration.
+   * @return The information loaded from the configuration.
+   */
+  public static GenerateIDElementsInfo loadDefaultsFromConfiguration(AuthorAccess authorAccess, String proposedXMLResourceName){
+    if(proposedXMLResourceName == null){
+      proposedXMLResourceName = "idGenerationDefaultOptions.xml";
+    }
+    final GenerateIDElementsInfo loaded = new GenerateIDElementsInfo(false, DEFAULT_ID_GENERATION_PATTERN, new String[0]);
+    String optionsLoadURL = null;
+    if(authorAccess != null){
+      //Try to detect them in the classpath resources
+      URL[] resources = authorAccess.getClassPathResourcesAccess().getClassPathResources();
+      if(resources != null) {
+        for (int i = 0; i < resources.length; i++) {
+          URL resource = resources[i];
+          String resourceStr = resource.toExternalForm();
+          //Find the reuse folder
+          if(resourceStr.endsWith("/resources/")
+              || resourceStr.endsWith("/resources")){
+            //Found it.
+            try {
+              optionsLoadURL = new URL(resource, proposedXMLResourceName).toString();
+            } catch (MalformedURLException e) {
+              //Ignore
+            }
+            break;
+          }
+        }
+      }
+      if(optionsLoadURL != null){
+        XMLReader reader = authorAccess.getXMLUtilAccess().newNonValidatingXMLReader();
+        final List<String> elems = new ArrayList<String>();
+        //Content handler to gather information
+        reader.setContentHandler(new ContentHandler() {
+          private StringBuilder chars = new StringBuilder();
+          @Override
+          public void startPrefixMapping(String prefix, String uri) throws SAXException {
+          }
+          @Override
+          public void startElement(String uri, String localName, String qName, Attributes atts)
+              throws SAXException {
+            //Reset it
+            chars.setLength(0);
+          }
+          @Override
+          public void startDocument() throws SAXException {
+          }
+          @Override
+          public void skippedEntity(String name) throws SAXException {
+          }
+          @Override
+          public void setDocumentLocator(Locator locator) {
+          }
+          @Override
+          public void processingInstruction(String target, String data) throws SAXException {
+          }
+          @Override
+          public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+          }
+          @Override
+          public void endPrefixMapping(String prefix) throws SAXException {
+          }
+          @Override
+          public void endElement(String uri, String localName, String qName) throws SAXException {
+            //Gather information from the file.
+            if("autoGenerate".equals(localName)){
+              loaded.autoGenerateIds = "true".equals(chars.toString().trim());
+            } else if("idAttribute".equals(localName)){
+              loaded.attrQname = chars.toString().trim();
+            } else if("idPattern".equals(localName)){
+              loaded.idGenerationPattern = chars.toString().trim();
+            } else if("removeIDsOnCopy".equals(localName)){
+              loaded.removeIDsOnCopy = "true".equals(chars.toString().trim());
+            } else if("generateForElement".equals(localName)){
+              String elemPattern = chars.toString().trim();
+              elems.add(elemPattern);
+            }
+            //Reset it
+            chars.setLength(0);
+          }
+          @Override
+          public void endDocument() throws SAXException {
+          }
+          @Override
+          public void characters(char[] ch, int start, int length) throws SAXException {
+            chars.append(ch, start, length);
+          }
+        });
+        try {
+          reader.parse(optionsLoadURL);
+          loaded.elementsWithIDGeneration = elems.toArray(new String[0]);
+        } catch (IOException e) {
+          logger.error(e, e);
+        } catch (SAXException e) {
+          logger.error(e, e);
+        }
+      }
+    }
+    return loaded;
+  }
+  
+  /**
+   * Get the QName of the attribute for which to generate the  
+   * 
+   * @return Returns the attrQname.
+   */
+  public String getAttrQname() {
+    return attrQname;
   }
 }

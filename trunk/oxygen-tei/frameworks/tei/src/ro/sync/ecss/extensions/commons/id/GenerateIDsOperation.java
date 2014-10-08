@@ -50,7 +50,10 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
+import java.util.List;
+
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Segment;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -60,6 +63,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -72,38 +76,72 @@ public abstract class GenerateIDsOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     UniqueAttributesRecognizer attrsAssigner = getUniqueAttributesRecognizer();
     if(attrsAssigner != null) {
       attrsAssigner.activated(authorAccess);
-      int startSel = authorAccess.getEditorAccess().getSelectionStart();
-      int endSel = authorAccess.getEditorAccess().getSelectionEnd();
       
       if(authorAccess.getEditorAccess().hasSelection()) {
-        //Inclusive end
-        endSel --;
-        try {
-          //But maybe a node is completely engulfed in the selection
-          AuthorNode nodeAtEndSel = authorAccess.getDocumentController().getNodeAtOffset(endSel);
-          if(startSel == nodeAtEndSel.getStartOffset() && nodeAtEndSel.getEndOffset() == endSel) {
-            //EXM-19319 This is the case, force ID generation on the totally engulfed node.
-            attrsAssigner.assignUniqueIDs(nodeAtEndSel.getStartOffset(), nodeAtEndSel.getStartOffset(), true);
+        List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+        // EXM-29244 Generate IDs on multiple selection
+        for (ContentInterval contentInterval : selectionIntervals) {
+          int startSel = contentInterval.getStartOffset();
+          // Inclusive end
+          int endSel = contentInterval.getEndOffset();
+          
+          try {
+            //But maybe a node is completely engulfed in the selection
+            AuthorNode nodeAtEndSel = authorAccess.getDocumentController().getNodeAtOffset(endSel - 1);
+            if(startSel == nodeAtEndSel.getStartOffset() && nodeAtEndSel.getEndOffset() == endSel - 1) {
+              //EXM-19319 This is the case, force ID generation on the totally engulfed node.
+              attrsAssigner.assignUniqueIDs(nodeAtEndSel.getStartOffset(), nodeAtEndSel.getStartOffset(), true);
+            } else {
+              int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(startSel, endSel);
+              int start = balancedSelection[0];
+              int end = balancedSelection[1];
+              Segment seg = new Segment();
+              // Get all the selection chars
+              authorAccess.getDocumentController().getChars(start, end - start, seg);
+
+              // Iterate the current segment chars and assign ID-s to all the first-level nodes
+              for (int i = 0; i < seg.count; i++) {
+                // Current char
+                char chr = seg.array[seg.offset + i];
+                boolean isSentinel = chr == 0;
+                if (isSentinel) {
+                  // The offset in document corresponding to the current char
+                  int offsetInDoc = start + i;
+                  AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offsetInDoc + 1);
+                  if (nodeAtOffset.getStartOffset() == offsetInDoc) {
+                    // Skip this node
+                    i += nodeAtOffset.getEndOffset() - nodeAtOffset.getStartOffset();
+                    if (nodeAtOffset.getEndOffset() <= end - 1) {
+                      // Assign an ID if this node is fully selected
+                      attrsAssigner.assignUniqueIDs(offsetInDoc, offsetInDoc, true);
+                    }
+                  }
+                }
+              }
+            }
+            attrsAssigner.assignUniqueIDs(startSel, endSel - 1, false);
+          } catch (BadLocationException e) {
+            // Ignore
           }
-        } catch (BadLocationException e) {
-          // Ignore
         }
       } else {
         try {
           // No selection, consider the parent node to generate for.
-          AuthorNode nodeAtCaret = authorAccess.getDocumentController().getNodeAtOffset(startSel);
-          startSel = nodeAtCaret.getStartOffset();
-          endSel = nodeAtCaret.getStartOffset();
+          AuthorNode nodeAtCaret = authorAccess.getDocumentController().getNodeAtOffset(
+              authorAccess.getEditorAccess().getCaretOffset());
+          int startSel = nodeAtCaret.getStartOffset();
+          int endSel = nodeAtCaret.getStartOffset();
+          attrsAssigner.assignUniqueIDs(startSel, endSel, ! authorAccess.getEditorAccess().hasSelection());
         } catch (BadLocationException e) {
           // Ignore
         }
       }
-      attrsAssigner.assignUniqueIDs(startSel, endSel, ! authorAccess.getEditorAccess().hasSelection());
     }
   }
 
@@ -117,6 +155,7 @@ public abstract class GenerateIDsOperation implements AuthorOperation {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
   }
@@ -124,6 +163,7 @@ public abstract class GenerateIDsOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Generate unique IDs on the selected content";
   }

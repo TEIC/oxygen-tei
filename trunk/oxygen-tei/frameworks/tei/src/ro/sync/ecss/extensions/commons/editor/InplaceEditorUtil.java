@@ -67,6 +67,7 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.editor.AuthorInplaceContext;
 import ro.sync.ecss.extensions.api.editor.InplaceEditorArgumentKeys;
+import ro.sync.ecss.extensions.api.editor.InplaceEditorCSSConstants;
 import ro.sync.exml.view.graphics.Dimension;
 
 /**
@@ -88,13 +89,37 @@ public class InplaceEditorUtil {
    * @return The preferred size for the given context. 
    */
   public static Dimension getPreferredSize(JPanel panel, AuthorInplaceContext context) {
+    return getPreferredSize(panel, context, panel.getFont().getSize());
+  }
+  
+  /**
+   * Computes the preferred size for the panel.
+   * 
+   * @param panel A panel used as an editor. 
+   * @param context In-place editing context.
+   * @param fontSize The font size to use for expanding font related values of 
+   * {@link InplaceEditorCSSConstants#PROPERTY_WIDTH}.
+   * 
+   * @return The preferred size for the given context. 
+   */
+  public static Dimension getPreferredSize(JPanel panel, AuthorInplaceContext context, int fontSize) {
     final java.awt.Dimension preferredSize = panel.getPreferredSize();
 
     int width = preferredSize.width;
-    Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
-    if (columns != null && columns > 0) {
-      FontMetrics fontMetrics = panel.getFontMetrics(panel.getFont());
-      width = columns * fontMetrics.charWidth('w');
+    
+    // First check the WIDTH property.
+    int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
+        context.getArguments(), 
+        fontSize);
+    if (imposedWidth != -1) {
+      width = imposedWidth;
+    } else {
+      // If no width is imposed, check the columns property.
+      Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
+      if (columns != null && columns > 0) {
+        FontMetrics fontMetrics = panel.getFontMetrics(panel.getFont());
+        width = columns * fontMetrics.charWidth('w');
+      }
     }
     
     return new Dimension(width, preferredSize.height);
@@ -110,10 +135,20 @@ public class InplaceEditorUtil {
    */
   public static Dimension getPreferredSize(JComboBox comboBox, AuthorInplaceContext context) {
     int width = comboBox.getPreferredSize().width;
-    Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
-    if (columns != null && columns > 0) {
-      FontMetrics fontMetrics = comboBox.getFontMetrics(comboBox.getFont());
-      width = columns * fontMetrics.charWidth('w');
+    
+    // First check the WIDTH property.
+    int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
+        context.getArguments(), 
+        comboBox.getFont().getSize());
+    if (imposedWidth != -1) {
+      width = imposedWidth;
+    } else {
+      // If no width is imposed, check the columns property.
+      Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
+      if (columns != null && columns > 0) {
+        FontMetrics fontMetrics = comboBox.getFontMetrics(comboBox.getFont());
+        width = columns * fontMetrics.charWidth('w');
+      }
     }
     
     return new Dimension(width, comboBox.getPreferredSize().height);
@@ -131,13 +166,24 @@ public class InplaceEditorUtil {
     FontMetrics fontMetrics = textField.getFontMetrics(textField.getFont());
     // EXM-26151 Make the text filed a bit wider when relying on preferred size.
     int width = textField.getPreferredSize().width + fontMetrics.charWidth('w');
-    Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
-    if (columns != null && columns > 0) {
-      width = columns * fontMetrics.charWidth('w');
-    } else if (textField.getText().length() == 0) {
-      // A minimum width;
-      width = 2 * fontMetrics.charWidth('w');
+    
+    // First check the WIDTH property.
+    int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
+        context.getArguments(), 
+        textField.getFont().getSize());
+    if (imposedWidth != -1) {
+      width = imposedWidth;
+    } else {
+      // If no width is imposed, check the columns property.
+      Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
+      if (columns != null && columns > 0) {
+        width = columns * fontMetrics.charWidth('w');
+      } else if (textField.getText().length() == 0) {
+        // A minimum width;
+        width = 2 * fontMetrics.charWidth('w');
+      }
     }
+    
     return new Dimension(width, textField.getPreferredSize().height);
   }
   

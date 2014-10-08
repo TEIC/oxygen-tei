@@ -53,12 +53,19 @@ package ro.sync.ecss.extensions.tei;
 import java.net.URL;
 import java.util.List;
 
+import javax.swing.text.BadLocationException;
+
+import org.apache.log4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.node.AttrValue;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
 
@@ -67,6 +74,11 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertCon
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler{
+  
+  /**
+   * Logger for logging. 
+   */
+  private static Logger logger = Logger.getLogger(TEIP5ExternalObjectInsertionHandler.class.getName());
 
   /**
    * @throws AuthorOperationException 
@@ -81,12 +93,26 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
         String relativeLocation = authorAccess.getUtilAccess().makeRelative(base, url);
         SchemaAwareHandlerResult result = null;
         int cp = authorAccess.getEditorAccess().getCaretOffset();
+        AuthorElement elementAtOffset = null; 
+        try {
+          AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(cp);
+          if(nodeAtOffset.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+            elementAtOffset = (AuthorElement) nodeAtOffset;
+          }
+        } catch (BadLocationException e) {
+          logger.error(e, e);
+        }
         if(authorAccess.getUtilAccess().isSupportedImageURL(url)) {
-          //We have to make an image reference to it.
-          // Insert the graphic
-          result = authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-              "<graphic url=\"" + relativeLocation + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>" ,
-              cp, true);
+          if(elementAtOffset != null && "graphic".equals(elementAtOffset.getLocalName())){
+            //This is already an image, set the attribute to it.
+            authorAccess.getDocumentController().setAttribute("url", new AttrValue(relativeLocation), elementAtOffset);
+          } else{
+            //We have to make an image reference to it.
+            // Insert the graphic
+            result = authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+                "<graphic url=\"" + relativeLocation + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>" ,
+                cp, true);
+          }
         } else {
           //Probably add an xref to it.
           result = authorAccess.getDocumentController().insertXMLFragmentSchemaAware(

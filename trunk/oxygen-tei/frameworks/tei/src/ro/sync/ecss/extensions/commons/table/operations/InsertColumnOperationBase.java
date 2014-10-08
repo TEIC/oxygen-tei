@@ -430,9 +430,12 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
         if (defaultContentForEmptyCells != null) {
           for (int i = cellsInsertionOffsets.size() - 1; i >= 0; i--) {
             StringBuilder xmlFragment = new StringBuilder();
-            xmlFragment.append("<").append(cellsElementNames.get(i))
-                    //EXM-26376 Also append the namespace.
-                    .append(" xmlns=\"").append(namespace).append("\">");
+            xmlFragment.append("<").append(cellsElementNames.get(i));
+            if (namespace != null) {
+              //EXM-26376 Also append the namespace.
+              xmlFragment.append(" xmlns=\"").append(namespace).append("\"");
+            }
+            xmlFragment.append(">");
             xmlFragment.append(defaultContentForEmptyCells);
             xmlFragment.append("</").append(cellsElementNames.get(i)).append(">");
             

@@ -170,6 +170,10 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
       for (int i = 0; i < colSpecs.size(); i++) {
         AuthorElement currentElement = colSpecs.get(i);
         for (int j = 0; j < attributes.size(); j++) {
+          // Initialize the common value for every attribute
+          if (i == 0) {
+            commonValues.put(attributes.get(j), TablePropertiesConstants.NOT_COMPUTED);
+          }
           // Obtain the common value
           commonValues.put(attributes.get(j), getCommonValue(currentElement, 
               attributes.get(j).getAttributeName(), commonValues.get(attributes.get(j))));
@@ -224,6 +228,11 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
       for (int i = 0; i < cells.size(); i++) {
         AuthorElement currentElement = cells.get(i);
         for (int j = 0; j < attributes.size(); j++) {
+          // Initialize the common value for every attribute
+          if (i == 0) {
+            commonValues.put(attributes.get(j), TablePropertiesConstants.NOT_COMPUTED);
+          }
+          
           commonValues.put(attributes.get(j), getCommonValue(currentElement, attributes.get(j).getAttributeName(), commonValues.get(attributes.get(j))));
         }
       }
@@ -357,6 +366,10 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
         // If all have the same value for the same attr, that will be the current value, 
         // else preserve will be the current value
         for (int j = 0; j < attributesToEdit.size(); j++) {
+          // Initialize the common value for every attribute
+          if (i == 0) {
+            commonValues.put(attributesToEdit.get(j), TablePropertiesConstants.NOT_COMPUTED);
+          }
           String commonValue = getCommonValue(
               rowElement, attributesToEdit.get(j).getAttributeName(), commonValues.get(attributesToEdit.get(j)));
           commonValues.put(attributesToEdit.get(j), commonValue);

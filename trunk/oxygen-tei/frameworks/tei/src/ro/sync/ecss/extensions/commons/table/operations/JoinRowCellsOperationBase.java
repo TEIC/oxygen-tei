@@ -91,6 +91,7 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
    *  
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     try {
@@ -100,8 +101,18 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
       AuthorElement lastCell = null;
 
       if(authorAccess.getEditorAccess().hasSelection()) {
-        firstCell = getFirstCell(authorAccess);
-        lastCell = getLastCell(authorAccess);        
+        int start = authorAccess.getEditorAccess().getSelectionStart();
+        int end = authorAccess.getEditorAccess().getSelectionEnd();
+        AuthorNode fullySelectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
+        if (fullySelectedNode != null && 
+            // Not empty row
+            fullySelectedNode.getStartOffset() < fullySelectedNode.getEndOffset() &&
+            tableHelper.isTableRow(fullySelectedNode)) {
+          start++;
+          end--;
+        }
+        firstCell = getCell(authorAccess, start, true);
+        lastCell = getCell(authorAccess, end, false);        
       } else {
         AuthorNode nodeAtCaret = 
           authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset());
@@ -244,57 +255,27 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
    * This is the last cell whose content will be moved in the destination cell.
    * 
    * @param authorAccess The author access.
+   * @param selectionOffset The selection end offset
    * @return The last cell involved in the join operation. Might be <code>null</code>.
    * @throws BadLocationException If method fails.
    */
-  protected AuthorElement getLastCell(AuthorAccess authorAccess) throws BadLocationException {
-    AuthorElement lastCell = null;
+  protected AuthorElement getCell(AuthorAccess authorAccess, int selectionOffset, boolean start) throws BadLocationException {
+    AuthorElement cellElement = null;
     
-    // The last cells are determined by the selection end offset
-    int selectionEnd = authorAccess.getEditorAccess().getSelectionEnd();
-
-    AuthorNode endSelNode = authorAccess.getDocumentController().getNodeAtOffset(selectionEnd);
+    AuthorNode endSelNode = authorAccess.getDocumentController().getNodeAtOffset(selectionOffset);
     if (tableHelper.isTableRow(endSelNode)) {
-      // The selection ends inside the table row
-      // At previous offset we must have the cell that will be the last cell
-      AuthorNode nodeBeforeSelStart = 
-        authorAccess.getDocumentController().getNodeAtOffset(selectionEnd - 1);
-      if (tableHelper.isTableCell(nodeBeforeSelStart)) {
-        lastCell = (AuthorElement) nodeBeforeSelStart;
+      // The selection starts or ends inside the table row
+      // At next/previous offset we must have the cell that will be the last cell
+      AuthorNode node = 
+        authorAccess.getDocumentController().getNodeAtOffset(
+            start ? selectionOffset + 1 : selectionOffset - 1);
+      if (tableHelper.isTableCell(node)) {
+        cellElement = (AuthorElement) node;
       }
     } else {
-      lastCell = getElementAncestor(endSelNode, AuthorTableHelper.TYPE_CELL);
+      cellElement = getElementAncestor(endSelNode, AuthorTableHelper.TYPE_CELL);
     }
-    return lastCell;
-  }
-
-  /**
-   * Find the first cell involved in the join operation. 
-   * This is the cell where the content of next cells will be moved.
-   * 
-   * @param authorAccess The author access.
-   * @return The first cell involved in the join operation. Might be <code>null</code>.
-   * @throws BadLocationException If method fails.
-   */
-  protected AuthorElement getFirstCell(AuthorAccess authorAccess) throws BadLocationException {
-    AuthorElement firstCell = null;
-    
-    // The first cells are determined by the selection start offset
-    int selectionStart = authorAccess.getEditorAccess().getSelectionStart();
-
-    AuthorNode startSelNode = authorAccess.getDocumentController().getNodeAtOffset(selectionStart);
-    if (tableHelper.isTableRow(startSelNode)) {
-      // The selection starts inside the table row
-      // At next offset we must have the cell that will be the first cell
-      AuthorNode nodeAfterSelStart = 
-        authorAccess.getDocumentController().getNodeAtOffset(selectionStart + 1);
-      if (tableHelper.isTableCell(nodeAfterSelStart)) {
-        firstCell = (AuthorElement) nodeAfterSelStart;
-      }
-    } else {
-      firstCell = getElementAncestor(startSelNode, AuthorTableHelper.TYPE_CELL);
-    }
-    return firstCell;
+    return cellElement;
   }
 
   /**
@@ -302,6 +283,7 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
   }
@@ -309,6 +291,7 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Join the content of the selected cells. The operation is available only if the selected " + 
     		"cells are from the same row and they have the same column span.";

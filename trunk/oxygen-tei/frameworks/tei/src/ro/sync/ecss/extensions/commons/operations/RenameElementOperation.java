@@ -58,27 +58,58 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 /**
- * An implementation of a delete operation that deletes the node at caret.
+ * An implementation of an operation that renames one or more elements identified by the given XPath expression.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class DeleteElementOperation extends DeleteElementsOperation {
-  
+public class RenameElementOperation implements AuthorOperation {
   /**
-   * The XPath location that identifies the element.
+   * The XPath location that identifies the elements.
    * Empty/null for the current element.
    * The value is <code>elementLocation</code>.
    */
   public static final String ARGUMENT_ELEMENT_XPATH_LOCATION = "elementLocation";
   
   /**
-   * Constructor for the delete element operation.
+   * The new name for the element(s) which will be renamed. 
    */
-  public DeleteElementOperation() {
-    super();
+  public static final String ARGUMENT_ELEMENT_NAME = "elementName";
+  
+  /**
+   * The arguments of the operation.
+   */
+  protected ArgumentDescriptor[] arguments = null;
+  
+  /**
+   * Constructor for the rename element operation.
+   */
+  public RenameElementOperation() {
+    arguments = new ArgumentDescriptor[2];
+    // The new name of the renamed element(s)
+    ArgumentDescriptor argumentDescriptor = 
+        new ArgumentDescriptor(
+            ARGUMENT_ELEMENT_NAME, 
+            ArgumentDescriptor.TYPE_STRING, 
+            "A string representing the new elements' qualified name. To declare "
+            + "a new namespace, append to the qualified name the pound (#) "
+            + "character and the namespace declaration.");
+
+    arguments[0] = argumentDescriptor;
+    
+    // Argument defining the elements that will be modified.
+    argumentDescriptor = 
+      new ArgumentDescriptor(
+          ARGUMENT_ELEMENT_XPATH_LOCATION, 
+          ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
+          "An XPath expression indicating the elements to be renamed.\n"
+          + "Note: If it is not defined then the element at the caret position will be used.");
+    arguments[1] = argumentDescriptor;
+    
   }
   
   /**
@@ -86,30 +117,41 @@ public class DeleteElementOperation extends DeleteElementsOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
-
+    // The new name of the elements which will be renamed
+    Object elementName = args.getArgumentValue(ARGUMENT_ELEMENT_NAME);
     // The XPath location.
     Object xpathLocation = args.getArgumentValue(ARGUMENT_ELEMENT_XPATH_LOCATION);
     
-    AuthorNode targetNode = null;
-    if (xpathLocation instanceof String) {
-      AuthorNode[] results =
-        authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, true, true, true);
-      if (results.length > 0 && results[0] != null) {
-        targetNode = results[0];          
-      } else {
+    AuthorNode[] nodesToRename = null;
+    // Obtain all the elements which will be renamed
+    if (xpathLocation != null && xpathLocation instanceof String && ((String)xpathLocation).trim().length() > 0) {
+      nodesToRename =
+        authorAccess.getDocumentController().findNodesByXPath(((String) xpathLocation).trim(), true, true, true);
+      if (nodesToRename.length == 0) {
         throw new AuthorOperationException("The element XPath location does not identify a node: " + xpathLocation);
       }
     } else {
       try {
-        targetNode = authorAccess.getDocumentController().getNodeAtOffset(
+        // Try to obtain the current element
+        nodesToRename = new AuthorNode[1];
+        nodesToRename[0] = authorAccess.getDocumentController().getNodeAtOffset(
             authorAccess.getEditorAccess().getCaretOffset());
       } catch (BadLocationException e) {
         throw new AuthorOperationException("Cannot identify the current node", e);
       }
     }
-    if (targetNode != null) {
-      // Delete node at offset
-      authorAccess.getDocumentController().deleteNode(targetNode);      
+    
+    // Check if the given name is a string value
+    if (elementName instanceof String) {
+      // Rename every collected element
+      for (int i = 0; i < nodesToRename.length; i++) {
+        if (nodesToRename[i] instanceof AuthorElement) {
+          authorAccess.getDocumentController().renameElement(
+              (AuthorElement)nodesToRename[i], (String)elementName);
+        }
+      }
+    } else {
+      throw new AuthorOperationException("The elements' new name/qname does not represent a valid name: " + elementName);
     }
   }
   
@@ -126,6 +168,7 @@ public class DeleteElementOperation extends DeleteElementsOperation {
    */
   @Override
   public String getDescription() {
-    return "Deletes the element specified by an XPath expression or the element at the caret position";
+    return "Renames the elements identified by the given XPath expression or the "
+        + "current element if no XPath is provided.";
   }
 }

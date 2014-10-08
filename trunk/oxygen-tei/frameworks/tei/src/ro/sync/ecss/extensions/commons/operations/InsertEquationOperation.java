@@ -96,13 +96,15 @@ public class InsertEquationOperation implements AuthorOperation {
    * The MathML fragment representing the default equation.
    */
   protected static final String MATH_ML = 
-      "<mml:math xmlns:mml='http://www.w3.org/1998/Math/MathML'><mml:mrow>" + 
-      "<mml:msup><mml:mi>a</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-      "<mml:mo>=</mml:mo>" +
-      "<mml:msup><mml:mi>b</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-      "<mml:mo>+</mml:mo>" +
-      "<mml:msup><mml:mi>c</mml:mi><mml:mn>2</mml:mn>" + 
-      "</mml:msup></mml:mrow></mml:math>";
+      "<mml:math xmlns:mml='http://www.w3.org/1998/Math/MathML'>" + 
+//      "<mml:mrow>" + 
+//      "<mml:msup><mml:mi>a</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
+//      "<mml:mo>=</mml:mo>" +
+//      "<mml:msup><mml:mi>b</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
+//      "<mml:mo>+</mml:mo>" +
+//      "<mml:msup><mml:mi>c</mml:mi><mml:mn>2</mml:mn>" + 
+//      "</mml:msup></mml:mrow>" + 
+      "</mml:math>";
 
   /**
    * Constructor to assign arguments.
