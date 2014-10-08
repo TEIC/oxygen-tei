@@ -243,8 +243,8 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
         if (e.getOppositeComponent() != browseBtn
             && e.getOppositeComponent() != urlTextField
             && !isBrowsing) {
-          // The focus is outside the components of this editor.
-          fireEditingStopped(new EditingEvent(urlTextField.getText(), e.getOppositeComponent() == null));
+          // Just make sure we are in sync with the document.
+          fireCommitValue(new EditingEvent((String) getValue()));
         }
       }
     };
@@ -466,7 +466,6 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
    */
   private void prepareComponents(AuthorInplaceContext context, boolean forEditing) {
     utilAccess = context.getAuthorAccess().getUtilAccess();
-    String text = (String) context.getArguments().get(InplaceEditorArgumentKeys.INITIAL_VALUE);
     ro.sync.exml.view.graphics.Color color =
         (ro.sync.exml.view.graphics.Color) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLOR);
     if (color != null) {
@@ -475,22 +474,7 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
       urlTextField.setForeground(defaultForeground);
     }
     
-    if (!forEditing && text == null) {
-      urlTextField.setForeground(Color.GRAY);
-      text = (String) context.getArguments().get(InplaceEditorArgumentKeys.DEFAULT_VALUE);
-    }
-    
-    if (text == null) {
-      text = "";
-    }
-    
-    // EXM-25327 Do not insert the username and password in the document 
-    try {
-      URL clearedURL = utilAccess.removeUserCredentials(new URL(text));
-      urlTextField.setText(clearedURL.toExternalForm());
-    } catch (MalformedURLException e) {
-      urlTextField.setText(text);
-    }
+    setInitialValue(context, forEditing);
 
     // We don't want an UNDO to reset the initial text.
     UndoManager undoManager = (UndoManager) urlTextField.getDocument().getProperty(UNDO_MANAGER_PROPERTY);
@@ -523,6 +507,32 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
     }
     
     browseBtn.getModel().setRollover(rollover);
+  }
+
+  /**
+   * Sets the initial value in the chooser.
+   * 
+   * @param context Editing context.
+   * @param forEditing <code>true</code> if we are in the editor. <code>false</code> for renderer.
+   */
+  private void setInitialValue(AuthorInplaceContext context, boolean forEditing) {
+    String text = (String) context.getArguments().get(InplaceEditorArgumentKeys.INITIAL_VALUE);
+    if (!forEditing && text == null) {
+      urlTextField.setForeground(Color.GRAY);
+      text = (String) context.getArguments().get(InplaceEditorArgumentKeys.DEFAULT_VALUE);
+    }
+    
+    if (text == null) {
+      text = "";
+    }
+    
+    // EXM-25327 Do not insert the username and password in the document 
+    try {
+      URL clearedURL = utilAccess.removeUserCredentials(new URL(text));
+      urlTextField.setText(clearedURL.toExternalForm());
+    } catch (MalformedURLException e) {
+      urlTextField.setText(text);
+    }
   }
   
   /**
@@ -597,5 +607,29 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
   @Override
   public CursorType getCursorType(int x, int y) {
     return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#refresh(ro.sync.ecss.extensions.api.editor.AuthorInplaceContext)
+   */
+  @Override
+  public void refresh(AuthorInplaceContext context) {
+    setInitialValue(context, true);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.AbstractInplaceEditor#insertContent(java.lang.String)
+   */
+  @Override
+  public boolean insertContent(String content) {
+    boolean handled = false;
+    try {
+      urlTextField.getDocument().insertString(urlTextField.getCaretPosition(), content, null);
+      handled = true;
+    } catch (BadLocationException e) {
+      logger.error(e, e);
+    }
+    
+    return handled;
   }
 }

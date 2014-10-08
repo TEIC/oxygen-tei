@@ -67,10 +67,23 @@ import ro.sync.contentcompletion.xml.WhatPossibleValuesHasAttributeContext;
 public class TEISchemaManagerFilter extends StyleGuideSchemaManagerFilterBase {
 
   /**
+   * Style guide mapping for TEI elements.
+   */
+  private static final String MAPPING_FILE_LOCATION = 
+      "http://www.oxygenxml.com/tei/styleguide/contentCompletionElementsMap.xml";
+  
+  /**
    * Constructor.
    */
   public TEISchemaManagerFilter() {
-    super("http://www.oxygenxml.com/tei/styleguide/contentCompletionElementsMap.xml");
+  }
+  
+  /**
+   * @see ro.sync.contentcompletion.xml.StyleGuideSchemaManagerFilterBase#getMappingFileLocation(ro.sync.contentcompletion.xml.Context)
+   */
+  @Override
+  protected String getMappingFileLocation(Context context) {
+    return MAPPING_FILE_LOCATION;
   }
 
   /**

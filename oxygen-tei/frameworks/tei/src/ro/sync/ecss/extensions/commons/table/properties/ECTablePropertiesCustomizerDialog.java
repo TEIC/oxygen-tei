@@ -69,6 +69,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
+import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
 
 /**
  * Dialog that allows the user to edit the table properties. 
@@ -94,6 +95,10 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
    * The table information which contains all the modifications.
    */
   private EditedTablePropertiesInfo tableInfo = null;
+  /**
+   * The color theme.
+   */
+  private ColorThemeUtilities colorThemeUtilities;
 
   /**
    * Constructor.
@@ -101,11 +106,13 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
    * @param parentFrame           The parent frame. The dialog will be created over the parent.
    * @param authorResourceBundle  The author resource bundle. It is used to translate different 
    *                              information used inside the dialog.
+   * @param colorThemeUtilities   The color theme utilities.
    */
   public ECTablePropertiesCustomizerDialog(Shell parentFrame,
-      AuthorResourceBundle authorResourceBundle) {
+      AuthorResourceBundle authorResourceBundle, ColorThemeUtilities colorThemeUtilities) {
     super(parentFrame);
     this.authorResourceBundle = authorResourceBundle;
+    this.colorThemeUtilities = colorThemeUtilities;
     
     int style = SWT.DIALOG_TRIM;
     style |= SWT.RESIZE;
@@ -151,7 +158,8 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
           tabFolder,
           tabInfo.getProperties(), 
           tabInfo.getContextInfo(),
-          authorResourceBundle);
+          authorResourceBundle,
+          colorThemeUtilities);
 
       tabItem.setControl(ecPropertiesComposite);
       tabItem.setText(authorResourceBundle.getMessage(tabInfo.getTabKey()));

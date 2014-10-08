@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="16.0" xml:space="preserve">
+<serialized version="16.1" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -110,7 +110,7 @@
 											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Italic16.gif</String>
+											<String>/images/Italic16.png</String>
 										</field>
 										<field name="accessKey">
 											<String>I</String>
@@ -414,7 +414,7 @@
 											<String>${i18n(itemizedlist_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/UnorderedList20.gif</String>
+											<String>/images/UnorderedList20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/UnorderedList16.gif</String>
@@ -2188,16 +2188,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 									</field>
 									<field name="menuEntriesDescriptorList">
 										<menuEntry-array>
-											<menuItem>
-												<field name="actionID">
-													<String>insert.table.row.below</String>
-												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>insert.table.column.after</String>
-												</field>
-											</menuItem>
 											<menu>
 												<field name="label">
 													<String>${i18n(table)}</String>
@@ -2293,25 +2283,45 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</menuEntry-array>
 												</field>
 											</menu>
-											<menuSeparator/>
-											<menuItem>
-												<field name="actionID">
-													<String>section</String>
+											<menu>
+												<field name="label">
+													<String>${i18n(insert)}</String>
 												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>paragraph</String>
+												<field name="accessKey">
+													<String></String>
 												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>insert image</String>
+												<field name="iconPath">
+													<String></String>
 												</field>
-											</menuItem>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert image</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>paragraph</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>section</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
 											<menuItem>
 												<field name="actionID">
-													<String>insert.table</String>
+													<String>sort</String>
 												</field>
 											</menuItem>
 											<menuSeparator/>
@@ -2321,17 +2331,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 												</field>
 											</menuItem>
 											<menuSeparator/>
-											<menuItem>
-												<field name="actionID">
-													<String>sort</String>
-												</field>
-											</menuItem>
-											<menuSeparator/>
-											<menuItem>
-												<field name="actionID">
-													<String>show.TEIp5.documentation</String>
-												</field>
-											</menuItem>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2339,7 +2338,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 							<field name="toolbarDescriptor">
 								<toolbar>
 									<field name="id">
-										<String>Toolbar</String>
+										<String>TEI</String>
 									</field>
 									<field name="type">
 										<Integer>2</Integer>
@@ -2658,6 +2657,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.html</File>
 								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.html</String>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
 								</field>
@@ -2740,6 +2742,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								</field>
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.pdf</File>
+								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.pdf</String>
 								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
@@ -2971,6 +2976,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 									<Boolean>true</Boolean>
 								</field>
 								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="outputResource">
 									<null/>
 								</field>
 								<field name="openOtherLocationInBrowser">
@@ -3219,6 +3227,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -3463,6 +3474,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 									<Boolean>true</Boolean>
 								</field>
 								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="outputResource">
 									<null/>
 								</field>
 								<field name="openOtherLocationInBrowser">

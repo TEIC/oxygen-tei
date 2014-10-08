@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -75,6 +78,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
 import ro.sync.util.Resource;
 
 /**
@@ -85,7 +89,11 @@ import ro.sync.util.Resource;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECPropertiesComposite extends Composite implements PropertySelectionController {
-
+  
+  /**
+   * Logger for logging.
+   */
+  private static Logger logger = Logger.getLogger(ECPropertiesComposite.class.getName());
   /**
    * Class for preview group. Contains a label which will present the preview image.
    * 
@@ -102,8 +110,9 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
      * 
      * @param parent  The parent composite.
      * @param style   The group style.
+     * @param colorThemeUtilities Color theme utilities
      */
-    public PreviewGroup (Composite parent, int style) {
+    public PreviewGroup (Composite parent, int style, ColorThemeUtilities colorThemeUtilities) {
       super(parent, style);
       
       setText(authorResourceBundle.getMessage(ExtensionTags.PREVIEW));
@@ -116,11 +125,28 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
       // Set the layout
       previewLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
       // As default, set the empty icons
-      ImageDescriptor currentImageDescriptor = ImageDescriptor.createFromURL(
-          Resource.getResource(TablePropertiesConstants.EMPTY_ICON));
-      Image imageIcon = currentImageDescriptor.createImage();
+      URL imageURL = Resource.getResource(TablePropertiesConstants.EMPTY_ICON);
+      Image imageIcon = null;
+      boolean fallback = true;
+      if (colorThemeUtilities.getColorTheme().isHighContrastTheme() &&
+          !colorThemeUtilities.getColorTheme().isHighContrastWhiteTheme()) {
+        try {
+          Object loadedImage = colorThemeUtilities.getImageInverter().loadImage(imageURL);
+          ImageDescriptor currentImageDescriptor = (ImageDescriptor) colorThemeUtilities.getImageInverter().invertImage(loadedImage);
+          imageIcon = currentImageDescriptor.createImage();
+          fallback = false;
+        } catch (IOException e) {
+          logger.error(e, e);
+        }
+      } 
+      if(fallback) {
+        ImageDescriptor currentImageDescriptor = ImageDescriptor.createFromURL(
+            imageURL);
+        imageIcon = currentImageDescriptor.createImage();
+      }
+        
       // Add it to the cache
-      images.add(imageIcon);
+      images.put(imageURL, imageIcon);
       previewLabel.setImage(imageIcon);
     }
     
@@ -166,11 +192,15 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
   /**
    * The preview images.
    */
-  final private List<Image> images = new ArrayList<Image>();
+  final private Map<URL, Image> images = new HashMap<URL, Image>();
   /**
    * The author resource bundle.
    */
   final private AuthorResourceBundle authorResourceBundle;
+  /**
+   * The color theme utilities of Oxygen.
+   */
+  private ColorThemeUtilities colorThemeUtilities;
   
   /**
    * Constructor.
@@ -181,15 +211,18 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
    * @param contextInfo           The context information. It contains information about what
    *                              is edited inside the current composite.
    * @param authorResourceBundle  The author resource bundle.
+   * @param colorThemeUtilities            The color theme utilities. 
    */
   public ECPropertiesComposite(
       TabFolder parent, 
       List<TableProperty> properties, 
       String contextInfo, 
-      AuthorResourceBundle authorResourceBundle) {
+      AuthorResourceBundle authorResourceBundle,
+      ColorThemeUtilities colorThemeUtilities) {
     super(parent, SWT.NONE);
     
     this.authorResourceBundle = authorResourceBundle;
+    this.colorThemeUtilities = colorThemeUtilities;
     
     GridLayout gridLayout = new GridLayout(2, false);
     gridLayout.marginBottom = 8;
@@ -197,7 +230,9 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
     // All the children should inherit the background
     setBackgroundMode(SWT.INHERIT_FORCE);
     // Set the background color
-    setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+    if (!colorThemeUtilities.getColorTheme().isHighContrastTheme()) {
+      setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+    }
     GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
     gd.grabExcessHorizontalSpace = true;
     gd.widthHint = 340;
@@ -229,7 +264,7 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
         groupsList.put(string, new Group(this, SWT.SHADOW_ETCHED_IN));
       }
       // Create the preview group
-      previewsList.put(string, new PreviewGroup(this, SWT.SHADOW_ETCHED_IN));
+      previewsList.put(string, new PreviewGroup (this, SWT.SHADOW_ETCHED_IN, colorThemeUtilities));
     }
     
     Set<String> groupSet = groups.keySet();
@@ -374,11 +409,30 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
     PreviewGroup previewGroup = previewsList.get(group);
     if (previewGroup != null) {
       // Get the image
-      ImageDescriptor currentImageDescriptor = ImageDescriptor.createFromURL(
-          Resource.getResource(iconRelativePath.toString()));
-      Image imageIcon = currentImageDescriptor.createImage();
+      URL imageURL = Resource.getResource(iconRelativePath.toString());
+      Image imageIcon = images.get(imageURL);
+      if (imageIcon == null) {
+        boolean fallback = true;
+        if (colorThemeUtilities.getColorTheme().isHighContrastTheme() &&
+            !colorThemeUtilities.getColorTheme().isHighContrastWhiteTheme()) {
+          try {
+            ImageDescriptor loadedImage = (ImageDescriptor) colorThemeUtilities.getImageInverter().loadImage(imageURL);
+            loadedImage = (ImageDescriptor) colorThemeUtilities.getImageInverter().invertImage(loadedImage);
+            imageIcon = loadedImage.createImage();
+            fallback = false;
+          } catch (IOException e) {
+            //Problem here
+            logger.error(e, e);
+          }
+        } 
+        if(fallback) {
+          //Load the image normally
+          ImageDescriptor currentImageDescriptor = ImageDescriptor.createFromURL(imageURL);
+          imageIcon = currentImageDescriptor.createImage();
+        }
+        images.put(imageURL, imageIcon);
+      }
       // Set the image to the preview
-      images.add(imageIcon);
       previewGroup.setPreviewImage(imageIcon);
       previewGroup.redraw();
     }

@@ -586,12 +586,12 @@ public abstract class SortOperation implements AuthorOperation {
     for (int i = 0; i < size; i++) {
       AuthorNode authorNode = nonIgnoredChildren.get(i);
       if ((authorNode.getStartOffset() <= selStart && authorNode.getEndOffset() >= selStart)
-          || (startSelChildIndex == -1 && selStart <= authorNode.getStartOffset() && selEnd >= authorNode.getStartOffset())) {
+          || (startSelChildIndex == -1 && selStart <= authorNode.getStartOffset() && selEnd > authorNode.getStartOffset())) {
         startSelChildIndex = i;
       }
       
-      if ((authorNode.getStartOffset() <= selEnd && authorNode.getEndOffset() >= selEnd)
-          || (selStart <= authorNode.getEndOffset() && selEnd >= authorNode.getEndOffset())) {
+      if ((authorNode.getStartOffset() < selEnd && authorNode.getEndOffset() >= selEnd)
+          || (selStart <= authorNode.getEndOffset() && selEnd > authorNode.getEndOffset())) {
         endSelChildIndex = i;
       }
     }

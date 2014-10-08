@@ -182,7 +182,8 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
         if(authorAccess.getWorkspaceAccess().isStandalone()) {
           SATablePropertiesCustomizerDialog saTablePropertiesCustomizer = new SATablePropertiesCustomizerDialog(
               (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
-              authorAccess.getAuthorResourceBundle());
+              authorAccess.getAuthorResourceBundle(),
+              authorAccess.getWorkspaceAccess().getColorTheme());
           saTablePropertiesCustomizer.setLocationRelativeTo(
               (Component) authorAccess.getWorkspaceAccess().getParentFrame());
 
@@ -193,7 +194,8 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
           //Eclipse table customization
           ECTablePropertiesCustomizerDialog ecTablePropertiesCustomizer = new ECTablePropertiesCustomizerDialog(
               (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
-              authorAccess.getAuthorResourceBundle());
+              authorAccess.getAuthorResourceBundle(),
+              authorAccess.getWorkspaceAccess());
 
           // Obtain the modified properties for the current table
           tableInfo = ecTablePropertiesCustomizer.getTablePropertiesInformation(
@@ -597,6 +599,10 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       for (int i = 0; i < tableElements.size(); i++) {
         AuthorElement currentElement = tableElements.get(i);
         for (int j = 0; j < attributes.size(); j++) {
+          // Initialize the common value for every attribute	
+          if (i == 0) {
+            commonValues.put(attributes.get(j), TablePropertiesConstants.NOT_COMPUTED);
+          }
           String commonValue = getCommonValue(currentElement, attributes.get(j).getAttributeName(), commonValues.get(attributes.get(j)));
           commonValues.put(attributes.get(j), commonValue);
         }
@@ -680,7 +686,8 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
 
       String currentValue = null;
       if (collectedElements.size() > 1) {
-        if (detectedAttributeValue == null) {
+        if (detectedAttributeValue == null || 
+            TablePropertiesConstants.NOT_COMPUTED.equals(detectedAttributeValue)) {
           // The attr is not set on any of the selected elements, 
           // so add the empty property and select it.
           currentValue = TablePropertiesConstants.ATTR_NOT_SET;
@@ -731,32 +738,47 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
   protected String getCommonValue(AuthorElement currentElem, String attrQname, String currentValue) {
     String computedValue = currentValue;
     boolean addPreserve = !tableHelper.isTable(currentElem);
+    boolean isTableElement = tableHelper.isTable(currentElem) 
+            && !tableHelper.isTableGroup(currentElem);
     // Check if the given attribute can be set on the given element
-    boolean notAllowed = TablePropertiesConstants.ALIGN.equals(attrQname) 
-        && tableHelper.isTable(currentElem) 
-        && !tableHelper.isTableGroup(currentElem);
-    if (!notAllowed) {
+    boolean notAllowed = TablePropertiesConstants.ALIGN.equals(attrQname) && isTableElement;
+    if (!notAllowed && !isTableElement) {
       // Get the attribute
       AttrValue attribute = currentElem.getAttribute(attrQname);
       if (attribute != null) {
         // Obtain the current value
         String currentVal = attribute.getValue();
         // Compute the common value
-        if (computedValue == null) {
+        if (TablePropertiesConstants.NOT_COMPUTED.equals(computedValue)) {
           computedValue = currentVal;
-        } else if (
-            !computedValue.equals(currentVal) 
+        } else if (computedValue == null && addPreserve 
+            || computedValue != null && !computedValue.equals(currentVal) 
             && !computedValue.equals(TablePropertiesConstants.ATTR_NOT_SET) 
             && !computedValue.equals(TablePropertiesConstants.PRESERVE)
             && addPreserve) {
           // Preserve
           computedValue = TablePropertiesConstants.PRESERVE;
         }
-      } else if (computedValue != null && !computedValue.equals(TablePropertiesConstants.PRESERVE) && addPreserve) {
+      } else if (!TablePropertiesConstants.NOT_COMPUTED.equals(computedValue) 
+          && computedValue != null 
+          && !computedValue.equals(TablePropertiesConstants.PRESERVE) 
+          && addPreserve) {
         // preserve
         computedValue = TablePropertiesConstants.PRESERVE;
+      } else if (TablePropertiesConstants.NOT_COMPUTED.equals(computedValue)){
+        computedValue = null;
+      }
+    } else if (isTableElement) {
+      // There is only one table element (and not tgroup), so obtain the value for the attribute
+      // and it will represent the common value
+      AttrValue attribute = currentElem.getAttribute(attrQname);
+      if (attribute != null) {
+        // Obtain the current value
+        String currentVal = attribute.getValue();
+        computedValue = currentVal;
       }
     }
+    
     return computedValue;
   }
   

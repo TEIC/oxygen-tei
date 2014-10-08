@@ -73,22 +73,33 @@ import ro.sync.ecss.extensions.api.node.AuthorParentNode;
  * Default unique attributes recognizer
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecognizer, ClipboardFragmentProcessor {
+public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecognizer, ClipboardFragmentProcessor {
   
   /**
    * The ID attribute qname
    */
-  protected final String idAttrQname;
+  protected String idAttrQname = "id";
   
   /**
    * The author access
    */
   protected AuthorAccess authorAccess;
-
+  /**
+   * The default options
+   */
+  private GenerateIDElementsInfo defaultOptions = new GenerateIDElementsInfo(false, GenerateIDElementsInfo.DEFAULT_ID_GENERATION_PATTERN, new String[0]);
+  
   /** 
    * Logger for logging. 
    */
   private static Logger logger = Logger.getLogger(DefaultUniqueAttributesRecognizer.class.getName());
+  
+  /**
+   * Default constructor. 
+   */
+  public DefaultUniqueAttributesRecognizer() {
+    //
+  }
   
   /**
    * Constructor. 
@@ -111,86 +122,38 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
    */
   @Override
   public void activated(final AuthorAccess authorAccess) {
-//    logger.info("Author extension activated+++++++++++++++");
-//    logger.info("Editor location " + authorAccess.getDocumentController().getAuthorDocumentNode().getSystemID());
     this.authorAccess = authorAccess;
-
-    
-    
-////----------EXM-17413 Uncomment below to have the editor's title set as the editor's tab text.   
-//    this.authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//    authorAccess.getDocumentController().addAuthorListener(new AuthorListener() {
-//      public void documentChanged(AuthorDocument oldDocument, AuthorDocument newDocument) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void doctypeChanged() {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void contentInserted(DocumentContentInsertedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void contentDeleted(DocumentContentDeletedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeDoctypeChange() {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeContentInsert(DocumentContentInsertedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeContentDelete(DocumentContentDeletedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeAuthorNodeStructureChange(AuthorNode authorNode) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeAuthorNodeNameChange(AuthorNode authorNode) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void beforeAttributeChange(AttributeChangedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void authorNodeStructureChanged(AuthorNode node) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void authorNodeNameChanged(AuthorNode node) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//      public void attributeChanged(AttributeChangedEvent e) {
-//        authorAccess.getEditorAccess().setEditorTabText(getTitle(authorAccess));
-//      }
-//    });
-///---------------------------------
+    //Load default options.
+    defaultOptions = GenerateIDElementsInfo.loadDefaultsFromConfiguration(authorAccess, getDefaultOptionsXMLResourceName());
+    if(defaultOptions.getAttrQname() != null){
+      idAttrQname = defaultOptions.getAttrQname();
+    }
   }
-  
-//EXM-17413
-//  private String getTitle(AuthorAccess authorAccess) {
-//    try {
-//      Object[] eval = authorAccess.getDocumentController().evaluateXPath("//title[1]/text()", false, false, false);
-//      if(eval != null & eval.length > 0) {
-//        return ((Text)eval[0]).getNodeValue();
-//      }
-//    } catch (AuthorOperationException e) {
-//      e.printStackTrace();
-//    }
-//    return null;
-//  }
 
   /**
    * @see ro.sync.ecss.extensions.api.AuthorExtensionStateListener#deactivated(ro.sync.ecss.extensions.api.AuthorAccess)
    */
   @Override
   public void deactivated(AuthorAccess authorAccess) {
-//    logger.info("Author extension deactivated-------------------");
-//    logger.info("Editor location " + authorAccess.getDocumentController().getAuthorDocumentNode().getSystemID());
     this.authorAccess = null;
   }
 
   /**
    * @return The default generation options
    */
-  protected abstract GenerateIDElementsInfo getDefaultOptions();
+  protected GenerateIDElementsInfo getDefaultOptions(){
+    return defaultOptions;
+  }
   
+  /**
+   * Get the name of the XML resource from which to load the default options. 
+   * 
+   * @return the name of the XML resource from which to load the default options.
+   */
+  protected String getDefaultOptionsXMLResourceName() {
+    return null;
+  }
+
   /**
    * @return true if auto generation is active and we have elements for which to generate.
    */
@@ -396,5 +359,13 @@ public abstract class DefaultUniqueAttributesRecognizer implements UniqueAttribu
         filterIDAttributes(((AuthorParentNode)node).getContentNodes());
       }
     }
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
+   */
+  @Override
+  public String getDescription() {
+    return "Default unique attributes generation";
   }
 }

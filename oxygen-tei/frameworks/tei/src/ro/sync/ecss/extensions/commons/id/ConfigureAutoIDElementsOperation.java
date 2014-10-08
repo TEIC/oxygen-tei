@@ -70,7 +70,7 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
    */
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
-    GenerateIDElementsInfo info = new GenerateIDElementsInfo(authorAccess, getDefaultOptions());
+    GenerateIDElementsInfo info = new GenerateIDElementsInfo(authorAccess, getDefaultOptions(authorAccess));
     if(authorAccess.getWorkspaceAccess().isStandalone()) {
       info = new SAIDElementsCustomizer().customizeIDElements(
           authorAccess, info, getListMessage());
@@ -85,9 +85,22 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
   }
   
   /**
+   * Get the default generation options
+   * 
    * @return The default generation options.
    */
-  protected abstract GenerateIDElementsInfo getDefaultOptions();
+  protected GenerateIDElementsInfo getDefaultOptions(AuthorAccess authorAccess){
+    return GenerateIDElementsInfo.loadDefaultsFromConfiguration(authorAccess, getDefaultOptionsXMLResourceName());
+  }
+  
+  /**
+   * Get the name of the XML resource from which to load the default options. 
+   * 
+   * @return the name of the XML resource from which to load the default options.
+   */
+  protected String getDefaultOptionsXMLResourceName() {
+    return null;
+  }
 
   /**
    * @return The message used on the list

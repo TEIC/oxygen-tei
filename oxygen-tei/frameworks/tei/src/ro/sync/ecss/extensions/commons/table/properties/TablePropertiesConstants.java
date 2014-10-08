@@ -90,6 +90,10 @@ public interface TablePropertiesConstants {
    */
   String ATTR_NOT_SET = "<not set>";
   /**
+   * Value used to computed the common value of an attribute for multiple elements. 
+   */
+  String NOT_COMPUTED = "Not computed";
+  /**
    * Empty icon.
    */
   String EMPTY_ICON = "/images/table-properties/EmptyIcon.png";

@@ -54,7 +54,6 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer;
-import ro.sync.ecss.extensions.commons.id.GenerateIDElementsInfo;
 
 /**
  * Unique attributes recognizer
@@ -63,17 +62,10 @@ import ro.sync.ecss.extensions.commons.id.GenerateIDElementsInfo;
 public class TEIP4UniqueAttributesRecognizer extends DefaultUniqueAttributesRecognizer {
   
   /**
-   * List of elements for which to generate IDs, comma separated
-   */
-  public static GenerateIDElementsInfo GENERATE_ID_DEFAULTS = 
-    new GenerateIDElementsInfo(false, GenerateIDElementsInfo.DEFAULT_ID_GENERATION_PATTERN, 
-        new String[] {"div"});
-
-  /**
    * Constructor
    */
   public TEIP4UniqueAttributesRecognizer() {
-    super("id");
+    super();
   }
   
   /**
@@ -81,13 +73,5 @@ public class TEIP4UniqueAttributesRecognizer extends DefaultUniqueAttributesReco
    */
   public String getDescription() {
     return "TEI P4 Unique attributes recognizer";
-  }
-  
-  /**
-   * @see ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer#getDefaultOptions()
-   */
-  @Override
-  protected GenerateIDElementsInfo getDefaultOptions() {
-    return GENERATE_ID_DEFAULTS;
   }
 }

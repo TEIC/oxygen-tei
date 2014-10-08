@@ -72,6 +72,12 @@ public interface ExtensionTags {
    */
   String CRITERION = "Criterion";
   /**
+   * Name for ok buttons from an insertion dialog.
+   * 
+   * en: Insert
+   */
+  String INSERT = "Insert";
+  /**
    * Label for 'Sort' dialog.
    * 
    * en: And then by

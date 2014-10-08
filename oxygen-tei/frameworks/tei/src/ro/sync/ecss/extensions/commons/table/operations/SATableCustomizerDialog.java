@@ -318,6 +318,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     this.predefinedRowsCount = predefinedRowsCount;
     this.predefinedColumnsCount = predefinedColumnsCount;
     
+    // EXM-25921 Insert dialog, so the text of the ok button should be 'Insert'.
+    setOkButtonText(authorResourceBundle.getMessage(ExtensionTags.INSERT));
     JPanel mainPanel = new JPanel(new GridBagLayout());
     GridBagConstraints gridBagConstr = new GridBagConstraints();
     gridBagConstr.gridx = 0;
@@ -664,7 +666,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     getContentPane().add(mainPanel, BorderLayout.CENTER);
     
     pack();
-    setSize(320, getSize().height);
+    setSize(340, getSize().height);
     setResizable(false);
   }
   

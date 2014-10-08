@@ -55,6 +55,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -81,6 +82,8 @@ import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
+import ro.sync.exml.workspace.api.util.ColorTheme;
+import ro.sync.ui.Icons;
 import ro.sync.util.Resource;
 
 /**
@@ -339,15 +342,30 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
         ImageIcon imageIcon;
         try {
           // Set the icon
-          imageIcon = new ImageIcon(ImageIO.read(is));
+          BufferedImage bufferedImage = ImageIO.read(is);
+          if (colorTheme.isHighContrastTheme() &&
+              !colorTheme.isHighContrastWhiteTheme()) {
+            // Always invert image colors on black high contrast themes
+            Icons.invertImage(bufferedImage);
+          }
+          imageIcon = new ImageIcon(bufferedImage);
           iconLabel.setIcon(imageIcon);
           iconLabel.repaint();
         } catch (IOException e) {
           throw new AuthorOperationException(e.getMessage(), e);
+        } finally{
+          if(is != null){
+            try {
+              is.close();
+            } catch (IOException e) {
+              //
+            }
+          }
         }
       }
     }
-
+    
+   
     /**
      * Obtain a list with all modified properties for the current panel.
      * 
@@ -366,7 +384,7 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
       return properties;
     }
   }
-
+  
   /**
    * The tabbed pane for the table properties.
    */
@@ -377,14 +395,21 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
   private AuthorResourceBundle authorResourceBundle;
   
   /**
+   * The color theme.
+   */
+  private ColorTheme colorTheme;
+  
+  /**
    * Constructor.
    * 
    * @param parentFrame           The parent frame of the dialog.
    * @param authorResourceBundle  The author resource bundle.It is used for translations.
+   * @param colorTheme            The color theme.
    */
-  public SATablePropertiesCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle) {
+  public SATablePropertiesCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle, ColorTheme colorTheme) {
     super(parentFrame, authorResourceBundle.getMessage(ExtensionTags.TABLE_PROPERTIES), true);
     this.authorResourceBundle = authorResourceBundle;
+    this.colorTheme = colorTheme;
   }
 
   /**

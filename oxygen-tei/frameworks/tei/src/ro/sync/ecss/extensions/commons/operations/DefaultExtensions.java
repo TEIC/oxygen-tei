@@ -103,8 +103,16 @@ public interface DefaultExtensions {
       RemovePseudoClassOperation.class,
       // Toggles a pseudo-class
       TogglePseudoClassOperation.class,
+      //Change more than one pseudo classes.
+      ChangePseudoClassesOperation.class,
       // Execute a sequence of actions operation
-      ExecuteMultipleActionsOperation.class
+      ExecuteMultipleActionsOperation.class,
+      // Move element operation.
+      MoveElementOperation.class,
+      // Move element operation.
+      DeleteElementsOperation.class,
+      // Renames elements.
+      RenameElementOperation.class
   };
   
   /**

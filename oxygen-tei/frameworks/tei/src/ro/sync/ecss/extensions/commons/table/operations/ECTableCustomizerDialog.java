@@ -1133,4 +1133,13 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     // Update the align combo
     updateAlignState(model == TableInfo.TABLE_MODEL_CALS || model == TableInfo.TABLE_MODEL_HTML);
   }
+  
+  /**
+   * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+   */
+  @Override
+  protected void createButtonsForButtonBar(Composite parent) {
+    super.createButtonsForButtonBar(parent);
+    getButton(OK).setText(authorResourceBundle.getMessage(ExtensionTags.INSERT));
+  }
 }

@@ -346,8 +346,8 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
                 && !browseButton.isFocusControl()
                 && !textViewer.getTextWidget().isFocusControl()
                 && !isBrowsing) {
-              // The focus is outside the components of this editor.
-              stopEditing();
+              // Just make sure we are in sync with the document.
+              fireCommitValue(new EditingEvent((String) getValue()));
             }
           }
         });
@@ -431,6 +431,26 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
     }
     browseButton.setLayoutData(gd);
     
+    setInitialValue(context);
+    Display.getDefault().asyncExec(new Runnable() {
+      @Override
+      public void run() {
+        // Didn't work without an invoke later.
+        if (textViewer.getTextWidget() != null) {
+          textViewer.getTextWidget().showSelection();
+        }
+      }
+    });
+    
+    textViewer.getUndoManager().reset();
+  }
+  
+  /**
+   * Sets the initial value inside the chooser.
+   * 
+   * @param context Current context.
+   */
+  private void setInitialValue(AuthorInplaceContext context) {
     String text = (String) context.getArguments().get(InplaceEditorArgumentKeys.INITIAL_VALUE);
     if (text == null) {
       text = (String) context.getArguments().get(InplaceEditorArgumentKeys.DEFAULT_VALUE);
@@ -451,17 +471,6 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
     }
     
     textViewer.getTextWidget().setCaretOffset(text.length());
-    Display.getDefault().asyncExec(new Runnable() {
-      @Override
-      public void run() {
-        // Didn't work without an invoke later.
-        if (textViewer.getTextWidget() != null) {
-          textViewer.getTextWidget().showSelection();
-        }
-      }
-    });
-    
-    textViewer.getUndoManager().reset();
   }
 
   /**
@@ -498,5 +507,12 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
   @Override
   public void doOperation(int operation) {
     textViewer.doOperation(operation);
+  }
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#refresh(ro.sync.ecss.extensions.api.editor.AuthorInplaceContext)
+   */
+  @Override
+  public void refresh(AuthorInplaceContext context) {
+    setInitialValue(context);
   }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="16.0" xml:space="preserve">
+<serialized version="16.1" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -110,7 +110,7 @@
 											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Italic16.gif</String>
+											<String>/images/Italic16.png</String>
 										</field>
 										<field name="accessKey">
 											<String>I</String>
@@ -414,7 +414,7 @@
 											<String>${i18n(itemizedlist_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/UnorderedList20.gif</String>
+											<String>/images/UnorderedList20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/UnorderedList16.gif</String>
@@ -2228,22 +2228,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 									</field>
 									<field name="menuEntriesDescriptorList">
 										<menuEntry-array>
-											<menuItem>
-												<field name="actionID">
-													<String>section</String>
-												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>paragraph</String>
-												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>insert image</String>
-												</field>
-											</menuItem>
-											<menuSeparator/>
 											<menu>
 												<field name="label">
 													<String>${i18n(table)}</String>
@@ -2256,12 +2240,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 												</field>
 												<field name="menuEntriesDescriptorList">
 													<menuEntry-array>
-														<menuItem>
-															<field name="actionID">
-																<String>insert.table</String>
-															</field>
-														</menuItem>
-														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.row.above</String>
@@ -2345,13 +2323,42 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</menuEntry-array>
 												</field>
 											</menu>
-											<menuSeparator/>
-											<menuItem>
-												<field name="actionID">
-													<String>generate.ids</String>
+											<menu>
+												<field name="label">
+													<String>${i18n(insert)}</String>
 												</field>
-											</menuItem>
-											<menuSeparator/>
+												<field name="accessKey">
+													<String></String>
+												</field>
+												<field name="iconPath">
+													<String></String>
+												</field>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert image</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>paragraph</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>section</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
 											<menuItem>
 												<field name="actionID">
 													<String>sort</String>
@@ -2360,9 +2367,10 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<menuSeparator/>
 											<menuItem>
 												<field name="actionID">
-													<String>show.TEIp4.documentation</String>
+													<String>generate.ids</String>
 												</field>
 											</menuItem>
+											<menuSeparator/>
 										</menuEntry-array>
 									</field>
 								</menu>
@@ -2370,7 +2378,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 							<field name="toolbarDescriptor">
 								<toolbar>
 									<field name="id">
-										<String>Toolbar</String>
+										<String>TEI</String>
 									</field>
 									<field name="type">
 										<Integer>2</Integer>
@@ -2670,10 +2678,10 @@ The Text Encoding Initiative (TEI) Guidelines is an international and interdisci
 									<String></String>
 								</field>
 								<field name="fOPMethod">
-									<null/>
+									<String>pdf</String>
 								</field>
 								<field name="fOProcessorName">
-									<null/>
+									<String>Apache FOP</String>
 								</field>
 								<field name="headerURL">
 									<String></String>
@@ -2702,11 +2710,14 @@ The Text Encoding Initiative (TEI) Guidelines is an international and interdisci
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.html</File>
 								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.html</String>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String></String>
+									<null/>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -2784,6 +2795,9 @@ The Text Encoding Initiative (TEI) Guidelines is an international and interdisci
 								</field>
 								<field name="outputFile">
 									<File>${cfn}-p5.xml</File>
+								</field>
+								<field name="outputResource">
+									<String>${cfn}-p5.xml</String>
 								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
@@ -2867,6 +2881,9 @@ The Text Encoding Initiative (TEI) Guidelines is an international and interdisci
 								</field>
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.pdf</File>
+								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.pdf</String>
 								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>

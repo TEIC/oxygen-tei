@@ -59,8 +59,12 @@ import org.apache.log4j.Logger;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.contentcompletion.xml.CIAttribute;
+import ro.sync.contentcompletion.xml.CIElement;
+import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorSchemaManager;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -361,5 +365,73 @@ public class TableOperationsUtil {
       logger.warn(e, e);
     }
     return tableElement;
+  }
+  
+  /**
+   * Check if a choice table can be inserted in the current context.
+   * 
+   * @param authorAccess The author access.
+   * 
+   * @return <code>true</code> if a choice table can be inserted in the given context.
+   */
+  public static boolean isChoiceTableAllowed(AuthorAccess authorAccess) {
+    // Find out if a choice table can be inserted.
+    boolean canInsertChoiceTable = false;
+
+    try {
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+
+      AuthorSchemaManager authorSchemaManager =
+          authorAccess.getDocumentController().getAuthorSchemaManager();
+
+      // Create context
+      WhatElementsCanGoHereContext context =
+          authorSchemaManager.createWhatElementsCanGoHereContext(caretOffset);
+
+      List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
+
+      if (childrenElements != null) {
+        elementsIteration:
+          for (int i = 0; i < childrenElements.size(); i++) {
+            // Iterate through possible elements and obtain the attributes.
+            CIElement currentElement = childrenElements.get(i);
+            List<CIAttribute> attributes = currentElement.getAttributes();
+            if (attributes != null) {
+              for (int j = 0; j < attributes.size(); j++) {
+                // Iterate through current element attributes.
+                CIAttribute currentAttribute = attributes.get(j);
+                String attrDefaultValue = currentAttribute.getDefaultValue();
+                // Check if the class attribute is a choicetable.
+                if ("class".equals(currentAttribute.getName())
+                    && attrDefaultValue != null
+                    && attrDefaultValue.contains(" task/choicetable ")) {
+                  canInsertChoiceTable = true;
+                  break elementsIteration;
+                }
+              }
+            }
+          }
+      }
+
+      if (!canInsertChoiceTable) {
+        // Find out if we are in a <step> or <cmd> element and force a choicetable insertion after <cmd>.
+        AuthorNode currentNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+        if (currentNode instanceof AuthorElement) {
+          AuthorElement currentElement = (AuthorElement) currentNode;
+          AttrValue classAttribute = currentElement.getAttribute("class");
+          if (classAttribute != null && classAttribute.getValue() != null &&
+              (classAttribute.getValue().contains(" task/step ") || 
+                  classAttribute.getValue().contains("task/cmd"))) {
+              // We are in a <step> element or a <cmd> element. Force choicetable 
+              //insertion at the end of this element
+              canInsertChoiceTable = true;
+          }
+        }
+      }
+    } catch (BadLocationException e) {
+      logger.warn(e, e);
+    }
+    
+    return canInsertChoiceTable;
   }
 }

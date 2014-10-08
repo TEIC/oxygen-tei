@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="16.0" xml:space="preserve">
+<serialized version="16.1" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -110,7 +110,7 @@
 											<String>/images/Italic20.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Italic16.gif</String>
+											<String>/images/Italic16.png</String>
 										</field>
 										<field name="accessKey">
 											<String>I</String>
@@ -414,7 +414,7 @@
 											<String>${i18n(itemizedlist_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/UnorderedList20.gif</String>
+											<String>/images/UnorderedList20.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/UnorderedList16.gif</String>
@@ -1207,10 +1207,10 @@
 											<String>insert image</String>
 										</field>
 										<field name="name">
-											<String>${i18n(insert image)}</String>
+											<String>${i18n(insert.image)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(insert image_description)}</String>
+											<String>${i18n(insert.image_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/Image20.png</String>
@@ -2049,22 +2049,6 @@
 									</field>
 									<field name="menuEntriesDescriptorList">
 										<menuEntry-array>
-											<menuItem>
-												<field name="actionID">
-													<String>section</String>
-												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>paragraph</String>
-												</field>
-											</menuItem>
-											<menuItem>
-												<field name="actionID">
-													<String>insert image</String>
-												</field>
-											</menuItem>
-											<menuSeparator/>
 											<menu>
 												<field name="label">
 													<String>${i18n(table)}</String>
@@ -2160,6 +2144,42 @@
 													</menuEntry-array>
 												</field>
 											</menu>
+											<menu>
+												<field name="label">
+													<String>${i18n(insert)}</String>
+												</field>
+												<field name="accessKey">
+													<String></String>
+												</field>
+												<field name="iconPath">
+													<String></String>
+												</field>
+												<field name="menuEntriesDescriptorList">
+													<menuEntry-array>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert image</String>
+															</field>
+														</menuItem>
+														<menuSeparator/>
+														<menuItem>
+															<field name="actionID">
+																<String>paragraph</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>section</String>
+															</field>
+														</menuItem>
+													</menuEntry-array>
+												</field>
+											</menu>
 											<menuSeparator/>
 											<menuItem>
 												<field name="actionID">
@@ -2173,7 +2193,7 @@
 							<field name="toolbarDescriptor">
 								<toolbar>
 									<field name="id">
-										<String>Toolbar</String>
+										<String>TEI ODD</String>
 									</field>
 									<field name="type">
 										<Integer>2</Integer>
@@ -2485,6 +2505,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.html</File>
 								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.html</String>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
 								</field>
@@ -2592,6 +2615,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="outputFile">
 									<File>${cfd}/${cfn}.pdf</File>
+								</field>
+								<field name="outputResource">
+									<String>${cfd}/${cfn}.pdf</String>
 								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>false</Boolean>
@@ -2718,7 +2744,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the EPUB output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -2896,6 +2922,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -3010,7 +3039,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the DOCX output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -3188,6 +3217,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -3302,7 +3334,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the ODT output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -3480,6 +3512,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -3594,7 +3629,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -3749,6 +3784,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -3863,7 +3901,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -4018,6 +4056,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -4132,7 +4173,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -4287,6 +4328,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="outputFile">
 									<null/>
 								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
 								<field name="openOtherLocationInBrowser">
 									<Boolean>true</Boolean>
 								</field>
@@ -4402,7 +4446,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>The profile of the output file, for example "tei", "oxford", "enrich".</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
 												<String>default</String>
@@ -4555,6 +4599,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<Boolean>false</Boolean>
 								</field>
 								<field name="outputFile">
+									<null/>
+								</field>
+								<field name="outputResource">
 									<null/>
 								</field>
 								<field name="openOtherLocationInBrowser">

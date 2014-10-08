@@ -81,22 +81,22 @@ public class InsertFragmentOperation implements AuthorOperation {
    * The fragment argument.
    * The value is <code>fragment</code>.
    */
-  private static final String ARGUMENT_FRAGMENT = "fragment";
+  public static final String ARGUMENT_FRAGMENT = "fragment";
   /**
    * The insert location argument.
    * The value is <code>insertLocation</code>.
    */
-  private static final String ARGUMENT_XPATH_LOCATION = "insertLocation";
+  public static final String ARGUMENT_XPATH_LOCATION = "insertLocation";
   /**
    * The insert position argument.
    * The value is <code>insertPosition</code>.
    */
-  private static final String ARGUMENT_RELATIVE_LOCATION = "insertPosition";
+  public static final String ARGUMENT_RELATIVE_LOCATION = "insertPosition";
   /**
    * Detect and position the caret inside the first edit location. It can be either 
    * an offset inside the content or an in-place editor.
    */
-  private static final String ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION = "goToNextEditablePosition";
+  public static final String ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION = "goToNextEditablePosition";
   /**
    * The arguments of the operation.
    */

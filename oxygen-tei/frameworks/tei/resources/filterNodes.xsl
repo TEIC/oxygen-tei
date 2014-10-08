@@ -25,16 +25,6 @@
         <xsl:apply-templates select="node()" mode="filterNodes"/>
     </xsl:template>
     
-    <!-- Separate adjacent spans with one space for avoiding 
-        joining last wortd of previous span with first word of next span. -->
-    <xsl:template match="text()[string-length(normalize-space()) > 0]
-                           [parent::xhtml:span/preceding-sibling::*[1][self::xhtml:span]]" 
-                mode="filterNodes"
-                priority="1">
-        <xsl:text> </xsl:text>
-        <xsl:copy/>
-    </xsl:template>
-    
     <!-- Filter xhtml:head and empty nodes. -->
     <xsl:template match="xhtml:head" mode="filterNodes" priority="3"/>
     
@@ -47,7 +37,7 @@
             mode="filterNodes"
             priority="2"/>
     
-    <xsl:template match="text()[string-length(normalize-space()) = 0]" 
-                  mode="filterNodes"/>
-    
+    <xsl:template match="text()[string-length(normalize-space()) = 0]
+                                             [empty(../preceding-sibling::*)]" 
+                  mode="filterNodes"/>    
 </xsl:stylesheet>

@@ -54,7 +54,6 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer;
-import ro.sync.ecss.extensions.commons.id.GenerateIDElementsInfo;
 
 /**
  * Unique attributes recognizer
@@ -66,7 +65,7 @@ public class TEIP5UniqueAttributesRecognizer extends DefaultUniqueAttributesReco
    * Constructor.
    */
   public TEIP5UniqueAttributesRecognizer() {
-    super("xml:id");
+    super();
   }
   
   /**
@@ -77,10 +76,11 @@ public class TEIP5UniqueAttributesRecognizer extends DefaultUniqueAttributesReco
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer#getDefaultOptions()
+   * Get the name of the XML resource from which to load the default options. 
+   * 
+   * @return the name of the XML resource from which to load the default options.
    */
-  @Override
-  protected GenerateIDElementsInfo getDefaultOptions() {
-    return TEIP4UniqueAttributesRecognizer.GENERATE_ID_DEFAULTS;
+  protected String getDefaultOptionsXMLResourceName() {
+    return "idGenerationDefaultOptionsP5.xml";
   }
 }
