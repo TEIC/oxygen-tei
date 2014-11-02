@@ -372,7 +372,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list rend="numbered">&lt;item/>&lt;/list>&lt;/item></String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
@@ -392,7 +392,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" rend="numbered">&lt;item/>&lt;/list></String>
 															</entry>
 														</serializableOrderedMap>
 													</field>
@@ -435,7 +435,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list rend="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
@@ -455,7 +455,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" rend="bulleted">&lt;item/>&lt;/list></String>
 															</entry>
 														</serializableOrderedMap>
 													</field>
