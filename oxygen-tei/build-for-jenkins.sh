@@ -15,64 +15,57 @@ die()
 }
 # First we need to find out the versions of the Stylesheets and P5.
 CURRDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-P5LOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/release/doc/tei-p5-doc/"
+P5LOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/"
 P5LOC=$(readlink -f $P5LOCREL)
-TEIVERSIONFILE="$P5LOC/VERSION"
+TEIVERSIONFILE="$P5LOC/release/doc/tei-p5-doc/VERSION"
 TEIVERSION=$(cat $TEIVERSIONFILE)
 echo "TEI version is $TEIVERSION"
-XSLLOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/dist/doc/tei-xsl/"
+XSLLOCREL="$CURRDIR/../../../Stylesheets/lastSuccessful/archive/"
 XSLLOC=$(readlink -f $XSLLOCREL)
-XSLVERSIONFILE="$XSLLOC/VERSION"
+XSLVERSIONFILE="$XSLLOC/dist/doc/tei-xsl/VERSION"
 XSLVERSION=$(cat $XSLVERSIONFILE)
 echo "Stylesheets version is $XSLVERSION"
-exit
 
-SFP5="http://downloads.sourceforge.net/project/tei/TEI-P5-all"
-SFXSL="http://downloads.sourceforge.net/project/tei/Stylesheets"
-SFUSER=rahtz
-TEIVERSION=
-XSLVERSION=
-DEBUG=
-while test $# -gt 0; do
-  case $1 in
-    --sfuser=*)      SFUSER=`echo $1 | sed 's/.*=//'`;;
-    --teiversion=*)   TEIVERSION=`echo $1 | sed 's/.*=//'`;;
-    --xslversion=*)   XSLVERSION=`echo $1 | sed 's/.*=//'`;;
-    --debug) DEBUG=echo;;
-   *) if test "$1" = "${1#--}" ; then 
-	   break
-	else
-	   echo "WARNING: Unrecognized option '$1' ignored"
-	   echo "For usage syntax issue $0 --help"
-	fi ;;
-  esac
-  shift
-done
+
 if [ -z $TEIVERSION ] 
 then
- echo You must use the --teiversion option to specify which version of TEI P5  you are installing
+ echo "Unable to read the TEI VERSION file at $TEIVERSIONFILE"
  exit 1
 fi
 if [ -z $XSLVERSION ] 
 then
- echo You must use the --xslversion option to specify which version of TEI Stylesheets  you are installing
+  echo "Unable to read the XSL Stylesheets VERSION file at $XSLVERSIONFILE"
  exit 1
 fi
-echo Download $SFP5/tei-$TEIVERSION.zip
-curl  -L -s -o tei.zip $SFP5/tei-$TEIVERSION.zip
+
+#Make sure we're in the right location for what follows.
+cd $CURRDIR
+if [ ! -e lib/oxygen.jar ]
+then
+  cp ../../oxygen.jar lib/oxygen.jar
+fi
+
+if [ ! -e lib/oxygen.jar ]
+then
+  echo "oxygen.jar is missing from the lib folder. Unable to continue."
+  exit 1
+fi
+
+echo "Retrieve $P5LOC/tei-$TEIVERSION.zip"
+cp $P5LOC/tei-$TEIVERSION.zip tei.zip 
 if [ $? -ne 0 ]; then
-    echo curl failed
+    echo "Retrieval of $P5LOC/tei-$TEIVERSION.zip failed."
     exit 1
 fi
-echo Download $SFXSL/tei-xsl-$XSLVERSION.zip
-curl  -L -s -o xsl.zip $SFXSL/tei-xsl-$XSLVERSION.zip
+echo "Retrieve $XSLLOC/tei-xsl-$XSLVERSION.zip"
+cp $XSLLOC/tei-xsl-$XSLVERSION.zip xsl.zip
 if [ $? -ne 0 ]; then
-    echo curl failed
+    echo "Retrieval of $XSLLOC/tei-xsl-$XSLVERSION.zip failed."
     exit 1
 fi
 
 cd frameworks/tei
-echo zap any old versions
+echo "Zap any old versions..."
 rm -rf xml/tei/Test 
 rm -rf xml/tei/custom/odd
 rm -rf xml/tei/custom/schema
@@ -80,10 +73,10 @@ rm -rf xml/tei/odd
 rm -rf xml/tei/schema
 rm -rf xml/tei/stylesheet
 rm -rf xml/tei/xquery
-echo unpack new files
+echo "Unpack new files..."
 unzip -o -q ../../tei.zip
 unzip -o -q ../../xsl.zip
-echo remove unwanted material
+echo "Remove unwanted material..."
 rm -f xml/tei/Exemplars/*epub
 rm -f xml/tei/Exemplars/*html
 rm -f xml/tei/Exemplars/*pdf
@@ -109,13 +102,17 @@ mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 rm templates/TEI\ P5/tei_*.doc.xml
 cd ../..
-echo add Brown specifics
+echo "Add Brown specifics..."
 unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
-echo do Ant build
+echo "Do Ant build..."
 (cd frameworks/tei; ant)
-echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
-mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
-echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
-${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
-${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
+if [ ! -f frameworks/tei/dist/tei.zip ] 
+then
+ echo "Failed to create distribution."
+ exit 1
+fi
+cd $CURRDIR
+echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION.zip"
+mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION.zip
+echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION.zip."
