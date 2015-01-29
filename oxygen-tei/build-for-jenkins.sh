@@ -17,9 +17,14 @@ die()
 CURRDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 P5LOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/release/doc/tei-p5-doc/"
 P5LOC=$(readlink -f $P5LOCREL)
-P5VERSION="$P5LOC/VERSION"
-TEIVERSION=$(cat $P5VERSION)
-echo $TEIVERSION
+TEIVERSIONFILE="$P5LOC/VERSION"
+TEIVERSION=$(cat $TEIVERSIONFILE)
+echo "TEI version is $TEIVERSION"
+XSLLOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/dist/doc/tei-xsl/"
+XSLLOC=$(readlink -f $XSLLOCREL)
+XSLVERSIONFILE="$XSLLOC/VERSION"
+XSLVERSION=$(cat $XSLVERSIONFILE)
+echo "Stylesheets version is $XSLVERSION"
 exit
 
 SFP5="http://downloads.sourceforge.net/project/tei/TEI-P5-all"
