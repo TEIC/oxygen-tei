@@ -94,8 +94,9 @@ mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 rm templates/TEI\ P5/tei_*.doc.xml
 cd ../..
-echo add Brown specifics
-unzip brown
+#MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
+#echo add Brown specifics
+#unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo do Ant build
 (cd frameworks/tei; ant)
