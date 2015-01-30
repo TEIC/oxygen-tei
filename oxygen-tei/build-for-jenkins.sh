@@ -13,6 +13,9 @@ die()
     echo "$D. That was a fatal error"
     exit 1
 }
+# We will use the build number later.
+echo "Executing Jenkins job build number $BUILD_NUMBER."
+
 # First we need to find out the versions of the Stylesheets and P5.
 CURRDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 P5LOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/"
@@ -115,6 +118,7 @@ then
  exit 1
 fi
 cd $CURRDIR
-echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION.zip"
+NOW=$(date +"%Y-%m-%d-%H%M%S)
+echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip"
 mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION.zip
-echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION.zip."
+echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip."
