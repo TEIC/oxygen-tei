@@ -118,7 +118,7 @@ then
  exit 1
 fi
 cd $CURRDIR
-NOW=$(date +"%Y-%m-%d-%H%M%S)
+NOW=$(date +"%Y-%m-%d-%H%M%S")
 echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip"
 mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION.zip
 echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip."
