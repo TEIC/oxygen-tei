@@ -40,7 +40,7 @@
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
       <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
-      <xsl:copy-of select="$lastExtension/(xt:*[not(local-name() = ('location', 'version'))]|text())"/>
+      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version'))]|following-sibling::text())"/>
     </xt:extension>
   </xsl:template>
   
