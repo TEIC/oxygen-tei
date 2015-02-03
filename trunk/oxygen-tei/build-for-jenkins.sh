@@ -35,6 +35,17 @@ echo "Stylesheets version is $XSLVERSION"
 LASTSUCCESSFULPLUGINFILE="$CURRDIR/../../builds/lastSuccessfulBuild/updateSite.oxygen"
 cp "$LASTSUCCESSFULPLUGINFILE" updateSite.oxygen
 
+if [ ! -e updateSite.oxygen ]
+then
+  cp workspace/oxygen-tei/jenkins/updateSite.oxygen updateSite.oxygen
+fi
+
+if [ ! -e updateSite.oxygen ]
+then
+  echo "Unable to fine the updateSite.oxygenFile."
+  exit 1
+fi
+
 if [ -z $TEIVERSION ] 
 then
  echo "Unable to read the TEI VERSION file at $TEIVERSIONFILE"
