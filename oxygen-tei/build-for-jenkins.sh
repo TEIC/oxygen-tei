@@ -37,12 +37,12 @@ cp "$LASTSUCCESSFULPLUGINFILE" updateSite.oxygen
 
 if [ ! -e updateSite.oxygen ]
 then
-  cp workspace/oxygen-tei/jenkins/updateSite.oxygen updateSite.oxygen
+  cp jenkins/updateSite.oxygen updateSite.oxygen
 fi
 
 if [ ! -e updateSite.oxygen ]
 then
-  echo "Unable to fine the updateSite.oxygenFile."
+  echo "Unable to find the updateSite.oxygenFile."
   exit 1
 fi
 
