@@ -101,6 +101,12 @@ rm -f xml/tei/Exemplars/*html
 rm -f xml/tei/Exemplars/*pdf
 rm -f xml/tei/Exemplars/*tex
 rm -f xml/tei/Exemplars/*compiled
+
+# MDH: If not removed, this results in an extra 
+# pom option in File / New / TEI P5.
+# Should probably also be removed in update-and-upload.sh.
+rm -f xml/tei/Exemplars/pom.xml
+
 rm -f tei/xml/tei/odd/p5subset.js
 rm -f tei/xml/tei/odd/p5subset.json
 rm -f tei/xml/tei/odd/p5attlist.txt
