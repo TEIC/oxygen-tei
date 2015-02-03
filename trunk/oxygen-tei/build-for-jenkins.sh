@@ -29,6 +29,11 @@ XSLVERSIONFILE="$XSLLOC/dist/doc/tei-xsl/VERSION"
 XSLVERSION=$(cat $XSLVERSIONFILE)
 echo "Stylesheets version is $XSLVERSION"
 
+# We need to retrieve the updateSite.oxygen file from the last successful 
+# build in Jenkins, in order to transform it to create the latest one.
+# Later we'll transform it.
+LASTSUCCESSFULPLUGINFILE="$CURRDIR../../builds/lastSuccessfulBuild/updateSite.oxygen"
+cp "$LASTSUCCESSFULPLUGINFILE" updateSite.oxygen
 
 if [ -z $TEIVERSION ] 
 then
@@ -121,4 +126,8 @@ cd $CURRDIR
 NOW=$(date +"%Y-%m-%d-%H%M%S")
 echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip"
 mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION.zip
+
+# Finally we need to transform the last updateSite.oxygen to create the 
+# new one.
+saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber="$TEIVERSION" jenkinsBuildNumber="$BUILD_NUMBER" newZipFileName="oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip" 
 echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip."

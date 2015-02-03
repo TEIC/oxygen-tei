@@ -17,6 +17,8 @@
     </xd:desc>
   </xd:doc>
   
+  <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+  
   <xsl:param name="teiVersionNumber"/>
   <xsl:param name="jenkinsJobLocation" select="'http://teijenkins.hcmc.uvic.ca/job/oxygen-tei/'"/>
   <xsl:param name="jenkinsBuildNumber"/>
@@ -25,28 +27,41 @@
   
 <!-- Handing for the history of released artifacts. -->
 <!-- Keep only ten: nine plus the new one. -->
-  <xsl:template match="xt:location[count(following-sibling::xt:location) gt 8]"/>
-  <xsl:template match="xt:location[not(following-sibling::xt:location)]">
+  <xsl:template match="xt:extension[count(following-sibling::xt:extension) gt 8]"/>
+  <xsl:template match="xt:extension[not(following-sibling::xt:extension)]">
     <xsl:copy-of select="."/>
-    <xt:location href="{$newZipFileUrl}"/>
+    <xsl:call-template name="createNewExtensionElement">
+      <xsl:with-param name="lastExtension" select="."/>
+    </xsl:call-template>
+  </xsl:template>
+  
+  <xsl:template name="createNewExtensionElement">
+    <xsl:param name="lastExtension" as="element(xt:extension)"/>
+    <xt:extension id="{$lastExtension/@id}">
+      <xt:location href="{$newZipFileUrl}"/>
+      <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
+      <xsl:copy-of select="$lastExtension/(xt:*[not(local-name() = ('location', 'version'))]|text())"/>
+    </xt:extension>
   </xsl:template>
   
 <!--  Handling for the version number: should be incremented, and 
      we need to check whether the TEI version number has changed. -->
-  <xsl:template match="xt:version">
+  <xsl:function name="local:getNextVersionNumber" as="element(xt:version)">
+    <xsl:param name="lastVersion" as="element(xt:version)"/>
     <xsl:variable name="teiVMajor" select="tokenize($teiVersionNumber, '\.')[1]"/>
     <xsl:variable name="teiVMinor" select="tokenize($teiVersionNumber, '\.')[2]"/>
-    <xsl:variable name="localVMajor" select="tokenize(normalize-space(.), '\.')[1]"/>
-    <xsl:variable name="localVMinor" select="tokenize(normalize-space(.), '\.')[2]"/>
+    <xsl:variable name="lastVMajor" select="tokenize(normalize-space($lastVersion), '\.')[1]"/>
+    <xsl:variable name="lastVMinor" select="tokenize(normalize-space($lastVersion), '\.')[2]"/>
+    <xsl:variable name="lastVBuild" select="tokenize(normalize-space($lastVersion), '\.')[3]"/>
     <xsl:choose>
-      <xsl:when test="$teiVMajor = $localVMajor and $teiVMinor = $localVMinor">
-        <xt:version><xsl:value-of select="concat($localVMajor, '.', $localVMinor, '.', local:getIncrementedVersion(tokenize(normalize-space(.), '\.')[3]))"/></xt:version>
+      <xsl:when test="$teiVMajor = $lastVMajor and $teiVMinor = $lastVMinor">
+        <xt:version><xsl:value-of select="concat($lastVMajor, '.', $lastVMinor, '.', local:getIncrementedVersion($lastVBuild))"/></xt:version>
       </xsl:when>
       <xsl:otherwise>
         <xt:version><xsl:value-of select="concat($teiVMajor, '.', $teiVMinor, '.1')"/></xt:version>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
+  </xsl:function>
   
   <xsl:function name="local:getIncrementedVersion" as="xs:string">
     <xsl:param name="version" as="xs:string"/>
