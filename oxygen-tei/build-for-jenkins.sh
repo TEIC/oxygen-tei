@@ -32,7 +32,7 @@ echo "Stylesheets version is $XSLVERSION"
 # We need to retrieve the updateSite.oxygen file from the last successful 
 # build in Jenkins, in order to transform it to create the latest one.
 # Later we'll transform it.
-LASTSUCCESSFULPLUGINFILE="$CURRDIR../../builds/lastSuccessfulBuild/updateSite.oxygen"
+LASTSUCCESSFULPLUGINFILE="$CURRDIR/../../builds/lastSuccessfulBuild/updateSite.oxygen"
 cp "$LASTSUCCESSFULPLUGINFILE" updateSite.oxygen
 
 if [ -z $TEIVERSION ] 
