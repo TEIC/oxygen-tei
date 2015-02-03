@@ -136,7 +136,7 @@ fi
 cd $CURRDIR
 NOW=$(date +"%Y-%m-%d-%H%M%S")
 echo "Move result to oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip"
-mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION.zip
+mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip
 
 # Finally we need to transform the last updateSite.oxygen to create the 
 # new one.
