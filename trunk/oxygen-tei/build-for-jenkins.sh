@@ -102,11 +102,6 @@ rm -f xml/tei/Exemplars/*pdf
 rm -f xml/tei/Exemplars/*tex
 rm -f xml/tei/Exemplars/*compiled
 
-# MDH: If not removed, this results in an extra 
-# pom option in File / New / TEI P5.
-# Should probably also be removed in update-and-upload.sh.
-rm -f xml/tei/Exemplars/pom.xml
-
 rm -f tei/xml/tei/odd/p5subset.js
 rm -f tei/xml/tei/odd/p5subset.json
 rm -f tei/xml/tei/odd/p5attlist.txt
@@ -126,6 +121,12 @@ rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 rm templates/TEI\ P5/tei_*.doc.xml
+
+# MDH: If not removed, this results in an extra 
+# pom option in File / New / TEI P5.
+# Should probably also be removed in update-and-upload.sh.
+rm templates/TEI\ P5/pom.xml
+
 cd ../..
 #We're not doing this any more.
 #echo "Add Brown specifics..."
