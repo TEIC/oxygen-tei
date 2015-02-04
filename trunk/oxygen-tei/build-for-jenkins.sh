@@ -124,7 +124,6 @@ rm templates/TEI\ P5/tei_*.doc.xml
 
 # MDH: If not removed, this results in an extra 
 # pom option in File / New / TEI P5.
-# Should probably also be removed in update-and-upload.sh.
 rm templates/TEI\ P5/pom.xml
 
 cd ../..
