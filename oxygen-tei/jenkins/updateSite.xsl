@@ -41,26 +41,36 @@
     <xsl:param name="lastExtension" as="element(xt:extension)"/>
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
-      <!--<xsl:sequence select="local:getNextVersionNumber_OLD($lastExtension/xt:version[1])"/>-->
-      <xsl:sequence select="local:getNextVersionNumber()"/>
-      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version'))]|following-sibling::text())"/>
+      <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
+      <!--<xsl:sequence select="local:getNextVersionNumber_FAILS()"/>-->
+      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version', 'description', 'licence'))]|following-sibling::text())"/>
+      <xt:description>
+        <xsl:text>DEVELOPMENT BUILD </xsl:text> <xsl:value-of select="$currBuild"/>
+        <xsl:text> of the TEI schemas and stylesheets. 
+          Use this only if you are testing the 
+	      plugin. To avoid conflict with builtin framework, please ensure that
+	      you have gone to Preferences->Document Type Association in
+	      oXygen and deactivated all the TEI frameworks
+	      that have "External" in the storage columns.
+        </xsl:text>
+      </xt:description>
+      <xsl:copy-of select="$lastExtension/xt:licence"/>
     </xt:extension>
   </xsl:template>
   
   
-<!-- New version of the build number calculation: per JC, we should version 
-     the build based on its creation datetime. -->
-  <xsl:function name="local:getNextVersionNumber" as="element(xt:version)">
+<!-- Alternative version of the build number calculation: per JC, we should version 
+     the build based on its creation datetime. However, this appears to fail; 
+     Oxygen does not offer the build for installation. -->
+  <xsl:function name="local:getNextVersionNumber_FAILS" as="element(xt:version)">
     <xsl:variable name="teiVMajor" select="tokenize($teiVersionNumber, '\.')[1]"/>
     <xsl:variable name="teiVMinor" select="tokenize($teiVersionNumber, '\.')[2]"/>
     <xt:version><xsl:value-of select="concat($teiVMajor, '.', $teiVMinor, '.', $currBuild)"/></xt:version>
   </xsl:function>
   
-  <!-- NOTE: This function now obsolete because version numbering is based on 
-     date and time of build. -->
 <!--  Handling for the version number: should be incremented, and 
      we need to check whether the TEI version number has changed. -->
-  <xsl:function name="local:getNextVersionNumber_OLD" as="element(xt:version)">
+  <xsl:function name="local:getNextVersionNumber" as="element(xt:version)">
     <xsl:param name="lastVersion" as="element(xt:version)"/>
     <xsl:variable name="teiVMajor" select="tokenize($teiVersionNumber, '\.')[1]"/>
     <xsl:variable name="teiVMinor" select="tokenize($teiVersionNumber, '\.')[2]"/>
@@ -77,8 +87,6 @@
     </xsl:choose>
   </xsl:function>
   
-<!-- NOTE: This function now obsolete because version numbering is based on 
-     date and time of build. -->
   <xsl:function name="local:getIncrementedVersion" as="xs:string">
     <xsl:param name="version" as="xs:string"/>
     <xsl:variable name="digitsOnly" select="replace($version, '[^0-9]', '')"/>
