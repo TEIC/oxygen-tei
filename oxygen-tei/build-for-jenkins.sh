@@ -146,5 +146,5 @@ mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip
 
 # Finally we need to transform the last updateSite.oxygen to create the 
 # new one.
-saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber="$TEIVERSION" jenkinsBuildNumber="$BUILD_NUMBER" newZipFileName="oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip" 
+saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber="$TEIVERSION" jenkinsBuildNumber="$BUILD_NUMBER" currBuild="$NOW" newZipFileName="oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip" 
 echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip."

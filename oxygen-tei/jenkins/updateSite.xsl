@@ -23,6 +23,8 @@
   <xsl:param name="jenkinsJobLocation" select="'http://teijenkins.hcmc.uvic.ca/job/oxygen-tei/'"/>
   <xsl:param name="jenkinsBuildNumber"/>
   <xsl:param name="newZipFileName"/>
+  <xsl:param name="currBuild"/>
+  
   <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, $jenkinsBuildNumber, '/artifact/oxygen-tei/', $newZipFileName)"/>
   
 <!-- Handing for the history of released artifacts. -->
@@ -39,14 +41,26 @@
     <xsl:param name="lastExtension" as="element(xt:extension)"/>
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
-      <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
+      <!--<xsl:sequence select="local:getNextVersionNumber_OLD($lastExtension/xt:version[1])"/>-->
+      <xsl:sequence select="local:getNextVersionNumber()"/>
       <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version'))]|following-sibling::text())"/>
     </xt:extension>
   </xsl:template>
   
+  
+<!-- New version of the build number calculation: per JC, we should version 
+     the build based on its creation datetime. -->
+  <xsl:function name="local:getNextVersionNumber" as="element(xt:version)">
+    <xsl:variable name="teiVMajor" select="tokenize($teiVersionNumber, '\.')[1]"/>
+    <xsl:variable name="teiVMinor" select="tokenize($teiVersionNumber, '\.')[2]"/>
+    <xt:version><xsl:value-of select="concat($teiVMajor, '.', $teiVMinor, '.', $currBuild)"/></xt:version>
+  </xsl:function>
+  
+  <!-- NOTE: This function now obsolete because version numbering is based on 
+     date and time of build. -->
 <!--  Handling for the version number: should be incremented, and 
      we need to check whether the TEI version number has changed. -->
-  <xsl:function name="local:getNextVersionNumber" as="element(xt:version)">
+  <xsl:function name="local:getNextVersionNumber_OLD" as="element(xt:version)">
     <xsl:param name="lastVersion" as="element(xt:version)"/>
     <xsl:variable name="teiVMajor" select="tokenize($teiVersionNumber, '\.')[1]"/>
     <xsl:variable name="teiVMinor" select="tokenize($teiVersionNumber, '\.')[2]"/>
@@ -63,6 +77,8 @@
     </xsl:choose>
   </xsl:function>
   
+<!-- NOTE: This function now obsolete because version numbering is based on 
+     date and time of build. -->
   <xsl:function name="local:getIncrementedVersion" as="xs:string">
     <xsl:param name="version" as="xs:string"/>
     <xsl:variable name="digitsOnly" select="replace($version, '[^0-9]', '')"/>
