@@ -22,12 +22,14 @@ P5LOCREL="$CURRDIR/../../../TEIP5/lastSuccessful/archive/"
 P5LOC=$(readlink -f $P5LOCREL)
 TEIVERSIONFILE="$P5LOC/release/doc/tei-p5-doc/VERSION"
 TEIVERSION=$(cat $TEIVERSIONFILE)
-echo "TEI version is $TEIVERSION"
+echo "TEI version is $TEIVERSION."
 XSLLOCREL="$CURRDIR/../../../Stylesheets/lastSuccessful/archive/"
 XSLLOC=$(readlink -f $XSLLOCREL)
 XSLVERSIONFILE="$XSLLOC/dist/doc/tei-xsl/VERSION"
 XSLVERSION=$(cat $XSLVERSIONFILE)
-echo "Stylesheets version is $XSLVERSION"
+echo "Stylesheets version is $XSLVERSION."
+HOST=$(hostname)
+echo "Build running on $HOST."
 
 # We need to retrieve the updateSite.oxygen file from the last successful 
 # build in Jenkins, in order to transform it to create the latest one.
@@ -146,5 +148,5 @@ mv frameworks/tei/dist/tei.zip oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip
 
 # Finally we need to transform the last updateSite.oxygen to create the 
 # new one.
-saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber="$TEIVERSION" jenkinsBuildNumber="$BUILD_NUMBER" currBuild="$NOW" newZipFileName="oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip" 
+saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber="$TEIVERSION" jenkinsBuildNumber="$BUILD_NUMBER" currBuild="$NOW" hostname="$HOST" newZipFileName="oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip" 
 echo "Complete. Build should be available at oxygen-tei-$TEIVERSION-$XSLVERSION-$NOW.zip."
