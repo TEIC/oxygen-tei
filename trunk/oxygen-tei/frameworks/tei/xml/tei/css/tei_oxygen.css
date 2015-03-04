@@ -4,6 +4,8 @@
 /* High contrast */
 @import "high-contrast.css";
 
+@namespace xml "http://www.w3.org/XML/1998/namespace";
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------
 ----- Oxygen modifications to the TEI css available at  http://tei.svn.sourceforge.net/viewvc/tei/trunk/TEICSS/  ------
 ------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -117,4 +119,13 @@ gap {
 }
 gap:after {
     content: "";
+}
+
+/*EXM-32751 Try to add arabic orientation based on xml:lang*/
+*[xml|lang^="ar"],
+*[xml|lang^="fa"],
+*[xml|lang^="he"],
+*[xml|lang^="iw"],
+*[xml|lang^="ota"]{
+    direction:rtl;
 }
