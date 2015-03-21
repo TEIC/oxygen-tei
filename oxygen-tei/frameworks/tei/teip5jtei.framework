@@ -236,6 +236,32 @@
                   <String>*</String>
                 </field>
               </documentTypeRule>
+              <documentTypeRule>
+                <field name="namespace">
+                  <String>http://www.tei-c.org/ns/1.0</String>
+                </field>
+                <field name="rootElem">
+                  <String>TEI</String>
+                </field>
+                <field name="fileName">
+                  <String>*</String>
+                </field>
+                <field name="publicID">
+                  <String>*</String>
+                </field>
+                <field name="javaRuleClass">
+                  <String/>
+                </field>
+                <field name="attributeLocalName">
+                  <String>rend</String>
+                </field>
+                <field name="attributeNamespace">
+                  <String>*</String>
+                </field>
+                <field name="attributeValue">
+                  <String>jTEI</String>
+                </field>
+              </documentTypeRule>              
             </documentTypeRule-array>
           </field>
           <field name="scenarios">
@@ -489,280 +515,6 @@
 									</String-array>
 								</field>
 							</antScenario>
-<!--              
-              <antScenario>
-                <field name="additionalAntArgs">
-                  <String/>
-                </field>
-                <field name="buildTarget">
-                  <String>zip-odt</String>
-                </field>
-                <field name="buildFilePath">
-                  <String>${frameworkDir}/xml/tei/jtei_aux_files/transformations/tei2odt/build.odt.xml</String>
-                </field>
-                <field name="ditaParams">
-                  <list>
-                    <antParameter>
-                      <field name="name">
-                        <String>cfd</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>${cfd}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>cfn</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>${cfn}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>cfne</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>${cfne}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>pd</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>${frameworkDir}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>tempDirSuffix</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>.odt_temp</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>transformations.base</String>
-                      </field>
-                      <field name="description">
-                        <String/>
-                      </field>
-                      <field name="value">
-                        <String>${frameworkDir}/xml/tei/jtei_aux_files/transformations</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                  </list>
-                </field>
-                <field name="jvmArgs">
-                  <String>-Xmx256m</String>
-                </field>
-                <field name="useCustomJavaHome">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="customJavaHomeDir">
-                  <String/>
-                </field>
-                <field name="useCustomANTHome">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="customANTHomeDir">
-                  <String/>
-                </field>
-                <field name="workingDir">
-                  <String>${cfd}</String>
-                </field>
-                <field name="showConsoleAlways">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="advancedOptionsMap">
-                  <null/>
-                </field>
-                <field name="name">
-                  <String>jtei2odt</String>
-                </field>
-                <field name="baseURL">
-                  <null/>
-                </field>
-                <field name="footerURL">
-                  <null/>
-                </field>
-                <field name="fOPMethod">
-                  <null/>
-                </field>
-                <field name="fOProcessorName">
-                  <null/>
-                </field>
-                <field name="headerURL">
-                  <null/>
-                </field>
-                <field name="inputXSLURL">
-                  <null/>
-                </field>
-                <field name="inputXMLURL">
-                  <null/>
-                </field>
-                <field name="defaultScenario">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="isFOPPerforming">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="type">
-                  <String>ANT</String>
-                </field>
-                <field name="saveAs">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="openInBrowser">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="outputFile">
-                  <null/>
-                </field>
-                <field name="outputResource">
-                  <null/>
-                </field>
-                <field name="openOtherLocationInBrowser">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="locationToOpenInBrowserURL">
-                  <String>${cfd}/${cfn}.odt</String>
-                </field>
-                <field name="openInEditor">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInHTMLPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInXMLPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInSVGPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInResultSetPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="useXSLTInput">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="xsltParams">
-                  <list/>
-                </field>
-                <field name="cascadingStylesheets">
-                  <String-array/>
-                </field>
-                <field name="xslTransformer">
-                  <String>ANT</String>
-                </field>
-                <field name="extensionURLs">
-                  <String-array>
-                    <String>${oxygenHome}/classes/</String>
-                    <String>${oxygenHome}/lib/oxygen.jar</String>
-                    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-                    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-                    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-                    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-                    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-                    <String>${oxygenHome}/lib/resolver.jar</String>
-                    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-                    <String>${oxygenHome}/lib/saxon9ee.jar</String>
-                    <String>${oxygenHome}/lib/saxon.jar</String>
-                    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-                    <String>${oxygenHome}/lib/log4j.jar</String>
-                  </String-array>
-                </field>
-              </antScenario>
--->
             </scenario-array>
           </field>
           <field name="validationScenarios">
