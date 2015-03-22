@@ -9,7 +9,7 @@
             <null/>
           </field>
           <field name="name">
-            <String>jTEI</String>
+            <String>TEI JTEI</String>
           </field>
           <field name="schemaDescriptor">
             <docTypeSchema>
