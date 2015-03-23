@@ -9,12 +9,12 @@
             <null/>
           </field>
           <field name="name">
-            <String>TEI jTEI</String>
+            <String>TEI JTEI</String>
           </field>
           <field name="schemaDescriptor">
             <docTypeSchema>
               <field name="type">
-                <Integer>8</Integer>
+                <Integer>6</Integer>
               </field>
               <field name="uri">
                 <String>${framework}/xml/tei/custom/schema/relaxng/tei_jtei.rng</String>
