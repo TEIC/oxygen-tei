@@ -97,6 +97,9 @@ rm templates/TEI\ P5/tei_*.doc.xml
 # pom option in File / New / TEI P5.
 rm templates/TEI\ P5/pom.xml
 
+#MDH: Copy the JTEI article template to its other location.
+cp templates/TEI\ P5/JTEI\ Article.xml templates/TEI\ JTEI
+
 cd ../..
 #MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
 #echo add Brown specifics
