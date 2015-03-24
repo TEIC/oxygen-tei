@@ -98,8 +98,8 @@ rm templates/TEI\ P5/tei_*.doc.xml
 rm templates/TEI\ P5/pom.xml
 
 #MDH: Copy the jTEI article template to its other location.
-#mkdir -p "templates/TEI jTEI"
-#cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
+mkdir -p "templates/TEI jTEI"
+cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
 
 cd ../..
 #MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
