@@ -199,7 +199,7 @@
           </field>
           <field name="templatesLocations">
             <String-array>
-              <String>${frameworkDir}/templates/TEI JTEI</String>
+              <String>${frameworkDir}/templates/TEI jTEI</String>
             </String-array>
           </field>
           <field name="xmlCatalogs">
