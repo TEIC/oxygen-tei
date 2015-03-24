@@ -128,8 +128,9 @@ rm templates/TEI\ P5/tei_*.doc.xml
 # pom option in File / New / TEI P5.
 rm templates/TEI\ P5/pom.xml
 
-#MDH: Copy the JTEI article template to its other location.
-cp "templates/TEI P5/JTEI Article.*" "templates/TEI JTEI/"
+#MDH: Copy the jTEI article template to its other location.
+mkdir -p templates/TEI\ jTEI
+cp templates/TEI\ P5/jTEI\ Article.* templates/TEI\ jTEI/
 
 cd ../..
 #We're not doing this any more.
