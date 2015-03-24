@@ -130,7 +130,7 @@ rm templates/TEI\ P5/pom.xml
 
 #MDH: Copy the jTEI article template to its other location.
 mkdir -p "templates/TEI jTEI"
-cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
+cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI/"
 
 cd ../..
 #We're not doing this any more.
