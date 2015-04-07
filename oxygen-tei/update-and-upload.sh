@@ -89,7 +89,6 @@ rm -rf xml/tei/odd/Utilities
 rm -rf xml/tei/odd/p5odds-examples.*
 rm -rf xml/tei/odd/webnav
 rm -rf xml/tei/xquery
-rm -rf templates/TEI\ P5
 mkdir -p templates/TEI\ P5
 mv xml/tei/custom/templates/* templates/TEI\ P5
 rm templates/TEI\ P5/tei_*.doc.xml
@@ -100,6 +99,9 @@ rm templates/TEI\ P5/pom.xml
 #MDH: Copy the jTEI article template to its other location.
 mkdir -p "templates/TEI jTEI"
 cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
+#RvdB: Copy the ODD template to its other location.
+mkdir -p "templates/TEI ODD"
+cp "templates/TEI P5/ODD Customization".* "templates/TEI ODD"
 
 cd ../..
 #MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
