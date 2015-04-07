@@ -101,7 +101,7 @@ mkdir -p "templates/TEI jTEI"
 cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
 #RvdB: Copy the ODD template to its other location.
 mkdir -p "templates/TEI ODD"
-cp "templates/TEI P5/ODD Customization".* "templates/TEI ODD"
+cp "templates/TEI P5/ODD customization".* "templates/TEI ODD"
 
 cd ../..
 #MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
