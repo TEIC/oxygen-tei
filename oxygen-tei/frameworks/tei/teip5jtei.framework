@@ -581,7 +581,7 @@
                   <String>transform-pdf</String>
                 </field>
                 <field name="buildFilePath">
-                  <String>${frameworkDir}/xml/tei/jtei_aux/transformations/pdf/jtei-pdf.xml</String>
+                  <String>${frameworkDir}/xml/tei/jtei_aux/trans/pdf/jtei-pdf.xml</String>
                 </field>
                 <field name="ditaParams">
                   <list>
