@@ -64,10 +64,10 @@
                       <String>generate review version (ODT)</String>
                     </field>
                     <field name="largeIconPath">
-                      <String>${framework}/xml/tei/jtei_aux_files/images/odt_large.png</String>
+                      <String>${framework}/xml/tei/jtei_aux/images/odt_large.png</String>
                     </field>
                     <field name="smallIconPath">
-                      <String>${framework}/xml/tei/jtei_aux_files/images/odt_small.png</String>
+                      <String>${framework}/xml/tei/jtei_aux/images/odt_small.png</String>
                     </field>
                     <field name="accessKey">
                       <String/>
@@ -107,10 +107,10 @@
                       <String>generate PDF version</String>
                     </field>
                     <field name="largeIconPath">
-                      <String>${framework}/xml/tei/jtei_aux_files/images/pdficon_large.png</String>
+                      <String>${framework}/xml/tei/jtei_aux/images/pdficon_large.png</String>
                     </field>
                     <field name="smallIconPath">
-                      <String>${framework}/xml/tei/jtei_aux_files/images/pdficon_small.png</String>
+                      <String>${framework}/xml/tei/jtei_aux/images/pdficon_small.png</String>
                     </field>
                     <field name="accessKey">
                       <String/>
@@ -581,7 +581,7 @@
                   <String>transform-pdf</String>
                 </field>
                 <field name="buildFilePath">
-                  <String>${frameworkDir}/xml/tei/jtei_aux_files/transformations/pdf/jtei-pdf.xml</String>
+                  <String>${frameworkDir}/xml/tei/jtei_aux/transformations/pdf/jtei-pdf.xml</String>
                 </field>
                 <field name="ditaParams">
                   <list>
