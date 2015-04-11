@@ -13,7 +13,7 @@
   <property name="echo.separator" value="************************************************"/>
   <!-- can be overridden by passing it as parameter at project/framework level --> 
   <property name="transformations.base" value="${pd}/transformations"/>
-  <property name="fop.config" value="fonts/fonts.conf.xml"/>
+  <property name="fop.config" value="fonts.conf.xml"/>
   
   <target name="transform-fo">
     <delete file="${cfd}/${dest.file.basename}.fo"/>

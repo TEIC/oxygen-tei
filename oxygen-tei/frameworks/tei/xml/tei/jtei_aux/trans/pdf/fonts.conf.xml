@@ -29,44 +29,44 @@
         <!-- <value>ascii-hex</value> -->
       </filterList>      
       <fonts>
-        <font embed-url="GentiumBookBasic/GenBkBasR.ttf">
+        <font embed-url="fonts/GenBkBasR.ttf">
           <font-triplet name="GentiumBookBasic" style="normal" weight="normal"/>
         </font>
-        <font embed-url="GentiumBookBasic/GenBkBasB.ttf">
+        <font embed-url="fonts/GenBkBasB.ttf">
           <font-triplet name="GentiumBookBasic" style="normal" weight="bold"/>
         </font>
-        <font embed-url="GentiumBookBasic/GenBkBasI.ttf">
+        <font embed-url="fonts/GenBkBasI.ttf">
           <font-triplet name="GentiumBookBasic" style="italic" weight="normal"/>
         </font>
-        <font embed-url="GentiumBookBasic/GenBkBasBI.ttf">
+        <font embed-url="fonts/GenBkBasBI.ttf">
           <font-triplet name="GentiumBookBasic" style="italic" weight="bold"/>
         </font>
-        <font embed-url="Roboto/Roboto-Bold.ttf">
+        <font embed-url="fonts/Roboto-Bold.ttf">
           <font-triplet name="Roboto" style="normal" weight="bold"/>
         </font>
-        <font embed-url="Roboto/Roboto-Light.ttf">
+        <font embed-url="fonts/Roboto-Light.ttf">
           <font-triplet name="Roboto" style="normal" weight="normal"/>
         </font>
-        <font embed-url="Roboto/Roboto-Medium.ttf">
+        <font embed-url="fonts/Roboto-Medium.ttf">
           <font-triplet name="Roboto-medium" style="normal" weight="normal"/>
         </font>
-        <font embed-url="Roboto/Roboto-MediumItalic.ttf">
+        <font embed-url="fonts/Roboto-MediumItalic.ttf">
           <font-triplet name="Roboto-medium" style="italic" weight="normal"/>
         </font>
-        <font embed-url="GentiumPlus-5.000/GentiumPlus-R.ttf">
+        <font embed-url="fonts/GentiumPlus-R.ttf">
           <font-triplet name="GentiumPlus" style="normal" weight="normal"/>
         </font>
-        <font embed-url="GentiumPlus-5.000/GentiumPlus-I.ttf">
+        <font embed-url="fonts/GentiumPlus-I.ttf">
           <font-triplet name="GentiumPlus" style="italic" weight="normal"/>
         </font>
         <!-- GentiumPlus doesn't have bold (yet) -->
-        <font embed-url="GentiumBookBasic/GenBkBasB.ttf">
+        <font embed-url="fonts/GenBkBasB.ttf">
           <font-triplet name="GentiumPlus" style="normal" weight="bold"/>
         </font>
-        <font embed-url="dejavu-fonts-ttf-2.34/ttf/DejaVuSansCondensed.ttf">
+        <font embed-url="fonts/ttf/DejaVuSansCondensed.ttf">
           <font-triplet name="DejaVu" style="normal" weight="normal"/>
         </font>
-        <font embed-url="dejavu-fonts-ttf-2.34/ttf/DejaVuSansMono.ttf">
+        <font embed-url="fonts/ttf/DejaVuSansMono.ttf">
           <font-triplet name="DejaVu-mono" style="normal" weight="normal"/>
         </font>
       </fonts>
