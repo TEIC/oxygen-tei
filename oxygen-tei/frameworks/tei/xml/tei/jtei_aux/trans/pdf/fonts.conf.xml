@@ -63,10 +63,10 @@
         <font embed-url="fonts/GenBkBasB.ttf">
           <font-triplet name="GentiumPlus" style="normal" weight="bold"/>
         </font>
-        <font embed-url="fonts/ttf/DejaVuSansCondensed.ttf">
+        <font embed-url="fonts/DejaVuSansCondensed.ttf">
           <font-triplet name="DejaVu" style="normal" weight="normal"/>
         </font>
-        <font embed-url="fonts/ttf/DejaVuSansMono.ttf">
+        <font embed-url="fonts/DejaVuSansMono.ttf">
           <font-triplet name="DejaVu-mono" style="normal" weight="normal"/>
         </font>
       </fonts>
