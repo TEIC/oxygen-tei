@@ -19,7 +19,7 @@
     <delete file="${cfd}/${dest.file.basename}.fo"/>
     <java classname="net.sf.saxon.Transform">
       <arg value="-s:${cfd}/${dest.file.basename}-source.xml"/>
-      <arg value="-xsl:${transformations.base}/tei2pdf/to.xsl"/> 
+      <arg value="-xsl:${transformations.base}/pdf/to.xsl"/> 
       <arg value="-o:${cfd}/${dest.file.basename}.fo"/>
     </java>
   </target>
