@@ -46,7 +46,7 @@
           <xsl:apply-templates/>
         </att>
       </xsl:when>
-      <xsl:when test="matches(., '^&lt;[^>\s]+&gt;$')">
+      <xsl:when test="matches(., '^&lt;[^/>\s]+&gt;$')">
         <gi xmlns="http://www.tei-c.org/ns/1.0">
           <xsl:apply-templates/>
         </gi>
