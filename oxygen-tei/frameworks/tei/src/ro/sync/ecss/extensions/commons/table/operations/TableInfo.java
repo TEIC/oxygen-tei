@@ -50,10 +50,13 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.util.Map;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants.ColumnWidthsType;
+import ro.sync.util.TypedMaps;
 
 /**
  * Contains information about the table element 
@@ -227,6 +230,39 @@ public class TableInfo {
         this.rowsep = rowsep;
         this.colsep = colsep;
         this.align = align;
+  }
+  
+  
+  /**
+   * Constructs a table info from a map that contains the values of its 
+   * fields.
+   * 
+   * @param fieldValues The map that contains the values for the operation 
+   * fields.
+   */
+  public TableInfo(Map<String, Object> fieldValues) {
+    this.title = 
+        TypedMaps.getString(fieldValues, "title", "");
+    this.rowsNumber = 
+        TypedMaps.getInt(fieldValues, "rowsNumber", 3);
+    this.columnsNumber = 
+        TypedMaps.getInt(fieldValues, "columnsNumber", 2);
+    this.generateHeader = 
+        TypedMaps.getBoolean(fieldValues, "generateHeader", true);
+    this.generateFooter = 
+        TypedMaps.getBoolean(fieldValues, "generateFooter", false);
+    this.frame = 
+        TypedMaps.getString(fieldValues, "frame", null);
+    this.tableModel = 
+        TypedMaps.getInt(fieldValues, "tableModel", TABLE_MODEL_CUSTOM);
+    this.columnsWidthsType = ColumnWidthsType.valueOf(
+        TypedMaps.getString(fieldValues, "columnsWidthsType", null));
+    this.rowsep = 
+        TypedMaps.getString(fieldValues, "rowsep", null);
+    this.colsep = 
+        TypedMaps.getString(fieldValues, "colsep", null);
+    this.align = 
+        TypedMaps.getString(fieldValues, "align", null);
   }
 
   /**

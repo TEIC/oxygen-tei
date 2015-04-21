@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="16.1" xml:space="preserve">
+<serialized version="17.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -26,6 +26,7 @@
 							<String>${framework}/tei.jar</String>
 							<String>${framework}/resources/</String>
 							<String>${framework}/i18n/</String>
+							<String>${framework}/styleguide/</String>
 						</String-array>
 					</field>
 					<field name="parentClassLoaderID">
@@ -51,6 +52,9 @@
 							<field name="mergeCSSsFromDocument">
 								<Boolean>false</Boolean>
 							</field>
+							<field name="multipleAlternateSelectionEnabled">
+								<Boolean>false</Boolean>
+							</field>
 							<field name="actionDescriptors">
 								<action-array>
 									<action>
@@ -64,7 +68,7 @@
 											<String>${i18n(bold_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Bold20.png</String>
+											<String>/images/Bold24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Bold16.gif</String>
@@ -95,6 +99,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -107,7 +114,7 @@
 											<String>${i18n(italic_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Italic20.png</String>
+											<String>/images/Italic24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Italic16.png</String>
@@ -138,6 +145,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -150,7 +160,7 @@
 											<String>${i18n(underline_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Underline20.png</String>
+											<String>/images/Underline24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Underline16.gif</String>
@@ -181,6 +191,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -193,7 +206,7 @@
 											<String>${i18n(paragraph_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Paragraph20.png</String>
+											<String>/images/Paragraph24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Paragraph16.gif</String>
@@ -248,6 +261,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -260,7 +276,7 @@
 											<String>${i18n(item_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/ListItem20.gif</String>
+											<String>/images/ListItem24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/ListItem16.gif</String>
@@ -339,6 +355,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -351,7 +370,7 @@
 											<String>${i18n(ordered list_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/OrderedList20.gif</String>
+											<String>/images/OrderedList24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/OrderedList16.gif</String>
@@ -372,7 +391,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list rend="numbered">&lt;item/>&lt;/list>&lt;/item></String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
@@ -392,7 +411,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" rend="numbered">&lt;item/>&lt;/list></String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
 															</entry>
 														</serializableOrderedMap>
 													</field>
@@ -401,6 +420,9 @@
 													</field>
 												</actionMode>
 											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
 										</field>
 									</action>
 									<action>
@@ -414,10 +436,10 @@
 											<String>${i18n(itemizedlist_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/UnorderedList20.png</String>
+											<String>/images/UnorderedList24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/UnorderedList16.gif</String>
+											<String>/images/UnorderedList16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -435,7 +457,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list rend="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
+																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
 															</entry>
 															<entry>
 																<String>insertPosition</String>
@@ -455,7 +477,7 @@
 														<serializableOrderedMap>
 															<entry>
 																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" rend="bulleted">&lt;item/>&lt;/list></String>
+																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
 															</entry>
 														</serializableOrderedMap>
 													</field>
@@ -464,6 +486,9 @@
 													</field>
 												</actionMode>
 											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
 										</field>
 									</action>
 									<action>
@@ -477,10 +502,10 @@
 											<String>${i18n(insert.table_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Table20.gif</String>
+											<String>/images/Table24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Table16.gif</String>
+											<String>/images/Table16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -508,6 +533,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -520,7 +548,7 @@
 											<String>${i18n(insert.table.row.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableRow20.gif</String>
+											<String>/images/TableRow24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableRow16.gif</String>
@@ -579,6 +607,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -591,7 +622,7 @@
 											<String>${i18n(insert.table.cell_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableCell20.gif</String>
+											<String>/images/TableCell24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableCell16.gif</String>
@@ -646,6 +677,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -658,7 +692,7 @@
 											<String>${i18n(section_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Section20.png</String>
+											<String>/images/Section24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Section16.gif</String>
@@ -1201,6 +1235,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1213,7 +1250,7 @@
 											<String>${i18n(insert.image_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Image20.png</String>
+											<String>/images/Image24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Image16.gif</String>
@@ -1239,6 +1276,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1251,7 +1291,7 @@
 											<String>${i18n(insert.table.column.after_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableColumn20.gif</String>
+											<String>/images/TableColumn24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableColumn16.gif</String>
@@ -1282,6 +1322,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1294,7 +1337,7 @@
 											<String>${i18n(table.join.row.cells_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableJoinRowCells20.gif</String>
+											<String>/images/TableJoinRowCells24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableJoinRowCells16.gif</String>
@@ -1320,6 +1363,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1332,7 +1378,7 @@
 											<String>${i18n(table.split.left_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableSplitCellLeft20.gif</String>
+											<String>/images/TableSplitCellLeft24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableSplitCellLeft16.gif</String>
@@ -1363,6 +1409,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1375,7 +1424,7 @@
 											<String>${i18n(table.split.right_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableSplitCellRight20.gif</String>
+											<String>/images/TableSplitCellRight24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableSplitCellRight16.gif</String>
@@ -1406,6 +1455,9 @@
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1418,7 +1470,7 @@
 											<String>${i18n(table.join.cell.above_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableJoinCellUp20.gif</String>
+											<String>/images/TableJoinCellUp24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableJoinCellUp16.gif</String>
@@ -1450,6 +1502,9 @@ ancestor-or-self::*:row)</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1462,7 +1517,7 @@ ancestor-or-self::*:row)</String>
 											<String>${i18n(table.join.cell.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableJoinCellDown20.gif</String>
+											<String>/images/TableJoinCellDown24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableJoinCellDown16.gif</String>
@@ -1494,6 +1549,9 @@ ancestor-or-self::*:row)</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1506,7 +1564,7 @@ ancestor-or-self::*:row)</String>
 											<String>${i18n(table.split.below_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableSplitCellDown20.gif</String>
+											<String>/images/TableSplitCellDown24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableSplitCellDown16.gif</String>
@@ -1537,6 +1595,9 @@ ancestor-or-self::*:row)</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1549,7 +1610,7 @@ ancestor-or-self::*:row)</String>
 											<String>${i18n(table.split.above_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableSplitCellUp20.gif</String>
+											<String>/images/TableSplitCellUp24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableSplitCellUp16.gif</String>
@@ -1580,6 +1641,9 @@ ancestor-or-self::*:row)</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1592,7 +1656,7 @@ ancestor-or-self::*:row)</String>
 											<String>${i18n(delete.table.column_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/DeleteColumn20.gif</String>
+											<String>/images/DeleteColumn24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/DeleteColumn16.gif</String>
@@ -1619,6 +1683,9 @@ ancestor-or-self::*:row)</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1631,7 +1698,7 @@ ancestor-or-self::*:row)</String>
 											<String>${i18n(delete.table.row_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/DeleteRow20.gif</String>
+											<String>/images/DeleteRow24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/DeleteRow16.gif</String>
@@ -1657,6 +1724,9 @@ self::*:table][1][self::*:row]</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
 										</field>
 									</action>
 									<action>
@@ -1696,6 +1766,9 @@ self::*:table][1][self::*:row]</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>true</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1733,6 +1806,9 @@ self::*:table][1][self::*:row]</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
 										</field>
 									</action>
 									<action>
@@ -1777,6 +1853,9 @@ self::*:table][1][self::*:row]</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>true</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1789,7 +1868,7 @@ self::*:table][1][self::*:row]</String>
 											<String>${i18n(sort_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Sort20.png</String>
+											<String>/images/Sort24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Sort16.png</String>
@@ -1829,6 +1908,9 @@ ancestor-or-self::*:list</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1841,7 +1923,7 @@ ancestor-or-self::*:list</String>
 											<String>${i18n(sort_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/Sort20.png</String>
+											<String>/images/Sort24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/Sort16.png</String>
@@ -1869,6 +1951,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1881,7 +1966,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<String>${i18n(insert.table.row.above_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableRowAbove20.gif</String>
+											<String>/images/TableRowAbove24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableRowAbove16.gif</String>
@@ -1940,6 +2025,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 												</actionMode>
 											</actionMode-array>
 										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
 									</action>
 									<action>
 										<field name="id">
@@ -1952,7 +2040,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<String>${i18n(insert.table.column.before_description)}</String>
 										</field>
 										<field name="largeIconPath">
-											<String>/images/TableColumnBefore20.gif</String>
+											<String>/images/TableColumnBefore24.png</String>
 										</field>
 										<field name="smallIconPath">
 											<String>/images/TableColumnBefore16.gif</String>
@@ -1986,6 +2074,157 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.columns.custom</String>
+										</field>
+										<field name="name">
+											<String>${i18n(insert.table.columns.custom)}...</String>
+										</field>
+										<field name="description">
+											<String>${i18n(insert.table.columns.custom_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>customColumnInsertion</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertMultipleColumns</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>insert.table.rows.custom</String>
+										</field>
+										<field name="name">
+											<String>${i18n(insert.table.rows.custom)}...</String>
+										</field>
+										<field name="description">
+											<String>${i18n(insert.table.rows.custom_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>self::*:table</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>customRowInsertion</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertMultipleRows</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Inside as first child</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:row</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>customRowInsertion</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertLocation</String>
+																<String>ancestor-or-self::*:row[1]</String>
+															</entry>
+															<entry>
+																<String>insertMultipleRows</String>
+																<String>true</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>After</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
 										</field>
 									</action>
 								</action-array>
@@ -2043,7 +2282,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<String></String>
 												</field>
 												<field name="iconPath">
-													<String>/images/UnorderedList16.gif</String>
+													<String>/images/UnorderedList16.png</String>
 												</field>
 												<field name="menuEntriesDescriptorList">
 													<menuEntry-array>
@@ -2073,7 +2312,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<String></String>
 												</field>
 												<field name="iconPath">
-													<String>/images/Table16.gif</String>
+													<String>/images/Table16.png</String>
 												</field>
 												<field name="menuEntriesDescriptorList">
 													<menuEntry-array>
@@ -2095,6 +2334,11 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
+																<String>insert.table.rows.custom</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
 																<String>delete.table.row</String>
 															</field>
 														</menuItem>
@@ -2107,6 +2351,11 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.column.after</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.columns.custom</String>
 															</field>
 														</menuItem>
 														<menuItem>
@@ -2196,7 +2445,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<String></String>
 												</field>
 												<field name="iconPath">
-													<String>/images/Table16.gif</String>
+													<String>/images/Table16.png</String>
 												</field>
 												<field name="menuEntriesDescriptorList">
 													<menuEntry-array>
@@ -2208,6 +2457,11 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.row.below</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.rows.custom</String>
 															</field>
 														</menuItem>
 														<menuItem>
@@ -2224,6 +2478,11 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.column.after</String>
+															</field>
+														</menuItem>
+														<menuItem>
+															<field name="actionID">
+																<String>insert.table.columns.custom</String>
 															</field>
 														</menuItem>
 														<menuItem>
@@ -2443,7 +2702,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<Integer>3</Integer>
 												</field>
 												<field name="largeIconPath">
-													<String>/images/TableJoinSplit20.gif</String>
+													<String>/images/TableJoinSplit24.png</String>
 												</field>
 												<field name="smallIconPath">
 													<String>/images/TableJoinSplit16.gif</String>
@@ -2573,11 +2832,10 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 							<String>${framework}/xml/tei/custom/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/schema/catalog.xml</String>
 							<String>${framework}/xml/tei/stylesheet/catalog.xml</String>
-							<String>${framework}/styleguide/catalog.xml</String>
 						</String-array>
 					</field>
 					<field name="description">
-						<String>The Text Encoding Initiative (TEI) Guidelines are an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation. </String>
+						<String>The Text Encoding Initiative (TEI) Guidelines are an international and interdisciplinary standard that enables libraries, museums, publishers, and individual scholars to represent a variety of literary and linguistic texts for online research, teaching, and preservation.</String>
 					</field>
 					<field name="doctypeRules">
 						<documentTypeRule-array>
@@ -2811,9 +3069,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -2833,9 +3088,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -2857,9 +3109,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -2880,9 +3129,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -2902,9 +3148,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -2929,9 +3172,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
-								</field>
-								<field name="showConsoleAlways">
-									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -3060,9 +3300,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3082,9 +3319,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -3106,9 +3340,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3129,9 +3360,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3151,9 +3379,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -3178,9 +3403,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
-								</field>
-								<field name="showConsoleAlways">
-									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>
@@ -3309,9 +3531,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3331,9 +3550,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -3355,9 +3571,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3378,9 +3591,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<field name="type">
 												<Integer>5</Integer>
 											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
-											</field>
 											<field name="possibleValues">
 												<null/>
 											</field>
@@ -3400,9 +3610,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</field>
 											<field name="type">
 												<Integer>5</Integer>
-											</field>
-											<field name="isPredefined">
-												<Boolean>false</Boolean>
 											</field>
 											<field name="possibleValues">
 												<null/>
@@ -3427,9 +3634,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
-								</field>
-								<field name="showConsoleAlways">
-									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>

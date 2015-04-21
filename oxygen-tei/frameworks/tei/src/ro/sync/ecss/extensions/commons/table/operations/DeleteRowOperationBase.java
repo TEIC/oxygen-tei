@@ -59,9 +59,7 @@ import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.ecss.extensions.api.AuthorSelectionModel;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
-import ro.sync.ecss.extensions.api.SelectionInterpretationMode;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -116,8 +114,6 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
           }
         }
       } else {
-        AuthorSelectionModel selectionModel = authorAccess.getEditorAccess().getAuthorSelectionModel();
-        if (selectionModel.getSelectionInterpretationMode() == SelectionInterpretationMode.TABLE_ROW) {
           AuthorNode row = authorAccess.getEditorAccess().getFullySelectedNode();
           if (row != null && row instanceof AuthorElement && isTableElement(row, AuthorTableHelper.TYPE_ROW)) {
             // The row element to delete 
@@ -125,8 +121,7 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
             tableElem = getElementAncestor(
                 row,
                 AuthorTableHelper.TYPE_TABLE);
-          } 
-        } else {
+          } else {
           // Determine the node at caret.
           AuthorNode referenceNode = 
             authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset());
@@ -230,6 +225,7 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public final void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     performDeleteRows(authorAccess, -1, -1);
@@ -240,6 +236,7 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
    *  
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
   }
@@ -247,6 +244,7 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Delete the current table row.";
   }

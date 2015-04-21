@@ -56,6 +56,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.JoinRowCellsOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
@@ -69,6 +70,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
  * two table cells before calling this operation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class JoinRowCellsOperation extends JoinRowCellsOperationBase {
   
   /**

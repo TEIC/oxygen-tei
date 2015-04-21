@@ -59,12 +59,14 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * Surround with fragment operation. If selection exists the selected fragment is surrounded in a given fragment. If no selection exists,
  * the given fragment is simply inserted at the given position. In this case the insertion can be schema aware.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class SurroundWithFragmentOperation implements AuthorOperation {
   /**
    * The name of the fragment element.
@@ -101,6 +103,7 @@ public class SurroundWithFragmentOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     // Surround in element.
     Object argVal = args.getArgumentValue(ARGUMENT_NAME);
@@ -118,6 +121,7 @@ public class SurroundWithFragmentOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return ARGUMENTS;
   }
@@ -125,6 +129,7 @@ public class SurroundWithFragmentOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Surround the selected text with a document fragment. "
             + "If there is no selection the fragment will be inserted at the current position.";

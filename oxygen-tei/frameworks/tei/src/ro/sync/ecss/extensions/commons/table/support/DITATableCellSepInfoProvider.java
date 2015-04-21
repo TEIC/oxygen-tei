@@ -79,7 +79,7 @@ public class DITATableCellSepInfoProvider extends CALSTableCellInfoProvider{
   @Override
   public boolean getColSep(AuthorElement cellElement, int columnIndex) {
     boolean colsep = false;
-    if (containsClass(cellElement, "topic/stentry")) {
+    if (containsClass(cellElement, " topic/stentry ") || containsClass(cellElement, " map/relcell ") || containsClass(cellElement, " map/relcolspec ")) {
       colsep = true;
     } else {
       colsep = super.getColSep(cellElement, columnIndex);
@@ -95,7 +95,7 @@ public class DITATableCellSepInfoProvider extends CALSTableCellInfoProvider{
   @Override
   public boolean getRowSep(AuthorElement cellElement, int columnIndex) {
     boolean rowsep = false;
-    if (containsClass(cellElement, "topic/stentry")) {
+    if (containsClass(cellElement, " topic/stentry ")|| containsClass(cellElement, " map/relcell ") || containsClass(cellElement, " map/relcolspec ")) {
       rowsep = true;
     } else {
       rowsep = super.getRowSep(cellElement, columnIndex);
@@ -127,7 +127,7 @@ public class DITATableCellSepInfoProvider extends CALSTableCellInfoProvider{
    */
   @Override
   protected boolean isTableElement(AuthorElement element) {
-    return super.isTableElement(element) || containsClass(element, "topic/table");
+    return super.isTableElement(element) || containsClass(element, " topic/table ") || containsClass(element, " map/reltable ");
   }
   
   /**
@@ -135,6 +135,6 @@ public class DITATableCellSepInfoProvider extends CALSTableCellInfoProvider{
    */
   @Override
   protected boolean isTgroupElement(AuthorElement element) {
-    return super.isTgroupElement(element) || containsClass(element, "topic/tgroup");
+    return super.isTgroupElement(element) || containsClass(element, " topic/tgroup ");
   }
 }

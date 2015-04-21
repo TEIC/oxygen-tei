@@ -58,25 +58,49 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.ImageFileChooser;
 
 /**
  * Operation used to insert a TEI P5 graphic.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class InsertImageOperationP5 implements AuthorOperation {
+  /**
+   * The image URL argument.
+   * The value is <code>imageUrl</code>.
+   */
+  public static final String ARGUMENT_IMAGE_URL = "imageUrl";
   
+  /**
+   * The arguments of the operation.
+   */
+  private static final ArgumentDescriptor[] arguments = new ArgumentDescriptor[] {
+    new ArgumentDescriptor(
+        ARGUMENT_IMAGE_URL, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "The URL of the image. If not defined, an image chooser will be shown.")
+  };
+
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
-    String imageUrl = ImageFileChooser.chooseImageFile(authorAccess);
-    if(imageUrl != null) {
+    Object imageUrl = args.getArgumentValue(ARGUMENT_IMAGE_URL);
+    String ref = null;
+    if (imageUrl instanceof String) {
+      ref = ImageFileChooser.makeUrlRelative(authorAccess, (String) imageUrl);
+    } else {
+      ref = ImageFileChooser.chooseImageFile(authorAccess);
+    }
+    if(ref != null) {
       // Insert the graphic
       authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
           "<figure xmlns=\"http://www.tei-c.org/ns/1.0\">" +
-          "<graphic url=\"" + imageUrl + "\"/>" +
+          "<graphic url=\"" + ref + "\"/>" +
           "</figure>" ,
           authorAccess.getEditorAccess().getCaretOffset());
     }
@@ -87,13 +111,15 @@ public class InsertImageOperationP5 implements AuthorOperation {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
-    return null;
+    return arguments;
   }
 
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Insert a TEI P5 image";
   }

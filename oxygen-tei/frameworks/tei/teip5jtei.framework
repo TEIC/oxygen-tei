@@ -64,10 +64,10 @@
                       <String>generate review version (ODT)</String>
                     </field>
                     <field name="largeIconPath">
-                      <String>${framework}/xml/tei/jtei_aux/images/odt_large.png</String>
+                      <String>${framework}/xml/tei/jtei_aux_files/images/odt_large.png</String>
                     </field>
                     <field name="smallIconPath">
-                      <String>${framework}/xml/tei/jtei_aux/images/odt_small.png</String>
+                      <String>${framework}/xml/tei/jtei_aux_files/images/odt_small.png</String>
                     </field>
                     <field name="accessKey">
                       <String/>
@@ -86,49 +86,6 @@
                               <entry>
                                 <String>scenarioNames</String>
                                 <String>jTEI ODT</String>
-                              </entry>
-                            </serializableOrderedMap>
-                          </field>
-                          <field name="operationID">
-                            <String>ro.sync.ecss.extensions.commons.operations.ExecuteTransformationScenariosOperation</String>
-                          </field>
-                        </actionMode>
-                      </actionMode-array>
-                    </field>
-                  </action>
-                  <action>
-                    <field name="id">
-                      <String>jtei2pdf</String>
-                    </field>
-                    <field name="name">
-                      <String>generate PDF</String>
-                    </field>
-                    <field name="description">
-                      <String>generate PDF version</String>
-                    </field>
-                    <field name="largeIconPath">
-                      <String>${framework}/xml/tei/jtei_aux/images/pdficon_large.png</String>
-                    </field>
-                    <field name="smallIconPath">
-                      <String>${framework}/xml/tei/jtei_aux/images/pdficon_small.png</String>
-                    </field>
-                    <field name="accessKey">
-                      <String/>
-                    </field>
-                    <field name="accelerator">
-                      <null/>
-                    </field>
-                    <field name="actionModes">
-                      <actionMode-array>
-                        <actionMode>
-                          <field name="xpathCondition">
-                            <String>true()</String>
-                          </field>
-                          <field name="argValues">
-                            <serializableOrderedMap>
-                              <entry>
-                                <String>scenarioNames</String>
-                                <String>jTEI PDF</String>
                               </entry>
                             </serializableOrderedMap>
                           </field>
@@ -159,11 +116,6 @@
                           <String>jtei2odt</String>
                         </field>
                       </menuItem>
-                      <menuItem>
-                        <field name="actionID">
-                          <String>jtei2pdf</String>
-                        </field>
-                      </menuItem>
                     </menuEntry-array>
                   </field>
                 </menu>
@@ -184,11 +136,6 @@
                       <menuItem>
                         <field name="actionID">
                           <String>jtei2odt</String>
-                        </field>
-                      </menuItem>
-                      <menuItem>
-                        <field name="actionID">
-                          <String>jtei2pdf</String>
                         </field>
                       </menuItem>
                     </menuEntry-array>
@@ -214,11 +161,6 @@
                       <toolbarItem>
                         <field name="actionID">
                           <String>jtei2odt</String>
-                        </field>
-                      </toolbarItem>
-                      <toolbarItem>
-                        <field name="actionID">
-                          <String>jtei2pdf</String>
                         </field>
                       </toolbarItem>
                     </toolbarEntry-array>
@@ -390,7 +332,7 @@
 												<String>Path where the output ODT file will be saved.</String>
 											</field>
 											<field name="value">
-												<String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.odt</String>
+												<String>${cfd}/${cfn}.odt</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -526,7 +468,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.odt</String>
+									<String>${cfd}/${cfn}.odt</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -573,239 +515,6 @@
 									</String-array>
 								</field>
 							</antScenario>
-              <antScenario>
-                <field name="additionalAntArgs">
-                  <String></String>
-                </field>
-                <field name="buildTarget">
-                  <String>transform-pdf</String>
-                </field>
-                <field name="buildFilePath">
-                  <String>${frameworkDir}/xml/tei/jtei_aux/trans/pdf/jtei-pdf.xml</String>
-                </field>
-                <field name="ditaParams">
-                  <list>
-                    <antParameter>
-                      <field name="name">
-                        <String>cfd</String>
-                      </field>
-                      <field name="description">
-                        <String></String>
-                      </field>
-                      <field name="value">
-                        <String>${cfd}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>cfn</String>
-                      </field>
-                      <field name="description">
-                        <String></String>
-                      </field>
-                      <field name="value">
-                        <String>${cfn}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-
-                    <antParameter>
-                      <field name="name">
-                        <String>dest.file.basename</String>
-                      </field>
-                      <field name="description">
-                        <String>base file name of the arcticle (everything before "-source.xml")</String>
-                      </field>
-                      <field name="value">
-                        <String>${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                    <antParameter>
-                      <field name="name">
-                        <String>transformations.base</String>
-                      </field>
-                      <field name="description">
-                        <String></String>
-                      </field>
-                      <field name="value">
-                        <String>${framework}/xml/tei/stylesheet/profiles/jtei</String>
-                      </field>
-                      <field name="defaultValue">
-                        <null/>
-                      </field>
-                      <field name="type">
-                        <Integer>5</Integer>
-                      </field>
-                      <field name="isPredefined">
-                        <Boolean>false</Boolean>
-                      </field>
-                      <field name="possibleValues">
-                        <null/>
-                      </field>
-                    </antParameter>
-                  </list>
-                </field>
-                <field name="jvmArgs">
-                  <String>-Xmx256m</String>
-                </field>
-                <field name="useCustomJavaHome">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="customJavaHomeDir">
-                  <String></String>
-                </field>
-                <field name="useCustomANTHome">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="customANTHomeDir">
-                  <String></String>
-                </field>
-                <field name="workingDir">
-                  <String>${cfd}</String>
-                </field>
-                <field name="showConsoleAlways">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="advancedOptionsMap">
-                  <null/>
-                </field>
-                <field name="name">
-                  <String>jTEI PDF</String>
-                </field>
-                <field name="baseURL">
-                  <null/>
-                </field>
-                <field name="footerURL">
-                  <null/>
-                </field>
-                <field name="fOPMethod">
-                  <null/>
-                </field>
-                <field name="fOProcessorName">
-                  <null/>
-                </field>
-                <field name="headerURL">
-                  <null/>
-                </field>
-                <field name="inputXSLURL">
-                  <null/>
-                </field>
-                <field name="inputXMLURL">
-                  <null/>
-                </field>
-                <field name="defaultScenario">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="isFOPPerforming">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="type">
-                  <String>ANT</String>
-                </field>
-                <field name="saveAs">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="openInBrowser">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="outputFile">
-                  <null/>
-                </field>
-                <field name="outputResource">
-                  <null/>
-                </field>
-                <field name="openOtherLocationInBrowser">
-                  <Boolean>true</Boolean>
-                </field>
-                <field name="locationToOpenInBrowserURL">
-                  <String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.pdf</String>
-                </field>
-                <field name="openInEditor">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInHTMLPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInXMLPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInSVGPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="showInResultSetPane">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="useXSLTInput">
-                  <Boolean>false</Boolean>
-                </field>
-                <field name="xsltParams">
-                  <list/>
-                </field>
-                <field name="cascadingStylesheets">
-                  <String-array/>
-                </field>
-                <field name="xslTransformer">
-                  <String>ANT</String>
-                </field>
-                <field name="extensionURLs">
-                  <String-array>
-                    <String>${oxygenHome}/classes/</String>
-                    <String>${oxygenHome}/lib/oxygen.jar</String>
-                    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-                    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-                    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-                    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-                    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-                    <String>${oxygenHome}/lib/resolver.jar</String>
-                    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-                    <String>${oxygenHome}/lib/saxon9ee.jar</String>
-                    <String>${oxygenHome}/lib/saxon.jar</String>
-                    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-                    <String>${oxygenHome}/lib/log4j.jar</String>
-                    <String>${oxygenHome}/lib/fop.jar</String>
-                    <String>${oxygenHome}/lib/batik-all-1.7.jar</String>
-                    <String>${oxygenHome}/lib/commons-logging-1.1.3.jar</String>
-                    <String>${oxygenHome}/lib/xmlgraphics-commons-1.5.jar</String>
-                    <String>${oxygenHome}/lib/commons-io-1.3.1.jar</String>
-                    <String>${oxygenHome}/lib/avalon-framework-4.2.0.jar</String>
-                  </String-array>
-                </field>
-              </antScenario>
             </scenario-array>
           </field>
           <field name="validationScenarios">
@@ -876,7 +585,6 @@
           <field name="defaultTransformationScenarios">
             <list>
               <String>jTEI ODT</String>
-              <String>jTEI PDF</String>
             </list>
           </field>
           <field name="extensionsBundleClassName">

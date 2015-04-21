@@ -4,6 +4,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * Provides an operation to convert the text from a selection into upper case text.
@@ -11,6 +12,7 @@ import ro.sync.ecss.extensions.api.ArgumentDescriptor;
  * @author Costi Vetezi
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class ToUpperCaseOperation extends SelectedTextOperation {
   /**
    * Processes the selected text and makes it uppercase.
@@ -31,6 +33,7 @@ public class ToUpperCaseOperation extends SelectedTextOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Replaces the selection with uppercase letters.";
   }

@@ -66,6 +66,7 @@ import ro.sync.ecss.extensions.api.AuthorDocumentType;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorWorkspaceAccess;
 import ro.sync.ecss.extensions.commons.CannotEditException;
 import ro.sync.ecss.images.ImageHandlerDispatcher;
@@ -75,6 +76,7 @@ import ro.sync.ecss.images.xmlimages.XMLImageHandler;
  * Operation used to insert an MathML Equation in any documents.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class InsertEquationOperation implements AuthorOperation {
   /**
    * Logger for logging. 
@@ -95,8 +97,8 @@ public class InsertEquationOperation implements AuthorOperation {
   /**
    * The MathML fragment representing the default equation.
    */
-  protected static final String MATH_ML = 
-      "<mml:math xmlns:mml='http://www.w3.org/1998/Math/MathML'>" + 
+  public static final String MATH_ML = 
+      "<mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\">" + 
 //      "<mml:mrow>" + 
 //      "<mml:msup><mml:mi>a</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
 //      "<mml:mo>=</mml:mo>" +

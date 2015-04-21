@@ -207,7 +207,7 @@ public abstract class CALSShowTableProperties extends CALSAndHTMLShowTableProper
       }
       // Obtain the column span indices for a cell
       int[] tableColSpanIndices = authorAccess.getTableAccess().getTableColSpanIndices(cells.get(i));
-      for (int j = 0; j < tableColSpanIndices.length; j++) {
+      for (int j = 0; tableColSpanIndices != null && j < tableColSpanIndices.length; j++) {
         // Add all indices
         set.add(tableColSpanIndices[j] + 1);
       }

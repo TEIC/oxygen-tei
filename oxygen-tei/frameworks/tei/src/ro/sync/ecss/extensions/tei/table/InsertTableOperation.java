@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
+import java.util.Map;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -59,16 +61,20 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
+import ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * The operation used to insert a TEI table. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
   
   /**
@@ -81,12 +87,14 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * Arguments.
    */
   private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
-    new ArgumentDescriptor(ARGUMENT_NAME, ArgumentDescriptor.TYPE_STRING, "The table namespace")
+    new ArgumentDescriptor(ARGUMENT_NAME, ArgumentDescriptor.TYPE_STRING, "The table namespace"),
+    AbstractTableOperation.TABLE_INFO_ARGUMENT_DESCRIPTOR
   };
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     Object defaultNamespaceObj =  args.getArgumentValue(ARGUMENT_NAME);
@@ -94,7 +102,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     if (defaultNamespaceObj != null && defaultNamespaceObj instanceof String) {
       namespace = (String) defaultNamespaceObj;
     }
-    insertTable(null, false, authorAccess, namespace, null);
+    Object tableInfoObj = args.getArgumentValue(
+        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
+    TableInfo tableInfo = tableInfoObj != null ? 
+        new TableInfo((Map<String, Object>) tableInfoObj) : null; 
+    insertTable(null, false, authorAccess, namespace, null, tableInfo);
   }
 
   /**
@@ -178,6 +190,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return ARGUMENTS;
   }
@@ -185,31 +198,35 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Insert a TEI table";
   }
 
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper, ro.sync.ecss.extensions.commons.table.operations.TableInfo)
    */
   @Override
   public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
-      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper)
+      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
+      TableInfo tableInfo)
       throws AuthorOperationException {
-    int rowsCount = 0;
-    int columnsCount = 0;
-    if (fragments != null) {
-      rowsCount = fragments.length;
-      columnsCount = 1;
-    }
-    // Show the 'Insert table' dialog
-    TableInfo tableInfo = null;
-    if(authorAccess.getWorkspaceAccess().isStandalone()) {
-      tableInfo = SATEITableCustomizer.getInstance().customizeTable(
-          authorAccess, rowsCount, columnsCount);
-    } else {
-      tableInfo = ECTEITableCustomizer.getInstance().customizeTable(
-          authorAccess, rowsCount, columnsCount);
+    if (tableInfo == null) {
+      int rowsCount = 0;
+      int columnsCount = 0;
+      if (fragments != null) {
+        rowsCount = fragments.length;
+        columnsCount = 1;
+      }
+      // Show the 'Insert table' dialog
+      Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+      if(Platform.STANDALONE.equals(platform)) {
+        tableInfo = SATEITableCustomizer.getInstance().customizeTable(
+            authorAccess, rowsCount, columnsCount);
+      } else if (Platform.ECLIPSE.equals(platform)) {
+        tableInfo = ECTEITableCustomizer.getInstance().customizeTable(
+            authorAccess, rowsCount, columnsCount);
+      }
     }
     if (tableInfo != null) {
       // Create the table XML fragment

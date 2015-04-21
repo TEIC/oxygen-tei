@@ -4,6 +4,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * Provides an operation to convert the text from a selection into lower case text.
@@ -11,6 +12,7 @@ import ro.sync.ecss.extensions.api.ArgumentDescriptor;
  * @author Costi Vetezi
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class ToLowerCaseOperation extends SelectedTextOperation {
   /**
    * Processes text and makes it lower cased.
@@ -31,7 +33,8 @@ public class ToLowerCaseOperation extends SelectedTextOperation {
 	/**
 	 * @see ro.sync.ecss.extensions.api.Extension#getDescription()
 	 */
-	public String getDescription() {
+	@Override
+  public String getDescription() {
 		return "Replaces the selection with lowercase letters.";
 	}
 }

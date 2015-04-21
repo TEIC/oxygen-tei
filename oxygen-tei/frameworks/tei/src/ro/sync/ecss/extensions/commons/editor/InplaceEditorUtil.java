@@ -51,7 +51,6 @@
 package ro.sync.ecss.extensions.commons.editor;
 
 import java.awt.FontMetrics;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -67,8 +66,8 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.editor.AuthorInplaceContext;
 import ro.sync.ecss.extensions.api.editor.InplaceEditorArgumentKeys;
-import ro.sync.ecss.extensions.api.editor.InplaceEditorCSSConstants;
 import ro.sync.exml.view.graphics.Dimension;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Utility methods for preparing the in-place editors for being displayed.
@@ -89,20 +88,6 @@ public class InplaceEditorUtil {
    * @return The preferred size for the given context. 
    */
   public static Dimension getPreferredSize(JPanel panel, AuthorInplaceContext context) {
-    return getPreferredSize(panel, context, panel.getFont().getSize());
-  }
-  
-  /**
-   * Computes the preferred size for the panel.
-   * 
-   * @param panel A panel used as an editor. 
-   * @param context In-place editing context.
-   * @param fontSize The font size to use for expanding font related values of 
-   * {@link InplaceEditorCSSConstants#PROPERTY_WIDTH}.
-   * 
-   * @return The preferred size for the given context. 
-   */
-  public static Dimension getPreferredSize(JPanel panel, AuthorInplaceContext context, int fontSize) {
     final java.awt.Dimension preferredSize = panel.getPreferredSize();
 
     int width = preferredSize.width;
@@ -110,7 +95,7 @@ public class InplaceEditorUtil {
     // First check the WIDTH property.
     int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
         context.getArguments(), 
-        fontSize);
+        context.getStyles().getFont().getSize());
     if (imposedWidth != -1) {
       width = imposedWidth;
     } else {
@@ -139,7 +124,7 @@ public class InplaceEditorUtil {
     // First check the WIDTH property.
     int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
         context.getArguments(), 
-        comboBox.getFont().getSize());
+        context.getStyles().getFont().getSize());
     if (imposedWidth != -1) {
       width = imposedWidth;
     } else {
@@ -170,7 +155,7 @@ public class InplaceEditorUtil {
     // First check the WIDTH property.
     int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
         context.getArguments(), 
-        textField.getFont().getSize());
+        context.getStyles().getFont().getSize());
     if (imposedWidth != -1) {
       width = imposedWidth;
     } else {
@@ -231,7 +216,8 @@ public class InplaceEditorUtil {
     boolean isSA = true;
     if (context.getAuthorAccess() != null 
         && context.getAuthorAccess().getWorkspaceAccess() != null) {
-      isSA = context.getAuthorAccess().getWorkspaceAccess().isStandalone();
+      isSA = Platform.STANDALONE.equals(
+          context.getAuthorAccess().getWorkspaceAccess().getPlatform());
     }
     // This renderer is sometimes used from SWT.
     Runnable runnable = new Runnable() {
@@ -252,20 +238,19 @@ public class InplaceEditorUtil {
         }
       }
     };
-    try {
+
       if (isSA
           // When the renderer is invoked for Eclipse the current thread will 
           // be the SWT thread. We needed it on the AWT thread.
           || SwingUtilities.isEventDispatchThread()) {
         runnable.run();
       } else {
-        SwingUtilities.invokeAndWait(runnable);
+        // Using invokeSynchronously on Mac, runtime-workbench, causes 
+        // the main thread to enter a deadlock with AWT.
+        // AWT waits for a cursor in a layout validate.
+        //
+        SwingUtilities.invokeLater(runnable);
       }
-    } catch (InvocationTargetException ex) {
-      logger.error(ex,ex);
-      logger.error(ex.getCause(), ex.getCause());
-    } catch (InterruptedException e) {
-      logger.debug(e, e);
-    }
+
   }
 }

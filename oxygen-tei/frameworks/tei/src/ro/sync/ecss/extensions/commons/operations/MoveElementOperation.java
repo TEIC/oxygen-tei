@@ -64,6 +64,7 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AuthorNodeUtil;
@@ -75,6 +76,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNodeUtil;
  * @author alex_jitianu
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class MoveElementOperation implements AuthorOperation {
   
   /**

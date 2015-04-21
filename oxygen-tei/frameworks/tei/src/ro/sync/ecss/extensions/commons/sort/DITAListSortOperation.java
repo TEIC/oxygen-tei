@@ -60,6 +60,7 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -69,6 +70,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  * DITA list sort operation implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class DITAListSortOperation extends SortOperation {
   
   /**
@@ -91,7 +93,9 @@ public class DITAListSortOperation extends SortOperation {
         if (selectedNode != null && selectedNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
           AttrValue classAttr = ((AuthorElement)selectedNode).getAttribute("class");
           if (classAttr != null && (classAttr.getValue().contains(" topic/ol ") || 
-              classAttr.getValue().contains(" topic/ul "))) {
+              classAttr.getValue().contains(" topic/ul ") ||
+              classAttr.getValue().contains(" topic/sl ") ||
+              classAttr.getValue().contains(" topic/dl "))) {
           return (AuthorElement) selectedNode;
           }
         }
@@ -105,7 +109,9 @@ public class DITAListSortOperation extends SortOperation {
           // Check if ul or ol
           AttrValue classAttr = ((AuthorElement)parentElement).getAttribute("class");
           if (classAttr != null && (classAttr.getValue().contains(" topic/ol ") || 
-              classAttr.getValue().contains(" topic/ul "))) {
+              classAttr.getValue().contains(" topic/ul ") ||
+              classAttr.getValue().contains(" topic/sl ") ||
+              classAttr.getValue().contains(" topic/dl "))) {
             return (AuthorElement) parentElement;
           }
         } 
@@ -146,10 +152,12 @@ public class DITAListSortOperation extends SortOperation {
     String[] values = null;
     if (node instanceof AuthorElement && criterionInfo.length > 0) {
       values = new String[1];
-      // li element ?
+      // li element
       AuthorElement authorElement = (AuthorElement)node;
       AttrValue classAttr = authorElement.getAttribute("class");
-      if(classAttr != null && classAttr.getValue().contains(" topic/li ")) {
+      if(classAttr != null && (classAttr.getValue().contains(" topic/li ") ||
+          classAttr.getValue().contains(" topic/sli ") ||
+          classAttr.getValue().contains(" topic/dlentry "))) {
         values[0] = getTextContentToSort(node);
       }
     }

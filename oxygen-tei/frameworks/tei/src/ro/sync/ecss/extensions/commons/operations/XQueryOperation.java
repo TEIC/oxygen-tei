@@ -58,6 +58,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
 
 /**
@@ -65,6 +66,7 @@ import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
  * the result of the XQuery transformation, or inserting the result in the document.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class XQueryOperation extends TransformOperation {
   
   /**

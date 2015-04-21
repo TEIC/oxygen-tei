@@ -54,6 +54,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 
 /**
@@ -77,6 +78,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
  * The paragraph is now red.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class SetPseudoClassOperation extends PseudoClassOperation {
   
   /**

@@ -1,7 +1,7 @@
 /*
- *  The Syncro Soft SRL License
+ *  The Syncro Soft SRL License 
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -63,22 +63,23 @@ import ro.sync.ecss.extensions.tei.id.TEIP5IDTypeRecognizer;
 import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
 
 /**
- * The TEI P5 framework extensions bundle.
- */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+* The TEI P5 framework extensions bundle.
+*/
+@API(type = APIType.INTERNAL, src = SourceType.PUBLIC)
 public class TEI_jteiExtensionsBundle extends TEIExtensionsBundleBase {
   /**
-   * Table operations handler
-   */
+  * Table operations handler
+  */
   private TEIAuthorTableOperationsHandler tableOperationsHandler;
+
   /**
-   * Unique attrs recognizer
-   */
+  * Unique attrs recognizer
+  */
   private TEIP5UniqueAttributesRecognizer uniqueAttributesRecognizer;
 
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createAuthorExtensionStateListener()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createAuthorExtensionStateListener()
+  */
   @Override
   public AuthorExtensionStateListener createAuthorExtensionStateListener() {
     uniqueAttributesRecognizer = new TEIP5UniqueAttributesRecognizer();
@@ -86,70 +87,69 @@ public class TEI_jteiExtensionsBundle extends TEIExtensionsBundleBase {
   }
 
   /**
-   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
-   */
+  * @see ro.sync.ecss.extensions.api.Extension#getDescription()
+  */
   @Override
   public String getDescription() {
     return "TEI jTEI extensions bundle implementation";
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getDocumentTypeID()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getDocumentTypeID()
+  */
   @Override
   public String getDocumentTypeID() {
     return "TEI.jtei.document.type";
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getUniqueAttributesIdentifier()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getUniqueAttributesIdentifier()
+  */
   @Override
   public UniqueAttributesRecognizer getUniqueAttributesIdentifier() {
     return uniqueAttributesRecognizer;
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getClipboardFragmentProcessor()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getClipboardFragmentProcessor()
+  */
   @Override
   public ClipboardFragmentProcessor getClipboardFragmentProcessor() {
     return uniqueAttributesRecognizer;
   }
 
   /**
-   * @see ro.sync.ecss.extensions.tei.TEIExtensionsBundleBase#getDocumentNamespace()
-   */
+  * @see ro.sync.ecss.extensions.tei.TEIExtensionsBundleBase#getDocumentNamespace()
+  */
   @Override
   protected String getDocumentNamespace() {
     return "http://www.tei-c.org/ns/1.0";
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createExternalObjectInsertionHandler()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createExternalObjectInsertionHandler()
+  */
   @Override
   public AuthorExternalObjectInsertionHandler createExternalObjectInsertionHandler() {
     return new TEI_jteiExternalObjectInsertionHandler();
   };
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorTableOperationsHandler()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorTableOperationsHandler()
+  */
   @Override
   public AuthorTableOperationsHandler getAuthorTableOperationsHandler() {
     if (tableOperationsHandler == null) {
-      tableOperationsHandler  = new TEIAuthorTableOperationsHandler(getDocumentNamespace());
+      tableOperationsHandler = new TEIAuthorTableOperationsHandler(getDocumentNamespace());
     }
     return tableOperationsHandler;
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createIDTypeRecognizer()
-   */
+  * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createIDTypeRecognizer()
+  */
   @Override
   public IDTypeRecognizer createIDTypeRecognizer() {
     return new TEIP5IDTypeRecognizer();
   }
-
 }

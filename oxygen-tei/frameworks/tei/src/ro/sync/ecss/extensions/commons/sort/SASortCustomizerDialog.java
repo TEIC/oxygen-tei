@@ -227,7 +227,7 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
     }
 
     // Add the sort criteria section.
-    addSection(constr, authorResourceBundle.getMessage(ExtensionTags.CRITERION));
+    addSection(constr, authorResourceBundle.getMessage(ExtensionTags.CRITERIA));
     
     constr.gridx = 0;
     constr.gridy ++;

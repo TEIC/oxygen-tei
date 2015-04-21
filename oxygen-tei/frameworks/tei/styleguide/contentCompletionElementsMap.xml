@@ -1,4 +1,9 @@
-<contentCompletionElementsMap htmlContentFilterStylesheet="contentFilter.xsl">
+<contentCompletionElementsMap 
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.oxygenxml.com/ns/ccfilter/annotations http://www.oxygenxml.com/ns/ccfilter/annotations/ccAnnotationsSchemaFilter.xsd"
+     xmlns="http://www.oxygenxml.com/ns/ccfilter/annotations"
+    redirectURLPrefix="http://www.oxygenxml.com/redirect-url.php?url="
+    htmlContentFilterStylesheet="contentFilter.xsl">
     <mappingGroup xml:base="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/">
         <mapping elementName="ab" path="ref-ab.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="abbr" path="ref-abbr.html" type="link" linkText="TEI Guidelines"/>

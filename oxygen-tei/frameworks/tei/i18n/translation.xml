@@ -7,13 +7,109 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="Criteria">
+        <comment>Name of a section in the Sort dialog.</comment>
+        <val lang="en_US">Criteria</val>
+        <val lang="de_DE">Criteria</val>
+        <val lang="fr_FR">Critères</val>
+        <val lang="ja_JP">Criteria</val>
+        <val lang="nl_NL">Criteria</val>
+    </key>
+<key value="Before">
+        <comment>"Before" label.</comment>
+        <val lang="en_US">Before</val>
+        <val lang="de_DE">Vor</val>
+        <val lang="fr_FR">Avant</val>
+        <val lang="ja_JP">前</val>
+        <val lang="nl_NL">Voor</val>
+    </key>
+<key value="After">
+        <comment>"After" label.</comment>
+        <val lang="en_US">After</val>
+        <val lang="de_DE">Nach</val>
+        <val lang="fr_FR">Après</val>
+        <val lang="ja_JP">後</val>
+        <val lang="nl_NL">Na</val>
+    </key>
+<key value="Above">
+        <comment>"Above" label.</comment>
+        <val lang="en_US">Above</val>
+        <val lang="de_DE">Darüber</val>
+        <val lang="fr_FR">Au-dessus</val>
+        <val lang="ja_JP">上</val>
+        <val lang="nl_NL">Boven</val>
+    </key>
+<key value="Below">
+        <comment>"Below" label.</comment>
+        <val lang="en_US">Below</val>
+        <val lang="de_DE">Darunter</val>
+        <val lang="fr_FR">En dessous</val>
+        <val lang="ja_JP">下</val>
+        <val lang="nl_NL">Onder</val>
+    </key>
+<key value="Position">
+        <comment>"Position" label.</comment>
+        <val lang="en_US">Position</val>
+        <val lang="de_DE">Position</val>
+        <val lang="fr_FR">Position</val>
+        <val lang="ja_JP">位置</val>
+        <val lang="nl_NL">Positie</val>
+    </key>
+<key value="Number_of_rows">
+        <comment>"Number of rows" label.</comment>
+        <val lang="en_US">Number of rows</val>
+        <val lang="de_DE">Anzahl der Reihen</val>
+        <val lang="fr_FR">Nombre de lignes</val>
+        <val lang="ja_JP">行数</val>
+        <val lang="nl_NL">Aantal rijen</val>
+    </key>
+<key value="Number_of_columns">
+        <comment>"Number of columns" label.</comment>
+        <val lang="en_US">Number of columns</val>
+        <val lang="de_DE">Anzahl der Spalten</val>
+        <val lang="fr_FR">Nombre de colonnes</val>
+        <val lang="ja_JP">列数</val>
+        <val lang="nl_NL">Aantal kolommen</val>
+    </key>
+<key type="action" value="insert.table.rows.custom">
+        <comment>The name of the user-configurable action regarding table row insertion.</comment>
+        <val lang="en_US">Insert Rows</val>
+        <val lang="de_DE">Reihen einfügen</val>
+        <val lang="fr_FR">Insérer des lignes</val>
+        <val lang="ja_JP">行を挿入します</val>
+        <val lang="nl_NL">Rijen invoegen</val>
+    </key>
+<key type="action" value="insert.table.columns.custom">
+        <comment>The name of the user-configurable action regarding table column insertion.</comment>
+        <val lang="en_US">Insert Columns</val>
+        <val lang="de_DE">Spalten einfügen</val>
+        <val lang="fr_FR">Insérer des colonnes</val>
+        <val lang="ja_JP">列を挿入します</val>
+        <val lang="nl_NL">Kolommen invoegen</val>
+    </key>
+<key type="action" value="insert.table.rows.custom_description">
+        <comment>The description of the user-configurable action regarding table row insertion.</comment>
+        <val lang="en_US">Insert one or more table rows below or above the current row.</val>
+        <val lang="de_DE">Eine oder mehrere Tabellenreihen unter- oder oberhalb der aktuellen Reihe einfügen.</val>
+        <val lang="fr_FR">Insérer une ou plusieurs lignes en dessous ou au-dessus de la ligne courante.</val>
+        <val lang="ja_JP">現在の行の上または下に一つ以上のテーブル行を挿入します。</val>
+        <val lang="nl_NL">Voeg één of meer tabelrijen in onder of boven de huidige rij.</val>
+    </key>
+<key type="action" value="insert.table.columns.custom_description">
+        <comment>The description of the user-configurable action regarding table column insertion.</comment>
+        <val lang="en_US">Insert one or more table columns before or after the current column.</val>
+        <val lang="de_DE">Eine oder mehrere Tabellenspalten vor oder nach der aktuellen Spalte einfügen.</val>
+        <val lang="fr_FR">Insérer une ou plusieurs colonnes avant ou après la colonne courante.</val>
+        <val lang="ja_JP">現在の列の前または後ろに一つ以上のテーブル列を挿入します。</val>
+        <val lang="nl_NL">Voeg één of meer tabelkolommen in voor of na de huidige kolom.</val>
+    </key>
 <key type="action" value="Insert">
         <comment>Name for 'OK' buttons from an insertion dialog.</comment>
         <val lang="en_US">Insert</val>
-        <val lang="de_DE">Insert</val>
-        <val lang="fr_FR">Insert</val>
-        <val lang="ja_JP">Insert</val>
-        <val lang="nl_NL">Insert</val>
+        <val lang="de_DE">Einfügen</val>
+        <val lang="fr_FR">Insérer</val>
+        <val lang="ja_JP">挿入</val>
+        <val lang="nl_NL">Invoegen</val>
     </key>
 <key value="Alignment">
         <comment>Name for the alignment table attribute.</comment>
@@ -27,7 +123,7 @@
         <comment>Show table properties action description.</comment>
         <val lang="en_US">Action that allows to edit the properties for a table.</val>
         <val lang="de_DE">Aktion, die es erlaubt, die Eigenschaften einer Tabelle zu bearbeiten.</val>
-        <val lang="fr_FR">Action permettant de modifier les propriétés d'une table.</val>
+        <val lang="fr_FR">Action permettant de modifier les propriétés d'un tableau.</val>
         <val lang="ja_JP">テーブルのプロパティを編集することを可能にするアクション。</val>
         <val lang="nl_NL">Actie die het mogelijk maakt om de eigenschappen van een tabel te bewerken.</val>
     </key>
@@ -35,7 +131,7 @@
         <comment>Insert Column action name.</comment>
         <val lang="en_US">Insert Column</val>
         <val lang="de_DE">Spalte einfügen</val>
-        <val lang="fr_FR">Insérer Colonne</val>
+        <val lang="fr_FR">Insérer une colonne</val>
         <val lang="ja_JP">列の挿入</val>
         <val lang="nl_NL">Voeg kolom in</val>
     </key>
@@ -43,7 +139,7 @@
         <comment>Insert row above action name.</comment>
         <val lang="en_US">Insert Row Above</val>
         <val lang="de_DE">Zeile oberhalb einfügen</val>
-        <val lang="fr_FR">Insérer rangée dessus</val>
+        <val lang="fr_FR">Insérer une ligne au-dessus</val>
         <val lang="ja_JP">上に行を挿入する</val>
         <val lang="nl_NL">Rij boven invoegen</val>
     </key>
@@ -51,7 +147,7 @@
         <comment>Insert Row above action description.</comment>
         <val lang="en_US">Insert a new table row above the current row</val>
         <val lang="de_DE">Eine Tabellenzeile über der aktuellen Zeile einfügen</val>
-        <val lang="fr_FR">Insérez une nouvelle rangée de table au-dessus de la rangée actuelle</val>
+        <val lang="fr_FR">Insérer une nouvelle ligne au tableau au-dessus de la ligne actuelle</val>
         <val lang="ja_JP">現在の行の上に新しいテーブル行を挿入する</val>
         <val lang="nl_NL">Voeg een nieuwe tabelrij in boven de huidige rij</val>
     </key>
@@ -59,7 +155,7 @@
         <comment>Insert row below action name.</comment>
         <val lang="en_US">Insert Row Below</val>
         <val lang="de_DE">Zeile unterhalb einfügen</val>
-        <val lang="fr_FR">Insérer rangée dessous</val>
+        <val lang="fr_FR">Insérer une ligne en dessous</val>
         <val lang="ja_JP">下に行を挿入する</val>
         <val lang="nl_NL">Rij onder invoegen</val>
     </key>
@@ -67,7 +163,7 @@
         <comment>Insert row below action description.</comment>
         <val lang="en_US">Insert a new table row below the current row</val>
         <val lang="de_DE">Eine Tabellenzeile unter der aktuellen Zeile einfügen</val>
-        <val lang="fr_FR">Insérez une nouvelle rangée de table sous la rangée actuelle</val>
+        <val lang="fr_FR">Insérer une nouvelle ligne au tableau en dessous de la ligne actuelle</val>
         <val lang="ja_JP">現在の行の下に新しいテーブル行を挿入する</val>
         <val lang="nl_NL">Voeg een nieuwe tabelrij in onder de huidige rij</val>
     </key>
@@ -75,7 +171,7 @@
         <comment>Insert column after action name.</comment>
         <val lang="en_US">Insert Column After</val>
         <val lang="de_DE">Spalte rechts einfügen</val>
-        <val lang="fr_FR">Insérer colonne après</val>
+        <val lang="fr_FR">Insérer une colonne après</val>
         <val lang="ja_JP">後に列を挿入する</val>
         <val lang="nl_NL">Kolom rechts invoegen</val>
     </key>
@@ -83,7 +179,7 @@
         <comment>Insert column after action description.</comment>
         <val lang="en_US">Insert a new table column after the current column</val>
         <val lang="de_DE">Eine Tabellenspalte rechts neben der aktuellen Spalte einfügen</val>
-        <val lang="fr_FR">Insérez une nouvelle colonne de table après la colonne actuelle</val>
+        <val lang="fr_FR">Insérer une nouvelle colonne au tableau après la colonne actuelle</val>
         <val lang="ja_JP">現在の列の後に新しいテーブル列を挿入する</val>
         <val lang="nl_NL">Voeg een nieuwe tabelkolom rechts van de huidige kolom in</val>
     </key>
@@ -91,7 +187,7 @@
         <comment>Insert column before action name.</comment>
         <val lang="en_US">Insert Column Before</val>
         <val lang="de_DE">Spalte links einfügen</val>
-        <val lang="fr_FR">Insérer colonne avant</val>
+        <val lang="fr_FR">Insérer une colonne avant</val>
         <val lang="ja_JP">前に列を挿入する</val>
         <val lang="nl_NL">Kolom links invoegen</val>
     </key>
@@ -99,7 +195,7 @@
         <comment>Insert Column Before action description.</comment>
         <val lang="en_US">Insert a new table column before the current column</val>
         <val lang="de_DE">Eine Tabellenspalte links neben der aktuellen Spalte einfügen</val>
-        <val lang="fr_FR">Insérez une nouvelle colonne de table avant la colonne actuelle</val>
+        <val lang="fr_FR">Insérer une nouvelle colonne au tableau avant la colonne actuelle</val>
         <val lang="ja_JP">現在の列の前に新しいテーブル列を挿入する</val>
         <val lang="nl_NL">Voeg een nieuwe tabelkolom links van de huidige kolom in</val>
     </key>
@@ -107,7 +203,7 @@
         <comment>An action that toggles the visibility of the column specification elements from a table (the name of the element is "colspec"). </comment>
         <val lang="en_US">colspecs...</val>
         <val lang="de_DE">Spalteneinstellungen...</val>
-        <val lang="fr_FR">spécscol...</val>
+        <val lang="fr_FR">Paramètres de colonne...</val>
         <val lang="ja_JP">列指定要...</val>
         <val lang="nl_NL">kolomspecificaties...</val>
     </key>
@@ -115,17 +211,9 @@
         <comment>The description of the action that toggles the visibility of the column specification elements from a table.</comment>
         <val lang="en_US">Toggles on/off the visibility of the column specification elements from the table.</val>
         <val lang="de_DE">Element für die Spalteneinstellungen der Tabelle ein-/ausblenden</val>
-        <val lang="fr_FR">Affiche/Masque les éléments de spécification de la colonne de la table.</val>
+        <val lang="fr_FR">Affiche/Masque les éléments de spécification de la colonne du tableau.</val>
         <val lang="ja_JP">テーブルの列指定要素の可視性のオン/オフを切り替えます。</val>
         <val lang="nl_NL">Schakelt het tonen van de kolomspecificatie-elementen in de tabel in en uit.</val>
-    </key>
-<key type="action" value="Criterion">
-        <comment>Name of a section in the Sort dialog.</comment>
-        <val lang="en_US">Criterion</val>
-        <val lang="de_DE">Criterion</val>
-        <val lang="fr_FR">Critère</val>
-        <val lang="ja_JP">基準</val>
-        <val lang="nl_NL">Criterium</val>
     </key>
 <key type="action" value="Range">
         <comment>Name of a section in the Sort dialog.</comment>
@@ -147,7 +235,7 @@
         <comment>String used for criterion name.</comment>
         <val lang="en_US">List item</val>
         <val lang="de_DE">Listenobjekt</val>
-        <val lang="fr_FR">Élément de liste</val>
+        <val lang="fr_FR">Élément de la liste</val>
         <val lang="ja_JP">リスト項目</val>
         <val lang="nl_NL">Lijstitem</val>
     </key>
@@ -155,7 +243,7 @@
         <comment>String used for Sort dialog for a radio button.</comment>
         <val lang="en_US">All rows</val>
         <val lang="de_DE">Alle Zeilen</val>
-        <val lang="fr_FR">Toutes rangées</val>
+        <val lang="fr_FR">Toutes les lignes</val>
         <val lang="ja_JP">すべての行</val>
         <val lang="nl_NL">Alle rijen</val>
     </key>
@@ -163,7 +251,7 @@
         <comment>String used for Sort dialog for a radio button.</comment>
         <val lang="en_US">Selected rows</val>
         <val lang="de_DE">Ausgewählte Zeilen</val>
-        <val lang="fr_FR">Rangées sélectionnées</val>
+        <val lang="fr_FR">Lignes sélectionnées</val>
         <val lang="ja_JP">選択された行</val>
         <val lang="nl_NL">Geselecteerde rijen</val>
     </key>
@@ -171,7 +259,7 @@
         <comment>String used for Sort dialog for a radio button.</comment>
         <val lang="en_US">All items</val>
         <val lang="de_DE">Alle Objekte</val>
-        <val lang="fr_FR">Tous éléments</val>
+        <val lang="fr_FR">Tous les éléments</val>
         <val lang="ja_JP">すべての項目</val>
         <val lang="nl_NL">Alle items</val>
     </key>
@@ -195,7 +283,7 @@
         <comment>Tooltip for type combo box in the Sort table action dialog.</comment>
         <val lang="en_US">Select the type of the information which will be sorted. It is one of: Text, Numeric, Date.</val>
         <val lang="de_DE">Wählen Sie den Informationstyp, der sortiert werden soll. Es ist einer von diesen: Text, numerisch, Datum.</val>
-        <val lang="fr_FR">Sélectionnez le type d'information à trier. L'un des suivants : Texte, Numérique, Date.</val>
+        <val lang="fr_FR">Sélectionnez le type d'information à trier parmi l'un des suivants: Texte, Numérique, Date.</val>
         <val lang="ja_JP">ソートされる情報の種類を選択します。テキスト、数値、日付のどれか1つです。</val>
         <val lang="nl_NL">Selecteer het type informatie dat wordt gesorteerd. U kunt kiezen uit: Tekst, Numeriek, Datum.</val>
     </key>
@@ -211,7 +299,7 @@
         <comment>Sort table action description.</comment>
         <val lang="en_US">Sort the current table.</val>
         <val lang="de_DE">Aktuelle Tabelle sortieren.</val>
-        <val lang="fr_FR">Triez la table actuelle.</val>
+        <val lang="fr_FR">Triez le tableau courant.</val>
         <val lang="ja_JP">現在のテーブルをソートします。</val>
         <val lang="nl_NL">Sorteer de huidige tabel.</val>
     </key>
@@ -227,7 +315,7 @@
         <comment>Sort list action description.</comment>
         <val lang="en_US">Sort the table cells/list items.</val>
         <val lang="de_DE">Tabellenzellen/Listenobjekte sortieren.</val>
-        <val lang="fr_FR">Triez les cellules de tableau /éléments de liste.</val>
+        <val lang="fr_FR">Triez les cellules du tableau /éléments de la liste.</val>
         <val lang="ja_JP">テーブルのセル/リスト項目をソートします。</val>
         <val lang="nl_NL">Sorteer de tabelcellen/lijstitems.</val>
     </key>
@@ -243,7 +331,7 @@
         <comment>Sort table action name.</comment>
         <val lang="en_US">Sort Table...</val>
         <val lang="de_DE">Tabelle sortieren...</val>
-        <val lang="fr_FR">Trier Table...</val>
+        <val lang="fr_FR">Trier le tableau...</val>
         <val lang="ja_JP">テーブルのソート...</val>
         <val lang="nl_NL">Tabel sorteren...</val>
     </key>
@@ -251,7 +339,7 @@
         <comment>Sort list action name.</comment>
         <val lang="en_US">Sort List...</val>
         <val lang="de_DE">Liste sortieren...</val>
-        <val lang="fr_FR">Trier Liste...</val>
+        <val lang="fr_FR">Trier la liste...</val>
         <val lang="ja_JP">リストのソート...</val>
         <val lang="nl_NL">Lijst sorteren...</val>
     </key>
@@ -347,7 +435,7 @@
         <comment>'Remove IDs when copying content in the same document' button text.</comment>
         <val lang="en_US">Remove IDs when copying content in the same document</val>
         <val lang="de_DE">Beim Kopieren von Inhalt in demselben Dokument IDs entfernen.</val>
-        <val lang="fr_FR">Retirer les ID pour copier le contenu dans le même document.</val>
+        <val lang="fr_FR">Retirer les ID pour copier le contenu dans le même document</val>
         <val lang="ja_JP">同じ文書内の内容をコピーするときには、IDを削除する</val>
         <val lang="nl_NL">Verwijder ID's bij het kopiëren van inhoud binnen hetzelfde document</val>
     </key>
@@ -355,7 +443,7 @@
         <comment>Auto generate IDs for elements button text.</comment>
         <val lang="en_US">Auto generate IDs for elements</val>
         <val lang="de_DE">Automatisches Erzeugen von IDs für Elemente</val>
-        <val lang="fr_FR">Autogénérer des ID pour les éléments</val>
+        <val lang="fr_FR">Générer automatiquement des ID pour les éléments</val>
         <val lang="ja_JP">要素の自動生成ID</val>
         <val lang="nl_NL">Genereer automatisch ID's voor elementen</val>
     </key>
@@ -363,7 +451,7 @@
         <comment>Table Join/Split action group title.</comment>
         <val lang="en_US">Table Join/Split</val>
         <val lang="de_DE">Verbinden/Teilen Tabelle</val>
-        <val lang="fr_FR">Joindre/Ceindre Table</val>
+        <val lang="fr_FR">Fusionner/Fractionner le tableau</val>
         <val lang="ja_JP">テーブルの結合/分割</val>
         <val lang="nl_NL">Tabel samenvoegen/splitsen</val>
     </key>
@@ -403,7 +491,8 @@
             (there are cells that span over it or there are rows with missing cells). What do you want to do?</val>
         <val lang="de_DE">Die neue Spalte kann für manche Zeilen keine Zellen einfügen
             (es existieren Zellen, die diese umfasen oder Spalten mit fehlenden Zellen). Was möchten Sie tun?</val>
-        <val lang="fr_FR">Pour certaines lignes la nouvelle colonne ne peut pas recevoir une nouvelle cellule (il y a des cellules qui s'étendent sur elle ou il y a des lignes avec des cellules manquantes). Que voulez-vous faire ?</val>
+        <val lang="fr_FR">Pour certaines lignes la nouvelle colonne ne peut avoir de cellules 
+        	(il y a des cellules qui s'étendent sur celle-ci ou il y a des lignes avec des cellules manquantes). Que voulez-vous faire ?</val>
         <val lang="ja_JP">いくつかの行では、セルに新しい列を追加できません (複数のセルにまたがっているか
       セルがない行があります)。 どうしますか?</val>
         <val lang="nl_NL">Voor sommige rijen kan de nieuwe kolom geen cel toevoegen (er zijn cellen die de rij overspannen of er zijn rijen met onbrekende cellen). Wat wilt u doen?</val>
@@ -436,7 +525,7 @@
         <comment>Insert Paragraph action name.</comment>
         <val lang="en_US">Insert Paragraph</val>
         <val lang="de_DE">Paragraph einfügen</val>
-        <val lang="fr_FR">Insérer Paragraphe</val>
+        <val lang="fr_FR">Insérer un paragraphe</val>
         <val lang="ja_JP">段落の挿入</val>
         <val lang="nl_NL">Voeg paragraaf in</val>
     </key>
@@ -444,7 +533,7 @@
         <comment>Insert Paragraph action description.</comment>
         <val lang="en_US">Insert a new paragraph</val>
         <val lang="de_DE">Einen neuen Dokumentaionsparagraph einfügen</val>
-        <val lang="fr_FR">Insérer un nouveau paragraphe de documentation</val>
+        <val lang="fr_FR">Insérer un nouveau paragraphe</val>
         <val lang="ja_JP">新しい文書パラグラフを挿入</val>
         <val lang="nl_NL">Voeg een nieuwe paragraaf in</val>
     </key>
@@ -452,7 +541,7 @@
         <comment>Insert Table action name.</comment>
         <val lang="en_US">Insert Table...</val>
         <val lang="de_DE">Tabelle einfügen...</val>
-        <val lang="fr_FR">Insérer Table...</val>
+        <val lang="fr_FR">Insérer un tableau...</val>
         <val lang="ja_JP">テーブルの挿入...</val>
         <val lang="nl_NL">Voeg tabel in...</val>
     </key>
@@ -460,7 +549,7 @@
         <comment>Insert Table action description.</comment>
         <val lang="en_US">Insert Table</val>
         <val lang="de_DE">Tabelle einfügen</val>
-        <val lang="fr_FR">Insérer Table</val>
+        <val lang="fr_FR">Insérer un tableau</val>
         <val lang="ja_JP">テーブルの挿入</val>
         <val lang="nl_NL">Voeg tabel in</val>
     </key>
@@ -468,7 +557,7 @@
         <comment>Insert Image action name.</comment>
         <val lang="en_US">Insert Image...</val>
         <val lang="de_DE">Grafik einfügen...</val>
-        <val lang="fr_FR">Insérer Image...</val>
+        <val lang="fr_FR">Insérer une image...</val>
         <val lang="ja_JP">画像の挿入...</val>
         <val lang="nl_NL">Voeg afbeelding in...</val>
     </key>
@@ -476,7 +565,7 @@
         <comment>Insert Image action description.</comment>
         <val lang="en_US">Insert Image Reference</val>
         <val lang="de_DE">Grafikreferenz einfügen</val>
-        <val lang="fr_FR">Insert Image Reference</val>
+        <val lang="fr_FR">Insérer une référence d'image</val>
         <val lang="ja_JP">画像参照の挿入</val>
         <val lang="nl_NL">Voeg afbeeldingreferentie in</val>
     </key>
@@ -484,7 +573,7 @@
         <comment>Join Row Cells action name.</comment>
         <val lang="en_US">Join Row Cells</val>
         <val lang="de_DE">Zeilenzellen verbinden</val>
-        <val lang="fr_FR">Joindre Cellules de Rangée</val>
+        <val lang="fr_FR">Fusionner les cellules de la ligne</val>
         <val lang="ja_JP">行セルの結合</val>
         <val lang="nl_NL">Voeg rijcellen samen</val>
     </key>
@@ -494,7 +583,8 @@
             the selected cells are from the same row and they have the same column span.</val>
         <val lang="de_DE">Zelleninhalt der ausgewählten Zellen verbinden.
             Der Vorgang ist nur möglich, wenn die ausgewählten Zellen in derselben Zeile sind und denselben Spaltenumfang haben.</val>
-        <val lang="fr_FR">Joindre le contenu des cellules sélectionnées. L'opération n'est disponible que si les cellules sélectionnées sont de la même ligne et ont la même portée de colonne.</val>
+        <val lang="fr_FR">Fusionner le contenu des cellules sélectionnées. L'opération n'est disponible que si 
+        	les cellules sélectionnées sont sur la même ligne et ont la même étendue de colonne.</val>
         <val lang="ja_JP">選択されたセルの内容を結合。 この操作は、選択されたセルが同じ行からで
       それらが同じ列幅を持っている場合のみ利用可能です。</val>
         <val lang="nl_NL">Voeg de inhoud van de geselecteerde cellen samen. Deze bewerking is alleen beschikbaar als de geselecteerde cellen van dezelfde rij zijn en evenveel kolommen overspannen.</val>
@@ -503,7 +593,7 @@
         <comment>Split Cell To The Left action name.</comment>
         <val lang="en_US">Split Cell To The Left</val>
         <val lang="de_DE">Zelle nach links aufteilen</val>
-        <val lang="fr_FR">Scinder Cellule Vers la Gauche</val>
+        <val lang="fr_FR">Fractionner la cellule à gauche</val>
         <val lang="ja_JP">左にセルの分割</val>
         <val lang="nl_NL">Splits cel aan linkerkant</val>
     </key>
@@ -511,7 +601,7 @@
         <comment>Split Cell To The Left action description.</comment>
         <val lang="en_US">Split the content of a table cell that spans over multiple columns</val>
         <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Spalten umfasst</val>
-        <val lang="fr_FR">Ceindre le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
+        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
         <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
         <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere kolommen overspant</val>
     </key>
@@ -519,7 +609,7 @@
         <comment>Split Cell To The Right action name.</comment>
         <val lang="en_US">Split Cell To The Right</val>
         <val lang="de_DE">Zelle nach rechts aufteilen</val>
-        <val lang="fr_FR">Scinder Cellule Vers la Droite</val>
+        <val lang="fr_FR">Fractionner la cellule à droite</val>
         <val lang="ja_JP">右にセルを分割</val>
         <val lang="nl_NL">Splits cel aan rechterkant</val>
     </key>
@@ -527,7 +617,7 @@
         <comment>Split Cell To The Right action description.</comment>
         <val lang="en_US">Split the content of a table cell that spans over multiple columns</val>
         <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Spalten umfasst</val>
-        <val lang="fr_FR">Ceindre le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
+        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
         <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
         <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere kolommen overspant</val>
     </key>
@@ -535,7 +625,7 @@
         <comment>Join Cell Above action name.</comment>
         <val lang="en_US">Join Cell Above</val>
         <val lang="de_DE">Mit Zelle darüber verbinden</val>
-        <val lang="fr_FR">Joindre Cellule de Dessus</val>
+        <val lang="fr_FR">Fusionner avec la cellule du dessus</val>
         <val lang="ja_JP">上のセルと結合</val>
         <val lang="nl_NL">Voeg samen met bovenliggende cel</val>
     </key>
@@ -546,7 +636,8 @@
             column span.</val>
         <val lang="de_DE">Zelleninhalt der ausgewählten Zelle mit dem der Zelle darüber verbinden.
             Der Vorgang ist nur möglich, wenn es eine Zelle darüber gibt und diese denselben Spaltenumfang hat.</val>
-        <val lang="fr_FR">Joindre le contenu de la cellule sélectionnée avec le contenu de la cellule au-dessus. L'opération est disponible seulement si il y a une cellule au-dessus et que les deux cellules ont la même portée de colonne.</val>
+        <val lang="fr_FR">Fusionner le contenu de la cellule sélectionnée avec le contenu de la cellule au-dessus. 
+        	L'opération est disponible seulement si il y a une cellule au-dessus et que les deux cellules ont la même étendue de colonne.</val>
         <val lang="ja_JP">選択されたセルの内容と上のセルの内容を結合。 この操作は、両方のセルが同じ列幅
       を持っている場合のみ利用可能です。</val>
         <val lang="nl_NL">Voeg de inhoud van de geselecteerde cel samen met de inhoud van de cel erboven. De bewerking is alleen beschikbaar als er een cel boven bestaat en beide cellen dezelfde kolommen overspannen.</val>
@@ -555,7 +646,7 @@
         <comment>Join Cell Below action name.</comment>
         <val lang="en_US">Join Cell Below</val>
         <val lang="de_DE">Mit Zelle darunter verbinden</val>
-        <val lang="fr_FR">Joindre Cellule en Dessous</val>
+        <val lang="fr_FR">Fusionner avec la cellule du dessous</val>
         <val lang="ja_JP">下とセルを結合</val>
         <val lang="nl_NL">Voeg samen met onderliggende cel</val>
     </key>
@@ -566,7 +657,8 @@
             column span.</val>
         <val lang="de_DE">Zelleninhalt der ausgewählten Zelle mit dem der Zelle darunter verbinden.
             Der Vorgang ist nur möglich, wenn es eine Zelle darunter gibt und diese denselben Spaltenumfang hat.</val>
-        <val lang="fr_FR">Joindre le contenu de la cellule sélectionnée avec le contenu de la cellule en-dessous. L'opération est disponible seulement si il y a une cellule en-dessous et que les deux cellules ont la même portée de colonne.</val>
+        <val lang="fr_FR">Fusionner le contenu de la cellule sélectionnée avec le contenu de la cellule en-dessous. 
+        	L'opération est disponible seulement si il y a une cellule en-dessous et que les deux cellules ont la même étendue de colonne.</val>
         <val lang="ja_JP">選択されたセルの内容と下のセルの内容を結合。 この操作は、両方のセルが同じ列幅
       を持っている場合のみ利用可能です。</val>
         <val lang="nl_NL">Voeg de inhoud van de geselecteerde cel samen met de inhoud van de cel eronder. De bewerking is alleen beschikbaar als er een cel onder bestaat en beide cellen dezelfde kolommen overspannen.</val>
@@ -575,7 +667,7 @@
         <comment>Split Cell Below action name.</comment>
         <val lang="en_US">Split Cell Below</val>
         <val lang="de_DE">Zelle unten teilen</val>
-        <val lang="fr_FR">Ceindre Cellule en Dessous</val>
+        <val lang="fr_FR">Fractionner la cellule vers le bas</val>
         <val lang="ja_JP">下にセルの分割</val>
         <val lang="nl_NL">Splits cel aan onderkant</val>
     </key>
@@ -583,7 +675,7 @@
         <comment>Split Cell Below action description.</comment>
         <val lang="en_US">Split the content of a table cell that spans over multiple rows</val>
         <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Zeilen umfasst</val>
-        <val lang="fr_FR">Ceindre le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
+        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
         <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
         <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere rijen overspant</val>
     </key>
@@ -591,7 +683,7 @@
         <comment>Split Cell Above action name.</comment>
         <val lang="en_US">Split Cell Above</val>
         <val lang="de_DE">Zelle oben teilen</val>
-        <val lang="fr_FR">Ceindre Cellule au Dessus</val>
+        <val lang="fr_FR">Fractionner la cellule vers le haut</val>
         <val lang="ja_JP">上にセルを分割</val>
         <val lang="nl_NL">Splits cel aan bovenkant</val>
     </key>
@@ -599,7 +691,7 @@
         <comment>Split Cell Above action description.</comment>
         <val lang="en_US">Split the content of a table cell that spans over multiple rows</val>
         <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Zeilen umfasst</val>
-        <val lang="fr_FR">Ceindre le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
+        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
         <val lang="ja_JP">複数の行にわたってまたがるテーブルセルの内容を分割</val>
         <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere rijen overspant</val>
     </key>
@@ -607,7 +699,7 @@
         <comment>Delete Column action name.</comment>
         <val lang="en_US">Delete Column</val>
         <val lang="de_DE">Spalte löschen</val>
-        <val lang="fr_FR">Effacer Colonne</val>
+        <val lang="fr_FR">Effacer une colonne</val>
         <val lang="ja_JP">列の削除</val>
         <val lang="nl_NL">Verwijder kolom</val>
     </key>
@@ -615,7 +707,7 @@
         <comment>Delete Column action description.</comment>
         <val lang="en_US">Delete a table column</val>
         <val lang="de_DE">Eine Tabellenspalte löschen</val>
-        <val lang="fr_FR">Effacer Colonne de Table</val>
+        <val lang="fr_FR">Supprimer une colonne du tableau</val>
         <val lang="ja_JP">テーブル列の削除</val>
         <val lang="nl_NL">Verwijder een tabelkolom</val>
     </key>
@@ -623,7 +715,7 @@
         <comment>Delete Row action name.</comment>
         <val lang="en_US">Delete Row</val>
         <val lang="de_DE">Zeile löschen</val>
-        <val lang="fr_FR">Effacer Rangée</val>
+        <val lang="fr_FR">Effacer une ligne</val>
         <val lang="ja_JP">行の削除 Row</val>
         <val lang="nl_NL">Verwijder rij</val>
     </key>
@@ -631,7 +723,7 @@
         <comment>Delete Row action description.</comment>
         <val lang="en_US">Delete a table row</val>
         <val lang="de_DE">Eine Tabellenzeile löschen</val>
-        <val lang="fr_FR">Effacer Rangée de Table</val>
+        <val lang="fr_FR">Supprimer une ligne du tableau</val>
         <val lang="ja_JP">テーブル行の削除</val>
         <val lang="nl_NL">Verwijder een tabelrij</val>
     </key>
@@ -639,7 +731,7 @@
         <comment>Bold action description.</comment>
         <val lang="en_US">Highlight text. Insert the hi[rend="bold"] element.</val>
         <val lang="de_DE">Ausgewählten Text fett machen</val>
-        <val lang="fr_FR">Graisser le texte de documentation sélectionné</val>
+        <val lang="fr_FR">Mettre en gras le texte sélectionné</val>
         <val lang="ja_JP">選択された文書のテキストをボールドに</val>
         <val lang="nl_NL">Voeg het element 'b' in</val>
     </key>
@@ -647,7 +739,7 @@
         <comment>Italic action description.</comment>
         <val lang="en_US">Highlight text. Insert the hi[rend="italic"] element.</val>
         <val lang="de_DE">Ausgewählten Text kursiv machen</val>
-        <val lang="fr_FR">Mettre en italique le texte de documentation sélectionné</val>
+        <val lang="fr_FR">Mettre en italique le texte sélectionné</val>
         <val lang="ja_JP">選択された文書のテキストをイタリックに</val>
         <val lang="nl_NL">Voeg het element 'i' in</val>
     </key>
@@ -655,7 +747,7 @@
         <comment>Underline action description.</comment>
         <val lang="en_US">Highlight text. Insert the hi[rend="ul"] element.</val>
         <val lang="de_DE">Fügt das 'u' Element ein</val>
-        <val lang="fr_FR">Insérer l'élément 'u'</val>
+        <val lang="fr_FR">Souligner le texte sélectionné</val>
         <val lang="ja_JP">'u' 要素の挿入</val>
         <val lang="nl_NL">Voegt het element 'u' in</val>
     </key>
@@ -663,7 +755,7 @@
         <comment>Insert List Item action name.</comment>
         <val lang="en_US">Insert List Item</val>
         <val lang="de_DE">Listeneintrag einfügen</val>
-        <val lang="fr_FR">Insérer un Êlément de Liste</val>
+        <val lang="fr_FR">Insérer un élément de liste</val>
         <val lang="ja_JP">リスト項目の挿入</val>
         <val lang="nl_NL">Voeg lijstwaarde in</val>
     </key>
@@ -671,7 +763,7 @@
         <comment>Insert List Item action description.</comment>
         <val lang="en_US">Insert a list item</val>
         <val lang="de_DE">Einen Listeneintrag einfügen</val>
-        <val lang="fr_FR">Insérer un Êlément de Liste</val>
+        <val lang="fr_FR">Insérer un élément de liste</val>
         <val lang="ja_JP">リスト項目の挿入</val>
         <val lang="nl_NL">Voeg een lijstwaarde in</val>
     </key>
@@ -679,7 +771,7 @@
         <comment>Insert Ordered List action name.</comment>
         <val lang="en_US">Insert Ordered List</val>
         <val lang="de_DE">Geordnete Liste einfügen</val>
-        <val lang="fr_FR">Insérer une Liste Triée</val>
+        <val lang="fr_FR">Insérer une liste triée</val>
         <val lang="ja_JP">順序付けリストの挿入</val>
         <val lang="nl_NL">Voeg geordende lijst in</val>
     </key>
@@ -687,7 +779,7 @@
         <comment>Insert Ordered List action description.</comment>
         <val lang="en_US">Insert an ordered list at the caret position</val>
         <val lang="de_DE">Eine geordnete Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérer une Liste Triée à la position du curseur</val>
+        <val lang="fr_FR">Insérer une liste triée à la position du curseur</val>
         <val lang="ja_JP">キャレット位置に順序付けリストの挿入</val>
         <val lang="nl_NL">Voeg een geordende lijst in op de cursorpositie</val>
     </key>
@@ -695,7 +787,7 @@
         <comment>Insert Itemized List action name.</comment>
         <val lang="en_US">Insert Itemized List</val>
         <val lang="de_DE">Spezifizierte Liste einfügen</val>
-        <val lang="fr_FR">Insérez Liste Détaillée</val>
+        <val lang="fr_FR">Insérer une liste détaillée</val>
         <val lang="ja_JP">箇条書きリストの挿入</val>
         <val lang="nl_NL">Voeg een niet-geordende lijst in</val>
     </key>
@@ -703,7 +795,7 @@
         <comment>Insert Itemized List action description.</comment>
         <val lang="en_US">Insert an itemized list at the caret position</val>
         <val lang="de_DE">Eine spezifizierte Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérez Liste Détaillée à la position du curseur</val>
+        <val lang="fr_FR">Insérer une liste détaillée à la position du curseur</val>
         <val lang="ja_JP">キャレット位置に箇条書きリストの挿入</val>
         <val lang="nl_NL">Voeg een niet-geordende lijst in op de cursorpositie</val>
     </key>
@@ -711,7 +803,7 @@
         <comment>Insert Cell action name.</comment>
         <val lang="en_US">Insert Cell</val>
         <val lang="de_DE">Zelle einfügen</val>
-        <val lang="fr_FR">Insérez Cellule</val>
+        <val lang="fr_FR">Insérer une cellule</val>
         <val lang="ja_JP">セルの挿入</val>
         <val lang="nl_NL">Voeg cel in</val>
     </key>
@@ -719,7 +811,7 @@
         <comment>Insert Cell action description.</comment>
         <val lang="en_US">Insert a table cell</val>
         <val lang="de_DE">Tabellenzelle einfügen</val>
-        <val lang="fr_FR">Insérez une cellule</val>
+        <val lang="fr_FR">Insérer une cellule</val>
         <val lang="ja_JP">テーブルセルの挿入</val>
         <val lang="nl_NL">Voeg een tabelcel in</val>
     </key>
@@ -727,7 +819,7 @@
         <comment>Insert Section action name.</comment>
         <val lang="en_US">Insert Section</val>
         <val lang="de_DE">Abschnitt einfügen</val>
-        <val lang="fr_FR">Insérez Section</val>
+        <val lang="fr_FR">Insérer une section</val>
         <val lang="ja_JP">セクションの挿入</val>
         <val lang="nl_NL">Voeg sectie in</val>
     </key>
@@ -735,7 +827,7 @@
         <comment>Insert Section action description.</comment>
         <val lang="en_US">Insert a new section/subsection in the document</val>
         <val lang="de_DE">Einen neuen Abschnitt/Unterabschnitt im Dokument einfügen</val>
-        <val lang="fr_FR">Insérer une nouvelle section / sous-section dans le document</val>
+        <val lang="fr_FR">Insérer une nouvelle section/sous-section dans le document</val>
         <val lang="ja_JP">文書に新しいセクション/サブセクションの挿入</val>
         <val lang="nl_NL">Voeg een nieuwe sectie/subsectie in, in het document</val>
     </key>
@@ -743,7 +835,7 @@
         <comment>ID Options... action name.</comment>
         <val lang="en_US">ID Options...</val>
         <val lang="de_DE">ID-Optionen...</val>
-        <val lang="fr_FR">Options pour ID...</val>
+        <val lang="fr_FR">Options de l'ID...</val>
         <val lang="ja_JP">ID Options...</val>
         <val lang="nl_NL">ID-opties...</val>
     </key>
@@ -775,7 +867,7 @@
         <comment>Browse reference manual... action name.</comment>
         <val lang="en_US">Browse reference manual...</val>
         <val lang="de_DE">Durchsuche Referenzhandbuch...</val>
-        <val lang="fr_FR">Parcourir manuel de référence...</val>
+        <val lang="fr_FR">Parcourir le manuel de référence...</val>
         <val lang="ja_JP">リファレンスマニュアルの参照...</val>
         <val lang="nl_NL">Blader door referentiehandleiding...</val>
     </key>
@@ -791,7 +883,7 @@
         <comment>Browse reference manual... action name.</comment>
         <val lang="en_US">Browse reference manual...</val>
         <val lang="de_DE">Durchsuche Referenzhandbuch...</val>
-        <val lang="fr_FR">Parcourir manuel de référence...</val>
+        <val lang="fr_FR">Parcourir le manuel de référence...</val>
         <val lang="ja_JP">リファレンスマニュアルの参照...</val>
         <val lang="nl_NL">Blader door referentiehandleiding...</val>
     </key>
@@ -799,7 +891,7 @@
         <comment>Browse reference manual... action description.</comment>
         <val lang="en_US">Shows the current element documentation in TEI P4 reference manual</val>
         <val lang="de_DE">Zeigt die aktuelle Elementdokumentation im TEI P4-Referenzhandbuch</val>
-        <val lang="fr_FR">Affiche la documentation de l'élément courant dans le manuel de référence TEI P$</val>
+        <val lang="fr_FR">Affiche la documentation de l'élément courant dans le manuel de référence TEI P4</val>
         <val lang="ja_JP">TEI P4 リファレンスマニュアルで現在の要素のドキュメントの表示</val>
         <val lang="nl_NL">Toont de documentatie voor het huidige element in de TEI 45-referentiehandleiding</val>
     </key>
@@ -816,7 +908,7 @@
             dialog.</comment>
         <val lang="en_US">The title for the table</val>
         <val lang="de_DE">Die Tabellenüberschrift</val>
-        <val lang="fr_FR">Le titre de la table</val>
+        <val lang="fr_FR">Le titre du tableau</val>
         <val lang="ja_JP">テーブルのためのタイトル</val>
         <val lang="nl_NL">De tabeltitel</val>
     </key>
@@ -832,7 +924,7 @@
         <comment>Image file chooser title.</comment>
         <val lang="en_US">Choose image</val>
         <val lang="de_DE">Grafik auswählen</val>
-        <val lang="fr_FR">Choisir image</val>
+        <val lang="fr_FR">Choisir une image</val>
         <val lang="ja_JP">画像の選択</val>
         <val lang="nl_NL">Kies afbeelding</val>
     </key>
@@ -848,7 +940,7 @@
         <comment>Title for ID elements customizer dialog.</comment>
         <val lang="en_US">ID Options</val>
         <val lang="de_DE">ID Optionen</val>
-        <val lang="fr_FR">Options d'ID</val>
+        <val lang="fr_FR">Options de l'ID</val>
         <val lang="ja_JP">ID オプション</val>
         <val lang="nl_NL">ID-opties</val>
     </key>
@@ -856,7 +948,7 @@
         <comment>ID pattern label text.</comment>
         <val lang="en_US">ID Pattern:</val>
         <val lang="de_DE">ID-Muster:</val>
-        <val lang="fr_FR">Format ID :</val>
+        <val lang="fr_FR">Format ID:</val>
         <val lang="ja_JP">ID パターン:</val>
         <val lang="nl_NL">ID-patroon:</val>
     </key>
@@ -864,7 +956,7 @@
         <comment>Insert table dialog title.</comment>
         <val lang="en_US">Insert Table</val>
         <val lang="de_DE">Tabelle einfügen</val>
-        <val lang="fr_FR">Insérer Table</val>
+        <val lang="fr_FR">Insérer un tableau</val>
         <val lang="ja_JP">テーブルの挿入</val>
         <val lang="nl_NL">Verwijder tabel</val>
     </key>
@@ -880,7 +972,7 @@
         <comment>Table size.</comment>
         <val lang="en_US">Table Size</val>
         <val lang="de_DE">Tabellengröße</val>
-        <val lang="fr_FR">Taille Table</val>
+        <val lang="fr_FR">Taille du tableau</val>
         <val lang="ja_JP">テーブルサイズ</val>
         <val lang="nl_NL">Tabelgrootte</val>
     </key>
@@ -888,7 +980,7 @@
         <comment>Rows</comment>
         <val lang="en_US">Rows</val>
         <val lang="de_DE">Zeilen</val>
-        <val lang="fr_FR">Rangées</val>
+        <val lang="fr_FR">Lignes</val>
         <val lang="ja_JP">行</val>
         <val lang="nl_NL">Rijen</val>
     </key>
@@ -904,7 +996,7 @@
         <comment>'Generate table header' checkbox text.</comment>
         <val lang="en_US">Generate table header</val>
         <val lang="de_DE">Tabellenkopfzeile erzeugen</val>
-        <val lang="fr_FR">Générer l'en-tête de la table</val>
+        <val lang="fr_FR">Générer l'en-tête du tableau</val>
         <val lang="ja_JP">テーブル ヘッダーの作成</val>
         <val lang="nl_NL">Genereer tabelkoptekst</val>
     </key>
@@ -912,7 +1004,7 @@
         <comment>'Generate table footer' checkbox text.</comment>
         <val lang="en_US">Generate table footer</val>
         <val lang="de_DE">Tabellenfußzeile erzeugen</val>
-        <val lang="fr_FR">Générer le bas-de-page de la table</val>
+        <val lang="fr_FR">Générer le pied de page du tableau</val>
         <val lang="ja_JP">テーブル フッターの作成</val>
         <val lang="nl_NL">Genereer tabelvoettekst</val>
     </key>
@@ -936,7 +1028,7 @@
         <comment>Underline action name.</comment>
         <val lang="en_US">Underline</val>
         <val lang="de_DE">Unterstreichen</val>
-        <val lang="fr_FR">Soulignage</val>
+        <val lang="fr_FR">Souligner</val>
         <val lang="ja_JP">アンダーライン</val>
         <val lang="nl_NL">Onderstreep</val>
     </key>
@@ -952,7 +1044,7 @@
         <comment>Edit button text</comment>
         <val lang="en_US">Edit</val>
         <val lang="de_DE">Bearbeiten</val>
-        <val lang="fr_FR">Édition</val>
+        <val lang="fr_FR">Éditer</val>
         <val lang="ja_JP">編集</val>
         <val lang="nl_NL">Wijzig</val>
     </key>
@@ -960,7 +1052,7 @@
         <comment>Remove button text</comment>
         <val lang="en_US">Remove</val>
         <val lang="de_DE">Entfernen</val>
-        <val lang="fr_FR">Enlever</val>
+        <val lang="fr_FR">Supprimer</val>
         <val lang="ja_JP">削除</val>
         <val lang="nl_NL">Verwijder</val>
     </key>

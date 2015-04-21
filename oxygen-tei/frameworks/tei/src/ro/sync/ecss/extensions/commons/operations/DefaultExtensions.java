@@ -107,12 +107,16 @@ public interface DefaultExtensions {
       ChangePseudoClassesOperation.class,
       // Execute a sequence of actions operation
       ExecuteMultipleActionsOperation.class,
+      // Execute a sequence of webapp-compatible actions operation
+      ExecuteMultipleWebappCompatibleActionsOperation.class,
       // Move element operation.
       MoveElementOperation.class,
       // Move element operation.
       DeleteElementsOperation.class,
       // Renames elements.
-      RenameElementOperation.class
+      RenameElementOperation.class,
+      // JS operation
+      JSOperation.class,
   };
   
   /**

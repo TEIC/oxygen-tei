@@ -76,10 +76,13 @@ public interface InsertTableOperationBase {
    * @param authorAccess The author access.
    * @param namespace The namespace.
    * @param tableHelper The table helper.
+   * @param tableInfo The details about table creation. If null, a dialog is 
+   * presented to let the user choose the details. 
    * 
    * @throws AuthorOperationException 
    */
   public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
-      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper)
+      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
+      TableInfo tableInfo)
     throws AuthorOperationException;
 }

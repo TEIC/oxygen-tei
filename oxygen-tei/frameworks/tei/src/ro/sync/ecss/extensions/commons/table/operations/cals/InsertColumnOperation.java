@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.WidthRepresentation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -73,9 +75,10 @@ import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 
 /**
- * Operation used to insert a CALS table column.
+ * Operation used to insert one or more CALS table columns.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class InsertColumnOperation extends InsertColumnOperationBase implements 
   CALSConstants, InsertTableCellsContentConstants {
   
@@ -128,13 +131,13 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
    * Overwrite the base implementation.
    * For CALS tables the column specifications must be updated. 
    * 
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#updateColumnCellsSpan(AuthorAccess, AuthorTableCellSpanProvider, AuthorElement, int, TableColumnSpecificationInformation, String)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#updateColumnCellsSpan(AuthorAccess, AuthorTableCellSpanProvider, AuthorElement, int, TableColumnSpecificationInformation, String, int)
    */
   @Override
   protected void updateColumnCellsSpan(AuthorAccess authorAccess,
       AuthorTableCellSpanProvider tableSupport, AuthorElement tgroup, int newColumnIndex,
       TableColumnSpecificationInformation columnSpecification,
-      String namespace) throws AuthorOperationException {
+      String namespace, int noOfColumnsToBeInserted) throws AuthorOperationException {
     
     // Find the name of the column specification relative to which the insertion will be performed. 
     Set<CALSColSpec> colSpecs = ((CALSTableCellInfoProvider) tableSupport).getColSpecs();
@@ -174,19 +177,20 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
       List<AuthorNode> contentNodes = tgroup.getContentNodes();
       // Increase the 'colnum' of the column specification that are after the inserted column  
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
-        AuthorNode node = iterator.next();
-        if(isElement(node, ELEMENT_NAME_COLSPEC)) {
-          AttrValue colSpecNumber= ((AuthorElement)node).getAttribute(ATTRIBUTE_NAME_COLNUM);
+        AuthorNode colspecNodeCandidate = iterator.next();
+        if(isElement(colspecNodeCandidate, ELEMENT_NAME_COLSPEC)) {
+          AttrValue colSpecNumber= ((AuthorElement)colspecNodeCandidate).getAttribute(ATTRIBUTE_NAME_COLNUM);
           if(colSpecNumber != null) {
             try {
               int colSpecNr = Integer.parseInt(colSpecNumber.getValue());
               if (colSpecNr >= newColumnIndex + 1) {
-                // If the col spec num is <= inserted column, increase it
+                // If the col spec num is <= inserted column, increase it.
+              	// EXM-31671: Do this for each column to be inserted.
                 authorAccess.getDocumentController().setAttribute(
                     ATTRIBUTE_NAME_COLNUM,
-                    new AttrValue("" + (colSpecNr + 1)),
-                    (AuthorElement) node);
-              } 
+                    new AttrValue("" + (colSpecNr + noOfColumnsToBeInserted)),
+                    (AuthorElement) colspecNodeCandidate);
+              }
             } catch (NumberFormatException e) {
               // Nothing to do
             }
@@ -217,58 +221,73 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
       }
     }    
 
-    if (insertOffset != -1) {
-      
-      StringBuilder newColSpecFragment = new StringBuilder();
-      newColSpecFragment.append("<").append(ELEMENT_NAME_COLSPEC);
-      if (namespace != null) {
-        newColSpecFragment.append(" xmlns=\"").append(namespace).append("\"");
-      }
-      
-      
-      if(specifyColName) {
-        String newColSpecName = null;
-        if (columnSpecification instanceof CALSTableColumnSpecificationInformation) {
-          // We could impose the column name from the initial column configuration
-          newColSpecName = ((CALSTableColumnSpecificationInformation)columnSpecification).getColumnName();
-        }
-        if (newColSpecName == null) {
-           //There was no imposed column name
-          newColSpecName = getUniqueColSpecName(colSpecs, newColumnIndex + 1);
+    //EXM-31671: create a set of column names in which we can add the names of each column after insertion.
+    //This set is used for testing the uniqueness of a generated column name (if it is contained by the set,
+    //then it's not unique and another one will be generated).
+    Set<String> uniqueColumnNames = new HashSet<String>();
+    for (CALSColSpec colSpec : colSpecs) {
+      uniqueColumnNames.add(colSpec.getColumnName());
+    }
+    
+    //EXM-31671: generate name, number, width for the colspecs corresponding to all the inserted columns
+    StringBuilder newColSpecFragment = new StringBuilder();
+    for (int i = 0; i < noOfColumnsToBeInserted; i++) {
+      if (insertOffset != -1) {
+        
+        newColSpecFragment.append("<").append(ELEMENT_NAME_COLSPEC);
+        if (namespace != null) {
+          newColSpecFragment.append(" xmlns=\"").append(namespace).append("\"");
         }
         
-        //Set also a column name to the colspec
-        newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNAME);
-        newColSpecFragment.append("=\"").append(newColSpecName).append("\"");
-      }
-      if(specifyColNum) {
-        //Set also a column number to the colspec
-        newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNUM);
-        newColSpecFragment.append("=\"").append(newColumnIndex + 1).append("\"");
-      }
-      // EXM-23813 Set a default column width to the colspec (1*)
-      String colWidth = getDefaultColWidthValue();
-      if (columnSpecification != null) {
-        WidthRepresentation colWidthRepresentation = columnSpecification.getWidthRepresentation();
-        if (colWidthRepresentation != null) {
-          // The colWidth is imposed from the column specification
-          colWidth = colWidthRepresentation.getWidthRepresentation();
+        
+        String newColSpecName = null;
+        if(specifyColName) {
+          if (columnSpecification instanceof CALSTableColumnSpecificationInformation) {
+            // We could impose the column name from the initial column configuration
+            newColSpecName = ((CALSTableColumnSpecificationInformation)columnSpecification).getColumnName();
+          }
+          if (newColSpecName == null) {
+            //There was no imposed column name
+            newColSpecName = getUniqueColSpecName(uniqueColumnNames, newColumnIndex + i + 1);
+            //Add the new unique name to the set
+            uniqueColumnNames.add(newColSpecName);
+          }
+          
+          //Set also a column name to the colspec
+          newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNAME);
+          newColSpecFragment.append("=\"").append(newColSpecName).append("\"");
         }
+        if(specifyColNum) {
+          //Set also a column number to the colspec
+          newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNUM);
+          newColSpecFragment.append("=\"").append(newColumnIndex + i + 1).append("\"");
+        }
+        // EXM-23813 Set a default column width to the colspec (1*)
+        String colWidth = getDefaultColWidthValue();
+        if (columnSpecification != null) {
+          WidthRepresentation colWidthRepresentation = columnSpecification.getWidthRepresentation();
+          if (colWidthRepresentation != null) {
+            // The colWidth is imposed from the column specification
+            colWidth = colWidthRepresentation.getWidthRepresentation();
+          }
+        }
+        if(colWidth != null) {
+          newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLWIDTH);
+          newColSpecFragment.append("=\"").append(colWidth).append("\"");
+        }
+        
+        newColSpecFragment.append("/>");
+        
+        uniqueColumnNames.add(newColSpecName);
+        
+        
+      } else {
+        throw new AuthorOperationException(
+        "Could not compute the index of the column to be inserted.");
       }
-      if(colWidth != null) {
-        newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLWIDTH);
-        newColSpecFragment.append("=\"").append(colWidth).append("\"");
-      }
-      
-      newColSpecFragment.append("/>");
-      
-
-      // Insert the fragment with the new 'colspec'
-      authorAccess.getDocumentController().insertXMLFragment(newColSpecFragment.toString(), insertOffset);
-    } else {
-      throw new AuthorOperationException(
-      "Could not compute the index of the column to be inserted.");
     }
+    // Insert the fragment with the new 'colspec'
+    authorAccess.getDocumentController().insertXMLFragment(newColSpecFragment.toString(), insertOffset);
   }
 
   /**
@@ -281,23 +300,24 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
   }
 
   /**
-   * Determine an unique column specification name for the column specification to be inserted.
+   * Determine a unique column specification name for the column specification to be inserted.
    * 
-   * @param colSpecs      The list with column specifications.
+   * @param colSpecNames  The set of column specification names.
    * @param colSpecIndex  The index of the column specification, 1 based.
    */
-  private String getUniqueColSpecName(Set colSpecs, int colSpecIndex) {
+  private String getUniqueColSpecName(Set<String> colSpecNames, int colSpecIndex) {
     String uniqueColSpecName = "newCol" + colSpecIndex;
     // The number of iteration for find a unique col spec name 
     boolean isUnique = false;
+    // Generate a new name until a unique one has been found
     while(!isUnique) {
       isUnique = true;
-      for (Iterator iterator = colSpecs.iterator(); iterator.hasNext();) {
-        CALSColSpec colSpec = (CALSColSpec) iterator.next();
-        if(uniqueColSpecName.equals(colSpec.getColumnName())) {
+      for (Iterator<String> iterator = colSpecNames.iterator(); iterator.hasNext();) {
+        String colSpec = iterator.next();
+        if(uniqueColSpecName.equals(colSpec)) {
           isUnique = false;
-          uniqueColSpecName = "newCol" + colSpecIndex;
           colSpecIndex ++;
+          uniqueColSpecName = "newCol" + colSpecIndex;
           break;
         }
       }

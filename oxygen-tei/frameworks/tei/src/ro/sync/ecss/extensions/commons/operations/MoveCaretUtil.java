@@ -66,6 +66,7 @@ import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AuthorParentNode;
 import ro.sync.exml.view.graphics.Rectangle;
+import ro.sync.exml.workspace.api.Platform;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
@@ -105,11 +106,14 @@ public class MoveCaretUtil {
       authorAccess.getDocumentController().deleteNode(caretPI);
       AuthorEditorAccess edAccess = authorAccess.getEditorAccess();
       edAccess.setCaretPosition(caretOffset);
-      Rectangle rect = edAccess.modelToViewRectangle(edAccess.getCaretOffset());
-      if(rect != null) {
-        if(rect.y > 100) {
-          rect.y -= 100;
-          edAccess.scrollToRectangle(rect);
+      // In WebApp, we cannot scroll the viewport from the server-side.
+      if (authorAccess.getWorkspaceAccess().getPlatform() != Platform.WEBAPP) {
+        Rectangle rect = edAccess.modelToViewRectangle(edAccess.getCaretOffset());
+        if(rect != null) {
+          if(rect.y > 100) {
+            rect.y -= 100;
+            edAccess.scrollToRectangle(rect);
+          }
         }
       }
     } else {

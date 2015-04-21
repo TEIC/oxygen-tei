@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -70,77 +70,81 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
 
 /**
- * Dropped URLs handler
- */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class TEI_jteiExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler{
-  
+* Dropped URLs handler
+*/
+@API(type = APIType.INTERNAL, src = SourceType.PUBLIC)
+public class TEI_jteiExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler {
   /**
-   * Logger for logging. 
-   */
-  private static Logger logger = Logger.getLogger(TEIP5ExternalObjectInsertionHandler.class.getName());
+  * Logger for logging.
+  */
+  private static Logger logger = Logger.getLogger(TEI_jteiExternalObjectInsertionHandler.class
+      .getName());
 
   /**
-   * @throws AuthorOperationException 
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#insertURLs(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, int)
-   */
+  * @throws AuthorOperationException
+  * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#insertURLs(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, int)
+  */
   @Override
-  public void insertURLs(AuthorAccess authorAccess, List<URL> urls, int source) throws AuthorOperationException {
-    if(! urls.isEmpty()) {
+  public void insertURLs(AuthorAccess authorAccess, List<URL> urls, int source)
+      throws AuthorOperationException {
+    if (!urls.isEmpty()) {
       URL base = getBaseURLAtCaretPosition(authorAccess);
       for (int i = 0; i < urls.size(); i++) {
         URL url = urls.get(i);
         String relativeLocation = authorAccess.getUtilAccess().makeRelative(base, url);
         SchemaAwareHandlerResult result = null;
         int cp = authorAccess.getEditorAccess().getCaretOffset();
-        AuthorElement elementAtOffset = null; 
+        AuthorElement elementAtOffset = null;
         try {
           AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(cp);
-          if(nodeAtOffset.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+          if (nodeAtOffset.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
             elementAtOffset = (AuthorElement) nodeAtOffset;
           }
         } catch (BadLocationException e) {
           logger.error(e, e);
         }
-        if(authorAccess.getUtilAccess().isSupportedImageURL(url)) {
-          if(elementAtOffset != null && "graphic".equals(elementAtOffset.getLocalName())){
+        if (authorAccess.getUtilAccess().isSupportedImageURL(url)) {
+          if (elementAtOffset != null && "graphic".equals(elementAtOffset.getLocalName())) {
             //This is already an image, set the attribute to it.
-            authorAccess.getDocumentController().setAttribute("url", new AttrValue(relativeLocation), elementAtOffset);
-          } else{
+            authorAccess.getDocumentController().setAttribute("url",
+                new AttrValue(relativeLocation), elementAtOffset);
+          } else {
             //We have to make an image reference to it.
             // Insert the graphic
-            result = authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-                "<graphic url=\"" + relativeLocation + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>" ,
-                cp, true);
+            result = authorAccess.getDocumentController()
+                .insertXMLFragmentSchemaAware(
+                    "<graphic url=\"" + relativeLocation
+                        + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>", cp, true);
           }
         } else {
           //Probably add an xref to it.
           result = authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-              "<ptr target=\"" + relativeLocation + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>" ,
+              "<ptr target=\"" + relativeLocation + "\" xmlns=\"http://www.tei-c.org/ns/1.0\"/>",
               cp, true);
         }
-        if(result != null && i < urls.size() - 1) {
+        if (result != null && i < urls.size() - 1) {
           //Move after the inserted element to insert the next one.
-          Integer off = (Integer) result.getResult(SchemaAwareHandlerResultInsertConstants.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
-          if(off != null) {
+          Integer off = (Integer) result
+              .getResult(SchemaAwareHandlerResultInsertConstants.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
+          if (off != null) {
             authorAccess.getEditorAccess().setCaretPosition(off.intValue() + 2);
           }
         }
       }
     }
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#getImporterStylesheetFileName(ro.sync.ecss.extensions.api.AuthorAccess)
-   */
+  * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#getImporterStylesheetFileName(ro.sync.ecss.extensions.api.AuthorAccess)
+  */
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
     return "xhtml2jteiDriver.xsl";
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#checkImportedXHTMLContentIsPreservedEntirely()
-   */
+  * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#checkImportedXHTMLContentIsPreservedEntirely()
+  */
   @Override
   protected boolean checkImportedXHTMLContentIsPreservedEntirely() {
     return true;

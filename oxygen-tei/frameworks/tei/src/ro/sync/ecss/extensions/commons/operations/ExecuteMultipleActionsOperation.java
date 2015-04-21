@@ -60,6 +60,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * An implementation of an operation which runs a sequence of actions, defined as a list of IDs.
@@ -67,6 +68,7 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
  * supplied by Oxygen.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class ExecuteMultipleActionsOperation implements AuthorOperation {
   /**
    * The arguments of the operation.

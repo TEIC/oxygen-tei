@@ -86,6 +86,7 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Sort operations base class.
@@ -184,7 +185,8 @@ public abstract class SortOperation implements AuthorOperation {
           }
           
           // Get the sort criterion from the customizer.
-          if (authorAccess.getWorkspaceAccess().isStandalone()) {
+          Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+          if (Platform.STANDALONE.equals(platform)) {
             SASortCustomizerDialog saSortCustomizerDialog = new SASortCustomizerDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
                 authorAccess.getAuthorResourceBundle(),
                 authorAccess.getAuthorResourceBundle().getMessage(selElementsString), 
@@ -196,7 +198,7 @@ public abstract class SortOperation implements AuthorOperation {
                 sortCriteria, 
                 selectedNonIgnoredChildrenInterval != null, 
                 cannotSortAllElements);
-          } else {
+          } else if (Platform.ECLIPSE.equals(platform)) {
             sortInformation = new ECSortCustomizerDialog((Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
                 authorAccess.getAuthorResourceBundle(), authorAccess.getAuthorResourceBundle().getMessage(selElementsString), 
                 authorAccess.getAuthorResourceBundle().getMessage(allElementsString)).

@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
+import java.util.Map;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -59,18 +61,22 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
+import ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants;
 import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants.ColumnWidthsType;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Operation used to insert a XHTML table.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
 
 	/**
@@ -84,31 +90,37 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
     throws IllegalArgumentException, AuthorOperationException {
-    insertTable(null, false, authorAccess, null, null);
+    Object tableInfoObj = args.getArgumentValue(
+        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
+    TableInfo tableInfo = tableInfoObj != null ? 
+        new TableInfo((Map<String, Object>) tableInfoObj) : null; 
+    insertTable(null, false, authorAccess, null, null, tableInfo);
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper, ro.sync.ecss.extensions.commons.table.operations.TableInfo)
    */
   @Override
   public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
-      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper)
+      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
+      TableInfo tableInfo)
       throws AuthorOperationException {
-    // Show the 'Insert table' dialog.
-    TableInfo tableInfo = null;
-    int rowsCount = 0;
-    int columnsCount = 0;
-    if (fragments != null) {
-      rowsCount = fragments.length;
-      columnsCount = 1;
+    if (tableInfo == null) {
+      int rowsCount = 0;
+      int columnsCount = 0;
+      if (fragments != null) {
+        rowsCount = fragments.length;
+        columnsCount = 1;
+      }
+      Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+      if (Platform.STANDALONE.equals(platform)) {
+        //SWING
+        tableInfo = SAXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
+      } else if (Platform.ECLIPSE.equals(platform)) {
+        //SWT
+        tableInfo = ECXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
+      }
     }
-    
-    if (authorAccess.getWorkspaceAccess().isStandalone()) {
-      tableInfo = SAXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
-    } else {
-      tableInfo = ECXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
-    }
-
     if (tableInfo != null) {
       // Insert the table.
       authorAccess.getDocumentController().insertXMLFragmentSchemaAware(

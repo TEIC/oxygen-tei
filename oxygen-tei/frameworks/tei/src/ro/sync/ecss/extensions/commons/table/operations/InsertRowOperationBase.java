@@ -64,10 +64,12 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Abstract class for operation used to insert a table row. 
@@ -76,17 +78,23 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 public abstract class InsertRowOperationBase extends AbstractTableOperation {
   
   /**
-   * The insert location argument.
+   * The insert location argument name. The argument defines the location where the operation will be executed as an XPath expression.
    * The value is <code>insertLocation</code>
    */
-  private static final String ARGUMENT_XPATH_LOCATION = "insertLocation";
+  private static final String XPATH_LOCATION_ARGUMENT = "insertLocation";
   
   /**
-   * The insert position argument.
+   *  The insert position argument name. The argument defines the relative position to the node obtained from the XPath location where the row(s) will be inserted.
    *  The value is <code>insertPosition</code>
    */
-  private static final String ARGUMENT_RELATIVE_LOCATION = "insertPosition";
+  private static final String RELATIVE_POSITION_ARGUMENT = "insertPosition";
 
+  /**
+   * The name of the argument specifying if the custom row insertion has been requested or not.
+   *  The value is <code>customRowInsertion</code>
+   */
+  private static final String CUSTOM_ROW_INSERTION_ARGUMENT  = "customRowInsertion";
+  
   /**
    * The arguments of the operation.
    */
@@ -94,10 +102,10 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
   
   /**
    * Get the array of arguments used for this operation.
-   * The first argument define the location where the operation will be executed
-   * as an xpath expression, the second one define the relative position to the 
-   * node obtained from the XPath location and the third is the namespace argument
-   * descriptor.
+   * The first argument defines the location where the operation will be executed
+   * as an xpath expression, the second one defines the relative position to the 
+   * node obtained from the XPath location, the third is the namespace argument
+   * descriptor and the forth specifies if the user desires the insertion of multiple rows or not.
    * For the second argument included in the returned arguments descriptor array,
    * the allowed values are:
    * <code>
@@ -110,12 +118,12 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @return The array with the arguments of the operation.
    */
   protected ArgumentDescriptor[] getOperationArguments() {
-    ArgumentDescriptor[] args = new ArgumentDescriptor[3];
+    ArgumentDescriptor[] args = new ArgumentDescriptor[4];
     
     // Argument defining the location where the operation will be executed as an xpath expression
     ArgumentDescriptor argumentDescriptor = 
       new ArgumentDescriptor(
-          ARGUMENT_XPATH_LOCATION, 
+          XPATH_LOCATION_ARGUMENT, 
           ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
           "An XPath expression indicating the insert location for the new table row.\n" +
           "Note: If it is not defined then the insert location will be at the caret.");
@@ -124,7 +132,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     // Argument defining the relative position to the node obtained from the XPath location
     argumentDescriptor = 
       new ArgumentDescriptor(
-          ARGUMENT_RELATIVE_LOCATION, 
+          RELATIVE_POSITION_ARGUMENT, 
           ArgumentDescriptor.TYPE_CONSTANT_LIST,
           "The insert position relative to the node determined by the XPath expression.\n" +
           "Can be: " + 
@@ -137,13 +145,21 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
               AuthorConstants.POSITION_BEFORE,
               AuthorConstants.POSITION_INSIDE_FIRST,
               AuthorConstants.POSITION_INSIDE_LAST,
-              AuthorConstants.POSITION_AFTER,
-              
+              AuthorConstants.POSITION_AFTER              
           }, 
           AuthorConstants.POSITION_INSIDE_FIRST);
     args[1] = argumentDescriptor;
     
     args[2] = NAMESPACE_ARGUMENT_DESCRIPTOR;
+    
+    // argument specifying if the user desires to customize the row insertion (via "Insert rows...")
+    argumentDescriptor = new ArgumentDescriptor(CUSTOM_ROW_INSERTION_ARGUMENT, ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "A boolean specifying if the custom row insertion has been requested or not. "
+            + "A custom insertion allows the user to choose the number of rows to be inserted "
+            + "and the position of insertion (above or below the current row).",
+        new String[] {"true", "false"}, "false");
+    args[3] = argumentDescriptor;
+    
     return args;
   }
   
@@ -175,25 +191,97 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       AuthorElement tableElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
 
       if (tableElement != null) {
-        // Current row element
-        AuthorElement referenceRowElement =
-          useCurrentRowTemplateOnInsert() ? getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW)
-                                          : null;
 
-        String xmlFragment =
-          getRowXMLFragment(authorAccess, tableElement, referenceRowElement, (String) namespaceObj);
+        // the number of rows to be inserted
+        int noOfRowsToBeInserted = 0;
+          
+        // the relative position to the current location
+        String relativePosition = "";
+        
+        TableRowsInfo tableRowInfo = null;
+        // Custom row insertion has been requested
+        if(args.getArgumentValue(CUSTOM_ROW_INSERTION_ARGUMENT).equals(AuthorConstants.ARG_VALUE_TRUE)) {
+          Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+          if (Platform.STANDALONE.equals(platform)) {
+            // SWING
+            tableRowInfo = SATableRowInsertionCustomizerInvoker.getInstance()
+                .customizeTableRowInsertion(authorAccess);
+          } else if (Platform.ECLIPSE.equals(platform)) {
+            // SWT
+            tableRowInfo = ECTableRowInsertionCustomizerInvoker.getInstance()
+                .customizeTableRowInsertion(authorAccess);
+          }
+          // Get info from user
+          if (tableRowInfo != null ) {
+            noOfRowsToBeInserted = tableRowInfo.getRowsNumber();
+            if(tableRowInfo.isInsertBelow()) {
+              relativePosition = AuthorConstants.POSITION_AFTER;
+            } else {
+              relativePosition = AuthorConstants.POSITION_BEFORE;
+            }
+          } else {
+            // User canceled the operation.
+            throw new AuthorOperationStoppedByUserException("Cancelled by user");
+          }
+        } else { // default row insertion
+          noOfRowsToBeInserted = 1;
+          relativePosition = args.getArgumentValue(RELATIVE_POSITION_ARGUMENT).toString();
+        }
+        
+        // Current/Reference row element
+        AuthorElement referenceRowElement = null;
+        if(useCurrentRowTemplateOnInsert()) {
+          referenceRowElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW);
+          if(referenceRowElement == null) {
+            //We want to insert before.
+            AuthorElement table = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
+            if(table != null) {
+              //Probably the caret is between table rows.
+              if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)) {
+              	//We want to insert before. The reference row will be the one from below the caret.
+                AuthorNode nodeBelowCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() + 1);
+                referenceRowElement = getElementAncestor(nodeBelowCurrentOffset, AuthorTableHelper.TYPE_ROW);
+              } else if(AuthorConstants.POSITION_AFTER.equals(relativePosition)) {
+                //We want to insert after. The reference row will be the one from above the caret.
+                AuthorNode nodeAboveCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() - 1);
+                referenceRowElement = getElementAncestor(nodeAboveCurrentOffset, AuthorTableHelper.TYPE_ROW);
+              }
+            }
+          }
+        }
 
-        if (xmlFragment != null) {
+        // XML code to be inserted
+        String xmlFragment = "";
+        // Build the XML fragment for as many rows as needed
+        for (int i = 0; i < noOfRowsToBeInserted; i++) {
+          xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, (String) namespaceObj, 
+              AuthorConstants.POSITION_BEFORE.equals(relativePosition));
+        }
+
+        if (xmlFragment != "") {
           // Insert row fragment
           authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
               xmlFragment, 
-              (String)args.getArgumentValue(ARGUMENT_XPATH_LOCATION), 
-              (String)args.getArgumentValue(ARGUMENT_RELATIVE_LOCATION));
-          
+              (String)args.getArgumentValue(XPATH_LOCATION_ARGUMENT), 
+              relativePosition);
+
           if (referenceRowElement != null) {
-            // Increment row spans
-            incrementRowSpans(tableElement, referenceRowElement, authorAccess, 1);
-          }
+             AuthorElement startUpdateRowSpansRow = referenceRowElement; 
+            if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)){
+              //The referenced row is below the row which gets inserted, only update rows which are before it
+              AuthorNode prevRow =
+                  authorAccess.getDocumentController().getNodeAtOffset(referenceRowElement.getStartOffset() - 1);
+              if (prevRow.getType() == AuthorNode.NODE_TYPE_ELEMENT && tableHelper.isTableRow(prevRow)) {
+                startUpdateRowSpansRow = (AuthorElement) prevRow;
+              } else {
+                startUpdateRowSpansRow = null;
+              }
+            }
+            if(startUpdateRowSpansRow != null) {
+              // Increment row spans for cells spanning over multiple rows
+              incrementRowSpans(tableElement, startUpdateRowSpansRow, authorAccess, 1, noOfRowsToBeInserted, relativePosition);
+            }
+          } 
         }
       }
     } catch (BadLocationException e) {
@@ -286,16 +374,17 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @param referenceRowElement The reference row element (from the caret position). 
    * @param tableElement        The table element.
    * @param namespace           The namespace of the table row.
+   * @param before <code>true</code> to insert before the reference row.
    *
    * @return The XML fragment to be inserted.
    *
    * @throws BadLocationException  
    */
-  public String getRowXMLFragment(
+  private String getRowXMLFragment(
       AuthorAccess authorAccess, 
       AuthorElement tableElement, 
       AuthorElement referenceRowElement,
-      String namespace) throws BadLocationException {
+      String namespace, boolean before) throws BadLocationException {
     StringBuilder newRowStructure = null;
     // Determine the row name
     String rowName =
@@ -333,7 +422,10 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           if (cellNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
             // Copy only cells without row span
             Integer rowSpan = spanProvider.getRowSpan((AuthorElement) cellNode);
-            if (rowSpan == null || rowSpan < 2) {
+            if (rowSpan == null || rowSpan < 2 
+                //When we insert before the reference row, the vertical spans on the cells for the row
+                //below are of no interest to us.
+                || before) {
               String cellXMLFragment = createCellXMLFragment((AuthorElement) cellNode, 
                   ignoredAttributes, getDefaultContentForEmptyCells());
               
@@ -441,13 +533,13 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
   }
 
   /**
-   * Increment all row spans that affects the inserted row, starting from reference row.
+   * Increment all row spans that affect the inserted row, starting from reference row.
    * 
-   * @param tableElement        The table element.
-   * @param referenceRowElement The reference row element.
-   * @param authorAccess        The author access.
-   * @param minRowSpan          The minimum row span that must be updated.
-   * @param spanProvider        The table cell span provider.
+   * @param tableElement            The table element.
+   * @param referenceRowElement     The reference row element.
+   * @param authorAccess            The author access.
+   * @param minRowSpan              The minimum row span that must be updated.
+   * @param numberOfInsertedRows    The number of inserted rows.
    *
    * @throws BadLocationException
    */
@@ -455,7 +547,9 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       AuthorElement tableElement, 
       AuthorElement referenceRowElement,
       AuthorAccess authorAccess, 
-      int minRowSpan) throws BadLocationException {
+      int minRowSpan,
+      int numberOfInsertedRows,
+      String relativePosition) throws BadLocationException {
 
     // Determine the total number of table columns
     int tableNumberOfColumns = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
@@ -472,14 +566,17 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           }
           Integer rowSpan = spanProvider.getRowSpan(cellElement);
           // Check if the current cell has a row span that affects the inserted row
-          if (rowSpan != null && rowSpan > 1 && rowSpan >= minRowSpan) {
-            tableHelper.updateTableRowSpan(authorAccess, cellElement, rowSpan + 1);
+          if (rowSpan != null && rowSpan > 1 && 
+              (rowSpan >= minRowSpan 
+              //EXM-31665
+              || AuthorConstants.POSITION_BEFORE.equals(relativePosition) && rowSpan + numberOfInsertedRows > minRowSpan)) {
+            tableHelper.updateTableRowSpan(authorAccess, cellElement, rowSpan + numberOfInsertedRows);
           }
         }
       }
     }
     
-    // The update for the upper cells stops when a row without rowspans is found 
+    // The update for the upper cells stops when a row without rowspan is found 
     if (tableNumberOfColumns != currentRowSize) {
       // Determine the previous row 
       AuthorNode prevRow =
@@ -487,7 +584,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       minRowSpan++;
       if (prevRow.getType() == AuthorNode.NODE_TYPE_ELEMENT && tableHelper.isTableRow(prevRow)) {
         // Increment row spans of the previous row
-        incrementRowSpans(tableElement, (AuthorElement) prevRow, authorAccess, minRowSpan);
+        incrementRowSpans(tableElement, (AuthorElement) prevRow, authorAccess, minRowSpan, numberOfInsertedRows, relativePosition);
       }
     }
   }

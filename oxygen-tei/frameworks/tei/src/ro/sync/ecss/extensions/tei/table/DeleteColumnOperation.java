@@ -56,6 +56,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
@@ -64,6 +65,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
  * Operation used to delete a TEI table column.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements TEIConstants {
   
   /**

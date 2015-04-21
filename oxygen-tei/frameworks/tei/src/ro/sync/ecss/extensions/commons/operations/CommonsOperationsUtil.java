@@ -180,8 +180,8 @@ public class CommonsOperationsUtil {
    * 
    * @param authorAccess Author access.
    * @param xmlFragment The xml fragment
-   * @param start The start offset.
-   * @param end The end offset.
+   * @param start The start offset. Inclusive.
+   * @param end The end offset. Inclusive.
    * @return Insertion offset.
    * @throws AuthorOperationException
    */
@@ -265,6 +265,12 @@ public class CommonsOperationsUtil {
         NamespaceContext namespaceContext = targetElement.getNamespaceContext();
         prefix = namespaceContext.getPrefixForNamespace(namespace);
         if (prefix != null && !"".equals(prefix)) {
+          attributeName = prefix + ":" + attributeName;
+        } else if (attributeQName.getPrefix() != null && !attributeQName.getPrefix().isEmpty()
+            && namespaceContext.getNamespaceForPrefix(attributeQName.getPrefix()) == null) {
+          // Use the given prefix.
+          prefix = attributeQName.getPrefix();
+          addNamespaceDeclaration = true;
           attributeName = prefix + ":" + attributeName;
         } else {
           prefix = buildFreshPrefix(namespaceContext);

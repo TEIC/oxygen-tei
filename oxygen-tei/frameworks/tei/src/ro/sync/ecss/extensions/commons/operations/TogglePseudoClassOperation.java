@@ -54,12 +54,14 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 
 /**
  * An implementation of an operation to toggle on/off the pseudo-class of an element.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class TogglePseudoClassOperation extends PseudoClassOperation{
   
   /**

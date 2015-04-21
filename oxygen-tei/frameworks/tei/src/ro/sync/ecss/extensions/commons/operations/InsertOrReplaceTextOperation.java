@@ -60,12 +60,14 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 
 /**
  * An implementation of an insert/replace operation for an argument of type {@link String}.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class InsertOrReplaceTextOperation implements AuthorOperation {
   /**
    * The name of the element.
@@ -86,6 +88,7 @@ public class InsertOrReplaceTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) {
     // Simple text replace.
     AuthorDocumentController controller = authorAccess.getDocumentController();
@@ -130,6 +133,7 @@ public class InsertOrReplaceTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return ARGUMENTS;
   }
@@ -137,6 +141,7 @@ public class InsertOrReplaceTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
    */
+  @Override
   public String getDescription() {    
     return "Insert a simple text. If selection is present, the selected text will be replaced with the new one.";
   }

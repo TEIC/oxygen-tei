@@ -57,11 +57,13 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * Identical with {@link InsertFragmentOperation} with the difference that the selection will be removed. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
 
   /**

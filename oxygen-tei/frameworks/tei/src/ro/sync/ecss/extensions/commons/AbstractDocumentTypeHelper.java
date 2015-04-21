@@ -139,4 +139,15 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
    * @return The local names of the elements that represents a table. 
    */
   protected abstract String[] getTableElementLocalName();
+  
+  /**
+   * Check if this node references another node which should replace it entirely.
+   * This is used in the tables to replace conreffed table rows entirely
+   * 
+   * @param node The node
+   * @return <code>true</code> if this node references another node which should replace it entirely.
+   */
+  public boolean isContentReference(AuthorNode node) {
+    return false;
+  }
 }

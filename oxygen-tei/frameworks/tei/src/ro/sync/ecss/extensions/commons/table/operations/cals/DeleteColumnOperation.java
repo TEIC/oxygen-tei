@@ -60,6 +60,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.ContentInterval;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -68,10 +69,12 @@ import ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBas
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 
+
 /**
  * Operation used to delete a CALS table column.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements CALSConstants {
   
   /**

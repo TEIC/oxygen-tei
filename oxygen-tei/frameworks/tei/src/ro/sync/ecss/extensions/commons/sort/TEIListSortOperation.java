@@ -60,6 +60,7 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
@@ -68,6 +69,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  * The implementation for TEI list sort operation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class TEIListSortOperation extends SortOperation {
 
   /**

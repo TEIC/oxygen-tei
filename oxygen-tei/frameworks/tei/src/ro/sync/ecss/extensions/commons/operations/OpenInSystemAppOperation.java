@@ -68,6 +68,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.XPathVersion;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -76,6 +77,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * and uses it to open the file. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class OpenInSystemAppOperation implements AuthorOperation {
   
   /**

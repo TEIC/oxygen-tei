@@ -123,7 +123,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * The tag name for the table cells (eg: stentry, choption, chdesc, propvalue, proptype, propdesc etc.)
    */
   private Set<String> simpleTableCellTagNames = new HashSet<String>();
-
+  
   /**
    * The table element.
    */
@@ -137,7 +137,9 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     this.tableElement = tableElement;
     calsProvider = null;
     AttrValue classAttrVal = tableElement.getAttribute(ATTRIBUTE_NAME_CLASS);
-    if (classAttrVal != null 
+    if(classAttrVal != null && classAttrVal.getRawValue() != null && classAttrVal.getRawValue().contains(" ut-d/imagemap ")){
+      //EXM-32789 Inside an image map, no cals provider.
+    } else if (classAttrVal != null 
         && classAttrVal.getRawValue() != null 
         && classAttrVal.getRawValue().contains(SIMPLETABLE_CLASS_VALUE)) {
       //Detect simple table cell tag names.
@@ -227,6 +229,17 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   private boolean isSimpleTableCell(String cellTagName) {
     return simpleTableCellTagNames.contains(cellTagName);
+  }
+  
+  /**
+   * Returns true if the provided cell tag name belongs to a reltable.
+   * 
+   * @param cellTagName The cell tag name to be tested.
+   * @return <code>true</code> if the given tag name is a cell 
+   * tag name for the current table.
+   */
+  private boolean isRelTableCell(String cellTagName) {
+    return "relcell".equals(cellTagName) || "relcolspec".equals(cellTagName);
   }
 
   /**
@@ -359,8 +372,12 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isTableAndColumnsResizable(String tableCellsTagName) {
-    boolean toReturn = isSimpleTableCell(tableCellsTagName);
-    if (!toReturn && calsProvider != null) {
+    boolean toReturn = false;
+    if(isSimpleTableCell(tableCellsTagName)){
+      toReturn = true;
+    } else if(isRelTableCell(tableCellsTagName)){
+      toReturn = false;
+    } else if (calsProvider != null) {
       toReturn = calsProvider.isTableAndColumnsResizable(tableCellsTagName);
     }
     return toReturn;
@@ -371,12 +388,14 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isSimpleTableCell(tableCellsTagName);
-    if (!toReturn && calsProvider != null) {
-      toReturn = calsProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
-    } else {
+    boolean toReturn = false;
+    if(isSimpleTableCell(tableCellsTagName)){
       toReturn = false;
-    }
+    } else if(isRelTableCell(tableCellsTagName)){
+      toReturn = false;
+    } else if (calsProvider != null) {
+      toReturn = calsProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
+    } 
     return toReturn;
   }
   
@@ -385,12 +404,14 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isSimpleTableCell(tableCellsTagName);
-    if (!toReturn && calsProvider != null) {
-      toReturn = calsProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
-    } else {
+    boolean toReturn = false;
+    if(isSimpleTableCell(tableCellsTagName)){
       toReturn = false;
-    }
+    } else if(isRelTableCell(tableCellsTagName)){
+      toReturn = false;
+    } else  if (calsProvider != null) {
+      toReturn = calsProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
+    } 
     return toReturn;
   }
   
@@ -399,8 +420,12 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
-    boolean toReturn = isSimpleTableCell(tableCellsTagName);
-    if (!toReturn && calsProvider != null) {
+    boolean toReturn = false;
+    if(isSimpleTableCell(tableCellsTagName)){
+      toReturn = true;
+    } else if(isRelTableCell(tableCellsTagName)){
+      toReturn = false;
+    } else if (calsProvider != null) {
       toReturn = calsProvider.isAcceptingProportionalColumnWidths(tableCellsTagName);
     }
     return toReturn;

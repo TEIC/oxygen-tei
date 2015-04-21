@@ -58,6 +58,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Operation used to configure elements for which ID generation is auto.
@@ -68,17 +69,18 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     GenerateIDElementsInfo info = new GenerateIDElementsInfo(authorAccess, getDefaultOptions(authorAccess));
-    if(authorAccess.getWorkspaceAccess().isStandalone()) {
+    Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+    if(Platform.STANDALONE.equals(platform)) {
       info = new SAIDElementsCustomizer().customizeIDElements(
           authorAccess, info, getListMessage());
-    } else {
+    } else if (Platform.ECLIPSE.equals(platform)) {
       info = new ECIDElementsCustomizer().customizeIDElements(
           authorAccess, info, getListMessage());
     }
-
     if(info != null) {
       info.saveToOptions(authorAccess);
     }
@@ -112,6 +114,7 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
   }

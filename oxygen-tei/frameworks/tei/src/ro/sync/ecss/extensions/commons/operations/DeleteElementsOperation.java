@@ -65,6 +65,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -72,6 +73,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * An implementation of a delete operation that deletes all the nodes identified by a XPath expression.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class DeleteElementsOperation implements AuthorOperation {
   /**
    * The XPath location that identifies the element.
@@ -90,7 +92,7 @@ public class DeleteElementsOperation implements AuthorOperation {
    */
   public DeleteElementsOperation() {
     arguments = new ArgumentDescriptor[1];    
-    // Argument defining the element that will be modified.
+    // Argument defining the elements that will be modified.
     ArgumentDescriptor argumentDescriptor = 
       new ArgumentDescriptor(
           ARGUMENT_ELEMENT_XPATH_LOCATIONS, 

@@ -188,7 +188,7 @@ public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, Ke
     sortSelectedElementsRadio.setLayoutData(data);
     
     // Criterion section
-    criterionSection = createSection(mainComposite, authorResourceBundle.getMessage(ExtensionTags.CRITERION));
+    criterionSection = createSection(mainComposite, authorResourceBundle.getMessage(ExtensionTags.CRITERIA));
     data = new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1);
     criterionSection.setLayoutData(data);
     

@@ -60,6 +60,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -67,6 +68,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * Unwrap tags operation. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class UnwrapTagsOperation implements AuthorOperation {
   /**
    * The location of the element to unwrap argument.
@@ -87,6 +89,7 @@ public class UnwrapTagsOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     AuthorNode nodeToUnwrap = null;
     // Determine the element to unwrap
@@ -136,6 +139,7 @@ public class UnwrapTagsOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return ARGUMENTS;
   }
@@ -143,6 +147,7 @@ public class UnwrapTagsOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Unwrap element tags.";
   }

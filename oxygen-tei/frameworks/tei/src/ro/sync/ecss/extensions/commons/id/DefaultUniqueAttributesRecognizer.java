@@ -50,7 +50,10 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.text.BadLocationException;
 
@@ -93,6 +96,26 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
    * Logger for logging. 
    */
   private static Logger logger = Logger.getLogger(DefaultUniqueAttributesRecognizer.class.getName());
+  
+  /**
+   * Information about what attribute to set on what element 
+   */
+  private class AttributeSetInfo{
+    /**
+     * Element on which to set the attribute 
+     */
+    private AuthorElement element; 
+    
+    /**
+     * Attribute QName to set
+     */
+    private String attrQName;
+    
+    /**
+     * The attribute value to set.
+     */
+    private String attrValue;
+  }
   
   /**
    * Default constructor. 
@@ -220,9 +243,38 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
             authorAccess.getDocumentController().getCommonParentNode(authorAccess.getDocumentController().getAuthorDocumentNode(), startOffset, endOffset);
           authorAccess.getDocumentController().beginCompoundEdit();
           try {
+            List<AttributeSetInfo> toGenerate = new ArrayList<AttributeSetInfo>();
             generateUniqueIDs(authorAccess, commonParent, startOffset, endOffset,
                 currentElemsInfo.getIdGenerationPattern(),
-                currentElemsInfo.getElementsWithIDGeneration(), forceGeneration);
+                currentElemsInfo.getElementsWithIDGeneration(), forceGeneration, toGenerate);
+            if(toGenerate.size() == 1){
+              //Set it the usual way
+              AttributeSetInfo info = toGenerate.get(0);
+              authorAccess.getDocumentController().setAttribute(info.attrQName, new AttrValue(info.attrValue), info.element);
+            } else {
+              //Set them all at once.
+              int[] elemOffsets = new int[toGenerate.size()];
+              AuthorNode[] nodes = new AuthorNode[toGenerate.size()];
+              List<Map<String, AttrValue>> attrs = new ArrayList<Map<String,AttrValue>>(toGenerate.size());
+              for (int i = 0; i < elemOffsets.length; i++) {
+                AttributeSetInfo attributeSetInfo = toGenerate.get(i);
+                nodes[i] = attributeSetInfo.element;
+                elemOffsets[i] = attributeSetInfo.element.getStartOffset() + 1;
+                Map<String, AttrValue> attrsToGenerate = new HashMap<String, AttrValue>();
+                attrsToGenerate.put(attributeSetInfo.attrQName, new AttrValue(attributeSetInfo.attrValue));
+                attrs.add(attrsToGenerate);
+              }
+              //Find common ancestor.
+              AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(nodes);
+              if (commonAncestor == null) {
+                commonAncestor = authorAccess.getDocumentController().getAuthorDocumentNode();
+              }
+              
+              // Set multiple attributes in one shot.
+              if (!attrs.isEmpty()) {
+                authorAccess.getDocumentController().setMultipleDistinctAttributes(commonAncestor.getStartOffset() + 1, elemOffsets, attrs);
+              }
+            }
           } finally {
             authorAccess.getDocumentController().endCompoundEdit();
           }
@@ -244,7 +296,7 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
    */
   private void generateUniqueIDs(
       AuthorAccess authorAccess, AuthorNode currentNode, int startSel, int endSel,
-      String idGenerationPattern, String[] elementsToGenerateFor, boolean forceGeneration) {
+      String idGenerationPattern, String[] elementsToGenerateFor, boolean forceGeneration, List<AttributeSetInfo> attrsToGenerate) {
     if(authorAccess.getDocumentController().isEditable(currentNode)) {
       int startOffset = currentNode.getStartOffset();
       int endOffset = currentNode.getEndOffset();
@@ -278,8 +330,11 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
                   //Unspecified attribute, generate.
                   || ! attr.isSpecified()) {
                 //If the ID is not yet set...
-                authorAccess.getDocumentController().setAttribute(
-                    generateIdAttrQName, new AttrValue(generateUniqueIDFor(idGenerationPattern, element)), element);
+                AttributeSetInfo info = new AttributeSetInfo();
+                info.attrQName = generateIdAttrQName;
+                info.attrValue = generateUniqueIDFor(idGenerationPattern, element);
+                info.element = element;
+                attrsToGenerate.add(info);
               }
             }
           }
@@ -291,7 +346,7 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
           List<AuthorNode> contentNodes = sentinelNode.getContentNodes();
           for (int i = 0; i < contentNodes.size(); i++) {
             generateUniqueIDs(
-                authorAccess, contentNodes.get(i), startSel, endSel, idGenerationPattern, elementsToGenerateFor, forceGeneration);
+                authorAccess, contentNodes.get(i), startSel, endSel, idGenerationPattern, elementsToGenerateFor, forceGeneration, attrsToGenerate);
           }
         }
       }

@@ -59,12 +59,14 @@ import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 /**
  * An implementation of a delete operation that deletes the node at caret.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class DeleteElementOperation extends DeleteElementsOperation {
   
   /**
@@ -78,7 +80,15 @@ public class DeleteElementOperation extends DeleteElementsOperation {
    * Constructor for the delete element operation.
    */
   public DeleteElementOperation() {
-    super();
+    arguments = new ArgumentDescriptor[1];
+    // Argument defining the element that will be modified.
+    ArgumentDescriptor argumentDescriptor = 
+      new ArgumentDescriptor(
+          ARGUMENT_ELEMENT_XPATH_LOCATION, 
+          ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
+          "An XPath expression indicating the element to be deleted.\n"
+          + "Note: If it is not defined, then the element at the caret position will be used.");
+    arguments[0] = argumentDescriptor;
   }
   
   /**

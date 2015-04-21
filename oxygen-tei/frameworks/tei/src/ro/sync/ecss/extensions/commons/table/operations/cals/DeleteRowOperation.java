@@ -53,6 +53,7 @@ package ro.sync.ecss.extensions.commons.table.operations.cals;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.table.operations.DeleteRowOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.SplitCellAboveBelowOperationBase;
 
@@ -60,6 +61,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SplitCellAboveBelowOpera
  * Operation used to delete a CALS table row.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class DeleteRowOperation extends DeleteRowOperationBase implements CALSConstants {
   
   /**

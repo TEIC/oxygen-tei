@@ -53,12 +53,14 @@ package ro.sync.ecss.extensions.commons.table.operations.cals;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.table.operations.SplitCellAboveBelowOperationBase;
 
 /**
  * Operation for splitting a table cell above or below.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class SplitCellAboveBelowOperation extends SplitCellAboveBelowOperationBase implements CALSConstants {
   
   /**

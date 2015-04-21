@@ -82,8 +82,9 @@ import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
 public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider, CALSConstants, AuthorTableCellSepProvider {
   /**
    * The default width representation.
+   * PUBLIC BECAUSE IT WAS USED IN OLDER VERSIONS AS API.
    */
-  private static final WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false) {
+  public static final WidthRepresentation DEFAULT_WIDTH_REPRESENTATION = new WidthRepresentation(0, null, 1, false) {
     @Override
     public boolean isSpecified() {
       return false;

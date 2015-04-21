@@ -72,6 +72,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Operation used to insert a table column.
@@ -83,6 +84,22 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    */
   public static final String POSITION_ARGUMENT = "insertPosition";
   
+  /**
+   * The name of the argument specifying if the custom column insertion has been requested or not.
+   *  The value is <code>insertMultipleColumns</code>
+   */
+  private static final String CUSTOM_COLUMN_INSERTION_ARGUMENT  = "customColumnInsertion";
+  
+  /**
+   * The <code>insertMultipleColumns</code> argument descriptor.
+   */
+  public static final ArgumentDescriptor INSERT_MULTIPLE_COLUMNS_ARGUMENT_DESCRIPTOR = new ArgumentDescriptor(
+      CUSTOM_COLUMN_INSERTION_ARGUMENT, ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "A boolean specifying if the custom column insertion has been requested or not. "
+      + "A custom insertion allows the user to choose the number of columns to be inserted "
+      + "and the position of insertion (before or after the current column).",
+      new String[] {"true", "false"}, "false");
+      
   /**
    * The <code>position</code> argument descriptor.
    */
@@ -111,7 +128,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * Arguments.
    */
   private static final ArgumentDescriptor[] ARGUMENTS = 
-    new ArgumentDescriptor[] { NAMESPACE_ARGUMENT_DESCRIPTOR, POSITION_ARGUMENT_DESCRIPTOR };
+    new ArgumentDescriptor[] { NAMESPACE_ARGUMENT_DESCRIPTOR, POSITION_ARGUMENT_DESCRIPTOR, INSERT_MULTIPLE_COLUMNS_ARGUMENT_DESCRIPTOR };
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
@@ -133,8 +150,14 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
     if (posObj instanceof String) {
       position = (String) posObj;
     } 
-    // Insert column
-    performInsertColumn(authorAccess, namespace, position, null, null, false, null, null);
+    
+    // custom column insertion argument
+    boolean customColumnInsertion = false;
+    Object customColumnInsertionArgumentObj =  args.getArgumentValue(CUSTOM_COLUMN_INSERTION_ARGUMENT);
+    customColumnInsertion = AuthorConstants.ARG_VALUE_TRUE.equals(customColumnInsertionArgumentObj);
+    
+    // Insert column(s)
+    performInsertColumns(authorAccess, namespace, position, customColumnInsertion, null, null, false, null, null);
   }
   
   /**
@@ -161,10 +184,11 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       boolean cellsFragments, 
       InsertRowOperationBase insertRowOperation,
       InsertTableOperationBase insertTableOperation) throws AuthorOperationException {
-    performInsertColumn(
+    performInsertColumns(
         authorAccess,
         namespace,
         AuthorConstants.POSITION_AFTER,
+        false,
         fragments,
         columnSpecification,
         cellsFragments,
@@ -178,6 +202,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param authorAccess The author access.
    * @param namespace The cells namespace.
    * @param insertPosition The relative position where the new column will be inserted.
+   * @param customColumnInsertionArgument <code>"true"</code> if the column insertion is customizable.
    * @param fragments An array of AuthorDocumentFragments that are used as content of the inserted cells.  
    * @param columnSpecification The column specification data.
    * @param cellsFragments If the value is <code>true</code> then the fragments 
@@ -189,21 +214,52 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @throws IllegalArgumentException
    * @throws AuthorOperationException
    */
-  public void performInsertColumn(
+  private void performInsertColumns(
       AuthorAccess authorAccess, 
       String namespace, 
       String insertPosition,
+      boolean customColumnInsertion,
       AuthorDocumentFragment[] fragments, 
       TableColumnSpecificationInformation columnSpecification, 
       boolean cellsFragments, 
       InsertRowOperationBase insertRowOperation,
       InsertTableOperationBase insertTableOperation) throws AuthorOperationException {
     try {
-      // Find the index where the new column will be inserted
+      // Find the index where the new column(s) will be inserted
       int newColumnIndex = -1;
       
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
       AuthorNode nodeAtCaret = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+      
+      // no. of columns to be inserted
+      int noOfColumnsToBeInserted = 1;
+      
+      TableColumnsInfo tableColumnsInfo = null;
+      // Custom column insertion has been requested
+      if(customColumnInsertion) {
+        Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+        if (Platform.STANDALONE.equals(platform)) {
+          // SWING
+          tableColumnsInfo = SATableColumnInsertionCustomizerInvoker.getInstance()
+              .customizeTableColumnInsertion(authorAccess);
+        } else if (Platform.ECLIPSE.equals(platform)) {
+          // SWT
+          tableColumnsInfo = ECTableColumnInsertionCustomizerInvoker.getInstance()
+              .customizeTableColumnInsertion(authorAccess);
+        }
+        // Get info from user
+        if (tableColumnsInfo != null ) {
+          noOfColumnsToBeInserted = tableColumnsInfo.getColumnsNumber();
+          if(!tableColumnsInfo.isInsertAfter()) {
+            insertPosition = AuthorConstants.POSITION_BEFORE;
+          } else {
+            insertPosition = AuthorConstants.POSITION_AFTER;
+          }
+        } else {
+          // User canceled the operation.
+          throw new AuthorOperationStoppedByUserException("Cancelled by user");
+        }
+      }
       
       // Find the table element to create table span support
       AuthorElement tableElement = getElementAncestor(
@@ -258,20 +314,30 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
         if (authorAccess.getTableAccess().getTableNumberOfColumns(tableElement) == 0 ||
             tableSupport.hasColumnSpecifications(tableElement)) {
           updateColumnCellsSpan(
-              authorAccess, tableSupport, tableElement, newColumnIndex, columnSpecification, namespace);
+              authorAccess, tableSupport, tableElement, newColumnIndex, columnSpecification, namespace, noOfColumnsToBeInserted);
         }
 
         // Insert the new entries in the rows in the appropriate places
-        insertNewColumnCells(
+        insertNewColumnsCells(
             authorAccess, tableSupport, tableElement, newColumnIndex, namespace,
-            fragments, cellsFragments, insertRowOperation);
+            fragments, cellsFragments, insertRowOperation, noOfColumnsToBeInserted);
 
         tableHelper.updateTableColumnNumber(
             authorAccess, 
             tableElement,
-            numberOfColumns + 1);
+            numberOfColumns + noOfColumnsToBeInserted);
       } else {
-        insertTableOperation.insertTable(fragments, cellsFragments, authorAccess, namespace, tableHelper);
+        Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+        if (Platform.WEBAPP.equals(platform)) {
+          // A column cannot be inserted.
+          AuthorOperationException exception = new AuthorOperationException(
+              "A column can only be inserted in an existing table.");
+          exception.setOperationRejectedOnPurpose(true);
+          throw exception;
+        } else {
+          insertTableOperation.insertTable(
+              fragments, cellsFragments, authorAccess, namespace, tableHelper, null);
+        }
       }
       
     } catch (BadLocationException e) {
@@ -295,6 +361,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param newColumnIndex The index of the column to insert.
    * @param columnSpecification The table column specification data.
    * @param namespace    The namespace to be used.
+   * @param noOfColumnsToBeInserted The number of columns to be inserted.
    * @throws AuthorOperationException  When the insertion fails.
    */
   protected void updateColumnCellsSpan(
@@ -303,7 +370,8 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       AuthorElement tableElem,
       int newColumnIndex,
       TableColumnSpecificationInformation columnSpecification, 
-      String namespace) throws AuthorOperationException {
+      String namespace,
+      int noOfColumnsToBeInserted) throws AuthorOperationException {
     
     int rowCount = authorAccess.getTableAccess().getTableRowCount(tableElem);
     if (newColumnIndex > 0) {
@@ -328,7 +396,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
                   tableSupport,
                   cell,
                   colSpanStart + 1, // adjust for 1 base
-                  colSpanEnd + 2); // adjust for 1 base + increment
+                  colSpanEnd + 1 + noOfColumnsToBeInserted); // adjust for 1 base + increment
             }
           }
         }
@@ -352,10 +420,11 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param cellsFragment <code>true</code> if the fragments represents cells.
    * @param insertRowOperation The insert row operation used to insert new rows when 
    * there are fragments that cannot be inserted in the new column. 
+   * @param noOfColumnsToBeInserted The number of rows to be inserted.
    * 
    * @throws AuthorOperationException 
    */
-  private void insertNewColumnCells(
+  private void insertNewColumnsCells(
       AuthorAccess authorAccess,
       AuthorTableCellSpanProvider tableSupport,
       AuthorElement tableElement,
@@ -363,7 +432,8 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       String namespace, 
       AuthorDocumentFragment[] fragments, 
       boolean cellsFragment, 
-      InsertRowOperationBase insertRowOperation) throws AuthorOperationException {
+      InsertRowOperationBase insertRowOperation,
+      int noOfColumnsToBeInserted) throws AuthorOperationException {
     // Flag to retain if the warning for incompatibility between table structure
     // and new column was shown
     boolean incompatibilityWarnShown = false;
@@ -414,7 +484,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
           cellsElementNames.add(cellElementName);
           if (cellElementName == null) {
             throw new AuthorOperationException(
-                "The table model does not accept a new column at the given position.");
+                "The table model does not accept new columns at the given position.");
           }
         } else {
           // An offset was skipped 
@@ -428,30 +498,52 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
         // Insert empty cells
         String defaultContentForEmptyCells = getDefaultContentForEmptyCells();
         if (defaultContentForEmptyCells != null) {
+          AuthorDocumentFragment[] frags = new AuthorDocumentFragment[cellsInsertionOffsets.size()];
           for (int i = cellsInsertionOffsets.size() - 1; i >= 0; i--) {
             StringBuilder xmlFragment = new StringBuilder();
-            xmlFragment.append("<").append(cellsElementNames.get(i));
-            if (namespace != null) {
-              //EXM-26376 Also append the namespace.
-              xmlFragment.append(" xmlns=\"").append(namespace).append("\"");
-            }
-            xmlFragment.append(">");
-            xmlFragment.append(defaultContentForEmptyCells);
-            xmlFragment.append("</").append(cellsElementNames.get(i)).append(">");
-            
-            authorAccess.getDocumentController().insertXMLFragment(
-                xmlFragment.toString(), 
-                cellsInsertionOffsets.get(i));
+            // EXM-31671: add one or more columns
+            for (int j = 0; j < noOfColumnsToBeInserted; j++) {
+              xmlFragment.append("<").append(cellsElementNames.get(i));
+              if (namespace != null) {
+                //EXM-26376 Also append the namespace.
+                xmlFragment.append(" xmlns=\"").append(namespace).append("\"");
+              }
+              xmlFragment.append(">");
+              xmlFragment.append(defaultContentForEmptyCells);
+              xmlFragment.append("</").append(cellsElementNames.get(i)).append(">");
+            } 
+            frags[i] = authorAccess.getDocumentController().createNewDocumentFragmentInContext(xmlFragment.toString(), cellsInsertionOffsets.get(i));
+            fragments = frags;
           }
+          
+          int[] ints = new int[cellsInsertionOffsets.size()];
+          for (int i = 0; i < ints.length; i++) {
+            ints[i] = cellsInsertionOffsets.get(i);
+          }
+          authorAccess.getDocumentController().insertMultipleFragments(tableElement, fragments, ints);
         } else {
+          
           // Create insertion offsets array 
-          int[] contentInsertOffsets = new int[cellsInsertionOffsets.size()];
+          int index = 0;
+          int[] contentInsertOffsets = new int[cellsInsertionOffsets.size() * noOfColumnsToBeInserted];
+          String[] cellElementNamesToInsert = new String[cellsInsertionOffsets.size() * noOfColumnsToBeInserted];
+          //For each table row we have an insertion offset
           for (int i = 0; i < cellsInsertionOffsets.size(); i++) {
-            contentInsertOffsets[i] = cellsInsertionOffsets.get(i);
+            //The insertion offset in the current table row
+            int offsetWhereToInsert = cellsInsertionOffsets.get(i);
+            //The cell element name to insert
+            String nameToInsert = cellsElementNames.get(i);
+            //And we need to do this for each newly inserted column.
+            for (int j = 0; j < noOfColumnsToBeInserted; j++) {
+              contentInsertOffsets[index] = offsetWhereToInsert;
+              cellElementNamesToInsert[index] = nameToInsert;
+              index++;
+            }
           }
+          
           // Insert empty cells
           authorAccess.getDocumentController().insertMultipleElements(tableElement, 
-              cellsElementNames.toArray(new String[0]), contentInsertOffsets, namespace);
+              cellElementNamesToInsert, contentInsertOffsets, namespace);
         }
         
         // Set the caret inside the first cell(we know is an empty element)

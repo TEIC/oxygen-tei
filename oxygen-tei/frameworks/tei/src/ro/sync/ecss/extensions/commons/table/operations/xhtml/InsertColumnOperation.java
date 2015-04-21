@@ -50,19 +50,48 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
+import java.util.List;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase;
 
 /**
- * Operation used to insert an XHTML table column.
+ * Operation used to insert one or more XHTML table columns.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class InsertColumnOperation extends InsertColumnOperationBase implements XHTMLConstants {
   
+  /**
+   * Colspec element name
+   */
+  private static final String ELEMENT_NAME_COLSPEC = "col";
+  
+  /**
+   * thead element name
+   */
+  private static final String ELEMENT_NAME_THEAD = "thead";
+
+  /**
+   * tbody element name
+   */
+  private static final String ELEMENT_NAME_TBODY = "tbody";
+  
+  /**
+   * colgroup element name
+   */
+  private static final String ELEMENT_NAME_COLGROUP = "colgroup";
+
   /**
    * Constructor.
    */
@@ -107,5 +136,84 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements 
       }
     }
     return local;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#updateColumnCellsSpan(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider, ro.sync.ecss.extensions.api.node.AuthorElement, int, ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation, java.lang.String, int)
+   */
+  @Override
+  protected void updateColumnCellsSpan(AuthorAccess authorAccess,
+      AuthorTableCellSpanProvider tableSupport, AuthorElement tableElem, int newColumnIndex,
+      TableColumnSpecificationInformation columnSpecification, String namespace, int noOfColumnsToBeInserted)
+      throws AuthorOperationException {
+    //Call super
+    super.updateColumnCellsSpan(authorAccess, tableSupport, tableElem, newColumnIndex,
+        columnSpecification, namespace, noOfColumnsToBeInserted);
+    //EXM-31675 Now try to insert a colspec in the proper place.
+    int referenceInsertionOffset = tableElem.getEndOffset();
+    List<AuthorNode> tableChildren = tableElem.getContentNodes();
+    int noOfEncounteredCols = 0;
+    boolean foundColspecs = false;
+    if(tableChildren != null){
+      loop: for (int i = 0; i < tableChildren.size(); i++) {
+        AuthorNode child = tableChildren.get(i);
+        if(child.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+          //Element
+          AuthorElement elem = (AuthorElement) child;
+          String localName = elem.getLocalName();
+          if(ELEMENT_NAME_THEAD.equals(localName) 
+              || ELEMENT_NAME_TBODY.equals(localName)){
+            //Did not encounter any col.
+            referenceInsertionOffset = elem.getStartOffset();
+            break;
+          } else if (ELEMENT_NAME_COLSPEC.equals(localName)){
+            foundColspecs = true;
+            if(noOfEncounteredCols == newColumnIndex){
+              referenceInsertionOffset = elem.getStartOffset();
+              break loop;
+            }
+            noOfEncounteredCols ++;
+          } else if (ELEMENT_NAME_COLGROUP.equals(localName)){
+            foundColspecs = true;
+            //We have to iterate inside the colgroup.
+            List<AuthorNode> colgroupChildren = elem.getContentNodes();
+            if(colgroupChildren != null){
+              for (int j = 0; j < colgroupChildren.size(); j++) {
+                AuthorNode cgCH = colgroupChildren.get(j);
+                if(cgCH.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+                  AuthorElement cgElem = (AuthorElement) cgCH;
+                  if (ELEMENT_NAME_COLSPEC.equals(cgElem.getLocalName())){
+                    if(noOfEncounteredCols == newColumnIndex){
+                      referenceInsertionOffset = cgElem.getStartOffset();
+                      break loop;
+                    }
+                    noOfEncounteredCols ++;
+                  }
+                }
+              }
+            }
+            if(noOfEncounteredCols == newColumnIndex){
+              referenceInsertionOffset = elem.getStartOffset();
+              break loop;
+            }
+            noOfEncounteredCols ++;
+          }
+        }
+      }
+    }
+    if(referenceInsertionOffset != -1 
+    		//Maybe user does not want colspecs on the table.
+    		&& foundColspecs){
+      StringBuilder newColSpecFragment = new StringBuilder();
+      //EXM-31671: Insert a new empty <col/> element for each column.
+      for (int i = 0; i < noOfColumnsToBeInserted; i++) {
+        newColSpecFragment.append("<").append(ELEMENT_NAME_COLSPEC);
+        if (namespace != null) {
+          newColSpecFragment.append(" xmlns=\"").append(namespace).append("\"");
+        }
+        newColSpecFragment.append("/>");
+      }
+      authorAccess.getDocumentController().insertXMLFragment(newColSpecFragment.toString(), referenceInsertionOffset);
+    }
   }
 }

@@ -69,6 +69,11 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 public class ImageFileChooser {
   
   /**
+   * All the allowed extensions for an image.
+   */
+  public static final String[] ALLOWED_IMAGE_EXTENSIONS = new String[] {"gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf"};
+  
+  /**
    * Used to test the class from JUnit test cases.
    */
   public static String IMG_FROM_TESTS = null;
@@ -92,27 +97,41 @@ public class ImageFileChooser {
         new String[] { "gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf"},
         authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.IMAGE_FILES));
     if (sel != null) {
-      AuthorUtilAccess util = authorAccess.getUtilAccess();
+      imagePath = makeUrlRelative(authorAccess, sel);
+    }
+    return imagePath;
+  }
+
+  /**
+   * Makes the given URL relative to the XML whose access object we are given. 
+   * 
+   * @param authorAccess The author access of the XML document.
+   * @param url The url.
+   * 
+   * @return The relative URL.
+   */
+  public static String makeUrlRelative(AuthorAccess authorAccess, String url) {
+    String imagePath;
+    AuthorUtilAccess util = authorAccess.getUtilAccess();
+    try {
+      URL baseURL = authorAccess.getEditorAccess().getEditorLocation();
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
       try {
-        URL baseURL = authorAccess.getEditorAccess().getEditorLocation();
-        int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-        try {
-          AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
-          if(nodeAtOffset != null) {
-            //EXM-28217 Prefer to compute relative locations based on the XML base URL.
-            baseURL = nodeAtOffset.getXMLBaseURL();
-          }
-        } catch (BadLocationException e) {
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+        if(nodeAtOffset != null) {
+          //EXM-28217 Prefer to compute relative locations based on the XML base URL.
+          baseURL = nodeAtOffset.getXMLBaseURL();
         }
-        imagePath = authorAccess.getXMLUtilAccess().escapeAttributeValue(
-            util.makeRelative(
-                baseURL, 
-                //Also remove user credentials if this is the case.
-                util.removeUserCredentials(new URL(sel))));
-      } catch (MalformedURLException e1) {
-        // If there is no protocol, let the path specified by the user
-        imagePath = sel;
+      } catch (BadLocationException e) {
       }
+      imagePath = authorAccess.getXMLUtilAccess().escapeAttributeValue(
+          util.makeRelative(
+              baseURL, 
+              //Also remove user credentials if this is the case.
+              util.removeUserCredentials(new URL(url))));
+    } catch (MalformedURLException e1) {
+      // If there is no protocol, let the path specified by the user
+      imagePath = url;
     }
     return imagePath;
   }

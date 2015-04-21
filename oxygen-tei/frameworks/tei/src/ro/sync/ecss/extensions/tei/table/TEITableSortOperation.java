@@ -56,6 +56,7 @@ import java.util.List;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -66,6 +67,7 @@ import ro.sync.ecss.extensions.commons.sort.SimpleTableSortOperation;
  * TEI tables sort operation implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class TEITableSortOperation extends SimpleTableSortOperation {
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SimpleTableSortOperation#isTableElement(ro.sync.ecss.extensions.api.node.AuthorElement)

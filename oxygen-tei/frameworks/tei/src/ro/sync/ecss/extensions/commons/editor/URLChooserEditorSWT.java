@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.editor;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -414,6 +415,12 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
     ImageData imageResource = null;
     if (resourceAsStream != null) {
       imageResource = new ImageData(resourceAsStream);
+      // EXM-32124 - Make sure the stream is closed after using it
+      try {
+        resourceAsStream.close();
+      } catch (IOException e1) {
+        //Ignore
+      }
     }
     // Create button image
     ImageDescriptor icon = null;

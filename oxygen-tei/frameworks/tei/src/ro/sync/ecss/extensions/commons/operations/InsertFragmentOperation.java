@@ -63,6 +63,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
 
@@ -70,6 +71,7 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertCon
  * An implementation of an insert operation for an argument of type fragment.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class InsertFragmentOperation implements AuthorOperation {
   
   /**

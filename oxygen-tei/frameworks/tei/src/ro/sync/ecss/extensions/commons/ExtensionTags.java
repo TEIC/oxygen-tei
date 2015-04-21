@@ -68,9 +68,9 @@ public interface ExtensionTags {
   /**
    * Name of a section in the Sort dialog.
    * 
-   * en: Criterion
+   * en: Criteria
    */
-  String CRITERION = "Criterion";
+  String CRITERIA = "Criteria";
   /**
    * Name for ok buttons from an insertion dialog.
    * 
@@ -503,4 +503,40 @@ public interface ExtensionTags {
    * en: Row type
    */
   String ROW_TYPE = "Row_type";
+  /**
+   * "Insert Rows" action and frame/shell title. The action label has 3 dots added, the frame/shell title doesn't.
+   */
+  String INSERT_ROWS = "insert.table.rows.custom";
+  /**
+   * en: Number of rows
+   */
+  String NUMBER_OF_ROWS = "Number_of_rows";
+  /**
+   * "Insert Columns" action and frame/shell title. The action label has 3 dots added, the frame/shell title doesn't.
+   */
+  String INSERT_COLUMNS = "insert.table.columns.custom";
+  /**
+   * en: Number of columns
+   */
+  String NUMBER_OF_COLUMNS = "Number_of_columns";
+  /**
+   * en: Position
+   */
+  String POSITION = "Position";
+  /**
+   * en: Above
+   */
+  String ABOVE = "Above";
+  /**
+   * en: Below
+   */
+  String BELOW = "Below";
+  /**
+   * en: Before
+   */
+  String BEFORE = "Before";
+  /**
+   * en: After
+   */
+  String AFTER = "After";
 }

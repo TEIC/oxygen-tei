@@ -61,8 +61,10 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -71,6 +73,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * and to remove a list of values from nodes identified by an XPath expression.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class ChangePseudoClassesOperation  implements AuthorOperation {
   
   /**
@@ -175,9 +178,10 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
       String[] splitPseudoClasses = ((String) pseudoClassNames).split(" ");
       if(splitPseudoClasses != null && splitPseudoClasses.length > 0){
         List<AuthorElement> targetElements = new ArrayList<AuthorElement>();
+        AuthorDocumentController documentController = authorAccess.getDocumentController();
         if (xpathLocations instanceof String && ((String)xpathLocations).trim().length() > 0) {
           AuthorNode[] results =
-              authorAccess.getDocumentController().findNodesByXPath((String) xpathLocations, true, true, true);
+              documentController.findNodesByXPath((String) xpathLocations, true, true, true);
           for (int i = 0; i < results.length; i++) {
             AuthorNode authorNode = results[i];
             if(authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
@@ -191,7 +195,7 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
         } else {
           AuthorNode node = null;
           try {
-            node = authorAccess.getDocumentController().getNodeAtOffset(
+            node = documentController.getNodeAtOffset(
                 authorAccess.getEditorAccess().getCaretOffset());
           } catch (BadLocationException e) {
             throw new AuthorOperationException("Cannot identify the current element", e);
@@ -206,18 +210,27 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
           }
         }
         
-        //Iterate the target elements and set the pseudo classes to them.
-        for (int i = 0; i < targetElements.size(); i++) {
-          AuthorElement targetElement = targetElements.get(i);
-          for (int j = 0; j < splitPseudoClasses.length; j++) {
-            if(setClasses){
-              //Set
-              authorAccess.getDocumentController().setPseudoClass(splitPseudoClasses[j], targetElement);
-            } else {
-              //Remove
-              authorAccess.getDocumentController().removePseudoClass(splitPseudoClasses[j], targetElement);
+        // Disable the views update for each pseudo class change. Since we don't
+        // have a dedicate AuthorUE for this operation we will disable and 
+        // enable back the layout update. 
+        documentController.disableLayoutUpdate();
+        try {
+          //Iterate the target elements and set the pseudo classes to them.
+          for (int i = 0; i < targetElements.size(); i++) {
+            AuthorElement targetElement = targetElements.get(i);
+            for (int j = 0; j < splitPseudoClasses.length; j++) {
+              if(setClasses){
+                //Set
+                documentController.setPseudoClass(splitPseudoClasses[j], targetElement);
+              } else {
+                //Remove
+                documentController.removePseudoClass(splitPseudoClasses[j], targetElement);
+              }
             }
           }
+        } finally {
+          AuthorNode commonAncestor = documentController.getCommonAncestor(targetElements.toArray(new AuthorNode[0]));
+          documentController.enableLayoutUpdate(commonAncestor);
         }
       }
     }

@@ -57,7 +57,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,13 +66,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
+
+import org.apache.log4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -82,8 +83,7 @@ import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
-import ro.sync.exml.workspace.api.util.ColorTheme;
-import ro.sync.ui.Icons;
+import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
 import ro.sync.util.Resource;
 
 /**
@@ -93,6 +93,12 @@ import ro.sync.util.Resource;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = Logger.getLogger(SATablePropertiesCustomizerDialog.class
+      .getName());
+  
   /**
    * Panel containing all the properties for a given element.
    * 
@@ -180,7 +186,9 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
       constr.gridwidth = 2;
       add(new JLabel(""), constr);
 
-      setOpaque(false);
+      if (colorThemeUtilities == null || !colorThemeUtilities.getColorTheme().isDarkTheme()) {
+        setOpaque(false);
+      }
     }
 
     /**
@@ -215,7 +223,9 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
         groupPanel.setBorder(BorderFactory.createTitledBorder(authorResourceBundle.getMessage(keyTitle)));
       }
       // No need to see the panel's background
-      groupPanel.setOpaque(false);
+      if (colorThemeUtilities == null || !colorThemeUtilities.getColorTheme().isDarkTheme()) {
+        groupPanel.setOpaque(false);
+      }
       // Constraints for the newly created panel
       GridBagConstraints constr1 = new GridBagConstraints();
       constr1.gridx = 0;
@@ -261,7 +271,9 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
       previewPanel.setBorder(BorderFactory.createCompoundBorder(
           BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.PREVIEW)), 
           BorderFactory.createEmptyBorder(0, 0, 6, 0)));
-      previewPanel.setOpaque(false);
+      if (colorThemeUtilities == null || !colorThemeUtilities.getColorTheme().isDarkTheme()) {
+        previewPanel.setOpaque(false);
+      }
       GridBagConstraints previewConstr = new GridBagConstraints();
       previewConstr.gridx = 0;
       previewConstr.gridy = 0;
@@ -338,30 +350,26 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
       // Obtain the preview for the group and set the icon with the computed style
       JLabel iconLabel = previews.get(group);
       if (iconLabel != null) {
-        InputStream is = Resource.getResourceAsStream(iconRelativePath.toString());
-        ImageIcon imageIcon;
+        // Set the icon
+        BufferedImage bufferedImage = null;
+        URL imageURL = Resource.getResource(iconRelativePath.toString());
         try {
-          // Set the icon
-          BufferedImage bufferedImage = ImageIO.read(is);
-          if (colorTheme.isHighContrastTheme() &&
-              !colorTheme.isHighContrastWhiteTheme()) {
-            // Always invert image colors on black high contrast themes
-            Icons.invertImage(bufferedImage);
-          }
-          imageIcon = new ImageIcon(bufferedImage);
-          iconLabel.setIcon(imageIcon);
-          iconLabel.repaint();
+          bufferedImage = (BufferedImage) colorThemeUtilities.getImageInverter().loadImage(imageURL);
         } catch (IOException e) {
-          throw new AuthorOperationException(e.getMessage(), e);
-        } finally{
-          if(is != null){
-            try {
-              is.close();
-            } catch (IOException e) {
-              //
-            }
+          throw new AuthorOperationException(e.getMessage());
+        }
+        if (colorThemeUtilities.getColorTheme().isHighContrastTheme() &&
+            !colorThemeUtilities.getColorTheme().isHighContrastWhiteTheme()) {
+          // Always invert image colors on black high contrast themes
+          try {
+            bufferedImage = (BufferedImage) colorThemeUtilities.getImageInverter().invertImage(bufferedImage);
+          } catch (IOException e) {
+            logger.error(e, e);
           }
         }
+        ImageIcon imageIcon = new ImageIcon(bufferedImage);
+        iconLabel.setIcon(imageIcon);
+        iconLabel.repaint();
       }
     }
     
@@ -395,21 +403,21 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
   private AuthorResourceBundle authorResourceBundle;
   
   /**
-   * The color theme.
+   * The color theme utilities.
    */
-  private ColorTheme colorTheme;
+  private ColorThemeUtilities colorThemeUtilities;
   
   /**
    * Constructor.
    * 
    * @param parentFrame           The parent frame of the dialog.
    * @param authorResourceBundle  The author resource bundle.It is used for translations.
-   * @param colorTheme            The color theme.
+   * @param colorThemeUtilities            The color theme.
    */
-  public SATablePropertiesCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle, ColorTheme colorTheme) {
+  public SATablePropertiesCustomizerDialog(Frame parentFrame, AuthorResourceBundle authorResourceBundle, ColorThemeUtilities colorThemeUtilities) {
     super(parentFrame, authorResourceBundle.getMessage(ExtensionTags.TABLE_PROPERTIES), true);
     this.authorResourceBundle = authorResourceBundle;
-    this.colorTheme = colorTheme;
+    this.colorThemeUtilities = colorThemeUtilities;
   }
 
   /**

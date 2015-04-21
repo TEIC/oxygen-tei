@@ -104,12 +104,4 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
   public XMLNodeRendererCustomizer createXMLNodeCustomizer() {
     return new TEINodeRendererCustomizer();
   }
-  
-  /**
-   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createSchemaManagerFilter()
-   */
-  @Override
-  public SchemaManagerFilter createSchemaManagerFilter() {
-    return new TEISchemaManagerFilter();
-  }
 }

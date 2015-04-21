@@ -63,6 +63,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -70,6 +71,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * An implementation of an operation to change the value of an attribute.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class ChangeAttributeOperation implements AuthorOperation {
   /**
    * The attribute local name argument. The value is <code>name</code>.

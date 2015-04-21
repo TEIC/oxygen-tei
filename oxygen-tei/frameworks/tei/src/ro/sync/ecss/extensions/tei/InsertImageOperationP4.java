@@ -58,22 +58,28 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Operation used to insert a TEI P4 graphic.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(false)
 public class InsertImageOperationP4 implements AuthorOperation {
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     String entityName = null;
-    if(authorAccess.getWorkspaceAccess().isStandalone()) {
+    
+    Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+    if(Platform.STANDALONE.equals(platform)) {
       entityName = new SATEIFigureEntityAttributeCustomizer().getAttributeValue(authorAccess);
-    } else {
+    } else if (Platform.ECLIPSE.equals(platform)) {
       entityName = new ECTEIFigureEntityAttributeCustomizer().getAttributeValue(authorAccess);
     }
     if(entityName != null) {
@@ -89,6 +95,7 @@ public class InsertImageOperationP4 implements AuthorOperation {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
   }
@@ -96,6 +103,7 @@ public class InsertImageOperationP4 implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Insert a TEI P4 image";
   }

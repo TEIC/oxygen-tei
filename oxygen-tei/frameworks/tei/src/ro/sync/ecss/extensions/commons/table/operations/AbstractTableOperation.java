@@ -61,6 +61,7 @@ import javax.swing.text.BadLocationException;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
@@ -68,6 +69,7 @@ import ro.sync.ecss.extensions.api.UniqueAttributesProcessor;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
 
 /**
  * Base class for table operations. 
@@ -76,11 +78,26 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 public abstract class AbstractTableOperation implements AuthorOperation {
   
   /**
+   * The name of the table info argument.
+   */
+  public static final String TABLE_INFO_ARGUMENT_NAME = "table_info";
+
+  /**
+   * Argument descriptor for a table info argument.
+   */
+  public static final ArgumentDescriptor TABLE_INFO_ARGUMENT_DESCRIPTOR = new ArgumentDescriptor(
+      TABLE_INFO_ARGUMENT_NAME, 
+      ArgumentDescriptor.TYPE_JAVA_OBJECT, 
+      "Details of the table that will be inserted in the document. "
+      + "The value of the argument should be a Java Map<String, Object> with "
+      + "keys corresponding to TableInfo fields."
+      + "If a null value is passed in, the table customized dialog will be shown.");
+ 
+  /**
    * Table helper, has methods specific to each document type.
    */
   protected AuthorTableHelper tableHelper;
-
-  /**
+   /**
    * Constructor.
    * 
    * @param authorTableHelper Table helper, has methods specific to each document type.
@@ -106,6 +123,14 @@ public abstract class AbstractTableOperation implements AuthorOperation {
         break;
       }
       node = node.getParent();
+    }
+    
+    if(parentCell != null && parentCell.getParent() != null && parentCell.getParent().getType() == AuthorNode.NODE_TYPE_REFERENCE){
+      AuthorNode parentOfRef = parentCell.getParent().getParent();
+      if(tableHelper instanceof AbstractDocumentTypeHelper && ((AbstractDocumentTypeHelper)tableHelper).isContentReference(parentOfRef)){
+        //EXM-31584 Go up...
+        parentCell = getElementAncestor(parentCell.getParent(), type);
+      }
     }
     
     return parentCell;

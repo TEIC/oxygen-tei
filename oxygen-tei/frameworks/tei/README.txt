@@ -1,7 +1,7 @@
 <oXygen/> Text Encoding Initiative (TEI) framework 
 ===============================================================================
 
-This project contains all the files  required by oXygen XML Editor in order to
+This project contains all the files required by oXygen XML Editor in order to
 provide specific support for editing TEI documents:
 - the "src" folder contains JAVA sources that use the oXygen public API in order
 to add specific TEI support. The jar that results from these sources is copied 
@@ -21,8 +21,7 @@ from that oXygen installation.
 Editing the TEI framework configuration file
 ===============================================================================
 
-The configuration files are "tei4.framework" and
-"tei5.framework". These can be edited using oXygen itself using the following steps: 
+The configuration files are "tei4.framework", "tei5.framework", "teip5jtei.framework", and "teip5odd.framework". These can be edited using oXygen itself using the following steps: 
 - open "Preferences"/"Global" page
 - check "Use custom frameworks (Document Type Association) framework".
 - at "Framework directory" specify the parent of the "tei" project.

@@ -60,6 +60,7 @@ import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.content.OffsetInformation;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -70,6 +71,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * @author Costi Vetezi
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible
 public class CapitalizeSentencesOperation extends FormSelectedTextOperation {
   /**
    * An array with sentence delimiters.
@@ -164,6 +166,7 @@ public class CapitalizeSentencesOperation extends FormSelectedTextOperation {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Capitalize the first letter of each sentence in the current selection.";
   }

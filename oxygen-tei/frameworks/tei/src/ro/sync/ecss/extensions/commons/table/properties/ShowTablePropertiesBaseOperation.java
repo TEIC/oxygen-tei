@@ -83,6 +83,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Base class for operations that shows a dialog which allows the user to modify 
@@ -179,18 +180,19 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       if (!categoriesAndAttributes.isEmpty()) {
         // We have at least one category, show the dialog
         EditedTablePropertiesInfo editedTablePropertiesInfo = new EditedTablePropertiesInfo(categoriesAndAttributes, getSelectedTab(selections));
-        if(authorAccess.getWorkspaceAccess().isStandalone()) {
+        Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+        if (Platform.STANDALONE.equals(platform)) {
           SATablePropertiesCustomizerDialog saTablePropertiesCustomizer = new SATablePropertiesCustomizerDialog(
               (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
               authorAccess.getAuthorResourceBundle(),
-              authorAccess.getWorkspaceAccess().getColorTheme());
+              authorAccess.getWorkspaceAccess());
           saTablePropertiesCustomizer.setLocationRelativeTo(
               (Component) authorAccess.getWorkspaceAccess().getParentFrame());
 
           // Obtain the modified properties for the current table
           tableInfo = saTablePropertiesCustomizer.getTablePropertiesInformation(
               editedTablePropertiesInfo);
-        } else {
+        } else if (Platform.ECLIPSE.equals(platform)) {
           //Eclipse table customization
           ECTablePropertiesCustomizerDialog ecTablePropertiesCustomizer = new ECTablePropertiesCustomizerDialog(
               (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 

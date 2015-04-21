@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+   <title>ISO Schematron rules</title>
+   <!-- This file generated 2015-04-06T12:48:16Z by 'extract-isosch.xsl'. -->
+
+   <!-- ********************* -->
+   <!-- namespaces, declared: -->
+   <!-- ********************* -->
+   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+   <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
+   <ns prefix="rng" uri="http://relaxng.org/ns/structure/1.0"/>
+   <ns prefix="s" uri="http://www.ascc.net/xml/schematron"/>
+   <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
+   <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
+   <ns prefix="teix" uri="http://www.tei-c.org/ns/Examples"/>
+
+   <!-- ********************* -->
+   <!-- namespaces, implicit: -->
+   <!-- ********************* -->
+   <ns prefix="dcr" uri="http://www.isocat.org/ns/dcr"/>
+   <ns prefix="eip-d2e83782"
+       uri="http://www.example.org/cannot/really/use/XInclude"/>
+   <ns prefix="eip-d2e83840"
+       uri="http://www.example.org/cannot/really/use/XInclude"/>
+   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+   <ns prefix="teix" uri="http://www.tei-c.org/ns/Examples"/>
+
+   <!-- ************ -->
+   <!-- constraints: -->
+   <!-- ************ -->
+   <pattern id="p5odds-att.datable-calendar-constraint-calendar-1">
+          <rule context="tei:*[@calendar]">
+            <assert test="string-length(.) gt 0">
+@calendar indicates the system or calendar to which the date represented by the content of this element
+belongs, but this <name/> element has no textual content.</assert>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-att.typed-constraint-subtypeTyped-2">
+      <rule context="*[@subtype]">
+        <assert test="@type">The <name/> element should not be categorized in detail with @subtype
+ unless also categorized in general with @type</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-att.pointing-targetLang-constraint-targetLang-3">
+          <rule context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
+            <assert test="count(@target)">@targetLang can only be used if @target is specified.</assert>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-att.spanning-spanTo-constraint-spanTo-2-4">
+          <rule context="tei:*[@spanTo]">
+            <assert test="id(substring(@spanTo,2)) and following::*[@xml:id=substring(current()/@spanTo,2)]">
+The element indicated by @spanTo (<value-of select="@spanTo"/>) must follow the current element <name/>
+                  </assert>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-att.styleDef-schemeVersion-constraint-schemeVersionRequiresScheme-5">
+          <rule context="tei:*[@schemeVersion]">
+            <assert test="@scheme and not(@scheme = 'free')">
+              @schemeVersion can only be used if @scheme is specified.
+            </assert>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-att.translatable-constraint-require-translatability-6">
+                <rule context="tei:elementSpec/tei:desc                                  | tei:elementSpec/tei:gloss                                  | tei:elementSpec/tei:remarks                                  | tei:classSpec/tei:desc                                  | tei:classSpec/tei:gloss                                  | tei:classSpec/tei:remarks                                  | tei:macroSpec/tei:desc                                  | tei:macroSpec/tei:gloss                                  | tei:macroSpec/tei:remarks                                  | tei:attDef/tei:desc                                  | tei:attDef/tei:gloss                                  | tei:attDef/tei:remarks                                  | tei:valItem/tei:desc                                  | tei:valItem/tei:gloss                                  | tei:valItem/tei:remarks                                  ">
+                  <report test="not( @xml:lang and @versionDate )">
+                    Error: both the versionDate and xml:lang attributes on "<name/>" are required when it is a child of "<value-of select="local-name(..)"/>".
+                  </report>
+                </rule>
+            </pattern>
+   <pattern id="p5odds-att.translatable-constraint-all-sibling-parent-desc-7">
+              <rule context="*[tei:desc[@versionDate]]">
+                <report role="nonfatal"
+                 test="                      count( tei:desc )                      ne                      count( tei:desc[@versionDate] )                      ">
+                  Error: sibling 'desc' elements with and without @versionDate.
+                </report>
+              </rule>
+	    </pattern>
+   <pattern id="p5odds-att.translatable-constraint-all-sibling-parent-gloss-8">
+              <rule context="*[tei:gloss[@versionDate]]">
+                <report role="nonfatal"
+                 test="                      count( tei:gloss )                      ne                      count( tei:gloss[@versionDate] )                      ">
+                  Error: sibling 'gloss' elements with and without @versionDate.
+                </report>
+              </rule>
+	    </pattern>
+   <pattern id="p5odds-att.translatable-constraint-all-sibling-parent-remarks-9">
+              <rule context="*[tei:remarks[@versionDate]]">
+                <report role="nonfatal"
+                 test="                      count( tei:remarks )                      ne                      count( tei:remarks[@versionDate] )                      ">
+                  Error: sibling 'remarks' elements with and without @versionDate.
+                </report>
+              </rule>
+	    </pattern>
+   <pattern id="p5odds-att.translatable-constraint-all-sibling-parent-valDesc-10">
+              <rule context="*[tei:valDesc[@versionDate]]">
+                <report role="nonfatal"
+                 test="                      count( tei:valDesc )                      ne                      count( tei:valDesc[@versionDate] )                      ">
+                  Error: sibling 'valDesc' elements with and without @versionDate.
+                </report>
+              </rule>
+            </pattern>
+   <pattern id="p5odds-ptr-constraint-ptrAtts-11">
+      <rule context="tei:ptr">
+         <report test="@target and @cRef">Only one of the
+attributes @target and @cRef may be supplied on <name/>.</report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-ref-constraint-refAtts-12">
+      <rule context="tei:ref">
+         <report test="@target and @cRef">Only one of the
+	attributes @target' and @cRef' may be supplied on <name/>
+         </report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-list-constraint-gloss-list-must-have-labels-13">
+      <rule context="tei:list[@type='gloss']">
+	        <assert test="tei:label">The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-biblStruct-constraint-deprecate-altIdentifier-child-14">
+      <rule context="tei:biblStruct">
+         <report test="child::tei:idno" role="nonfatal">WARNING: use of deprecated method — the use of the idno element as a direct child of the biblStruct element will be removed from the TEI on 2016-09-18</report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-relatedItem-constraint-targetorcontent1-15">
+      <rule context="tei:relatedItem">
+         <report test="@target and count( child::* ) &gt; 0">
+If the @target attribute on <name/> is used, the
+relatedItem element must be empty</report>
+         <assert test="@target or child::*">A relatedItem element should have either a 'target' attribute
+        or a child element to indicate the related bibliographic item</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-lg-constraint-atleast1oflggapl-16">
+      <rule context="tei:lg">
+         <assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
+        must contain at least one child l, lg or gap element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-quotation-constraint-quotationContents-17">
+      <rule context="tei:quotation">
+         <report test="not(@marks) and not (tei:p)">
+On <name/>, either the @marks attribute should be used, or a paragraph of description provided</report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-relation-constraint-reforkeyorname-18">
+      <rule context="tei:relation">
+         <assert test="@ref or @key or @name">One of the attributes  'name', 'ref' or 'key' must be supplied</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-relation-constraint-activemutual-19">
+      <rule context="tei:relation">
+         <report test="@active and @mutual">Only one of the attributes
+@active and @mutual may be supplied</report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-relation-constraint-activepassive-20">
+      <rule context="tei:relation">
+         <report test="@passive and not(@active)">the attribute 'passive'
+	may be supplied only if the attribute 'active' is
+	supplied</report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-TEI-constraint-must-have-attglobal-21">
+      <rule context="tei:elementSpec[not(@mode)]">
+        <assert test="tei:classes/tei:memberOf[@key='att.global']">Error: TEI element <value-of select="@ident"/> must be member of att.global class</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-att.identified-constraint-spec-in-module-24">
+      <rule context="tei:elementSpec[@module]|tei:classSpec[@module]|tei:macroSpec[@module]">
+        <assert test="         (not(ancestor::tei:schemaSpec | ancestor::tei:TEI | ancestor::tei:teiCorpus)) or         (not(@module) or          (not(//tei:moduleSpec) and not(//tei:moduleRef))  or         (//tei:moduleSpec[@ident = current()/@module]) or          (//tei:moduleRef[@key = current()/@module]))         ">
+        Specification <value-of select="@ident"/>: the value of the module attribute ("<value-of select="@module"/>") 
+should correspond to an existing module, via a moduleSpec or
+      moduleRef</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-att.deprecated-validUntil-constraint-deprecated-25">
+          <rule context="tei:*[@validUntil]">
+            <assert test="@validUntil cast as xs:date ge          current-date()">
+            <value-of select="if          (@ident) then concat('The ',@ident) else          concat('This ',local-name(.),' of          ',ancestor::tei:*[@ident][1]/@ident)"/>
+	    construct is outdated (as of <value-of select="@validUntil"/>); ODD processors may ignore it, and its use is no longer supported</assert>
+            <assert role="nonfatal"
+                 test="@validUntil cast as xs:date ge          (current-date() + (60*xs:dayTimeDuration('P1D')))">
+            <value-of select="if (@ident) then concat('The ',@ident) else concat('This ',local-name(.),' of ',ancestor::tei:*[@ident][1]/@ident)"/>  construct becomes outdated on <value-of select="@validUntil"/>
+         </assert>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-moduleRef-constraint-modref-26">
+      <rule context="tei:moduleRef">
+        <report test="* and @key">
+Child elements of <name/> are only allowed when an external module is being loaded
+        </report>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-moduleRef-prefix-constraint-not-same-prefix-27">
+          <rule context="tei:moduleRef">
+            <report test="//*[ not( generate-id(.) eq generate-id(      current() ) ) ]/@prefix = @prefix">The prefix attribute
+	    of <name/> should not match that of any other
+	    element (it would defeat the purpose)</report>
+          </rule>
+        </pattern>
+   <pattern id="p5odds-sequence-constraint-sequencechilden-28">
+      <rule context="tei:sequence">
+         <assert test="count(*)&gt;1">The sequence element must have at least two child elements</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-alternate-constraint-alternatechilden-29">
+      <rule context="tei:alternate">
+         <assert test="count(*)&gt;1">The alternate element must have at least two child elements</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-constraintSpec-constraint-sch-30">
+      <rule context="tei:constraintSpec">
+      
+         <report test="tei:constraint/s:* and    not(@scheme='schematron')">
+	Rules in the Schematron 1.* language must be inside
+	a constraintSpec with a value of 'schematron' on the scheme attribute
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-constraintSpec-constraint-isosch-31">
+      <rule context="tei:constraintSpec">
+      
+         <report test="tei:constraint/sch:* and    not(@scheme='isoschematron')">
+	Rules in the ISO Schematron language must be inside
+	a constraintSpec with a value of 'isoschematron' on the scheme attribute
+      </report>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-constraintSpec-constraint-needrules-32">
+      
+      <rule context="tei:macroSpec/tei:constraintSpec[@scheme='isoschematron']/tei:constraint">
+	        <report test="sch:assert|sch:report">An ISO Schematron constraint specification for a macro should not have an 'assert' or 'report' element without a parent 'rule' element</report>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-attDef-constraint-attDefContents-33">
+      <rule context="tei:attDef">
+      
+         <assert test="ancestor::teix:egXML[@valid='feasible'] or @mode eq 'change' or @mode eq 'delete' or tei:datatype or tei:valList[@type='closed']">Attribute: the definition of the @<value-of select="@ident"/> attribute in the <value-of select="ancestor::*[@ident][1]/@ident"/>
+            <value-of select="' '"/>
+            <value-of select="local-name(ancestor::*[@ident][1])"/> should have a closed valList or a datatype</assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-attDef-constraint-noDefault4Required-34">
+      <rule context="tei:attDef[@usage eq 'req']">
+	        <report test="tei:defaultVal">It does not make sense to make "<value-of select="normalize-space(tei:defaultVal)"/>" the default value of @<value-of select="@ident"/>, because that attribute is required.</report>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-attDef-constraint-defaultIsInClosedList-twoOrMore-35">
+      <rule context="tei:attDef[   tei:defaultVal   and   tei:valList[@type eq 'closed']   and   tei:datatype[    @maxOccurs &gt; 1    or    @minOccurs &gt; 1    or    @maxOccurs = 'unbounded'    ]   ]">
+	        <assert test="     tokenize(normalize-space(tei:defaultVal),' ')     =     tei:valList/tei:valItem/@ident">In the <value-of select="local-name(ancestor::*[@ident][1])"/> defining
+	<value-of select="ancestor::*[@ident][1]/@ident"/> the default value of the
+	@<value-of select="@ident"/> attribute is not among the closed list of possible
+	values</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-attDef-constraint-defaultIsInClosedList-one-36">
+      <rule context="tei:attDef[   tei:defaultVal   and   tei:valList[@type eq 'closed']   and   tei:datatype[    not(@maxOccurs)    or (    if ( @maxOccurs castable as xs:integer )     then ( @maxOccurs cast as xs:integer eq 1 )     else false()    )]   ]">
+	        <assert test="string(tei:defaultVal)      =      tei:valList/tei:valItem/@ident">In the <value-of select="local-name(ancestor::*[@ident][1])"/> defining
+	<value-of select="ancestor::*[@ident][1]/@ident"/> the default value of the
+	@<value-of select="@ident"/> attribute is not among the closed list of possible
+	values</assert>
+      </rule>
+    </pattern>
+   <pattern id="p5odds-link-constraint-linkTargets3-37">
+      <rule context="tei:link">
+         <assert test="contains(normalize-space(@target),' ')">You must supply at least two values for @target or  on <name/>
+         </assert>
+      </rule>
+   </pattern>
+   <pattern id="p5odds-join-constraint-joinTargets3-38">
+      <rule context="tei:join">
+         <assert test="contains(@target,' ')">
+You must supply at least two values for @target on <name/>
+         </assert>
+      </rule>
+   </pattern>
+
+   <!-- *********** -->
+   <!-- deprecated: -->
+   <!-- *********** -->
+   <pattern>
+      <rule context="tei:teiHeader">
+         <report test="@type" role="nonfatal">WARNING: use of deprecated attribute — @type of the teiHeader element will be removed from the TEI on 2016-11-18.
+                </report>
+      </rule>
+   </pattern>
+   <pattern>
+      <rule context="tei:moduleSpec|tei:schemaSpec|tei:elementSpec|tei:classSpec|tei:macroSpec|tei:constraintSpec|tei:attDef">
+         <report test="@status" role="nonfatal">WARNING: use of deprecated attribute — @status of the <name/> element will be removed from the TEI on 2015-06-19.
+                </report>
+      </rule>
+   </pattern>
+</schema>
