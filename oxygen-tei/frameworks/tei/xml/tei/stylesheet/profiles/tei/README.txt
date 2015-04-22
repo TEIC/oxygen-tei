@@ -1,1 +1,0 @@
-Text Encoding Initiative documentation
