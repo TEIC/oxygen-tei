@@ -20,6 +20,7 @@ TEI:before, text:before {
   margin-bottom: 1em;    
   text-align: center;
 }
+
 TEI:before {
   content: "The Journal of the Text Encoding Initiative, " oxy_xpath('//teiHeader/fileDesc/publicationStmt/idno/string()');
   padding: 1em 0;
