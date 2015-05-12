@@ -20,14 +20,13 @@ TEI:before, text:before {
   margin-bottom: 1em;    
   text-align: center;
 }
-
 TEI:before {
-  content: "The Journal of the Text Encoding Initiative, " oxy_xpath('//teiHeader/fileDesc/publicationStmt/idno/string()');
+  content: "The Journal of the Text Encoding Initiative, " oxy_xpath('(//teiHeader/fileDesc/publicationStmt/idno/string(),//teiHeader/fileDesc/seriesStmt/biblScope[@unit="issue"]/@n/concat("Issue ", .))[1]');
   padding: 1em 0;
   font-weight: bold;
 }
 text:before {
-  content: oxy_label(text, oxy_xpath('string-join(//teiHeader/fileDesc/titleStmt/(author|editor)/string-join(name/(forename, surname), " "), ", ")'), styles, "font-weight: bold;font-style: normal;") ": " oxy_xpath('//teiHeader/fileDesc/titleStmt/title/string()');
+  content: oxy_label(text, oxy_xpath('string-join(//teiHeader/fileDesc/titleStmt/(author|editor)/string-join(name/(forename, surname), " "), ", ")'), styles, "font-weight: bold;font-style: normal;") ": " oxy_xpath('string-join(//teiHeader/fileDesc/titleStmt/title/string(), ": ")');
   font-size: 14pt;
 }
 
