@@ -61,10 +61,10 @@
 											<String>jtei2odt</String>
 										</field>
 										<field name="name">
-											<String>generate review version (ODT)</String>
+											<String>Generate Review Version (ODT)</String>
 										</field>
 										<field name="description">
-											<String>generate review version (ODT)</String>
+											<String>Generate a review version (in ODT format)</String>
 										</field>
 										<field name="largeIconPath">
 											<String>${framework}/xml/tei/jtei_aux/images/odt_large.png</String>
@@ -107,10 +107,10 @@
 											<String>jtei2pdf</String>
 										</field>
 										<field name="name">
-											<String>generate PDF</String>
+											<String>Generate Printer-Friendly Version (PDF)</String>
 										</field>
 										<field name="description">
-											<String>generate PDF version</String>
+											<String>Generate a printer-friendly version (in PDF format)</String>
 										</field>
 										<field name="largeIconPath">
 											<String>${framework}/xml/tei/jtei_aux/images/pdficon_large.png</String>
