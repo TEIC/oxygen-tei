@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="documentation" name="oxygen-tei" xmlns:if="ant:if"
+  xmlns:unless="ant:unless">
+  
+  <property name="echo.separator" value="***********************************************************"/>
+<!-- Location of the release packages of P5 on SourceForge. -->
+  <property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> 
+<!-- Location of the release packages of the TEI Stylesheets on SourceForge. -->
+  <property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>
+  
+<!-- NOTE: THIS WILL BE CHANGED TO oxygen-tei AT SOME POINT PER COUNCIL DECISION. -->
+  <property name="packageFilePrefix" value="teioxygen"/>
+  
+  <target name="documentation">
+    <echo message="${echo.separator}"/>
+    <echo>
+THIS IS STILL IN DEVELOPMENT, INCOMPLETE AND UNTESTED, 
+     
+This build file is intended to build all or any of the versions of the 
+TEI plugin for Oxygen. Currently these are:
+
+syncro: Builds the plugin for the Syncro team to include with a release
+        of Oxygen. This discovers the current stable versions of P5 
+        and the Stylesheets, gets them, and builds with them.
+        
+bleeding: This is intended to run on the TEI's Jenkins build servers, and 
+          creates a version of the plugin (with an accompanying 
+          updateSite.oxygen file) based on the latest trunk builds of 
+          P5 and the Stylesheets from the same build server.
+          
+stable: This builds the plugin in the same way as the syncro job 
+        (with the latest stable versions), but also offers to upload 
+        the result to the TEI's SourceForge repo to become a release 
+        of the TEI-maintained version of the plugin. This also creates 
+        an updated updateSite.oxygen file, by retrieving the latest 
+        updateSite.oxygen file from the tei-c.org site, and asks the 
+        user to provide the new version number before creating a 
+        new version of updateSite.oxygen. The builder (usually a 
+        member of the TEI Council) is responsible for uploading that 
+        file to tei-c.org.
+              
+      More documentation coming...
+      
+    </echo>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="getStableVersionNums">
+    <echo message="${echo.separator}"/>
+    <echo message="Retrieving version numbers of current stable releases..."/>
+    <get src="http://www.tei-c.org/Vault/P5/current/xml/tei/odd/VERSION" 
+      dest="p5version" 
+      usetimestamp="true"/>
+    <loadfile property="tempP5Version" srcFile="p5version"/>
+<!--   Trim this version number; the file often has a return or two in it. -->
+    <script language="javascript">
+      <![CDATA[ // 
+        var before = new String(project.getProperty("tempP5Version"));
+        project.setProperty("p5Version", before.replace(/\s/g, ""));
+       ]]>
+    </script>
+    <exec executable="/bin/bash" outputproperty="stylesheetsVersion">
+      <arg value="-c"/>
+      <arg value='git ls-remote --tags https://github.com/TEIC/Stylesheets.git | egrep -o "([0-9]+\.)+[0-9]+" | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n1'/>
+    </exec>
+    <echo message="P5 stable release version is: ${p5Version}"/>
+    <echo message="Stylesheets stable release version is: ${stylesheetsVersion}"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="getStableVersions" depends="getStableVersionNums">
+    <echo message="${echo.separator}"/>
+    <property name="p5Zip" value="${SFP5}/tei-${p5Version}.zip"/>
+    <echo message="Retrieving ${p5Zip}"/>
+    <get src="${p5Zip}" dest="tei.zip" usetimestamp="true"/>
+    <echo message="${echo.separator}"/>
+    <property name="stylesheetsZip" value="${SFXSL}/tei-xsl-${stylesheetsVersion}.zip"/>
+    <echo message="Retrieving ${stylesheetsZip}"/>
+    <get src="${stylesheetsZip}" dest="xsl.zip" usetimestamp="true"/>
+  </target>
+  
+  <target name="clean">
+    <echo message="${echo.separator}"/>
+    <echo message="Cleaning up from any previous build..."/>
+    <delete dir="frameworks/tei/xml/tei/Test"/>
+    <delete dir="frameworks/tei/xml/tei/custom/odd"/>
+    <delete dir="frameworks/tei/xml/tei/custom/schema"/>
+    <delete dir="frameworks/tei/xml/tei/odd"/>
+    <delete dir="frameworks/tei/xml/tei/schema"/>
+    <delete dir="frameworks/tei/xml/tei/stylesheet"/>
+    <delete dir="frameworks/tei/xml/tei/xquery"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="unpackZips">
+    <echo message="${echo.separator}"/>
+    <echo message="Unpacking zip files of P5 and Stylesheets..."/>
+    <unzip src="tei.zip" dest="frameworks/tei"/>
+    <unzip src="xsl.zip" dest="frameworks/tei"/>
+    <echo message="Removing unwanted bits of the downloaded packages..."/>
+    <delete>
+      <fileset dir="frameworks/tei/xml/tei/Exemplars" includes="*epub *html *pdf *tex *compiled"/>
+    </delete>
+    <delete>
+      <fileset dir="frameworks/tei/xml/tei/odd" includes="p5subset.j* p5attlist.txt *.css p5odds-examples.*"/>
+    </delete>
+    <delete dir="frameworks/tei/doc"/>
+    <delete dir="frameworks/tei/xml/tei/Test"/>
+    <delete dir="frameworks/tei/xml/tei/odd/ReleaseNotes"/>
+    <delete dir="frameworks/tei/xml/tei/odd/Source"/>
+    <delete dir="frameworks/tei/xml/tei/odd/Exemplars"/>
+    <delete dir="frameworks/tei/xml/tei/Exemplars"/>
+    <delete dir="frameworks/tei/xml/tei/odd/Utilities"/>
+    <delete dir="frameworks/tei/xml/tei/odd/webnav"/>
+    <delete dir="frameworks/tei/xml/tei/xquery"/>
+    <echo message="Moving a couple of things around..."/>
+    <mkdir dir="frameworks/tei/templates/TEI P5"/>
+    <move todir="frameworks/tei/templates/TEI P5">
+      <fileset dir="frameworks/tei/xml/tei/custom/templates" includes="*"/>
+    </move>
+    <delete>
+      <fileset dir="frameworks/tei/templates/TEI P5" includes="tei_*.doc.xml pom.xml"/>
+    </delete>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="doBuild">
+    <echo message="${echo.separator}"/>
+    <echo message="Running the actual plugin build operation..."/>
+    <ant antfile="build.xml" dir="frameworks/tei"/>
+  </target>
+  
+  <target name="copyDist">
+    <echo message="${echo.separator}"/>
+    <property name="outputZip" value="${packageFilePrefix}-${p5Version}-${stylesheetsVersion}.zip"/>
+    <echo message="Copying dist file to ${outputZip}..."/>
+    <copy file="frameworks/tei/dist/tei.zip" tofile="${outputZip}"/>
+    <echo message="The output file is: ${outputZip}."/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="syncro" depends="getStableVersions, clean, unpackZips, doBuild, copyDist">
+    <echo message="${echo.separator}"/>
+    <echo message="Done!"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="uploadToSourceForge">
+<!-- NOTE: This is uurrrgly, but we do want to make sure nothing gets uploaded to SF by 
+    accident, and we don't try to upload without a user name. -->
+    <input
+      message="The build will now be uploaded to SourceForge. Are you sure you want to do this?"
+      validargs="y,n"
+      defaultvalue="n"
+      addproperty="okToUpload"
+    />
+    <condition property="doUpload">
+      <and>
+        <isset property="okToUpload" />
+        <equals arg1="${okToUpload}" arg2="y" />
+      </and>
+    </condition>
+    <input if:true="${doUpload}" message="What is your SourceForge user name?"
+      defaultvalue=""
+      addproperty="sfUserName"/>
+    <length property="sfUserNameLength" string="${sfUserName}"/>
+    <condition property="readyToUpload">
+      <and>
+        <isset property="okToUpload" />
+        <equals arg1="${okToUpload}" arg2="y" />
+        <not>
+          <equals arg1="${sfUserNameLength}" arg2="0" />
+        </not>
+      </and>
+    </condition>
+    <exec executable="/bin/bash" failonerror="true" if:true="${readyToUpload}">
+      <arg value="-c"/>
+<!--      Used this commented-out version for local testing. -->
+      <!--<arg value="rsync -e ssh ${outputZip} mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/${outputZip}"/>-->
+      <arg value="rsync -e ssh ${outputZip} ${sfUserName},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/${outputZip}"/>
+    </exec>
+    <echo message="ABORTED the upload to SourceForge." unless:true="${readyToUpload}"/>
+    <echo message="User declined to proceed." unless:true="${doUpload}"/>
+  </target>
+  
+  <target name="stable" depends="getStableVersions, clean, unpackZips, doBuild, copyDist, uploadToSourceForge">
+    <echo message="${echo.separator}"/>
+    <echo message="Done!"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  
+</project>
