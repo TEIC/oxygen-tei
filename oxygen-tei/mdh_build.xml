@@ -348,18 +348,28 @@ has worked well. You will need shell access to tei-c.org.
     </tstamp>
     <property name="bleedingZip" value="oxygen-tei-${p5JenkinsVersion}-${stylesheetsJenkinsVersion}-${now}.zip"/>
     <copy file="frameworks/tei/dist/tei.zip" tofile="$bleedingZip"/>
-    
     <echo message="${echo.separator}"/>
   </target>
   
   <target name="transformBleedingUpdateFile">
+    <echo message="${echo.separator}"/>
+    <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
+    <hostinfo/>
+    <property name="hostname" value="${NAME}.${DOMAIN}"/>
+    <echo message="Running on host ${hostname}..."/>
+    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip}"/>
+    <echo message="Running Saxon to create new updateSite.oxygen file:"/>
+    <echo message="${saxonCommand}"/>
+    <exec executable="/bin/bash" failonerror="true">
+      <arg value="-c"/>
+      <arg value="${bleedingSaxonCommand}"/>
+    </exec>
+    <echo message="${echo.separator}"/>
   </target>
   
-  <target name="bleeding" depends="getLatestJenkinsVersions, clean, unpackZips, doBuild, createBleedingDistFile">
-
-    
+  <target name="bleeding" depends="getLatestJenkinsVersions, clean, unpackZips, doBuild, createBleedingDistFile, transformBleedingUpdateFile">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
     <echo message="${echo.separator}"/>
