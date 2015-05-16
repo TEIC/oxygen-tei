@@ -41,9 +41,8 @@ release: This builds the plugin in the same way as the syncro job
         an updated updateSite.oxygen file, by retrieving the latest 
         updateSite.oxygen file from the tei-c.org site, and asks the 
         user to provide the new version number before creating a 
-        new version of updateSite.oxygen. The builder (usually a 
-        member of the TEI Council) is responsible for uploading that 
-        file to tei-c.org.
+        new version of updateSite.oxygen. It also offers to upload that 
+        file to tei-c.org, if the user has shell access.
 
 stable: This is also intended to run on the TEI's Jenkins build servers, 
         and builds a version of the plugin which should be identical
@@ -135,6 +134,14 @@ stable: This is also intended to run on the TEI's Jenkins build servers,
     <delete>
       <fileset dir="frameworks/tei/templates/TEI P5" includes="tei_*.doc.xml pom.xml"/>
     </delete>
+    <mkdir dir="frameworks/tei/templates/TEI jTEI"/>
+    <copy todir="frameworks/tei/templates/TEI jTEI">
+      <fileset dir="frameworks/tei/templates/TEI P5" includes="jTEI*Article.*"/>
+    </copy>
+    <mkdir dir="frameworks/tei/templates/TEI ODD"/>
+    <copy todir="frameworks/tei/templates/TEI ODD">
+      <fileset dir="frameworks/tei/templates/TEI P5" includes="ODD*customization.*"/>
+    </copy>
     <echo message="${echo.separator}"/>
   </target>
   
@@ -298,18 +305,61 @@ has worked well. You will need shell access to tei-c.org.
     
     <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets/lastSuccessful/archive/"/>
     <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}/dist/doc/tei-xsl/VERSION"/>
-    <loadfile property="tempJenkinsStylesheetsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
+    <loadfile property="tempStylesheetsJenkinsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
     <script language="javascript">
       <![CDATA[ // 
-        var before = new String(project.getProperty("tempJenkinsStylesheetsVersion"));
-        project.setProperty("jenkinsStylesheetsVersion", before.replace(/\s/g, ""));
+        var before = new String(project.getProperty("tempstylesheetsJenkinsVersion"));
+        project.setProperty("stylesheetsJenkinsVersion", before.replace(/\s/g, ""));
        ]]>
     </script>
-    <echo message="Latest Stylesheets version built on Jenkins is: ${jenkinsStylesheetsVersion}"/>
+    <echo message="Latest Stylesheets version built on Jenkins is: ${stylesheetsJenkinsVersion}"/>
+    <echo message="Retrieving last updateSite.oxygen file from this build job."/>
+    <copy file="../../builds/lastSuccessfulBuild/archive/oxygen-tei/updateSite.oxygen"
+             tofile="updateSite.oxygen"/>
+    
+<!--    Now this needs to work on a brand-new Jenkins server which may not have 
+          an existing file. -->
+    <antcall target="getUpdateFileIfMissing"/>
   </target>
   
-  <target name="bleeding" depends="getLatestJenkinsBuildInformation">
+  <target name="checkUpdateFilePresent">
+    <available file="updateSite.oxygen" property="updateSitePresent"/>
+  </target>
+  
+  <target name="getUpdateFileIfMissing" depends="checkUpdateFilePresent" unless="updateSitePresent">
+    <copy file="jenkins/updateSite.oxygen" tofile="updateSite.oxygen"/>
+  </target>
+  
+  <target name="getLatestJenkinsVersions" depends="getLatestJenkinsBuildInformation">
+    <echo message="${echo.separator}"/>
+    <echo message="Retrieving latest P5 and Stylesheets builds from Jenkins jobs."/>
+    <copy file="${p5JenkinsBuild}tei-${p5JenkinsVersion}.zip"
+                tofile="tei.zip"/>
+    <copy file="${stylesheetsJenkinsBuild}tei-xsl-${stylesheetsJenkinsVersion}.zip"
+      tofile="xsl.zip"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="createBleedingDistFile">
+    <echo message="${echo.separator}"/>
+    <tstamp>
+      <format property="now" pattern="yyyy-MM-dd-kkmmss"/>
+    </tstamp>
+    <property name="bleedingZip" value="oxygen-tei-${p5JenkinsVersion}-${stylesheetsJenkinsVersion}-${now}.zip"/>
+    <copy file="frameworks/tei/dist/tei.zip" tofile="$bleedingZip"/>
+    
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="transformBleedingUpdateFile">
+    <property environment="env"/>
+    <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
+  </target>
+  
+  <target name="bleeding" depends="getLatestJenkinsVersions, clean, unpackZips, doBuild, createBleedingDistFile">
+
+    
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
     <echo message="${echo.separator}"/>
