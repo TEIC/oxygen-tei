@@ -26,6 +26,7 @@
   <xsl:param name="jenkinsBuildNumber"/>
   <xsl:param name="newZipFileName"/>
   <xsl:param name="currBuild"/>
+  <xsl:param name="isTrunkBuild" select="'yes'"/>
   
   <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'teijenkins')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationUVic"/>
   
@@ -46,11 +47,22 @@
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
       <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
-      <!--<xsl:sequence select="local:getNextVersionNumber_FAILS()"/>-->
       <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version', 'description', 'licence'))]|following-sibling::text())"/>
       <xt:description>
-        <xsl:text>DEVELOPMENT BUILD </xsl:text> <xsl:value-of select="$currBuild"/>
-        <xsl:text> of the TEI schemas and stylesheets. 
+        <xsl:choose>
+          <xsl:when test="$isTrunkBuild = 'yes'">
+            <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
+            based on the current trunk versions of TEI P5 and the 
+            TEI Stylesheets.</xsl:text> 
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>STABLE TEST BUILD  of the Oxygen TEI plugin
+            based on the current release versions of TEI P5 and the 
+            TEI Stylesheets.</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>Jenkins build number: </xsl:text>
+        <xsl:value-of select="$currBuild"/><xsl:text>.
           Use this only if you are testing the 
 	      plugin. To avoid conflict with builtin framework, please ensure that
 	      you have gone to Preferences->Document Type Association in

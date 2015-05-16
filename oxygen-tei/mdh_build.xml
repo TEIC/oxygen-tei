@@ -58,6 +58,16 @@ stable: This is also intended to run on the TEI's Jenkins build servers,
     <echo message="${echo.separator}"/>
   </target>
   
+  <target name="init">
+    <echo message="${echo.separator}"/>
+    <hostinfo/>
+    <property name="hostname" value="${NAME}.${DOMAIN}"/>
+    <echo message="Running on host ${hostname}..."/>
+    <tstamp>
+      <format property="now" pattern="yyyy-MM-dd-kkmmss"/>
+    </tstamp>
+  </target>
+  
   <target name="getStableVersionNums">
     <echo message="${echo.separator}"/>
     <echo message="Retrieving version numbers of current stable releases..."/>
@@ -160,13 +170,11 @@ stable: This is also intended to run on the TEI's Jenkins build servers,
     <echo message="${echo.separator}"/>
   </target>
   
-  <target name="syncro" depends="getStableVersions, clean, unpackZips, doBuild, copyDist">
+  <target name="syncro" depends="init, getStableVersions, clean, unpackZips, doBuild, copyDist">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
     <echo message="${echo.separator}"/>
   </target>
-  
-  
   
   <target name="createTeiOxygenUpdateFile">
     <echo message="${echo.separator}"/>
@@ -284,7 +292,39 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="${echo.separator}"/>
   </target>
   
-  <target name="release" depends="getStableVersions, clean, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge, uploadOxygenUpdateFile">
+  
+<!--  This target creates a build of the plugin ready for release on 
+      SourceForge. It uses stable versions of P5 and the Stylesheets,
+      and at the end of the process, generates a new version of the 
+      updateSite.oxygen file based on the one currently on tei-c.org.
+      It offers to upload the package to SF, and the updateSite.oxygen
+      file to tei-c.org.
+  -->
+  <target name="release" depends="init, getStableVersions, clean, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge, uploadOxygenUpdateFile">
+    <echo message="${echo.separator}"/>
+    <echo message="Done!"/>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <target name="transformStableUpdateFile">
+    <echo message="${echo.separator}"/>
+    <echo message="Adding new build to updateSite.oxygen file."/>
+    <property environment="env"/>
+    <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
+    <property name="stableSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5Version} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${outputZip} isTrunkBuild=no"/>
+    <echo message="Running Saxon to create new updateSite.oxygen file:"/>
+    <echo message="${saxonCommand}"/>
+    <exec executable="/bin/bash" failonerror="true">
+      <arg value="-c"/>
+      <arg value="${stableSaxonCommand}"/>
+    </exec>
+    <echo message="${echo.separator}"/>
+  </target>
+  
+  <!--  This target is built on Jenkins, but uses stable release versions
+      of P5 and the Stylesheets. The result is archived on Jenkins and 
+      can be subscribed to through an updateSite.oxygen file. -->
+  <target name="stable" depends="init, getStableVersions, clean, unpackZips, doBuild, copyDist, transformStableUpdateFile">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
     <echo message="${echo.separator}"/>
@@ -343,9 +383,6 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="createBleedingDistFile">
     <echo message="${echo.separator}"/>
-    <tstamp>
-      <format property="now" pattern="yyyy-MM-dd-kkmmss"/>
-    </tstamp>
     <property name="bleedingZip" value="oxygen-tei-${p5JenkinsVersion}-${stylesheetsJenkinsVersion}-${now}.zip"/>
     <copy file="frameworks/tei/dist/tei.zip" tofile="$bleedingZip"/>
     <echo message="${echo.separator}"/>
@@ -356,10 +393,7 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
-    <hostinfo/>
-    <property name="hostname" value="${NAME}.${DOMAIN}"/>
-    <echo message="Running on host ${hostname}..."/>
-    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip}"/>
+    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} isTrunkBuild=yes"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${saxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
@@ -369,7 +403,7 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="${echo.separator}"/>
   </target>
   
-  <target name="bleeding" depends="getLatestJenkinsVersions, clean, unpackZips, doBuild, createBleedingDistFile, transformBleedingUpdateFile">
+  <target name="bleeding" depends="init, getLatestJenkinsVersions, clean, unpackZips, doBuild, createBleedingDistFile, transformBleedingUpdateFile">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
     <echo message="${echo.separator}"/>
