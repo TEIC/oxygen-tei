@@ -286,7 +286,7 @@ has worked well. You will need shell access to tei-c.org.
   <target name="getLatestJenkinsBuildInformation">
     <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/"/>
     <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}/release/doc/tei-p5-doc/VERSION"/>
-    <loadfile property="tempJenkinsP5Version" srcFile="${p5JenkinsVersionFile}"/>
+    <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
     <script language="javascript">
       <![CDATA[ // 
