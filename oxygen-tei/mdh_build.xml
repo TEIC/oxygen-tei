@@ -358,10 +358,6 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Retrieving last updateSite.oxygen file from this build job."/>
     <copy file="../../builds/lastSuccessfulBuild/archive/oxygen-tei/updateSite.oxygen"
              tofile="updateSite.oxygen"/>
-    
-<!--    Now this needs to work on a brand-new Jenkins server which may not have 
-          an existing file. -->
-    <antcall target="getUpdateFileIfMissing"/>
   </target>
   
   <target name="checkUpdateFilePresent">
@@ -391,6 +387,10 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="transformBleedingUpdateFile">
     <echo message="${echo.separator}"/>
+    
+    <!--    Now this needs to work on a brand-new Jenkins server which may not have 
+          an existing file. -->
+    <antcall target="getUpdateFileIfMissing"/>
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
