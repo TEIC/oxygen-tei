@@ -29,8 +29,8 @@ syncro: Builds the plugin for the Syncro team to include with a release
         of Oxygen. This discovers the current stable versions of P5 
         and the Stylesheets, gets them, and builds with them.
         
-bleeding: This is intended to run on the TEI's Jenkins build servers, and 
-          creates a version of the plugin (with an accompanying 
+bleeding: This is intended to run on the TEI's Jenkins build servers, 
+          and creates a version of the plugin (with an accompanying 
           updateSite.oxygen file) based on the latest trunk builds of 
           P5 and the Stylesheets from the same build server.
           
@@ -44,15 +44,13 @@ release: This builds the plugin in the same way as the syncro job
         new version of updateSite.oxygen. It also offers to upload that 
         file to tei-c.org, if the user has shell access.
 
-stable: This is also intended to run on the TEI's Jenkins build servers, 
-        and builds a version of the plugin which should be identical
-        to "release", but is packaged with its own updateSite.oxygen
-        file, to which TEI developers can subscribe for testing. The 
-        purpose of this is so that we can regularly test how the 
-        plugin would work if a release were created.
+stable: This is also intended to run on the TEI's Jenkins build 
+        servers, and builds a version of the plugin which should be 
+        identical to "release", but is packaged with its own 
+        updateSite.oxygen file, to which TEI developers can subscribe 
+        for testing. The purpose of this is so that we can regularly 
+        test how the plugin would work if a release were created.
         
-              
-      More documentation coming...
       
     </echo>
     <echo message="${echo.separator}"/>
