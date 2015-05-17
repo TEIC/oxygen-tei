@@ -30,7 +30,7 @@
   
   <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'teijenkins')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationUVic"/>
   
-  <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, $jenkinsBuildNumber, '/artifact/oxygen-tei/', $newZipFileName)"/>
+  <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, $jenkinsBuildNumber, '/artifact/oxygen-tei-', if ($isTrunkBuild = 'yes') then 'bleeding' else 'stable', '/', $newZipFileName)"/>
   
 <!-- Handing for the history of released artifacts. -->
 <!-- Keep only ten: nine plus the new one. -->
