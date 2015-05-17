@@ -401,7 +401,7 @@ has worked well. You will need shell access to tei-c.org.
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
     <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} isTrunkBuild=yes"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
-    <echo message="${saxonCommand}"/>
+    <echo message="${bleedingSaxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
       <arg value="-c"/>
       <arg value="${bleedingSaxonCommand}"/>
