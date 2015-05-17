@@ -20,17 +20,17 @@
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
   
   <xsl:param name="teiVersionNumber"/>
-  <xsl:param name="jenkinsJobLocationUVic" select="'http://teijenkins.hcmc.uvic.ca/job/oxygen-tei/'"/>
-  <xsl:param name="jenkinsJobLocationOxford" select="'http://bits.nsms.ox.ac.uk:8080/job/oxygen-tei/'"/>
+  <xsl:param name="jenkinsJobLocationUVic" select="'http://teijenkins.hcmc.uvic.ca/job/oxygen-tei'"/>
+  <xsl:param name="jenkinsJobLocationOxford" select="'http://bits.nsms.ox.ac.uk:8080/job/oxygen-tei'"/>
   <xsl:param name="hostname"/>
   <xsl:param name="jenkinsBuildNumber"/>
   <xsl:param name="newZipFileName"/>
   <xsl:param name="currBuild"/>
-  <xsl:param name="isTrunkBuild" select="'yes'"/>
+  <xsl:param name="jenkinsJobSuffix" select="'bleeding'"/>
   
   <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'teijenkins')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationUVic"/>
   
-  <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, $jenkinsBuildNumber, '/artifact/oxygen-tei-', if ($isTrunkBuild = 'yes') then 'bleeding' else 'stable', '/', $newZipFileName)"/>
+  <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, '-', $jenkinsJobSuffix, $jenkinsBuildNumber, '/artifact/oxygen-tei/', $newZipFileName)"/>
   
 <!-- Handing for the history of released artifacts. -->
 <!-- Keep only ten: nine plus the new one. -->
@@ -50,7 +50,12 @@
       <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version', 'description', 'licence'))]|following-sibling::text())"/>
       <xt:description>
         <xsl:choose>
-          <xsl:when test="$isTrunkBuild = 'yes'">
+          <xsl:when test="$jenkinsJobSuffix = 'bleeding'">
+            <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
+            based on the current trunk versions of TEI P5 and the 
+            TEI Stylesheets.</xsl:text> 
+          </xsl:when>
+          <xsl:when test="$jenkinsJobSuffix = 'stable'">
             <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
             based on the current trunk versions of TEI P5 and the 
             TEI Stylesheets.</xsl:text> 

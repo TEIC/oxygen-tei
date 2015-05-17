@@ -311,9 +311,9 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
-    <property name="stableSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5Version} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${outputZip} isTrunkBuild=no"/>
+    <property name="stableSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5Version} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${outputZip} jenkinsJobSuffix=stable"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
-    <echo message="${saxonCommand}"/>
+    <echo message="${stableSaxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
       <arg value="-c"/>
       <arg value="${stableSaxonCommand}"/>
@@ -399,7 +399,7 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
-    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} isTrunkBuild=yes"/>
+    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} jenkinsJobSuffix=bleeding"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${bleedingSaxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
