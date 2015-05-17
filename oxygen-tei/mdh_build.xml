@@ -308,6 +308,7 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="transformStableUpdateFile">
     <echo message="${echo.separator}"/>
+    <antcall target="getUpdateFileIfMissing"/>
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
