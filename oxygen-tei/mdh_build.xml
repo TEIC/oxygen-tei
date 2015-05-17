@@ -390,7 +390,7 @@ has worked well. You will need shell access to tei-c.org.
   <target name="createBleedingDistFile">
     <echo message="${echo.separator}"/>
     <property name="bleedingZip" value="oxygen-tei-${p5JenkinsVersion}-${stylesheetsJenkinsVersion}-${now}.zip"/>
-    <copy file="frameworks/tei/dist/tei.zip" tofile="$bleedingZip"/>
+    <copy file="frameworks/tei/dist/tei.zip" tofile="${bleedingZip}"/>
     <echo message="${echo.separator}"/>
   </target>
   
