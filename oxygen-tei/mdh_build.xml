@@ -333,7 +333,7 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="getLatestJenkinsBuildInformation">
     <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/"/>
-    <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}/release/doc/tei-p5-doc/VERSION"/>
+    <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION"/>
     <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
     <script language="javascript">
@@ -345,12 +345,12 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Latest P5 version built on Jenkins is: ${p5JenkinsVersion}"/>
     
     <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets/lastSuccessful/archive/"/>
-    <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}/dist/doc/tei-xsl/VERSION"/>
+    <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}dist/doc/tei-xsl/VERSION"/>
     <loadfile property="tempStylesheetsJenkinsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
     <script language="javascript">
       <![CDATA[ // 
-        var before = new String(project.getProperty("tempstylesheetsJenkinsVersion"));
+        var before = new String(project.getProperty("tempStylesheetsJenkinsVersion"));
         project.setProperty("stylesheetsJenkinsVersion", before.replace(/\s/g, ""));
        ]]>
     </script>
