@@ -28,7 +28,7 @@
   <xsl:param name="currBuild"/>
   <xsl:param name="jenkinsJobSuffix" select="'bleeding'"/>
   
-  <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'teijenkins')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationUVic"/>
+  <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'uvic')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationOxford"/>
   
   <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, '-', $jenkinsJobSuffix, '/', $jenkinsBuildNumber, '/artifact/oxygen-tei/', $newZipFileName)"/>
   
