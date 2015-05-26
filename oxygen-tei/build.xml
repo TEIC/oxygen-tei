@@ -255,8 +255,8 @@ to do this later, but you can also do it manually.
     <exec executable="/bin/bash" failonerror="true" if:true="${readyToUpload}">
       <arg value="-c"/>
       <!--      Used this commented-out version for local testing. -->
-      <arg value="rsync -e ssh ${outputZip} mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/${outputZip}"/>
-      <!--<arg value="rsync -e ssh ${outputZip} ${sfUserName},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/${newZipFileName}"/>-->
+      <!--<arg value="rsync -e ssh ${outputZip} mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/${outputZip}"/>-->
+      <arg value="rsync -e ssh ${outputZip} ${sfUserName},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/${newZipFileName}"/>
     </exec>
     <echo message="ABORTED the upload to SourceForge." unless:true="${readyToUpload}"/>
     <echo message="User declined to proceed." unless:true="${doUpload}"/>
