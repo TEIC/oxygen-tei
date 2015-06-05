@@ -57,10 +57,8 @@ head {
 }
 
 body {
-  counter-reset: div1;
-  counter-reset: div2;
-  counter-reset: div3;
-  counter-reset: div4;
+  counter-reset: div1 div2 div3 div4;
+  counter-reset: table example figure note;
 }
 
 body > div {
