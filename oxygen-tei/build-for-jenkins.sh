@@ -1,10 +1,18 @@
 #!/bin/bash
-# NOT FINISHED YET. DO NOT USE.
+# OBSOLETE. DO NOT USE.
 # Martin Holmes 2015
 # Based on Sebastian Rahtz's update-and-upload.sh.
 # Grab TEIP5 and XSL builds from other Jenkins workspaces, 
 # rebuilds the distribution, and stashes it for testing.
 #
+echo
+echo "************************************************************"
+echo "ERROR: This script is obsolete and will be deleted shortly."
+echo "Use the new ant build script instead."
+echo "************************************************************"
+echo
+exit 1
+
 die()
 {
     echo; echo
