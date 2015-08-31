@@ -341,7 +341,7 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="getLatestJenkinsBuildInformation">
     <echo message="${echo.separator}"/>
-    <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/P5"/>
+    <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/P5/"/>
     <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION"/>
     <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
