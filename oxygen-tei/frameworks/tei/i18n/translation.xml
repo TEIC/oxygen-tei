@@ -7,6 +7,158 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="delete.table.row_description">
+        <comment>Delete Row action description.</comment>
+        <val lang="en_US">Delete the current table row.</val>
+        <val lang="de_DE">Delete the current table row.</val>
+        <val lang="fr_FR">Delete the current table row.</val>
+        <val lang="ja_JP">Delete the current table row.</val>
+        <val lang="nl_NL">Delete the current table row.</val>
+    </key>
+<key type="action" value="delete.table.column_description">
+        <comment>Delete Column action description.</comment>
+        <val lang="en_US">Delete the current table column.</val>
+        <val lang="de_DE">Delete the current table column.</val>
+        <val lang="fr_FR">Delete the current table column.</val>
+        <val lang="ja_JP">Delete the current table column.</val>
+        <val lang="nl_NL">Delete the current table column.</val>
+    </key>
+<key type="action" value="table.split.above_description">
+        <comment>Split Cell Above action description.</comment>
+        <val lang="en_US">Split vertically the current table cell by creating a new cell above it, only if it spans over multiple rows.</val>
+        <val lang="de_DE">Split vertically the current table cell by creating a new cell above it, only if it spans over multiple rows.</val>
+        <val lang="fr_FR">Split vertically the current table cell by creating a new cell above it, only if it spans over multiple rows.</val>
+        <val lang="ja_JP">Split vertically the current table cell by creating a new cell above it, only if it spans over multiple rows.</val>
+        <val lang="nl_NL">Split vertically the current table cell by creating a new cell above it, only if it spans over multiple rows.</val>
+    </key>
+<key type="action" value="table.split.below_description">
+        <comment>Split Cell Below action description.</comment>
+        <val lang="en_US">Split vertically the current table cell by creating a new cell below it, only if it spans over multiple rows.</val>
+        <val lang="de_DE">Split vertically the current table cell by creating a new cell below it, only if it spans over multiple rows.</val>
+        <val lang="fr_FR">Split vertically the current table cell by creating a new cell below it, only if it spans over multiple rows.</val>
+        <val lang="ja_JP">Split vertically the current table cell by creating a new cell below it, only if it spans over multiple rows.</val>
+        <val lang="nl_NL">Split vertically the current table cell by creating a new cell below it, only if it spans over multiple rows.</val>
+    </key>
+<key type="action" value="table.join.cell.below_description">
+        <comment>Join Cell Below action description.</comment>
+        <val lang="en_US">Join the current table cell with the below one, only if both of them have the same column span.</val>
+        <val lang="de_DE">Join the current table cell with the below one, only if both of them have the same column span.</val>
+        <val lang="fr_FR">Join the current table cell with the below one, only if both of them have the same column span.</val>
+        <val lang="ja_JP">Join the current table cell with the below one, only if both of them have the same column span.</val>
+        <val lang="nl_NL">Join the current table cell with the below one, only if both of them have the same column span.</val>
+    </key>
+<key type="action" value="table.join.cell.above_description">
+        <comment>Join Cell Above action description.</comment>
+        <val lang="en_US">Join the current table cell with the above one, only if both of them have the same column span.</val>
+        <val lang="de_DE">Join the current table cell with the above one, only if both of them have the same column span.</val>
+        <val lang="fr_FR">Join the current table cell with the above one, only if both of them have the same column span.</val>
+        <val lang="ja_JP">Join the current table cell with the above one, only if both of them have the same column span.</val>
+        <val lang="nl_NL">Join the current table cell with the above one, only if both of them have the same column span.</val>
+    </key>
+<key type="action" value="table.split.right_description">
+        <comment>Split Cell To The Right action description.</comment>
+        <val lang="en_US">Split horizontally the current table cell by creating a new cell to the right of it, only if it spans over multiple columns.</val>
+        <val lang="de_DE">Split horizontally the current table cell by creating a new cell to the right of it, only if it spans over multiple columns.</val>
+        <val lang="fr_FR">Split horizontally the current table cell by creating a new cell to the right of it, only if it spans over multiple columns.</val>
+        <val lang="ja_JP">Split horizontally the current table cell by creating a new cell to the right of it, only if it spans over multiple columns.</val>
+        <val lang="nl_NL">Split horizontally the current table cell by creating a new cell to the right of it, only if it spans over multiple columns.</val>
+    </key>
+<key type="action" value="table.split.left_description">
+        <comment>Split Cell To The Left action description.</comment>
+        <val lang="en_US">Split horizontally the current table cell by creating a new cell to the left of it, only if it spans over multiple columns.</val>
+        <val lang="de_DE">Split horizontally the current table cell by creating a new cell to the left of it, only if it spans over multiple columns.</val>
+        <val lang="fr_FR">Split horizontally the current table cell by creating a new cell to the left of it, only if it spans over multiple columns.</val>
+        <val lang="ja_JP">Split horizontally the current table cell by creating a new cell to the left of it, only if it spans over multiple columns.</val>
+        <val lang="nl_NL">Split horizontally the current table cell by creating a new cell to the left of it, only if it spans over multiple columns.</val>
+    </key>
+<key type="action" value="table.join.row.cells_description">
+        <comment>Join Row Cells action description.</comment>
+        <val lang="en_US">Join the selected table cells, only if they are on the same row and have the same row span.</val>
+        <val lang="de_DE">Join the selected table cells, only if they are on the same row and have the same row span.</val>
+        <val lang="fr_FR">Join the selected table cells, only if they are on the same row and have the same row span.</val>
+        <val lang="ja_JP">Join the selected table cells, only if they are on the same row and have the same row span.</val>
+        <val lang="nl_NL">Join the selected table cells, only if they are on the same row and have the same row span.</val>
+    </key>
+<key type="action" value="insert.image_description">
+        <comment>Insert Image action description.</comment>
+        <val lang="en_US">Insert a reference to an image.</val>
+        <val lang="de_DE">Insert a reference to an image.</val>
+        <val lang="fr_FR">Insert a reference to an image.</val>
+        <val lang="ja_JP">Insert a reference to an image.</val>
+        <val lang="nl_NL">Insert a reference to an image.</val>
+    </key>
+<key type="action" value="insert.table_description">
+        <comment>Insert Table action description.</comment>
+        <val lang="en_US">Insert a table.</val>
+        <val lang="de_DE">Insert a table.</val>
+        <val lang="fr_FR">Insert a table.</val>
+        <val lang="ja_JP">Insert a table.</val>
+        <val lang="nl_NL">Insert a table.</val>
+    </key>
+<key type="action" value="paragraph_description">
+        <comment>Insert Paragraph action description.</comment>
+        <val lang="en_US">Insert a new paragraph in the document.</val>
+        <val lang="de_DE">Insert a new paragraph in the document.</val>
+        <val lang="fr_FR">Insert a new paragraph in the document.</val>
+        <val lang="ja_JP">Insert a new paragraph in the document.</val>
+        <val lang="nl_NL">Insert a new paragraph in the document.</val>
+    </key>
+<key value="table.join.split">
+        <comment>Table Join/Split action group title.</comment>
+        <val lang="en_US">Join or split table cells.</val>
+        <val lang="de_DE">Join or split table cells.</val>
+        <val lang="fr_FR">Join or split table cells.</val>
+        <val lang="ja_JP">Join or split table cells.</val>
+        <val lang="nl_NL">Join or split table cells.</val>
+    </key>
+<key type="action" value="sort_description">
+        <comment>Sort list action description.</comment>
+        <val lang="en_US">Sort the cells of a table column or the items of a list.</val>
+        <val lang="de_DE">Sort the cells of a table column or the items of a list.</val>
+        <val lang="fr_FR">Sort the cells of a table column or the items of a list.</val>
+        <val lang="ja_JP">Sort the cells of a table column or the items of a list.</val>
+        <val lang="nl_NL">Sort the cells of a table column or the items of a list.</val>
+    </key>
+<key type="action" value="insert.table.column.before_description">
+        <comment>Insert Column Before action description.</comment>
+        <val lang="en_US">Insert a new table column before the current one.</val>
+        <val lang="de_DE">Insert a new table column before the current one.</val>
+        <val lang="fr_FR">Insert a new table column before the current one.</val>
+        <val lang="ja_JP">Insert a new table column before the current one.</val>
+        <val lang="nl_NL">Insert a new table column before the current one.</val>
+    </key>
+<key type="action" value="insert.table.column.after_description">
+        <comment>Insert column after action description.</comment>
+        <val lang="en_US">Insert a new table column after the current one.</val>
+        <val lang="de_DE">Insert a new table column after the current one.</val>
+        <val lang="fr_FR">Insert a new table column after the current one.</val>
+        <val lang="ja_JP">Insert a new table column after the current one.</val>
+        <val lang="nl_NL">Insert a new table column after the current one.</val>
+    </key>
+<key type="action" value="insert.table.row.below_description">
+        <comment>Insert row below action description.</comment>
+        <val lang="en_US">Insert a new table row below the current one.</val>
+        <val lang="de_DE">Insert a new table row below the current one.</val>
+        <val lang="fr_FR">Insert a new table row below the current one.</val>
+        <val lang="ja_JP">Insert a new table row below the current one.</val>
+        <val lang="nl_NL">Insert a new table row below the current one.</val>
+    </key>
+<key type="action" value="insert.table.row.above_description">
+        <comment>Insert Row above action description.</comment>
+        <val lang="en_US">Insert a new table row above the current one.</val>
+        <val lang="de_DE">Insert a new table row above the current one.</val>
+        <val lang="fr_FR">Insert a new table row above the current one.</val>
+        <val lang="ja_JP">Insert a new table row above the current one.</val>
+        <val lang="nl_NL">Insert a new table row above the current one.</val>
+    </key>
+<key type="action" value="show.table.properties.description">
+        <comment>Show table properties action description.</comment>
+        <val lang="en_US">Customize the display properties for the entire table or for the selected rows, columns, or cells.</val>
+        <val lang="de_DE">Customize the display properties for the entire table or for the selected rows, columns, or cells.</val>
+        <val lang="fr_FR">Customize the display properties for the entire table or for the selected rows, columns, or cells.</val>
+        <val lang="ja_JP">Customize the display properties for the entire table or for the selected rows, columns, or cells.</val>
+        <val lang="nl_NL">Customize the display properties for the entire table or for the selected rows, columns, or cells.</val>
+    </key>
 <key type="action" value="Criteria">
         <comment>Name of a section in the Sort dialog.</comment>
         <val lang="en_US">Criteria</val>
@@ -119,14 +271,6 @@
         <val lang="ja_JP">配置</val>
         <val lang="nl_NL">Uitlijning</val>
     </key>
-<key type="action" value="show.table.properties.description">
-        <comment>Show table properties action description.</comment>
-        <val lang="en_US">Action that allows to edit the properties for a table.</val>
-        <val lang="de_DE">Aktion, die es erlaubt, die Eigenschaften einer Tabelle zu bearbeiten.</val>
-        <val lang="fr_FR">Action permettant de modifier les propriétés d'un tableau.</val>
-        <val lang="ja_JP">テーブルのプロパティを編集することを可能にするアクション。</val>
-        <val lang="nl_NL">Actie die het mogelijk maakt om de eigenschappen van een tabel te bewerken.</val>
-    </key>
 <key type="action" value="insert.table.column">
         <comment>Insert Column action name.</comment>
         <val lang="en_US">Insert Column</val>
@@ -143,14 +287,6 @@
         <val lang="ja_JP">上に行を挿入する</val>
         <val lang="nl_NL">Rij boven invoegen</val>
     </key>
-<key type="action" value="insert.table.row.above_description">
-        <comment>Insert Row above action description.</comment>
-        <val lang="en_US">Insert a new table row above the current row</val>
-        <val lang="de_DE">Eine Tabellenzeile über der aktuellen Zeile einfügen</val>
-        <val lang="fr_FR">Insérer une nouvelle ligne au tableau au-dessus de la ligne actuelle</val>
-        <val lang="ja_JP">現在の行の上に新しいテーブル行を挿入する</val>
-        <val lang="nl_NL">Voeg een nieuwe tabelrij in boven de huidige rij</val>
-    </key>
 <key type="action" value="insert.table.row.below">
         <comment>Insert row below action name.</comment>
         <val lang="en_US">Insert Row Below</val>
@@ -158,14 +294,6 @@
         <val lang="fr_FR">Insérer une ligne en dessous</val>
         <val lang="ja_JP">下に行を挿入する</val>
         <val lang="nl_NL">Rij onder invoegen</val>
-    </key>
-<key type="action" value="insert.table.row.below_description">
-        <comment>Insert row below action description.</comment>
-        <val lang="en_US">Insert a new table row below the current row</val>
-        <val lang="de_DE">Eine Tabellenzeile unter der aktuellen Zeile einfügen</val>
-        <val lang="fr_FR">Insérer une nouvelle ligne au tableau en dessous de la ligne actuelle</val>
-        <val lang="ja_JP">現在の行の下に新しいテーブル行を挿入する</val>
-        <val lang="nl_NL">Voeg een nieuwe tabelrij in onder de huidige rij</val>
     </key>
 <key type="action" value="insert.table.column.after">
         <comment>Insert column after action name.</comment>
@@ -175,14 +303,6 @@
         <val lang="ja_JP">後に列を挿入する</val>
         <val lang="nl_NL">Kolom rechts invoegen</val>
     </key>
-<key type="action" value="insert.table.column.after_description">
-        <comment>Insert column after action description.</comment>
-        <val lang="en_US">Insert a new table column after the current column</val>
-        <val lang="de_DE">Eine Tabellenspalte rechts neben der aktuellen Spalte einfügen</val>
-        <val lang="fr_FR">Insérer une nouvelle colonne au tableau après la colonne actuelle</val>
-        <val lang="ja_JP">現在の列の後に新しいテーブル列を挿入する</val>
-        <val lang="nl_NL">Voeg een nieuwe tabelkolom rechts van de huidige kolom in</val>
-    </key>
 <key type="action" value="insert.table.column.before">
         <comment>Insert column before action name.</comment>
         <val lang="en_US">Insert Column Before</val>
@@ -191,19 +311,11 @@
         <val lang="ja_JP">前に列を挿入する</val>
         <val lang="nl_NL">Kolom links invoegen</val>
     </key>
-<key type="action" value="insert.table.column.before_description">
-        <comment>Insert Column Before action description.</comment>
-        <val lang="en_US">Insert a new table column before the current column</val>
-        <val lang="de_DE">Eine Tabellenspalte links neben der aktuellen Spalte einfügen</val>
-        <val lang="fr_FR">Insérer une nouvelle colonne au tableau avant la colonne actuelle</val>
-        <val lang="ja_JP">現在の列の前に新しいテーブル列を挿入する</val>
-        <val lang="nl_NL">Voeg een nieuwe tabelkolom links van de huidige kolom in</val>
-    </key>
 <key type="action" value="table.toggle.colspec">
         <comment>An action that toggles the visibility of the column specification elements from a table (the name of the element is "colspec"). </comment>
         <val lang="en_US">colspecs...</val>
         <val lang="de_DE">Spalteneinstellungen...</val>
-        <val lang="fr_FR">Paramètres de colonne...</val>
+        <val lang="fr_FR">Paramètres des colonnes...</val>
         <val lang="ja_JP">列指定要...</val>
         <val lang="nl_NL">kolomspecificaties...</val>
     </key>
@@ -310,14 +422,6 @@
         <val lang="fr_FR">Triez la liste actuelle.</val>
         <val lang="ja_JP">現在のリストをソートします。</val>
         <val lang="nl_NL">Sorteer de huidige lijst.</val>
-    </key>
-<key type="action" value="sort_description">
-        <comment>Sort list action description.</comment>
-        <val lang="en_US">Sort the table cells/list items.</val>
-        <val lang="de_DE">Tabellenzellen/Listenobjekte sortieren.</val>
-        <val lang="fr_FR">Triez les cellules du tableau /éléments de la liste.</val>
-        <val lang="ja_JP">テーブルのセル/リスト項目をソートします。</val>
-        <val lang="nl_NL">Sorteer de tabelcellen/lijstitems.</val>
     </key>
 <key type="action" value="sort">
         <comment>Sort action name.</comment>
@@ -447,14 +551,6 @@
         <val lang="ja_JP">要素の自動生成ID</val>
         <val lang="nl_NL">Genereer automatisch ID's voor elementen</val>
     </key>
-<key value="table.join.split">
-        <comment>Table Join/Split action group title.</comment>
-        <val lang="en_US">Table Join/Split</val>
-        <val lang="de_DE">Verbinden/Teilen Tabelle</val>
-        <val lang="fr_FR">Fusionner/Fractionner le tableau</val>
-        <val lang="ja_JP">テーブルの結合/分割</val>
-        <val lang="nl_NL">Tabel samenvoegen/splitsen</val>
-    </key>
 <key value="figure.wizard">
         <comment>Content completion action name.
             WARNING: THE FIRST WORD IN THE TRANSLATION MUST BE THE ONE IN THE ENGLISH VERSION BECAUSE IT MATCHES THE XML ELEMENT TAG.
@@ -482,7 +578,7 @@
         <val lang="en_US">table (wizard)</val>
         <val lang="de_DE">table (Assistent)</val>
         <val lang="fr_FR">table (assistant)</val>
-        <val lang="ja_JP">table (テーブル ウィザード)</val>
+        <val lang="ja_JP">table (ウィザード)</val>
         <val lang="nl_NL">table (wizard)</val>
     </key>
 <key value="handle.paste.column.warning">
@@ -529,14 +625,6 @@
         <val lang="ja_JP">段落の挿入</val>
         <val lang="nl_NL">Voeg paragraaf in</val>
     </key>
-<key type="action" value="paragraph_description">
-        <comment>Insert Paragraph action description.</comment>
-        <val lang="en_US">Insert a new paragraph</val>
-        <val lang="de_DE">Einen neuen Dokumentaionsparagraph einfügen</val>
-        <val lang="fr_FR">Insérer un nouveau paragraphe</val>
-        <val lang="ja_JP">新しい文書パラグラフを挿入</val>
-        <val lang="nl_NL">Voeg een nieuwe paragraaf in</val>
-    </key>
 <key type="action" value="insert.table">
         <comment>Insert Table action name.</comment>
         <val lang="en_US">Insert Table...</val>
@@ -544,14 +632,6 @@
         <val lang="fr_FR">Insérer un tableau...</val>
         <val lang="ja_JP">テーブルの挿入...</val>
         <val lang="nl_NL">Voeg tabel in...</val>
-    </key>
-<key type="action" value="insert.table_description">
-        <comment>Insert Table action description.</comment>
-        <val lang="en_US">Insert Table</val>
-        <val lang="de_DE">Tabelle einfügen</val>
-        <val lang="fr_FR">Insérer un tableau</val>
-        <val lang="ja_JP">テーブルの挿入</val>
-        <val lang="nl_NL">Voeg tabel in</val>
     </key>
 <key type="action" value="insert.image">
         <comment>Insert Image action name.</comment>
@@ -561,14 +641,6 @@
         <val lang="ja_JP">画像の挿入...</val>
         <val lang="nl_NL">Voeg afbeelding in...</val>
     </key>
-<key type="action" value="insert.image_description">
-        <comment>Insert Image action description.</comment>
-        <val lang="en_US">Insert Image Reference</val>
-        <val lang="de_DE">Grafikreferenz einfügen</val>
-        <val lang="fr_FR">Insérer une référence d'image</val>
-        <val lang="ja_JP">画像参照の挿入</val>
-        <val lang="nl_NL">Voeg afbeeldingreferentie in</val>
-    </key>
 <key type="action" value="table.join.row.cells">
         <comment>Join Row Cells action name.</comment>
         <val lang="en_US">Join Row Cells</val>
@@ -576,18 +648,6 @@
         <val lang="fr_FR">Fusionner les cellules de la ligne</val>
         <val lang="ja_JP">行セルの結合</val>
         <val lang="nl_NL">Voeg rijcellen samen</val>
-    </key>
-<key type="action" value="table.join.row.cells_description">
-        <comment>Join Row Cells action description.</comment>
-        <val lang="en_US">Join the content of the selected cells. The operation is available only if
-            the selected cells are from the same row and they have the same column span.</val>
-        <val lang="de_DE">Zelleninhalt der ausgewählten Zellen verbinden.
-            Der Vorgang ist nur möglich, wenn die ausgewählten Zellen in derselben Zeile sind und denselben Spaltenumfang haben.</val>
-        <val lang="fr_FR">Fusionner le contenu des cellules sélectionnées. L'opération n'est disponible que si 
-        	les cellules sélectionnées sont sur la même ligne et ont la même étendue de colonne.</val>
-        <val lang="ja_JP">選択されたセルの内容を結合。 この操作は、選択されたセルが同じ行からで
-      それらが同じ列幅を持っている場合のみ利用可能です。</val>
-        <val lang="nl_NL">Voeg de inhoud van de geselecteerde cellen samen. Deze bewerking is alleen beschikbaar als de geselecteerde cellen van dezelfde rij zijn en evenveel kolommen overspannen.</val>
     </key>
 <key type="action" value="table.split.left">
         <comment>Split Cell To The Left action name.</comment>
@@ -597,14 +657,6 @@
         <val lang="ja_JP">左にセルの分割</val>
         <val lang="nl_NL">Splits cel aan linkerkant</val>
     </key>
-<key type="action" value="table.split.left_description">
-        <comment>Split Cell To The Left action description.</comment>
-        <val lang="en_US">Split the content of a table cell that spans over multiple columns</val>
-        <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Spalten umfasst</val>
-        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
-        <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
-        <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere kolommen overspant</val>
-    </key>
 <key type="action" value="table.split.right">
         <comment>Split Cell To The Right action name.</comment>
         <val lang="en_US">Split Cell To The Right</val>
@@ -612,14 +664,6 @@
         <val lang="fr_FR">Fractionner la cellule à droite</val>
         <val lang="ja_JP">右にセルを分割</val>
         <val lang="nl_NL">Splits cel aan rechterkant</val>
-    </key>
-<key type="action" value="table.split.right_description">
-        <comment>Split Cell To The Right action description.</comment>
-        <val lang="en_US">Split the content of a table cell that spans over multiple columns</val>
-        <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Spalten umfasst</val>
-        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
-        <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
-        <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere kolommen overspant</val>
     </key>
 <key type="action" value="table.join.cell.above">
         <comment>Join Cell Above action name.</comment>
@@ -629,19 +673,6 @@
         <val lang="ja_JP">上のセルと結合</val>
         <val lang="nl_NL">Voeg samen met bovenliggende cel</val>
     </key>
-<key type="action" value="table.join.cell.above_description">
-        <comment>Join Cell Above action description.</comment>
-        <val lang="en_US">Join the content of the selected cell with the content of the cell above.
-            The operation is available only if there is an above cell and both cells have the same
-            column span.</val>
-        <val lang="de_DE">Zelleninhalt der ausgewählten Zelle mit dem der Zelle darüber verbinden.
-            Der Vorgang ist nur möglich, wenn es eine Zelle darüber gibt und diese denselben Spaltenumfang hat.</val>
-        <val lang="fr_FR">Fusionner le contenu de la cellule sélectionnée avec le contenu de la cellule au-dessus. 
-        	L'opération est disponible seulement si il y a une cellule au-dessus et que les deux cellules ont la même étendue de colonne.</val>
-        <val lang="ja_JP">選択されたセルの内容と上のセルの内容を結合。 この操作は、両方のセルが同じ列幅
-      を持っている場合のみ利用可能です。</val>
-        <val lang="nl_NL">Voeg de inhoud van de geselecteerde cel samen met de inhoud van de cel erboven. De bewerking is alleen beschikbaar als er een cel boven bestaat en beide cellen dezelfde kolommen overspannen.</val>
-    </key>
 <key type="action" value="table.join.cell.below">
         <comment>Join Cell Below action name.</comment>
         <val lang="en_US">Join Cell Below</val>
@@ -649,19 +680,6 @@
         <val lang="fr_FR">Fusionner avec la cellule du dessous</val>
         <val lang="ja_JP">下とセルを結合</val>
         <val lang="nl_NL">Voeg samen met onderliggende cel</val>
-    </key>
-<key type="action" value="table.join.cell.below_description">
-        <comment>Join Cell Below action description.</comment>
-        <val lang="en_US">Join the content of the selected cell with the content of the cell below.
-            The operation is available only if there is a below cell and both cells have the same
-            column span.</val>
-        <val lang="de_DE">Zelleninhalt der ausgewählten Zelle mit dem der Zelle darunter verbinden.
-            Der Vorgang ist nur möglich, wenn es eine Zelle darunter gibt und diese denselben Spaltenumfang hat.</val>
-        <val lang="fr_FR">Fusionner le contenu de la cellule sélectionnée avec le contenu de la cellule en-dessous. 
-        	L'opération est disponible seulement si il y a une cellule en-dessous et que les deux cellules ont la même étendue de colonne.</val>
-        <val lang="ja_JP">選択されたセルの内容と下のセルの内容を結合。 この操作は、両方のセルが同じ列幅
-      を持っている場合のみ利用可能です。</val>
-        <val lang="nl_NL">Voeg de inhoud van de geselecteerde cel samen met de inhoud van de cel eronder. De bewerking is alleen beschikbaar als er een cel onder bestaat en beide cellen dezelfde kolommen overspannen.</val>
     </key>
 <key type="action" value="table.split.below">
         <comment>Split Cell Below action name.</comment>
@@ -671,14 +689,6 @@
         <val lang="ja_JP">下にセルの分割</val>
         <val lang="nl_NL">Splits cel aan onderkant</val>
     </key>
-<key type="action" value="table.split.below_description">
-        <comment>Split Cell Below action description.</comment>
-        <val lang="en_US">Split the content of a table cell that spans over multiple rows</val>
-        <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Zeilen umfasst</val>
-        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
-        <val lang="ja_JP">複数の列にわたってまたがるテーブルセルの内容を分割</val>
-        <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere rijen overspant</val>
-    </key>
 <key type="action" value="table.split.above">
         <comment>Split Cell Above action name.</comment>
         <val lang="en_US">Split Cell Above</val>
@@ -686,14 +696,6 @@
         <val lang="fr_FR">Fractionner la cellule vers le haut</val>
         <val lang="ja_JP">上にセルを分割</val>
         <val lang="nl_NL">Splits cel aan bovenkant</val>
-    </key>
-<key type="action" value="table.split.above_description">
-        <comment>Split Cell Above action description.</comment>
-        <val lang="en_US">Split the content of a table cell that spans over multiple rows</val>
-        <val lang="de_DE">Zelleninhalt teilen, wenn er mehrere Zeilen umfasst</val>
-        <val lang="fr_FR">Fractionner le contenu d'une cellule qui s'étend sur plusieurs colonnes</val>
-        <val lang="ja_JP">複数の行にわたってまたがるテーブルセルの内容を分割</val>
-        <val lang="nl_NL">Splits de inhoud van een tabelcel die meerdere rijen overspant</val>
     </key>
 <key type="action" value="delete.table.column">
         <comment>Delete Column action name.</comment>
@@ -703,14 +705,6 @@
         <val lang="ja_JP">列の削除</val>
         <val lang="nl_NL">Verwijder kolom</val>
     </key>
-<key type="action" value="delete.table.column_description">
-        <comment>Delete Column action description.</comment>
-        <val lang="en_US">Delete a table column</val>
-        <val lang="de_DE">Eine Tabellenspalte löschen</val>
-        <val lang="fr_FR">Supprimer une colonne du tableau</val>
-        <val lang="ja_JP">テーブル列の削除</val>
-        <val lang="nl_NL">Verwijder een tabelkolom</val>
-    </key>
 <key type="action" value="delete.table.row">
         <comment>Delete Row action name.</comment>
         <val lang="en_US">Delete Row</val>
@@ -718,14 +712,6 @@
         <val lang="fr_FR">Effacer une ligne</val>
         <val lang="ja_JP">行の削除 Row</val>
         <val lang="nl_NL">Verwijder rij</val>
-    </key>
-<key type="action" value="delete.table.row_description">
-        <comment>Delete Row action description.</comment>
-        <val lang="en_US">Delete a table row</val>
-        <val lang="de_DE">Eine Tabellenzeile löschen</val>
-        <val lang="fr_FR">Supprimer une ligne du tableau</val>
-        <val lang="ja_JP">テーブル行の削除</val>
-        <val lang="nl_NL">Verwijder een tabelrij</val>
     </key>
 <key type="action" value="bold_description">
         <comment>Bold action description.</comment>
@@ -835,7 +821,7 @@
         <comment>ID Options... action name.</comment>
         <val lang="en_US">ID Options...</val>
         <val lang="de_DE">ID-Optionen...</val>
-        <val lang="fr_FR">Options de l'ID...</val>
+        <val lang="fr_FR">Options d'ID...</val>
         <val lang="ja_JP">ID Options...</val>
         <val lang="nl_NL">ID-opties...</val>
     </key>
@@ -857,11 +843,11 @@
     </key>
 <key type="action" value="generate.ids_description">
         <comment>Generate IDs action description.</comment>
-        <val lang="en_US">Generate IDs for the current selection</val>
-        <val lang="de_DE">Erzeuge IDs für die aktuelle Auswahl</val>
-        <val lang="fr_FR">Générer les IDs pour la sélection courante</val>
-        <val lang="ja_JP">現在の選択に IDsの生成</val>
-        <val lang="nl_NL">Genereer ID's voor de huidige selectie</val>
+        <val lang="en_US">Generate IDs for the current selection.</val>
+        <val lang="de_DE">Erzeuge IDs für die aktuelle Auswahl.</val>
+        <val lang="fr_FR">Générer les IDs pour la sélection courante.</val>
+        <val lang="ja_JP">現在の選択に IDsの生成.</val>
+        <val lang="nl_NL">Genereer ID's voor de huidige selectie.</val>
     </key>
 <key type="action" value="show.TEIp5.documentation">
         <comment>Browse reference manual... action name.</comment>

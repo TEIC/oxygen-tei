@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.table.properties;
 
 import java.util.List;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
  * 
  * @author adriana_sbircea
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public interface TablePropertiesHelper extends TablePropertiesConstants {
   /**
    * Checks if the given node represents the table element.

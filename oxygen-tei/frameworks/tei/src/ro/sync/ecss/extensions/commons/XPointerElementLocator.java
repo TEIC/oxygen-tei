@@ -55,9 +55,9 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.link.Attr;
 import ro.sync.ecss.extensions.api.link.ElementLocator;
 import ro.sync.ecss.extensions.api.link.ElementLocatorException;
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.api.link.IDTypeVerifier;
  * </ul>
  *   
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class XPointerElementLocator extends ElementLocator {
   
   /** 

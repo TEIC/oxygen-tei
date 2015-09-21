@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -71,7 +71,7 @@ import ro.sync.ecss.extensions.commons.table.operations.JoinRowCellsOperationBas
  * The operation modifies the <code>namest</code> and <code>nameend</code>
  * attributes of the destination cell.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class JoinRowCellsOperation extends JoinRowCellsOperationBase implements CALSConstants {
 

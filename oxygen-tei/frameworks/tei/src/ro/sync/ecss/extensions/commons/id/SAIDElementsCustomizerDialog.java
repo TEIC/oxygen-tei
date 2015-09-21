@@ -72,9 +72,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
@@ -85,7 +85,7 @@ import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
  * 
  * It is used on standalone implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class SAIDElementsCustomizerDialog extends OKCancelDialog {
   
   /**

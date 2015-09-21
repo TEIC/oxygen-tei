@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="17.0" xml:space="preserve">
+<serialized version="17.1" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -41,10 +41,21 @@
 											<String>${framework}/xml/tei/css/tei_oxygen.css</String>
 										</field>
 										<field name="title">
-											<String></String>
+											<String>Basic</String>
 										</field>
 										<field name="alternate">
 											<Boolean>false</Boolean>
+										</field>
+									</cssFile>
+								<cssFile>
+										<field name="href">
+											<String>${framework}/xml/tei/css/alternate-full-width-layout.css</String>
+										</field>
+										<field name="title">
+											<String>+ Full Width</String>
+										</field>
+										<field name="alternate">
+											<Boolean>true</Boolean>
 										</field>
 									</cssFile>
 								</cssFile-array>
@@ -53,7 +64,7 @@
 								<Boolean>false</Boolean>
 							</field>
 							<field name="multipleAlternateSelectionEnabled">
-								<Boolean>false</Boolean>
+								<Boolean>true</Boolean>
 							</field>
 							<field name="actionDescriptors">
 								<action-array>
@@ -578,7 +589,7 @@
 														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+														<String>ro.sync.ecss.extensions.tei.table.InsertSingleRowOperation</String>
 													</field>
 												</actionMode>
 												<actionMode>
@@ -602,7 +613,7 @@
 														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.tei.table.InsertRowOperation</String>
+														<String>ro.sync.ecss.extensions.tei.table.InsertSingleRowOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -1317,7 +1328,7 @@
 														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
+														<String>ro.sync.ecss.extensions.tei.table.InsertSingleColumnOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -2070,7 +2081,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.tei.table.InsertColumnOperation</String>
+														<String>ro.sync.ecss.extensions.tei.table.InsertSingleColumnOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -3173,6 +3184,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -3404,6 +3418,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								<field name="workingDir">
 									<String>${cfd}</String>
 								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
+								</field>
 								<field name="advancedOptionsMap">
 									<null/>
 								</field>
@@ -3634,6 +3651,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 								</field>
 								<field name="workingDir">
 									<String>${cfd}</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>true</Boolean>
 								</field>
 								<field name="advancedOptionsMap">
 									<null/>

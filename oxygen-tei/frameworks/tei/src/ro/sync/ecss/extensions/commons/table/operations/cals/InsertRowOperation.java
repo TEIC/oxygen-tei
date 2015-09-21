@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -65,8 +65,8 @@ import ro.sync.ecss.extensions.commons.table.operations.InsertTableCellsContentC
 /**
  * Operation used to insert a table row for DocBook v.4 or v.5 and for DITA CALS tables.. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+
+@WebappCompatible(false)
 public class InsertRowOperation extends InsertRowOperationBase implements CALSConstants,
   InsertTableCellsContentConstants{
   

@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 /**
  * Abstract implementation of the document type helper.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   
   /**

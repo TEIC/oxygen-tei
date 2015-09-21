@@ -51,14 +51,16 @@
 package ro.sync.ecss.extensions.commons.table.support;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -73,7 +75,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * Updates the table width modification and the column widths in the document 
  * and in the layout model.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
 
   /**
@@ -106,7 +108,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * Span attribute name.
    * The value is <code>span</code>
    */
-  private static final String ATTR_NAME_SPAN = "span";
+  public static final String ATTR_NAME_SPAN = "span";
   /**
    * Width attribute name.
    * The value is <code>width</code>
@@ -145,6 +147,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * The list with the {@link WidthRepresentation} for the table columns.
    */
   private List<WidthRepresentation> colWidthSpecs = new ArrayList<WidthRepresentation>();
+  
+  /**
+   * Link width representation to author element.
+   */
+  private Map<WidthRepresentation, AuthorElement> widthRepresentationsToElementsMap = new HashMap<WidthRepresentation, AuthorElement>();
   
   /**
    * The table element.
@@ -277,6 +284,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
                 WidthRepresentation widthRepresentation = new WidthRepresentation(colWidth, true);
                 widthRepresentation.setAlign(alignValue);
                 colWidthSpecs.add(widthRepresentation);
+                widthRepresentationsToElementsMap.put(widthRepresentation, cgChild);
               }
             }
           }
@@ -328,6 +336,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
             WidthRepresentation widthRepresentation = new WidthRepresentation(colWidth, true);
             widthRepresentation.setAlign(textAlignValue);
             colWidthSpecs.add(widthRepresentation);
+            widthRepresentationsToElementsMap.put(widthRepresentation, colChild);
           }
         }
       }
@@ -597,5 +606,17 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     } else {
       return null;
     }
+  }
+  
+  /**
+   * Get the column specification for a certain column index.
+   * @param columnIndex The column index
+   * @return the colspec element or <code>null</code>
+   */
+  public AuthorElement getColSpec(int columnIndex){
+    if(colWidthSpecs != null && colWidthSpecs.size() > columnIndex){
+      return widthRepresentationsToElementsMap.get(colWidthSpecs.get(columnIndex));
+    }
+    return null;
   }
 }

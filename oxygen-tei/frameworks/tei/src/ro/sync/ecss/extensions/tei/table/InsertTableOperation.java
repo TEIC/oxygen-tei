@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.tei.table;
 
 import java.util.Map;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -73,7 +73,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * The operation used to insert a TEI table. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible(false)
 public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
   

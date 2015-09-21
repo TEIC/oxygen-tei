@@ -74,9 +74,9 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.SpinnerNumberModel;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
@@ -86,7 +86,7 @@ import ro.sync.xml.XmlUtil;
  * Dialog used to customize the insertion of a table (number of rows, columns, table caption).
  * It is used on standalone implementation.  
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class SATableCustomizerDialog extends OKCancelDialog implements TableCustomizerConstants {
   
   /**
@@ -209,6 +209,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * <code>true</code> if the model is for choice table.
    */
   private final boolean choiceTableModel;
+  
+  /**
+   * <code>true</code> if the model is for CALS table.
+   */
+  private boolean isCalsTable;
 
   /**
    * Constructor.
@@ -301,6 +306,44 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       boolean hasAlignAttribute,
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount,
+      int predefinedColumnsCount) {
+    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, simpleTableModel, choiceTableModel, 
+        true, innerCallsTable, hasRowsepAttribute, hasColsepAttribute, hasAlignAttribute, authorResourceBundle, 
+        predefinedRowsCount, predefinedColumnsCount);
+  }
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame       The parent {@link JFrame} of the dialog.  
+   * @param hasFooter         <code>true</code> if this table has a footer.
+   * @param hasFrameAttribute <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser  <code>true</code> to show the dialog panel for choosing the table
+   *                          model, one of CALS or HTML.
+   * @param simpleTableModel  <code>true</code> to use the simple table model instead of the HTML model.
+   * @param choiceTableModel  <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable       <code>true</code> if the table model is CALS.
+   * @param innerCallsTable   <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute <code>true</code> if the table has a row separator attribute.
+   * @param hasColsepAttribute <code>true</code> if the table has a column separator attribute.
+   * @param hasAlignAttribute <code>true</code> if the table has an align attribute.
+   * @param authorResourceBundle Author resource bundle.
+   * @param predefinedRowsCount The predefined number of rows.
+   * @param predefinedColumnsCount The predefined number of columns.
+   */
+  public SATableCustomizerDialog(
+      Frame parentFrame,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean simpleTableModel,
+      boolean choiceTableModel,
+      boolean isCalsTable,
+      boolean innerCallsTable,
+      boolean hasRowsepAttribute,
+      boolean hasColsepAttribute,
+      boolean hasAlignAttribute,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount,
       int predefinedColumnsCount) { 
     super(
         parentFrame,
@@ -311,6 +354,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     this.showModelChooser = showModelChooser;
     this.simpleTableModel = simpleTableModel;
     this.choiceTableModel = choiceTableModel;
+    this.isCalsTable = isCalsTable;
     this.hasRowsepAttribute = hasRowsepAttribute;
     this.hasColsepAttribute = hasColsepAttribute;
     this.hasAlignAttribute = hasAlignAttribute;
@@ -475,7 +519,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       // Number of rows text field
       rowsSpinner = new JSpinner();
       rowsSpinner.setName("Rows spinner");
-      rowsSpinner.setModel(new SpinnerNumberModel(2, 0, 100, 1));
+      rowsSpinner.setModel(new SpinnerNumberModel(2, 0, 1000, 1));
       c.gridx++;
       c.weightx = 1;
       sizePanel.add(rowsSpinner, c);
@@ -800,7 +844,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * 
-   * @return Thedefault column separator value.
+   * @return The default column separator value.
    */
   protected abstract String getDefaultColsepValue(int tableModelType);
   
@@ -1013,8 +1057,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       }
       
       if (showModelChooser) {
-        calsModelRadio.setSelected(previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS);
-        otherModelRadio.setSelected(previousTableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS);
+        calsModelRadio.setSelected(previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS && isCalsTable);
+        otherModelRadio.setSelected(previousTableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS || !isCalsTable);
       }
 
       if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
@@ -1066,7 +1110,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       }
 
       if (showModelChooser) {
-        calsModelRadio.setSelected(true);
+        if (isCalsTable) {
+          calsModelRadio.setSelected(true);
+        } else {
+          otherModelRadio.setSelected(true);
+        }
       }
       
       if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {

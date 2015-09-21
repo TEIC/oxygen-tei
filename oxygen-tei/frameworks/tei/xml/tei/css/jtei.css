@@ -20,6 +20,7 @@ TEI:before, text:before {
   margin-bottom: 1em;    
   text-align: center;
 }
+
 TEI:before {
   content: "The Journal of the Text Encoding Initiative, " oxy_xpath('(//teiHeader/fileDesc/publicationStmt/idno/string(),//teiHeader/fileDesc/seriesStmt/biblScope[@unit="issue"]/@n/concat("Issue ", .))[1]');
   padding: 1em 0;
@@ -57,8 +58,10 @@ head {
 }
 
 body {
-  counter-reset: div1 div2 div3 div4;
-  counter-reset: table example figure note;
+  counter-reset: div1;
+  counter-reset: div2;
+  counter-reset: div3;
+  counter-reset: div4;
 }
 
 body > div {

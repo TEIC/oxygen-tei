@@ -57,9 +57,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -72,7 +72,7 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertCon
 /**
  * Dropped URLs handler
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler{
   
   /**
@@ -136,13 +136,5 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
     return "xhtml2tei5Driver.xsl";
-  }
-  
-  /**
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#checkImportedXHTMLContentIsPreservedEntirely()
-   */
-  @Override
-  protected boolean checkImportedXHTMLContentIsPreservedEntirely() {
-    return true;
   }
 }

@@ -58,9 +58,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
@@ -68,7 +68,7 @@ import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 /**
  * Dialog used to customize XHTML table creation. It is used on Eclipse platform implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   
   /**

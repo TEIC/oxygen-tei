@@ -64,67 +64,73 @@
             <xsl:apply-templates mode="filterNodes"/>
         </xsl:variable>
         
+        <!-- 
         <xsl:message>111111111  <xsl:copy-of select="$processedFilterNodes"/></xsl:message>
         <xsl:result-document href="output-filterNodes-1.xml">
             <xsl:copy-of select="$processedFilterNodes"/>
         </xsl:result-document>
-        
+        -->
         
         <!-- Breask lines at <br/> elements. -->
         <xsl:variable name="processedBreakLines">
             <xsl:apply-templates select="$processedFilterNodes" mode="breakLines"/>
         </xsl:variable>
         
+        <!-- 
         <xsl:message>222222222  <xsl:copy-of select="$processedBreakLines"/></xsl:message>
         <xsl:result-document href="output-breakLines-2.xml">
             <xsl:copy-of select="$processedBreakLines"/>
         </xsl:result-document>
-        
+        -->
         
         <!-- Wrap inline nodes at global level (xhtml:body) in xhtml:p elements. -->
         <xsl:variable name="processedWrapGlobalText">
             <xsl:apply-templates select="$processedBreakLines" mode="wrapGlobalText"/>
         </xsl:variable>
         
+        <!-- 
         <xsl:message>333333333  <xsl:copy-of select="$processedWrapGlobalText"/></xsl:message>
         <xsl:result-document href="output-wrapGlobalText-3.xml">
             <xsl:copy-of select="$processedWrapGlobalText"/>
         </xsl:result-document>
-        
+        -->
         
         <!-- Transform list of header and para elements to nested sections. -->
         <xsl:variable name="processedSections">
             <xsl:apply-templates select="$processedWrapGlobalText" mode="nestedSections"/>
         </xsl:variable>
         
+        <!-- 
         <xsl:message>444444444  <xsl:copy-of select="$processedSections"/></xsl:message>
         <xsl:result-document href="output-sections-4.xml">
             <xsl:copy-of select="$processedSections"/>
         </xsl:result-document>
-        
+         -->
         
         <!-- Transform list of para elements from MS Word to nested lists.-->
         <xsl:variable name="processedLists">
             <xsl:apply-templates select="$processedSections" mode="nestedLists"/>
         </xsl:variable>
         
+        <!--  
         <xsl:message>555555555   <xsl:copy-of select="$processedLists"/></xsl:message>
         <xsl:result-document href="output-lists-5.xml">
             <xsl:copy-of select="$processedLists"/>
         </xsl:result-document>
-        
+        -->
         
         <xsl:variable name="processedNamespace">
             <xsl:apply-templates select="$processedLists" mode="setNamespace"/>
         </xsl:variable>
         
+        <!--
         <xsl:message>666666666
             <xsl:copy-of select="$processedNamespace"/>
         </xsl:message>
         <xsl:result-document href="output-namespace-6.xml">
             <xsl:copy-of select="$processedNamespace"/>
         </xsl:result-document>
-        
+        -->
         
         <!-- Generate content for current Author framework. -->
         <xsl:apply-templates select="$processedNamespace/*"/>

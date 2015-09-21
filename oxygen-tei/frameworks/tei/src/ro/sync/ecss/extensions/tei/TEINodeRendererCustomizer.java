@@ -56,9 +56,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.exml.workspace.api.node.customizer.BasicRenderingInformation;
 import ro.sync.exml.workspace.api.node.customizer.NodeRendererCustomizerContext;
 import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
@@ -71,7 +71,7 @@ import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
  * @author alin_balasa
  * @author alina_iordache
  */
-@API(type = APIType.INTERNAL, src = SourceType.PUBLIC)
+
 public class TEINodeRendererCustomizer extends XMLNodeRendererCustomizer {
   /**
    * Logger for logging.

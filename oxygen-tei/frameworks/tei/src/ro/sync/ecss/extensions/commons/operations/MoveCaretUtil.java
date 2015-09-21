@@ -57,9 +57,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
@@ -72,7 +72,7 @@ import ro.sync.util.editorvars.EditorVariables;
 /**
  * Utility to detect an editor variable in the Author page and move the caret to that place.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class MoveCaretUtil {
   
   /**

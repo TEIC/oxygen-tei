@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.link.Attr;
 import ro.sync.ecss.extensions.api.link.ElementLocator;
 import ro.sync.ecss.extensions.api.link.ExtensionUtil;
@@ -62,7 +62,7 @@ import ro.sync.ecss.extensions.api.link.IDTypeVerifier;
  * Implementation of an ElementLocator that locates elements based on a given 
  * link and checks if the attribute with the type ID matches the provided link.   
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class IDElementLocator extends ElementLocator {
 
   /**

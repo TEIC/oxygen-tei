@@ -61,9 +61,9 @@ import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.editor.AuthorInplaceContext;
 import ro.sync.ecss.extensions.api.editor.InplaceEditorArgumentKeys;
 import ro.sync.exml.view.graphics.Dimension;
@@ -72,7 +72,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Utility methods for preparing the in-place editors for being displayed.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class InplaceEditorUtil {
   /**
    * Logger for logging.

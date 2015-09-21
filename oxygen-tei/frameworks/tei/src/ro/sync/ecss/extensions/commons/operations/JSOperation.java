@@ -56,9 +56,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -70,7 +70,7 @@ import ro.sync.util.editorvars.EditorVariables;
 /**
  * An implementation of an operation to run a Javascript using the current Author API.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class JSOperation implements AuthorOperation {
     

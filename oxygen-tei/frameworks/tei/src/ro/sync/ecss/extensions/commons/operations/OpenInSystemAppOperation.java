@@ -59,9 +59,9 @@ import javax.swing.text.BadLocationException;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * Detects the application that is associated with the given file in the OS
  * and uses it to open the file. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible(false)
 public class OpenInSystemAppOperation implements AuthorOperation {
   
@@ -89,7 +89,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    * An XPath expression that when run returns the path of the resource that must
    * be opened.
    */
-  private static final String ARGUMENT_RESOURCE_PATH = "resourcePath";
+  static final String ARGUMENT_RESOURCE_PATH = "resourcePath";
   /**
    * <code>true</code> if the value of the XPATH represents an uparsed entity name.
    */
@@ -142,6 +142,10 @@ public class OpenInSystemAppOperation implements AuthorOperation {
     Object resourcePathXPath = args.getArgumentValue(ARGUMENT_RESOURCE_PATH);
 
     if (resourcePathXPath != null && ((String) resourcePathXPath).trim().length() > 0) {
+      // EXM-33238 Expand editor variables.
+      resourcePathXPath = authorAccess.getUtilAccess().expandEditorVariables(
+          (String) resourcePathXPath, 
+          authorAccess.getEditorAccess().getEditorLocation());
       // Execute the XPath that gives the file to open.
       Object[] results =
           authorAccess.getDocumentController().evaluateXPath((String) resourcePathXPath, null, false, true, true, false, 

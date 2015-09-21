@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Contains information about the columns to be inserted.
@@ -60,7 +60,7 @@ import ro.sync.annotations.api.SourceType;
  * @author sorin_carbunaru
  *
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TableColumnsInfo {
   /**
    * Number of columns.

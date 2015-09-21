@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorExtensionStateListener;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
 /**
  * The TEI P5 framework extensions bundle.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
   /**
    * Table operations handler

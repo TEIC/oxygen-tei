@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 import ro.sync.ecss.extensions.commons.table.support.CALSandHTMLTableCellInfoProvider;
@@ -61,7 +61,7 @@ import ro.sync.ecss.extensions.commons.table.support.HTMLTableCellInfoProvider;
 /**
  * Interface containing all the default operation distributed with Oxygen.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public interface DefaultExtensions {
   /**
    * The array with default operations.
@@ -94,6 +94,7 @@ public interface DefaultExtensions {
       XSLTOperation.class,
       // XQuery operation
       XQueryOperation.class,
+      XQueryUpdateOperation.class,
       OpenInSystemAppOperation.class,
       //Run transformation scenario operation.
       ExecuteTransformationScenariosOperation.class,
@@ -117,7 +118,10 @@ public interface DefaultExtensions {
       RenameElementOperation.class,
       // JS operation
       JSOperation.class,
+      //EXM-34226: Added an operation that changes the read-only status of the document.
+      SetReadOnlyStatusOperation.class,
   };
+  
   
   /**
    * The array with default classes used for table support.

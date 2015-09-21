@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.tei;
 import java.net.URL;
 import java.util.List;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertCon
 /**
  * Dropped URLs handler
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TEIP4ExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler{
 
   /**
@@ -101,13 +101,5 @@ public class TEIP4ExternalObjectInsertionHandler extends AuthorExternalObjectIns
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
     return "xhtml2tei4Driver.xsl";
-  }
-  
-  /**
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#checkImportedXHTMLContentIsPreservedEntirely()
-   */
-  @Override
-  protected boolean checkImportedXHTMLContentIsPreservedEntirely() {
-    return true;
   }
 }

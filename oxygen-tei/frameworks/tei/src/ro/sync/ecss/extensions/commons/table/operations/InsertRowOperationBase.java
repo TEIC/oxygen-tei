@@ -52,13 +52,14 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -74,7 +75,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Abstract class for operation used to insert a table row. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class InsertRowOperationBase extends AbstractTableOperation {
   
   /**
@@ -94,6 +95,16 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    *  The value is <code>customRowInsertion</code>
    */
   private static final String CUSTOM_ROW_INSERTION_ARGUMENT  = "customRowInsertion";
+
+  /**
+   * Argument descriptor for the argument that specifies whether a custom insertion should be used.
+   */
+  protected static final ArgumentDescriptor CUSTOM_INSERTION_ARGUMENT_DESCRIPTOR = 
+      new ArgumentDescriptor(CUSTOM_ROW_INSERTION_ARGUMENT, ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "A boolean specifying if the custom row insertion has been requested or not. "
+          + "A custom insertion allows the user to choose the number of rows to be inserted "
+          + "and the position of insertion (above or below the current row).",
+      new String[] {"true", "false"}, "false");
   
   /**
    * The arguments of the operation.
@@ -153,11 +164,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     args[2] = NAMESPACE_ARGUMENT_DESCRIPTOR;
     
     // argument specifying if the user desires to customize the row insertion (via "Insert rows...")
-    argumentDescriptor = new ArgumentDescriptor(CUSTOM_ROW_INSERTION_ARGUMENT, ArgumentDescriptor.TYPE_CONSTANT_LIST,
-        "A boolean specifying if the custom row insertion has been requested or not. "
-            + "A custom insertion allows the user to choose the number of rows to be inserted "
-            + "and the position of insertion (above or below the current row).",
-        new String[] {"true", "false"}, "false");
+    argumentDescriptor = CUSTOM_INSERTION_ARGUMENT_DESCRIPTOR;
     args[3] = argumentDescriptor;
     
     return args;
@@ -200,7 +207,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         
         TableRowsInfo tableRowInfo = null;
         // Custom row insertion has been requested
-        if(args.getArgumentValue(CUSTOM_ROW_INSERTION_ARGUMENT).equals(AuthorConstants.ARG_VALUE_TRUE)) {
+        if(AuthorConstants.ARG_VALUE_TRUE.equals(args.getArgumentValue(CUSTOM_ROW_INSERTION_ARGUMENT))) {
           Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
           if (Platform.STANDALONE.equals(platform)) {
             // SWING
@@ -642,5 +649,19 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    */
   protected String getDefaultContentForEmptyCells() {
     return null;
+  }
+  
+  /**
+   * Removes the argument descriptor for custom insertion from an arguments list.
+   *  
+   * @param superArguments The input arguments list.
+   * 
+   * @return The filtered arguments list.
+   */
+  protected static ArgumentDescriptor[] removeCustomInsertionDescriptor(ArgumentDescriptor[] superArguments) {
+    List<ArgumentDescriptor> arguments = new ArrayList<ArgumentDescriptor>(superArguments.length);
+    Collections.addAll(arguments, superArguments);
+    arguments.remove(CUSTOM_INSERTION_ARGUMENT_DESCRIPTOR);
+    return arguments.toArray(new ArgumentDescriptor[0]);
   }
 }

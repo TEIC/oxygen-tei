@@ -63,9 +63,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
  * 
  * @author sorin_carbunaru
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class SACustomTableRowInsertionDialog extends OKCancelDialog {
   
   /**

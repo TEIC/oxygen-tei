@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.commons.sort;
 import java.util.List;
 import java.util.TreeSet;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
 /**
  * Base table sort operation. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class TableSortOperation extends SortOperation {
   /**
    * Constructor.

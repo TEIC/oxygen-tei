@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.commons.operations.text;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Segment;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
@@ -71,7 +71,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * 
  * @author Costi Vetezi
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class CapitalizeWordsOperation extends FormSelectedTextOperation {
   /**

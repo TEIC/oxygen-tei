@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
 import java.util.List;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -68,8 +68,8 @@ import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBas
 /**
  * Operation used to insert one or more XHTML table columns.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+
+@WebappCompatible(false)
 public class InsertColumnOperation extends InsertColumnOperationBase implements XHTMLConstants {
   
   /**

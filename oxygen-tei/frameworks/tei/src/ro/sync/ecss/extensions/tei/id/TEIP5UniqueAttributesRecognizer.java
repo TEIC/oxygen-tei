@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.tei.id;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer;
 
 /**
  * Unique attributes recognizer
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TEIP5UniqueAttributesRecognizer extends DefaultUniqueAttributesRecognizer {
 
   /**

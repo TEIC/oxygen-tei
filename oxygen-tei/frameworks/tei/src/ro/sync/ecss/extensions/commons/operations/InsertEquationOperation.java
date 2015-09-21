@@ -54,9 +54,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.contentcompletion.xml.NameValue;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -75,7 +75,7 @@ import ro.sync.ecss.images.xmlimages.XMLImageHandler;
 /**
  * Operation used to insert an MathML Equation in any documents.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible(false)
 public class InsertEquationOperation implements AuthorOperation {
   /**

@@ -54,9 +54,9 @@ import javax.swing.text.BadLocationException;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * An implementation of an operation to change the value of an attribute.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class ChangeAttributeOperation implements AuthorOperation {
   /**

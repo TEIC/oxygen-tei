@@ -56,9 +56,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.contentcompletion.xml.CIAttribute;
 import ro.sync.contentcompletion.xml.CIElement;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
@@ -73,7 +73,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * Utility class for table operations.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TableOperationsUtil {
   
   /**

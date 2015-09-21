@@ -56,9 +56,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -72,7 +72,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * Provides information about the column width for DITA tables. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
 
   /**

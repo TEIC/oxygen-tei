@@ -84,9 +84,9 @@ import javax.swing.undo.UndoManager;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.CursorType;
 import ro.sync.ecss.extensions.api.access.AuthorUtilAccess;
@@ -107,7 +107,7 @@ import ro.sync.exml.view.graphics.Rectangle;
  * @author costi
  * @author adriana
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class SimpleURLChooserEditor extends AbstractInplaceEditor implements InplaceRenderer {
   
   /**
@@ -434,6 +434,14 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
   @Override
   public void stopEditing() {
     stopEditing(false);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#commitValue()
+   */
+  @Override
+  public void commitValue() {
+    fireCommitValue(new EditingEvent((String) getValue()));    
   }
   
   private void stopEditing(boolean onEnter) {

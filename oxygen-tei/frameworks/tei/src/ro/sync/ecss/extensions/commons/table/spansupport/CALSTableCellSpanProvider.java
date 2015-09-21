@@ -50,16 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.spansupport;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 
 /**
  * Empty implementation for backward compatibility.
  * Provides information about the cell spanning for Docbook tables. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class CALSTableCellSpanProvider extends CALSTableCellInfoProvider {
   
 }

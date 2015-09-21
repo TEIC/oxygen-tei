@@ -63,9 +63,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
@@ -76,7 +76,7 @@ import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
  * 
  * @author adriana_sbircea
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class ECTablePropertiesCustomizerDialog extends Dialog {
 
   /**

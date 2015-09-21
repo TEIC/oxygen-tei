@@ -54,9 +54,9 @@ import java.util.List;
 
 import javax.swing.text.Position;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
  * 
  * @author adriana_sbircea
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TabInfo {
   /**
    * The tab key name. If no translation for the tab, then it represents the name

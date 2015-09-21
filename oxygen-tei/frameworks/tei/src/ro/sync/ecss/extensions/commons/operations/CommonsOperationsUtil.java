@@ -50,12 +50,19 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.text.BadLocationException;
 import javax.xml.namespace.QName;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -72,7 +79,7 @@ import ro.sync.xml.XmlUtil;
 /**
  * Util methods for common Author operations.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class CommonsOperationsUtil {
 
   /**
@@ -350,5 +357,63 @@ public class CommonsOperationsUtil {
     prefix = "ns" + candidate;
     
     return prefix;
+  }
+  
+  /**
+   * Locate a certain resource in the classpath using its file name.
+   * @param authorAccess Author access.
+   * @param resourceFileName The resource file name.
+   * @return The URL of the resource or <code>null</code>.
+   */
+  public static URL locateResourceInClasspath(AuthorAccess authorAccess, String resourceFileName){
+    //Try to detect them in the classpath resources
+    URL resourceURL = null;
+    URL[] resources = authorAccess.getClassPathResourcesAccess().getClassPathResources();
+    if(resources != null) {
+      List<URL> proposedResourceURLs = new ArrayList<URL>();
+      for (int i = 0; i < resources.length; i++) {
+        URL resource = resources[i];
+        String resourceStr = resource.toExternalForm();
+        //Find the reuse folder
+        if(resourceStr.endsWith("/resources/")
+            || resourceStr.endsWith("/resources")){
+          //Found it.
+          try {
+            proposedResourceURLs.add(new URL(resource, resourceFileName));
+          } catch (MalformedURLException e) {
+            //Ignore.
+          }
+        }
+      }
+      if(! proposedResourceURLs.isEmpty()){
+        //Fallback
+        resourceURL = proposedResourceURLs.get(0);
+        if(proposedResourceURLs.size() > 1){
+          //Find the first one which exists.
+          for (int i = 0; i < proposedResourceURLs.size(); i++) {
+            URL url = proposedResourceURLs.get(i);
+            InputStream is = null;
+            try {
+              //If we can read from the stream, we can use it.
+              is = url.openStream();
+              is.read();
+              resourceURL = url;
+              break;
+            } catch (IOException e) {
+              //Ignore
+            } finally{
+              if (is != null){
+                try {
+                  is.close();
+                } catch (IOException e) {
+                  //Ignore
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return resourceURL;
   }
 }

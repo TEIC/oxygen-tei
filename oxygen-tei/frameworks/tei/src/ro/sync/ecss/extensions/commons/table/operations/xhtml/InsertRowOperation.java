@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -64,8 +64,8 @@ import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
 /**
  * Operation used to insert a table row for XHTML documents. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+
+@WebappCompatible(false)
 public class InsertRowOperation extends InsertRowOperationBase implements XHTMLConstants {
 
   /**

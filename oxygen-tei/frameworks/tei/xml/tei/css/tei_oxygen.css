@@ -3,6 +3,9 @@
 
 /* High contrast */
 @import "high-contrast.css";
+/* Dark theme */
+@import "dark-theme.css";
+@import "page.css";
 
 @namespace xml "http://www.w3.org/XML/1998/namespace";
 
@@ -123,6 +126,22 @@ gap {
 }
 gap:after {
     content: "";
+}
+/*EXM-34326 Show all elements hidden by the base CSS*/
+anchor, catRef, divGen, index, interp, interpGrp, milestone {
+   display: -oxy-morph;
+}
+
+pb {
+  display: -oxy-morph;
+  font-weight: bold;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  text-align: center;
+}
+    
+pb:after {
+  content: "";
 }
 
 /*EXM-32751 Try to add arabic orientation based on xml:lang*/

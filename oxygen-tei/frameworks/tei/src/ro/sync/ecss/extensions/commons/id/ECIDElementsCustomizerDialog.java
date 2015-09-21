@@ -65,9 +65,9 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  *  It will be also used when the IDs are generated manually.
  * It is used on standalone implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class ECIDElementsCustomizerDialog extends Dialog {
   
   /**

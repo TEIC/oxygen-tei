@@ -52,6 +52,7 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
@@ -64,9 +65,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -74,6 +75,8 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentType;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight.PersistentHighlightType;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -83,7 +86,7 @@ import ro.sync.util.editorvars.EditorVariables;
  * An implementation of an operation to apply a script (XSLT or XQuery) on a element and replacing it with
  * the result of the transformation or inserting the result in the document.
  */
-@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
+
 public abstract class TransformOperation implements AuthorOperation {
   
   /**
@@ -366,12 +369,41 @@ public abstract class TransformOperation implements AuthorOperation {
     }
     
     String currentElementLocation ="";
-    
     AuthorNode tmp = currentElement;
     if (tmp.isDescendentOf(sourceElement)) {
       while (tmp != sourceElement) {
         AuthorElement parent = ((AuthorElement)tmp.getParent());
-        int index = parent.getContentNodes().indexOf(tmp) + 1;
+        List<AuthorNode> contentNodes = parent.getContentNodes();
+        int index = 1;
+        for (int i = 0; i < contentNodes.size(); i++) {
+          AuthorNode child = contentNodes.get(i);
+          if(child == tmp){
+            //Xpath indices are 1-based
+            break;
+          } else {
+            boolean ignoreThisNode = false;
+            //EXM-33943 Ignore fully deleted sibling nodes.
+            AuthorPersistentHighlight[] intersectingHighlights = authorAccess.getReviewController().getChangeHighlights(child.getStartOffset(), child.getEndOffset());
+            if(intersectingHighlights != null){
+              for (int j = 0; j < intersectingHighlights.length; j++) {
+                if(intersectingHighlights[j].getType() == PersistentHighlightType.CHANGE_DELETE){
+                  //Find delete marker which engulfs element
+                  if(intersectingHighlights[j].getStartOffset() <= child.getStartOffset() 
+                      && child.getEndOffset() <= intersectingHighlights[j].getEndOffset()){
+                    ignoreThisNode = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if(! ignoreThisNode){
+              //Increment counter
+              index ++;
+            } else {
+              //Ignore it
+            }
+          }
+        }
         currentElementLocation = "/*[" + index + "]" + currentElementLocation;
         tmp = parent;
       }
@@ -469,6 +501,26 @@ public abstract class TransformOperation implements AuthorOperation {
       
       //Also expand the editor variables.
       if(expandEditorVariables) {
+        //And expand the selection editor variable as well.
+        int indexOfSelection = result.indexOf(EditorVariables.CT_SELECTION_EDITOR_VARIABLE);
+        if (indexOfSelection != -1) {
+          String selXML = "";
+          try {
+            if (authorAccess.getEditorAccess().hasSelection()) {
+              //Serialize the current selection.
+              AuthorDocumentFragment selFrag =
+                  authorAccess.getDocumentController().createDocumentFragment(
+                      authorAccess.getEditorAccess().getSelectionStart(),
+                      authorAccess.getEditorAccess().getSelectionEnd() - 1);
+              selXML = authorAccess.getDocumentController().serializeFragmentToXML(selFrag);
+            }
+          } catch(BadLocationException ex) {
+            logger.error(ex, ex);
+          }
+          //Expand selection editor variable.
+          result = result.substring(0, indexOfSelection) + selXML + result.substring(
+              indexOfSelection + EditorVariables.CT_SELECTION_EDITOR_VARIABLE.length(), result.length());
+        }
         //Expand all other editor variables which were output by the stylesheet.
         result = authorAccess.getUtilAccess().expandEditorVariables(
             result, authorAccess.getEditorAccess().getEditorLocation());
@@ -483,26 +535,6 @@ public abstract class TransformOperation implements AuthorOperation {
           hasCaretMarker = true;
         }
         
-        //And expand the selection editor variable as well.
-        int indexOfSelection = result.indexOf(EditorVariables.CT_SELECTION_EDITOR_VARIABLE);
-        if (indexOfSelection != -1) {
-          String selXML = "";
-          try {
-            if (authorAccess.getEditorAccess().hasSelection()) {
-              //Serialize the current selection.
-              AuthorDocumentFragment selFrag =
-                authorAccess.getDocumentController().createDocumentFragment(
-                    authorAccess.getEditorAccess().getSelectionStart(),
-                    authorAccess.getEditorAccess().getSelectionEnd() - 1);
-              selXML = authorAccess.getDocumentController().serializeFragmentToXML(selFrag);
-            }
-          } catch(BadLocationException ex) {
-            logger.error(ex, ex);
-          }
-          //Expand selection editor variable.
-          result = result.substring(0, indexOfSelection) + selXML + result.substring(
-              indexOfSelection + EditorVariables.CT_SELECTION_EDITOR_VARIABLE.length(), result.length());
-        }
       }
 
       // Store initial caret information

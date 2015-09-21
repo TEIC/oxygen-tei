@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.table.support;
 
 import java.util.List;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -66,7 +66,7 @@ import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
 /**
  * A table cell span and column width info provider used for frameworks that have both CALS and HTML tables.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
   
   /**

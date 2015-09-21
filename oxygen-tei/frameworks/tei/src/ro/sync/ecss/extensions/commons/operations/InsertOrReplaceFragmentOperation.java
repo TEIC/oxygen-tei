@@ -50,22 +50,30 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
+import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 /**
  * Identical with {@link InsertFragmentOperation} with the difference that the selection will be removed. 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
-
+  /**
+   * The value for the ARGUMENT_RELATIVE_LOCATION that causes the fragment to overwrite the
+   * node selected by the XPath. 
+   */
+  static final String POSITION_REPLACE = "Replace";
+  
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
@@ -83,8 +91,38 @@ public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
         authorAccess.getEditorAccess().deleteSelection();
       }
       
+      Object xpathLocation = args.getArgumentValue(ARGUMENT_XPATH_LOCATION);
+      Object relativeLocation = args.getArgumentValue(ARGUMENT_RELATIVE_LOCATION);
+      
+      if (POSITION_REPLACE.equals(relativeLocation)) {
+        // If we should insert the fragment replacing an existing node, first delete that node.
+        if (xpathLocation instanceof String) {
+          String xpathLocationStr = (String) xpathLocation;
+          if (xpathLocationStr.trim().length() > 0) {
+            AuthorNode[] nodes = authorAccess.getDocumentController().findNodesByXPath(xpathLocationStr, true, true, true);
+            if (nodes != null && nodes.length > 0) {
+              authorAccess.getEditorAccess().select(nodes[0].getStartOffset(), nodes[0].getEndOffset() + 1);
+              authorAccess.getEditorAccess().deleteSelection();
+            }
+          }
+        }
+        
+        // Set the XPath location to null, so that the fragment will be inserted at the caret position.
+        xpathLocation = null;
+      }
+
+      Object fragment = args.getArgumentValue(ARGUMENT_FRAGMENT);
+      Object argumentValue = args.getArgumentValue(ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION);
+      if (argumentValue == null) {
+        argumentValue = AuthorConstants.ARG_VALUE_TRUE;
+      }
+      
+      boolean goToFirstEditablePosition = AuthorConstants.ARG_VALUE_TRUE.equals(argumentValue);
+      Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
+
       // Insert the fragment.
-      super.doOperation(authorAccess, args);
+      doOperationInternal(authorAccess, fragment, xpathLocation, relativeLocation, 
+          goToFirstEditablePosition, schemaAwareArgumentValue);
     } catch (AuthorOperationException e) {
       if(deleteSelection) {
         // Paste was rejected, undo selection removal
@@ -103,5 +141,52 @@ public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
   @Override
   public String getDescription() {
     return "Insert a document fragment. If selection is present, the selection will be replaced with the given fragment.";
+  }
+  
+  /**
+   * The relative location of the deleted node.
+   */
+  private static ArgumentDescriptor ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION = new ArgumentDescriptor(
+      ARGUMENT_RELATIVE_LOCATION, 
+      ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "The insert position relative to the node determined by the XPath expression.\n" +
+      "Can be: " 
+      + AuthorConstants.POSITION_BEFORE + ", " +
+      AuthorConstants.POSITION_INSIDE_FIRST + ", " +
+      AuthorConstants.POSITION_INSIDE_LAST + ", " +
+      POSITION_REPLACE + " or " +
+      AuthorConstants.POSITION_AFTER + ".\n" +
+      "Note: If the XPath expression is not defined this argument is ignored",
+      new String[] {
+          AuthorConstants.POSITION_BEFORE,
+          AuthorConstants.POSITION_INSIDE_FIRST,
+          AuthorConstants.POSITION_INSIDE_LAST,
+          AuthorConstants.POSITION_AFTER,
+          POSITION_REPLACE,
+      }, 
+      AuthorConstants.POSITION_INSIDE_FIRST);
+  
+  /**
+   * The arguments descriptors for this operation.
+   */
+  private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+      // Argument defining the XML fragment that will be inserted.
+      ARGUMENT_DESCRIPTOR_FRAGMENT,
+      // Argument defining the location where the operation will be executed as an XPath expression.
+      ARGUMENT_DESCRIPTOR_XPATH_LOCATION,
+      // Argument defining the relative position to the node obtained from the XPath location.
+      ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION,
+      // Argument defining if the fragment insertion is schema aware.
+      SCHEMA_AWARE_ARGUMENT_DESCRIPTOR,
+      // Argument defining if the fragment insertion is schema aware.
+      ARGUMENT_DESCRIPTOR_GO_TO_NEXT_EDITABLE_POSITION,
+  };
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation#getArguments()
+   */
+  @Override
+  public ArgumentDescriptor[] getArguments() {
+    return ARGUMENTS;
   }
 }

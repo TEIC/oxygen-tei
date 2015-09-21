@@ -54,14 +54,14 @@ import java.awt.Frame;
 
 import javax.swing.JFrame;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /** 
  * Dialog with OK and Cancel buttons.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class OKCancelDialog extends ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog{
   
   

@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.table.operations.SplitLeftRightOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
  * 
  * TEI implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class SplitLeftRightOperation extends SplitLeftRightOperationBase implements TEIConstants {
   

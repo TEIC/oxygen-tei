@@ -76,9 +76,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.xml.XmlUtil;
@@ -87,7 +87,7 @@ import ro.sync.xml.XmlUtil;
  * Dialog used to customize the insertion of a generic table (number of rows, columns, table caption).
  * It is used on Eclipse platform implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class ECTableCustomizerDialog extends Dialog implements TableCustomizerConstants{
   
   /**
@@ -267,6 +267,10 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * <code>true</code> if the table allows align attribute.
    */
   private boolean hasAlign;
+  /**
+   * <code>true</code> if the model is for CALS table.
+   */
+  private boolean isCalsTable;
   
   /**
    * Constructor for TrangDialog.
@@ -337,6 +341,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         predefinedColumnsCount);
   }
   
+  
   /**
    * Constructor for TrangDialog.
    * 
@@ -369,12 +374,50 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
+    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModel, showChoiceTable, 
+        true, innerCalsTable, hasRowsep, hasColsep, hasAlign, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+  }
+  /**
+   * Constructor for TrangDialog.
+   * 
+   * @param parentShell           The parent shell for the dialog.
+   * @param hasFooter             <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute     <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser      <code>true</code> to show the dialog panel for choosing the table model, 
+   *                              one of CALS or HTML.
+   * @param showSimpleModel       <code>true</code> to show the simple model radio in the model chooser.
+   * @param showChoiceTable       <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable           <code>true</code> if the table model is CALS.
+   * @param innerCalsTable        <code>true</code> if this is an inner calls table.
+   * @param hasRowsep             <code>true</code> if the table has rowsep attribute.
+   * @param hasColsep             <code>true</code> if the table has colsep attribute.
+   * @param hasAlign              <code>true</code> if the table has align attribute.
+   * @param authorResourceBundle  The author resource bundle.
+   * @param predefinedRowsCount The predefined number of rows.
+   * @param predefinedColumnsCount The predefined number of columns.
+   */
+  public ECTableCustomizerDialog(
+      Shell parentShell,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean showSimpleModel,
+      boolean showChoiceTable,
+      boolean isCalsTable,
+      boolean innerCalsTable,
+      boolean hasRowsep,
+      boolean hasColsep,
+      boolean hasAlign,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount, 
+      int predefinedColumnsCount) {
     super(parentShell);
     this.hasFooter = hasFooter;
     this.hasFrameAttribute = hasFrameAttribute;
     this.showModelChooser = showModelChooser;
     this.simpleTableModel = showSimpleModel;
     this.showChoiceTable = showChoiceTable;
+    this.isCalsTable = isCalsTable;
     this.innerCalsTable = innerCalsTable;
     this.authorResourceBundle = authorResourceBundle;
     this.predefinedRowsCount = predefinedRowsCount;
@@ -447,7 +490,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           });
 
           //Set some default values.
-          makeCalsTable = true;
+          makeCalsTable = isCalsTable;
           calsModelRadio.setSelection(makeCalsTable);
           otherModelRadio.setSelection(! makeCalsTable);
         } else {
@@ -464,7 +507,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           });
 
           //Set some default values.
-          makeCalsTable = true;
+          makeCalsTable = isCalsTable;
           calsModelRadio.setSelection(makeCalsTable);
           otherModelRadio.setSelection(! makeCalsTable);
         }
@@ -519,7 +562,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       label.setText(authorResourceBundle.getMessage(ExtensionTags.ROWS));
       rowsSpinner = new Spinner(sizeGroup, SWT.BORDER);
       rowsSpinner.setMinimum(0);
-      rowsSpinner.setMaximum(100);
+      rowsSpinner.setMaximum(1000);
       rowsSpinner.setSelection(3);
       rowsSpinner.addModifyListener(new ModifyListener() {
         @Override
@@ -950,7 +993,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
       
       if (showModelChooser) {
-        makeCalsTable = tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS;
+        makeCalsTable = tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS && isCalsTable;
         calsModelRadio.setSelection(makeCalsTable);
         otherModelRadio.setSelection(! makeCalsTable);
         tableModelChanged(tableInfo.getTableModel());
@@ -1030,8 +1073,9 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
 
       if (showModelChooser) {
-        makeCalsTable = true;
+        makeCalsTable = isCalsTable;
         calsModelRadio.setSelection(makeCalsTable);
+        otherModelRadio.setSelection(!makeCalsTable);
       }
       
       if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {

@@ -54,9 +54,9 @@ import java.awt.Frame;
 
 import javax.swing.JCheckBox;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
  * Dialog used to customize XHTML table creation.
  * It is used on standalone implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
   
   /**

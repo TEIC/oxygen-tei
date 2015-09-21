@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.commons.table.properties;
 import java.util.List;
 import java.util.Map;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Class representing a table property. It contains the name of the property,
@@ -65,7 +65,7 @@ import ro.sync.annotations.api.SourceType;
  * 
  * @author adriana_sbircea
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class TableProperty {
   /**
    * Property name. If it is a attribute, it will be the qualified name.

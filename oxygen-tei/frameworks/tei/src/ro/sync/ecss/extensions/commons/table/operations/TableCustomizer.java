@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  * It is used on standalone implementation.
  * 
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class TableCustomizer {
   
   /**
@@ -102,7 +102,8 @@ public abstract class TableCustomizer {
    * if customization operation is canceled.
    */
   public TableInfo customizeTable(AuthorAccess authorAccess, int predefinedRowsCount, int predefinedColumnsCount) {
-    TableInfo newTableInfo = showCustomizeTableDialog(authorAccess, predefinedRowsCount, predefinedColumnsCount);
+    TableInfo newTableInfo = showCustomizeTableDialog(authorAccess, predefinedRowsCount, predefinedColumnsCount, 
+        TableInfo.TABLE_MODEL_HTML);
     // Store the new table info only if not cancel pressed.
     if (newTableInfo != null) {
       int oldRowsCount = -1;
@@ -168,11 +169,93 @@ public abstract class TableCustomizer {
    * @param authorAccess The Author access.
    * @param predefinedRowsCount Predefined number of rows.
    * @param predefinedColumnsCount Predefined number of columns.
+   * @param defaultTableModel The default model of the table that will be inserted.
    * @return  The table information provided by the user or null if customization 
    * operation is canceled.
    */
   protected abstract TableInfo showCustomizeTableDialog(
       AuthorAccess authorAccess,
       int predefinedRowsCount, 
-      int predefinedColumnsCount);
+      int predefinedColumnsCount, 
+      int defaultTableModel);
+
+  /**
+   * Customize a table. 
+   * <br/>
+   * A table customizer dialog is shown, giving the possibility to choose the 
+   * properties of a new table to be inserted in the document. An object containing 
+   * the new table information is returned. 
+   * 
+   * @param authorAccess Access to Author operations.
+   * @param predefinedRowsCount The predefined number of rows, <code>-1</code> 
+   * if the user can control the number of inserted column.
+   * @param predefinedColumnsCount The predefined number of columns, <code>-1</code> 
+   * if the user can control the number of inserted column.
+   * If predefined columns count and predefined rows count values are positive 
+   * then the dialog will not contain any field for defining the table columns
+   * and rows count and the inserted table will use the predefined values.    
+   * @param defaultTableModel The default model of the table that will be inserted.
+   * @return The table information provided by the user or <code>null</code>
+   * if customization operation is canceled.
+   */
+  public TableInfo customizeTable(AuthorAccess authorAccess, int predefinedRowsCount, int predefinedColumnsCount, int defaultTableModel) {
+    TableInfo newTableInfo = showCustomizeTableDialog(authorAccess, predefinedRowsCount, predefinedColumnsCount, defaultTableModel);
+    // Store the new table info only if not cancel pressed.
+    if (newTableInfo != null) {
+      int oldRowsCount = -1;
+      int oldColumnsCount = -1;
+      if (predefinedColumnsCount > 0 && predefinedRowsCount > 0) {
+        if (tableInfo != null) {
+          oldRowsCount = tableInfo.getRowsNumber();
+          oldColumnsCount = tableInfo.getColumnsNumber();
+        } else {
+          oldRowsCount = TableInfo.DEFAULT_ROWS_COUNT;
+          oldColumnsCount = TableInfo.DEFAULT_COLUMNS_COUNT;
+        }
+        
+        // Create table info
+        tableInfo = new TableInfo(
+            newTableInfo.getTitle(), 
+            oldRowsCount, 
+            oldColumnsCount, 
+            newTableInfo.isGenerateHeader(), 
+            newTableInfo.isGenerateFooter(), 
+            newTableInfo.getFrame(), 
+            newTableInfo.getTableModel(), 
+            newTableInfo.getColumnsWidthsType(),
+            newTableInfo.getRowsep(),
+            newTableInfo.getColsep(),
+            newTableInfo.getAlign());
+        
+        // Update predefined rows count
+        if (tableInfo.isGenerateHeader() || tableInfo.isGenerateFooter()) {
+          if (tableInfo.isGenerateHeader()) {
+            predefinedRowsCount = predefinedRowsCount - 1;
+          }
+          if (tableInfo.isGenerateFooter()) {
+            predefinedRowsCount = predefinedRowsCount - 1;
+          }
+          if (predefinedRowsCount <= 0) {
+            predefinedRowsCount = 1;
+          }
+  
+          newTableInfo = new TableInfo(
+              newTableInfo.getTitle(), 
+              predefinedRowsCount, 
+              predefinedColumnsCount, 
+              newTableInfo.isGenerateHeader(), 
+              newTableInfo.isGenerateFooter(), 
+              newTableInfo.getFrame(), 
+              newTableInfo.getTableModel(), 
+              newTableInfo.getColumnsWidthsType(),
+              newTableInfo.getRowsep(),
+              newTableInfo.getColsep(),
+              newTableInfo.getAlign());
+        }
+      } else {
+        tableInfo = newTableInfo;
+      }
+    }
+    return newTableInfo;
+  }
 }

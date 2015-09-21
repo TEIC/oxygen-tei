@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.cals.CALSAndHTMLTableSortOperation;
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.commons.table.operations.cals.CALSAndHTMLTableSor
 /**
  * XHTML table sort operation implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible(false)
 public class XHTMLTableSortOperation extends CALSAndHTMLTableSortOperation {
   /**

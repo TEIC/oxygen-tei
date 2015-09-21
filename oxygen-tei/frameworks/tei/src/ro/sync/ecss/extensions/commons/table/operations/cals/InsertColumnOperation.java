@@ -55,9 +55,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -77,8 +77,8 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 /**
  * Operation used to insert one or more CALS table columns.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+
+@WebappCompatible(false)
 public class InsertColumnOperation extends InsertColumnOperationBase implements 
   CALSConstants, InsertTableCellsContentConstants {
   

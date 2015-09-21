@@ -50,16 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Interface that contains all constants used in the table properties operation.
  * 
  * @author adriana_sbircea
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public interface TablePropertiesConstants {
   /**
    * Name for row type property.

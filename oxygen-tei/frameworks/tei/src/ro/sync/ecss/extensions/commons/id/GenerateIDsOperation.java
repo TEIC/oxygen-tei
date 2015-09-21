@@ -55,9 +55,9 @@ import java.util.List;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Segment;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * Operation used to auto generate IDs for the elements included in the selected fragment.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class GenerateIDsOperation implements AuthorOperation {
   
   /**

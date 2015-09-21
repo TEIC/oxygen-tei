@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
 /**
  * Operation used to delete a TEI table column.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements TEIConstants {
   

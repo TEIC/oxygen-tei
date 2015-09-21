@@ -84,9 +84,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.access.AuthorUtilAccess;
 import ro.sync.ecss.extensions.api.editor.AbstractInplaceEditor;
@@ -104,7 +104,7 @@ import ro.sync.exml.view.graphics.Rectangle;
  * @author costi
  * @author adriana
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextOperationTarget {
 
   /**
@@ -278,6 +278,14 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
   @Override
   public void stopEditing() {
     stopEditing(false);
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#commitValue()
+   */
+  @Override
+  public void commitValue() {
+    fireCommitValue(new EditingEvent((String) getValue()));    
   }
 
   /**

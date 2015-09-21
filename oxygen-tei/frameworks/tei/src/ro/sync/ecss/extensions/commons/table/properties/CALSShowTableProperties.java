@@ -58,9 +58,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
  * @author adriana_sbircea
  *
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class CALSShowTableProperties extends CALSAndHTMLShowTablePropertiesBase {
   
   /**

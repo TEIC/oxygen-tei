@@ -63,9 +63,9 @@ import javax.swing.text.Segment;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.contentcompletion.xml.ContextElement;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
@@ -99,7 +99,7 @@ import ro.sync.ecss.extensions.api.node.AuthorParentNode;
  *  Case 2: If there is a selection, it is wrapped in the given element 
  *  (or unwrapped if it is already included in the element)
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class ToggleSurroundWithElementOperation implements AuthorOperation {
   /**

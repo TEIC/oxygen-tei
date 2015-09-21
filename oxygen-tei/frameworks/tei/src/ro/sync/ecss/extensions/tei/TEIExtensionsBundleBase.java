@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.contentcompletion.xml.SchemaManagerFilter;
 import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -63,7 +63,7 @@ import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 /**
  * The TEI framework extensions bundle.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
 
   /**

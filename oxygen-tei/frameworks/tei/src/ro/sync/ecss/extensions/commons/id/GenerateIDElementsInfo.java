@@ -51,7 +51,6 @@
 package ro.sync.ecss.extensions.commons.id;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,16 +64,17 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
  * Information about the list of elements for which to generate auto ID + if the auto ID generation is activated
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class GenerateIDElementsInfo {
   
   /**
@@ -324,8 +324,10 @@ public class GenerateIDElementsInfo {
   
   private String getElementsAsOptionsString() {
     StringBuilder toSave = new StringBuilder();
-    for (int i = 0; i < elementsWithIDGeneration.length; i++) { 
-      toSave.append(elementsWithIDGeneration[i]).append(",");
+    if(elementsWithIDGeneration != null){
+      for (int i = 0; i < elementsWithIDGeneration.length; i++) { 
+        toSave.append(elementsWithIDGeneration[i]).append(",");
+      }
     }
     return toSave.toString();
   }
@@ -434,27 +436,9 @@ public class GenerateIDElementsInfo {
       proposedXMLResourceName = "idGenerationDefaultOptions.xml";
     }
     final GenerateIDElementsInfo loaded = new GenerateIDElementsInfo(false, DEFAULT_ID_GENERATION_PATTERN, new String[0]);
-    String optionsLoadURL = null;
     if(authorAccess != null){
       //Try to detect them in the classpath resources
-      URL[] resources = authorAccess.getClassPathResourcesAccess().getClassPathResources();
-      if(resources != null) {
-        for (int i = 0; i < resources.length; i++) {
-          URL resource = resources[i];
-          String resourceStr = resource.toExternalForm();
-          //Find the reuse folder
-          if(resourceStr.endsWith("/resources/")
-              || resourceStr.endsWith("/resources")){
-            //Found it.
-            try {
-              optionsLoadURL = new URL(resource, proposedXMLResourceName).toString();
-            } catch (MalformedURLException e) {
-              //Ignore
-            }
-            break;
-          }
-        }
-      }
+      URL optionsLoadURL = CommonsOperationsUtil.locateResourceInClasspath(authorAccess, proposedXMLResourceName);
       if(optionsLoadURL != null){
         XMLReader reader = authorAccess.getXMLUtilAccess().newNonValidatingXMLReader();
         final List<String> elems = new ArrayList<String>();
@@ -515,7 +499,7 @@ public class GenerateIDElementsInfo {
           }
         });
         try {
-          reader.parse(optionsLoadURL);
+          reader.parse(optionsLoadURL.toString());
           loaded.elementsWithIDGeneration = elems.toArray(new String[0]);
         } catch (IOException e) {
           logger.error(e, e);

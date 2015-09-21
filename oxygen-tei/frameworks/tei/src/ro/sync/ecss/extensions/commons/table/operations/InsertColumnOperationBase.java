@@ -52,13 +52,14 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -77,7 +78,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Operation used to insert a table column.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public abstract class InsertColumnOperationBase extends AbstractTableOperation {
   /**
    * The <code>insertPosition</code> argument descriptor.
@@ -756,4 +757,19 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
   protected String getDefaultContentForEmptyCells() {
     return null;
   }
+  
+  /**
+   * Removes the argument descriptor for multiple insertion from an arguments list.
+   *  
+   * @param superArguments The input arguments list.
+   * 
+   * @return The filtered arguments list.
+   */
+  protected static ArgumentDescriptor[] removeMultipleInsertionDescriptor(ArgumentDescriptor[] superArguments) {
+    List<ArgumentDescriptor> arguments = new ArrayList<ArgumentDescriptor>(superArguments.length);
+    Collections.addAll(arguments, superArguments);
+    arguments.remove(INSERT_MULTIPLE_COLUMNS_ARGUMENT_DESCRIPTOR);
+    return arguments.toArray(new ArgumentDescriptor[0]);
+  }
+
 }

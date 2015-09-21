@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Impose the GUI elements that will be used to present the values for a specific table property.
@@ -64,7 +64,7 @@ import ro.sync.annotations.api.SourceType;
  * using a combobox.  
  * <br/>
  */
-@API(type=APIType.NOT_EXTENDABLE, src=SourceType.PUBLIC)
+
 public enum GuiElements {
   /**
    * Radio buttons type.

@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Exception thrown when an attempt to edit an resource is made with a handler that does not support this,
@@ -60,7 +60,7 @@ import ro.sync.annotations.api.SourceType;
  * 
  * @author Dan
  */
-@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
+
 public class CannotEditException extends Exception{
 
   /**

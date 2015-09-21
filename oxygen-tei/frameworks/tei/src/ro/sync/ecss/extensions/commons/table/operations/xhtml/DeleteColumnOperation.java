@@ -50,23 +50,33 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase;
+import ro.sync.ecss.extensions.commons.table.support.HTMLTableCellInfoProvider;
 
 /**
  * Operation used to delete an XHTML table column.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements XHTMLConstants {
-  
+    /**
+  * Logger for logging. 
+  */
+  private static Logger logger = Logger.getLogger(DeleteColumnOperation.class.getName());
   /**
    * Constructor.
    */
@@ -74,6 +84,72 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
     super(new XHTMLDocumentTypeHelper());
   }
 
+   /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase#performDeleteColumn(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, boolean)
+   */
+  @Override
+  public boolean performDeleteColumn(AuthorAccess authorAccess,
+      List<ContentInterval> columnIntervals, boolean placeCaretInNextCell)
+      throws AuthorOperationException {
+    boolean handle = false;
+    try {
+      // Do super.
+      handle = super.performDeleteColumn(authorAccess, columnIntervals, placeCaretInNextCell);
+      
+      if (handle) {
+        // Delete the column specification of the deleted column
+        HTMLTableCellInfoProvider spanProvider = 
+            (HTMLTableCellInfoProvider) tableHelper.getTableCellSpanProvider(tableElem);
+
+        if(deletedColumnIndex >= 0){
+          // The 'colspec' element of the deleted column must be deleted after the iteration.
+          AuthorElement toRemove = spanProvider.getColSpec(deletedColumnIndex);
+          if (toRemove != null) {
+            // Remember the last caret position but adjust it
+            // after the removal of the column specifications
+            int newCaretOffset = authorAccess.getEditorAccess().getCaretOffset() - 
+                (toRemove.getEndOffset() - toRemove.getStartOffset() + 1);
+            boolean decreasedSpan = false;
+            AttrValue span = toRemove.getAttribute(HTMLTableCellInfoProvider.ATTR_NAME_SPAN);
+            if (span != null && span.getValue() != null) {
+              try {
+                int colNum = Integer.parseInt(span.getValue());
+                if(colNum > 2){
+                  // Decrease the "colnum".
+                  authorAccess.getDocumentController().setAttribute(
+                      HTMLTableCellInfoProvider.ATTR_NAME_SPAN,
+                      new AttrValue("" + (colNum - 1)),
+                      toRemove);
+                  decreasedSpan = true;
+                } else if(colNum == 2){
+                  //Remove attribute
+                  authorAccess.getDocumentController().removeAttribute(
+                      HTMLTableCellInfoProvider.ATTR_NAME_SPAN,
+                      toRemove);
+                  decreasedSpan = true;
+                }
+              } catch (NumberFormatException e) {
+                // Nothing to do
+              }
+            }
+            
+            if(! decreasedSpan){
+              // Remove the 'colspec' of the deleted column.
+              authorAccess.getDocumentController().deleteNode(toRemove);
+            }
+
+            // Restore caret position.
+            authorAccess.getEditorAccess().setCaretPosition(newCaretOffset);
+          }
+        }
+      }
+    } catch (Throwable e) {
+      logger.error(e, e);
+    }
+    
+    return handle;
+  }
+  
   /**
    * Update the column span for the table cell that is included into the deleted
    * column.

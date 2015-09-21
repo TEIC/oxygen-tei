@@ -52,16 +52,16 @@ package ro.sync.ecss.extensions.commons.id;
 
 import org.eclipse.swt.widgets.Shell;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
  * Customize the list of elements for auto ID generation.
  * It is used on eclipse implementation.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class ECIDElementsCustomizer {
   
   /**

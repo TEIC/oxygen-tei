@@ -64,11 +64,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
-import ro.sync.annotations.obfuscate.SkipLevel;
-import ro.sync.annotations.obfuscate.SkipObfuscate;
+
+
+
+
+
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 
@@ -77,8 +77,8 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  * This class will add to the given parent container a checkbox to enable the criterion, a combobox to select the key,
  * a type combobox and order combobox. It will return the user choice as a {@link CriterionInformation} object.
  */
-@API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
-@SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
+
+
 public class CriterionPanel {
   /**
    * The checkbox to enable the criterion.

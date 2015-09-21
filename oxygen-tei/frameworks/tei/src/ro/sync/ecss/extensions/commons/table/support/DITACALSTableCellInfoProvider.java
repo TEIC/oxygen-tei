@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.commons.table.support;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 
 /**
  * DITA CALS table cell info provider, should work with specializations.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public class DITACALSTableCellInfoProvider extends CALSTableCellInfoProvider {
   
   /**

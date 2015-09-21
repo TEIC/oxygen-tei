@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * Interface containing the names of the elements and attributes used in TEI.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public interface TEIConstants {
   /**
    * The name of the element that defines a table cell.

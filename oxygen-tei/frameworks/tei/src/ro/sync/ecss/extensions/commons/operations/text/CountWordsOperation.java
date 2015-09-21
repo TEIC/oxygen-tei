@@ -56,9 +56,9 @@ import javax.swing.text.Segment;
 
 import org.apache.log4j.Logger;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -77,7 +77,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * 
  * @author Costi Vetezi
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 @WebappCompatible
 public class CountWordsOperation implements AuthorOperation {
   /**

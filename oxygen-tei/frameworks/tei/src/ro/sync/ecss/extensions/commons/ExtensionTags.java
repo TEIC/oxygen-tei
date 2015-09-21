@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-import ro.sync.annotations.api.API;
-import ro.sync.annotations.api.APIType;
-import ro.sync.annotations.api.SourceType;
+
+
+
 
 /**
  * The collection of the extension messages.
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+
 public interface ExtensionTags {
   /**
    * Name of a section in the Sort dialog.
