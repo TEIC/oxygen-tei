@@ -9,7 +9,7 @@
   <property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>
   
 <!-- Where TEI releases of the plugin are available for download. -->
-  <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/tei-oxygen/"/>
+  <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/oxygen-tei/"/>
   
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
   <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
@@ -256,7 +256,8 @@ to do this later, but you can also do it manually.
       <arg value="-c"/>
       <!--      Used this commented-out version for local testing. -->
       <!--<arg value="rsync -e ssh ${outputZip} mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/${outputZip}"/>-->
-      <arg value="rsync -e ssh ${outputZip} ${sfUserName},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/${newZipFileName}"/>
+<!--     NOTE: Why is the line below not using the $sfReleaseLocation property? Figure this out. -->
+      <arg value="rsync -e ssh ${outputZip} ${sfUserName},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/oxygen-tei/${newZipFileName}"/>
     </exec>
     <echo message="ABORTED the upload to SourceForge." unless:true="${readyToUpload}"/>
     <echo message="User declined to proceed." unless:true="${doUpload}"/>
