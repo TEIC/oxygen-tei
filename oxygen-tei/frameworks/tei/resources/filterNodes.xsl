@@ -33,6 +33,7 @@
                or local-name() = 'ph' 
                or local-name() = 'br' 
                or local-name() = 'col' 
+               or local-name() = 'td'
                or local-name() = 'colgroup')]" 
             mode="filterNodes"
             priority="2"/>

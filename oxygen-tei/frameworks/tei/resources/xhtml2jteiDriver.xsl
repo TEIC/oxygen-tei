@@ -13,6 +13,7 @@
     <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>
     <xsl:import href="nestedSections.xsl"/>
     <xsl:import href="nestedLists.xsl"/>
+    <xsl:import href="processInTableContext.xsl"/>
     <xsl:import href="setNamespace.xsl"/>
 
     <!-- import stylesheet with specific jTEI rules -->
@@ -48,7 +49,10 @@
     <!-- Helper variables. -->
     <xsl:variable name="context.path.last.name" select="tokenize($context.path.names, $context.item.separator)[last()]"/>
     <xsl:variable name="context.path.last.uri" select="tokenize($context.path.uris, $context.item.separator)[last()]"/>
-
+    <!-- true if we are pasting in a table context (between rows for example or having various table cells selected.
+    If so, we'll paste only table rows.
+    -->
+    <xsl:param name="inTableContext"/>
     <!-- Replace <br/> element with TEI specific element. -->
     <xsl:template match="xhtml:br[parent::xhtml:code | parent::xhtml:pre | parent::xhtml:blockquote]" 
         mode="breakLines">
@@ -138,6 +142,10 @@
         -->
         
         <!-- Generate content for current Author framework. -->
-        <xsl:apply-templates select="$processedNamespace/*"/>
+        <xsl:variable name="processed">
+            <xsl:apply-templates select="$processedNamespace/*"/>
+        </xsl:variable>
+        <!-- If we are inside a table and pasting there, unwrap the table structure above the rows. -->
+        <xsl:apply-templates select="$processed" mode="processInTableContext"/>
     </xsl:template>
 </xsl:stylesheet>

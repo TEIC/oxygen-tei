@@ -21,6 +21,12 @@ TEI:before, text:before {
   text-align: center;
 }
 
+@media oxygen AND (platform:"eclipse") {
+  TEI:before, text:before {
+    font-style: normal;
+  }
+}
+
 TEI:before {
   content: "The Journal of the Text Encoding Initiative, " oxy_xpath('(//teiHeader/fileDesc/publicationStmt/idno/string(),//teiHeader/fileDesc/seriesStmt/biblScope[@unit="issue"]/@n/concat("Issue ", .))[1]');
   padding: 1em 0;
@@ -184,6 +190,11 @@ hi[rend=bold] {
 }
 hi[rend=italic] {
   font-style: italic;
+}
+@media oxygen AND (platform:"eclipse") {
+  hi[rend=italic] {
+    font-style: normal;
+  }
 }
 
 table {
@@ -413,6 +424,11 @@ foreign {
 title {
   font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  title {
+    font-style: normal;
+  }
+}
 
 /* Then we redefine those which are not. */
 title[level="u"], title[level="a"], title[level="s"] {
@@ -461,6 +477,11 @@ table > head{
     font-style: italic;
     margin-bottom: 1em;
     caption-side: bottom;
+}
+@media oxygen AND (platform:"eclipse") {
+  table > head{
+    font-style: normal;
+  }
 }
 row {
   display: table-row;
@@ -555,6 +576,11 @@ ptr[target]:after, ref[target]:after{
   link:attr(target);
   font-style: italic;
   font-size: 90%;
+}
+@media oxygen AND (platform:"eclipse") {
+  ptr[target]:after, ref[target]:after{
+    font-style: normal;
+  }
 }
 
 ref[target^=http]:after{

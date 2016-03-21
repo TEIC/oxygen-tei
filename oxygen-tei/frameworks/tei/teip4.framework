@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="17.1" xml:space="preserve">
+<serialized version="18.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -373,7 +373,7 @@
 											<String>/images/OrderedList24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/OrderedList16.gif</String>
+											<String>/images/OrderedList16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -546,7 +546,7 @@
 											<String>/images/TableRow24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableRow16.gif</String>
+											<String>/images/TableRow16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -612,7 +612,7 @@
 											<String>/images/TableCell24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableCell16.gif</String>
+											<String>/images/TableCell16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -682,7 +682,7 @@
 											<String>/images/Section24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Section16.gif</String>
+											<String>/images/Section16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1353,7 +1353,7 @@
 											<String>/images/TableColumn24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableColumn16.gif</String>
+											<String>/images/TableColumn16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1702,16 +1702,16 @@
 											<String>delete.table.column</String>
 										</field>
 										<field name="name">
-											<String>${i18n(delete.table.column)}</String>
+											<String>${i18n(delete.table.columns)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(delete.table.column_description)}</String>
+											<String>${i18n(delete.table.columns_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/DeleteColumn24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/DeleteColumn16.gif</String>
+											<String>/images/DeleteColumn16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1724,7 +1724,9 @@
 												<actionMode>
 													<field name="xpathCondition">
 														<String>(ancestor-or-self::cell |
-ancestor-or-self::row)</String>
+ancestor-or-self::row)
+or oxy:current-selected-element()[(ancestor-or-self::cell |
+ancestor-or-self::row)]</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -1744,16 +1746,16 @@ ancestor-or-self::row)</String>
 											<String>delete.table.row</String>
 										</field>
 										<field name="name">
-											<String>${i18n(delete.table.row)}</String>
+											<String>${i18n(delete.table.rows)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(delete.table.row_description)}</String>
+											<String>${i18n(delete.table.rows_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/DeleteRow24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/DeleteRow16.gif</String>
+											<String>/images/DeleteRow16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -2021,7 +2023,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<String>/images/TableRowAbove24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableRowAbove16.gif</String>
+											<String>/images/TableRowAbove16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -2087,7 +2089,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<String>/images/TableColumnBefore24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableColumnBefore16.gif</String>
+											<String>/images/TableColumnBefore16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -2251,6 +2253,231 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<Boolean>false</Boolean>
 										</field>
 									</action>
+									<action>
+										<field name="id">
+											<String>table.join</String>
+										</field>
+										<field name="name">
+											<String>${i18n(table.join)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(table.join_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableJoin24.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableJoin16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::node()[self::*:table][1]</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.JoinOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>table.split</String>
+										</field>
+										<field name="name">
+											<String>${i18n(table.split)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(table.split_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String>/images/TableSplitCell24.png</String>
+										</field>
+										<field name="smallIconPath">
+											<String>/images/TableSplitCell16.png</String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::*:cell or
+oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.SplitOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
+									</action>
+									<action>
+										<field name="id">
+											<String>edit.image.map</String>
+										</field>
+										<field name="name">
+											<String>${i18n(edit_image_map)}</String>
+										</field>
+										<field name="description">
+											<String>${i18n(edit_image_map_description)}</String>
+										</field>
+										<field name="largeIconPath">
+											<String></String>
+										</field>
+										<field name="smallIconPath">
+											<String></String>
+										</field>
+										<field name="accessKey">
+											<String></String>
+										</field>
+										<field name="accelerator">
+											<null/>
+										</field>
+										<field name="actionModes">
+											<actionMode-array>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>ancestor-or-self::surface or
+self::graphic[empty(parent::surface)] or oxy:current-selected-element()[self::graphic][empty(parent::surface)]</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap/>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.EditImageMapOperation</String>
+													</field>
+												</actionMode>
+											</actionMode-array>
+										</field>
+										<field name="enabledInReadOnlyContext">
+											<Boolean>false</Boolean>
+										</field>
+									</action>
+									<action>
+                    <field name="id">
+                      <String>imagemap.expand.area</String>
+                    </field>
+                    <field name="name">
+                      <String>${i18n(imagemap.toggle.area)}</String>
+                    </field>
+                    <field name="description">
+                      <String>${i18n(imagemap.toggle.area_description)}</String>
+                    </field>
+                    <field name="largeIconPath">
+                      <String></String>
+                    </field>
+                    <field name="smallIconPath">
+                      <String></String>
+                    </field>
+                    <field name="accessKey">
+                      <String></String>
+                    </field>
+                    <field name="accelerator">
+                      <null/>
+                    </field>
+                    <field name="actionModes">
+                      <actionMode-array>
+                        <actionMode>
+                          <field name="xpathCondition">
+                            <String></String>
+                          </field>
+                          <field name="argValues">
+                            <serializableOrderedMap>
+                              <entry>
+                                <String>elementLocation</String>
+                                <String>..</String>
+                              </entry>
+                              <entry>
+                                <String>name</String>
+                                <String>-oxy-visible-imagemap-area</String>
+                              </entry>
+                            </serializableOrderedMap>
+                          </field>
+                          <field name="operationID">
+                            <String>ro.sync.ecss.extensions.commons.operations.SetPseudoClassOperation</String>
+                          </field>
+                        </actionMode>
+                      </actionMode-array>
+                    </field>
+                    <field name="enabledInReadOnlyContext">
+                      <Boolean>false</Boolean>
+                    </field>
+                  </action>
+                  <action>
+                    <field name="id">
+                      <String>imagemap.collapse.area</String>
+                    </field>
+                    <field name="name">
+                      <String>${i18n(imagemap.toggle.area)}</String>
+                    </field>
+                    <field name="description">
+                      <String>${i18n(imagemap.toggle.area_description)}</String>
+                    </field>
+                    <field name="largeIconPath">
+                      <String></String>
+                    </field>
+                    <field name="smallIconPath">
+                      <String></String>
+                    </field>
+                    <field name="accessKey">
+                      <String></String>
+                    </field>
+                    <field name="accelerator">
+                      <null/>
+                    </field>
+                    <field name="actionModes">
+                      <actionMode-array>
+                        <actionMode>
+                          <field name="xpathCondition">
+                            <String></String>
+                          </field>
+                          <field name="argValues">
+                            <serializableOrderedMap>
+                              <entry>
+                                <String>elementLocation</String>
+                                <String>..</String>
+                              </entry>
+                              <entry>
+                                <String>name</String>
+                                <String>-oxy-visible-imagemap-area</String>
+                              </entry>
+                            </serializableOrderedMap>
+                          </field>
+                          <field name="operationID">
+                            <String>ro.sync.ecss.extensions.commons.operations.RemovePseudoClassOperation</String>
+                          </field>
+                        </actionMode>
+                      </actionMode-array>
+                    </field>
+                    <field name="enabledInReadOnlyContext">
+                      <Boolean>false</Boolean>
+                    </field>
+                  </action>
 								</action-array>
 							</field>
 							<field name="menubarDescriptor">
@@ -2327,6 +2554,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														</menuItem>
 													</menuEntry-array>
 												</field>
+												<field name="context">
+													<null/>
+												</field>
 											</menu>
 											<menu>
 												<field name="label">
@@ -2396,41 +2626,18 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
-																<String>table.join.row.cells</String>
+																<String>table.join</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>table.join.cell.above</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.join.cell.below</String>
-															</field>
-														</menuItem>
-														<menuSeparator/>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.left</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.right</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.above</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.below</String>
+																<String>table.split</String>
 															</field>
 														</menuItem>
 													</menuEntry-array>
+												</field>
+												<field name="context">
+													<null/>
 												</field>
 											</menu>
 											<menuSeparator/>
@@ -2445,6 +2652,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 												</field>
 											</menuItem>
 										</menuEntry-array>
+									</field>
+									<field name="context">
+										<null/>
 									</field>
 								</menu>
 							</field>
@@ -2461,6 +2671,11 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 									</field>
 									<field name="menuEntriesDescriptorList">
 										<menuEntry-array>
+											<menuItem>
+												<field name="actionID">
+													<String>edit.image.map</String>
+												</field>
+											</menuItem>
 											<menu>
 												<field name="label">
 													<String>${i18n(table)}</String>
@@ -2475,16 +2690,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<menuEntry-array>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.row.above</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>insert.table.row.below</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
 																<String>insert.table.rows.custom</String>
 															</field>
 														</menuItem>
@@ -2494,16 +2699,6 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 															</field>
 														</menuItem>
 														<menuSeparator/>
-														<menuItem>
-															<field name="actionID">
-																<String>insert.table.column.before</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>insert.table.column.after</String>
-															</field>
-														</menuItem>
 														<menuItem>
 															<field name="actionID">
 																<String>insert.table.columns.custom</String>
@@ -2517,44 +2712,12 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														<menuSeparator/>
 														<menuItem>
 															<field name="actionID">
-																<String>insert.table.cell</String>
-															</field>
-														</menuItem>
-														<menuSeparator/>
-														<menuItem>
-															<field name="actionID">
-																<String>table.join.row.cells</String>
+																<String>table.join</String>
 															</field>
 														</menuItem>
 														<menuItem>
 															<field name="actionID">
-																<String>table.join.cell.above</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.join.cell.below</String>
-															</field>
-														</menuItem>
-														<menuSeparator/>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.left</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.right</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.above</String>
-															</field>
-														</menuItem>
-														<menuItem>
-															<field name="actionID">
-																<String>table.split.below</String>
+																<String>table.split</String>
 															</field>
 														</menuItem>
 														<menuSeparator/>
@@ -2564,6 +2727,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 															</field>
 														</menuItem>
 													</menuEntry-array>
+												</field>
+												<field name="context">
+													<String>table</String>
 												</field>
 											</menu>
 											<menu>
@@ -2601,6 +2767,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 														</menuItem>
 													</menuEntry-array>
 												</field>
+												<field name="context">
+													<null/>
+												</field>
 											</menu>
 											<menuItem>
 												<field name="actionID">
@@ -2615,6 +2784,9 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</menuItem>
 											<menuSeparator/>
 										</menuEntry-array>
+									</field>
+									<field name="context">
+										<null/>
 									</field>
 								</menu>
 							</field>
@@ -2700,12 +2872,12 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
-													<String>insert.table.column.after</String>
+													<String>delete.table.row</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>
 												<field name="actionID">
-													<String>insert.table.cell</String>
+													<String>insert.table.column.after</String>
 												</field>
 											</toolbarItem>
 											<toolbarItem>
@@ -2713,65 +2885,17 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 													<String>delete.table.column</String>
 												</field>
 											</toolbarItem>
+											<toolbarSeparator/>
 											<toolbarItem>
 												<field name="actionID">
-													<String>delete.table.row</String>
+													<String>table.join</String>
 												</field>
 											</toolbarItem>
-											<toolbar>
-												<field name="id">
-													<String>${i18n(table.join.split)}</String>
+											<toolbarItem>
+												<field name="actionID">
+													<String>table.split</String>
 												</field>
-												<field name="type">
-													<Integer>3</Integer>
-												</field>
-												<field name="largeIconPath">
-													<String>/images/TableJoinSplit24.png</String>
-												</field>
-												<field name="smallIconPath">
-													<String>/images/TableJoinSplit16.gif</String>
-												</field>
-												<field name="toolbarEntriesDescriptorList">
-													<toolbarEntry-array>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.join.row.cells</String>
-															</field>
-														</toolbarItem>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.join.cell.above</String>
-															</field>
-														</toolbarItem>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.join.cell.below</String>
-															</field>
-														</toolbarItem>
-														<toolbarSeparator/>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.split.left</String>
-															</field>
-														</toolbarItem>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.split.right</String>
-															</field>
-														</toolbarItem>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.split.above</String>
-															</field>
-														</toolbarItem>
-														<toolbarItem>
-															<field name="actionID">
-																<String>table.split.below</String>
-															</field>
-														</toolbarItem>
-													</toolbarEntry-array>
-												</field>
-											</toolbar>
+											</toolbarItem>
 										</toolbarEntry-array>
 									</field>
 								</toolbar>
@@ -2825,10 +2949,16 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 							<field name="customReferencesResolver">
 								<null/>
 							</field>
+							<field name="editPropertiesHandler">
+								<null/>
+							</field>
 							<field name="authorExtensionStateListener">
 								<null/>
 							</field>
 							<field name="attributesRecognizer">
+								<null/>
+							</field>
+							<field name="authorActionEventHandler">
 								<null/>
 							</field>
 						</authorExtension>

@@ -1,13 +1,12 @@
 @import "tei.css";
 @import "links.css";
 
-/* High contrast */
-@import "high-contrast.css";
 /* Dark theme */
 @import "dark-theme.css";
 @import "page.css";
 
 @namespace xml "http://www.w3.org/XML/1998/namespace";
+@namespace oxy "http://www.oxygenxml.com/extensions/author";
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------
 ----- Oxygen modifications to the TEI css available at  http://tei.svn.sourceforge.net/viewvc/tei/trunk/TEICSS/  ------
@@ -124,6 +123,11 @@ gap {
     content: "[...]";
     font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  gap {
+    font-style: normal;
+  }
+}
 gap:after {
     content: "";
 }
@@ -152,3 +156,98 @@ pb:after {
 *[xml|lang^="ota"]{
     direction:rtl;
 }
+
+/* Facsimile with zones*/
+
+surface {
+    counter-reset:areas; 
+}
+
+zone {
+    display: none;
+    width:100%;
+    margin-top : 0.5em ;
+    margin-right : 0 ;
+    margin-left : 0 ;
+    margin-bottom : 0.5em ;
+}
+
+surface:-oxy-visible-imagemap-area zone{
+    display: block;
+}
+
+/*
+ * Support for expanding and collapsing the area elements.
+ */
+
+surface > graphic:after(1){
+    display:inline;
+    
+    content:"\a" oxy_button(actionID, 'edit.image.map');
+    
+    text-align:left;
+}
+
+surface > graphic:after(2){ 
+    display:inline;
+        
+    content:oxy_button(
+        actionID, 'imagemap.expand.area',          
+         showText, true, 
+        showIcon, false, 
+        enableInReadOnlyContext, true);
+        
+    text-align:left;
+    font-family: sansserif, verdana, helvetica;
+    font-size: 0.75em;
+    padding-bottom: 0.2em;
+}
+
+surface:-oxy-visible-imagemap-area > graphic:after(2){
+    display:inline;
+    content:oxy_button(
+       actionID, 'imagemap.collapse.area',          
+         showText, true, 
+        showIcon, false, 
+        enableInReadOnlyContext, true);		
+}
+
+zone:before(5){
+    counter-increment:areas;
+    content: counter(areas) ". ";
+    font-weight:bold;
+    width:5%;
+    text-align:right;
+    background-color:blue;
+    color:white;
+    margin-left : 0.5em ;
+}
+
+zone[xml|id]:before(3){
+    font-weight:bold;
+    content:  " ID: " attr(xml|id) !important;
+    width:20%;
+}
+
+zone[ulx]:before(2){
+    content: " -  Rectangle " attr(ulx) ", " attr(uly) ", " attr(lrx) ", " attr(lry);
+    width:45%;
+}
+
+zone[points]:before(2){
+    content: " -  Polygon " attr(points);
+    width:45%;
+}
+
+zone > oxy|comment {
+    color:navy !important;
+    background-color:white !important;
+    width:30%;
+}
+
+@media oxygen-high-contrast-black, oxygen-dark-theme{
+   zone:before(1){
+       color:inherit;
+   }
+}
+

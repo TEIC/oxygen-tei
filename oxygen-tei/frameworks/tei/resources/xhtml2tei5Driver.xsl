@@ -13,13 +13,17 @@
     <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>
     <xsl:import href="nestedSections.xsl"/>
     <xsl:import href="nestedLists.xsl"/>
+    <xsl:import href="processInTableContext.xsl"/>
     <xsl:import href="setNamespace.xsl"/>
     <xsl:include href="xhtml2tei5.xsl"/>
     
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
     
     <xsl:param name="folderOfPasteTargetXml"/>
-    
+    <!-- true if we are pasting in a table context (between rows for example or having various table cells selected.
+    If so, we'll paste only table rows.
+    -->
+    <xsl:param name="inTableContext"/>
     <!-- 
         The item separator.
       -->
@@ -127,6 +131,10 @@
         -->
         
         <!-- Generate content for current Author framework. -->
-        <xsl:apply-templates select="$processedNamespace/*"/>
+        <xsl:variable name="processed">
+            <xsl:apply-templates select="$processedNamespace/*"/>
+        </xsl:variable>
+        <!-- If we are inside a table and pasting there, unwrap the table structure above the rows. -->
+        <xsl:apply-templates select="$processed" mode="processInTableContext"/>
     </xsl:template>
 </xsl:stylesheet>
