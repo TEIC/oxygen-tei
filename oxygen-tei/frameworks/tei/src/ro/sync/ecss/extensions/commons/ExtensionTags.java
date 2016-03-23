@@ -539,4 +539,16 @@ public interface ExtensionTags {
    * en: After
    */
   String AFTER = "After";
+  /**
+   * en: Split cells
+   */
+  String SPLIT_CELLS = "Split_cells";
+  /**
+   * en: This action will not be marked as a change.
+   */
+  String ACTION_NOT_MARKED_AS_CHANGE = "Action_not_marked_as_change";
+  /**
+   * en: Track changes
+   */
+  String TRACK_CHANGES = "Track_changes";
 }

@@ -53,7 +53,7 @@ package ro.sync.ecss.extensions.commons.table.operations;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -81,14 +81,14 @@ import org.eclipse.swt.widgets.Text;
 
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
-import ro.sync.xml.XmlUtil;
+import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 
 /**
  * Dialog used to customize the insertion of a generic table (number of rows, columns, table caption).
  * It is used on Eclipse platform implementation.
  */
 
-public abstract class ECTableCustomizerDialog extends Dialog implements TableCustomizerConstants{
+public abstract class ECTableCustomizerDialog extends TrayDialog implements TableCustomizerConstants{
   
   /**
    * If create a title the user can specify the table title.
@@ -435,10 +435,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    */
   @Override
   protected void configureShell(Shell newShell) {
+    super.configureShell(newShell);
+    EclipseHelpUtils.installHelp(newShell, getHelpPageID());
     newShell.setText(
         authorResourceBundle.getMessage(
             showChoiceTable ? ExtensionTags.INSERT_CHOICE_TABLE : ExtensionTags.INSERT_TABLE));
-    super.configureShell(newShell);
   }
 
   /**
@@ -452,7 +453,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     Composite composite = (Composite) super.createDialogArea(parent);
     composite.setLayout(new GridLayout(2, false));
     
-    int tableModel = innerCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
+    int tableModel = innerCalsTable && isCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
     if (showModelChooser) {     
       tableModel = TableInfo.TABLE_MODEL_CALS;
       //Allow the user to choose between HTML and CALS
@@ -490,9 +491,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           });
 
           //Set some default values.
-          makeCalsTable = isCalsTable;
+          makeCalsTable = isCalsTable && innerCalsTable;
           calsModelRadio.setSelection(makeCalsTable);
           otherModelRadio.setSelection(! makeCalsTable);
+          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          tableModelChanged(tableModel);
         } else {
           // Radio button for choosing HTML table model
           otherModelRadio = new Button(modelChooser, SWT.RADIO | SWT.LEFT);
@@ -507,9 +510,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
           });
 
           //Set some default values.
-          makeCalsTable = isCalsTable;
+          makeCalsTable = isCalsTable && innerCalsTable;
           calsModelRadio.setSelection(makeCalsTable);
           otherModelRadio.setSelection(! makeCalsTable);
+          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS: TableInfo.TABLE_MODEL_HTML;
+          tableModelChanged(tableModel);
         }
       }
     } else {
@@ -940,8 +945,6 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
       // Compute the value of the table model
       int tableModel = getTableModel();
-      // EXM-11910 Escape the table title.
-      title = XmlUtil.escape(title);
       return 
       new TableInfo(
           createTitle ? title : null, 
@@ -993,10 +996,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
       
       if (showModelChooser) {
-        makeCalsTable = tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS && isCalsTable;
+        makeCalsTable = isCalsTable && tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS;
         calsModelRadio.setSelection(makeCalsTable);
         otherModelRadio.setSelection(! makeCalsTable);
-        tableModelChanged(tableInfo.getTableModel());
+        tableModelChanged(isCalsTable ? tableInfo.getTableModel() : 
+          simpleTableModel ? TableInfo.TABLE_MODEL_DITA_SIMPLE : TableInfo.TABLE_MODEL_HTML);
       }
 
       if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {
@@ -1076,6 +1080,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         makeCalsTable = isCalsTable;
         calsModelRadio.setSelection(makeCalsTable);
         otherModelRadio.setSelection(!makeCalsTable);
+        if (simpleTableModel) {
+          tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+        } else {
+          tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_HTML);
+        }
       }
       
       if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {
@@ -1121,6 +1130,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     } else if (showChoiceTable) {
       tableModelType = TableInfo.TABLE_MODEL_DITA_CHOICE;
     }
+    
     return tableModelType;
   }
   
@@ -1132,6 +1142,8 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   private void updateTitleState(boolean enabled) {
     if(titleTextField != null) {
       titleCheckbox.setEnabled(enabled);
+      // EXM-35014 If the title checkbox is disabled, also uncheck it
+      titleCheckbox.setSelection(enabled);
       titleTextField.setEditable(enabled && titleCheckbox.getSelection());
     }
   }
@@ -1185,5 +1197,13 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   protected void createButtonsForButtonBar(Composite parent) {
     super.createButtonsForButtonBar(parent);
     getButton(OK).setText(authorResourceBundle.getMessage(ExtensionTags.INSERT));
+  }
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return "adding-tables-author";
   }
 }

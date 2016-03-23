@@ -125,4 +125,11 @@ public abstract class TableSortOperation extends SortOperation {
    * Returns the visual row index of the actual table body if the table has separate head, foot element and table group elements.
    */
   protected abstract int getRowIndexForTableBody(AuthorNode table);
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
+   */
+  protected String getHelpPageID() {
+    return "sort-entire-table";
+  }
 }

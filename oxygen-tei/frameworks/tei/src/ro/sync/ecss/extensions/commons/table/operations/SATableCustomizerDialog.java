@@ -80,7 +80,6 @@ import javax.swing.SpinnerNumberModel;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
-import ro.sync.xml.XmlUtil;
 
 /**
  * Dialog used to customize the insertion of a table (number of rows, columns, table caption).
@@ -735,6 +734,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   private void updateTitleState(boolean enabled) {
     if(titleCheckbox != null) {
       titleCheckbox.setEnabled(enabled);
+      // EXM-35014 If the title checkbox is disabled, also uncheck it
+      titleCheckbox.setSelected(enabled);
       titleTextField.setEditable(enabled && titleCheckbox.isSelected());
     }
   }
@@ -955,8 +956,6 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       String title = null;
       if(titleCheckbox != null && titleCheckbox.isSelected()) {
         title = titleTextField.getText();
-        // EXM-11910 Escape the table title.
-        title = XmlUtil.escape(title);
       }
       int rowsNumber = predefinedRowsCount;
       int columnsNumber = predefinedColumnsCount;

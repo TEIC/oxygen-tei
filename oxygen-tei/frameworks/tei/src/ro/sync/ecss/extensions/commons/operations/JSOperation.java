@@ -56,6 +56,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.mozilla.javascript.Function;
+
 
 
 
@@ -68,12 +70,34 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
- * An implementation of an operation to run a Javascript using the current Author API.
+ * An implementation of an operation that allows you to call the Java API from custom JavaScript content.
+ * 
+ * This operation has the following parameters:
+ * <ul>
+ *  <li><b>script</b>: the JavaScript content to execute. 
+ *   <p>It must have a function called doOperation(), which can use the predefined authorAccess variable. 
+ *   The <b>authorAccess</b> variable has access to the {@link ro.sync.ecss.extensions.api.AuthorAccess} instance.
+ *  
+ *  The following example is a script that can be used to move the caret location after the current element:
+ *  
+ *  <pre>
+ *    function doOperation(){ 
+ *      caretOffset = authorAccess.getEditorAccess().getCaretOffset(); 
+ *      currentNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset); 
+ *      //Move caret after current node 
+ *      authorAccess.getEditorAccess().setCaretPosition(currentNode.getEndOffset() + 1); 
+ *    }
+ *  </pre>
+ * </ul>
+ * <p>
+ * Note: If you have a script called commons.js in the framework directory, you can call functions 
+ * defined inside it from your custom script content so that you can use that external script 
+ * file as a library of functions.
+ * </p>
  */
 
 @WebappCompatible
 public class JSOperation implements AuthorOperation {
-    
   /**
    * The JS script. The value is <code>script</code>.
    */
@@ -141,8 +165,11 @@ public class JSOperation implements AuthorOperation {
       org.mozilla.javascript.ScriptableObject.defineProperty(globalScope, "authorAccess", wrappedDispatcher, org.mozilla.javascript.ScriptableObject.CONST);
       
       Object fObj = globalScope.get("doOperation", globalScope);
-      org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)fObj;
-      f.call(cx, globalScope, globalScope, new Object[0]);
+      if (fObj instanceof org.mozilla.javascript.Function) {
+        ((Function) fObj).call(cx, globalScope, globalScope, new Object[0]);
+      } else {
+        throw new AuthorOperationException("The script should have a \"doOperation\" function defined.");
+      }
     } catch(org.mozilla.javascript.RhinoException ex){
       throw new AuthorOperationException("Could not evaluate script: " + ex.getMessage(), ex);
     } catch (MalformedURLException e) {

@@ -318,7 +318,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     tableXMLFragment.append(">");
 
     if (tableInfo.getTitle() != null) {
-      tableXMLFragment.append("<caption>").append(tableInfo.getTitle()).append("</caption>");
+      tableXMLFragment.append("<caption>").append(authorAccess.getXMLUtilAccess().escapeTextValue(tableInfo.getTitle())).append("</caption>");
     }
 
     // Add table column specifications.

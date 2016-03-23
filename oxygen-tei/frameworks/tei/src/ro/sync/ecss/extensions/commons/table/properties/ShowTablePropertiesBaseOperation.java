@@ -61,7 +61,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
 import org.eclipse.swt.widgets.Shell;
@@ -82,6 +81,7 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
 import ro.sync.exml.workspace.api.Platform;
 
@@ -160,7 +160,8 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       
       // Check if only one table is selected
       List<AuthorElement> tableElements = 
-          getAllElementsToCollectProperties(selections, TablePropertiesConstants.TYPE_TABLE);
+          TableOperationsUtil.getTableElementsOfType(authorAccess, selections, 
+              TablePropertiesConstants.TYPE_TABLE, tableHelper);
       int tableElementsNumber = 0;
       for (int i = 0; i < tableElements.size() && tableElementsNumber < 2; i++) {
         if (!tableHelper.isNodeOfType(tableElements.get(i), TablePropertiesConstants.TYPE_GROUP)) {
@@ -185,7 +186,14 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
           SATablePropertiesCustomizerDialog saTablePropertiesCustomizer = new SATablePropertiesCustomizerDialog(
               (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
               authorAccess.getAuthorResourceBundle(),
-              authorAccess.getWorkspaceAccess());
+              authorAccess.getWorkspaceAccess()){
+            /**
+             * @see ro.sync.ecss.extensions.commons.table.properties.SATablePropertiesCustomizerDialog#getHelpPageID()
+             */
+            public String getHelpPageID() {
+              return ShowTablePropertiesBaseOperation.this.getHelpPageID();
+            }
+          };
           saTablePropertiesCustomizer.setLocationRelativeTo(
               (Component) authorAccess.getWorkspaceAccess().getParentFrame());
 
@@ -197,7 +205,7 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
           ECTablePropertiesCustomizerDialog ecTablePropertiesCustomizer = new ECTablePropertiesCustomizerDialog(
               (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
               authorAccess.getAuthorResourceBundle(),
-              authorAccess.getWorkspaceAccess());
+              authorAccess.getWorkspaceAccess(), ShowTablePropertiesBaseOperation.this.getHelpPageID());
 
           // Obtain the modified properties for the current table
           tableInfo = ecTablePropertiesCustomizer.getTablePropertiesInformation(
@@ -328,128 +336,7 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
     
     return toModify;
   }
-  
-  /**
-   * Collects all the elements that will be used to populate the tabs in 
-   * "Table Properties" dialog.
-   * 
-   * @param selections The currently selected nodes. They can be mixed.
-   * @param type       The type of the elements to be collected.
-   * 
-   * @return A list with all the elements used to populate the tabs in 
-   * "Table Properties" dialog.
-   */
-  protected List<AuthorElement> getAllElementsToCollectProperties(List<Integer[]> selections, int type) {
-    List<AuthorElement> elements = new ArrayList<AuthorElement>();
-    try {
-      // For every selection interval, obtain the elements whose properties will be modified.
-      for (int i = 0; i < selections.size(); i++) {
-        Integer[] sel = selections.get(i);
-        int startOffset = sel[0];
-        int endOffset = sel[1];
-        List<AuthorNode> nodesToSelect = null;
-        if (startOffset != endOffset) {
-          nodesToSelect = authorAccess.getDocumentController().getNodesToSelect(startOffset, endOffset);
-        } else {
-          // Actually there is not selection is just the caret position
-          nodesToSelect = new ArrayList<AuthorNode>();
-          nodesToSelect.add(authorAccess.getDocumentController().getNodeAtOffset(startOffset));
-        }
-        for (int j = 0; j < nodesToSelect.size(); j++) {
-          AuthorNode node = nodesToSelect.get(j);
-          if (node instanceof AuthorElement) {
-            computeElementsList(elements, (AuthorElement) node, startOffset, endOffset != -1 ? endOffset : startOffset, type, false);
-          }
-        }
-      }
-    } catch (BadLocationException e) {
-      // Do nothing, elements array will be empty
-    }
 
-    return elements;
-  }
-
-  /**
-   * Computes all the nodes of the given type starting from the given node, which are
-   * in the given selection.
-   * 
-   * @param elementsList    The list which will contain the elements.
-   * @param node            The starting node.
-   * @param startOffset     Selection start.
-   * @param endOffset       Selection end.
-   * @param type            The elements type.
-   * @param fullySelected   <code>true</code> if the nodes should be entire contained by the selection. 
-   */
-  private void computeElementsList(
-      List<AuthorElement> elementsList, 
-      AuthorElement node, 
-      int startOffset, 
-      int endOffset, 
-      int type, 
-      boolean fullySelected) {
-    if (tableHelper.isNodeOfType(node, type) && !elementsList.contains(node)) {
-        elementsList.add(node);
-    } else if (tableHelper.getElementAncestor(node, type) != null) {
-      AuthorElement elementAncestor = tableHelper.getElementAncestor(node, type);
-      if (!elementsList.contains(elementAncestor)) {
-        elementsList.add(elementAncestor);
-      }
-    } else if (type != TablePropertiesConstants.TYPE_TABLE) {
-      // A parent of element with given type
-      List<AuthorElement> collectedElements = new ArrayList<AuthorElement>();
-      tableHelper.getChildElements(node, type, collectedElements);
-      for (int j = 0; j < collectedElements.size(); j++) {
-        boolean addElement = false;
-        AuthorElement currentElement = collectedElements.get(j);
-        if (
-            // Node is from caret position, so add all its children
-            startOffset == endOffset 
-            // or selection is inside the current element or contains it
-            // Maybe the selection includes the current node
-            || !fullySelected && (startOffset >= currentElement.getStartOffset() && startOffset <= currentElement.getEndOffset() 
-            || endOffset > currentElement.getStartOffset() && endOffset <= currentElement.getEndOffset()
-            || currentElement.getStartOffset() >= startOffset && currentElement.getStartOffset() < endOffset 
-            || currentElement.getEndOffset() >= startOffset && currentElement.getEndOffset() < endOffset)
-            || fullySelected 
-            && currentElement.getStartOffset() >= startOffset 
-            && currentElement.getEndOffset() <= endOffset) {
-          addElement = true;
-        } 
-        if (addElement && !elementsList.contains(currentElement)) {
-          elementsList.add(currentElement);
-        }
-      }
-    }
-    
-    // For cals table tgroup and table elements are considered table elements, 
-    // so add both types of node in the list.
-    // Check the collected nodes parents and children
-    if (type == TablePropertiesConstants.TYPE_TABLE) {
-      for (int i = 0; i < elementsList.size(); i++) {
-        // Check the parent 
-        AuthorElement authorElement = elementsList.get(i);
-        AuthorNode parent = authorElement.getParent();
-        if (parent instanceof AuthorElement && tableHelper.isTable((AuthorElement) parent)) {
-          if (!elementsList.contains(parent)) {
-            elementsList.add((AuthorElement) parent);
-          }
-        }
-        
-        // Check the children
-        List<AuthorNode> children = node.getContentNodes();
-        for (int j = 0; j < children.size(); j++) {
-          AuthorNode child = children.get(j);
-          if (child instanceof AuthorElement  && tableHelper.isTable((AuthorElement) child)
-              && tableHelper.isTableGroup((AuthorElement) child)) {
-            if (!elementsList.contains(child)) {
-              elementsList.add((AuthorElement) child);
-            }
-          }
-        }
-      }
-    }
-  }
-  
   /**
    * Check if the selected rows can be moved (row spans don't exceed collected rows range).
    * 
@@ -466,18 +353,18 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       List<AuthorElement> children = new ArrayList<AuthorElement>();
       AuthorElement currentRow = collectedRows.get(i);
       // Obtain the cell children
-      tableHelper.getChildElements(currentRow, TablePropertiesConstants.TYPE_CELL, children);
+      TableOperationsUtil.getChildElements(currentRow, TablePropertiesConstants.TYPE_CELL, children, tableHelper);
       for (int j = 0; j < children.size(); j++) {
         // Get the row spans
         int[] tableRowSpanIndices = authorAccess.getTableAccess().getTableRowSpanIndices(children.get(j));
         if (tableRowSpanIndices != null && tableRowSpanIndices[1] - tableRowSpanIndices[0] > 0) {
           // Current row has row spans
           // Obtain the parent
-          AuthorElement tgroup = tableHelper.getElementAncestor(currentRow, parentType);
+          AuthorElement tgroup = TableOperationsUtil.getElementAncestor(currentRow, parentType, tableHelper);
           if (tgroup != null) {
             List<AuthorElement> rows = new ArrayList<AuthorElement>();
             // Get all row children from the parent
-            tableHelper.getChildElements(tgroup, TablePropertiesConstants.TYPE_ROW, rows);
+            TableOperationsUtil.getChildElements(tgroup, TablePropertiesConstants.TYPE_ROW, rows, tableHelper);
             // Get the rows on which the current row spans  
             List<AuthorElement> subList = rows.subList(tableRowSpanIndices[0], tableRowSpanIndices[1] + 1);
             // Check that all rows from the interval have the same parent
@@ -588,7 +475,9 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
   protected TabInfo getTableInformation(List<Integer[]> selections) {
     TabInfo tabInfo = null;
     // Determine the table element
-    List<AuthorElement> tableElements = getAllElementsToCollectProperties(selections, TablePropertiesConstants.TYPE_TABLE);
+    List<AuthorElement> tableElements = 
+        TableOperationsUtil.getTableElementsOfType(authorAccess, selections, 
+            TablePropertiesConstants.TYPE_TABLE, tableHelper);
     if (!tableElements.isEmpty()) {
       // Found a table element, obtain the properties
       List<TableProperty> tableProperties = new ArrayList<TableProperty>();
@@ -855,28 +744,30 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
                       if (tab != TAB_TYPE.ROW_TAB) {
                         // Check all rows
                         List<AuthorElement> selectedRowChildren = new ArrayList<AuthorElement>();
-                        AuthorElement tableElement = tableHelper.getElementAncestor(authorElement, TablePropertiesConstants.TYPE_TABLE);
-                        tableHelper.getChildElements(tableElement, TablePropertiesConstants.TYPE_ROW, rowchildren);
+                        AuthorElement tableElement = TableOperationsUtil.getElementAncestor(authorElement, TablePropertiesConstants.TYPE_TABLE, tableHelper);
+                        TableOperationsUtil.getChildElements(tableElement, TablePropertiesConstants.TYPE_ROW, rowchildren, tableHelper);
                         // Obtain the entirely selected children
-                        computeElementsList(
+                        TableOperationsUtil.computeElementsList(
                             selectedRowChildren, 
                             tableElement, 
                             editorAccess.getBalancedSelection(currentSel[0], currentSel[1])[0], 
                             editorAccess.getBalancedSelection(currentSel[0], currentSel[1])[1], 
                             TablePropertiesConstants.TYPE_ROW,
-                            true);
+                            true, 
+                            tableHelper);
                         // The table is not entirely selected
                         if (rowchildren.size() > selectedRowChildren.size()) {
                           tab = TAB_TYPE.ROW_TAB;
                           rowchildren = new ArrayList<AuthorElement>();
                           // Compute the selected rows
-                          computeElementsList(
+                          TableOperationsUtil.computeElementsList(
                               rowchildren, 
                               tableElement, 
                               currentSel[0], 
                               currentSel[1], 
                               TablePropertiesConstants.TYPE_ROW,
-                              false);
+                              false, 
+                              tableHelper);
                         } 
                       }
 
@@ -925,10 +816,11 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
    */
   private TAB_TYPE checkForCellTab(AuthorElement element, int selStart, int selEnd, TAB_TYPE currentTab) {
     List<AuthorElement> children = new ArrayList<AuthorElement>();
-    tableHelper.getChildElements(element, TablePropertiesConstants.TYPE_CELL, children);
+    TableOperationsUtil.getChildElements(element, TablePropertiesConstants.TYPE_CELL, children, tableHelper);
     // Obtain the selected children
     List<AuthorElement> selectedCellChildren = new ArrayList<AuthorElement>();
-    computeElementsList(selectedCellChildren , element, selStart, selEnd, TablePropertiesConstants.TYPE_CELL, true);
+    TableOperationsUtil.computeElementsList(selectedCellChildren , element, 
+        selStart, selEnd, TablePropertiesConstants.TYPE_CELL, true, tableHelper);
     if (!selectedCellChildren.isEmpty() && children.size() > selectedCellChildren.size()) {
       // Isolated cells
       currentTab = TAB_TYPE.CELL_TAB;
@@ -1042,4 +934,12 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       TabInfo tabInfo, 
       List<AuthorElement> nodesToModify,
       AuthorElement currentNode) throws AuthorOperationException;
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return null;
+  }
 }

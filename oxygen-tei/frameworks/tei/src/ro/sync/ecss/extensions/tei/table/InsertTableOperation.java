@@ -240,7 +240,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       append(tableInfo.getColumnsNumber()).append("\">");
       if(tableInfo.getTitle() != null) {
         // Title was specified, insert a table with title
-        tableXMLFragment.append("<head>" + tableInfo.getTitle() + "</head>");
+        tableXMLFragment.append("<head>" + authorAccess.getXMLUtilAccess().escapeTextValue(tableInfo.getTitle()) + "</head>");
       }
 
       if (tableInfo.isGenerateHeader()) {

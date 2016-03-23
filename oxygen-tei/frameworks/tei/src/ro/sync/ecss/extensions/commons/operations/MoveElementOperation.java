@@ -112,6 +112,11 @@ public class MoveElementOperation implements AuthorOperation {
   private static final String ARGUMENT_MOVE_ONLY_CONTENT = "moveOnlySourceContentNodes";
   
   /**
+   * Controls whether the XPaths should be run as if all track changes have been applied or not.
+   */
+  private static final String ARGUMENT_PROCESS_CHANGE_MARKERS = "processTrackedChangesForXPathLocations";
+  
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
@@ -120,7 +125,7 @@ public class MoveElementOperation implements AuthorOperation {
    * Constructor. 
    */
   public MoveElementOperation() {
-    arguments = new ArgumentDescriptor[6];
+    arguments = new ArgumentDescriptor[7];
     
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SOURCE_LOCATION,
@@ -183,6 +188,21 @@ public class MoveElementOperation implements AuthorOperation {
           }, 
           AuthorConstants.POSITION_INSIDE_FIRST);
     arguments[5] = argumentDescriptor;
+    
+    // Process track changes when finding nodes using XPath.
+    argumentDescriptor = new ArgumentDescriptor(
+            ARGUMENT_PROCESS_CHANGE_MARKERS,
+            ArgumentDescriptor.TYPE_CONSTANT_LIST,
+            "When nodes are located via XPath, if you have nodes deleted with change tracking in the document "
+            + "they are considered as being present by default.\n"
+            + "But if you set this argument to 'true', the nodes "
+            + "deleted with track changes will be ignored when the xpath locations are computed. ",
+                new String[] {
+                    AuthorConstants.ARG_VALUE_TRUE,
+                    AuthorConstants.ARG_VALUE_FALSE
+                }, 
+                AuthorConstants.ARG_VALUE_FALSE);
+    arguments[6] = argumentDescriptor;
   }
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
@@ -201,8 +221,11 @@ public class MoveElementOperation implements AuthorOperation {
       throws IllegalArgumentException, AuthorOperationException {
     String sourceLocation = (String) args.getArgumentValue(ARGUMENT_SOURCE_LOCATION);
     AuthorNode toMoveNode = null;
+    boolean processTrackChanges = AuthorConstants.ARG_VALUE_TRUE.equals(
+        args.getArgumentValue(ARGUMENT_PROCESS_CHANGE_MARKERS));
+    
     if (sourceLocation != null && sourceLocation.trim().length() > 0) {
-      toMoveNode = executeLocationXPath(authorAccess, sourceLocation);
+      toMoveNode = executeLocationXPath(authorAccess, sourceLocation, processTrackChanges);
     } else {
       // Defaults to the node at caret.
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
@@ -223,7 +246,7 @@ public class MoveElementOperation implements AuthorOperation {
       String toDeleteLocation = (String) args.getArgumentValue(ARGUMENT_DELETE_LOCATION);
       if (toDeleteLocation != null) {
         // We have an explicit node to delete.
-        toDeleteNode = executeLocationXPath(authorAccess, toDeleteLocation);
+        toDeleteNode = executeLocationXPath(authorAccess, toDeleteLocation, processTrackChanges);
       }
 
       if (logger.isDebugEnabled()) {
@@ -258,7 +281,7 @@ public class MoveElementOperation implements AuthorOperation {
 
           int insertionOffset =
               ctrl.getXPathLocationOffset(
-                  targetLocationXPath, relativePosition);
+                  targetLocationXPath, relativePosition, processTrackChanges);
           if (logger.isDebugEnabled()) {
             logger.debug("Insert location for fragment: " + insertionOffset);
           }
@@ -313,14 +336,18 @@ public class MoveElementOperation implements AuthorOperation {
   /**
    * Executes the given XPath expression and identifies the corresponding author node.
    * 
+   * @param authorAccess Author Access.
+   * @param xPathExpression Xpath expression.
+   * @param processTrackChanges Process track changes.
+   * 
    * @return The node identified by the XPath expression.
    * 
    * @throws AuthorOperationException If the XPath expression doesn't identify a node. 
    */
-  private AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression) 
+  private AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression, boolean processTrackChanges) 
       throws AuthorOperationException {
     AuthorNode toReturn = null;
-    AuthorNode[] locatedNodes = authorAccess.getDocumentController().findNodesByXPath(xPathExpression, true, true, true);
+    AuthorNode[] locatedNodes = authorAccess.getDocumentController().findNodesByXPath(xPathExpression, true, true, true, processTrackChanges);
     if (locatedNodes.length > 0) {
       if (locatedNodes.length > 1) {
         // Is bad practice to write an XPath expression that identifies multiple nodes.

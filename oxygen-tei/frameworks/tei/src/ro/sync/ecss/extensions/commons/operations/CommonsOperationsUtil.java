@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -73,8 +74,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.NamespaceContext;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
-import ro.sync.util.Equaler;
-import ro.sync.xml.XmlUtil;
+import ro.sync.util.editorvars.EditorVariables;
 
 /**
  * Util methods for common Author operations.
@@ -148,6 +148,9 @@ public class CommonsOperationsUtil {
     //The XML may contain an editor template for caret positioning.
     boolean moveCaretToSpecifiedPosition =
       MoveCaretUtil.hasImposedEditorVariableCaretOffset(xmlFragment);
+    int searchPIOffset = authorAccess.getEditorAccess().hasSelection() ? Math.min(
+        authorAccess.getEditorAccess().getSelectionStart(), authorAccess.getEditorAccess().getSelectionEnd()): 
+      authorAccess.getEditorAccess().getCaretOffset();
     int insertionOffset = authorAccess.getEditorAccess().getCaretOffset();
 
     if (authorAccess.getEditorAccess().hasSelection()) {
@@ -178,7 +181,7 @@ public class CommonsOperationsUtil {
 
     if (moveCaretToSpecifiedPosition) {
       //Detect the position in the Author page where the caret should be placed.
-      MoveCaretUtil.moveCaretToImposedEditorVariableOffset(authorAccess, insertionOffset);
+      MoveCaretUtil.moveCaretToImposedEditorVariableOffset(authorAccess, searchPIOffset);
     }
   }
 
@@ -326,10 +329,11 @@ public class CommonsOperationsUtil {
     int attrsCount = element.getAttributesCount();
     for (int i = 0; i < attrsCount; i++) {
       String attributeName = element.getAttributeAtIndex(i);
-      if (attrLocalName.equals(XmlUtil.getLocalName(attributeName))) {
+      if (attrLocalName.equals(getLocalName(attributeName))) {
+        String attrNS = element.getAttributeNamespace(getPrefix(attributeName));
         //Same local name.
-        if (Equaler.verifyEquals(attrNSURI, 
-            element.getAttributeNamespace(XmlUtil.getProxy(attributeName)))) {
+        if ((attrNSURI == null && attrNS == null) 
+            || (attrNSURI != null && attrNSURI.equals(attrNS))) {
           //Found it...
           match = attributeName;
           break;
@@ -415,5 +419,93 @@ public class CommonsOperationsUtil {
       }
     }
     return resourceURL;
+  }
+  
+  /**
+   * Resolves a path relative to the framework directory. Editor variables are
+   * also accepted and expanded. The path is also passed through the catalog mappings.
+   * 
+   * @param authorAccess Author access.
+   * @param path The path to resolve. Can be a file path, an URL path or a path relative
+   * to the framework directory. Editor variables are also accepted. The path is 
+   * also passed through the catalog mappings.
+   * 
+   * @return An URL or null if unable to expand the path to an URL.
+   */
+  public static URL expandAndResolvePath(AuthorAccess authorAccess, String path) {
+    URL url = null;
+    String expanded = authorAccess.getUtilAccess().expandEditorVariables(path, null);
+    try {
+      url = new URL(expanded);
+    } catch (MalformedURLException e1) {
+      // Not an URL;
+      try {
+        File file = new File(expanded);
+        if (file.exists()) {
+          url = authorAccess.getUtilAccess().convertFileToURL(file);
+        }
+      } catch (MalformedURLException e) {
+        // Definitely not an URL.
+      }
+      if (url == null) {
+        // Maybe it has provided just a path relative to the framework directory.
+        try {
+          String frameworkDir = authorAccess.getUtilAccess().expandEditorVariables(EditorVariables.FRAMEWORK_DIRECTORY, null);
+          File file = new File(frameworkDir, expanded);
+          if (file.exists()) {
+            // You can create a file over all sort of content that is not actually 
+            // a file path so we make sure it exists.
+            url = authorAccess.getUtilAccess().convertFileToURL(file);
+          }
+        } catch (MalformedURLException e) {
+          // Not an URL. 
+        }
+      }
+    }
+    
+    if (url != null) {
+      URL resolved = authorAccess.getXMLUtilAccess().resolvePathThroughCatalogs(null, url.toString(), true, true);
+      if (resolved != null) {
+        url = resolved;
+      }
+    }
+    
+    return url;
+  }
+  
+  
+  /**
+   * Get the proxy from an qualified element or attribute name.
+   * 
+   * @param qName q name
+   * @return the proxy or an empty string. Null if the argument is null.
+   */
+  public static String getPrefix(String qName) {
+    String prefix = null;
+    if (qName != null) {
+      int idx = qName.indexOf(':');
+      prefix = "";
+      if (idx != -1) {
+        prefix = qName.substring(0, idx);
+      }
+    }
+    return prefix;
+  }
+
+  /**
+   * Get the local name from an qualified element or attribute name.
+   * 
+   * @param qName q name
+   * @return the local name, or null if the argument is null.
+   */
+  public static String getLocalName(String qName) {
+    String local = qName;
+    if (qName != null) {
+      int idx = qName.lastIndexOf(':');
+      if (idx != -1) {
+        local = qName.substring(idx + 1);
+      }
+    }
+    return local;
   }
 }

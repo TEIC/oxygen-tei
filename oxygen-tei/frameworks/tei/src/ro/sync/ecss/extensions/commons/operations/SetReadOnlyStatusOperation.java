@@ -74,7 +74,15 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
    * The value is <code>true</code> if the document should be made read-only.
    */
   public static final String ARGUMENT_READ_ONLY = "read-only";
-  
+
+  /**
+   * The reason for the document being read-only.
+   * 
+   * If the document is set as read-only and the parameter is not specified, a deafult message will 
+   * be presented to the user when trying to edit the document..
+   */
+  public static final String ARGUMENT_READ_ONLY_REASON = "reason";
+
   /**
    * The arguments descriptor.
    */
@@ -91,7 +99,12 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
           AuthorConstants.ARG_VALUE_TRUE,
           AuthorConstants.ARG_VALUE_FALSE,
       }, 
-      AuthorConstants.ARG_VALUE_TRUE)
+      AuthorConstants.ARG_VALUE_TRUE),
+    new ArgumentDescriptor(
+      ARGUMENT_READ_ONLY, 
+      ArgumentDescriptor.TYPE_STRING,
+      "The reason for the document being read-only. It will be displayed when the user tries to edit the document.\n" +
+      "If not specified, a default message will be displayed to the user.")
     };
 
 
@@ -111,7 +124,13 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
       throws IllegalArgumentException, AuthorOperationException {
     boolean shouldMakeReadOnly = AuthorConstants.ARG_VALUE_TRUE.equals(
         "" + args.getArgumentValue(ARGUMENT_READ_ONLY));
-    authorAccess.getEditorAccess().setEditable(!shouldMakeReadOnly);
+    String reason = (String) args.getArgumentValue(ARGUMENT_READ_ONLY_REASON);
+    
+    if (shouldMakeReadOnly) {
+      authorAccess.getEditorAccess().setReadOnly(reason);
+    } else {
+      authorAccess.getEditorAccess().setEditable(!shouldMakeReadOnly);  
+    }
   }
 
   /**

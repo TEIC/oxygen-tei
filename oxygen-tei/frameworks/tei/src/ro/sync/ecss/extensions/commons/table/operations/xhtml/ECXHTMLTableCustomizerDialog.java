@@ -194,4 +194,11 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   protected String getDefaultAlignValue(int tableModelType) {
     return UNSPECIFIED;
   }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getHelpPageID()
+   */
+  public String getHelpPageID() {
+    return "add-table-xhtml";
+  }
 }

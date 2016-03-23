@@ -55,6 +55,7 @@ package ro.sync.ecss.extensions.tei.table;
 
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
 
@@ -72,6 +73,15 @@ public class InsertRowOperation extends InsertRowOperationBase implements TEICon
     super(new TEIDocumentTypeHelper());
   }
     
+  /**
+   * Constructor.
+   * 
+   * @param tableHelper Table helper.
+   */
+  public InsertRowOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
+  }
+
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#getCellElementName(AuthorElement, int)
    */

@@ -50,14 +50,10 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-import java.util.List;
-
 
 
 
 import ro.sync.ecss.extensions.api.node.AuthorElement;
-import ro.sync.ecss.extensions.api.node.AuthorNode;
-import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 
 /**
  * Table helper for 'Table Properties' dialog.
@@ -65,23 +61,7 @@ import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
  * @author adriana_sbircea
  */
 
-public interface TablePropertiesHelper extends TablePropertiesConstants {
-  /**
-   * Checks if the given node represents the table element.
-   * 
-   * @param node  The node to be checked.
-   * 
-   * @return <code>true</code> if the given node is the table element.
-   */
-  boolean isTable(AuthorElement node);
-  /**
-   * Checks if the given node represents a table group element.
-   * 
-   * @param node  The node to be checked.
-   * 
-   * @return <code>true</code> if the given node is the table group element.
-   */
-  boolean isTableGroup(AuthorElement node);
+public interface TablePropertiesHelper extends TableHelper, TablePropertiesConstants {
   /**
    * Checks if the given node represents a table body element.
    * 
@@ -130,39 +110,13 @@ public interface TablePropertiesHelper extends TablePropertiesConstants {
    * @return <code>true</code> if the given node is a table colspec element.
    */
   boolean isTableColspec(AuthorElement node);
-  /**
-   * Search for an ancestor {@link AuthorNode} with the specified type. 
-   * 
-   * @param node The starting node.
-   * @param type The type of the ancestor.
-   * @return     The ancestor node of the given <code>node</code> or the <code>node</code> 
-   * itself if the type matches.
-   */
-  AuthorElement getElementAncestor(AuthorNode node, int type);
-  /**
-   * Test if an {@link AuthorNode} is an element and it has one of the following types:
-   * {@link AuthorTableHelper#TYPE_CELL}, {@link AuthorTableHelper#TYPE_ROW} or 
-   * {@link AuthorTableHelper#TYPE_TABLE}.
-   * 
-   * @param node  The node to be checked.
-   * @param type  The type to search for.
-   * @return      <code>true</code> if the <code>node</code> is an element with the specified type.
-   */
-  boolean isNodeOfType(AuthorElement node, int type);
+
   /**
    * <code>true</code> if the current table allows footer element.
    * 
    * @return <code>true</code> if the table allows footer.
    */
   boolean allowsFooter();
-  /**
-   * Obtain a list of children with the given type.
-   * 
-   * @param node The parent node.
-   * @param type The type of the children.
-   * @param children The list with collected children. Empty when the function is called.
-   */
-  void getChildElements(AuthorElement node, int type, List<AuthorElement> children);
   
   /**
    * Obtain the first row child of the parent which has the given type. The type could be one of

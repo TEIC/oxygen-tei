@@ -197,4 +197,11 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
   protected String getDefaultAlignValue(int tableModelType) {
     return UNSPECIFIED;
   }
+  
+  /**
+   * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
+   */
+  public String getHelpPageID() {
+    return "add-table-xhtml";
+  }
 }

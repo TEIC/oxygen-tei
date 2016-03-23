@@ -57,7 +57,7 @@ import java.util.List;
 
 
 import ro.sync.ecss.extensions.api.node.AuthorElement;
-import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 
 /**
  * Abstract class for table properties helper.
@@ -132,25 +132,6 @@ public abstract class TablePropertiesHelperBase implements TablePropertiesHelper
   }
 
   /**
-   * @see ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper#getElementAncestor(ro.sync.ecss.extensions.api.node.AuthorNode, int)
-   */
-  @Override
-  public AuthorElement getElementAncestor(AuthorNode node, int type) {
-    AuthorElement parentCell = null;
-    while (node != null && node instanceof AuthorElement) {
-      // If the current node has the same type as the given type
-      // Return that node
-      if (isNodeOfType((AuthorElement) node, type)) {
-        parentCell = (AuthorElement) node;
-        break;
-      }
-      node = node.getParent();
-    }
-    
-    return parentCell;
-  }
-
-  /**
    * @see ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper#isNodeOfType(ro.sync.ecss.extensions.api.node.AuthorElement, int)
    */
   @Override
@@ -194,25 +175,6 @@ public abstract class TablePropertiesHelperBase implements TablePropertiesHelper
   public boolean allowsFooter() {
     return false;
   }
-
-  /**
-   * @see ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper#getChildElements(ro.sync.ecss.extensions.api.node.AuthorElement, int, java.util.List)
-   */
-  @Override
-  public void getChildElements(AuthorElement node, int type, List<AuthorElement> children) {
-    if (isNodeOfType(node, type)) {
-      children.add(node);
-    } else {
-      // Check the children
-      List<AuthorNode> contentNodes = node.getContentNodes();
-      for (int i = 0; i < contentNodes.size(); i++) {
-        AuthorNode authorNode = contentNodes.get(i);
-        if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          getChildElements((AuthorElement) authorNode, type, children);
-        }
-      }
-    }
-  }
   
   /**
    * @see ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper#isTableHead(ro.sync.ecss.extensions.api.node.AuthorElement)
@@ -221,11 +183,11 @@ public abstract class TablePropertiesHelperBase implements TablePropertiesHelper
   public AuthorElement getFirstChildOfTypeFromParentWithType(AuthorElement currentRow, int childType, int parentType) {
     AuthorElement firstChild = null;
     // Obtain the parent with the given type 
-    AuthorElement parentElement = getElementAncestor(currentRow, parentType);
+    AuthorElement parentElement = TableOperationsUtil.getElementAncestor(currentRow, parentType, this);
     if (parentElement != null) {
       List<AuthorElement> children = new ArrayList<AuthorElement>();
       // Obtain the children with the given type
-      getChildElements(parentElement, childType, children);
+      TableOperationsUtil.getChildElements(parentElement, childType, children, this);
 
       if (!children.isEmpty()) {
         firstChild = children.get(0);

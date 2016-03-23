@@ -68,8 +68,8 @@ import javax.swing.JSeparator;
 
 
 
-
-
+import ro.sync.annotations.obfuscate.SkipLevel;
+import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;

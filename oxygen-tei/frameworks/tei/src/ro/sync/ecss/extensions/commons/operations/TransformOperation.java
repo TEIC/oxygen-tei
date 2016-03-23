@@ -52,6 +52,7 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
@@ -244,7 +245,12 @@ public abstract class TransformOperation implements AuthorOperation {
     argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SCRIPT,
         ArgumentDescriptor.TYPE_SCRIPT,
-        "The script. The base system ID for this will be the framework file, so any include/import " +
+        "A path to the script or the script itself.\n"
+        + "When using a path the following apply:\n"
+        + "- a relative path is resolved to the framework directory. \n"
+        + "- the ${framework} editor variable can also be used to refer resources from the framework directory. \n"
+        + "- the path is passed through the catalog mappings.\n" + 
+        "If you provide the actual script, the base system ID for this will be the framework file, so any include/import " +
         "reference will be resolved relative to the \".framework\" file that contains this action definition");
     arguments[2] = argumentDescriptor;
     
@@ -449,15 +455,28 @@ public abstract class TransformOperation implements AuthorOperation {
         serializedSource = serializedDT + serializedSource;
       }
     }
-    org.xml.sax.InputSource is = new org.xml.sax.InputSource(new StringReader(script));
-    String baseLocation = authorAccess.getUtilAccess().expandEditorVariables(EditorVariables.FRAMEWORK_URL, 
-        authorAccess.getEditorAccess().getEditorLocation());
-    if(baseLocation != null && baseLocation.contains(EditorVariables.FRAMEWORK_URL)) {
-      //This means the framework is internal, we cannot set it as a base system ID to the source.
-      //But let's use instead the place from where the XML was loaded.
-      baseLocation = authorAccess.getEditorAccess().getEditorLocation().toString();
+    
+    org.xml.sax.InputSource is = null;
+    URL url = CommonsOperationsUtil.expandAndResolvePath(authorAccess, script);
+    if (url != null) {
+      // The script is actually a path to a script.
+      is = new org.xml.sax.InputSource(url.toExternalForm());
+    } else {
+      if(canTreatAsScript(script)){
+        //Maybe an XSLT
+        is = new org.xml.sax.InputSource(new StringReader(script));
+        String baseLocation = authorAccess.getUtilAccess().expandEditorVariables(EditorVariables.FRAMEWORK_URL, 
+            authorAccess.getEditorAccess().getEditorLocation());
+        if(baseLocation != null && baseLocation.contains(EditorVariables.FRAMEWORK_URL)) {
+          //This means the framework is internal, we cannot set it as a base system ID to the source.
+          //But let's use instead the place from where the XML was loaded.
+          baseLocation = authorAccess.getEditorAccess().getEditorLocation().toString();
+        }
+        is.setSystemId(baseLocation);
+      } else {
+        throw new AuthorOperationException("Could not find a location on disk corresponding to the 'script' parameter value: " + script);
+      }
     }
-    is.setSystemId(baseLocation);
     
     Source xslSrc = new SAXSource(is);
   
@@ -611,6 +630,16 @@ public abstract class TransformOperation implements AuthorOperation {
         }
       }        
     }
+  }
+
+  /**
+   * @param script The value of the script parameter.
+   * 
+   * @return <code>true</code> if this is an actual script or <code>false</code> 
+   * if it isn't.
+   */
+  protected boolean canTreatAsScript(String script) {
+    return true;
   }
 
   /**

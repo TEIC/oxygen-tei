@@ -195,4 +195,11 @@ public class TEIListSortOperation extends SortOperation {
     }
     return criteria;
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
+   */
+  protected String getHelpPageID() {
+    return "sort-list-items";
+  }
 }

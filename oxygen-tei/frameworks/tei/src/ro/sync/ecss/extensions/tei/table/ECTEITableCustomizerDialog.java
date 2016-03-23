@@ -168,4 +168,11 @@ public class ECTEITableCustomizerDialog extends ECTableCustomizerDialog {
   protected String getDefaultAlignValue(int tableModelType) {
     return null;
   }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getHelpPageID()
+   */
+  public String getHelpPageID() {
+    return "author-teip5-actions";
+  }
 }

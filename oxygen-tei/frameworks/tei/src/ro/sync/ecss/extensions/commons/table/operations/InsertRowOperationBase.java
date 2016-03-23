@@ -70,6 +70,7 @@ import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
 import ro.sync.exml.workspace.api.Platform;
 
 /**
@@ -176,20 +177,18 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @param documentTypeHelper Author Document type helper, has methods specific to a document type.
    */
   public InsertRowOperationBase(AuthorTableHelper documentTypeHelper) {
-    super(documentTypeHelper);
+    super(documentTypeHelper, true);
     
     arguments = getOperationArguments();
   }
     
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     try {
-      Object namespaceObj =  args.getArgumentValue(NAMESPACE_ARGUMENT);
-      
       // The node at caret position
       AuthorNode nodeAtCaret =
         authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset());
@@ -235,66 +234,86 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           relativePosition = args.getArgumentValue(RELATIVE_POSITION_ARGUMENT).toString();
         }
         
-        // Current/Reference row element
-        AuthorElement referenceRowElement = null;
-        if(useCurrentRowTemplateOnInsert()) {
-          referenceRowElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW);
-          if(referenceRowElement == null) {
-            //We want to insert before.
-            AuthorElement table = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
-            if(table != null) {
-              //Probably the caret is between table rows.
-              if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)) {
-              	//We want to insert before. The reference row will be the one from below the caret.
-                AuthorNode nodeBelowCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() + 1);
-                referenceRowElement = getElementAncestor(nodeBelowCurrentOffset, AuthorTableHelper.TYPE_ROW);
-              } else if(AuthorConstants.POSITION_AFTER.equals(relativePosition)) {
-                //We want to insert after. The reference row will be the one from above the caret.
-                AuthorNode nodeAboveCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() - 1);
-                referenceRowElement = getElementAncestor(nodeAboveCurrentOffset, AuthorTableHelper.TYPE_ROW);
-              }
-            }
-          }
-        }
-
-        // XML code to be inserted
-        String xmlFragment = "";
-        // Build the XML fragment for as many rows as needed
-        for (int i = 0; i < noOfRowsToBeInserted; i++) {
-          xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, (String) namespaceObj, 
-              AuthorConstants.POSITION_BEFORE.equals(relativePosition));
-        }
-
-        if (xmlFragment != "") {
-          // Insert row fragment
-          authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-              xmlFragment, 
-              (String)args.getArgumentValue(XPATH_LOCATION_ARGUMENT), 
-              relativePosition);
-
-          if (referenceRowElement != null) {
-             AuthorElement startUpdateRowSpansRow = referenceRowElement; 
-            if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)){
-              //The referenced row is below the row which gets inserted, only update rows which are before it
-              AuthorNode prevRow =
-                  authorAccess.getDocumentController().getNodeAtOffset(referenceRowElement.getStartOffset() - 1);
-              if (prevRow.getType() == AuthorNode.NODE_TYPE_ELEMENT && tableHelper.isTableRow(prevRow)) {
-                startUpdateRowSpansRow = (AuthorElement) prevRow;
-              } else {
-                startUpdateRowSpansRow = null;
-              }
-            }
-            if(startUpdateRowSpansRow != null) {
-              // Increment row spans for cells spanning over multiple rows
-              incrementRowSpans(tableElement, startUpdateRowSpansRow, authorAccess, 1, noOfRowsToBeInserted, relativePosition);
-            }
-          } 
-        }
+        insertRows(authorAccess, (String)args.getArgumentValue(XPATH_LOCATION_ARGUMENT), 
+            (String) args.getArgumentValue(NAMESPACE_ARGUMENT), nodeAtCaret, tableElement, 
+            noOfRowsToBeInserted, relativePosition);
       }
     } catch (BadLocationException e) {
       throw new AuthorOperationException(
           "The operation cannot be performed due to: " + e.getMessage(), e);    
     }    
+  }
+
+  /**
+   * Insert rows.
+   * 
+   * @param authorAccess The author access.
+   * @param xPathLocation The xPath location.
+   * @param namespace The rows namespace.
+   * @param nodeAtCaret The node at caret
+   * @param tableElement The parent table element.
+   * @param noOfRowsToBeInserted Number of rows to be inserted.
+   * @param relativePosition One of {@link AuthorConstants#POSITION_AFTER} or
+   * {@link AuthorConstants#POSITION_BEFORE} constants.  
+   * @throws BadLocationException
+   * @throws AuthorOperationException
+   */
+  public void insertRows(AuthorAccess authorAccess, String xPathLocation, String namespace,
+      AuthorNode nodeAtCaret, AuthorElement tableElement, int noOfRowsToBeInserted,
+      String relativePosition) throws BadLocationException, AuthorOperationException {
+    // Current/Reference row element
+    AuthorElement referenceRowElement = null;
+    if(useCurrentRowTemplateOnInsert()) {
+      referenceRowElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW);
+      if(referenceRowElement == null) {
+        //We want to insert before.
+        AuthorElement table = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
+        if(table != null) {
+          //Probably the caret is between table rows.
+          if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)) {
+          	//We want to insert before. The reference row will be the one from below the caret.
+            AuthorNode nodeBelowCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() + 1);
+            referenceRowElement = getElementAncestor(nodeBelowCurrentOffset, AuthorTableHelper.TYPE_ROW);
+          } else if(AuthorConstants.POSITION_AFTER.equals(relativePosition)) {
+            //We want to insert after. The reference row will be the one from above the caret.
+            AuthorNode nodeAboveCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() - 1);
+            referenceRowElement = getElementAncestor(nodeAboveCurrentOffset, AuthorTableHelper.TYPE_ROW);
+          }
+        }
+      }
+    }
+
+    // XML code to be inserted
+    String xmlFragment = "";
+    // Build the XML fragment for as many rows as needed
+    for (int i = 0; i < noOfRowsToBeInserted; i++) {
+      xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, namespace, 
+          AuthorConstants.POSITION_BEFORE.equals(relativePosition));
+    }
+
+    if (xmlFragment != "") {
+      // Insert row fragment
+      authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+          xmlFragment, xPathLocation, relativePosition);
+
+      if (referenceRowElement != null) {
+         AuthorElement startUpdateRowSpansRow = referenceRowElement; 
+        if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)){
+          //The referenced row is below the row which gets inserted, only update rows which are before it
+          AuthorNode prevRow =
+              authorAccess.getDocumentController().getNodeAtOffset(referenceRowElement.getStartOffset() - 1);
+          if (prevRow.getType() == AuthorNode.NODE_TYPE_ELEMENT && tableHelper.isTableRow(prevRow)) {
+            startUpdateRowSpansRow = (AuthorElement) prevRow;
+          } else {
+            startUpdateRowSpansRow = null;
+          }
+        }
+        if(startUpdateRowSpansRow != null) {
+          // Increment row spans for cells spanning over multiple rows
+          incrementRowSpans(tableElement, startUpdateRowSpansRow, authorAccess, 1, noOfRowsToBeInserted, relativePosition);
+        }
+      } 
+    }
   }
   
   /**
@@ -424,6 +443,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         String[] ignoredAttributes = mergeArrays(tableHelper.getIgnoredRowAttributes(), tableHelper.getIgnoredCellIDAttributes());
         List<String> allIgnoredAttrs = new ArrayList<String>();
         allIgnoredAttrs.addAll(Arrays.asList(ignoredAttributes));
+        String[] allowedAttributes = tableHelper instanceof AbstractDocumentTypeHelper ? ((AbstractDocumentTypeHelper)tableHelper).getAllowedCellAttributesToCopy() : null;
         for (AuthorNode cellNode : contentNodes) {
           // Create the new cells fragments 
           if (cellNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
@@ -434,7 +454,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
                 //below are of no interest to us.
                 || before) {
               String cellXMLFragment = createCellXMLFragment((AuthorElement) cellNode, 
-                  ignoredAttributes, getDefaultContentForEmptyCells());
+                  ignoredAttributes, allowedAttributes, getDefaultContentForEmptyCells());
               
               // Add cell fragment to row content
               newRowStructure.append(cellXMLFragment);
@@ -442,20 +462,15 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           }
         }
       } else {
-        // Create a row with maximum number of cells
+        // Try to create a row with maximum number of cells
         int colsNumber = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
-        for (int i = 0; i < colsNumber; i++) {
-          String cellName = getCellElementName(tableElement, i);
-          if (cellName != null) {
-            String defaultContentForEmptyCells = getDefaultContentForEmptyCells();
-            if (defaultContentForEmptyCells != null) {
-              newRowStructure.append("<").append(cellName).append(">");
-              newRowStructure.append(defaultContentForEmptyCells);
-              newRowStructure.append("</").append(cellName).append(">");
-            } else {
-              newRowStructure.append("<").append(cellName).append("/>");
-            }
+        if (colsNumber > 0) {
+          for (int i = 0; i < colsNumber; i++) {
+            createCell(tableElement, newRowStructure, i);
           }
+        } else if (colsNumber <= 0) {
+          // If the table is empty, add one cell.
+          createCell(tableElement, newRowStructure, 0);
         }
       }
 
@@ -464,6 +479,27 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     }
     
     return newRowStructure == null ? null : newRowStructure.toString();
+  }
+
+  /**
+   * Create a table cell.
+   * 
+   * @param tableElement        The table element into which to add the cell.
+   * @param newRowStructure     The row which will contain the cell.
+   * @param i                   The column index of the cell. Used to determine the name of the cell element.
+   */
+  private void createCell(AuthorElement tableElement, StringBuilder newRowStructure, int i) {
+    String cellName = getCellElementName(tableElement, i);
+    if (cellName != null) {
+      String defaultContentForEmptyCells = getDefaultContentForEmptyCells();
+      if (defaultContentForEmptyCells != null) {
+        newRowStructure.append("<").append(cellName).append(">");
+        newRowStructure.append(defaultContentForEmptyCells);
+        newRowStructure.append("</").append(cellName).append(">");
+      } else {
+        newRowStructure.append("<").append(cellName).append("/>");
+      }
+    }
   }
   
   /**
@@ -498,7 +534,8 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    */
   protected String createCellXMLFragment(
       AuthorElement cell,
-      String[] skippedAttributes, 
+      String[] skippedAttributes,
+      String[] allowedAttributes, 
       String cellContent) throws BadLocationException {
     StringBuilder cellXMLFragment = new StringBuilder(); 
     
@@ -516,6 +553,17 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
               // This attribute must be skipped
               skip = true;
               break;
+            }
+          }
+          if(allowedAttributes != null){
+        	 //EXM-35307  We need to check against list of allowed attributes.
+            skip = true;
+            for (String allowedAttribute : allowedAttributes) {
+              if (attributeName.equals(allowedAttribute)) {
+                // This attribute must be used.
+                skip = false;
+                break;
+              }
             }
           }
           if (!skip) {

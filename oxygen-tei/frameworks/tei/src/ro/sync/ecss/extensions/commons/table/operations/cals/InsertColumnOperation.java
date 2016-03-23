@@ -69,6 +69,7 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableCellsContentConstants;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
@@ -96,7 +97,16 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
    * Constructor.
    */
   public InsertColumnOperation() {
-    super(new CALSDocumentTypeHelper());
+    this(new CALSDocumentTypeHelper());
+  }
+  
+  /**
+   * Constructor.
+   * 
+   * @param tableHelper The table helper
+   */
+  public InsertColumnOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
     ArgumentDescriptor[] superArgs = super.getArguments();
     if (superArgs != null) {
       this.arguments = new ArgumentDescriptor[superArgs.length + 1];
@@ -112,10 +122,10 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     Object cellFragmentObj =  args.getArgumentValue(CELL_FRAGMENT_ARGUMENT_NAME);
     if (cellFragmentObj instanceof String) {
@@ -124,7 +134,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     if ("".equals(cellContent)) {
       cellContent = null;
     }
-    super.doOperation(authorAccess, args);
+    super.doOperationInternal(authorAccess, args);
   }
 
   /**

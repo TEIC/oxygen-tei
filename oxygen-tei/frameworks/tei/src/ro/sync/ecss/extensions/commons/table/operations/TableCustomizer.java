@@ -70,7 +70,7 @@ public abstract class TableCustomizer {
   
   /**
    * Customize a table. 
-   * <br/>
+   * <br>
    * A table customizer dialog is shown, giving the possibility to choose the 
    * properties of a new table to be inserted in the document. An object containing 
    * the new table information is returned. 
@@ -85,7 +85,7 @@ public abstract class TableCustomizer {
   
   /**
    * Customize a table. 
-   * <br/>
+   * <br>
    * A table customizer dialog is shown, giving the possibility to choose the 
    * properties of a new table to be inserted in the document. An object containing 
    * the new table information is returned. 
@@ -181,7 +181,7 @@ public abstract class TableCustomizer {
 
   /**
    * Customize a table. 
-   * <br/>
+   * <br>
    * A table customizer dialog is shown, giving the possibility to choose the 
    * properties of a new table to be inserted in the document. An object containing 
    * the new table information is returned. 

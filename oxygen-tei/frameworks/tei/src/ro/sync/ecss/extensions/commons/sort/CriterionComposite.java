@@ -66,8 +66,8 @@ import org.eclipse.swt.widgets.Label;
 
 
 
-
-
+import ro.sync.annotations.obfuscate.SkipLevel;
+import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 

@@ -68,19 +68,42 @@ public class ECIDElementsCustomizer {
    * Ask the user to customize the ID elements.
    * 
    * @param authorAccess        Access to author functionality.
-   * @param autoIDElementsInfo 
+   * @param autoIDElementsInfo  Information about for what elements should IDs be generated.
    * @param listMessage         The label used on the dialog before the list.
    *
    * @return The initial list of elements for which to generate IDs.
    */
   public GenerateIDElementsInfo customizeIDElements(
       AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage) {
+    return customizeIDElements(authorAccess, autoIDElementsInfo, listMessage, null);
+  }
+  
+  /**
+   * Ask the user to customize the ID elements.
+   * 
+   * @param authorAccess        Access to author functionality.
+   * @param autoIDElementsInfo  Information about for what elements should IDs be generated.
+   * @param listMessage         The label used on the dialog before the list.
+   * @param helpPageID          The help page ID.
+   *
+   * @return The initial list of elements for which to generate IDs.
+   */
+  public GenerateIDElementsInfo customizeIDElements(
+      AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage, final String helpPageID) {
 
     ECIDElementsCustomizerDialog idCustomizeDialog = 
       new ECIDElementsCustomizerDialog(
           (Shell)authorAccess.getWorkspaceAccess().getParentFrame(),
           listMessage,
-          authorAccess.getAuthorResourceBundle());
+          authorAccess.getAuthorResourceBundle()){
+      /**
+       * @see ro.sync.ecss.extensions.commons.id.ECIDElementsCustomizerDialog#getHelpPageID()
+       */
+      @Override
+      protected String getHelpPageID() {
+        return helpPageID;
+      }
+    };
     return idCustomizeDialog.showDialog(autoIDElementsInfo);
   }
 }

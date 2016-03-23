@@ -53,7 +53,7 @@ package ro.sync.ecss.extensions.commons.sort;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -71,17 +71,18 @@ import org.eclipse.swt.widgets.Shell;
 
 
 
-
-
+import ro.sync.annotations.obfuscate.SkipLevel;
+import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 
 /**
  *  Eclipse implementation of the customizer used to select the criterion information used when sorting.
  */
 
 
-public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, KeysController {
+public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer, KeysController {
   /**
    * Radio button used to enable the sorting of all the children from a parent element.
    */
@@ -139,7 +140,11 @@ public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, Ke
    * The name of the all elements radio combo.
    */
   private final String allElementsString;
-
+  /**
+   * Help page ID.
+   */
+  private String helpPageID;
+  
   /**
    * Constructor.
    * 
@@ -148,10 +153,26 @@ public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, Ke
    * @param selectedElemensString The name of the "selected elements" radio combo.
    * @param allElementsString The name of the "all elements" radio combo.
    */
-  public ECSortCustomizerDialog(Shell parentFrame, AuthorResourceBundle authorResourceBundle, String selectedElemensString, String allElementsString) {
+  public ECSortCustomizerDialog(Shell parentFrame, AuthorResourceBundle authorResourceBundle, 
+      String selectedElemensString, String allElementsString) {
+    this(parentFrame, authorResourceBundle, selectedElemensString, allElementsString, null);
+  }
+
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame The parent shell.
+   * @param authorResourceBundle The author resource bundle.
+   * @param selectedElemensString The name of the "selected elements" radio combo.
+   * @param allElementsString The name of the "all elements" radio combo.
+   * @param helpPageID Help page ID
+   */
+  public ECSortCustomizerDialog(Shell parentFrame, AuthorResourceBundle authorResourceBundle, 
+      String selectedElemensString, String allElementsString, String helpPageID) {
     super(parentFrame);
     this.selectedElemensString = selectedElemensString;
     this.allElementsString = allElementsString;
+    this.helpPageID = helpPageID;
     int style = SWT.DIALOG_TRIM;
     style |= SWT.RESIZE;
     style |= SWT.APPLICATION_MODAL;
@@ -306,6 +327,7 @@ public class ECSortCustomizerDialog extends Dialog implements SortCustomizer, Ke
   @Override
   protected void configureShell(Shell newShell) {
     super.configureShell(newShell);
+    EclipseHelpUtils.installHelp(newShell, helpPageID);
     newShell.setText(authorResourceBundle.getMessage(ExtensionTags.SORT));
   }
   

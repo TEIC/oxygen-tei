@@ -93,43 +93,37 @@ public class TEIP5IDTypeRecognizer extends IDTypeRecognizer {
         // 'target' attribute
         Stack<ContextElement> elementStack = context.getElementStack();
         if(!elementStack.isEmpty()) {
-//          // Get the element name and namespace
-//          ContextElement parentElement = elementStack.peek();
-//          String elementLocalName = XmlUtil.getLocalName(parentElement.getQName());
-          
-//          if("ptr".equals(elementLocalName) || "ref".equals(elementLocalName) || "link".equals(elementLocalName)) {
-            // For ptr/@target or ref/@target the ID references are recognized if the attribute value
-            // has the pattern #id1 #id2
-            String idValue = null;
-            
-            StringTokenizer stringTokenizer = new StringTokenizer(attributeValue, " ", true);
-            int idx = 0;
-            while(stringTokenizer.hasMoreTokens()) {
-              String nextToken = stringTokenizer.nextToken();
-              
-              if(offset < idx) {
-                break;
-              }
-              
-              if(idx <= offset && offset <= idx + nextToken.length()) {
-                // Current token include the offset
-                if(!nextToken.equals(" ")) {
-                  idValue = nextToken;
-                }
-                break;
-              }
-              
-              idx += nextToken.length();
+          // For ptr/@target or ref/@target the ID references are recognized if the attribute value
+          // has the pattern #id1 #id2
+          String idValue = null;
+
+          StringTokenizer stringTokenizer = new StringTokenizer(attributeValue, " ", true);
+          int idx = 0;
+          while(stringTokenizer.hasMoreTokens()) {
+            String nextToken = stringTokenizer.nextToken();
+
+            if(offset < idx) {
+              break;
             }
-            
-            
-            if (idValue != null && !"".equals(idValue.trim()) && idValue.startsWith("#")) {
-              idValue = idValue.substring(1);
-              if (idValue.trim().length() > 0) {
-                idTypeIdentifiers.add(new DefaultIDTypeIdentifier(idValue, false));
+
+            if(idx <= offset && offset <= idx + nextToken.length()) {
+              // Current token include the offset
+              if(!nextToken.equals(" ")) {
+                idValue = nextToken;
               }
+              break;
             }
-//          }
+
+            idx += nextToken.length();
+          }
+
+
+          if (idValue != null && !"".equals(idValue.trim()) && idValue.startsWith("#")) {
+            idValue = idValue.substring(1);
+            if (idValue.trim().length() > 0) {
+              idTypeIdentifiers.add(new DefaultIDTypeIdentifier(idValue, false));
+            }
+          }
         }
       }
     }
@@ -157,28 +151,22 @@ public class TEIP5IDTypeRecognizer extends IDTypeRecognizer {
       if("target".equals(attrName)) {
         Stack<ContextElement> elementStack = context.getElementStack();
         if(!elementStack.isEmpty()) {
-          // Get the element name and namespace
-//          ContextElement parentElement = elementStack.peek();
-//          String elementLocalName = XmlUtil.getLocalName(parentElement.getQName());
-          
-          /*if("ptr".equals(elementLocalName) || "ref".equals(elementLocalName)|| "link".equals(elementLocalName)) {*/
-            String idValue = idIdentifier.getValue();
-            String textToFind = "#" + idValue;
-            int indexOf = attributeValue.indexOf(textToFind);
-            while (indexOf >= 0) {
-              
-              if(indexOf + textToFind.length() == attributeValue.length() || 
-                  attributeValue.charAt(indexOf + textToFind.length()) == ' ') {
-                idLocation = new int[] { indexOf + 1, indexOf + 1 + idIdentifier.getValue().length() };
-              }
-              
-              if (idLocation != null) {
-                break;
-              } else {
-                indexOf = attributeValue.indexOf(textToFind, indexOf + textToFind.length());
-              }
-            }   
-//          }
+          String idValue = idIdentifier.getValue();
+          String textToFind = "#" + idValue;
+          int indexOf = attributeValue.indexOf(textToFind);
+          while (indexOf >= 0) {
+
+            if(indexOf + textToFind.length() == attributeValue.length() || 
+                attributeValue.charAt(indexOf + textToFind.length()) == ' ') {
+              idLocation = new int[] { indexOf + 1, indexOf + 1 + idIdentifier.getValue().length() };
+            }
+
+            if (idLocation != null) {
+              break;
+            } else {
+              indexOf = attributeValue.indexOf(textToFind, indexOf + textToFind.length());
+            }
+          }   
         }
       }
     }

@@ -51,6 +51,7 @@
 package ro.sync.ecss.extensions.tei;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
@@ -63,6 +64,7 @@ import org.apache.log4j.Logger;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.ReferenceType;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -80,16 +82,18 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
    */
   private static Logger logger = Logger.getLogger(TEIP5ExternalObjectInsertionHandler.class.getName());
 
+  
   /**
-   * @throws AuthorOperationException 
-   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#insertURLs(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, int)
+   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#insertURLs(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, java.util.List, int)
    */
   @Override
-  public void insertURLs(AuthorAccess authorAccess, List<URL> urls, int source) throws AuthorOperationException {
+  public void insertURLs(AuthorAccess authorAccess, List<URL> urls, List<ReferenceType> types,
+      int source) throws AuthorOperationException {
     if(! urls.isEmpty()) {
       URL base = getBaseURLAtCaretPosition(authorAccess);
       for (int i = 0; i < urls.size(); i++) {
         URL url = urls.get(i);
+        ReferenceType type = types.get(i);
         String relativeLocation = authorAccess.getUtilAccess().makeRelative(base, url);
         SchemaAwareHandlerResult result = null;
         int cp = authorAccess.getEditorAccess().getCaretOffset();
@@ -102,7 +106,7 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
         } catch (BadLocationException e) {
           logger.error(e, e);
         }
-        if(authorAccess.getUtilAccess().isSupportedImageURL(url)) {
+        if(isImageReference(authorAccess, type, url)) {
           if(elementAtOffset != null && "graphic".equals(elementAtOffset.getLocalName())){
             //This is already an image, set the attribute to it.
             authorAccess.getDocumentController().setAttribute("url", new AttrValue(relativeLocation), elementAtOffset);
@@ -129,6 +133,32 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
       }
     }
   }
+  
+  /**
+   * Checks if the URL refers to an image.
+   * 
+   * @param authorAccess The author access.
+   * @param type The type.
+   * @param url The URL.
+   * 
+   * @return <code>true</code> if the URL is an image reference.
+   */
+  private boolean isImageReference(AuthorAccess authorAccess, ReferenceType type, URL url) {
+    return type == ReferenceType.IMAGE_REFERENCE || 
+        type == null && authorAccess.getUtilAccess().isSupportedImageURL(url);
+  }
+  
+  /**
+   * @throws AuthorOperationException 
+   * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#insertURLs(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, int)
+   */
+  @Override
+  public void insertURLs(AuthorAccess authorAccess, List<URL> urls, int source) throws AuthorOperationException {
+    List<ReferenceType> types = Collections.<ReferenceType>nCopies(urls.size(), null);
+    insertURLs(authorAccess, urls, types, source);
+  }
+  
+
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#getImporterStylesheetFileName(ro.sync.ecss.extensions.api.AuthorAccess)

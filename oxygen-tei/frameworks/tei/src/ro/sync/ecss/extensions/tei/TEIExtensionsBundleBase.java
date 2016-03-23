@@ -53,10 +53,12 @@ package ro.sync.ecss.extensions.tei;
 
 
 
-import ro.sync.contentcompletion.xml.SchemaManagerFilter;
+import ro.sync.ecss.extensions.api.AuthorActionEventHandler;
+import ro.sync.ecss.extensions.api.AuthorImageDecorator;
 import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.ExtensionsBundle;
+import ro.sync.ecss.extensions.api.TEIAuthorActionEventHandler;
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
 import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 
@@ -71,7 +73,15 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
    */
   private TEISchemaAwareEditingHandler teiSchemaAwareEditingHandler;
   
+  /**
+   * Handles special actions. 
+   */
+  private AuthorActionEventHandler handler;
   
+  /**
+   * Image decorator for TEI.
+   */
+  private TEIAuthorImageDecorator decorator;
 
   /**
    * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createAuthorTableCellSpanProvider()
@@ -103,5 +113,29 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
   @Override
   public XMLNodeRendererCustomizer createXMLNodeCustomizer() {
     return new TEINodeRendererCustomizer();
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorActionEventHandler()
+   */
+  @Override
+  public AuthorActionEventHandler getAuthorActionEventHandler() {
+    if (handler == null) {
+      handler = new TEIAuthorActionEventHandler();
+    }
+    
+    return handler;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorImageDecorator()
+   */
+  @Override
+  public AuthorImageDecorator getAuthorImageDecorator() {
+    if (decorator == null) {
+      decorator = new TEIAuthorImageDecorator();
+    }
+    
+    return decorator;
   }
 }

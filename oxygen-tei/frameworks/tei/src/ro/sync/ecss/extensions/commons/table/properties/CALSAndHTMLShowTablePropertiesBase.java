@@ -70,6 +70,7 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 
 /**
  * Base class for edit properties on CALS and HTML tables.
@@ -154,8 +155,8 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
   private TabInfo getColumnsInformation(List<Integer[]> selections) {
     TabInfo columnsTabInfo = null;
     // Compute the selected cells
-    List<AuthorElement> cells = getAllElementsToCollectProperties(
-        selections, TablePropertiesConstants.TYPE_CELL);
+    List<AuthorElement> cells = TableOperationsUtil.getTableElementsOfType(
+        authorAccess, selections, TablePropertiesConstants.TYPE_CELL, tableHelper);
     // Compute the colspecs
     List<AuthorElement> colSpecs = getColSpecs(getCellIndexes(cells));
     // Obtain the attribute which will be edited
@@ -217,7 +218,8 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
   private TabInfo getCellsInformation(List<Integer[]> selections) {
     TabInfo cellsTabInfo = null;
     // Obtain the cells which will be affected.
-    List<AuthorElement> cells = getAllElementsToCollectProperties(selections, TablePropertiesConstants.TYPE_CELL);
+    List<AuthorElement> cells = TableOperationsUtil.getTableElementsOfType(
+        authorAccess, selections, TablePropertiesConstants.TYPE_CELL, tableHelper);
     List<TableProperty> cellsProperties = new ArrayList<TableProperty>();
     ArrayList<AuthorElement> nodes = new ArrayList<AuthorElement>();
     Map<TableProperty, String> commonValues = new HashMap<TableProperty, String>();
@@ -328,7 +330,8 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     TabInfo tabInfo = null;
     List<TableProperty> rowsProperties = new  ArrayList<TableProperty>();
     // Obtain the rows from all the selected nodes
-    List<AuthorElement> collectedRows = getAllElementsToCollectProperties(selections, TablePropertiesConstants.TYPE_ROW);
+    List<AuthorElement> collectedRows = TableOperationsUtil.getTableElementsOfType(
+        authorAccess, selections, TablePropertiesConstants.TYPE_ROW, tableHelper);
     List<TableProperty> attributesToEdit = getRowsAttributesToEdit();
     // Check if row or child of a row
     // If a parent of a row, do not add type property, because you have no idea what
@@ -451,7 +454,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
         if (tableFoot == null) { 
           // We have to create also the footer element
           AuthorElement elementAncestor = 
-              tableHelper.getElementAncestor(currentNode, TablePropertiesHelper.TYPE_GROUP);
+              TableOperationsUtil.getElementAncestor(currentNode, TablePropertiesHelper.TYPE_GROUP, tableHelper);
           // Insert after header or before body
           List<AuthorNode> contentNodes = elementAncestor.getContentNodes();
           for (int i = 0; i < contentNodes.size(); i++) {
@@ -521,15 +524,15 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
             currentNode, TablePropertiesHelper.TYPE_HEADER, TablePropertiesHelper.TYPE_GROUP);
         if (tableHead == null) { 
           // We have to create also the header element
-          AuthorElement tgroupElem = tableHelper.getElementAncestor(currentNode, TablePropertiesHelper.TYPE_GROUP);
+          AuthorElement tgroupElem = TableOperationsUtil.getElementAncestor(currentNode, TablePropertiesHelper.TYPE_GROUP, tableHelper);
           List<AuthorElement> children = new ArrayList<AuthorElement>();
           // Check for footer
           if (tableHelper.allowsFooter()) {
-            tableHelper.getChildElements(tgroupElem, TablePropertiesConstants.TYPE_FOOTER, children);
+            TableOperationsUtil.getChildElements(tgroupElem, TablePropertiesConstants.TYPE_FOOTER, children, tableHelper);
           }
           // No footer found, check for body
           if (children.isEmpty()) {
-            tableHelper.getChildElements(tgroupElem, TablePropertiesConstants.TYPE_BODY, children);
+            TableOperationsUtil.getChildElements(tgroupElem, TablePropertiesConstants.TYPE_BODY, children, tableHelper);
           }
           
           if (!children.isEmpty()) {
@@ -582,8 +585,8 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
             currentNode, TablePropertiesHelper.TYPE_BODY, TablePropertiesHelper.TYPE_GROUP);
         if (tableBody == null) {
           // We have to create also the body element
-          AuthorElement elementAncestor = tableHelper.getElementAncestor(
-              currentNode, TablePropertiesHelper.TYPE_GROUP);
+          AuthorElement elementAncestor = TableOperationsUtil.getElementAncestor(
+              currentNode, TablePropertiesHelper.TYPE_GROUP, tableHelper);
           authorAccess.getDocumentController().insertXMLFragment(
               tableHelper.getElementTag(TablePropertiesConstants.TYPE_BODY), 
               elementAncestor, 

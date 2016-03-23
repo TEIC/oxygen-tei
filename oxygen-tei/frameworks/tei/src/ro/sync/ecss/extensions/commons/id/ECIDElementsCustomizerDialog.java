@@ -50,8 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -70,6 +70,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 
 /**
  * Dialog used to customize DITA elements which have auto ID generation. 
@@ -77,7 +78,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  * It is used on standalone implementation.
  */
 
-public class ECIDElementsCustomizerDialog extends Dialog {
+public class ECIDElementsCustomizerDialog extends TrayDialog {
   
   /**
    * The list of elements or class values for which to generate IDs
@@ -150,6 +151,7 @@ public class ECIDElementsCustomizerDialog extends Dialog {
   @Override
   protected void configureShell(Shell newShell) {
     newShell.setText(authorResourceBundle.getMessage(ExtensionTags.ID_OPTIONS));
+    EclipseHelpUtils.installHelp(newShell, getHelpPageID());
     super.configureShell(newShell);
   }
   
@@ -375,5 +377,13 @@ public class ECIDElementsCustomizerDialog extends Dialog {
       return this.autoIDElementsInfo;
     }
     return null;
+  }
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return "generate-ids";
   }
 }

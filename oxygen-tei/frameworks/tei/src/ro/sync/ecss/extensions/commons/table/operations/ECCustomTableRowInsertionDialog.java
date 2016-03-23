@@ -50,7 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -79,7 +79,7 @@ import ro.sync.ecss.extensions.commons.ExtensionTags;
  * @author sorin_carbunaru
  */
 
-public class ECCustomTableRowInsertionDialog extends Dialog {
+public class ECCustomTableRowInsertionDialog extends TrayDialog {
   
   /**
    * Table row info.

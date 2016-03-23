@@ -69,6 +69,7 @@ import ro.sync.ecss.extensions.api.WidthRepresentation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.support.errorscanner.CALSAndHTMLTableLayoutProblem;
 
 /**
  * Provides information regarding HTML table cell span and column width.
@@ -174,6 +175,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         colspan = Integer.valueOf(Math.max(value, 1));
       } catch(NumberFormatException nfe) {
         // Not a number.
+        if (errorsListener != null) {
+          errorsListener.add(cellElement, tableElement, 
+              CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, attrValue.getValue(), "colspan");
+        }
       }
     }
     return colspan;
@@ -195,6 +200,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         rowspan = Integer.valueOf(Math.max(value, 1));     
       } catch(NumberFormatException nfe) {
         // Not a number.
+        if (errorsListener != null) {
+          errorsListener.add(cellElement, tableElement, 
+              CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, attrValue.getValue(), "rowspan");
+        }
       }
     }
     return rowspan;
@@ -223,6 +232,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
             if (logger.isDebugEnabled()) {
               logger.debug(e, e);
             } 
+            if (errorsListener != null) {
+              errorsListener.add(child, tableElement, 
+                  CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                  attrValue.getValue(), ATTR_NAME_SPAN);
+            }
           }
         }
 
@@ -277,6 +291,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
                   if (logger.isDebugEnabled()) {
                     logger.debug(e, e);
                   } 
+                  if (errorsListener != null) {
+                    errorsListener.add(cgChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                        ATTR_NAME_SPAN, colSpanAttribute.getValue());
+                  }
                 }     
               }
               // Add ColWidth objects for the columns this 'col' specification spans over.
@@ -329,6 +347,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
               if (logger.isDebugEnabled()) {
                 logger.debug(e, e);
               } 
+              if (errorsListener != null) {
+                errorsListener.add(colChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                    ATTR_NAME_SPAN, colSpanAttribute.getValue());
+              }
             }     
           }
           // Add ColWidth objects for the columns this 'col' specification spans over.

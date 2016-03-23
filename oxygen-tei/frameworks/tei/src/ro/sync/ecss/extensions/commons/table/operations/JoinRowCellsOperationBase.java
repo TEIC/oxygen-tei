@@ -87,12 +87,12 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
   }
 
   /**
-   * Join the contents of one or more cells.
+   *  Join the contents of one or more cells.
    *  
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     try {
       // The table cell where where the content of the joined cells will be moved
@@ -158,7 +158,7 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
                     "Column specifications", 
                     "Join cells operation requires column specifications. Do you want to generate them?", 
                     new String[] {"Yes", "No"}, 
-                    new int[] {0, 1}) == 0) {
+                    new int[] {1, 0}) == 1) {
               generateColumnSpecifications(authorAccess, tableSupport, tgroupElement);
             }
             

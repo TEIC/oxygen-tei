@@ -164,4 +164,11 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
   protected String getDefaultAlignValue(int tableModelType) {
     return null;
   }
+  
+  /**
+   * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
+   */
+  public String getHelpPageID() {
+    return "author-teip5-actions";
+  }
 }

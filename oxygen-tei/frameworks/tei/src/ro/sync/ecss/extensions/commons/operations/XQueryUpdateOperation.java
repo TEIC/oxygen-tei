@@ -50,11 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.transform.Result;
@@ -78,7 +76,6 @@ import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
-import ro.sync.util.URLUtil;
 
 /**
  * An implementation of an operation that applies an XQuery Update script. 
@@ -168,7 +165,13 @@ public class XQueryUpdateOperation implements AuthorOperation {
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SCRIPT,
         ArgumentDescriptor.TYPE_STRING,
-        "The script to be executed or an URL pointing to the script. Editor variables are accespted in the URL.");
+        "A path to the script or the script itself.\n"
+            + "When using a path the following apply:\n"
+            + "- a relative path is resolved to the framework directory. \n"
+            + "- the ${framework} editor variable can also be used to refer resources from the framework directory. \n"
+            + "- the path is passed through the catalog mappings.\n" + 
+            "If you provide the actual script, the base system ID for this will be the framework file, so any include/import " +
+            "reference will be resolved relative to the \".framework\" file that contains this action definition");
     arguments[0] = argumentDescriptor;
   }
 
@@ -178,30 +181,16 @@ public class XQueryUpdateOperation implements AuthorOperation {
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
     throws AuthorOperationException {
-    Object fragment = args.getArgumentValue(ARGUMENT_SCRIPT);
-    if (fragment instanceof String) {
+    Object script = args.getArgumentValue(ARGUMENT_SCRIPT);
+    if (script instanceof String) {
       Source xQuerySource = null;
       // Try to parse it as an URL.
-      String expanded = authorAccess.getUtilAccess().expandEditorVariables((String) fragment, null);
-      try {
-        URL url = new URL(expanded);
+      URL url = CommonsOperationsUtil.expandAndResolvePath(authorAccess, (String) script);
+      if (url != null) {
         xQuerySource = new StreamSource(url.toExternalForm());
-      } catch (MalformedURLException e1) {
-        // Not an URL;
-        try {
-          File file = new File(expanded);
-          if (file.exists()) {
-            URL url = URLUtil.correct(file);
-            xQuerySource = new StreamSource(url.toExternalForm());
-          }
-        } catch (MalformedURLException e) {
-          // Definitely not an URL.
-        }
-      }
-      
-      if (xQuerySource  == null) {
+      } else {
         // Probably an XQuery script directly..
-        String xq = (String) fragment;
+        String xq = (String) script;
         if (logger.isDebugEnabled()) {
           logger.debug("Execute " + xq);
         }
@@ -235,7 +224,7 @@ public class XQueryUpdateOperation implements AuthorOperation {
         documentController.endCompoundEdit();
       }
     } else {
-      throw new IllegalArgumentException("The argument value was not defined, it is " + fragment);
+      throw new IllegalArgumentException("The argument value was not defined, it is " + script);
     }
   }
   

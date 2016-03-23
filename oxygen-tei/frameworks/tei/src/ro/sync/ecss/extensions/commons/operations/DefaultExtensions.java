@@ -120,6 +120,10 @@ public interface DefaultExtensions {
       JSOperation.class,
       //EXM-34226: Added an operation that changes the read-only status of the document.
       SetReadOnlyStatusOperation.class,
+      // Replaces the content of an XML document.
+      ReplaceContentOperation.class,
+      // EXM-35810: promote demote list items on Web Author
+      PromoteDemoteItemOperation.class,
   };
   
   

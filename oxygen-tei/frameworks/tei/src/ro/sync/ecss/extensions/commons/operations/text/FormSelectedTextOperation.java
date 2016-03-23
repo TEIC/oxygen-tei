@@ -131,8 +131,8 @@ public abstract class FormSelectedTextOperation implements AuthorOperation {
 	    // Iterate through text nodes
 	    while (iterator.hasNext()) {
 	      TextContext next = iterator.next();
-	      if (next.getEditableState() == TextContext.EDITABLE
-	          || next.getEditableState() == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING) {
+	      if (next.inVisibleContent() && (next.getEditableState() == TextContext.EDITABLE
+	          || next.getEditableState() == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING)) {
 	        //In editable test, we can replace.
 	        CharSequence text = next.getText();
 	        char[] charArray = text.toString().toCharArray();

@@ -55,6 +55,7 @@ package ro.sync.ecss.extensions.tei.table;
 
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase;
 import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
 
@@ -70,6 +71,15 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements 
    */
   public InsertColumnOperation() {
     super(new TEIDocumentTypeHelper());
+  }
+
+  /**
+   * Constructor.
+   * 
+   * @param tableHelper The table helper.
+   */
+  public InsertColumnOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
   }
 
   /**

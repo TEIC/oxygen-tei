@@ -144,6 +144,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
+  @SuppressWarnings("null")
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     // Surround in element.
@@ -448,12 +449,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
         
         // Set a selection over the processed intervals. It will not always be
         // the same thing as the initial selection but it's close enough. 
-        if (toSelect != null) {
-          authorSelectionModel.clearSelection();
-          for (ContentInterval contentInterval : toSelect) {
-            authorSelectionModel.addSelection(contentInterval.getStartOffset(), contentInterval.getEndOffset());
-          }
-        }
+        authorSelectionModel.setSelectionIntervals(toSelect, true);
       } finally {
         // At the end of the operation we fire a notification on the ancestor of all changes.
         authorAccess.getDocumentController().enableLayoutUpdate(toRefresh);

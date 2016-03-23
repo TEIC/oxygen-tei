@@ -100,9 +100,10 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
   }
   
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  @Override
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     try {
       // Find the table cell that contains the caret.
@@ -245,6 +246,7 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return new ArgumentDescriptor[] {
         new ArgumentDescriptor(
@@ -259,6 +261,7 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "This operation splits the content of a table cell that spans over multiple rows.";
   }
