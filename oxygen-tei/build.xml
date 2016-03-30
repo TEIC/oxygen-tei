@@ -15,7 +15,7 @@
   <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
   
 <!-- NOTE: THIS WILL BE CHANGED TO oxygen-tei AT SOME POINT PER COUNCIL DECISION. -->
-  <property name="packageFilePrefix" value="teioxygen"/>
+  <property name="packageFilePrefix" value="oxygen-tei"/>
   
   <target name="documentation">
     <echo message="${echo.separator}"/>
