@@ -1276,7 +1276,23 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>oxy:allows-child-element("*:figure")</String>
+														<String>oxy:allows-child-element("figure")</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>wrapIn</String>
+																<String>figure</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.InsertImageOperationP5</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
+														<String>oxy:allows-child-element("graphic")</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -2326,7 +2342,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 											<String>edit.image.map</String>
 										</field>
 										<field name="name">
-											<String>${i18n(edit_image_map)}</String>
+											<String>${i18n(Image_map_editor)}...</String>
 										</field>
 										<field name="description">
 											<String>${i18n(edit_image_map_description)}</String>
@@ -2347,8 +2363,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:surface or
-self::*:graphic[empty(parent::*:surface)] or oxy:current-selected-element()[self::*:graphic][empty(parent::*:surface)]</String>
+														<String>ancestor-or-self::*:surface</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -2962,6 +2977,9 @@ self::*:graphic[empty(parent::*:surface)] or oxy:current-selected-element()[self
 								<null/>
 							</field>
 							<field name="authorActionEventHandler">
+								<null/>
+							</field>
+							<field name="authorImageDecorator">
 								<null/>
 							</field>
 						</authorExtension>

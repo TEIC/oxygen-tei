@@ -9,11 +9,11 @@
     </languageList>
 <key type="action" value="imagemap.toggle.area">
     <comment>An action that toggles the visibility of the area elements from an image map. </comment>
-    <val lang="en_US">Image map details...</val>
-    <val lang="de_DE">Image map details...</val>
-    <val lang="fr_FR">Détails de l'image map...</val>
-    <val lang="ja_JP">Image map details...</val>
-    <val lang="nl_NL">Image map details...</val>
+    <val lang="en_US">Image Map Details...</val>
+    <val lang="de_DE">Image Map Details...</val>
+    <val lang="fr_FR">Détails de l'Image Map...</val>
+    <val lang="ja_JP">Image Map Details...</val>
+    <val lang="nl_NL">Image Map Details...</val>
   </key>
 <key type="action" value="imagemap.toggle.area_description">
     <comment>The description of the action that toggles the visibility of the area elements from an image map.</comment>
@@ -23,13 +23,13 @@
     <val lang="ja_JP">Toggles on/off the visibility of the area elements from the image map.</val>
     <val lang="nl_NL">Toggles on/off the visibility of the area elements from the image map.</val>
   </key>
-<key value="edit_image_map">
-        <comment>Edit image map action name.</comment>
-        <val lang="en_US">Edit image map...</val>
-        <val lang="de_DE">Edit image map...</val>
-        <val lang="fr_FR">Éditer l'image map...</val>
-        <val lang="ja_JP">Edit image map...</val>
-        <val lang="nl_NL">Edit image map...</val>
+<key value="Image_map_editor">
+        <comment>Image Map Editor</comment>
+        <val lang="en_US">Image Map Editor</val>
+        <val lang="de_DE">Image Map Editor</val>
+        <val lang="fr_FR">Éditeur d'Image Map</val>
+        <val lang="ja_JP">Image Map Editor</val>
+        <val lang="nl_NL">Image Map Editor</val>
     </key>
 <key value="edit_image_map_description">
         <comment>Edit image map action name description.</comment>
