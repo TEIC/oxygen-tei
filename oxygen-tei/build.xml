@@ -3,10 +3,15 @@
   xmlns:unless="ant:unless">
   
   <property name="echo.separator" value="***********************************************************"/>
-<!-- Location of the release packages of P5 on SourceForge. -->
-  <property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> 
-<!-- Location of the release packages of the TEI Stylesheets on SourceForge. -->
-  <property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>
+<!-- Location of the release packages of P5 on GitHub. -->
+  <!--<property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> -->
+  <!-- Release path is: https://github.com/TEIC/TEI/releases/tag/P5_Release_3.0.0 -->
+  <property name="GHP5" value="https://github.com/TEIC/TEI/releases/tag"/>
+  
+<!-- Location of the release packages of the TEI Stylesheets on GitHub. -->
+  <!--<property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>-->
+  <!--  Release path is: https://github.com/TEIC/Stylesheets/releases/tag/v7.41.0 -->
+  <property name="GHXSL" value="https://github.com/TEIC/Stylesheets/releases/tag"/>
   
 <!-- Where TEI releases of the plugin are available for download. -->
   <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/oxygen-tei/"/>
@@ -91,11 +96,11 @@ stable: This is also intended to run on the TEI's Jenkins build
   
   <target name="getStableVersions" depends="getStableVersionNums">
     <echo message="${echo.separator}"/>
-    <property name="p5Zip" value="${SFP5}/tei-${p5Version}.zip"/>
+    <property name="p5Zip" value="${GHP5}/P5_Release_${p5Version}.zip"/>
     <echo message="Retrieving ${p5Zip}"/>
     <get src="${p5Zip}" dest="tei.zip" usetimestamp="true"/>
     <echo message="${echo.separator}"/>
-    <property name="stylesheetsZip" value="${SFXSL}/tei-xsl-${stylesheetsVersion}.zip"/>
+    <property name="stylesheetsZip" value="${GHXSL}/v${stylesheetsVersion}.zip"/>
     <echo message="Retrieving ${stylesheetsZip}"/>
     <get src="${stylesheetsZip}" dest="xsl.zip" usetimestamp="true"/>
   </target>
