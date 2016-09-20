@@ -14,7 +14,7 @@
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
   <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
   
-<!-- NOTE: THIS WILL BE CHANGED TO oxygen-tei AT SOME POINT PER COUNCIL DECISION. -->
+<!-- The base name of the package we create. -->
   <property name="packageFilePrefix" value="oxygen-tei"/>
   
   <target name="documentation">
@@ -342,7 +342,7 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="getLatestJenkinsBuildInformation">
     <echo message="${echo.separator}"/>
-    <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/P5/"/>
+    <property name="p5JenkinsBuild" value="../../../TEIP5-dev/lastSuccessful/archive/P5/"/>
     <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION"/>
     <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
@@ -354,7 +354,7 @@ has worked well. You will need shell access to tei-c.org.
     </script>
     <echo message="Latest P5 version built on Jenkins is: ${p5JenkinsVersion}"/>
     
-    <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets/lastSuccessful/archive/"/>
+    <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets-dev/lastSuccessful/archive/"/>
     <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}dist/doc/tei-xsl/VERSION"/>
     <loadfile property="tempStylesheetsJenkinsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
