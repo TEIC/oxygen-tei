@@ -5,13 +5,13 @@
   <property name="echo.separator" value="***********************************************************"/>
 <!-- Location of the release packages of P5 on GitHub. -->
   <!--<property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> -->
-  <!-- Release path is: https://github.com/TEIC/TEI/releases/tag/P5_Release_3.0.0 -->
-  <property name="GHP5" value="https://github.com/TEIC/TEI/releases/tag"/>
+  <!-- Release path is: https://github.com/TEIC/TEI/releases/download/P5_Release_3.0.0/tei-3.0.0.zip -->
+  <property name="GHP5" value="https://github.com/TEIC/TEI/releases/download"/>
   
 <!-- Location of the release packages of the TEI Stylesheets on GitHub. -->
   <!--<property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>-->
-  <!--  Release path is: https://github.com/TEIC/Stylesheets/releases/tag/v7.41.0 -->
-  <property name="GHXSL" value="https://github.com/TEIC/Stylesheets/releases/tag"/>
+  <!--  Release path is: https://github.com/TEIC/Stylesheets/releases/download/v7.41.0/tei-xsl-7.41.0.zip -->
+  <property name="GHXSL" value="https://github.com/TEIC/Stylesheets/releases/download"/>
   
 <!-- Where TEI releases of the plugin are available for download. -->
   <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/oxygen-tei/"/>
@@ -96,11 +96,13 @@ stable: This is also intended to run on the TEI's Jenkins build
   
   <target name="getStableVersions" depends="getStableVersionNums">
     <echo message="${echo.separator}"/>
-    <property name="p5Zip" value="${GHP5}/P5_Release_${p5Version}.zip"/>
+    <!--    P5_Release_3.0.0/tei-3.0.0.zip -->
+    <property name="p5Zip" value="${GHP5}/P5_Release_${p5Version}/tei-${p5Version}.zip"/>
     <echo message="Retrieving ${p5Zip}"/>
     <get src="${p5Zip}" dest="tei.zip" usetimestamp="true"/>
     <echo message="${echo.separator}"/>
-    <property name="stylesheetsZip" value="${GHXSL}/v${stylesheetsVersion}.zip"/>
+    <!--    https://github.com/TEIC/Stylesheets/releases/download/v7.41.0/tei-xsl-7.41.0.zip -->
+    <property name="stylesheetsZip" value="${GHXSL}/v${stylesheetsVersion}/tei-xsl-${stylesheetsVersion}.zip"/>
     <echo message="Retrieving ${stylesheetsZip}"/>
     <get src="${stylesheetsZip}" dest="xsl.zip" usetimestamp="true"/>
   </target>
