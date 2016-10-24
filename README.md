@@ -7,6 +7,13 @@ It is organized as follows:
 * the "tools" folder is intended for required tools like the Apache ANT.
 * the "dist" folder will contain the packed distribution of all frameworks.
 
+# If you just want to update your oXygen XML Editor framework for TEI
+If all you want to do is update your oXygen XML Editor framework for TEI to the latest release then
+the suggestions at http://blogs.it.ox.ac.uk/jamesc/2014/04/02/auto-update-your-tei-framework-in-oxygen/ 
+with some differences because of the changes in oXygen versions since then.  If you really wanted to get the 
+development version and have that auto-update you could point to the oxygen-tei-stable or oxygen-tei-bleeding 
+jobs on http://jenkins.tei-c.org e.g. http://jenkins.tei-c.org/job/oxygen-tei-stable/lastSuccessfulBuild/artifact/oxygen-tei/updateSite.oxygen but be warned that here be dragons.
+
 # Before you begin - adding oxygen.jar to the project
 
 The extensions defined in the project depend on the oxygen.jar library that is
