@@ -3811,7 +3811,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
 										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
@@ -4565,7 +4565,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
 										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
