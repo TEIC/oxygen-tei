@@ -393,7 +393,7 @@
 												<String>Path where the output ODT file will be saved.</String>
 											</field>
 											<field name="value">
-												<String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.odt</String>
+												<String>${cfd}/${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}.odt</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -520,7 +520,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.odt</String>
+									<String>${cfd}/${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}.odt</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -601,13 +601,13 @@
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>cfn</String>
+												<String>cfne</String>
 											</field>
 											<field name="description">
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${cfn}</String>
+												<String>${cfne}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -627,7 +627,7 @@
 												<String>base file name of the arcticle (everything before "-source.xml")</String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}</String>
+											  <String>${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -734,7 +734,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/${xpath_eval(replace('${cfn}', '(.*)-source$', '$1'))}.pdf</String>
+								  <String>${cfd}/${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}.pdf</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
