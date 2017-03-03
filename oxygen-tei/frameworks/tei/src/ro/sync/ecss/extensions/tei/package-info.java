@@ -1,5 +1,5 @@
 /**
- * Implementations for the TEI P4 and P5 frameworks 
+ * Implementations for the TEI P5 framework 
  * (Java source also available in the Author SDK). 
  */
 

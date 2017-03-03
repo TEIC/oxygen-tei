@@ -3,10 +3,15 @@
   xmlns:unless="ant:unless">
   
   <property name="echo.separator" value="***********************************************************"/>
-<!-- Location of the release packages of P5 on SourceForge. -->
-  <property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> 
-<!-- Location of the release packages of the TEI Stylesheets on SourceForge. -->
-  <property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>
+<!-- Location of the release packages of P5 on GitHub. -->
+  <!--<property name="SFP5" value="http://downloads.sourceforge.net/project/tei/TEI-P5-all"/> -->
+  <!-- Release path is: https://github.com/TEIC/TEI/releases/download/P5_Release_3.0.0/tei-3.0.0.zip -->
+  <property name="GHP5" value="https://github.com/TEIC/TEI/releases/download"/>
+  
+<!-- Location of the release packages of the TEI Stylesheets on GitHub. -->
+  <!--<property name="SFXSL" value="http://downloads.sourceforge.net/project/tei/Stylesheets"/>-->
+  <!--  Release path is: https://github.com/TEIC/Stylesheets/releases/download/v7.41.0/tei-xsl-7.41.0.zip -->
+  <property name="GHXSL" value="https://github.com/TEIC/Stylesheets/releases/download"/>
   
 <!-- Where TEI releases of the plugin are available for download. -->
   <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/oxygen-tei/"/>
@@ -14,8 +19,8 @@
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
   <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
   
-<!-- NOTE: THIS WILL BE CHANGED TO oxygen-tei AT SOME POINT PER COUNCIL DECISION. -->
-  <property name="packageFilePrefix" value="teioxygen"/>
+<!-- The base name of the package we create. -->
+  <property name="packageFilePrefix" value="oxygen-tei"/>
   
   <target name="documentation">
     <echo message="${echo.separator}"/>
@@ -91,11 +96,13 @@ stable: This is also intended to run on the TEI's Jenkins build
   
   <target name="getStableVersions" depends="getStableVersionNums">
     <echo message="${echo.separator}"/>
-    <property name="p5Zip" value="${SFP5}/tei-${p5Version}.zip"/>
+    <!--    P5_Release_3.0.0/tei-3.0.0.zip -->
+    <property name="p5Zip" value="${GHP5}/P5_Release_${p5Version}/tei-${p5Version}.zip"/>
     <echo message="Retrieving ${p5Zip}"/>
     <get src="${p5Zip}" dest="tei.zip" usetimestamp="true"/>
     <echo message="${echo.separator}"/>
-    <property name="stylesheetsZip" value="${SFXSL}/tei-xsl-${stylesheetsVersion}.zip"/>
+    <!--    https://github.com/TEIC/Stylesheets/releases/download/v7.41.0/tei-xsl-7.41.0.zip -->
+    <property name="stylesheetsZip" value="${GHXSL}/v${stylesheetsVersion}/tei-xsl-${stylesheetsVersion}.zip"/>
     <echo message="Retrieving ${stylesheetsZip}"/>
     <get src="${stylesheetsZip}" dest="xsl.zip" usetimestamp="true"/>
   </target>
@@ -185,7 +192,7 @@ stable: This is also intended to run on the TEI's Jenkins build
     saxon is in the path, and we don't want the hassle of redistributing saxon9he. -->
     <exec executable="/bin/bash">
       <arg value="-c"/>
-      <arg value="saxon -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl"/>
+      <arg value="java -jar lib/saxon9he.jar -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl"/>
     </exec>
     <loadfile property="lastVersion" srcFile="lastVersion"/>
     <echo message="Previous release version of this plugin was ${lastVersion}."/>
@@ -209,7 +216,7 @@ If there are only changes to the plugin code itself,
     <fail message="${newVersion} is not a valid version number." unless="goodVersionNumber"/>
     
     <property name="newZipFileName" value="${packageFilePrefix}-${newVersion}.zip"/>
-    <property name="saxonCommand" value="saxon -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl -o:tei-c.org/updateSite.oxygen proposedVersionNumber=${newVersion} sfReleaseLocation=${sfReleaseLocation} newZipFileName=${newZipFileName}"/>
+    <property name="saxonCommand" value="java -jar lib/saxon9he.jar -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl -o:tei-c.org/updateSite.oxygen proposedVersionNumber=${newVersion} sfReleaseLocation=${sfReleaseLocation} newZipFileName=${newZipFileName}"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${saxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
@@ -310,7 +317,7 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
-    <property name="stableSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5Version} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${outputZip} jenkinsJobSuffix=stable"/>
+    <property name="stableSaxonCommand" value="java -jar lib/saxon9he.jar -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5Version} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${outputZip} jenkinsJobSuffix=stable"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${stableSaxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
@@ -342,7 +349,7 @@ has worked well. You will need shell access to tei-c.org.
   
   <target name="getLatestJenkinsBuildInformation">
     <echo message="${echo.separator}"/>
-    <property name="p5JenkinsBuild" value="../../../TEIP5/lastSuccessful/archive/P5/"/>
+    <property name="p5JenkinsBuild" value="../../../TEIP5-dev/lastSuccessful/archive/P5/"/>
     <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION"/>
     <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
@@ -354,7 +361,7 @@ has worked well. You will need shell access to tei-c.org.
     </script>
     <echo message="Latest P5 version built on Jenkins is: ${p5JenkinsVersion}"/>
     
-    <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets/lastSuccessful/archive/"/>
+    <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets-dev/lastSuccessful/archive/"/>
     <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}dist/doc/tei-xsl/VERSION"/>
     <loadfile property="tempStylesheetsJenkinsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
@@ -398,7 +405,7 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="Adding new build to updateSite.oxygen file."/>
     <property environment="env"/>
     <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
-    <property name="bleedingSaxonCommand" value="saxon -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} jenkinsJobSuffix=bleeding"/>
+    <property name="bleedingSaxonCommand" value="java -jar lib/saxon9he.jar -s:updateSite.oxygen -xsl:jenkins/updateSite.xsl -o:updateSite.oxygen teiVersionNumber=${p5JenkinsVersion} jenkinsBuildNumber=${buildNumber} currBuild=${now} hostname=${hostname} newZipFileName=${bleedingZip} jenkinsJobSuffix=bleeding"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${bleedingSaxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">

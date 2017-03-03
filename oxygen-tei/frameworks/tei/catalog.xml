@@ -3,9 +3,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
   <nextCatalog catalog="xml/tei/custom/schema/catalog.xml"/>
   <nextCatalog catalog="xml/tei/schema/catalog.xml"/>
-  
-  <nextCatalog catalog="xml/teip4/custom/schema/dtd/catalog.xml"/>
-  <nextCatalog catalog="xml/teip4/schema/dtd/catalog.xml"/>
     
   <nextCatalog catalog="xml/tei/stylesheet/catalog.xml"/> 
 </catalog>
