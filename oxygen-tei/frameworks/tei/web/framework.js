@@ -43,7 +43,7 @@ sync.tei.TeiExtension.prototype.editorCreated = function(editor) {
       actionsManager.registerAction('insert.table', insertTableAction);
     }
     addOldStyleTableActions(e.actionsConfiguration, "TEI", actionsManager);
-  });
+  }, true);
 };
 
 /**
@@ -86,7 +86,7 @@ function addOldStyleTableActions(actionsConfiguration, toolbarName, actionsManag
     actionsConfiguration.toolbars[0].children.push({
       "type": "list",
       "name": "Join or split table cells.",
-      "icon16": "/images/TableJoinSplit16.gif",
+      "icon16": "/images/TableJoinSplit16.png",
       "icon20": "/images/TableJoinSplit24.png",
       "children": split_join_actions
     });

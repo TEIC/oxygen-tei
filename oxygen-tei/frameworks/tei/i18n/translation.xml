@@ -7,125 +7,206 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key value="delete_empty_li_insert_paragraph">
+        <comment>Deletes the current element and creates a new element of another type.</comment>
+        <val lang="en_US">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+        <val lang="de_DE">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+        <val lang="fr_FR">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+        <val lang="ja_JP">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+        <val lang="nl_NL">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+    </key>
+<key value="convert_element_from_to">
+        <comment>Convert an element to another one</comment>
+        <val lang="en_US">Convert {0} to {1}</val>
+        <val lang="de_DE">Convert {0} to {1}</val>
+        <val lang="fr_FR">Convert {0} to {1}</val>
+        <val lang="ja_JP">Convert {0} to {1}</val>
+        <val lang="nl_NL">Convert {0} to {1}</val>
+    </key>
+<key type="action" value="Choose_media">
+        <comment>Media file chooser title.</comment>
+        <val lang="en_US">Choose Media</val>
+        <val lang="de_DE">Choose Media</val>
+        <val lang="fr_FR">Choose Media</val>
+        <val lang="ja_JP">Choose Media</val>
+        <val lang="nl_NL">Choose Media</val>
+    </key>
+<key value="Media_files">
+        <comment>Media file chooser file description.</comment>
+        <val lang="en_US">Media Files</val>
+        <val lang="de_DE">Media Files</val>
+        <val lang="fr_FR">Media Files</val>
+        <val lang="ja_JP">Media Files</val>
+        <val lang="nl_NL">Media Files</val>
+    </key>
+<key type="action" value="itemizedlist_description">
+        <comment>Insert Itemized List action description.</comment>
+        <val lang="en_US">Insert an itemized list</val>
+        <val lang="de_DE">Ungeordnete Liste einfügen</val>
+        <val lang="fr_FR">Insérer une liste détaillée</val>
+        <val lang="ja_JP">項目別リストを挿入</val>
+        <val lang="nl_NL">Een niet-geordende lijst invoegen</val>
+    </key>
+<key value="list.convert.exception">
+        <comment>Exception presented to user when it tries to convert selected content to lists. </comment>
+        <val lang="en_US">Could not convert the selection to list!\nPlease make sure that the selection contains only the following elements: any type of list, paragraphs, or inline content.</val>
+        <val lang="de_DE">Auswahl kann nicht in eine Liste konvertiert werden!\nStellen Sie fest, dass die Auswahl
+      nur die folgenden Elemente enthält: beliebige Listen, Paragraphen oder Inline-Elemente.</val>
+        <val lang="fr_FR">Impossible de convertir la sélection en liste!\nVeuillez vous assurer que la sélection contient uniquement les élément suivants : n'importe quel type de liste, des paragraphes ou du contenu en ligne.</val>
+        <val lang="ja_JP">選択をリストに変換できませんでした！\n選択には、あらゆる種類のリスト、段落、インラインコンテキストの要素のみが含まれていることを確認してください。</val>
+        <val lang="nl_NL">Kon de selectie niet naar een lijst converteren!\nZorg dat de selectie uitsluitend de volgende elementen bevat: een willekeurige soort lijst, paragrafen of inline inhoud.</val>
+    </key>
+<key value="table.convert.exception">
+        <comment>Exception presented to user when it tries to convert selected content to tables. </comment>
+        <val lang="en_US">Only lists, paragraphs or inline content can be converted to tables.</val>
+        <val lang="de_DE">Nur Listen, Paragraphen oder Inline-Elemente können in Tabellen konvertiert werden.</val>
+        <val lang="fr_FR">Uniquement les listes, les paragraphes ou le contenu en ligne peuvent être convertis en tableaux.</val>
+        <val lang="ja_JP">リスト、段落、インラインコンテキストのみがテーブルに変換できます。</val>
+        <val lang="nl_NL">Uitsluitend lijsten, paragrafen of inline inhoud kunnen naar tabellen worden geconverteerd.</val>
+   </key>
+<key value="table.wizard_description">
+        <comment>Description for the wizard used to insert a (CALS) table. </comment>
+        <val lang="en_US">Insert a new CALS table.</val>
+        <val lang="de_DE">Neue CALS-Tabelle einfügen.</val>
+        <val lang="fr_FR">Insère un nouveau tableau CALS.</val>
+        <val lang="ja_JP">新しいCALSテーブルを挿入する。</val>
+        <val lang="nl_NL">Voeg een nieuwe CALS-tabel in.</val>
+    </key>
+<key value="Properties">
+        <comment>Properties.</comment>
+        <val lang="en_US">Properties</val>
+        <val lang="de_DE">Eigenschaften</val>
+        <val lang="fr_FR">Propriétés</val>
+        <val lang="ja_JP">プロパティ</val>
+        <val lang="nl_NL">Eigenschappen</val>
+    </key>
 <key type="action" value="imagemap.toggle.area">
     <comment>An action that toggles the visibility of the area elements from an image map. </comment>
     <val lang="en_US">Image Map Details...</val>
-    <val lang="de_DE">Image Map Details...</val>
+    <val lang="de_DE">Image-Map-Details...</val>
     <val lang="fr_FR">Détails de l'Image Map...</val>
-    <val lang="ja_JP">Image Map Details...</val>
-    <val lang="nl_NL">Image Map Details...</val>
+    <val lang="ja_JP">イメージマップの詳細…</val>
+    <val lang="nl_NL">Details afbeeldingenmap...</val>
   </key>
 <key type="action" value="imagemap.toggle.area_description">
     <comment>The description of the action that toggles the visibility of the area elements from an image map.</comment>
     <val lang="en_US">Toggles on/off the visibility of the area elements from the image map.</val>
-    <val lang="de_DE">Toggles on/off the visibility of the area elements from the image map.</val>
+    <val lang="de_DE">Schaltet die Sichtbarkeit der area Elemente der Image-Map ein/aus.</val>
     <val lang="fr_FR">Active/Désactive la visibilité des éléments de surface de l'image map.</val>
-    <val lang="ja_JP">Toggles on/off the visibility of the area elements from the image map.</val>
-    <val lang="nl_NL">Toggles on/off the visibility of the area elements from the image map.</val>
+    <val lang="ja_JP">イメージマップから面積要素の可視性をオン/オフに切り替えます。</val>
+    <val lang="nl_NL">Schakelt de zichtbaarheid van de gebiedselementen in de afbeeldingenmap aan/uit.</val>
   </key>
 <key value="Image_map_editor">
         <comment>Image Map Editor</comment>
         <val lang="en_US">Image Map Editor</val>
-        <val lang="de_DE">Image Map Editor</val>
+        <val lang="de_DE">Image-Map-Editor</val>
         <val lang="fr_FR">Éditeur d'Image Map</val>
-        <val lang="ja_JP">Image Map Editor</val>
-        <val lang="nl_NL">Image Map Editor</val>
+        <val lang="ja_JP">イメージマップエディター</val>
+        <val lang="nl_NL">Afbeeldingenmapeditor</val>
     </key>
 <key value="edit_image_map_description">
         <comment>Edit image map action name description.</comment>
         <val lang="en_US">Edit the image map inside a specialized editor.</val>
-        <val lang="de_DE">Edit the image map inside a specialized editor.</val>
+        <val lang="de_DE">Bearbeite die Image-Map in einem speziellen Editor.</val>
         <val lang="fr_FR">Éditer l'image map dans un éditeur spécialisé.</val>
-        <val lang="ja_JP">Edit the image map inside a specialized editor.</val>
-        <val lang="nl_NL">Edit the image map inside a specialized editor.</val>
+        <val lang="ja_JP">専用エディター内のイメージマップを編集します。</val>
+        <val lang="nl_NL">Wijzig de afbeeldingenmap binnen een speciale editor.</val>
     </key>
 <key value="Action_not_marked_as_change">
         <comment>Label for confirmation.</comment>
         <val lang="en_US">This action will not be marked as a change. Do you want to continue?</val>
-        <val lang="de_DE">This action will not be marked as a change. Do you want to continue?</val>
+        <val lang="de_DE">Diese Aktion wird nicht als Änderung markiert. Möchten Sie fortfahren?</val>
         <val lang="fr_FR">Cette action ne sera pas marquée comme un changement. Voulez-vous continuer?</val>
-        <val lang="ja_JP">This action will not be marked as a change. Do you want to continue?</val>
-        <val lang="nl_NL">This action will not be marked as a change. Do you want to continue?</val>
+        <val lang="ja_JP">この操作は変更として記録されません。続行しますか？</val>
+        <val lang="nl_NL">Deze actie wordt niet als een wijziging gemarkeerd. Wilt u doorgaan?</val>
     </key>
 <key value="Track_changes">
         <comment>Title for a confirmation dialog.</comment>
         <val lang="en_US">Track changes</val>
-        <val lang="de_DE">Track changes</val>
+        <val lang="de_DE">Änderungen verfolgen</val>
         <val lang="fr_FR">Suivi des modifications</val>
-        <val lang="ja_JP">Track changes</val>
-        <val lang="nl_NL">Track changes</val>
+        <val lang="ja_JP">変更の追跡</val>
+        <val lang="nl_NL">Wijzigingen bijhouden</val>
     </key>
 <key type="action" value="delete.table.columns">
         <comment>Delete Column(s) action name.</comment>
         <val lang="en_US">Delete Column(s)</val>
-        <val lang="de_DE">Delete Column(s)</val>
+        <val lang="de_DE">Lösche Spalte(n)</val>
         <val lang="fr_FR">Supprimer une/des colonne(s)</val>
-        <val lang="ja_JP">Delete Column(s)</val>
-        <val lang="nl_NL">Delete Column(s)</val>
+        <val lang="ja_JP">列の削除</val>
+        <val lang="nl_NL">Kolom(men) verwijderen</val>
     </key>
 <key type="action" value="delete.table.rows">
         <comment>Delete Row(s) action name.</comment>
         <val lang="en_US">Delete Row(s)</val>
-        <val lang="de_DE">Delete Row(s)</val>
+        <val lang="de_DE">Lösche Zeile(n)</val>
         <val lang="fr_FR">Supprimer une/des ligne(s)</val>
-        <val lang="ja_JP">Delete Row(s)</val>
-        <val lang="nl_NL">Delete Row(s)</val>
+        <val lang="ja_JP">行の削除</val>
+        <val lang="nl_NL">Rij(en) verwijderen</val>
     </key>
 <key type="action" value="delete.table.rows_description">
         <comment>Delete Row(s) action description.</comment>
         <val lang="en_US">Delete the selected table row(s).</val>
-        <val lang="de_DE">Delete the selected table row(s).</val>
+        <val lang="de_DE">Lösche die markierten Tabellenzeile(n).</val>
         <val lang="fr_FR">Supprimer la/les ligne(s) sélectionnée(s).</val>
-        <val lang="ja_JP">Delete the selected table row(s).</val>
-        <val lang="nl_NL">Delete the selected table row(s).</val>
+        <val lang="ja_JP">選択したテーブル行を削除します。</val>
+        <val lang="nl_NL">Verwijder de geselecteerde tabelrij(en).</val>
     </key>
 <key type="action" value="delete.table.columns_description">
         <comment>Delete Column(s) action description.</comment>
         <val lang="en_US">Delete the selected table column(s).</val>
-        <val lang="de_DE">Delete the selected table column(s).</val>
+        <val lang="de_DE">Lösche die markierten Tabellenspalte(n).</val>
         <val lang="fr_FR">Supprimer la/les colonne(s) sélectionnée(s).</val>
-        <val lang="ja_JP">Delete the selected table column(s).</val>
-        <val lang="nl_NL">Delete the selected table column(s).</val>
+        <val lang="ja_JP">選択したテーブル列を削除します。</val>
+        <val lang="nl_NL">Verwijder de geselecteerde tabelkolom(men).</val>
     </key>
 <key type="action" value="table.join">
         <comment>Join action name.</comment>
         <val lang="en_US">Join</val>
-        <val lang="de_DE">Join</val>
+        <val lang="de_DE">Zusammenführen</val>
         <val lang="fr_FR">Fusionner</val>
-        <val lang="ja_JP">Join</val>
-        <val lang="nl_NL">Join</val>
+        <val lang="ja_JP">結合</val>
+        <val lang="nl_NL">Samenvoegen</val>
     </key>
 <key type="action" value="table.join_description">
         <comment>Join action description.</comment>
         <val lang="en_US">Join selected table cells.</val>
-        <val lang="de_DE">Join selected table cells.</val>
+        <val lang="de_DE">Markierte Tabellenzellen zusammenführen.</val>
         <val lang="fr_FR">Fusionner les cellules sélectionnées.</val>
-        <val lang="ja_JP">Join selected table cells.</val>
-        <val lang="nl_NL">Join selected table cells.</val>
+        <val lang="ja_JP">選択したテーブルセルを結合します。</val>
+        <val lang="nl_NL">Voeg de geselecteerde tabelcellen samen.</val>
     </key>
 <key value="Split_cells">
         <comment>Split Cells dialog title.</comment>
         <val lang="en_US">Split cells</val>
-        <val lang="de_DE">Split cells</val>
+        <val lang="de_DE">Zellen teilen</val>
         <val lang="fr_FR">Fractionner des cellules</val>
-        <val lang="ja_JP">Split cells</val>
-        <val lang="nl_NL">Split cells</val>
+        <val lang="ja_JP">セルの分割</val>
+        <val lang="nl_NL">Cellen splitsen</val>
     </key>
 <key type="action" value="table.split">
         <comment>Split Cell action name.</comment>
         <val lang="en_US">Split</val>
-        <val lang="de_DE">Split</val>
+        <val lang="de_DE">Teilen</val>
         <val lang="fr_FR">Fractionner</val>
-        <val lang="ja_JP">Split</val>
-        <val lang="nl_NL">Split</val>
+        <val lang="ja_JP">分割</val>
+        <val lang="nl_NL">Splitsen</val>
     </key>
 <key type="action" value="table.split_description">
         <comment>Split Cell action description.</comment>
         <val lang="en_US">Split the current table cell into multiple cells.</val>
-        <val lang="de_DE">Split the current table cell into multiple cells.</val>
+        <val lang="de_DE">Teile die markierte Tabellenzelle in mehrere Zellen.</val>
         <val lang="fr_FR">Fractionner la cellule courante en plusieurs cellules.</val>
-        <val lang="ja_JP">Split the current table cell into multiple cells.</val>
-        <val lang="nl_NL">Split the current table cell into multiple cells.</val>
+        <val lang="ja_JP">現在のテーブルセルを複数のセルに分割します。</val>
+        <val lang="nl_NL">Splits de huidige tabelcel in meerdere cellen.</val>
+    </key>
+<key type="action" value="orderedList_description">
+        <comment>Insert Ordered List action description.</comment>
+        <val lang="en_US">Insert an ordered list</val>
+        <val lang="de_DE">Geordnete Liste einfügen</val>
+        <val lang="fr_FR">Insérer une liste ordonnée</val>
+        <val lang="ja_JP">ソート済リストを挿入します</val>
+        <val lang="nl_NL">Voeg een geordende lijst in</val>
     </key>
 <key type="action" value="delete.table.row_description">
         <comment>Delete Row action description.</comment>
@@ -881,14 +962,6 @@
         <val lang="ja_JP">順序付けリストの挿入</val>
         <val lang="nl_NL">Voeg geordende lijst in</val>
     </key>
-<key type="action" value="ordered list_description">
-        <comment>Insert Ordered List action description.</comment>
-        <val lang="en_US">Insert an ordered list at the cursor position</val>
-        <val lang="de_DE">Eine geordnete Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérer une liste triée à la position du curseur</val>
-        <val lang="ja_JP">キャレット位置に順序付けリストの挿入</val>
-        <val lang="nl_NL">Voeg een geordende lijst in op de cursorpositie</val>
-    </key>
 <key type="action" value="itemizedlist">
         <comment>Insert Itemized List action name.</comment>
         <val lang="en_US">Insert Itemized List</val>
@@ -896,14 +969,6 @@
         <val lang="fr_FR">Insérer une liste détaillée</val>
         <val lang="ja_JP">箇条書きリストの挿入</val>
         <val lang="nl_NL">Voeg een niet-geordende lijst in</val>
-    </key>
-<key type="action" value="itemizedlist_description">
-        <comment>Insert Itemized List action description.</comment>
-        <val lang="en_US">Insert an itemized list at the cursor position</val>
-        <val lang="de_DE">Eine spezifizierte Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérer une liste détaillée à la position du curseur</val>
-        <val lang="ja_JP">キャレット位置に箇条書きリストの挿入</val>
-        <val lang="nl_NL">Voeg een niet-geordende lijst in op de cursorpositie</val>
     </key>
 <key type="action" value="insert.table.cell">
         <comment>Insert Cell action name.</comment>
@@ -1213,9 +1278,9 @@
 <key value="edit.properties_description">
         <comment>Description of action for editing properties of a node in the DITA map tree</comment>
         <val lang="en_US">View and edit the properties of the selected node(s).</val>
-        <val lang="de_DE">View and edit the properties of the selected node(s).</val>
+        <val lang="de_DE">Zeige und bearbeite die Eigenschaften des/der markierten Knoten(s).</val>
         <val lang="fr_FR">Afficher et éditer les propriétés du/des nœud(s) sélectionné(s).</val>
-        <val lang="ja_JP">View and edit the properties of the selected node(s).</val>
-        <val lang="nl_NL">View and edit the properties of the selected node(s).</val>
+        <val lang="ja_JP">選択したノードのプロパティを確認および編集します。</val>
+        <val lang="nl_NL">Bekijk en wijzig de eigenschappen van de geselecteerde node(s).</val>
     </key>
 </translation>

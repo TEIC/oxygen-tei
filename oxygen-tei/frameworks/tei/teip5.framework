@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="18.0" xml:space="preserve">
+<serialized version="19.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -82,7 +82,7 @@
 											<String>/images/Bold24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Bold16.gif</String>
+											<String>/images/Bold16.png</String>
 										</field>
 										<field name="accessKey">
 											<String>B</String>
@@ -174,7 +174,7 @@
 											<String>/images/Underline24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Underline16.gif</String>
+											<String>/images/Underline16.png</String>
 										</field>
 										<field name="accessKey">
 											<String>U</String>
@@ -220,7 +220,7 @@
 											<String>/images/Paragraph24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Paragraph16.gif</String>
+											<String>/images/Paragraph16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -378,7 +378,7 @@
 											<String>${i18n(ordered list)}</String>
 										</field>
 										<field name="description">
-											<String>${i18n(ordered list_description)}</String>
+											<String>${i18n(orderedList_description)}</String>
 										</field>
 										<field name="largeIconPath">
 											<String>/images/OrderedList24.png</String>
@@ -396,38 +396,13 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:list</String>
-													</field>
-													<field name="argValues">
-														<serializableOrderedMap>
-															<entry>
-																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
-															</entry>
-															<entry>
-																<String>insertPosition</String>
-																<String>Inside as first child</String>
-															</entry>
-														</serializableOrderedMap>
-													</field>
-													<field name="operationID">
-														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
-													</field>
-												</actionMode>
-												<actionMode>
-													<field name="xpathCondition">
 														<String></String>
 													</field>
 													<field name="argValues">
-														<serializableOrderedMap>
-															<entry>
-																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
-															</entry>
-														</serializableOrderedMap>
+														<serializableOrderedMap/>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+														<String>ro.sync.ecss.extensions.tei.TEIInsertListOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -462,38 +437,18 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>self::*:list</String>
-													</field>
-													<field name="argValues">
-														<serializableOrderedMap>
-															<entry>
-																<String>fragment</String>
-																<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
-															</entry>
-															<entry>
-																<String>insertPosition</String>
-																<String>Inside as first child</String>
-															</entry>
-														</serializableOrderedMap>
-													</field>
-													<field name="operationID">
-														<String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
-													</field>
-												</actionMode>
-												<actionMode>
-													<field name="xpathCondition">
 														<String></String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap>
 															<entry>
-																<String>fragment</String>
-																<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
+																<String>listType</String>
+																<String>itemizedlist</String>
 															</entry>
 														</serializableOrderedMap>
 													</field>
 													<field name="operationID">
-														<String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+														<String>ro.sync.ecss.extensions.tei.TEIInsertListOperation</String>
 													</field>
 												</actionMode>
 											</actionMode-array>
@@ -1264,7 +1219,7 @@
 											<String>/images/Image24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Image16.gif</String>
+											<String>/images/Image16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1276,7 +1231,7 @@
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>oxy:allows-child-element("figure")</String>
+														<String>oxy:allows-child-element("*:figure")</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap>
@@ -1292,7 +1247,7 @@
 												</actionMode>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>oxy:allows-child-element("graphic")</String>
+														<String>oxy:allows-child-element("*:graphic")</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -1367,7 +1322,7 @@
 											<String>/images/TableJoinRowCells24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableJoinRowCells16.gif</String>
+											<String>/images/TableJoinRowCells16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1408,7 +1363,7 @@
 											<String>/images/TableSplitCellLeft24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableSplitCellLeft16.gif</String>
+											<String>/images/TableSplitCellLeft16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1454,7 +1409,7 @@
 											<String>/images/TableSplitCellRight24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableSplitCellRight16.gif</String>
+											<String>/images/TableSplitCellRight16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1500,7 +1455,7 @@
 											<String>/images/TableJoinCellUp24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableJoinCellUp16.gif</String>
+											<String>/images/TableJoinCellUp16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1547,7 +1502,7 @@ ancestor-or-self::*:row)</String>
 											<String>/images/TableJoinCellDown24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableJoinCellDown16.gif</String>
+											<String>/images/TableJoinCellDown16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1594,7 +1549,7 @@ ancestor-or-self::*:row)</String>
 											<String>/images/TableSplitCellDown24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableSplitCellDown16.gif</String>
+											<String>/images/TableSplitCellDown16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -1640,7 +1595,7 @@ ancestor-or-self::*:row)</String>
 											<String>/images/TableSplitCellUp24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/TableSplitCellUp16.gif</String>
+											<String>/images/TableSplitCellUp16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -2012,6 +1967,30 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
+														<String>self::*:table and oxy:current-selected-element()</String>
+													</field>
+													<field name="argValues">
+														<serializableOrderedMap>
+															<entry>
+																<String>insertLocation</String>
+																<String>oxy:current-selected-element()</String>
+															</entry>
+															<entry>
+																<String>insertPosition</String>
+																<String>Before</String>
+															</entry>
+															<entry>
+																<String>namespace</String>
+																<String>http://www.tei-c.org/ns/1.0</String>
+															</entry>
+														</serializableOrderedMap>
+													</field>
+													<field name="operationID">
+														<String>ro.sync.ecss.extensions.tei.table.InsertSingleRowOperation</String>
+													</field>
+												</actionMode>
+												<actionMode>
+													<field name="xpathCondition">
 														<String>self::*:table</String>
 													</field>
 													<field name="argValues">
@@ -2363,7 +2342,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 											<actionMode-array>
 												<actionMode>
 													<field name="xpathCondition">
-														<String>ancestor-or-self::*:surface</String>
+														<String>ancestor-or-self::*:facsimile</String>
 													</field>
 													<field name="argValues">
 														<serializableOrderedMap/>
@@ -2959,6 +2938,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</contextProvider>
 							</field>
 							<field name="tableSupportClassName">
+								<null/>
+							</field>
+							<field name="tableCellSeparatorSupportClassName">
 								<null/>
 							</field>
 							<field name="tableColWidthSupportClassName">

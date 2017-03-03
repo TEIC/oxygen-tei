@@ -102,7 +102,7 @@
   <xsl:template match="e:a[@name != '']" priority="0.6">
       <xsl:variable name="hi">
           <hi xmlns="http://www.tei-c.org/ns/1.0">
-              <xsl:attribute name="id">
+              <xsl:attribute name="xml:id">
                   <xsl:call-template name="makeID">
                       <xsl:with-param name="string" select="normalize-space(@name)"/>
                   </xsl:call-template>
@@ -308,7 +308,7 @@
   </xsl:template>
   
   <xsl:template match="@id"> 
-    <xsl:attribute name="id">
+    <xsl:attribute name="xml:id">
       <xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>
