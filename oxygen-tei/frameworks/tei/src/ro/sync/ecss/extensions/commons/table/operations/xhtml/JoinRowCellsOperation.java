@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -67,7 +67,7 @@ import ro.sync.ecss.extensions.commons.table.operations.JoinRowCellsOperationBas
  * the content of the next cells will be moved. 
  * If there is no selection then the caret must be between two table cells.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class JoinRowCellsOperation extends JoinRowCellsOperationBase {
 

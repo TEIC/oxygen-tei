@@ -58,9 +58,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.commons.table.support.errorscanner.CALSAndHTMLTab
  * Updates the table width modification and the column widths in the document 
  * and in the layout model.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
 
   /**

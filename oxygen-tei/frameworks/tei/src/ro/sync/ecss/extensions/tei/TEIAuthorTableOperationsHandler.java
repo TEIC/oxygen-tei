@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.tei;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.ContentInterval;
@@ -74,7 +74,7 @@ import ro.sync.ecss.extensions.tei.table.InsertTableOperation;
 /**
  * Author table operations handler for TEIP4 framework.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIAuthorTableOperationsHandler extends AuthorTableOperationsHandler {
 
   /**

@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -66,7 +66,7 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 /**
  * An implementation of an insert/replace operation for an argument of type {@link String}.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class InsertOrReplaceTextOperation implements AuthorOperation {
   /**

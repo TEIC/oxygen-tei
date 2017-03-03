@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.commons.table.support.errorscanner;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 
 /**
  * CALS table layout problem
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public enum CALSAndHTMLTableLayoutProblem implements TableLayoutProblem {
   /**
    * A specific attribute must have a numeric value
@@ -138,7 +138,25 @@ public enum CALSAndHTMLTableLayoutProblem implements TableLayoutProblem {
    * {0} the column name specified in the table 
    * {2} the name of the attribute that specifies the wrong column name
    */
-  COLUMN_NAME_INCORRECT(Severity.ERROR); 
+  COLUMN_NAME_INCORRECT(Severity.ERROR),
+  
+  /**
+   * The column width value is not valid according to the specification.
+   * 
+   * en: "The column width ({0}) should be a mixture of proportional or measuring unit numbers."
+   * 
+   * {0} the column name specified in the table 
+   */
+  COLUMN_WIDTH_VALUE_INCORRECT(Severity.ERROR),
+  
+  /**
+   * The column width value is not valid according to the specification.
+   * 
+   * en: "The column width ({0}) must not contain measuring unit numbers."
+   * 
+   * {0} the column name specified in the table 
+   */
+  COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT(Severity.ERROR); 
 
   /**
    * Message tag

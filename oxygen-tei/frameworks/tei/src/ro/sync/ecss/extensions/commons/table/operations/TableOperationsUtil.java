@@ -61,20 +61,25 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.contentcompletion.xml.CIAttribute;
 import ro.sync.contentcompletion.xml.CIElement;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
+import ro.sync.ecss.css.CSS;
+import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
 import ro.sync.ecss.extensions.api.ContentInterval;
+import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelper;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
 import ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper;
@@ -82,7 +87,7 @@ import ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper;
 /**
  * Utility class for table operations.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TableOperationsUtil {
   
   /**
@@ -397,11 +402,10 @@ public class TableOperationsUtil {
       WhatElementsCanGoHereContext context =
           authorSchemaManager.createWhatElementsCanGoHereContext(caretOffset);
 
-      List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
-
-      if (childrenElements != null) {
-        elementsIteration:
-          for (int i = 0; i < childrenElements.size(); i++) {
+      if (context != null) {
+        List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
+        if (childrenElements != null) {
+          elemsIter : for (int i = 0; i < childrenElements.size(); i++) {
             // Iterate through possible elements and obtain the attributes.
             CIElement currentElement = childrenElements.get(i);
             List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
@@ -415,11 +419,12 @@ public class TableOperationsUtil {
                     && attrDefaultValue != null
                     && attrDefaultValue.contains(" task/choicetable ")) {
                   canInsertChoiceTable = true;
-                  break elementsIteration;
+                  break elemsIter;
                 }
               }
             }
           }
+        }
       }
 
       if (!canInsertChoiceTable) {
@@ -442,6 +447,95 @@ public class TableOperationsUtil {
     }
     
     return canInsertChoiceTable;
+  }
+  
+  /**
+   * Check if a table other than choicetable is allowed here.
+   * 
+   * @param authorAccess The author access.
+   * 
+   * @return <code>true</code> if a choice table can be inserted in the given context.
+   */
+  public static boolean areOtherTablesThanChoicetableAllowed(AuthorAccess authorAccess) {
+    boolean toReturn = false;
+    
+    try {
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+      
+      AuthorSchemaManager authorSchemaManager =
+          authorAccess.getDocumentController().getAuthorSchemaManager();
+      
+      // Create context
+      WhatElementsCanGoHereContext context =
+          authorSchemaManager.createWhatElementsCanGoHereContext(caretOffset);
+      
+      if (context != null) {
+        List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
+        if (childrenElements != null) {
+          elemsIter : for (int i = 0; i < childrenElements.size(); i++) {
+            // Iterate through possible elements and obtain the attributes.
+            CIElement currentElement = childrenElements.get(i);
+            List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
+            if (attributes != null) {
+              for (int j = 0; j < attributes.size(); j++) {
+                // Iterate through current element attributes.
+                CIAttribute currentAttribute = attributes.get(j);
+                String attrDefaultValue = currentAttribute.getDefaultValue();
+                // Check the class attribute
+                if ("class".equals(currentAttribute.getName())
+                    && attrDefaultValue != null
+                    && (attrDefaultValue.contains(" topic/table ")
+                        || attrDefaultValue.contains(" topic/simpletable ")  
+                           && !attrDefaultValue.contains(" task/choicetable "))) {
+                  toReturn = true;
+                  break elemsIter;
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (BadLocationException e) {
+      logger.warn(e, e);
+    }
+    
+    return toReturn;
+  }
+  
+  /**
+   * Check if a properties table is allowed as a global element.
+   * 
+   * @param authorAccess The author access.
+   * 
+   * @return <code>true</code> if the "properties" table element is a global element of the schema.
+   */
+  public static boolean isPropertiesTableGlobalElement(AuthorAccess authorAccess) {
+    boolean toReturn = false;
+    AuthorSchemaManager authorSchemaManager = authorAccess.getDocumentController().getAuthorSchemaManager();
+    List<CIElement> globalElements = authorSchemaManager.getGlobalElements();
+    if (globalElements != null) {
+      elemsIter : for (int i = 0; i < globalElements.size(); i++) {
+        // Iterate through possible elements and obtain the attributes.
+        CIElement currentElement = globalElements.get(i);
+        List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
+        if (attributes != null) {
+          for (int j = 0; j < attributes.size(); j++) {
+            // Iterate through current element attributes.
+            CIAttribute currentAttribute = attributes.get(j);
+            String attrDefaultValue = currentAttribute.getDefaultValue();
+            // Check the class attribute
+            if ("class".equals(currentAttribute.getName())
+                && attrDefaultValue != null
+                && attrDefaultValue.contains(" reference/properties ")) {
+              toReturn = true;
+              break elemsIter;
+            }
+          }
+        }
+      }
+    }
+
+    return toReturn;
   }
   
   /**
@@ -738,4 +832,70 @@ public class TableOperationsUtil {
     };
   }
   
+  /**
+   * Place the caret in the first cell of a table that was just inserted (a result of this operation
+   * is send as parameter)
+   *  
+   * @param authorAccess Author access.
+   * @param tableInfo Table information.
+   * @param controller Controller.
+   * @param result Insert operation result.
+   */
+  public static void placeCaretInFirstCell(AuthorAccess authorAccess, TableInfo tableInfo,
+      AuthorDocumentController controller, SchemaAwareHandlerResult result) {
+    if (result != null && tableInfo.getTitle() == null) {
+      Integer offs = (Integer) result.getResult(SchemaAwareHandlerResult.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
+      if (offs != null) {
+        try {
+          AuthorNode tableNode = controller.getNodeAtOffset(offs + 1);
+          if (tableNode instanceof AuthorElement) {
+            // Find the first cell to place the caret in.
+            AuthorElement firstCell = getFirstCell((AuthorElement) tableNode, authorAccess.getEditorAccess());
+
+            if (firstCell != null) {
+              // Place the caret in the first cell
+              authorAccess.getEditorAccess().setCaretPosition(firstCell.getStartOffset() + 1);
+            }
+          }
+        } catch (BadLocationException e) {
+          // Nothing to do.
+        }
+      }
+    }
+  }
+  /**
+   * Get the first cell element encountered, starting from the given parent element.
+   * 
+   * @param parentElement The parent element.
+   * @param authorEditorAccess Author editor access.
+   * @return The first cell element
+   */
+  private static AuthorElement getFirstCell(AuthorElement parentElement, AuthorEditorAccess authorEditorAccess) {
+    // Check the children
+    List<AuthorNode> contentNodes = parentElement.getContentNodes();
+    if (contentNodes != null) {
+      for (int i = 0; i < contentNodes.size(); i++) {
+        AuthorNode child = contentNodes.get(i);
+        // Check only elements
+        if (child.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+          AuthorElement childElement = (AuthorElement) child;
+          // Check if this is a cell
+          Styles styles = authorEditorAccess.getStyles(childElement);
+          if (styles.getDisplay() == CSS.TABLE_CELL) {
+            // Found a cell
+            return childElement;
+          } else {
+            // Check the children
+            AuthorElement firstCell = getFirstCell(childElement, authorEditorAccess);
+            if (firstCell != null) {
+              // Found a cell
+              return firstCell;
+            }
+          }
+        }
+      }
+    }
+    
+    return null;
+  }
 }

@@ -66,9 +66,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -87,7 +87,7 @@ import ro.sync.util.editorvars.EditorVariables;
  * An implementation of an operation to apply a script (XSLT or XQuery) on a element and replacing it with
  * the result of the transformation or inserting the result in the document.
  */
-
+@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
 public abstract class TransformOperation implements AuthorOperation {
   
   /**
@@ -414,8 +414,10 @@ public abstract class TransformOperation implements AuthorOperation {
         tmp = parent;
       }
       currentElementLocation = "/*[1]" + currentElementLocation; 
+    } else if (tmp.equals(sourceElement)) {
+      currentElementLocation = "/*";
     } else {
-      currentElementLocation ="/..";
+      currentElementLocation = "/..";
     }
     
     // The target element is where the result is put, depending on the action it can replace this element

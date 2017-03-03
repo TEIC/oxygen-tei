@@ -65,9 +65,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog;
@@ -77,7 +77,7 @@ import ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog;
  * 
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATableSplitCustomizerDialog extends OKCancelDialog {
   /**
    * Columns number chooser.

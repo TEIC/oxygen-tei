@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 
 /**
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
  *  
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface PropertySelectionController {
   /**
    * Method which controls the change of the selected key.

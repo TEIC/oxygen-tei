@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.exml.workspace.api.node.customizer.BasicRenderingInformation;
 import ro.sync.exml.workspace.api.node.customizer.NodeRendererCustomizerContext;
 import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
@@ -60,7 +60,7 @@ import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 /**
  * Empty implementation for {@link XMLNodeRendererCustomizer}.
  */
-
+@API(type = APIType.INTERNAL, src = SourceType.PUBLIC)
 public class XMLNodeRendererCustomizerAdapter extends XMLNodeRendererCustomizer {
 
   /**

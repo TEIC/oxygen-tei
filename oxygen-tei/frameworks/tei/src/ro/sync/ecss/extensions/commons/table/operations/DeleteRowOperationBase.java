@@ -61,9 +61,9 @@ import java.util.Set;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -82,7 +82,7 @@ import ro.sync.util.Equaler;
  * Operation used to delete table rows. If there is a selection in the table all the rows that intersect
  * that selection are removed. If there is no selection in the table, the row at caret is deleted.  
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class DeleteRowOperationBase extends AbstractTableOperation {
   
   /**

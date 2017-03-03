@@ -56,9 +56,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -67,12 +67,13 @@ import ro.sync.ecss.extensions.api.WidthRepresentation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.support.errorscanner.CALSAndHTMLTableLayoutProblem;
 
 
 /**
  * Provides information about the column width for DITA tables. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider {
 
   /**
@@ -167,7 +168,13 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
                 } catch (NumberFormatException e) {
                   // Nothing to do, the relative width will remain 0.
                 }
-              }
+              } else //Maybe it ends with an unit of measure...
+                if(token.endsWith("pt") || token.endsWith("px") || token.endsWith("in")){
+                  // Not a number.
+                  if (errorsListener != null) {
+                    errorsListener.add(tableElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT, token);
+                  }
+                }
               // Create the corresponding colwidth.
               WidthRepresentation colWidth = new WidthRepresentation(0f, null, relativeWidth, false);
               // Add the colwidth to the column widths list.

@@ -59,16 +59,18 @@ import net.sf.saxon.TransformerFactoryImpl;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorImageDecorator;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.NamespaceContext;
+import ro.sync.ecss.imagemap.IImageMapWrapper;
 import ro.sync.ecss.imagemap.ImageMapAccess;
+import ro.sync.ecss.imagemap.ImageMapFactory;
 import ro.sync.ecss.imagemap.ImageMapUtil;
 import ro.sync.ecss.imagemap.SupportedFrameworks;
 import ro.sync.exml.view.graphics.Graphics;
@@ -80,7 +82,7 @@ import ro.sync.exml.view.graphics.Rectangle;
  * @author mircea
  * @author alex_jitianu
  */
-
+@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
 public abstract class AuthorImageMapDecorator extends AuthorImageDecorator {
   /**
    * Logger for logging.
@@ -117,13 +119,6 @@ public abstract class AuthorImageMapDecorator extends AuthorImageDecorator {
   public void paint(Graphics g, int x, int y, int imageWidth, int imageHeight,
       Rectangle originalSize, AuthorNode element, AuthorAccess authorAccess, boolean wasAnnotated) {
 
-    // The scale factor. Usually 1.
-    double scaleFactor = 1.0;
-    
-    if (originalSize != null && originalSize.width != imageWidth) {
-      scaleFactor = imageWidth / (double) originalSize.width;
-    }
-    
     // Get the old transformer property.
     String oldProp = System.getProperty(TransformerFactory.class.getName());
     // Set a property that supports the "http://javax.xml.XMLConstants/feature/secure-processing" feature. 
@@ -162,17 +157,42 @@ public abstract class AuthorImageMapDecorator extends AuthorImageDecorator {
 
         int fontOfNodeSize = ImageMapUtil.getFontOfNodeSize(authorAccess, nodes[0]);
         
+        IImageMapWrapper imageMap = ImageMapFactory.getInstance().getImageMap(
+            framework,
+            authorAccess,
+            fontOfNodeSize,
+            authorAccess.getEditorAccess().getEditorLocation(),
+            uri2ProxyMappings,
+            asXML);
+        
+        Rectangle imageSize = new Rectangle(0, 0, imageWidth, imageHeight);
+        // Verificam daca avem imposed size... 
+        Rectangle imposedImageSize = imageMap.getImposedImageSize(imageSize);
+        
+        // The scale factor. Usually 1.
+        double scaleFactor = 1.0;
+        
+        // The size to be used for painting.
+        Rectangle theSize = imposedImageSize == null ? imageSize : imposedImageSize; 
+
+        // If no imposed image size or different 
+        if (!imageSize.equals(imposedImageSize)) {
+          if (originalSize != null && !originalSize.equals(theSize)) {
+            scaleFactor = theSize.width / (double) originalSize.width;
+          }
+        }
+        
+        // Paint the image map areas.
         ImageMapAccess.getInstance().paintImageMapAreas(
             g,
             x,
             y,
-            imageWidth,
-            imageHeight,
+            theSize.width,
+            theSize.height,
             scaleFactor,
             authorAccess,
-            asXML,
+            imageMap,
             framework,
-            uri2ProxyMappings,
             fontOfNodeSize,
             wasAnnotated);
       }

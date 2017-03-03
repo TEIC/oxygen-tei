@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -48,27 +48,49 @@
  *  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-package ro.sync.ecss.extensions.tei.id;
+package ro.sync.ecss.extensions.commons.operations;
 
-
-
-
-import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.ArgumentDescriptor;
+import ro.sync.ecss.extensions.api.ArgumentsMap;
+import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorOperation;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
- * Operation to auto generate IDs on the selected content.
+ * Operation that marks a webapp document as saved.
+ * 
+ * @author cristi_talau
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
-public class GenerateIDsTEIP4Operation extends
-    ro.sync.ecss.extensions.commons.id.GenerateIDsOperation {
-
+public class WebappMarkAsSavedOperation implements AuthorOperation {
   /**
-   * @see ro.sync.ecss.extensions.commons.id.GenerateIDsOperation#getUniqueAttributesRecognizer()
+   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
   @Override
-  protected UniqueAttributesRecognizer getUniqueAttributesRecognizer() {
-    return new TEIP4UniqueAttributesRecognizer();
+  public String getDescription() {
+    return "Marks the Web Author document as saved.";
   }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   */
+  @Override
+  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+      throws IllegalArgumentException, AuthorOperationException {
+    authorAccess.getEditorAccess().setModified(false);
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
+   */
+  @Override
+  public ArgumentDescriptor[] getArguments() {
+    return new ArgumentDescriptor[0];
+  }
+
 }

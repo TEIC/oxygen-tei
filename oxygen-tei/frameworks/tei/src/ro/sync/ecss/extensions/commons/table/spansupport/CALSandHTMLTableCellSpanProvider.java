@@ -50,16 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.spansupport;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.table.support.CALSandHTMLTableCellInfoProvider;
 
 /**
  * Empty implementation for backward compatibility .
  * A table cell span info provider used for frameworks that have both CALS and HTML tables.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSandHTMLTableCellSpanProvider extends CALSandHTMLTableCellInfoProvider {
  
 }

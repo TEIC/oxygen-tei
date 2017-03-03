@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,9 +60,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.UniqueAttributesRecognizer;
@@ -75,7 +76,7 @@ import ro.sync.ecss.extensions.api.node.AuthorParentNode;
 /**
  * Default unique attributes recognizer
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecognizer, ClipboardFragmentProcessor {
   
   /**
@@ -225,7 +226,8 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
    * @return The unique ID
    */
   protected String generateUniqueIDFor(String idGenerationPattern, AuthorElement element) {
-    return GenerateIDElementsInfo.generateID(idGenerationPattern, element.getLocalName());
+    URL edLocation = element.getXMLBaseURL();
+    return GenerateIDElementsInfo.generateID(idGenerationPattern, element.getLocalName(), edLocation != null ? edLocation.toString() : null);
   }
   
   /**

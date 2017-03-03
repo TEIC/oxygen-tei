@@ -50,25 +50,24 @@
  */
 package ro.sync.ecss.extensions.tei.id;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
-
 
 /**
  * Operation specific for TEI P5
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class TEIP5ConfigureAutoIDElementsOperation extends
-    TEIConfigureAutoIDElementsOperation {
+    TEIConfigureAutoIDElementsOperation implements TEIIDElementsConstants {
 
   /**
    * @see ro.sync.ecss.extensions.commons.id.ConfigureAutoIDElementsOperation#getDefaultOptionsXMLResourceName()
    */
   @Override
   protected String getDefaultOptionsXMLResourceName() {
-    return "idGenerationDefaultOptionsP5.xml";
+    return DEFAULT_OPTIONS_XML_RESOURCE_NAME;
   }
 }

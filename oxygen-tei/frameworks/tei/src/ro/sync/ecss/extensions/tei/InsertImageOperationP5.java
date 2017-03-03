@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.commons.ImageFileChooser;
 /**
  * Operation used to insert a TEI P5 graphic.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class InsertImageOperationP5 implements AuthorOperation {
   /**
@@ -74,13 +74,23 @@ public class InsertImageOperationP5 implements AuthorOperation {
   public static final String ARGUMENT_IMAGE_URL = "imageUrl";
   
   /**
+   * The element to wrap the '<graphic/>' element.
+   */
+  public static final String ARGUMENT_WRAP_IN = "wrapIn";
+  
+  /**
    * The arguments of the operation.
    */
   private static final ArgumentDescriptor[] arguments = new ArgumentDescriptor[] {
     new ArgumentDescriptor(
         ARGUMENT_IMAGE_URL, 
         ArgumentDescriptor.TYPE_STRING, 
-        "The URL of the image. If not defined, an image chooser will be shown.")
+        "The URL of the image. If not defined, an image chooser will be shown."),
+    new ArgumentDescriptor(
+        ARGUMENT_WRAP_IN, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "The name of the element to wrap the 'graphic' element. If not defined, just the 'graphic' element is inserted.")
+
   };
 
   /**
@@ -98,10 +108,17 @@ public class InsertImageOperationP5 implements AuthorOperation {
     }
     if(ref != null) {
       // Insert the graphic
+      
+      
+      String insert = "<graphic url=\"" + ref + "\" xmlns=\"http://www.tei-c.org/ns/1.0\" />";
+      Object wrapIn = args.getArgumentValue(ARGUMENT_WRAP_IN);
+      if (wrapIn instanceof String) {
+        // Wrap it eventually..
+        insert = "<" + wrapIn + " xmlns=\"http://www.tei-c.org/ns/1.0\" >" + insert + "</" +  wrapIn +">"; 
+      }
+      
       authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-          "<figure xmlns=\"http://www.tei-c.org/ns/1.0\">" +
-          "<graphic url=\"" + ref + "\"/>" +
-          "</figure>" ,
+          insert,
           authorAccess.getEditorAccess().getCaretOffset());
     }
   }

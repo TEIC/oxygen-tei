@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 /**
  * Base for insert Author table operation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface InsertTableOperationBase {
 
   /**
@@ -86,3 +86,5 @@ public interface InsertTableOperationBase {
       TableInfo tableInfo)
     throws AuthorOperationException;
 }
+
+

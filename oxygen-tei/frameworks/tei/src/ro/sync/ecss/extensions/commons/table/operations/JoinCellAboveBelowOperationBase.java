@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -69,7 +69,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * Operation for joining the content of two cells in the same column, from adjacent rows. 
  * The operation is possible only for cells that span over the same number of columns. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class JoinCellAboveBelowOperationBase extends AbstractTableOperation {
   
   /**

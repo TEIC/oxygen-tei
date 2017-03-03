@@ -55,9 +55,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorElementBaseInterface;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -67,7 +67,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * Sort operation for simple tables
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 abstract public class SimpleTableSortOperation extends TableSortOperation {
 
   /**

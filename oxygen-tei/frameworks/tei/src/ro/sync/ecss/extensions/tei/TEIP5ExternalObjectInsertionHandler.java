@@ -58,9 +58,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -74,7 +74,7 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertCon
 /**
  * Dropped URLs handler
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectInsertionHandler{
   
   /**
@@ -95,6 +95,7 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
         URL url = urls.get(i);
         ReferenceType type = types.get(i);
         String relativeLocation = authorAccess.getUtilAccess().makeRelative(base, url);
+        relativeLocation = authorAccess.getXMLUtilAccess().escapeAttributeValue(relativeLocation);
         SchemaAwareHandlerResult result = null;
         int cp = authorAccess.getEditorAccess().getCaretOffset();
         AuthorElement elementAtOffset = null; 
@@ -138,7 +139,7 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
    * Checks if the URL refers to an image.
    * 
    * @param authorAccess The author access.
-   * @param type The type.
+   * @param type The reference type.
    * @param url The URL.
    * 
    * @return <code>true</code> if the URL is an image reference.

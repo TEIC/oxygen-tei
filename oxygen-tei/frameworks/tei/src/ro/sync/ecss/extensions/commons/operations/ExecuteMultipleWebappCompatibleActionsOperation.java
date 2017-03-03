@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  * The actions must be defined by the corresponding framework, or one of the common actions for all frameworks
  * supplied by Oxygen.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class ExecuteMultipleWebappCompatibleActionsOperation extends ExecuteMultipleActionsOperation {
 }

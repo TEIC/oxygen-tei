@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.tei.table;
 
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 import ro.sync.ecss.extensions.commons.table.operations.TableCustomizer;
@@ -63,7 +63,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 /**
  * Customize a TEI table. It is used on Eclipse platform implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECTEITableCustomizer extends TableCustomizer {
   
   /**
@@ -95,7 +95,7 @@ public class ECTEITableCustomizer extends TableCustomizer {
       int predefinedColumnsCount, int defaultTableModel) {
     //Eclipse table customization
     ECTableCustomizerDialog tableCustomizerDialog = new ECTEITableCustomizerDialog(
-        (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
+        authorAccess, (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
     return tableCustomizerDialog.showDialog(tableInfo);
   }

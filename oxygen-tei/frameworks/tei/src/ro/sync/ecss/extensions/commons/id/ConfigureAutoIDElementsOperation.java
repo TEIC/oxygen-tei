@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -63,7 +63,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Operation used to configure elements for which ID generation is auto.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class ConfigureAutoIDElementsOperation implements AuthorOperation {
   
   /**

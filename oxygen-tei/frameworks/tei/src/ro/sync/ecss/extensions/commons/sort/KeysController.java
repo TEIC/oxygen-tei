@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.sort;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  *  Used for handling with a change of the keys selection.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface KeysController {
 
   /**

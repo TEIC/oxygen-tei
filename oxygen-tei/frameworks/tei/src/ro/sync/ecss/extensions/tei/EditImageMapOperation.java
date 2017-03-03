@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
  * Operation used to edit an ImageMap in TEI documents.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class EditImageMapOperation extends ro.sync.ecss.extensions.commons.operations.EditImageMapOperation {
   

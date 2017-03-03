@@ -50,27 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.support.errorscanner;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Table layout problem
  * 
  * @since 18
- * <br>
- * <br>
- * *********************************
- * <br>
- * EXPERIMENTAL - Subject to change
- * <br>
- * ********************************
- * </br>
- * <p>Please note that this API is not marked as final and it can change in one of the next versions of the application. If you have suggestions,
- * comments about it, please let us know.</p>
- * 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface TableLayoutProblem {
   /**
    * Problem severity

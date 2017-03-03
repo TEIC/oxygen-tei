@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.spansupport;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 /**
  * Provides cell spanning information about TEI tables.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
   
   /**

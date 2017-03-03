@@ -57,13 +57,14 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -76,7 +77,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Abstract class for operation used to insert a table row. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class InsertRowOperationBase extends AbstractTableOperation {
   
   /**
@@ -263,22 +264,30 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       String relativePosition) throws BadLocationException, AuthorOperationException {
     // Current/Reference row element
     AuthorElement referenceRowElement = null;
-    if(useCurrentRowTemplateOnInsert()) {
-      referenceRowElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW);
-      if(referenceRowElement == null) {
-        //We want to insert before.
-        AuthorElement table = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
-        if(table != null) {
-          //Probably the caret is between table rows.
-          if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)) {
-          	//We want to insert before. The reference row will be the one from below the caret.
-            AuthorNode nodeBelowCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() + 1);
+    AuthorDocumentController documentController = authorAccess.getDocumentController();
+    
+
+    referenceRowElement = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_ROW);
+    if(referenceRowElement == null) {
+      //We want to insert before.
+      AuthorElement table = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
+      if(table != null) {
+        //Probably the caret is between table rows.
+        if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)) {
+          AuthorNode fullySelectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
+          // EXM-36837: when selecting an entire row, "Insert Above" should insert above... d'ohhh
+          if (fullySelectedNode != null && tableHelper.isTableRow(fullySelectedNode)) {
+            referenceRowElement = (AuthorElement) fullySelectedNode;
+            xPathLocation = documentController.getXPathExpression(referenceRowElement.getStartOffset() + 1);
+          } else {
+            //We want to insert before. The reference row will be the one from below the caret.
+            AuthorNode nodeBelowCurrentOffset = documentController.getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() + 1);
             referenceRowElement = getElementAncestor(nodeBelowCurrentOffset, AuthorTableHelper.TYPE_ROW);
-          } else if(AuthorConstants.POSITION_AFTER.equals(relativePosition)) {
-            //We want to insert after. The reference row will be the one from above the caret.
-            AuthorNode nodeAboveCurrentOffset = authorAccess.getDocumentController().getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() - 1);
-            referenceRowElement = getElementAncestor(nodeAboveCurrentOffset, AuthorTableHelper.TYPE_ROW);
           }
+        } else if(AuthorConstants.POSITION_AFTER.equals(relativePosition)) {
+          //We want to insert after. The reference row will be the one from above the caret.
+          AuthorNode nodeAboveCurrentOffset = documentController.getNodeAtOffset(authorAccess.getEditorAccess().getCaretOffset() - 1);
+          referenceRowElement = getElementAncestor(nodeAboveCurrentOffset, AuthorTableHelper.TYPE_ROW);
         }
       }
     }
@@ -287,21 +296,21 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     String xmlFragment = "";
     // Build the XML fragment for as many rows as needed
     for (int i = 0; i < noOfRowsToBeInserted; i++) {
-      xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, namespace, 
+      xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, useCurrentRowTemplateOnInsert(), namespace, 
           AuthorConstants.POSITION_BEFORE.equals(relativePosition));
     }
 
     if (xmlFragment != "") {
       // Insert row fragment
-      authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+      documentController.insertXMLFragmentSchemaAware(
           xmlFragment, xPathLocation, relativePosition);
 
       if (referenceRowElement != null) {
          AuthorElement startUpdateRowSpansRow = referenceRowElement; 
         if(AuthorConstants.POSITION_BEFORE.equals(relativePosition)){
-          //The referenced row is below the row which gets inserted, only update rows which are before it
+          //The reference row is below the row which gets inserted, only update rows which are before it
           AuthorNode prevRow =
-              authorAccess.getDocumentController().getNodeAtOffset(referenceRowElement.getStartOffset() - 1);
+              documentController.getNodeAtOffset(referenceRowElement.getStartOffset() - 1);
           if (prevRow.getType() == AuthorNode.NODE_TYPE_ELEMENT && tableHelper.isTableRow(prevRow)) {
             startUpdateRowSpansRow = (AuthorElement) prevRow;
           } else {
@@ -399,6 +408,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @param authorAccess        The author access.
    * @param referenceRowElement The reference row element (from the caret position). 
    * @param tableElement        The table element.
+   * @param preferReferencedRow <code>true</code> to prefer the referenced row.
    * @param namespace           The namespace of the table row.
    * @param before <code>true</code> to insert before the reference row.
    *
@@ -410,13 +420,22 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       AuthorAccess authorAccess, 
       AuthorElement tableElement, 
       AuthorElement referenceRowElement,
+      boolean preferReferencedRow,
       String namespace, boolean before) throws BadLocationException {
     StringBuilder newRowStructure = null;
+    String defaultRowElementName = getRowElementName(tableElement);
     // Determine the row name
-    String rowName =
-      referenceRowElement != null ? referenceRowElement.getName() : getRowElementName(tableElement);
+    String rowName = defaultRowElementName;
+    if(defaultRowElementName == null){
+      //EXM-38582 fallback to reference row element
+      if(referenceRowElement != null){
+        rowName = referenceRowElement.getName();
+      }
+    } else if (preferReferencedRow){
+      rowName = referenceRowElement != null ? referenceRowElement.getName() : defaultRowElementName;
+    } 
     // Determine the namespace
-    namespace = referenceRowElement != null ? referenceRowElement.getNamespace() : namespace;
+    namespace = (preferReferencedRow && referenceRowElement != null) ? referenceRowElement.getNamespace() : namespace;
     if (rowName != null) {
       // Start row fragment 
       newRowStructure = new StringBuilder("<").append(rowName);
@@ -435,7 +454,16 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         
       }
       newRowStructure.append(">");
-      if (referenceRowElement != null) {
+      
+      boolean useReferenceRowElement = preferReferencedRow;
+      if(! useReferenceRowElement){
+        if(getCellElementName(tableElement, 0) == null){
+       	//EXM-38582 We will need to use the reference row element...
+          useReferenceRowElement = true;
+        }
+      }
+      
+      if (referenceRowElement != null && useReferenceRowElement) {
         AuthorTableCellSpanProvider spanProvider = tableHelper.getTableCellSpanProvider(tableElement);
 
         // Copy referenced row structure

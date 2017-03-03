@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -67,7 +67,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * An implementation of an operation that renames one or more elements identified by the given XPath expression.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class RenameElementOperation implements AuthorOperation {
   /**

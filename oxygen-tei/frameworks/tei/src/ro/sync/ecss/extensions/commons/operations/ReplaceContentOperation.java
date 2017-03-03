@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.io.StringReader;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
 /**
  * An implementation of an operation to replace the content of the document.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class ReplaceContentOperation implements AuthorOperation {
   /**
@@ -99,7 +99,7 @@ public class ReplaceContentOperation implements AuthorOperation {
     // The content.
     String content = (String) args.getArgumentValue(ARGUMENT_ATTRIBUTE_CONTENT);
     
-    authorAccess.getEditorAccess().reloadContent(new StringReader(content));
+    authorAccess.getEditorAccess().reloadContent(new StringReader(content), false);
   }
 
   /**

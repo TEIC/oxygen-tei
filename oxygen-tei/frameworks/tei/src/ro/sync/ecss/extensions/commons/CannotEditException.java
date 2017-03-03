@@ -50,16 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Cannot edit exception class, deprecated, base should be used instead...
  * 
  * @author radu_coravu
  */
-
+@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
 @Deprecated
 public class CannotEditException extends ro.sync.exml.workspace.api.images.handlers.CannotEditException {
 

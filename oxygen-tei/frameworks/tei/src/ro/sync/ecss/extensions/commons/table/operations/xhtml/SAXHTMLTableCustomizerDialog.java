@@ -54,9 +54,9 @@ import java.awt.Frame;
 
 import javax.swing.JCheckBox;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
  * Dialog used to customize XHTML table creation.
  * It is used on standalone implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
   
   /**
@@ -128,7 +128,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION));
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION) + ":");
     titleCheckBox.setName("Title checkbox");
     return titleCheckBox;
   }
@@ -147,7 +147,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected String getDefaultFrameValue(int tableModelType) {
-    return FRAME_VOID;
+    return UNSPECIFIED;
   }
 
   /**
@@ -201,6 +201,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
   /**
    * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
    */
+  @Override
   public String getHelpPageID() {
     return "add-table-xhtml";
   }

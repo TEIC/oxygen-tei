@@ -55,9 +55,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -78,7 +78,7 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 /**
  * Operation used to insert one or more CALS table columns.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class InsertColumnOperation extends InsertColumnOperationBase implements 
   CALSConstants, InsertTableCellsContentConstants {
@@ -157,20 +157,22 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     boolean insertBefore = false;
     
     //Look at how the colspecs were previously defined.
-    int numberOfCalNameSpec = 0;
-    int numberOfCalNumSpec = 0;
+    boolean addColwidth = colSpecs.size() == 0;
+    //Choose to specify a colname and colnum in the spanspec analysing the existing colspecs
+    boolean specifyColNum = colSpecs.size() == 0;
+    boolean specifyColName = colSpecs.size() == 0 ;
     for (Iterator iterator = colSpecs.iterator(); iterator.hasNext();) {
       CALSColSpec colSpec = (CALSColSpec) iterator.next();
-      if(colSpec.getColumnName() != null) {
-        numberOfCalNameSpec ++;
+      if(colSpec.getColumnName() != null && !specifyColName) {
+        specifyColName = true;
       }
-      if(colSpec.isColNumberSpecified()) {
-        numberOfCalNumSpec ++;
+      if(colSpec.isColNumberSpecified() && !specifyColNum) {
+        specifyColNum = true;
+      }
+      if (colSpec.getColWidth() != null && !addColwidth) {
+        addColwidth = true;
       }
     }
-    //Choose to specify a colname and colnum in the spanspec analysing the existing colspecs
-    boolean specifyColNum = colSpecs.size() == 0 || numberOfCalNumSpec > 0;
-    boolean specifyColName = colSpecs.size() == 0 || numberOfCalNameSpec > 0;
     
     for (Iterator iterator = colSpecs.iterator(); iterator.hasNext();) {
       CALSColSpec colSpec = (CALSColSpec) iterator.next();
@@ -182,13 +184,15 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     }
     // Determine the index in document where the new 'colspec' will be inserted
     int insertOffset = -1;
+    String preferredColspecElementName = ELEMENT_NAME_COLSPEC;
     if(previousColspecIndex != -1) {
       // Increase the 'colnum' attributes which are <= than the inserted column
       List<AuthorNode> contentNodes = tgroup.getContentNodes();
       // Increase the 'colnum' of the column specification that are after the inserted column  
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode colspecNodeCandidate = iterator.next();
-        if(isElement(colspecNodeCandidate, ELEMENT_NAME_COLSPEC)) {
+        if(tableHelper.isColspec(colspecNodeCandidate)) {
+          preferredColspecElementName = ((AuthorElement)colspecNodeCandidate).getLocalName();
           AttrValue colSpecNumber= ((AuthorElement)colspecNodeCandidate).getAttribute(ATTRIBUTE_NAME_COLNUM);
           if(colSpecNumber != null) {
             try {
@@ -214,7 +218,8 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
       int i = 0;
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode node = iterator.next();
-        if(isElement(node, ELEMENT_NAME_COLSPEC)) {
+        if(tableHelper.isColspec(node)) {
+          preferredColspecElementName = ((AuthorElement)node).getLocalName();
           if(i == previousColspecIndex) {
             // We found the 'colSpec', insert before or after it depending on the flag
             insertOffset = (insertBefore ? node.getStartOffset() : node.getEndOffset() + 1);
@@ -244,7 +249,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     for (int i = 0; i < noOfColumnsToBeInserted; i++) {
       if (insertOffset != -1) {
         
-        newColSpecFragment.append("<").append(ELEMENT_NAME_COLSPEC);
+        newColSpecFragment.append("<").append(preferredColspecElementName);
         if (namespace != null) {
           newColSpecFragment.append(" xmlns=\"").append(namespace).append("\"");
         }
@@ -272,18 +277,23 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
           newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLNUM);
           newColSpecFragment.append("=\"").append(newColumnIndex + i + 1).append("\"");
         }
-        // EXM-23813 Set a default column width to the colspec (1*)
-        String colWidth = getDefaultColWidthValue();
-        if (columnSpecification != null) {
-          WidthRepresentation colWidthRepresentation = columnSpecification.getWidthRepresentation();
-          if (colWidthRepresentation != null) {
-            // The colWidth is imposed from the column specification
-            colWidth = colWidthRepresentation.getWidthRepresentation();
+        
+        // EXM-37215: when the other colspecs don't have colwidths,
+        // also skip the addition of a colwidth for the newly inserted column
+        if (addColwidth) {
+          // EXM-23813 Set a default column width to the colspec (1*)
+          String colWidth = getDefaultColWidthValue();
+          if (columnSpecification != null) {
+            WidthRepresentation colWidthRepresentation = columnSpecification.getWidthRepresentation();
+            if (colWidthRepresentation != null) {
+              // The colWidth is imposed from the column specification
+              colWidth = colWidthRepresentation.getWidthRepresentation();
+            }
           }
-        }
-        if(colWidth != null) {
-          newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLWIDTH);
-          newColSpecFragment.append("=\"").append(colWidth).append("\"");
+          if(colWidth != null) {
+            newColSpecFragment.append(" ").append(ATTRIBUTE_NAME_COLWIDTH);
+            newColSpecFragment.append("=\"").append(colWidth).append("\"");
+          }
         }
         
         newColSpecFragment.append("/>");

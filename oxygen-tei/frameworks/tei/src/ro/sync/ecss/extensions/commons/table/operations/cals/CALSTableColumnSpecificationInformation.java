@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WidthRepresentation;
 import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation;
 
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInfo
  * into the clipboard and then used on paste column operation, as values for the
  * inserted column colspec attributes).
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSTableColumnSpecificationInformation extends TableColumnSpecificationInformation {
 
   /**

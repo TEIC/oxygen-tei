@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
@@ -62,7 +62,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  * 
  * @author sorin_carbunaru
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECTableRowInsertionCustomizerInvoker extends TableRowInsertionCustomizer {
   /**
    * The singleton instance.

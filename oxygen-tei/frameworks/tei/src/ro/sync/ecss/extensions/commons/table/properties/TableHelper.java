@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
@@ -61,7 +61,7 @@ import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
  * @author mihaela
  * Utility class to determine information about table nodes. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface TableHelper {
   /**
    * Test if an {@link AuthorNode} is an element and it has one of the following types:

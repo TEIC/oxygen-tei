@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 
 /**
@@ -60,7 +60,7 @@ import ro.sync.ecss.extensions.api.ArgumentDescriptor;
  * 
  * @since 14.1
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface InsertTableCellsContentConstants {
 
   /**

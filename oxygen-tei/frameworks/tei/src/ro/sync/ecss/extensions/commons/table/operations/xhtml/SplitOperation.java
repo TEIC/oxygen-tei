@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SplitOperationBase;
  * 
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class SplitOperation extends SplitOperationBase implements XHTMLConstants{
 

@@ -52,15 +52,15 @@ package ro.sync.ecss.extensions.commons.table.properties;
 
 import java.util.List;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * @author adriana_sbircea
  *
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class EditedTablePropertiesInfo {
   
   /**

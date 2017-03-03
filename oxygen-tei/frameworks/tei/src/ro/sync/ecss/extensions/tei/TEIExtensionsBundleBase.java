@@ -50,24 +50,34 @@
  */
 package ro.sync.ecss.extensions.tei;
 
+import org.apache.log4j.Logger;
 
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorActionEventHandler;
 import ro.sync.ecss.extensions.api.AuthorImageDecorator;
 import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.EditPropertiesHandler;
 import ro.sync.ecss.extensions.api.ExtensionsBundle;
 import ro.sync.ecss.extensions.api.TEIAuthorActionEventHandler;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
 import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 
 /**
  * The TEI framework extensions bundle.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
-
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = Logger.getLogger(TEIExtensionsBundleBase.class.getName());
+  
   /**
    * The TEI schema aware editing handler.
    */
@@ -137,5 +147,45 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
     }
     
     return decorator;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createEditPropertiesHandler()
+   */
+  @Override
+  public EditPropertiesHandler createEditPropertiesHandler() {
+    return new EditPropertiesHandler() {
+      
+      @Override
+      public String getDescription() {
+        return "Handles imagemap editing";
+      }
+      
+      @Override
+      public void editProperties(AuthorNode authorNode, AuthorAccess authorAccess) {
+        try {
+          new EditImageMapOperation().doOperation(authorAccess, null);
+        } catch (Exception e) {
+          logger.error(e, e);
+        }
+      }
+      
+      @Override
+      public boolean canEditProperties(AuthorNode authorNode) {
+        boolean isHandled = false;
+        if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+          AuthorElement element = (AuthorElement) authorNode;
+          if (element.getLocalName().equals("surface")) {
+            isHandled = true;
+          } else if (element.getLocalName().equals("graphic")) {
+            AuthorElement parent = (AuthorElement) element.getParentElement();
+            if (parent != null && parent.getLocalName().equals("surface")) {
+              isHandled = true;
+            }
+          }
+        }
+        return isHandled;
+      }
+    };
   }
 }

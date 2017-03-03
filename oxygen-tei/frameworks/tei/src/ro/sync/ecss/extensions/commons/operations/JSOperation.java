@@ -58,9 +58,9 @@ import java.net.URL;
 
 import org.mozilla.javascript.Function;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -95,7 +95,7 @@ import ro.sync.util.editorvars.EditorVariables;
  * file as a library of functions.
  * </p>
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class JSOperation implements AuthorOperation {
   /**

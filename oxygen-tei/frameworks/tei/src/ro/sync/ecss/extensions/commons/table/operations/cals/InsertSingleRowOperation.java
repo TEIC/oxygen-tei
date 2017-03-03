@@ -50,20 +50,35 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 
 /**
  * Operation used to insert a table row for DocBook v.4 or v.5 and for DITA CALS tables.. 
  * 
  * It does not allow custom insertion of multiple rows, and thus is webapp-compatible.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class InsertSingleRowOperation extends InsertRowOperation {
+  /**
+   * Constructor.
+   */
+  public InsertSingleRowOperation() {
+    super();
+  }
+  /**
+   * Constructor.
+   * 
+   * @param helper Table helper 
+   */
+  public InsertSingleRowOperation(AuthorTableHelper helper) {
+    super(helper);
+  }
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.cals.InsertRowOperation#getOperationArguments()
    */

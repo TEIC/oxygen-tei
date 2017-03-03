@@ -50,16 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.support;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WidthRepresentation;
 
 /**
  * The column specification for a CALS table model 
  * (e.g. DocBook or DITA tables).
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSColSpec {
   
   /**

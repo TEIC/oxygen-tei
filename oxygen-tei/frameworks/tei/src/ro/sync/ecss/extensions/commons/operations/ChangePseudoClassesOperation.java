@@ -55,9 +55,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -72,7 +72,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * An implementation of an operation to set a list of pseudo class values to nodes identified by an XPath expression
  * and to remove a list of values from nodes identified by an XPath expression.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class ChangePseudoClassesOperation  implements AuthorOperation {
   

@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.util.Map;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -67,7 +67,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  * The actions must be defined by the corresponding framework, or one of the common actions for all frameworks
  * supplied by Oxygen.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class ExecuteMultipleActionsOperation implements AuthorOperation {
   /**
@@ -90,7 +90,7 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
       new ArgumentDescriptor(
           ACTION_IDS, 
           ArgumentDescriptor.TYPE_STRING, 
-          "The action IDs which will be executed in sequence, separated by new lines.");
+          "The IDs of the actions that will be executed in sequence, separated either by new lines or by commas.");
     arguments[0] = argumentDescriptor;
   }
   
@@ -113,11 +113,14 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
     if (actionIDs != null) {
       //Split it.
       String ids = (String) actionIDs;
-      String[] allIds = ids.split("\n");
+      String[] allIds = ids.contains(",") ? ids.split(",") : ids.split("\n");
       Map<String, Object> authorExtensionActions = authorAccess.getEditorAccess().getActionsProvider().getAuthorExtensionActions();
       Map<String, Object> authorCommonActions = authorAccess.getEditorAccess().getActionsProvider().getAuthorCommonActions();
       for (int i = 0; i < allIds.length; i++) {
-        String id = allIds[i];
+        String id = allIds[i].trim();
+        if (id.isEmpty()) {
+          continue;
+        }
         boolean actionFound = false;
 
         if (authorExtensionActions != null) {

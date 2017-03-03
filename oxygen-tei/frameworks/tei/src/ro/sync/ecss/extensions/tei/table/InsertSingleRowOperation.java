@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 
@@ -61,7 +61,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  * 
  * It does not allow custom insertion of multiple rows, and thus is webapp-compatible.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class InsertSingleRowOperation extends InsertRowOperation {
   

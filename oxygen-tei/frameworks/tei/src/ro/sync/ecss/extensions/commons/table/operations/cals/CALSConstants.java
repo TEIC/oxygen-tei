@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Contains the names of the elements and attributes used in CALS table model
  * (e.g. DocBook or DITA tables).
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface CALSConstants {
   /**
    * The name of the element that defines a table.

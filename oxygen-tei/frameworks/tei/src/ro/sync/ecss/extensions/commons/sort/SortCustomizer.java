@@ -52,14 +52,14 @@ package ro.sync.ecss.extensions.commons.sort;
 
 import java.util.List;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Used for customizing the sorting information, typically through user interaction.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface SortCustomizer {
   /**
    * Obtain the sort information given some initial sort criteria.

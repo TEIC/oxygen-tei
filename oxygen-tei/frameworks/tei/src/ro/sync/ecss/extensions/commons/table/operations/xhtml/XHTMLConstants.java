@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * This interface contains the name of the elements and attributes used in XHTML.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface XHTMLConstants {
   
   /**

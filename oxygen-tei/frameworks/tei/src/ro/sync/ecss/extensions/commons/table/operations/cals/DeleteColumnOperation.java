@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.commons.table.operations.cals;
 import java.util.Iterator;
 import java.util.List;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -72,7 +72,7 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 /**
  * Operation used to delete a CALS table column.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class DeleteColumnOperation extends DeleteColumnOperationBase implements CALSConstants {
   
@@ -112,7 +112,7 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
       AuthorElement toRemove = spanProvider.getColSpecElement(colSpec);
       for (Iterator iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode node = (AuthorNode) iterator.next();
-        if (isElement(node, ELEMENT_NAME_COLSPEC)) {
+        if (tableHelper.isColspec(node)) {
           // The current node is 'colspec' 
           AuthorElement colSpecElem = (AuthorElement) node;
           if (colSpecElem == toRemove) {

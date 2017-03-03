@@ -75,9 +75,9 @@ import javax.swing.border.TitledBorder;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
@@ -91,7 +91,7 @@ import ro.sync.util.Resource;
  * 
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
   /**
    * Logger for logging.

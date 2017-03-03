@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 import ro.sync.ecss.extensions.commons.table.support.CALSandHTMLTableCellInfoProvider;
@@ -61,7 +61,7 @@ import ro.sync.ecss.extensions.commons.table.support.HTMLTableCellInfoProvider;
 /**
  * Interface containing all the default operation distributed with Oxygen.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface DefaultExtensions {
   /**
    * The array with default operations.
@@ -124,6 +124,12 @@ public interface DefaultExtensions {
       ReplaceContentOperation.class,
       // EXM-35810: promote demote list items on Web Author
       PromoteDemoteItemOperation.class,
+      // EXM-29044: Execute command line operations
+      ExecuteCommandLineOperation.class,
+      // EXM-36078: Move caret operation
+      MoveCaretOperation.class,
+      // WA-668: Webapp-only operation to mark a document as saved.
+      WebappMarkAsSavedOperation.class
   };
   
   

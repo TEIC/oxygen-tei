@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.commons.table.operations.JoinCellAboveBelowOperationBase;
 
@@ -61,7 +61,7 @@ import ro.sync.ecss.extensions.commons.table.operations.JoinCellAboveBelowOperat
  * CALS tables implementation. 
  * The operation is possible only for cells that span over the same number of columns. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class JoinCellAboveBelowOperation extends JoinCellAboveBelowOperationBase {
   

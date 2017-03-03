@@ -53,9 +53,9 @@ package ro.sync.ecss.extensions.commons.table.properties;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
  * 
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class TablePropertiesHelperBase implements TablePropertiesHelper {
 
   /**

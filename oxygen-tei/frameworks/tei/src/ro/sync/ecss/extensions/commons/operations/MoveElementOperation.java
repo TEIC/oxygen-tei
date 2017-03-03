@@ -51,12 +51,13 @@
 package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Position;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -75,7 +76,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNodeUtil;
  * 
  * @author alex_jitianu
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class MoveElementOperation implements AuthorOperation {
   
@@ -94,10 +95,11 @@ public class MoveElementOperation implements AuthorOperation {
    */
   private static final String ARGUMENT_DELETE_LOCATION = "deleteLocation";
   /**
-   * A string representation of an XML fragment. The moved node will be wrapped
-   * in this string before moving it in the destination.
+   * A string representation of an XML fragment. 
+   * The moved node will be inserted in the first leaf will be this fragment 
+   * and this fragment containing the moved node will be placed at the destination.
    */
-  private static final String ARGUMENT_SURROUND_FRAGMENT_LOCATION = "surroundFragment";
+  private static final String ARGUMENT_SURROUND_FRAGMENT = "surroundFragment";
   /**
    * An XPath expression that identifies the location where the node must be moved to.
    */
@@ -156,10 +158,10 @@ public class MoveElementOperation implements AuthorOperation {
     arguments[2] = argumentDescriptor;
     
     argumentDescriptor = new ArgumentDescriptor(
-        ARGUMENT_SURROUND_FRAGMENT_LOCATION,
+        ARGUMENT_SURROUND_FRAGMENT,
         ArgumentDescriptor.TYPE_FRAGMENT,
-        "A string representation of an XML fragment. The moved node will be wrapped "
-        + "in this string before moving it in the destination.");
+        "A string representation of an XML fragment. The moved node will be inserted in the first leaf will be this fragment "
+        + "and this fragment containing the moved node will be placed at the destination.");
     arguments[3] = argumentDescriptor;
     
     argumentDescriptor = new ArgumentDescriptor(
@@ -219,6 +221,8 @@ public class MoveElementOperation implements AuthorOperation {
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
+    // True if the moved node should be selected.
+    boolean selectNode = false;
     String sourceLocation = (String) args.getArgumentValue(ARGUMENT_SOURCE_LOCATION);
     AuthorNode toMoveNode = null;
     boolean processTrackChanges = AuthorConstants.ARG_VALUE_TRUE.equals(
@@ -240,7 +244,11 @@ public class MoveElementOperation implements AuthorOperation {
     if (logger.isDebugEnabled()) {
       logger.debug("To move " + toMoveNode);
     }
-    
+    // If the node to be moved is the selected node, we will try to select it
+    // after the move operation.
+    if (authorAccess.getEditorAccess().getFullySelectedNode() == toMoveNode) {
+      selectNode = true;
+    }
     if (toMoveNode != null) {
       AuthorNode toDeleteNode = toMoveNode;
       String toDeleteLocation = (String) args.getArgumentValue(ARGUMENT_DELETE_LOCATION);
@@ -271,6 +279,8 @@ public class MoveElementOperation implements AuthorOperation {
           }
 
           if (AuthorConstants.ARG_VALUE_TRUE.equals(moveOnlyContent)) {
+            // we cannot select the moved node, because we move its content...
+        	selectNode = false;
             if (toMoveNode.getStartOffset() + 1 != toMoveNode.getEndOffset()) {
               // Not an empty node.
               fragmentToMove = ctrl.createDocumentFragment(toMoveNode.getStartOffset() + 1, toMoveNode.getEndOffset() - 1);
@@ -294,8 +304,10 @@ public class MoveElementOperation implements AuthorOperation {
                   + toDeleteNode + ". Computed insertion offset " + insertionOffset);
             }
 
-            String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT_LOCATION);
+            String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT);
             if (fragment != null) {
+              // We add the node in a fragment, so we will not select it anymore
+              selectNode = false;
               // 1. The fragment is optional. Insert the fragment, if any.
               AuthorDocumentFragment xmlFragment = ctrl.createNewDocumentFragmentInContext(fragment, insertionOffset);
               ctrl.insertFragment(insertionOffset, xmlFragment);
@@ -310,15 +322,26 @@ public class MoveElementOperation implements AuthorOperation {
                 logger.debug("Insert location for moved: " + insertionOffset);
               }
             }
-
+            
             // 2. Move the node inside the given fragment.
             if (fragmentToMove != null) {
               // Can be null if we are moving the content of an empty node.
               ctrl.insertFragment(insertionOffset, fragmentToMove);
             }
-
+            // Keep a position after the insertion offset
+            Position insertPosition = ctrl.createPositionInContent(insertionOffset + 1);            
             // 3. Delete the node.
             ctrl.deleteNode(toDeleteNode);
+            // Select the moved node if that was selected before the move operation 
+            if (selectNode) {
+              AuthorNode toSelectNode = ctrl.getNodeAtOffset(insertPosition.getOffset());
+              if (toSelectNode != null) {
+                authorAccess.getEditorAccess().select(toSelectNode.getStartOffset(), toSelectNode.getEndOffset() + 1);
+              }
+            } else {
+              // Set the caret inside the moved node.
+              authorAccess.getEditorAccess().setCaretPosition(insertPosition.getOffset());
+            }
           } else {
             throw new AuthorOperationException("The XPath expression: " + targetLocationXPath + " - doesn't identify any node");
           }

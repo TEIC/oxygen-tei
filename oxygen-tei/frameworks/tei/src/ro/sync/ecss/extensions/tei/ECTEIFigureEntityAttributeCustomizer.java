@@ -53,15 +53,15 @@ package ro.sync.ecss.extensions.tei;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
  * Customize the value of the attribute for a TEI figure. It is used on Eclipse platform implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECTEIFigureEntityAttributeCustomizer {
   
   /**

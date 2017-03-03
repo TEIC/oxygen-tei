@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.link.ElementLocator;
 import ro.sync.ecss.extensions.api.link.ElementLocatorException;
 import ro.sync.ecss.extensions.api.link.ElementLocatorProvider;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.api.link.IDTypeVerifier;
  * <br>
  * - ID based links : the link represents the value of an attribute of type ID.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class DefaultElementLocatorProvider implements ElementLocatorProvider {
   
   /**

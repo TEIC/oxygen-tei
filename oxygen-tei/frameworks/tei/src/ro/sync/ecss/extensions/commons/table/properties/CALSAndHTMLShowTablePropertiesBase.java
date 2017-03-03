@@ -61,9 +61,9 @@ import java.util.Set;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
@@ -77,7 +77,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
  * 
  * @author adriana_sbircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTablePropertiesBaseOperation {
   /**
    * Array with common possible values for horizontal alignment 

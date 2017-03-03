@@ -71,9 +71,9 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -91,7 +91,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Sort operations base class.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class SortOperation implements AuthorOperation {
   /**
    * Holds an {@link AuthorDocumentFragment} and the associated key values used when sorting the fragments.

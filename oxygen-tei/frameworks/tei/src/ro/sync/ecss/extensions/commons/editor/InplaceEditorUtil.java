@@ -61,9 +61,9 @@ import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.editor.AuthorInplaceContext;
 import ro.sync.ecss.extensions.api.editor.InplaceEditorArgumentKeys;
 import ro.sync.exml.view.graphics.Dimension;
@@ -72,7 +72,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Utility methods for preparing the in-place editors for being displayed.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class InplaceEditorUtil {
   /**
    * Logger for logging.
@@ -224,13 +224,17 @@ public class InplaceEditorUtil {
       @Override
       public void run() {
         if(textField != null){
-          // If the text if longer than the available width we want the last part to be presented.
-          int length = textField.getText().length();
-          textField.setCaretPosition(length);
           try {
+            // If the text if longer than the available width we want the last part to be presented.
+            int length = textField.getText().length();
+            textField.setCaretPosition(length);
             final java.awt.Rectangle modelToView = textField.modelToView(length);
             if (modelToView != null) {
               textField.scrollRectToVisible(modelToView);
+            }
+          } catch (IllegalArgumentException e) {
+            if (logger.isDebugEnabled()) {
+              logger.debug(e, e);
             }
           } catch (BadLocationException e) {
             if (logger.isDebugEnabled()) {

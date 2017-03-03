@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Constants used to choose certain table attributes. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface TableCustomizerConstants {
   
   /**
@@ -242,7 +242,7 @@ public interface TableCustomizerConstants {
   /**
    * Default value for relative col widths.
    */
-  public static final String REL_COL_WIDTH_DEFAULT_VALUE = "1.0*";
+  public static final String REL_COL_WIDTH_DEFAULT_VALUE = "1*";
   /**
    * Fixed col width default value
    */

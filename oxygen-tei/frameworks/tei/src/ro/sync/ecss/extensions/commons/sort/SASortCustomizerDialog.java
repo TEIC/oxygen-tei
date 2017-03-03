@@ -65,9 +65,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.annotations.obfuscate.SkipLevel;
 import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
@@ -77,8 +77,8 @@ import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
 /**
  * Standalone implementation of the customizer used to select the criterion information used when sorting.
  */
-
-
+@API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
+@SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class SASortCustomizerDialog extends OKCancelDialog implements SortCustomizer, KeysController {
 
   /**

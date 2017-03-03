@@ -54,9 +54,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
  * An implementation of an operation to apply an XQuery script on a element and replacing it with
  * the result of the XQuery transformation, or inserting the result in the document.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class XQueryOperation extends TransformOperation {
   

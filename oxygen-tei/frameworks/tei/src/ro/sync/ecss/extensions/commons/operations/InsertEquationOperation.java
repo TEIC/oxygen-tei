@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -74,7 +74,7 @@ import ro.sync.exml.workspace.api.images.handlers.providers.EmbeddedImageContent
 /**
  * Operation used to insert an MathML Equation in any documents.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class InsertEquationOperation implements AuthorOperation {
   /**
@@ -98,14 +98,24 @@ public class InsertEquationOperation implements AuthorOperation {
    */
   public static final String MATH_ML = 
       "<mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\">" + 
-//      "<mml:mrow>" + 
-//      "<mml:msup><mml:mi>a</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-//      "<mml:mo>=</mml:mo>" +
-//      "<mml:msup><mml:mi>b</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-//      "<mml:mo>+</mml:mo>" +
-//      "<mml:msup><mml:mi>c</mml:mi><mml:mn>2</mml:mn>" + 
-//      "</mml:msup></mml:mrow>" + 
       "</mml:math>";
+
+  /**
+   * The MathML fragment representing the default equation for webapp.
+   * 
+   * We need some initial equation so that we can render a equation 
+   * for the user to click on.
+   */
+  public static final String WEBAPP_MATH_ML = 
+      "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\">" + 
+      "<m:mrow>" + 
+      "<m:msup><m:mi>a</m:mi><m:mn>2</m:mn></m:msup>" +
+      "<m:mo>=</m:mo>" +
+      "<m:msup><m:mi>b</m:mi><m:mn>2</m:mn></m:msup>" +
+      "<m:mo>+</m:mo>" +
+      "<m:msup><m:mi>c</m:mi><m:mn>2</m:mn>" + 
+      "</m:msup></m:mrow>" + 
+      "</m:math>";
 
   /**
    * Constructor to assign arguments.
@@ -202,9 +212,16 @@ public class InsertEquationOperation implements AuthorOperation {
     if (handler instanceof EditImageHandler) {
       return ((EditImageHandler)handler).editImage(cp);
     } else {
+      String webappContent = WEBAPP_MATH_ML;
+      String imageSerializedContent = cp.getImageSerializedContent();
+      if (imageSerializedContent.contains("mml:")) {
+        webappContent = webappContent.replace("<m:", "<mml:");
+        webappContent = webappContent.replace("</m:", "</mml:");
+        webappContent = webappContent.replace("xmlns:m", "xmlns:mml");
+      }
       // If the image handler is not an editing one, just assume that it did not change 
       // anything to its content.
-      return cp.getImageSerializedContent();
+      return webappContent;
     }
   }
 

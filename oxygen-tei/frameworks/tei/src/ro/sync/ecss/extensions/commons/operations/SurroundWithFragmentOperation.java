@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  * Surround with fragment operation. If selection exists the selected fragment is surrounded in a given fragment. If no selection exists,
  * the given fragment is simply inserted at the given position. In this case the insertion can be schema aware.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class SurroundWithFragmentOperation implements AuthorOperation {
   /**

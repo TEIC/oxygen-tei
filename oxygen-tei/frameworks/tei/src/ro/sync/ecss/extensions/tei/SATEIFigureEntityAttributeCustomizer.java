@@ -54,16 +54,16 @@ import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
  * Customize the value of the attribute for a TEI figure. 
  * It is used on standalone implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATEIFigureEntityAttributeCustomizer {
   
   /**

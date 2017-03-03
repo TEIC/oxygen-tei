@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -68,7 +68,7 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 /**
  * Implementation of the document type helper for CALS table model(DocBook and DITA).
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implements CALSConstants {
   /**
    * The list of row element names for CALS Table.

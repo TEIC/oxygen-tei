@@ -54,9 +54,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -72,7 +72,7 @@ import ro.sync.ecss.imagemap.SupportedFrameworks;
  *
  * @author mircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class EditImageMapCore {
   
   /**

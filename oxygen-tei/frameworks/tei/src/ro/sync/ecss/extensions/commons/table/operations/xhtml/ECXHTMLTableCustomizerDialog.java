@@ -58,9 +58,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
@@ -68,13 +69,13 @@ import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 /**
  * Dialog used to customize XHTML table creation. It is used on Eclipse platform implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   
   /**
    * Possible values for 'frame' attribute.
    */
-  private static final String[] TABLE_FRAME_VALUES =
+  public static final String[] TABLE_FRAME_VALUES =
   {
     FRAME_VOID,
     FRAME_ABOVE,
@@ -102,14 +103,15 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   /**
    * Constructor.
    * 
+   * @param authorAccess The Author access.
    * @param parentShell The parent shell for the dialog.
    * @param authorResourceBundle The author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
    */
-  public ECXHTMLTableCustomizerDialog(Shell parentShell, AuthorResourceBundle authorResourceBundle,
+  public ECXHTMLTableCustomizerDialog(AuthorAccess authorAccess, Shell parentShell, AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, int predefinedColumnsCount) {
-    super(parentShell, true, true, false, false, false, false, false, false, true, authorResourceBundle, 
+    super(authorAccess, parentShell, true, true, false, false, false, false, false, false, true, authorResourceBundle, 
         predefinedRowsCount, predefinedColumnsCount);
   }
 
@@ -144,7 +146,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    */
   @Override
   protected String getDefaultFrameValue(int tableModelType) {
-    return FRAME_VOID;
+    return UNSPECIFIED;
   }
 
   /**
@@ -198,6 +200,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getHelpPageID()
    */
+  @Override
   public String getHelpPageID() {
     return "add-table-xhtml";
   }

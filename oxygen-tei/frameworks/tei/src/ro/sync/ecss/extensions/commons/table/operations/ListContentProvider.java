@@ -44,9 +44,9 @@ import java.util.Collection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Empty implementation for the general purpose list (Collection) content provider.
@@ -54,7 +54,7 @@ import org.eclipse.jface.viewers.Viewer;
  * @created Oct 24, 2005
  * @author mircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ListContentProvider implements IStructuredContentProvider {
   /**
    * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)

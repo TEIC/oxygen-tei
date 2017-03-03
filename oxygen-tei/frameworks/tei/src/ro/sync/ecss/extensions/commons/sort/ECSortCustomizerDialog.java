@@ -68,9 +68,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.annotations.obfuscate.SkipLevel;
 import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
@@ -80,8 +80,8 @@ import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 /**
  *  Eclipse implementation of the customizer used to select the criterion information used when sorting.
  */
-
-
+@API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
+@SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer, KeysController {
   /**
    * Radio button used to enable the sorting of all the children from a parent element.

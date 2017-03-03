@@ -57,9 +57,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
@@ -67,20 +68,21 @@ import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 /**
  * The dialog used to customize a TEI table. It is used on Eclipse platform implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECTEITableCustomizerDialog extends ECTableCustomizerDialog {
   
   /**
    * Constructor.
    * 
+   * @param authorAccess The Author access.
    * @param parentShell The parent shell for the dialog.
    * @param authorResourceBundle The author resource bundle.
    * @param predefinedRowsCount The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
    */
-  public ECTEITableCustomizerDialog(Shell parentShell, AuthorResourceBundle authorResourceBundle,
+  public ECTEITableCustomizerDialog(AuthorAccess authorAccess, Shell parentShell, AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, int predefinedColumnsCount) {
-    super(parentShell, false, false, false, authorResourceBundle,  
+    super(authorAccess, parentShell, false, false, false, authorResourceBundle,  
         predefinedRowsCount, predefinedColumnsCount);
   }
   
@@ -172,6 +174,7 @@ public class ECTEITableCustomizerDialog extends ECTableCustomizerDialog {
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getHelpPageID()
    */
+  @Override
   public String getHelpPageID() {
     return "author-teip5-actions";
   }

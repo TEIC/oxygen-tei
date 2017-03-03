@@ -53,16 +53,16 @@ package ro.sync.ecss.extensions.commons.id;
 import java.awt.Component;
 import java.awt.Frame;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
  * Customize the list of elements for auto ID generation.
  * It is used on standalone implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SAIDElementsCustomizer {
   
   /**

@@ -55,9 +55,9 @@ import java.util.List;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Segment;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 /**
  * Operation used to auto generate IDs for the elements included in the selected fragment.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class GenerateIDsOperation implements AuthorOperation {
   
   /**
@@ -82,53 +82,70 @@ public abstract class GenerateIDsOperation implements AuthorOperation {
     UniqueAttributesRecognizer attrsAssigner = getUniqueAttributesRecognizer();
     if(attrsAssigner != null) {
       attrsAssigner.activated(authorAccess);
-      
       if(authorAccess.getEditorAccess().hasSelection()) {
         List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
-        // EXM-29244 Generate IDs on multiple selection
-        for (ContentInterval contentInterval : selectionIntervals) {
-          int startSel = contentInterval.getStartOffset();
-          // Inclusive end
-          int endSel = contentInterval.getEndOffset();
-          
-          try {
-            //But maybe a node is completely engulfed in the selection
-            AuthorNode nodeAtEndSel = authorAccess.getDocumentController().getNodeAtOffset(endSel - 1);
-            if(startSel == nodeAtEndSel.getStartOffset() && nodeAtEndSel.getEndOffset() == endSel - 1) {
-              //EXM-19319 This is the case, force ID generation on the totally engulfed node.
-              attrsAssigner.assignUniqueIDs(nodeAtEndSel.getStartOffset(), nodeAtEndSel.getStartOffset(), true);
-            } else {
-              int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(startSel, endSel);
-              int start = balancedSelection[0];
-              int end = balancedSelection[1];
-              Segment seg = new Segment();
-              // Get all the selection chars
-              authorAccess.getDocumentController().getChars(start, end - start, seg);
-
-              // Iterate the current segment chars and assign ID-s to all the first-level nodes
-              for (int i = 0; i < seg.count; i++) {
-                // Current char
-                char chr = seg.array[seg.offset + i];
-                boolean isSentinel = chr == 0;
-                if (isSentinel) {
-                  // The offset in document corresponding to the current char
-                  int offsetInDoc = start + i;
-                  AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offsetInDoc + 1);
-                  if (nodeAtOffset.getStartOffset() == offsetInDoc) {
-                    // Skip this node
-                    i += nodeAtOffset.getEndOffset() - nodeAtOffset.getStartOffset();
-                    if (nodeAtOffset.getEndOffset() <= end - 1) {
-                      // Assign an ID if this node is fully selected
-                      attrsAssigner.assignUniqueIDs(offsetInDoc, offsetInDoc, true);
+        AuthorNode parentOfChange = authorAccess.getDocumentController().getAuthorDocumentNode();
+        int minOffset = -1;
+        int maxOffset = -1;
+        authorAccess.getDocumentController().disableLayoutUpdate();
+        try{
+          // EXM-29244 Generate IDs on multiple selection
+          for (ContentInterval contentInterval : selectionIntervals) {
+            int startSel = contentInterval.getStartOffset();
+            // Inclusive end
+            int endSel = contentInterval.getEndOffset();
+            minOffset = Math.min(startSel, minOffset);
+            maxOffset = Math.max(endSel, maxOffset);
+            try {
+              //But maybe a node is completely engulfed in the selection
+              AuthorNode nodeAtEndSel = authorAccess.getDocumentController().getNodeAtOffset(endSel - 1);
+              if(startSel == nodeAtEndSel.getStartOffset() && nodeAtEndSel.getEndOffset() == endSel - 1) {
+                //EXM-19319 This is the case, force ID generation on the totally engulfed node.
+                attrsAssigner.assignUniqueIDs(nodeAtEndSel.getStartOffset(), nodeAtEndSel.getStartOffset(), true);
+              } else {
+                int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(startSel, endSel);
+                int start = balancedSelection[0];
+                int end = balancedSelection[1];
+                Segment seg = new Segment();
+                // Get all the selection chars
+                authorAccess.getDocumentController().getChars(start, end - start, seg);
+                
+                // Iterate the current segment chars and assign ID-s to all the first-level nodes
+                for (int i = 0; i < seg.count; i++) {
+                  // Current char
+                  char chr = seg.array[seg.offset + i];
+                  boolean isSentinel = chr == 0;
+                  if (isSentinel) {
+                    // The offset in document corresponding to the current char
+                    int offsetInDoc = start + i;
+                    AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offsetInDoc + 1);
+                    if (nodeAtOffset.getStartOffset() == offsetInDoc) {
+                      // Skip this node
+                      i += nodeAtOffset.getEndOffset() - nodeAtOffset.getStartOffset();
+                      if (nodeAtOffset.getEndOffset() <= end - 1) {
+                        // Assign an ID if this node is fully selected
+                        attrsAssigner.assignUniqueIDs(offsetInDoc, offsetInDoc, true);
+                      }
                     }
                   }
                 }
               }
+              attrsAssigner.assignUniqueIDs(startSel, endSel - 1, false);
+            } catch (BadLocationException e) {
+              // Ignore
             }
-            attrsAssigner.assignUniqueIDs(startSel, endSel - 1, false);
-          } catch (BadLocationException e) {
-            // Ignore
           }
+        } finally {
+          //Re-enable the layout update.
+          if(maxOffset != -1 && minOffset != -1){
+            try {
+              parentOfChange = authorAccess.getDocumentController().getCommonParentNode(authorAccess.getDocumentController().getAuthorDocumentNode(), 
+                  minOffset, maxOffset);
+            } catch (BadLocationException e) {
+              //Ignore
+            }
+          }
+          authorAccess.getDocumentController().enableLayoutUpdate(parentOfChange);
         }
       } else {
         try {

@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.commons.table.support;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Contains information about column span for the CALS table model 
  * (e.g. DocBook or DITA tables). 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSColSpanSpec {
   
   /**

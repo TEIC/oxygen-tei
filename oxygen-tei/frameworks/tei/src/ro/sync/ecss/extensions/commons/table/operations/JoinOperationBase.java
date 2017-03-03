@@ -58,9 +58,9 @@ import java.util.Map;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
 /**
  * Operation for joining the content of selected cells.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class JoinOperationBase extends AbstractTableOperation {
   /**
    * Cursor outlide the table error message

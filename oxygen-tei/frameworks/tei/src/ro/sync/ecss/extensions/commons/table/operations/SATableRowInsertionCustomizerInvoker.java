@@ -54,9 +54,9 @@ import java.awt.Component;
 
 import javax.swing.JFrame;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  * 
  * @author sorin_carbunaru
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATableRowInsertionCustomizerInvoker extends TableRowInsertionCustomizer {
   /**
    * The singleton instance.

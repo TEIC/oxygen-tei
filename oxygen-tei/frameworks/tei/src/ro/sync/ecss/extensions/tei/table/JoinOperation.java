@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
 /**
  * Operation for joining the content of selected cells.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class JoinOperation extends JoinOperationBase {
 

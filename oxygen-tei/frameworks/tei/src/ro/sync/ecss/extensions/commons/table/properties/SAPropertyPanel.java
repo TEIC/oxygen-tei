@@ -69,9 +69,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListCellRenderer;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.annotations.obfuscate.SkipLevel;
 import ro.sync.annotations.obfuscate.SkipObfuscate;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -84,8 +84,8 @@ import ro.sync.ecss.extensions.api.AuthorResourceBundle;
  * 
  * @author adriana_sbircea
  */
-
-
+@API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
+@SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class SAPropertyPanel {
 
   /**

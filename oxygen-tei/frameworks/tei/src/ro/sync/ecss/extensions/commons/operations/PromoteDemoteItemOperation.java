@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.common.CommonAccess;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -72,7 +72,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  * @author sorin_carbunaru
  * @author cristi_talau
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class PromoteDemoteItemOperation implements AuthorOperation {
 

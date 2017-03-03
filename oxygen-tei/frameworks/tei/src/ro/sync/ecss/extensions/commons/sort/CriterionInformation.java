@@ -50,15 +50,15 @@
  */
 package ro.sync.ecss.extensions.commons.sort;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 
 /**
  * Holds information about a single sorting criterion.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CriterionInformation {
   /**
    * Type enumeration.

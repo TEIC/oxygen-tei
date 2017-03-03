@@ -50,24 +50,35 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.swing.text.Position;
 
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.ConversionElementHelper;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.SelectedFragmentInfo;
 import ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase;
-import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants;
-import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants.ColumnWidthsType;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 import ro.sync.exml.workspace.api.Platform;
@@ -75,7 +86,7 @@ import ro.sync.exml.workspace.api.Platform;
 /**
  * Operation used to insert a XHTML table.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
 
@@ -83,6 +94,35 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
 	 * Namespace for XHTML v.1.x.
 	 */
   private static final String NAMESPACE = "http://www.w3.org/1999/xhtml";
+  
+  /**
+   * Conversion element checker
+   */
+  private static final ConversionElementHelper CONVERSION_ELEMENT_CHECKER = new ConversionElementHelper() {
+    /**
+     * @see ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.ConversionElementHelper#blockContentMustBeConverted(ro.sync.ecss.extensions.api.node.AuthorNode, ro.sync.ecss.extensions.api.AuthorAccess)
+     */
+    @Override
+    public boolean blockContentMustBeConverted(AuthorNode node, AuthorAccess authorAccess) throws AuthorOperationException {
+      boolean canBeConverted = false;
+      if (node instanceof AuthorElement) {
+        AuthorElement element = (AuthorElement) node;
+        String name = element.getLocalName();
+        if (name != null) {
+          if ("p".equals(name) || "li".equals(name) || "dd".equals(name) || "dt".equals(name)
+              || "ul".equals(name) || "ol".equals(name) || "dl".equals(name)) {
+            canBeConverted = true;
+          }
+        }
+      }
+      
+      if (!canBeConverted) {
+        throw new AuthorOperationException(authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.TABLE_CONVERT_EXCEPTION));
+      }
+      
+      return canBeConverted;
+    }
+  };
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
@@ -94,20 +134,55 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
     TableInfo tableInfo = tableInfoObj != null ? 
         new TableInfo((Map<String, Object>) tableInfoObj) : null; 
-    insertTable(null, false, authorAccess, null, null, tableInfo);
+      
+    AuthorDocumentFragment[] fragments = null;
+    List<Map<String, String>> attributes = null;
+    // Check the selected content fragments to be converted to cell fragments.
+    List<SelectedFragmentInfo> selectedFrags = CommonsOperationsUtil.getSelectedFragmentsForConversions(authorAccess, CONVERSION_ELEMENT_CHECKER);
+    if (selectedFrags != null) {
+      // Determine fragments
+      fragments = new AuthorDocumentFragment[selectedFrags.size()];
+      attributes = new ArrayList<Map<String,String>>(selectedFrags.size());
+      
+      for (int i = 0; i < selectedFrags.size(); i++) {
+        SelectedFragmentInfo currentFrag = selectedFrags.get(i);
+        fragments[i] = currentFrag.getSelectedFragment();
+        // Determine attributes
+        attributes.add(currentFrag.getAttributes());
+      }
+    }
+    // Insert table
+    insertTable(
+        fragments, attributes,
+        false, authorAccess, null, null, tableInfo);
   }
 
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper, ro.sync.ecss.extensions.commons.table.operations.TableInfo)
+   * If the fragments array is not null, this method converts the given fragments array into a table. 
+   * Each fragments will correspond to a cell. The resulting table will have one column and as many rows as fragments length.
+   * 
+   * If no fragment is provided an empty table is inserted (a dialog is shown
+   * to choose all the table properties)
+   * 
+   * @param fragments An array of AuthorDocumentFragments that are used as content of the inserted cells.  
+   * @param rowAttributes For each fragment this list can contain a list of corresponding 
+   * attributes that can be set on the row element.
+   * @param cellsFragments If the value is <code>true</code> then the fragments 
+   * where originally cells. 
+   * @param authorAccess The author access.
+   * @param namespace The namespace.
+   * @param tableHelper The table helper.
+   * @param tableInfo The details about table creation. If null, a dialog is 
+   * presented to let the user choose the details. 
+   * 
+   * @throws AuthorOperationException 
    */
-  @Override
-  public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
-      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
-      TableInfo tableInfo)
-      throws AuthorOperationException {
+  public void insertTable(AuthorDocumentFragment[] fragments, List<Map<String, String>> rowAttributes, 
+      boolean cellsFragments, AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
+      TableInfo tableInfo) throws AuthorOperationException {
     if (tableInfo == null) {
-      int rowsCount = 0;
-      int columnsCount = 0;
+      int rowsCount = -1;
+      int columnsCount = -1;
       if (fragments != null) {
         rowsCount = fragments.length;
         columnsCount = 1;
@@ -122,15 +197,31 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       }
     }
     if (tableInfo != null) {
+      List<Position> emptyElementsPositions = CommonsOperationsUtil.removeCurrentSelection(authorAccess);
       // Insert the table.
-      authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+      AuthorDocumentController controller = authorAccess.getDocumentController();
+      SchemaAwareHandlerResult result = controller.insertXMLFragmentSchemaAware(
           getTableXMLFragment(
-              tableInfo, NAMESPACE, fragments, cellsFragments, authorAccess, tableHelper).toString(),
+              tableInfo, NAMESPACE, fragments, rowAttributes, cellsFragments, authorAccess, tableHelper).toString(),
           authorAccess.getEditorAccess().getCaretOffset());
+      
+      TableOperationsUtil.placeCaretInFirstCell(authorAccess, tableInfo, controller, result);
+      CommonsOperationsUtil.removeEmptyElements(authorAccess, emptyElementsPositions);
     } else {
       // User canceled the operation.
       throw new AuthorOperationStoppedByUserException("Cancelled by user");
     }
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase#insertTable(ro.sync.ecss.extensions.api.node.AuthorDocumentFragment[], boolean, ro.sync.ecss.extensions.api.AuthorAccess, java.lang.String, ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper, ro.sync.ecss.extensions.commons.table.operations.TableInfo)
+   */
+  @Override
+  public void insertTable(AuthorDocumentFragment[] fragments, boolean cellsFragments,
+      AuthorAccess authorAccess, String namespace, AuthorTableHelper tableHelper,
+      TableInfo tableInfo)
+      throws AuthorOperationException {
+    insertTable(fragments, null, cellsFragments, authorAccess, namespace, tableHelper, tableInfo);
   }
 
   /**
@@ -139,30 +230,39 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * @param tableXMLFragment  The string buffer representing the table XML fragment.
    *                          The table body fragment will be added to this table fragment.
    * @param tableInfo         The table info containing informations about the table rows and columns number.
+   * @param rowAttributes     The attributes specific to each inserted row (each entry in this list
+   * corresponds to a fragment from the "fragments" list).
    * 
    * @throws AuthorOperationException 
    */
   private static void addTableBody(StringBuilder tableXMLFragment, TableInfo tableInfo,
-      AuthorDocumentFragment[] fragments, boolean cellsFragments, 
+      AuthorDocumentFragment[] fragments, List<Map<String, String>> rowAttributes, boolean cellsFragments, 
       AuthorAccess authorAccess, AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
     tableXMLFragment.append("<tbody>");
     for (int i = 0; i < tableInfo.getRowsNumber(); i++) {
-      tableXMLFragment.append("<tr>");
+      tableXMLFragment.append("<tr");
+      if (rowAttributes != null && i < rowAttributes.size()) {
+        Map<String, String> map = rowAttributes.get(i);
+        if (map != null) {
+          // Set the attributes
+          Set<String> keySet = map.keySet();
+          for (String attrName : keySet) {
+            // Add current attribute
+            tableXMLFragment.append(" ").append(attrName).append("=")
+              .append("\"").append(map.get(attrName)).append("\"");
+          }
+        }
+      }
+      tableXMLFragment.append(">");
+      
       for (int j = 0; j < tableInfo.getColumnsNumber(); j++) {
-        if (fragments != null) {
-          int index = i;
-          if (tableInfo.isGenerateFooter()) {
-            index++;
-          }
-          if (tableInfo.isGenerateHeader()) {
-            index++;
-          }
+        if (j == 0 && fragments != null) {
           String cellXMLFragment = TableOperationsUtil.createCellXMLFragment(
               authorAccess, 
               fragments, 
               cellsFragments, 
               "td", 
-              index, 
+              i, 
               namespace, 
               tableHelper);
           tableXMLFragment.append(cellXMLFragment);
@@ -183,21 +283,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * @param tableInfo         The table info containing informations about the table columns number 
    */
   private static void addTableCols(StringBuilder tableXMLFragment, TableInfo tableInfo) {
-    ColumnWidthsType columnsWidthsType = tableInfo.getColumnsWidthsType();
-    if (columnsWidthsType != ColumnWidthsType.DYNAMIC_COL_WIDTHS) {
-      String colWidth = null;
-      if (columnsWidthsType == ColumnWidthsType.PROPORTIONAL_COL_WIDTHS) {
-        float proportionalWidth = (float)100 / tableInfo.getColumnsNumber();
-        // Proportional widths
-        colWidth = (int)(Math.round(proportionalWidth * 100.0) / 100.0) + "%";
-      } else {
-        // Fixed widths
-        colWidth = TableCustomizerConstants.FIXED_COL_WIDTH_DEFAULT_VALUE;
-      }
-      for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
-        tableXMLFragment.append("<col width=\"" + colWidth + "\"/>");
-      }
+    tableXMLFragment.append("<colgroup>");
+    for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
+      tableXMLFragment.append("<col />");
     }
+    tableXMLFragment.append("</colgroup>");
   }
   
   /**
@@ -209,26 +299,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * 
    * @throws AuthorOperationException 
    */
-  private static void addTableFooter(StringBuilder tableXMLFragment, TableInfo tableInfo, 
-      AuthorDocumentFragment[] fragments, boolean cellsFragments, AuthorAccess authorAccess, 
-      AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
+  private static void addTableFooter(StringBuilder tableXMLFragment, TableInfo tableInfo) throws AuthorOperationException {
     if (tableInfo.isGenerateFooter()) {
       tableXMLFragment.append("<tfoot><tr>");
       for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
-        if (i == 1 && fragments != null && fragments.length > 0) {
-          int index = tableInfo.isGenerateHeader() ? 1 : 0;
-          String cellXMLFragment = TableOperationsUtil.createCellXMLFragment(
-              authorAccess, 
-              fragments, 
-              cellsFragments, 
-              "td", 
-              index, 
-              namespace, 
-              tableHelper);
-          tableXMLFragment.append(cellXMLFragment);
-        } else {
-          tableXMLFragment.append("<td></td>");
-        }
+        tableXMLFragment.append("<td></td>");
       }
       tableXMLFragment.append("</tr></tfoot>");
     }
@@ -243,25 +318,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * 
    * @throws AuthorOperationException 
    */
-  private static void addTableHeader(StringBuilder tableXMLFragment, TableInfo tableInfo, 
-      AuthorDocumentFragment[] fragments, boolean cellsFragments, AuthorAccess authorAccess, 
-      AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
+  private static void addTableHeader(StringBuilder tableXMLFragment, TableInfo tableInfo) throws AuthorOperationException {
     if (tableInfo.isGenerateHeader()) {
       tableXMLFragment.append("<thead><tr>");
       for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
-        if (i == 1 && fragments != null && fragments.length > 0) {
-          String cellXMLFragment = TableOperationsUtil.createCellXMLFragment(
-              authorAccess, 
-              fragments, 
-              cellsFragments, 
-              "th", 
-              0, 
-              namespace, 
-              tableHelper);
-          tableXMLFragment.append(cellXMLFragment);
-        } else {
-          tableXMLFragment.append("<th></th>");
-        }
+        tableXMLFragment.append("<th></th>");
       }
       tableXMLFragment.append("</tr></thead>");
     }
@@ -290,13 +351,15 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    *  
    * @param tableInfo The table information.
    * @param namespace The table element namespace.
+   * @param rowAttributes The attributes specific to each inserted row (each entry in this list
+   * corresponds to a fragment from the "fragments" list).
    *
    * @return The XML fragment for the table to be inserted.
    * 
    * @throws AuthorOperationException 
    */
   private static StringBuilder getTableXMLFragment(TableInfo tableInfo, String namespace, 
-      AuthorDocumentFragment[] fragments, boolean cellsFragments, 
+      AuthorDocumentFragment[] fragments, List<Map<String, String>> rowAttributes, boolean cellsFragments, 
       AuthorAccess authorAccess, AuthorTableHelper tableHelper) throws AuthorOperationException {
     // Create the table XML fragment.
     StringBuilder tableXMLFragment = new StringBuilder();
@@ -325,13 +388,13 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     addTableCols(tableXMLFragment, tableInfo);
 
     // Add table header.
-    addTableHeader(tableXMLFragment, tableInfo, fragments, cellsFragments, authorAccess, tableHelper, namespace);
+    addTableHeader(tableXMLFragment, tableInfo);
 
     // Add table footer.
-    addTableFooter(tableXMLFragment, tableInfo, fragments, cellsFragments, authorAccess, tableHelper, namespace);
+    addTableFooter(tableXMLFragment, tableInfo);
 
     // Add table body.
-    addTableBody(tableXMLFragment, tableInfo, fragments, cellsFragments, authorAccess, tableHelper, namespace);
+    addTableBody(tableXMLFragment, tableInfo, fragments, rowAttributes, cellsFragments, authorAccess, tableHelper, namespace);
 
     tableXMLFragment.append("</table>");
     

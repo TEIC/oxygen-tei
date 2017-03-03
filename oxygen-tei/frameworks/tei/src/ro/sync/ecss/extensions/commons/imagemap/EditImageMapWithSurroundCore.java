@@ -54,9 +54,9 @@ import java.util.Arrays;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -70,7 +70,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  *
  * @author mircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class EditImageMapWithSurroundCore extends EditImageMapCore {
   /**
    * Gets the nodes to edit.
@@ -107,6 +107,16 @@ public abstract class EditImageMapWithSurroundCore extends EditImageMapCore {
       // We don't have a map, maybe we have an image
       nodeToEdit = findNodeOfInterest(authorAccess, interestNode, imageProps);
       if (nodeToEdit != null) {
+        String fragStart = nodesOfInterestCriteria[2];
+        String fragEnd = nodesOfInterestCriteria[3];
+        
+        boolean needComplexSurround = needComplexSurround(nodeToEdit);
+        
+        if (needComplexSurround && nodesOfInterestCriteria.length == 6) {
+          fragStart = nodesOfInterestCriteria[4];
+          fragEnd = nodesOfInterestCriteria[5];
+        }
+        
         // Create the fragment from the image node.
         AuthorDocumentFragment frag = documentController.createDocumentFragment(nodeToEdit, true);
         // Delete it.
@@ -115,7 +125,7 @@ public abstract class EditImageMapWithSurroundCore extends EditImageMapCore {
         String fragStr = documentController.serializeFragmentToXML(frag);
         // "Surround" it and put it back.
         documentController.insertXMLFragment(
-            nodesOfInterestCriteria[2] + fragStr + nodesOfInterestCriteria[3],
+            fragStart + fragStr + fragEnd,
             editorAccess.getCaretOffset());
         // Re-find the image map.
         nodeToEdit = findNodeOfInterest(authorAccess, interestNode, imageMapProps);
@@ -129,6 +139,16 @@ public abstract class EditImageMapWithSurroundCore extends EditImageMapCore {
     return null;
   }
   
+  /**
+   * Check if the edited node need more complex surrounding.
+   * 
+   * @param nodeToEdit  The node to edit.
+   * @return  <code>true</code> if complex surrounding need to be performed.
+   */
+  protected boolean needComplexSurround(AuthorNode nodeToEdit) {
+    return false;
+  }
+
   /**
    * Get the criteria for nodes of interest, and the start and end of the fragment to surround with.
    * 

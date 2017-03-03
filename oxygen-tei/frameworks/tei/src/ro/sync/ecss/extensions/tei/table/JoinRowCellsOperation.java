@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -69,7 +69,7 @@ import ro.sync.ecss.extensions.tei.TEIDocumentTypeHelper;
  * If there is no selection then the caret must be positioned between 
  * two table cells before calling this operation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class JoinRowCellsOperation extends JoinRowCellsOperationBase {
   

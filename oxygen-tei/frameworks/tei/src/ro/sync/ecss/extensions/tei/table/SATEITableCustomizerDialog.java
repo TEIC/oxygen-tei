@@ -54,9 +54,9 @@ import java.awt.Frame;
 
 import javax.swing.JCheckBox;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
@@ -65,7 +65,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
  * Dialog used to customize a TEI table. 
  * It is used on standalone implementation.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
   
   /**
@@ -95,7 +95,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.HEAD));
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.HEAD) + ":");
     titleCheckBox.setToolTipText(authorResourceBundle.getMessage(ExtensionTags.TITLE_TABLE));
     titleCheckBox.setName("Head checkbox");
     return titleCheckBox;
@@ -168,6 +168,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
   /**
    * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
    */
+  @Override
   public String getHelpPageID() {
     return "author-teip5-actions";
   }

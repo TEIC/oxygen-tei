@@ -50,9 +50,9 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.imagemap.AuthorImageMapDecorator;
 import ro.sync.ecss.imagemap.SupportedFrameworks;
@@ -62,7 +62,7 @@ import ro.sync.ecss.imagemap.SupportedFrameworks;
  * 
  * @author mircea
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class TEIAuthorImageDecorator extends AuthorImageMapDecorator {
 
   /**

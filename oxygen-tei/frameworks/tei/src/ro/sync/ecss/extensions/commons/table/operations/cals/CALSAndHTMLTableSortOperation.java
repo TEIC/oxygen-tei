@@ -56,9 +56,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorElementBaseInterface;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -73,7 +73,7 @@ import ro.sync.ecss.extensions.commons.sort.TableSortUtil;
 /**
  * Table sort operation base for CALS and HTML tables.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
   
   /**

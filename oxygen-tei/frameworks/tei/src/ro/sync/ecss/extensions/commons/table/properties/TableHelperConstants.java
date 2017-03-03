@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Constants used in table operations 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface TableHelperConstants {
   /**
    * The row element.

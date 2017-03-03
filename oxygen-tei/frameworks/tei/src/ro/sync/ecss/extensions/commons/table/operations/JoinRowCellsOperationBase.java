@@ -56,9 +56,9 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -74,7 +74,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * cell where the content of the next cells will be moved. If there is no selection then
  * it is assumed that the caret is between two table cells.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
   
   /**

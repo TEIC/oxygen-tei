@@ -59,9 +59,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerFactory;
 
 import net.sf.saxon.TransformerFactoryImpl;
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -81,7 +81,7 @@ import ro.sync.ecss.imagemap.SupportedFrameworks;
 /**
  * Operation used to edit an ImageMap in some documents.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public abstract class EditImageMapOperation implements AuthorOperation {
   /**
@@ -136,6 +136,11 @@ public abstract class EditImageMapOperation implements AuthorOperation {
           uri2ProxyMappings.put(nss[i], nsContext.getPrefixForNamespace(nss[i]));
         }
         
+        String emptyNS4EmptyPrefix = uri2ProxyMappings.get("");
+        if (emptyNS4EmptyPrefix != null && emptyNS4EmptyPrefix.trim().length() == 0) {
+          uri2ProxyMappings.remove(emptyNS4EmptyPrefix);
+        }
+        
         // Do the edit.
         String[] result = ImageMapAccess.getInstance().editMap(
             authorAccess,
@@ -170,7 +175,18 @@ public abstract class EditImageMapOperation implements AuthorOperation {
     } catch (MalformedURLException e) {
       throw new AuthorOperationException(e.getMessage(), e);
     } catch (JAXBException e) {
-      throw new AuthorOperationException(e.getMessage(), e);
+      StringBuilder message = new StringBuilder();
+      String originalMessage = e.getMessage();
+      if (originalMessage.startsWith("unexpected element")) {
+        // Explain a little more why we don't allow this operation.
+        message.append("The image map source contains unsupported elements that would be removed by this operation. Details: ");
+      }
+      
+      // Capitalize the original message.
+      if (originalMessage.length() > 1) {
+        message.append(Character.toUpperCase(originalMessage.charAt(0))).append(originalMessage, 1, originalMessage.length());
+      }
+      throw new AuthorOperationException(message.toString(), e);
     } catch (ImageMapNotSuportedException e) {
       documentController.cancelCompoundEdit();
       authorAccess.getWorkspaceAccess().showErrorMessage(e.getMessage());

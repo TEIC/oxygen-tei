@@ -61,9 +61,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -83,7 +83,7 @@ import ro.sync.exml.workspace.api.Platform;
  * Operation for splitting the selected table cell (or the cell at caret
  * when there is no selection), if it spans over multiple rows or columns
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
 public abstract class SplitOperationBase extends AbstractTableOperation {
   

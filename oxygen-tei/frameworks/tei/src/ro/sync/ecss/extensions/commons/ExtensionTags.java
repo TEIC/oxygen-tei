@@ -50,15 +50,100 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * The collection of the extension messages.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface ExtensionTags {
+  /**
+   * Error message shown when a user tries to insert a key reference from "DITA Reusable Components" view and the context down not allow an element with keyref.
+   * 
+   * en: The schema associated to the file does not allow a key reference here.
+   */
+  String SCHEMA_NOT_ALLOWS_KEYREF = "Schema_not_allows_keyref";
+  /**
+   * Memory total in About Dialog
+   * 
+   * en: Total
+   */
+  String TOTAL = "Total";
+  /**
+   * Algorithm type for Diff(combobox)
+   * 
+   * en: Characters
+   */
+  String CHARACTERS = "Characters";
+  /**
+   * Algorithm name for differencing
+   * 
+   * en: Words
+   */
+  String WORDS = "Words";
+  /**
+   * The type of an XML content.
+   * 
+   * en: Read-only content
+   */
+  String READONLY_CONTENT = "Read-only_content";
+  /**
+   * The type of an XML content.
+   * 
+   * en: Filtered content
+   */
+  String FILTERED_CONTENT = "Filtered_content";
+  /**
+   * The type of an XML content.
+   * 
+   * en: Regular content
+   */
+  String REGULAR_CONTENT = "Regular_content";
+  /**
+   * The type of an XML content.
+   * 
+   * en: Characters (no spaces)
+   */
+  String CHARACTERS_NO_SPACES = "characters_no_spaces";
+  /**
+   * Label in the Document Type editing dialog/ Extensions tab.
+   * 
+   * en: Text page external object insertion handler
+   */
+  /**
+   * Content completion description for cc action.
+   * 
+   * en: Deletes current "{0}" element and creates a new "{1}" element.
+   */
+  String DELETE_EMPTY_LI_INSERT_PARAGRAPH = "delete_empty_li_insert_paragraph";
+  /**
+   * Content completion proposal.
+   * 
+   * en: Convert {0} to {1}.
+   */
+  String CONVERT_ELEMENT_FROM_TO = "convert_element_from_to";
+  
+  /**
+   * Exception presented to user when it tries to convert selected content to lists.
+   * 
+   * en: Could not convert the selection to a list!
+   *     Please make sure that the selection contains only the following elements: any type of list, paragraphs, or inline content.
+   */
+  String LIST_CONVERT_EXCEPTION = "list.convert.exception";
+  /**
+   * Exception presented to user when it tries to convert selected content to tables.
+   * 
+   * en: Only list and paragraphs can be converted to tables.
+   */
+  String TABLE_CONVERT_EXCEPTION = "table.convert.exception";
+  /**
+   * Message for when a file is not found.
+   * 
+   * en: File not found
+   */
+  String FILE_NOT_FOUND = "File_not_found";
   /**
    * Name of a section in the Sort dialog.
    * 
@@ -358,11 +443,23 @@ public interface ExtensionTags {
    */
   String IMAGE_FILES = "Image_files";
   /**
+   * Media file chooser file description.
+   * 
+   * en: Media files
+   */
+  String MEDIA_FILES = "Media_files";
+  /**
    * Image file chooser title.
    * 
    * en: Choose image
    */
   String CHOOSE_IMAGE = "Choose_image";
+  /**
+   * Media file chooser title.
+   * 
+   * en: Choose media
+   */
+  String CHOOSE_MEDIA = "Choose_media";
   /**
    * Title checkbox in the DITA relationship table customizer dialog.
    * 
@@ -551,4 +648,8 @@ public interface ExtensionTags {
    * en: Track changes
    */
   String TRACK_CHANGES = "Track_changes";
+  /**
+   * en: Properties
+   */
+  String PROPERTIES = "Properties";
 }

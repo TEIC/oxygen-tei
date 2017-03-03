@@ -50,14 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.sort;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Holds information about the sort criteria and scope.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class SortCriteriaInformation {
   /**
    * <code>true</code> when the sort scope is represented only by the selected elements.

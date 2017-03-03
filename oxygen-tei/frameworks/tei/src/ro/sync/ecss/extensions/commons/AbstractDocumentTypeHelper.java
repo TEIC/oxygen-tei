@@ -50,17 +50,18 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
+import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
 
 /**
  * Abstract implementation of the document type helper.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   
   /**
@@ -180,5 +181,15 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
    */
   public boolean isContentReference(AuthorNode node) {
     return false;
+  }
+  
+  /**
+   * Check if a node is a colspec node.
+   * @param node The node.
+   * @return <code>true</code> if a node is a colspec node.
+   */
+  public boolean isColspec(AuthorNode node){
+    return node instanceof AuthorElement && 
+        CALSConstants.ELEMENT_NAME_COLSPEC.equals(((AuthorElement)node).getLocalName());    
   }
 }

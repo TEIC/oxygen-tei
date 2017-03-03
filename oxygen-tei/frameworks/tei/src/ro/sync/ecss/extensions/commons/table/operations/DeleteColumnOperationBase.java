@@ -60,9 +60,9 @@ import java.util.Set;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -82,7 +82,7 @@ import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
  * in the table, all the columns that intersect the selections are removed.
  * If there is no selection in the table, the column at caret is deleted.
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
   
   /**
@@ -222,13 +222,15 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
             TableOperationsUtil.createTableHelper(tableHelper), tableElem);
         for (AuthorElement cellElement : selectedCells) {
           int[] cellIndices = tableAccess.getTableCellIndex(cellElement);
-          int columnNumber = cellIndices[1];
-          List<AuthorElement> cellsList = mapColumnIndexToSelCells.get(columnNumber);
-          if (cellsList == null) {
-            cellsList = new ArrayList<AuthorElement>(1);
-            mapColumnIndexToSelCells.put(columnNumber, cellsList);
+          if (cellIndices != null) {
+            int columnNumber = cellIndices[1];
+            List<AuthorElement> cellsList = mapColumnIndexToSelCells.get(columnNumber);
+            if (cellsList == null) {
+              cellsList = new ArrayList<AuthorElement>(1);
+              mapColumnIndexToSelCells.put(columnNumber, cellsList);
+            }
+            cellsList.add(cellElement);
           }
-          cellsList.add(cellElement);
         }
         
         Set<Integer> columnsToDelete = mapColumnIndexToSelCells.keySet();
@@ -273,6 +275,9 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
         if (currentCellElem != null && tableElem != null) {
           // Determine the index of column to be deleted
           int[] cellIndices = tableAccess.getTableCellIndex(currentCellElem);
+          if (cellIndices == null) {
+            throw new AuthorOperationException("Cannot obtain the index of cell in table.");
+          }
           rowIndex = cellIndices[0];
           deletedColumnsIndices.add(cellIndices[1]);
           
@@ -338,7 +343,8 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
                 // EXM-18328 Try to set the caret position in the cell following the deleted cell
                 + (placeCaretInNextCell ? 1 : 0));
           } else {
-            authorAccess.getEditorAccess().setCaretPosition(currentRowElem.getEndOffset());
+            // EXM-35813: Properly place the caret after delete the last column
+            authorAccess.getEditorAccess().setCaretPosition(currentRowElem.getEndOffset() - 1);
           }
           
           handled = true;

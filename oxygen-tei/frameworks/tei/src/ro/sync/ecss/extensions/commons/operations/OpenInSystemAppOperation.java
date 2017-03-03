@@ -59,9 +59,9 @@ import javax.swing.text.BadLocationException;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -76,8 +76,8 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * Detects the application that is associated with the given file in the OS
  * and uses it to open the file. 
  */
-
-@WebappCompatible(false)
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@WebappCompatible(true)
 public class OpenInSystemAppOperation implements AuthorOperation {
   
   /**
@@ -95,6 +95,21 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    */
   private static final String ARGUMENT_UNPARSED_ENTITY = "isUnparsedEntity";
   
+  private static final String ARGUMENT_MEDIA_TYPE = "mediaType";
+
+  /** Media Type video */
+  public static final String MEDIA_TYPE_VIDEO = "video";
+  /** Media Type audio */
+  public static final String MEDIA_TYPE_AUDIO = "audio";
+  /** Media Type Medial */
+  public static final String MEDIA_TYPE_MEDIA = "media";
+  /** Media Type image */
+  public static final String MEDIA_TYPE_IMAGE = "image";
+  /** Media Type html */
+  public static final String MEDIA_TYPE_HTML = "html";
+  /** Media Type PDF */
+  public static final String MEDIA_TYPE_PDF = "pdf";
+
   /**
    * The arguments of the operation.
    */
@@ -104,7 +119,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    * Constructor.
    */
   public OpenInSystemAppOperation() {
-    arguments = new ArgumentDescriptor[2];
+    arguments = new ArgumentDescriptor[3];
     // Argument defining the XML fragment that will be inserted.
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_RESOURCE_PATH,
@@ -123,6 +138,21 @@ public class OpenInSystemAppOperation implements AuthorOperation {
         },
         AuthorConstants.ARG_VALUE_FALSE);
     arguments[1] = argumentDescriptor;
+    
+    // Pass the MIME type for the file to open in system application.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_MEDIA_TYPE,
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "The media type of the file to be opened. ",
+        new String[] {
+            MEDIA_TYPE_VIDEO, 
+            MEDIA_TYPE_AUDIO,
+            MEDIA_TYPE_MEDIA,
+            MEDIA_TYPE_IMAGE,
+            MEDIA_TYPE_HTML,
+            MEDIA_TYPE_PDF},
+        MEDIA_TYPE_HTML);
+    arguments[2] = argumentDescriptor;
   }
   
   /**
@@ -173,6 +203,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
           int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
           AuthorNode contextNode = null;
           if (caretOffset > 0) {
+            //Get node at caret...
             try {
               contextNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
             } catch (BadLocationException e) {
@@ -186,7 +217,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
           }
           Object unparsedEntity = args.getArgumentValue(ARGUMENT_UNPARSED_ENTITY);
           if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
-            
+            //Unparsed entity.
             String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
             if (systemID != null) {
               try {
@@ -213,7 +244,9 @@ public class OpenInSystemAppOperation implements AuthorOperation {
               // A local file that doesn't exists.
               throw new AuthorOperationException("Resource does not exists: " + toOpen);
             } else {
-              authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true);
+              //Use media argument...
+              String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
+              authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true, mediaType);
             }
           }
         }

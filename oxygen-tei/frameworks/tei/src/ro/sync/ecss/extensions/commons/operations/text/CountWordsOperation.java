@@ -56,9 +56,9 @@ import javax.swing.text.Segment;
 
 import org.apache.log4j.Logger;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -66,20 +66,23 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.content.OffsetInformation;
 import ro.sync.ecss.extensions.api.content.TextContentIterator;
 import ro.sync.ecss.extensions.api.content.TextContext;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
 
 /**
  * Count words either in the whole document or in the selection.
  * 
  * @author Costi Vetezi
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class CountWordsOperation implements AuthorOperation {
+  
   /**
    * Logger for logging. 
    */
@@ -102,6 +105,29 @@ public class CountWordsOperation implements AuthorOperation {
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     
+    // Load messages.
+    AuthorResourceBundle authorResourceBundle = authorAccess.getAuthorResourceBundle();
+    //"Regular content" internationalized string.
+    final String REGULAR_CONTENT = authorResourceBundle.getMessage(ExtensionTags.REGULAR_CONTENT);
+
+    //"Filtered content" internationalized string.
+    final String FILTERED_CONTENT = authorResourceBundle.getMessage(ExtensionTags.FILTERED_CONTENT);
+
+    //"Read-only content" internationalized string.
+    final String READONLY_CONTENT = authorResourceBundle.getMessage(ExtensionTags.READONLY_CONTENT);
+    
+    //"Words" internationalized string.
+    final String WORDS = authorResourceBundle.getMessage(ExtensionTags.WORDS);
+    
+    //"Characters" internationalized string.
+    final String CHARACTERS = authorResourceBundle.getMessage(ExtensionTags.CHARACTERS);
+
+    //"Characters (no spaces)" internationalized string.
+    final String CHARACTERS_NO_SPACES = authorResourceBundle.getMessage(ExtensionTags.CHARACTERS_NO_SPACES);
+    
+    //"Characters" internationalized string.
+    final String TOTAL = authorResourceBundle.getMessage(ExtensionTags.TOTAL);
+
     // Scope of the entire document
     int startOffset = 0;
     int endOffset = authorAccess.getDocumentController().getAuthorDocumentNode().getEndOffset();
@@ -117,10 +143,13 @@ public class CountWordsOperation implements AuthorOperation {
     
     int wordCount = 0;
     int charCount = 0;
+    int charactersWithWSCount = 0;
     int wordCountInReadOnly = 0;
     int charCountInReadOnly = 0;
+    int charactersWithWSCountInReadOnly = 0;
     int wordCountInFilteredCondProfiling = 0;
     int charCountInFilteredCondProfiling = 0;
+    int charactersWithWSCountInFilteredCondProfiling = 0;
     
     // Check if it the first iteration
     boolean firstIteration = true;
@@ -134,10 +163,11 @@ public class CountWordsOperation implements AuthorOperation {
           // We are either in readonly reference or in a editable context
           CharSequence textContent = textContext.getText();
           int textContentLength = textContent.length();
+
           int currentTextCharCount = 0;
           int currentTextWordCount = 0;
           boolean startsWithCharacter = false;
-
+          
           int currentWordState = WHITESPACE_STATE;
           for (int i = 0; i < textContentLength; i++) { 
             char ch = textContent.charAt(i);
@@ -177,14 +207,17 @@ public class CountWordsOperation implements AuthorOperation {
           if (currentEditableState == TextContext.EDITABLE) {
             charCount += currentTextCharCount;
             wordCount += currentTextWordCount;
+            charactersWithWSCount += textContentLength;
           } else if (currentEditableState == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING) {
             // Filtered conditional profiling
             charCountInFilteredCondProfiling += currentTextCharCount;
             wordCountInFilteredCondProfiling += currentTextWordCount;
+            charactersWithWSCountInFilteredCondProfiling += textContentLength;
           } else {
             // Read-only reference
             charCountInReadOnly += currentTextCharCount;
             wordCountInReadOnly += currentTextWordCount;
+            charactersWithWSCountInReadOnly += textContentLength;
           }
 
         }
@@ -199,59 +232,78 @@ public class CountWordsOperation implements AuthorOperation {
 
     if (wordCountInReadOnly == 0 && wordCountInFilteredCondProfiling == 0) {
       // We display only word and character count
-      message.append("Words: ");
+      message.append(WORDS + ": ");
       message.append(wordCount);
       message.append("\n");
-      message.append("Characters (no spaces): ");
+      message.append(CHARACTERS + ": ");
+      message.append(charactersWithWSCount);
+      message.append("\n");
+      message.append(CHARACTERS_NO_SPACES + ": ");
       message.append(charCount);
     } else {
       String tabString = "     ";
       // Display regular content
-      message.append("Regular content:");
+      message.append(REGULAR_CONTENT + ":");
       message.append("\n");
       message.append(tabString);
-      message.append("Words: ");
+      message.append(WORDS + ": ");
       message.append(wordCount);
       message.append("\n");
       message.append(tabString);
-      message.append("Characters (no spaces): ");
+      message.append(CHARACTERS + ": ");
+      message.append(charactersWithWSCount);
+      message.append("\n");
+      message.append(tabString);
+      message.append(CHARACTERS_NO_SPACES + ": ");
       message.append(charCount);
       if (wordCountInFilteredCondProfiling > 0) {
         // We have filtered content
         message.append("\n\n");
-        message.append("Filtered content:");
+        message.append(FILTERED_CONTENT + ":");
         message.append("\n");
         message.append(tabString);
-        message.append("Words: ");
+        message.append(WORDS + ": ");
         message.append(wordCountInFilteredCondProfiling);
         message.append("\n");
         message.append(tabString);
-        message.append("Characters (no spaces): ");
+        message.append(CHARACTERS + ": ");
+        message.append(charactersWithWSCountInFilteredCondProfiling);
+        message.append("\n");
+        message.append(tabString);
+        message.append(CHARACTERS_NO_SPACES + ": ");
         message.append(charCountInFilteredCondProfiling);
       }
       if (wordCountInReadOnly > 0) {
         // We have read-only content
         message.append("\n\n");
-        message.append("Read-only content:");
+        message.append(READONLY_CONTENT + ":");
         message.append("\n");
         message.append(tabString);
-        message.append("Words: ");
+        message.append(WORDS + ": ");
         message.append(wordCountInReadOnly);
         message.append("\n");
         message.append(tabString);
-        message.append("Characters (no spaces): ");
+        message.append(CHARACTERS + ": ");
+        message.append(charactersWithWSCountInReadOnly);
+        message.append("\n");
+        message.append(tabString);
+        message.append(CHARACTERS_NO_SPACES + ": ");
         message.append(charCountInReadOnly);
       }
       // We display overall statistics
       message.append("\n\n");
-      message.append("Total:");
+      message.append(TOTAL + ":");
       message.append("\n");
       message.append(tabString);
-      message.append("Words: ");
+      message.append(WORDS + ": ");
       message.append(wordCountInReadOnly + wordCountInFilteredCondProfiling + wordCount);
       message.append("\n");
       message.append(tabString);
-      message.append("Characters (no spaces): ");
+      message.append(CHARACTERS + ": ");
+      message.append(charactersWithWSCount + charactersWithWSCountInReadOnly + charactersWithWSCountInFilteredCondProfiling);
+      message.append("\n");
+      message.append(tabString);
+      message.append(CHARACTERS_NO_SPACES + ": ");
       message.append(charCountInReadOnly + charCountInFilteredCondProfiling + charCount);
     }
     

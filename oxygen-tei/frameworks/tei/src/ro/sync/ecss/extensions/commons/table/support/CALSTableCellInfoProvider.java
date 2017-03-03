@@ -56,13 +56,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import javax.swing.text.BadLocationException;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -80,7 +81,7 @@ import ro.sync.ecss.extensions.commons.table.support.errorscanner.TableLayoutErr
 /**
  * Provides informations about the cell spanning and column width for Docbook CALS tables. 
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBase implements AuthorTableCellSpanProvider, CALSConstants, AuthorTableCellSepProvider {
   /**
    * The default width representation.
@@ -295,7 +296,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       AuthorNode node = iterator.next();
       if (node instanceof AuthorElement) { 
         AuthorElement child = (AuthorElement) node;
-        if (ELEMENT_NAME_COLSPEC.equalsIgnoreCase(child.getLocalName())) {
+        if (isColspec(child)) {
           boolean colNumberSpecified = false;
           // "colnum" attribute
           AttrValue attrValue = child.getAttribute(ATTRIBUTE_NAME_COLNUM);
@@ -331,6 +332,26 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           String colWidth = null;
           if (attrValue != null) {
             colWidth = attrValue.getValue();
+            if(errorsListener != null){
+              //colWidth
+              //Either proportional measure of the form number*, i.e., "5*" for 5 times the proportion, or "*" (which is equivalent to "1*"); 
+              //fixed measure, i.e., 2pt for 2 point, 3pi for 3 pica; or mixed measure, i.e., 2*+3pt. 
+              StringTokenizer st = new StringTokenizer(colWidth, "-+", false);
+              while(st.hasMoreTokens()){
+                String token = st.nextToken().trim();
+                if(token.endsWith("*") && ! "*".equals(token)){
+                  //Proportional width..
+                  String before = token.substring(0, token.length() - 1);
+                  reportInvalidFloat(tableElement, child, before, colWidth);
+                } else {
+                  //Maybe it ends with an unit of measure...
+                  if(token.endsWith("pt") || token.endsWith("px")){
+                    String before = token.substring(0, token.length() - 2);
+                    reportInvalidFloat(tableElement, child, before, colWidth);
+                  }
+                }
+              }
+            }
           }
           
           //Align attribute
@@ -380,6 +401,41 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         }
       }
     }
+  }
+
+  /**
+   * Report an invalid float.
+   * 
+   * @param tableElement The table.
+   * @param child The child element.
+   * @param value The value to check.
+   * @param originalValue The original value.
+   */
+  private void reportInvalidFloat(AuthorElement tableElement, AuthorElement child,
+      String value, String originalValue) {
+    boolean success = false;
+    try {
+      Float.parseFloat(value);
+      success = true;
+    } catch (NumberFormatException e) {
+      success = false;
+    }
+    if(! success) {
+      // Not a number.
+      if (errorsListener != null) {
+        errorsListener.add(child, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_WIDTH_VALUE_INCORRECT, originalValue);
+      }
+    }
+  }
+
+  /**
+   * Check if the child is a column specification.
+   * 
+   * @param child The child
+   * @return <code>true</code> if the child is a column specification.
+   */
+  protected boolean isColspec(AuthorElement child) {
+    return ELEMENT_NAME_COLSPEC.equalsIgnoreCase(child.getLocalName());
   } 
 
   /**
@@ -802,7 +858,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     if (tblElem != null) {
       // Find the element named "table" if any.
       while(true) {
-        if (ELEMENT_NAME_TABLE.equalsIgnoreCase(tblElem.getName())) {
+        if (ELEMENT_NAME_TABLE.equalsIgnoreCase(tblElem.getLocalName())) {
           break;
         } else {
           AuthorNode parent = tblElem.getParent();

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -48,30 +48,47 @@
  *  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-package ro.sync.ecss.extensions.tei.id;
+package ro.sync.ecss.extensions.commons;
 
-
-
-
-import ro.sync.ecss.extensions.commons.id.DefaultUniqueAttributesRecognizer;
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
 
 /**
- * Unique attributes recognizer
+ * Choose an media file.
  */
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+public class MediaFileChooser extends ObjectChooser{
+  
+  /**
+   * Used to test the class from JUnit test cases.
+   */
+  public static String MEDIA_FROM_TESTS = null;
 
-public class TEIP4UniqueAttributesRecognizer extends DefaultUniqueAttributesRecognizer {
-  
   /**
-   * Constructor
+   * Ask user to choose an image file.
+   * 
+   * @param authorAccess Access to some author utility methods.
+   * @return The path to the media file relative to the opened XML and escaped 
+   * so that it can be used as an attribute value, or <code>null</code> if the 
+   * user canceled the operation.
    */
-  public TEIP4UniqueAttributesRecognizer() {
-    super();
-  }
-  
-  /**
-   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
-   */
-  public String getDescription() {
-    return "TEI P4 Unique attributes recognizer";
+  public static String chooseMediaFile(AuthorAccess authorAccess) {
+    if (MEDIA_FROM_TESTS != null) {
+      return MEDIA_FROM_TESTS;
+    }
+    String mediaPath = null;
+    //EXM-19644 Use remote image chooser
+    //Do the same thing.
+    String sel = authorAccess.getWorkspaceAccess().chooseURLPath(
+        authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CHOOSE_MEDIA), 
+        MediaObjectsUtil.ALLOWED_MEDIA_EXTENSIONS,
+        authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.MEDIA_FILES)
+        );
+    if (sel != null) {
+      mediaPath = makeUrlRelative(authorAccess, sel);
+    }
+    return mediaPath;
   }
 }

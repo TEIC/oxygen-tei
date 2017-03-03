@@ -57,16 +57,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.help.IContextComputer;
 import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
 
-
-
-
+import ro.sync.annotations.api.API;
+import ro.sync.annotations.api.APIType;
+import ro.sync.annotations.api.SourceType;
 
 /**
  * Eclipse help utilities.
  * 
  * @author radu_coravu
  */
-
+@API(type=APIType.INTERNAL, src=SourceType.PRIVATE)
 public class EclipseHelpUtils {
   /**
    * Logger for logging. 
