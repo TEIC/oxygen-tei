@@ -69,6 +69,9 @@
         <font embed-url="fonts/DejaVuSansMono.ttf">
           <font-triplet name="DejaVu-mono" style="normal" weight="normal"/>
         </font>
+        <font embed-url="fonts/unifont-10.0.04.ttf">
+          <font-triplet name="unifont" style="normal" weight="normal"/>
+        </font>
       </fonts>
     </renderer>    
   </renderers>
