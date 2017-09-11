@@ -109,7 +109,7 @@ cd ../..
 #unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo do Ant build
-(cd frameworks/tei; ant)
+ant syncro
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
