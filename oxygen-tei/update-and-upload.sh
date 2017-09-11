@@ -109,7 +109,12 @@ cd ../..
 #unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo Build package
-./ant syncro
+
+export ANT_HOME='tools/ant'
+export ANT_LIB='tools/ant/lib'
+export ANT_OPTS='-Xmx700m -Xms128m'
+sh tools/ant/bin/ant -lib tools/ant_extra/lib syncro
+
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
