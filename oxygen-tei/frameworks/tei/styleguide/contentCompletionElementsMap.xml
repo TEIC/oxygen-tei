@@ -33,70 +33,7 @@
         <mapping elementName="application" path="ref-application.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="arc" path="ref-arc.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="argument" path="ref-argument.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.ascribed" path="ref-att.ascribed.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.breaking" path="ref-att.breaking.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.canonical" path="ref-att.canonical.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.combinable" path="ref-att.combinable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.coordinated" path="ref-att.coordinated.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.cReferencing" path="ref-att.cReferencing.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.damaged" path="ref-att.damaged.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.datable.custom" path="ref-att.datable.custom.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.datable" path="ref-att.datable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.datable.iso" path="ref-att.datable.iso.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.datable.w3c" path="ref-att.datable.w3c.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.datcat" path="ref-att.datcat.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.declarable" path="ref-att.declarable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.declaring" path="ref-att.declaring.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.dimensions" path="ref-att.dimensions.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.divLike" path="ref-att.divLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.docStatus" path="ref-att.docStatus.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.duration" path="ref-att.duration.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.duration.iso" path="ref-att.duration.iso.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.duration.w3c" path="ref-att.duration.w3c.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.edition" path="ref-att.edition.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.editLike" path="ref-att.editLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.enjamb" path="ref-att.enjamb.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.entryLike" path="ref-att.entryLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.fragmentable" path="ref-att.fragmentable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.global.analytic" path="ref-att.global.analytic.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.global.change" path="ref-att.global.change.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.global.facs" path="ref-att.global.facs.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.global" path="ref-att.global.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.global.linking" path="ref-att.global.linking.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.handFeatures" path="ref-att.handFeatures.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att" path="ref-att.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.identified" path="ref-att.identified.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.internetMedia" path="ref-att.internetMedia.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.interpLike" path="ref-att.interpLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.lexicographic" path="ref-att.lexicographic.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.measurement" path="ref-att.measurement.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.media" path="ref-att.media.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.metrical" path="ref-att.metrical.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.milestoneUnit" path="ref-att.milestoneUnit.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.msExcerpt" path="ref-att.msExcerpt.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.namespaceable" path="ref-att.namespaceable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.naming" path="ref-att.naming.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.patternReplacement" path="ref-att.patternReplacement.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.personal" path="ref-att.personal.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.placement" path="ref-att.placement.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.pointing.group" path="ref-att.pointing.group.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.pointing" path="ref-att.pointing.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.ranging" path="ref-att.ranging.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.rdgPart" path="ref-att.rdgPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.readFrom" path="ref-att.readFrom.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.resourced" path="ref-att.resourced.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.segLike" path="ref-att.segLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.sortable" path="ref-att.sortable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.source" path="ref-att.source.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.spanning" path="ref-att.spanning.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.styleDef" path="ref-att.styleDef.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.tableDecoration" path="ref-att.tableDecoration.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.textCritical" path="ref-att.textCritical.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.timed" path="ref-att.timed.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.transcriptional" path="ref-att.transcriptional.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.translatable" path="ref-att.translatable.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.typed" path="ref-att.typed.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.witnessed" path="ref-att.witnessed.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="attDef" path="ref-attDef.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="attList" path="ref-attList.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="attRef" path="ref-attRef.html" type="link" linkText="TEI Guidelines"/>

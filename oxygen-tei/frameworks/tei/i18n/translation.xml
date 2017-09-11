@@ -7,37 +7,45 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="Remove_ids_on_copy">
+        <comment>'Remove IDs when copying content' button text.</comment>
+        <val lang="en_US">Remove IDs when copying content</val>
+        <val lang="de_DE">Remove IDs when copying content</val>
+        <val lang="fr_FR">Remove IDs when copying content</val>
+        <val lang="ja_JP">Remove IDs when copying content</val>
+        <val lang="nl_NL">Remove IDs when copying content</val>
+    </key>
 <key value="delete_empty_li_insert_paragraph">
         <comment>Deletes the current element and creates a new element of another type.</comment>
         <val lang="en_US">Deletes the current "{0}" element and creates a new "{1}" element.</val>
-        <val lang="de_DE">Deletes the current "{0}" element and creates a new "{1}" element.</val>
-        <val lang="fr_FR">Deletes the current "{0}" element and creates a new "{1}" element.</val>
-        <val lang="ja_JP">Deletes the current "{0}" element and creates a new "{1}" element.</val>
-        <val lang="nl_NL">Deletes the current "{0}" element and creates a new "{1}" element.</val>
+        <val lang="de_DE">Löscht das aktuelle "{0}" Element und erzeugt ein neues "{1}" Element.</val>
+        <val lang="fr_FR">Supprime l''élément courant "{0}" et créé un nouvel élément "{1}".</val>
+        <val lang="ja_JP">現在の"{0}"要素を削除し、新しい"{1}"要素を作成します。</val>
+        <val lang="nl_NL">Hiermee wordt het huidige element "{0}" verwijderd en wordt een nieuw element "{1}" gemaakt.</val>
     </key>
 <key value="convert_element_from_to">
         <comment>Convert an element to another one</comment>
         <val lang="en_US">Convert {0} to {1}</val>
-        <val lang="de_DE">Convert {0} to {1}</val>
-        <val lang="fr_FR">Convert {0} to {1}</val>
-        <val lang="ja_JP">Convert {0} to {1}</val>
-        <val lang="nl_NL">Convert {0} to {1}</val>
+        <val lang="de_DE">Konvertiere {0} zu {1}</val>
+        <val lang="fr_FR">Convertir {0} en {1}</val>
+        <val lang="ja_JP">{0}を{1}に変換する</val>
+        <val lang="nl_NL">{0} converteren naar {1}</val>
     </key>
 <key type="action" value="Choose_media">
         <comment>Media file chooser title.</comment>
         <val lang="en_US">Choose Media</val>
-        <val lang="de_DE">Choose Media</val>
-        <val lang="fr_FR">Choose Media</val>
-        <val lang="ja_JP">Choose Media</val>
-        <val lang="nl_NL">Choose Media</val>
+        <val lang="de_DE">Wähle Medien</val>
+        <val lang="fr_FR">Choisir un média</val>
+        <val lang="ja_JP">メディアを選択する</val>
+        <val lang="nl_NL">Media kiezen</val>
     </key>
 <key value="Media_files">
         <comment>Media file chooser file description.</comment>
         <val lang="en_US">Media Files</val>
-        <val lang="de_DE">Media Files</val>
-        <val lang="fr_FR">Media Files</val>
-        <val lang="ja_JP">Media Files</val>
-        <val lang="nl_NL">Media Files</val>
+        <val lang="de_DE">Mediendateien</val>
+        <val lang="fr_FR">Fichier média</val>
+        <val lang="ja_JP">メディアファイル</val>
+        <val lang="nl_NL">Mediabestanden</val>
     </key>
 <key type="action" value="itemizedlist_description">
         <comment>Insert Itemized List action description.</comment>

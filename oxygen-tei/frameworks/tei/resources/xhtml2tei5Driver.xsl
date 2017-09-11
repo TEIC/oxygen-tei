@@ -1,7 +1,7 @@
 <!-- 
   Copyright 2001-2012 Syncro Soft SRL. All rights reserved.
  -->
-<xsl:stylesheet version="2.0" 
+<xsl:stylesheet version="3.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:e="http://www.oxygenxml.com/xsl/conversion-elements"
@@ -9,6 +9,8 @@
     exclude-result-prefixes="xsl xhtml e f">
     
     <xsl:import href="filterNodes.xsl"/>
+    <xsl:import href="convertToCode.xsl"/>
+    <xsl:import href="mergeCodeSiblings.xsl"/>
     <xsl:import href="breakLines.xsl"/>
     <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>
     <xsl:import href="nestedSections.xsl"/>
@@ -62,10 +64,21 @@
         <xsl:message>======== context.path.uris: <xsl:value-of select="$context.path.uris"/></xsl:message>
         <xsl:message>======== context.item.separator: <xsl:value-of select="$context.item.separator"/></xsl:message>
         -->
-
+        
+        <!-- Convert all spans with Courier New font to "code" elements-->
+        <xsl:variable name="codeWrap">
+            <xsl:apply-templates mode="code"/>
+        </xsl:variable>
+        <!--        <xsl:message> CODE WRAP <xsl:copy-of select="$codeWrap"/></xsl:message>        -->
+        
+        <!-- Merge siblings "code"s. -->
+        <xsl:variable name="mergeCodeSiblings">
+            <xsl:apply-templates select="$codeWrap" mode="merge"/>
+        </xsl:variable>
+        
         <!-- Filter unused tags, transform MS Word titles to H1 elements. -->
         <xsl:variable name="processedFilterNodes">
-            <xsl:apply-templates mode="filterNodes"/>
+            <xsl:apply-templates select="$mergeCodeSiblings" mode="filterNodes"/>
         </xsl:variable>
         <!--
         <xsl:message>111111111  <xsl:copy-of select="$processedFilterNodes"/></xsl:message>

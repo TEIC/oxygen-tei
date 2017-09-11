@@ -86,6 +86,7 @@ function addOldStyleTableActions(actionsConfiguration, toolbarName, actionsManag
     actionsConfiguration.toolbars[0].children.push({
       "type": "list",
       "name": "Join or split table cells.",
+      "displayName": tr(msgs.TABLE_JOIN_SPLIT_),
       "icon16": "/images/TableJoinSplit16.png",
       "icon20": "/images/TableJoinSplit24.png",
       "children": split_join_actions

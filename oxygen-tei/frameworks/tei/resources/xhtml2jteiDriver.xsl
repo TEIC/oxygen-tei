@@ -1,7 +1,7 @@
 <!-- 
   Copyright 2001-2012 Syncro Soft SRL. All rights reserved.
  -->
-<xsl:stylesheet version="2.0" 
+<xsl:stylesheet version="3.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:e="http://www.oxygenxml.com/xsl/conversion-elements"

@@ -179,15 +179,24 @@ surface:-oxy-visible-imagemap-area zone{
 /*
  * Support for expanding and collapsing the area elements.
  */
-
-surface > graphic:after(1){
-    display:inline;
-    
-    content:"\a" oxy_button(actionID, 'edit.image.map');
-    
-    text-align:left;
+@media oxygen and (platform:eclipse),
+       oxygen and (platform:standalone) {
+    surface > graphic:after(1),
+    facsimile > graphic:after(1) {
+        display:inline;
+        content:"\a" oxy_button(actionID, 'edit.image.map');
+        text-align:left;
+    }
 }
-
+@media oxygen and (platform:webapp) {
+    surface > graphic:after(1),
+    facsimile > graphic:after(1) {
+        display:inline;
+        content:"\a" ;
+        text-align:left;
+    }
+}
+       
 surface > graphic:after(2){ 
     display:inline;
         
@@ -214,36 +223,64 @@ surface:-oxy-visible-imagemap-area > graphic:after(2){
 
 zone:before(5){
     counter-increment:areas;
-    content: counter(areas) ". ";
+    content: " " counter(areas) " ";
     font-weight:bold;
     width:5%;
-    text-align:right;
+    border-radius:1em;
+    text-align:center;
     background-color:blue;
     color:white;
-    margin-left : 0.5em ;
+    padding:0.1em;
+    margin-left:0.1em;
+    margin-right:0.2em;
+    display:inline-block;
 }
 
 zone[xml|id]:before(3){
     font-weight:bold;
-    content:  " ID: " attr(xml|id) !important;
+    content: oxy_textfield(
+                tooltip, 'The xml:id of the zone',
+                edit, '@xml:id',
+                width, 20%)!important;
+    display:inline-block;
+    margin-left:0.2em;
     width:20%;
 }
 
 zone[ulx]:before(2){
-    content: " -  Rectangle " attr(ulx) ", " attr(uly) ", " attr(lrx) ", " attr(lry);
-    width:45%;
+    content: oxy_label(text, " Rectangle", width, 15%, color, inherit)
+
+        oxy_textfield(
+                tooltip, 'Upper-left X coordinate',
+                edit, '@ulx',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Upper-left Y coordinate',
+                edit, '@uly',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Lower-right X coordinate',
+                edit, '@lrx',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Lower-right Y coordinate',
+                edit, '@lry',
+                width, 10%);
+    width:70%;
 }
 
 zone[points]:before(2){
-    content: " -  Polygon " attr(points);
-    width:45%;
+    content: oxy_label(text, " Polygon", width, 15%, color, inherit) 
+            oxy_textfield(
+                tooltip, 'Polygon points coordinates, in the format x1,y1 x2,y2, ..., xN,yN',
+                edit, '@points',
+                width, 55%);
+    width:70%;
 }
 
-zone > oxy|comment {
-    color:navy !important;
-    background-color:white !important;
-    width:30%;
-}
 
 @media oxygen-high-contrast-black, oxygen-dark-theme{
    zone:before(1){

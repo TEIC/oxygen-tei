@@ -53,11 +53,16 @@
           and ($context.path.last.uri = 'http://www.tei-c.org/ns/1.0')">
           <xsl:apply-templates select="@* | node()"/>
       </xsl:when>
-      <xsl:otherwise>
-      <quote xmlns="http://www.tei-c.org/ns/1.0">
-         <xsl:apply-templates select="@* | node()"/>
-      </quote>
-      </xsl:otherwise>
+      <xsl:when test=".[contains(@about, 'MSOfficeGeneratedTag')]">
+          <code xmlns="http://www.tei-c.org/ns/1.0">
+              <xsl:apply-templates select="@* | node()"/>
+          </code>
+       </xsl:when>
+        <xsl:otherwise>
+            <quote xmlns="http://www.tei-c.org/ns/1.0">
+                <xsl:apply-templates select="@* | node()"/>
+            </quote>
+        </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
   
