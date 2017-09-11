@@ -113,5 +113,5 @@ echo Build package
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
-${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
-${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
+#${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
+#${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
