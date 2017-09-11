@@ -53,7 +53,7 @@ oXygen frameworks folder and the library will be automatically detected.
                         <resourcecount property="eclipse.jar.files" count="8" when="ge">
                             <fileset dir="${eclipseJars}">
                                 <include name="org.eclipse.core.commands_*.jar"/>
-                                <include name="org.eclipse.core.runtime_*.jar"/>
+                                <include name="org.eclipse.equinox.common_*.jar"/>
                                 <include name="org.eclipse.jface.text_*.jar"/>
                                 <include name="org.eclipse.jface_*.jar"/>
                                 <include name="org.eclipse.swt.win32.win32.x86_*.jar"/>
