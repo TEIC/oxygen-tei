@@ -108,15 +108,10 @@ cd ../..
 #echo add Brown specifics
 #unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
-echo Build package
-
-export ANT_HOME='tools/ant'
-export ANT_LIB='tools/ant/lib'
-export ANT_OPTS='-Xmx700m -Xms128m'
-sh tools/ant/bin/ant -lib tools/ant_extra/lib syncro
-
+echo do Ant build
+(cd frameworks/tei; ant)
 echo move result to teioxygen-$TEIVERSION-$XSLVERSION.zip
 mv frameworks/tei/dist/tei.zip teioxygen-$TEIVERSION-$XSLVERSION.zip
 echo upload teioxygen-$TEIVERSION-$XSLVERSION.zip to Sourceforge as user ${SFUSER}
-#${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
-#${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
+${DEBUG} rsync -e ssh teioxygen-$TEIVERSION-$XSLVERSION.zip ${SFUSER},tei@frs.sourceforge.net:/home/frs/project/t/te/tei/tei-oxygen/teioxygen-$TEIVERSION-$XSLVERSION.zip 
+${DEBUG} rm teioxygen-$TEIVERSION-$XSLVERSION.zip
