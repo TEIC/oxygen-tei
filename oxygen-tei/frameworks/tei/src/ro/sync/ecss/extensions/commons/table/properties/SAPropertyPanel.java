@@ -163,6 +163,7 @@ public class SAPropertyPanel {
           }
         }
       };
+      nameLabel.setLabelFor(comboBox);
       
       final ListCellRenderer defaultComboRenderer = comboBox.getRenderer();
       // Add the renderer

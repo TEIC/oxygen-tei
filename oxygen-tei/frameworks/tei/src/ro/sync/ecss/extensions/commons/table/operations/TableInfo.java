@@ -56,8 +56,8 @@ import java.util.Map;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.TypedMaps;
 import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants.ColumnWidthsType;
-import ro.sync.util.TypedMaps;
 
 /**
  * Contains information about the table element 

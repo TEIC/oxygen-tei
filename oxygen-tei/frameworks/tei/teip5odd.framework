@@ -2434,7 +2434,18 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 										</contextItem-array>
 									</field>
 									<field name="removeItems">
-										<null/>
+										<contextRemoveItem-array>
+											<contextRemoveItem>
+												<field name="targets">
+													<list>
+														<Integer>0</Integer>
+													</list>
+												</field>
+												<field name="renderName">
+													<String>row</String>
+												</field>
+											</contextRemoveItem>
+										</contextRemoveItem-array>
 									</field>
 								</contextProvider>
 							</field>
@@ -4762,6 +4773,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 						<null/>
 					</field>
 					<field name="customAttributeValueEditor">
+						<null/>
+					</field>
+				<field name="textModeExternalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

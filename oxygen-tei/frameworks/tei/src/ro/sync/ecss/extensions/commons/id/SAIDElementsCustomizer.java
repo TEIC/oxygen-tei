@@ -91,15 +91,35 @@ public class SAIDElementsCustomizer {
    */
   public GenerateIDElementsInfo customizeIDElements(
       AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage, final String helpPageID) {
+    return customizeIDElements(authorAccess, autoIDElementsInfo, listMessage, helpPageID, false);
+  }
+  
+  
+  /**
+   * Ask the user to customize the ID elements.
+   * 
+   * @param authorAccess        Access to author functionality.
+   * @param autoIDElementsInfo  Information about for what elements should IDs be generated.
+   * @param listMessage         The label used on the dialog before the list
+   * @param helpPageID          The ID of the help page which will be opened when users invoke help in the dialog.
+   * @param isDocBook           <code>true</code> if we are in DocBook.
+   *
+   * @return The initial list of elements for which to generate IDs.
+   */
+  public GenerateIDElementsInfo customizeIDElements(
+      AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage, final String helpPageID,
+      boolean isDocBook) {
 
     SAIDElementsCustomizerDialog idCustomizeDialog =
       new SAIDElementsCustomizerDialog(
           (Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
           listMessage,
-          authorAccess.getAuthorResourceBundle()){
+          authorAccess.getAuthorResourceBundle(),
+          isDocBook){
       /**
        * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
        */
+      @Override
       public String getHelpPageID() {
         return helpPageID;
       }

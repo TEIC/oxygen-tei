@@ -59,6 +59,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.webapp.WebappRestSafe;
 import ro.sync.exml.workspace.api.Platform;
 
 /**
@@ -66,6 +67,7 @@ import ro.sync.exml.workspace.api.Platform;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
+@WebappRestSafe
 public class InsertImageOperationP4 implements AuthorOperation {
   
   /**

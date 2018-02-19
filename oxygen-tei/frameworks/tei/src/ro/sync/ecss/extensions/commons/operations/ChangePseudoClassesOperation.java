@@ -93,6 +93,19 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
    */
   private static final String ARGUMENT_REMOVE_PSEUDOCLASS_NAMES = "removePseudoClassNames";
   /**
+   * Argument name. The value should be <code>true</code> in order to include comments, text and CDATA nodes,
+   * <code>false</code> to ignore them.
+   */
+  private static final String ARGUMENT_INCLUDE_ALL_NODES = "includeAllNodes";
+  /**
+   * Value for the "includeAllNodes" argument.
+   */
+  private static final String YES = "yes";
+  /**
+   * Value for the "includeAllNodes" argument.
+   */
+  private static final String NO = "no";
+  /**
    * The array of arguments.
    */
   private ArgumentDescriptor[] arguments;
@@ -102,7 +115,7 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
    */
   public ChangePseudoClassesOperation() {
 
-    arguments = new ArgumentDescriptor[4];
+    arguments = new ArgumentDescriptor[5];
     
     // Set XPath locations.
     ArgumentDescriptor argumentDescriptor = 
@@ -135,6 +148,17 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
         ArgumentDescriptor.TYPE_STRING,
         "A space-separated list of pseudo class names which will be removed from the matched nodes.");
     arguments[3] = argumentDescriptor;    
+    
+    // The value should be true in order to include comments, text and CDATA nodes,
+    // false to ignore them.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_INCLUDE_ALL_NODES,
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "The value should be \"yes\" in order to include comments, text and CDATA nodes "
+            + "in the XPath execution, \"no\" to ignore them.", 
+        new String [] {YES, NO},
+        NO);
+    arguments[4] = argumentDescriptor;  
   }
   
   /**
@@ -173,6 +197,8 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
     Object xpathLocations = args.getArgumentValue(xpathLocationKey);
     // The pseudo class name.
     Object pseudoClassNames = args.getArgumentValue(pseudoClassNamesKey);
+    // The includeAllNodes argument
+    Object includeAllNodes = args.getArgumentValue(ARGUMENT_INCLUDE_ALL_NODES);
       
     if (pseudoClassNames instanceof String) {
       String[] splitPseudoClasses = ((String) pseudoClassNames).split(" ");
@@ -180,17 +206,20 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
         List<AuthorElement> targetElements = new ArrayList<AuthorElement>();
         AuthorDocumentController documentController = authorAccess.getDocumentController();
         if (xpathLocations instanceof String && ((String)xpathLocations).trim().length() > 0) {
-          AuthorNode[] results =
-              documentController.findNodesByXPath((String) xpathLocations, true, true, true);
-          for (int i = 0; i < results.length; i++) {
-            AuthorNode authorNode = results[i];
-            if(authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
-              targetElements.add((AuthorElement) authorNode);
+          if (includeAllNodes instanceof String) {
+            boolean includeAll = includeAllNodes.equals(YES); 
+            AuthorNode[] results =
+                documentController.findNodesByXPath((String) xpathLocations, !includeAll, !includeAll, !includeAll);
+            for (int i = 0; i < results.length; i++) {
+              AuthorNode authorNode = results[i];
+              if(authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+                targetElements.add((AuthorElement) authorNode);
+              }
             }
-          }
-          
-          if(targetElements.size() == 0) {
-            throw new AuthorOperationException("The element XPath location does not identify an element: " + xpathLocations);
+
+            if(targetElements.size() == 0) {
+              throw new AuthorOperationException("The element XPath location does not identify an element: " + xpathLocations);
+            }
           }
         } else {
           AuthorNode node = null;
@@ -209,7 +238,7 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
             throw new AuthorOperationException("You need to have the carret inside an element.");
           }
         }
-        
+
         // Disable the views update for each pseudo class change. Since we don't
         // have a dedicate AuthorUE for this operation we will disable and 
         // enable back the layout update. 

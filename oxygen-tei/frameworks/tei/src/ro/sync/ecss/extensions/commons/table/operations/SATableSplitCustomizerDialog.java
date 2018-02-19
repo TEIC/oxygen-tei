@@ -111,7 +111,8 @@ public class SATableSplitCustomizerDialog extends OKCancelDialog {
     constr.fill = GridBagConstraints.NONE;
     constr.anchor = GridBagConstraints.WEST;
     constr.insets = new Insets(0, 0, 0, 0);
-    getContentPane().add(new JLabel(authorResourceBundle.getMessage(ExtensionTags.NUMBER_OF_COLUMNS) + ":"), constr);
+    JLabel colsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.NUMBER_OF_COLUMNS) + ":");
+    getContentPane().add(colsLabel, constr);
     
     constr.gridx ++;
     constr.weightx = 1;
@@ -120,6 +121,7 @@ public class SATableSplitCustomizerDialog extends OKCancelDialog {
     
     // Column Spinner
     colsSpinner = new JSpinner();
+    colsLabel.setLabelFor(colsSpinner);
     colsSpinner.setName("Columns spinner");
     colsSpinner.setModel(new SpinnerNumberModel(maxColumns > 1 ? 2 : 1, 1, maxColumns, 1));
     JComponent columnsEditor = colsSpinner.getEditor();
@@ -144,7 +146,8 @@ public class SATableSplitCustomizerDialog extends OKCancelDialog {
     constr.weightx = 0;
     constr.fill = GridBagConstraints.NONE;
     constr.insets = new Insets(7, 0, 0, 0);
-    getContentPane().add(new JLabel(authorResourceBundle.getMessage(ExtensionTags.NUMBER_OF_ROWS) + ":"), constr);
+    JLabel rowsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.NUMBER_OF_ROWS) + ":");
+    getContentPane().add(rowsLabel, constr);
     
     constr.gridx ++;
     constr.weightx = 1;
@@ -153,6 +156,7 @@ public class SATableSplitCustomizerDialog extends OKCancelDialog {
     
     // Rows spinner
     rowsSpinner = new JSpinner();
+    rowsLabel.setLabelFor(rowsSpinner);
     rowsSpinner.setName("Rows spinner");
     rowsSpinner.setModel(new SpinnerNumberModel(1, 1, maxRows, 1));
     // On ENTER, do ok in the dialog, not in tghe spinner

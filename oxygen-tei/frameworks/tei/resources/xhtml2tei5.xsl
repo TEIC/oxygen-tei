@@ -415,7 +415,8 @@
   </xsl:template>
 
   <xsl:template match="e:td | e:th">
-    <cell xmlns="http://www.tei-c.org/ns/1.0">
+      <xsl:variable name="addCodeElement" select=".[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced'))]"/>
+      <cell xmlns="http://www.tei-c.org/ns/1.0">
       <xsl:if test="number(@rowspan) > 1">
         <xsl:attribute name="rows">
           <xsl:value-of select="@rowspan"/>
@@ -426,7 +427,16 @@
           <xsl:value-of select="@colspan"/>
         </xsl:attribute>
       </xsl:if>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:choose>
+          <xsl:when test="$addCodeElement">
+              <xsl:element name="code">
+                  <xsl:apply-templates select="@* | node()"/>
+              </xsl:element>
+          </xsl:when>
+          <xsl:otherwise>
+              <xsl:apply-templates select="@* | node()"/>
+          </xsl:otherwise>
+      </xsl:choose>
     </cell>
   </xsl:template>
   

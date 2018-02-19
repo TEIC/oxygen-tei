@@ -130,6 +130,11 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
    */
   private final AuthorResourceBundle authorResourceBundle;
 
+  /**
+   * <code>true</code> if we are in DocBook.
+   */
+  private boolean isDocBook;
+
   
   /**
    * Constructor.
@@ -137,12 +142,14 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
    * @param parentShell           The parent shell for the dialog. 
    * @param listMessage           The message label used on the list.
    * @param authorResourceBundle  The author resource bundle.
+   * @param isDocBook             <code>true</code> if we are in DocBook.
    */
   public ECIDElementsCustomizerDialog(
-      Shell parentShell, String listMessage, AuthorResourceBundle authorResourceBundle) {
+      Shell parentShell, String listMessage, AuthorResourceBundle authorResourceBundle, boolean isDocBook) {
     super(parentShell);
     this.listMessage = listMessage;
     this.authorResourceBundle = authorResourceBundle;
+    this.isDocBook = isDocBook;
   }
   
   /**
@@ -258,7 +265,8 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
     
     // Remove IDs on copy
     filterIDsOnCopy = new Button(composite, SWT.CHECK);
-    filterIDsOnCopy.setText(authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY_IN_SAME_DOC));
+    filterIDsOnCopy.setText(isDocBook ? authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY)
+        : authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY_IN_SAME_DOC));
     data = new GridData(SWT.FILL, SWT.NONE, true, false);
     data.horizontalSpan = 2;
     data.horizontalIndent = 5;

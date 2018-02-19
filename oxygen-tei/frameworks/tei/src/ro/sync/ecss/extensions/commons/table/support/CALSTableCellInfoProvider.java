@@ -190,13 +190,15 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public Integer getColSpan(AuthorElement cellElem) {
     Integer colspan = null;
+    String startColumnName = null;
+    String endColumnName = null;
     AttrValue attrValue = cellElem.getAttribute(ATTRIBUTE_NAME_SPANNAME);
     if (attrValue != null) {
       // The col span is specified through a spanspec.
       CALSColSpanSpec spanSpec = getSpanSpec(attrValue.getValue());
       if(spanSpec != null) {
-        colspan = getColSpan(spanSpec.getStartColumnName(), spanSpec.getEndColumnName(), 
-            cellElem);          
+        startColumnName = spanSpec.getStartColumnName();
+        endColumnName = spanSpec.getEndColumnName();
       }
     } else {
       AttrValue namestValue = cellElem.getAttribute(ATTRIBUTE_NAME_NAMEST);
@@ -204,11 +206,57 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       if (namestValue != null && nameendValue != null
           && namestValue.getValue() != null && nameendValue.getValue() != null) {
         // The colspan is specified by the name of the 2 columns.
-        colspan = getColSpan(namestValue.getValue(), nameendValue.getValue(), 
-            cellElem);
+        startColumnName = namestValue.getValue();
+        endColumnName = nameendValue.getValue();
+      }
+    }
+    
+    if (startColumnName != null && endColumnName != null) {
+      int[] interval = getColSpan(startColumnName, endColumnName, cellElem);
+      if (interval != null) {
+        colspan = Integer.valueOf(Math.abs(interval[1] - interval[0])  + 1);
       }
     }
     return colspan;
+  }
+  
+  /**
+   * Compute the interval a cell spans across by looking 
+   * at the 'spanspec' attribute. In case the 'spanspec' attribute is missing 
+   * then the column span is defined by the 'namest' and 'nameend' attribute.
+   * 
+   * @param cellElem Cell we want to check for spans.
+   * 
+   * @return The interval a cell spans. Can be <code>null</code>
+   */
+  public int[] getColSpanInterval(AuthorElement cellElem) {
+    int[] interval = null;
+    String startColumnName = null;
+    String endColumnName = null;
+    AttrValue attrValue = cellElem.getAttribute(ATTRIBUTE_NAME_SPANNAME);
+    if (attrValue != null) {
+      // The col span is specified through a spanspec.
+      CALSColSpanSpec spanSpec = getSpanSpec(attrValue.getValue());
+      if(spanSpec != null) {
+        startColumnName = spanSpec.getStartColumnName();
+        endColumnName = spanSpec.getEndColumnName();
+      }
+    } else {
+      AttrValue namestValue = cellElem.getAttribute(ATTRIBUTE_NAME_NAMEST);
+      AttrValue nameendValue = cellElem.getAttribute(ATTRIBUTE_NAME_NAMEEND);
+      if (namestValue != null && nameendValue != null
+          && namestValue.getValue() != null && nameendValue.getValue() != null) {
+        // The colspan is specified by the name of the 2 columns.
+        startColumnName = namestValue.getValue();
+        endColumnName = nameendValue.getValue();
+      }
+    }
+    
+    if (startColumnName != null && endColumnName != null) {
+      interval = getColSpan(startColumnName, endColumnName, cellElem);
+    }
+    
+    return interval;
   }
   
   /**
@@ -219,8 +267,8 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * 
    * @return The column span numbver or <code>null</code> if it cannot be computed.
    */
-  private Integer getColSpan(String namest, String nameend, AuthorElement cellElement) {
-    Integer colspan = null;
+  private int[] getColSpan(String namest, String nameend, AuthorElement cellElement) {
+    int[] colspan = null;
     int startIndex = -1;
     int endIndex = -1; 
     Set<CALSColSpec> colspecs = colspecInfosMap.keySet();
@@ -251,7 +299,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     }
     
     if (startIndex != -1 && endIndex != -1) {
-      colspan = Integer.valueOf(Math.abs(endIndex - startIndex)  + 1);
+      colspan = new int[] {startIndex, endIndex};
     }
     return colspan;
   }
@@ -377,6 +425,15 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
 
           CALSColSpec cs = new CALSColSpec(colspecIndex, colSpecNumber, colNumberSpecified, colspecName, colWidth, colsep, rowsep);
           cs.setAlign(textAlign);
+          // EXM-35570 Notify duplicate column numbers.
+          if (colspecInfosMap.containsKey(cs)) {
+            if (errorsListener != null) {
+              errorsListener.add(child, 
+                  tableElement,
+                  CALSAndHTMLTableLayoutProblem.DUPLICATE_COLSPEC_NUMBER,
+                  cs.getColumnNumber());
+            }
+          }
           colspecInfosMap.put(cs, child);
           colspecIndex ++;
         } else if (ELEMENT_NAME_SPANSPEC.equalsIgnoreCase(child.getLocalName())) {

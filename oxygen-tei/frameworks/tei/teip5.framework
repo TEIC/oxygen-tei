@@ -2933,7 +2933,18 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</contextItem-array>
 									</field>
 									<field name="removeItems">
-										<null/>
+										<contextRemoveItem-array>
+											<contextRemoveItem>
+												<field name="targets">
+													<list>
+														<Integer>0</Integer>
+													</list>
+												</field>
+												<field name="renderName">
+													<String>row</String>
+												</field>
+											</contextRemoveItem>
+										</contextRemoveItem-array>
 									</field>
 								</contextProvider>
 							</field>
@@ -3983,6 +3994,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 						<null/>
 					</field>
 					<field name="customAttributeValueEditor">
+						<null/>
+					</field>
+					<field name="textModeExternalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

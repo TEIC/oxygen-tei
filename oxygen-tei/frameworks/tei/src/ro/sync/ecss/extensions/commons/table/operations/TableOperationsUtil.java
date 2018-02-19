@@ -53,6 +53,7 @@ package ro.sync.ecss.extensions.commons.table.operations;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -83,6 +84,8 @@ import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelper;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
 import ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper;
+import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
+import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 
 /**
  * Utility class for table operations.
@@ -897,5 +900,165 @@ public class TableOperationsUtil {
     }
     
     return null;
+  }
+
+  
+  /**
+   * Remove invalid column names from CALS table cells. Remove references to column names which are not defined in the table.
+   * @param authorAccess Author Access
+   * @param tableElement The table element
+   * @param cells        The list of cells.
+   */
+  public static void removeInvalidColNamesFromCALSTableCells(AuthorAccess authorAccess, AuthorElement tableElement, List<AuthorElement> cells) {
+    if(cells != null && ! cells.isEmpty()){
+      CALSTableCellInfoProvider cellInfoProvider = new CALSTableCellInfoProvider(false);
+      cellInfoProvider.init(tableElement);
+      // Determine the column specification 
+      Set<CALSColSpec> colSpecs = cellInfoProvider.getColSpecs();
+      for (int i = 0; i < cells.size(); i++) {
+        AuthorElement cell = cells.get(i);
+        String[] attributesToCheck = new String[]{"colname", "namest", "nameend"};
+        Set<String> definedColumnNamed = new HashSet<String>();
+        Iterator<CALSColSpec> iter = colSpecs.iterator();
+        while(iter.hasNext()){
+          definedColumnNamed.add(iter.next().getColumnName());
+        }
+
+        for (int j = 0; j < attributesToCheck.length; j++) {
+          AttrValue colnameValue = cell.getAttribute(attributesToCheck[j]);
+          if(colnameValue != null){
+            //Is it properly mapped to a table column name?
+            boolean foundColname = definedColumnNamed.contains(colnameValue.getValue());
+            if(! foundColname){
+              //Remove the attribute
+              authorAccess.getDocumentController().removeAttribute(attributesToCheck[j], cell);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  /**
+   * Propagate the change of a column name in the entire table.
+   * @param authorAccess Author access
+   * @param helper       Table helper.
+   * @param currentElement Current element on which the attribute which should be changed.
+   * @param attributeName  Name of changed attribute
+   * @param newValue       The new attribute value
+   * @return <code>true</code> if this method handled the change.
+   */
+  public static boolean handleColumnSpecAttributeChange(AuthorAccess authorAccess, AuthorTableHelper helper, AuthorElement currentElement,
+      String attributeName, AttrValue newValue) {
+    boolean handled = false;
+    AttrValue oldValue = currentElement.getAttribute(attributeName);
+    if(oldValue != null && oldValue.isSpecified()){
+      String currentValue = oldValue.getValue();
+      List<String> interestingAttrs = new ArrayList<String>();
+      
+      //Interesting attribute names.
+      interestingAttrs.add("colname");
+      interestingAttrs.add("namest");
+      interestingAttrs.add("nameend");
+      if(interestingAttrs.contains(attributeName)){
+        //Interesting attribute...we need to make the changes in all places where the old value is referenced.
+        AuthorNode node = currentElement;
+        //Find the table element...
+        AuthorElement tableElement = null;
+        while(node != null) {
+          if (authorAccess.getEditorAccess().getStyles(node).isTable()) {
+            if(node.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+              tableElement = (AuthorElement) node;
+            }
+            break;
+          } else {
+            node = node.getParent();
+          }
+        }
+        Set<String> existingColNames = new HashSet<String>();
+        if(tableElement != null){
+          List<AuthorElement> toChange = new ArrayList<AuthorElement>();
+          List<AuthorNode> nodes = tableElement.getContentNodes();
+          if(nodes != null && ! nodes.isEmpty()){
+            for (int i = 0; i < nodes.size(); i++) {
+              AuthorNode childNode = nodes.get(i);
+              if(childNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+                AuthorElement childElement = (AuthorElement) childNode;
+                if(helper.isColspec(childElement)){
+                  //Column specification
+                  toChange.add(childElement);
+                  AttrValue attribute = childElement.getAttribute("colname");
+                  if(attribute != null && attribute.isSpecified()){
+                    existingColNames.add(attribute.getValue());
+                  }
+                } else if(helper.isTableRow(childElement)){
+                  iterateCells(helper, toChange, childElement);
+                } else {
+                  Styles styles = authorAccess.getEditorAccess().getStyles(childElement);
+                  if(styles.isTableHeaderGroup() || styles.isTableRowGroup()){
+                    //Find the row elements...
+                    List<AuthorNode> rowNodes = childElement.getContentNodes();
+                    if(rowNodes != null){
+                      for (int j = 0; j < rowNodes.size(); j++) {
+                        AuthorNode rowNode = rowNodes.get(j);
+                        if(helper.isTableRow(rowNode) && rowNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+                          //Row
+                          iterateCells(helper, toChange, ((AuthorElement)rowNode));
+                        }
+                      }
+                    }
+                  }
+                }
+              } 
+            }
+          }
+          
+          if(!toChange.isEmpty() && toChange.contains(currentElement) 
+              //If user is renaming from one column name to another, abstain from doing anything...
+              && ! existingColNames.contains(newValue.getValue())){
+            handled = true;
+            try{
+              authorAccess.getDocumentController().beginCompoundEdit();
+              for (int i = 0; i < toChange.size(); i++) {
+                AuthorElement elem = toChange.get(i);
+                for (int j = 0; j < interestingAttrs.size(); j++) {
+                  String attr = interestingAttrs.get(j);
+                  AttrValue currentAttr = elem.getAttribute(attr);
+                  if(currentAttr != null && currentAttr.isSpecified() && currentValue.equals(currentAttr.getValue())){
+                    //We need to update this...
+                    authorAccess.getDocumentController().setAttribute(attr, newValue, elem);
+                  }
+                }
+              }
+            } finally {
+              authorAccess.getDocumentController().endCompoundEdit();  
+            }
+          }
+        }
+      }
+    }
+    return handled;
+  }
+
+  /**
+   * Find all cells and add them to the list.
+   * 
+   * @param helper The helper.
+   * @param toChange List where to add all cells.
+   * @param rowElement The current row.
+   */
+  private static void iterateCells(AuthorTableHelper helper, List<AuthorElement> toChange,
+      AuthorElement rowElement) {
+    //Table row, add cells.
+    List<AuthorNode> cellNodes = rowElement.getContentNodes();
+    if(cellNodes != null){
+      for (int j = 0; j < cellNodes.size(); j++) {
+        AuthorNode cellNode = cellNodes.get(j);
+        if(helper.isTableCell(cellNode) && cellNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+          //Cell
+          toChange.add((AuthorElement) cellNode);
+        }
+      }
+    }
   }
 }

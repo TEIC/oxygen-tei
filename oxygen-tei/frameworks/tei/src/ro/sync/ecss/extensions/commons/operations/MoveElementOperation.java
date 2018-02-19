@@ -252,7 +252,9 @@ public class MoveElementOperation implements AuthorOperation {
     if (toMoveNode != null) {
       AuthorNode toDeleteNode = toMoveNode;
       String toDeleteLocation = (String) args.getArgumentValue(ARGUMENT_DELETE_LOCATION);
-      if (toDeleteLocation != null) {
+      if (toDeleteLocation != null 
+    		  //EXM-39907 Consider empty value as null
+    		  && ! toDeleteLocation.isEmpty()) {
         // We have an explicit node to delete.
         toDeleteNode = executeLocationXPath(authorAccess, toDeleteLocation, processTrackChanges);
       }

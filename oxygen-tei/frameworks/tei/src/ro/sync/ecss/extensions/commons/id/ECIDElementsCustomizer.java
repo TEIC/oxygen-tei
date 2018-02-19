@@ -90,12 +90,29 @@ public class ECIDElementsCustomizer {
    */
   public GenerateIDElementsInfo customizeIDElements(
       AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage, final String helpPageID) {
+    return customizeIDElements(authorAccess, autoIDElementsInfo, listMessage, helpPageID, false);
+  }
+  
+  /**
+   * Ask the user to customize the ID elements.
+   * 
+   * @param authorAccess        Access to author functionality.
+   * @param autoIDElementsInfo  Information about for what elements should IDs be generated.
+   * @param listMessage         The label used on the dialog before the list.
+   * @param helpPageID          The help page ID.
+   * @param isDocBook           <code>true</code> if we are in DocBook.
+   *
+   * @return The initial list of elements for which to generate IDs.
+   */
+  public GenerateIDElementsInfo customizeIDElements(
+      AuthorAccess authorAccess, GenerateIDElementsInfo autoIDElementsInfo, String listMessage, final String helpPageID, boolean isDocBook) {
 
     ECIDElementsCustomizerDialog idCustomizeDialog = 
       new ECIDElementsCustomizerDialog(
           (Shell)authorAccess.getWorkspaceAccess().getParentFrame(),
           listMessage,
-          authorAccess.getAuthorResourceBundle()){
+          authorAccess.getAuthorResourceBundle(),
+          isDocBook){
       /**
        * @see ro.sync.ecss.extensions.commons.id.ECIDElementsCustomizerDialog#getHelpPageID()
        */

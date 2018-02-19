@@ -292,10 +292,12 @@ public class TEIInsertListOperation extends InsertListOperation {
             return null;
         } else if ("list".equals(localName)) {
           AttrValue type = ((AuthorElement) nodeAtOffset).getAttribute("type");
-          if ("bulleted".equals(type)) {
-            return ITEMIZED_LIST;
-          } else if ("ordered".equals(type)) {
-            return ORDERED_LIST;
+          if(type != null) {
+            if ("bulleted".equals(type.getValue())) {
+              return ITEMIZED_LIST;
+            } else if ("ordered".equals(type.getValue())) {
+              return ORDERED_LIST;
+            }
           }
         }
       }

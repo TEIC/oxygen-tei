@@ -93,6 +93,22 @@ public abstract class PseudoClassOperation implements AuthorOperation {
   private static final String ARGUMENT_ELEMENT_XPATH_LOCATION = "elementLocation";
   
   /**
+   * Argument name. The value should be <code>true</code> in order to include comments, text and CDATA nodes,
+   * <code>false</code> to ignore them.
+   */
+  private static final String ARGUMENT_INCLUDE_ALL_NODES = "includeAllNodes";
+ 
+  /**
+   * Value for the "includeAllNodes" argument.
+   */
+  private static final String YES = "yes";
+  
+  /**
+   * Value for the "includeAllNodes" argument.
+   */
+  private static final String NO = "no";
+  
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
@@ -101,7 +117,7 @@ public abstract class PseudoClassOperation implements AuthorOperation {
    * Constructor.
    */
   public PseudoClassOperation() {
-    arguments = new ArgumentDescriptor[2];
+    arguments = new ArgumentDescriptor[3];
     
     // Argument defining the element that will be modified.
     ArgumentDescriptor argumentDescriptor = 
@@ -112,13 +128,23 @@ public abstract class PseudoClassOperation implements AuthorOperation {
           + "Note: If this is not defined then the element at the caret position will be used.");
     arguments[0] = argumentDescriptor;
     
-    
     // Argument defining pseudo-class name that will be modified.
     argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_PSEUDOCLASS_NAME,
         ArgumentDescriptor.TYPE_STRING,
         "The pseudo-class name.");
     arguments[1] = argumentDescriptor;    
+    
+    // The value should be true in order to include comments, text and CDATA nodes,
+    // false to ignore them.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_INCLUDE_ALL_NODES,
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "The value should be \"yes\" in order to include comments, text and CDATA nodes "
+            + "in the XPath execution, \"no\" to ignore them.", 
+        new String [] {YES, NO},
+        NO);
+    arguments[2] = argumentDescriptor;    
   }
 
   /**
@@ -132,25 +158,38 @@ public abstract class PseudoClassOperation implements AuthorOperation {
     Object xpathLocation = args.getArgumentValue(ARGUMENT_ELEMENT_XPATH_LOCATION);
     // The pseudo class name.
     Object name = args.getArgumentValue(ARGUMENT_PSEUDOCLASS_NAME);
+    // The includeAllNodes argument
+    Object includeAllNodes = args.getArgumentValue(ARGUMENT_INCLUDE_ALL_NODES);
       
     if (name instanceof String) {
       String pseudoClassName = ((String)name).trim();
       AuthorElement targetElement;
       if (xpathLocation instanceof String) {
-        AuthorNode[] results =
-          authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, null, true, true, true, false, XPathVersion.XPATH_2_0, true);
-        if (results.length > 0) {
-          for (int i = 0; i < results.length; i++) {
-            AuthorNode node = results[i];
-            if (node instanceof AuthorElement) {
-              targetElement = (AuthorElement)node;
-              execute(authorAccess, pseudoClassName, targetElement);
-            } else {
-              logger.warn("The XPath location selected a node different from element - " + node.getDisplayName() + ": " + xpathLocation);
+        if (includeAllNodes instanceof String) {
+          boolean includeAll = includeAllNodes.equals(YES); 
+          AuthorNode[] results =
+              authorAccess.getDocumentController().findNodesByXPath(
+                  (String) xpathLocation,
+                  null,
+                  !includeAll,
+                  !includeAll,
+                  !includeAll,
+                  false,
+                  XPathVersion.XPATH_2_0,
+                  true);
+          if (results.length > 0) {
+            for (int i = 0; i < results.length; i++) {
+              AuthorNode node = results[i];
+              if (node instanceof AuthorElement) {
+                targetElement = (AuthorElement)node;
+                execute(authorAccess, pseudoClassName, targetElement);
+              } else {
+                logger.warn("The XPath location selected a node different from element - " + node.getDisplayName() + ": " + xpathLocation);
+              }
             }
+          } else {
+            logger.warn("The XPath location returned no results: " + xpathLocation);
           }
-        } else {
-          logger.warn("The XPath location returned no results: " + xpathLocation);
         }
       } else {
         AuthorNode node = null;

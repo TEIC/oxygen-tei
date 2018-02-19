@@ -54,6 +54,9 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -72,6 +75,7 @@ import ro.sync.ecss.dom.wrappers.mutable.AuthorSource;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -152,15 +156,34 @@ public class XQueryUpdateOperation implements AuthorOperation {
    */
   public static final String ARGUMENT_SCRIPT = "script";
   /**
+   * External parameters for xquery.
+   */
+  public static final String ARGUMENT_SCRIPT_PARAMETERS = "externalParams";
+  /**
+   * Make XInclude elements transparent in document model.
+   */
+  public static final String ARGUMENT_EXPAND_XINCLUDE_REFERENCES = "expandXincludeReferences";
+  /**
+   * Split tokens: comma and end line.
+   */
+  private static final String TOKEN_COMMA_END_LINE = ",\n";
+  /**
+   * Equals token.
+   */
+  private static final String TOKEN_EQUALS = "=";
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
-  
+ /**
+  * External parameters of the xquery script.
+  */
+  private Map externalArguments = null;
   /**
    * Constructor.
    */
   public XQueryUpdateOperation() {
-    arguments = new ArgumentDescriptor[1];
+    arguments = new ArgumentDescriptor[3];
     // We only have one argument that can be either an URL or the actual script.
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SCRIPT,
@@ -173,6 +196,25 @@ public class XQueryUpdateOperation implements AuthorOperation {
             "If you provide the actual script, the base system ID for this will be the framework file, so any include/import " +
             "reference will be resolved relative to the \".framework\" file that contains this action definition");
     arguments[0] = argumentDescriptor;
+    
+    // EXM-37485 Provide external parameters to script.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_SCRIPT_PARAMETERS,
+        ArgumentDescriptor.TYPE_STRING,
+        "Provide external parameters to the xquery script.\n"
+        + "Should be inserted as name=value pairs separated by comma or line break.");
+    arguments[1] = argumentDescriptor;
+    
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_EXPAND_XINCLUDE_REFERENCES,
+        ArgumentDescriptor.TYPE_CONSTANT_LIST, 
+        "Add the elements referred through XInclude to the document model.",
+        new String[] {
+            AuthorConstants.ARG_VALUE_TRUE,
+            AuthorConstants.ARG_VALUE_FALSE
+        }, 
+        AuthorConstants.ARG_VALUE_FALSE);
+    arguments[2] = argumentDescriptor;
   }
 
   /**
@@ -182,6 +224,29 @@ public class XQueryUpdateOperation implements AuthorOperation {
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
     throws AuthorOperationException {
     Object script = args.getArgumentValue(ARGUMENT_SCRIPT);
+    Object paramsArgument = args.getArgumentValue(ARGUMENT_SCRIPT_PARAMETERS);
+    
+    if (paramsArgument instanceof String && 
+        // Default value was changed.
+        !((String) paramsArgument).trim().equals("")) {
+      externalArguments = new HashMap<String, String>();
+      // Tokenize the string and get the parameters and their values;
+      StringTokenizer commaTokenizer = new StringTokenizer((String) paramsArgument, TOKEN_COMMA_END_LINE);
+      while (commaTokenizer.hasMoreElements()) {
+        // key = value pairs.
+        String pair = (String) commaTokenizer.nextElement();
+        int indexOfEqual = pair.indexOf(TOKEN_EQUALS);
+        if (indexOfEqual != -1) {
+          String param = pair.substring(0, indexOfEqual);
+          String value = pair.substring(indexOfEqual + 1, pair.length());
+          externalArguments.put(param.trim(), value);
+        } else {
+          throw new IllegalArgumentException("The arguments should be defined as key=value pairs.");
+        }
+      }
+      
+    }
+    
     if (script instanceof String) {
       Source xQuerySource = null;
       // Try to parse it as an URL.
@@ -205,8 +270,19 @@ public class XQueryUpdateOperation implements AuthorOperation {
             xQuerySource, 
             null);
         
+        // Now set the external parameters to transformer;
+        if (externalArguments != null) {
+          for (Object key : externalArguments.keySet()) {
+            queryTransformer.setParameter((String) key, externalArguments.get(key));
+          }
+        }
+        
         // Create a special author model source.
-        Source s = new AuthorSource(authorAccess);
+        Object expandXInclude = args.getArgumentValue(ARGUMENT_EXPAND_XINCLUDE_REFERENCES);
+        if (expandXInclude == null) {
+          expandXInclude = false;
+        }
+        Source s = new AuthorSource(authorAccess, Boolean.valueOf(expandXInclude.toString()));
         Writer writer = new StringWriter();
         Result result = new StreamResult(writer);
         
@@ -243,4 +319,5 @@ public class XQueryUpdateOperation implements AuthorOperation {
   public String getDescription() {
     return "Executes an XQuery Update script.";
   }
+  
 }

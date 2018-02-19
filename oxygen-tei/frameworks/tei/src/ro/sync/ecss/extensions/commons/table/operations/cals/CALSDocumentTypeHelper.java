@@ -155,7 +155,8 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
    * Update the span information of the specified cell element. 
    * The <code>namest</code> and <code>nameend</code> attributes will be set 
    * according to the <code>startCol</code> and <code>endCol</code> supplied values.    
-   * If the <code>spanname</code> attribute is set, then it will be removed.  
+   * If the <code>spanname</code> attribute is set, then it will be removed.
+   * If the <code>colname</code> attribute is set, then it will be removed.    
    * 
    * @throws AuthorOperationException If the supplied values for start span column 
    * and end span column do not correspond to existing columns specifications. 
@@ -196,6 +197,11 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
     // Remove 'spanname' attribute.
     authorAccess.getDocumentController().removeAttribute(
         ATTRIBUTE_NAME_SPANNAME,
+        cellElem);
+    
+    // EXM-40431 Remove 'colname' attribute.
+    authorAccess.getDocumentController().removeAttribute(
+        ATTRIBUTE_NAME_COLNAME,
         cellElem);
   }
 
@@ -287,6 +293,7 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
    * Get a list of allowed cell attributes to copy when creating a new row.
    * @return a list of allowed cell attributes to copy when creating a new row.
    */
+  @Override
   public String[] getAllowedCellAttributesToCopy() {
 	  //Return the list from the CALS table specification
       return new String[] {

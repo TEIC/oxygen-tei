@@ -54,6 +54,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.webapp.WebappRestSafe;
 import ro.sync.ecss.extensions.commons.table.operations.JoinCellAboveBelowOperationBase;
 
 /**
@@ -63,6 +64,7 @@ import ro.sync.ecss.extensions.commons.table.operations.JoinCellAboveBelowOperat
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
+@WebappRestSafe
 public class JoinCellAboveBelowOperation extends JoinCellAboveBelowOperationBase {
   
   /**

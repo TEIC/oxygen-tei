@@ -60,6 +60,7 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.exml.workspace.api.editor.ReadOnlyReason;
 
 /**
  * Operation that sets the read-only status of a document.
@@ -84,6 +85,14 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
   public static final String ARGUMENT_READ_ONLY_REASON = "reason";
 
   /**
+   * The code for the reason for the document being read-only. It will be accessible through API.
+   * 
+   * The difference between this argument and {@link #ARGUMENT_READ_ONLY_REASON} is that this code does
+   * not change with the UI language. 
+   */
+  public static final String ARGUMENT_READ_ONLY_CODE = "reason-code";
+  
+  /**
    * The arguments descriptor.
    */
   protected static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
@@ -101,10 +110,14 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
       }, 
       AuthorConstants.ARG_VALUE_TRUE),
     new ArgumentDescriptor(
-      ARGUMENT_READ_ONLY, 
+      ARGUMENT_READ_ONLY_REASON, 
       ArgumentDescriptor.TYPE_STRING,
       "The reason for the document being read-only. It will be displayed when the user tries to edit the document.\n" +
-      "If not specified, a default message will be displayed to the user.")
+      "If not specified, a default message will be displayed to the user."),
+    new ArgumentDescriptor(
+        ARGUMENT_READ_ONLY_CODE, 
+        ArgumentDescriptor.TYPE_STRING,
+        "The code for the reason for the document being read-only. It will be accessible through API. Optional.")
     };
 
 
@@ -125,9 +138,10 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
     boolean shouldMakeReadOnly = AuthorConstants.ARG_VALUE_TRUE.equals(
         "" + args.getArgumentValue(ARGUMENT_READ_ONLY));
     String reason = (String) args.getArgumentValue(ARGUMENT_READ_ONLY_REASON);
+    String reasonCode = (String) args.getArgumentValue(ARGUMENT_READ_ONLY_CODE);
     
     if (shouldMakeReadOnly) {
-      authorAccess.getEditorAccess().setReadOnly(reason);
+      authorAccess.getEditorAccess().setReadOnly(new ReadOnlyReason(reason, reasonCode));
     } else {
       authorAccess.getEditorAccess().setEditable(!shouldMakeReadOnly);  
     }

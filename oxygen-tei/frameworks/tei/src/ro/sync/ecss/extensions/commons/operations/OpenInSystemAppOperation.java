@@ -91,7 +91,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    */
   static final String ARGUMENT_RESOURCE_PATH = "resourcePath";
   /**
-   * <code>true</code> if the value of the XPATH represents an uparsed entity name.
+   * <code>true</code> if the value of the XPATH represents an unparsed entity name.
    */
   private static final String ARGUMENT_UNPARSED_ENTITY = "isUnparsedEntity";
   
@@ -238,6 +238,8 @@ public class OpenInSystemAppOperation implements AuthorOperation {
           if (logger.isDebugEnabled()) {
             logger.debug("Absolute location to open: " + toOpen);
           }
+          
+          String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
           if (toOpen != null) {
             File localFile = authorAccess.getUtilAccess().locateFile(toOpen);
             if (localFile != null && !localFile.exists()) {
@@ -245,9 +247,19 @@ public class OpenInSystemAppOperation implements AuthorOperation {
               throw new AuthorOperationException("Resource does not exists: " + toOpen);
             } else {
               //Use media argument...
-              String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
               authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true, mediaType);
             }
+          } else {
+            String toOpenString = toOpenVal;
+            if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
+              //Unparsed entity.
+              String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
+              if (systemID != null) {
+                toOpenString = systemID;
+              }
+            }
+            
+            authorAccess.getWorkspaceAccess().openInExternalApplication(toOpenString, true, mediaType);
           }
         }
       } else {

@@ -385,12 +385,7 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
     boolean removeUniqueIDs = false;
     if(fragmentInformation.getFragmentOriginalLocation() != null
         && ! fragmentInformation.getFragmentOriginalLocation().equals(authorAccess.getEditorAccess().getEditorLocation().toString())) {
-      if(preserveIDsWhenPastingBetweenResources()){
-        //EXM-21408 Paste from another document. Preserve the IDs
-        removeUniqueIDs = false;
-      } else {
-        removeUniqueIDs = true;
-      }
+      removeUniqueIDs = !preserveIDsWhenPastingBetweenResources(fragmentInformation.getPurposeID());
     } else {
       int purposeID = fragmentInformation.getPurposeID();
       if(purposeID == AuthorSchemaAwareEditingHandler.CREATE_FRAGMENT_PURPOSE_COPY 
@@ -407,10 +402,12 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
   /**
    * Check if we should preserve IDs when pasting between resources.
    * 
+   * @param fragmentPurpose The fragment purpose. On of the {@link AuthorSchemaAwareEditingHandler} purposes.
+   * 
    * @return <code>true</code> if we should preserve IDs when pasting between resources.
    * By default the base method returns <code>true</code>.
    */
-  protected boolean preserveIDsWhenPastingBetweenResources() {
+  protected boolean preserveIDsWhenPastingBetweenResources(int fragmentPurpose) {
     return true;
   }
 

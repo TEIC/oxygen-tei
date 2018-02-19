@@ -60,6 +60,8 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorConstants;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
@@ -76,6 +78,29 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
 public class ReloadContentOperation implements AuthorOperation {
 
   /**
+   * The name of the arguments that used to controll the modified status after the operation is finished.
+   */
+  static final String ARGUMENT_MARK_AS_NOT_MODIFIED = "markAsNotModified";
+  
+  /**
+   * The arguments of the operation.
+   */
+  private static ArgumentDescriptor[] arguments = new ArgumentDescriptor[]{
+    new ArgumentDescriptor(
+      ARGUMENT_MARK_AS_NOT_MODIFIED, 
+      ArgumentDescriptor.TYPE_STRING, 
+      "After reloading the content the editor may appear as modified. Sometimes, the content is already "
+      + "present on the file server, so the user should not save it again. This flags can be used in these "
+      + "cases to prevent the editor from showing as modified",
+      new String[] {
+        AuthorConstants.ARG_VALUE_TRUE,
+        AuthorConstants.ARG_VALUE_FALSE,
+      }, 
+      AuthorConstants.ARG_VALUE_FALSE
+    )
+  };
+  
+  /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
   @Override
@@ -89,7 +114,8 @@ public class ReloadContentOperation implements AuthorOperation {
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
-    String docUrl = authorAccess.getDocumentController().getAuthorDocumentNode().getSystemID();
+    AuthorDocumentController controller = authorAccess.getDocumentController();
+    String docUrl = controller.getAuthorDocumentNode().getSystemID();
     // Record the caret position before the reload.
     int caretBefore = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionInterval().getEndOffset();
     
@@ -111,6 +137,16 @@ public class ReloadContentOperation implements AuthorOperation {
       throw new AuthorOperationException("Could not read the content of the editor from its URL: " + docUrl, e);
     }
     
+    if (Boolean.TRUE.equals(args.getArgumentValue(ARGUMENT_MARK_AS_NOT_MODIFIED))) {
+      controller.endCompoundEdit();
+      try {
+        // The document should be marked as not modified after the compound edit is actually performed.
+        authorAccess.getEditorAccess().setModified(false);
+      } finally {
+        controller.beginCompoundEdit();
+      }
+    }
+    
     // Try to maintain the caret around the same position as before the reload.
     int endOffset = authorAccess.getDocumentController().getAuthorDocumentNode().getEndOffset();
     if (caretBefore >= endOffset) {
@@ -124,7 +160,7 @@ public class ReloadContentOperation implements AuthorOperation {
    */
   @Override
   public ArgumentDescriptor[] getArguments() {
-    return new ArgumentDescriptor[0];
+    return arguments;
   }
 
 }

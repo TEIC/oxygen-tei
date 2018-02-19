@@ -136,42 +136,50 @@ public class XPointerElementLocator extends ElementLocator {
     this.idVerifier = idVerifier;
 
     link = link.substring("element(".length(), link.length() - 1);
+    
+    if (link != null && link.length() > 0 ) {
 
-    StringTokenizer stringTokenizer = new StringTokenizer(link, "/", false);
-    xpointerPath = new String[stringTokenizer.countTokens()];
-    int i = 0;
-    while (stringTokenizer.hasMoreTokens()) {
-      xpointerPath[i] = stringTokenizer.nextToken();
-      boolean invalidFormat = false;
-      
-      // Empty XPointer component is not supported
-      if(xpointerPath[i].length() == 0){
-        invalidFormat = true;
-      }
-      
-      if(i > 0){
-        try {
-          Integer.parseInt(xpointerPath[i]);
-        } catch (NumberFormatException e) {
+      StringTokenizer stringTokenizer = new StringTokenizer(link, "/", false);
+      xpointerPath = new String[stringTokenizer.countTokens()];
+      int i = 0;
+      while (stringTokenizer.hasMoreTokens()) {
+        xpointerPath[i] = stringTokenizer.nextToken();
+        boolean invalidFormat = false;
+
+        // Empty XPointer component is not supported
+        if(xpointerPath[i].length() == 0){
           invalidFormat = true;
         }
+
+        if(i > 0){
+          try {
+            Integer.parseInt(xpointerPath[i]);
+          } catch (NumberFormatException e) {
+            invalidFormat = true;
+          }
+        }
+
+        if(invalidFormat){
+          throw new ElementLocatorException(
+              "Only the element() scheme is supported when locating XPointer links. " +
+              "Supported formats: element(elementID), element(/1/2/3), element(elemID/2/3/4).");
+        }
+        i++;
       }
 
-      if(invalidFormat){
-        throw new ElementLocatorException(
-            "Only the element() scheme is supported when locating XPointer links. " +
-        "Supported formats: element(elementID), element(/1/2/3), element(elemID/2/3/4).");
+      if(Character.isDigit(xpointerPath[0].charAt(0))){
+        // This is the case when XPointer have the following pattern /1/5/7
+        xpointerPathDepth = xpointerPath.length;
+      } else {
+        // This is the case when XPointer starts with an element ID
+        xpointerPathDepth = -1;
+        startWithElementID  = true;
       }
-      i++;
-    }
-
-    if(Character.isDigit(xpointerPath[0].charAt(0))){
-      // This is the case when XPointer have the following pattern /1/5/7
-      xpointerPathDepth = xpointerPath.length;
     } else {
-      // This is the case when XPointer starts with an element ID
-      xpointerPathDepth = -1;
-      startWithElementID  = true;
+      // The "element() Scheme Syntax" should not be permitted. 
+      // Inform user about this. 
+      String errorMessage = "Syntax Error.\nThe XPointer element() scheme with no arguments is not permitted.";
+      throw new ElementLocatorException(errorMessage);
     }
   }
 
@@ -217,6 +225,7 @@ public class XPointerElementLocator extends ElementLocator {
     }
         
     if(xpointerPathDepth == startElementDepth){
+      
       // check if XPointer path matches with the current element path
       linkLocated = true;
       try {        

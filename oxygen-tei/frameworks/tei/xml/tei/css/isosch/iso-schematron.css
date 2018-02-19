@@ -22,26 +22,26 @@ sch|schema:before {
     font-weight : bold;
 }
 sch|schema[schemaVersion]:before {
-    content : 'ISO Schematron schema - schema version: ' attr('schemaVersion');
+    content : 'ISO Schematron schema - schema version: ' attr(schemaVersion);
 }
 sch|schema[queryBinding]:before {
-    content : 'ISO Schematron schema - query binding: ' attr('queryBinding');
+    content : 'ISO Schematron schema - query binding: ' attr(queryBinding);
 }
 sch|schema[queryBinding][schemaVersion]:before {
-    content : 'ISO Schematron schema - query binding: ' attr('queryBinding') ', schema version: ' attr('schemaVersion');
+    content : 'ISO Schematron schema - query binding: ' attr(queryBinding) ', schema version: ' attr(schemaVersion);
 }
 sch|schema[defaultPhase]:before {
-    link : '#' attr('defaultPhase');
+    link : '#' attr(defaultPhase);
     content : 'ISO Schematron schema - default phase: ' url(img/link.png) attr(defaultPhase);
 }
 sch|schema[defaultPhase][schemaVersion]:before {
-    content : 'ISO Schematron schema - schema version: ' attr('schemaVersion') ', default phase: ' url(img/link.png) attr(defaultPhase);
+    content : 'ISO Schematron schema - schema version: ' attr(schemaVersion) ', default phase: ' url(img/link.png) attr(defaultPhase);
 }
 sch|schema[defaultPhase][queryBinding]:before {
-    content : 'ISO Schematron schema - query binding: ' attr('queryBinding') ', default phase: ' url(img/link.png) attr(defaultPhase);
+    content : 'ISO Schematron schema - query binding: ' attr(queryBinding) ', default phase: ' url(img/link.png) attr(defaultPhase);
 }
 sch|schema[defaultPhase][queryBinding][schemaVersion]:before {
-    content : 'ISO Schematron schema - query binding: ' attr('queryBinding') ', schema version: ' attr('schemaVersion') ', default phase: ' url(img/link.png) attr(defaultPhase);
+    content : 'ISO Schematron schema - query binding: ' attr(queryBinding) ', schema version: ' attr(schemaVersion) ', default phase: ' url(img/link.png) attr(defaultPhase);
 }
 sch|schema[icon]:before {
     display : block;
@@ -50,14 +50,14 @@ sch|schema {
     display : block;
 }
 sch|schema[icon] {
-    content : attr('icon', url);
+    content : attr(icon, url);
 }
 sch|schema[icon] {
-    content : attr('icon', url);
+    content : attr(icon, url);
 }
 sch|schema[see]:after {
     border-top : 1px solid gray;
-    content : 'See also: ' url(img/link.png)  attr('see');
+    content : 'See also: ' url(img/link.png)  attr(see);
     link: attr(see);
     display:block;
     text-decoration:underline;
@@ -70,7 +70,7 @@ sch|ns:before {
 }
 sch|ns {
     display : block;
-    content : attr('prefix') ' → ' attr('uri');
+    content : attr(prefix) ' → ' attr(uri);
     margin-left : 8px;
 }
 /* included schemas */
@@ -83,7 +83,7 @@ sch|include {
 }
 sch|include[href]:after {
     link: attr(href);
-    content:url(img/link.png) attr('href');
+    content:url(img/link.png) attr(href);
     display:inline;
     text-decoration:underline;
     color:navy;
@@ -96,17 +96,17 @@ sch|phase:before {
 sch|phase {
     -oxy-foldable : true;
     display : block;
-    content : attr('id');
+    content : attr(id);
     border : 1px solid gray;
     margin : 8px;
     background-color : #FCFCFF;
 }
 sch|phase[icon] {
-    content : attr('id') ' ' attr('icon', url);
+    content : attr(id) ' ' attr(icon, url);
 }
 sch|phase[see]:after {
     border-top : 1px solid gray;
-    content : 'See also: ' url(img/link.png)  attr('see');
+    content : 'See also: ' url(img/link.png)  attr(see);
     link: attr(see);
     display:inline;
     text-decoration:underline;
@@ -121,8 +121,8 @@ sch|active {
     display : block;
 }
 sch|active:after {
-    content : url(img/link.png) attr('pattern');
-    link: '#' attr('pattern');
+    content : url(img/link.png) attr(pattern);
+    link: '#' attr(pattern);
     display:inline;
     text-decoration:underline;
     color:navy;
@@ -130,17 +130,17 @@ sch|active:after {
 }
 /* patterns */
 sch|pattern:before {
-    content : 'Pattern ' attr('id');
+    content : 'Pattern ' attr(id);
 }
 sch|pattern[is-a]:before {
-    content : 'Pattern ' attr('id') ' → ' url(img/link.png) attr('is-a');
+    content : 'Pattern ' attr(id) ' → ' url(img/link.png) attr(is-a);
     link: '#' attr(is-a);
 }
 sch|pattern[abstract='true']:before {
-    content : 'Abstract pattern ' attr('id');
+    content : 'Abstract pattern ' attr(id);
 }
 sch|pattern[is-a][abstract='true']:before {
-    content : 'Abstract pattern ' attr('id') ' → ' url(img/link.png) attr('is-a');
+    content : 'Abstract pattern ' attr(id) ' → ' url(img/link.png) attr(is-a);
 }
 sch|pattern {
     -oxy-foldable : true;
@@ -150,10 +150,10 @@ sch|pattern {
     background-color : #FFFFF7;
 }
 sch|pattern[icon] {
-    content : ' ' attr('icon', url);
+    content : ' ' attr(icon, url);
 }
 sch|pattern[see]:after {
-    content : url(img/link.png) ' See also ' attr('see');
+    content : url(img/link.png) ' See also ' attr(see);
     link: attr(see);
     display:inline;
     text-decoration:underline;
@@ -164,14 +164,14 @@ sch|pattern[see]:after {
 sch|param {
     display:list-item;
     margin-left : 20px;
-    content : attr('name') ' = ' attr('value');
+    content : attr(name) ' = ' attr(value);
     padding-left : 8px;
 }
 /* let */
 sch|let {
     display:list-item;
     margin-left : 24px;
-    content : 'Let ' attr('name') ' = ' attr('value');
+    content : 'Let ' attr(name) ' = ' attr(value);
     padding-left : 8px;
 }
 /* Rules */
@@ -230,7 +230,7 @@ sch|rule[abstract='true'][flag][role][subject]:before {
 sch|rule {
     display : block;
     font-weight:bold;
-    content : attr('context') ' {';
+    content : attr(context) ' {';
     padding-left : 8px;
     margin-bottom : 8px;
     -oxy-foldable :true;
@@ -238,13 +238,13 @@ sch|rule {
     background-color : #FFFFFC;
 }
 sch|rule[icon] {
-    content : '' attr('context') ' ' attr('icon', url) ' {';
+    content : '' attr(context) ' ' attr(icon, url) ' {';
 }
 sch|rule:after {
     content : '}';
 }
 sch|rule[see]:after {
-    content : '} ' url(img/link.png) ' See also ' attr('see');
+    content : '} ' url(img/link.png) ' See also ' attr(see);
     link: attr(see);
     display:inline;
     background-color:inherit;
@@ -262,7 +262,7 @@ sch|extends {
 }
 sch|extends[rule]:after {
     link: '#' attr(rule);
-    content:url(img/link.png) attr('rule');
+    content:url(img/link.png) attr(rule);
     display:inline;
     text-decoration:underline;
     color:navy;
@@ -271,18 +271,18 @@ sch|extends[rule]:after {
 /* assertions */
 sch|assert:before {
     display : block;
-    content : 'assert ' attr('test');
+    content : 'assert ' attr(test);
     padding-left : 8px;
     color : blue;
 }
 sch|assert[diagnostics]:before {
-    content : 'assert ' attr('test') '  ' url(img/info.gif) ' ' attr(diagnostics);
+    content : 'assert ' attr(test) '  ' url(img/info.gif) ' ' attr(diagnostics);
 }
 sch|assert[icon]:before {
-    content : attr(icon, url) ' assert ' attr('test');
+    content : attr(icon, url) ' assert ' attr(test);
 }
 sch|assert[diagnostics][icon]:before {
-    content : attr(icon, url) ' assert ' attr('test') '  ' url(img/info.gif) ' ' attr(diagnostics);
+    content : attr(icon, url) ' assert ' attr(test) '  ' url(img/info.gif) ' ' attr(diagnostics);
 }
 sch|assert {
     display : block;
@@ -294,7 +294,7 @@ sch|assert {
     background-color : #F5FAFF
 }
 sch|assert[see]:after {
-    content : ' ' url(img/link.png) ' See also ' attr('see');
+    content : ' ' url(img/link.png) ' See also ' attr(see);
     link: attr(see);
     display:inline;
     background-color:inherit;
@@ -303,18 +303,18 @@ sch|assert[see]:after {
 /* reports */
 sch|report:before {
     display : block;
-    content : 'report when ' attr('test');
+    content : 'report when ' attr(test);
     padding-left : 8px;
     color : green;
 }
 sch|report[diagnostics]:before {
-    content : 'report ' attr('test') '  ' url(img/info.gif) ' ' attr(diagnostics);
+    content : 'report ' attr(test) '  ' url(img/info.gif) ' ' attr(diagnostics);
 }
 sch|report[icon]:before {
-    content : attr(icon, url) ' report ' attr('test');
+    content : attr(icon, url) ' report ' attr(test);
 }
 sch|report[diagnostics][icon]:before {
-    content : attr(icon, url) ' report ' attr('test') '  ' url(img/info.gif) ' ' attr(diagnostics);
+    content : attr(icon, url) ' report ' attr(test) '  ' url(img/info.gif) ' ' attr(diagnostics);
 }
 sch|report {
     display : block;
@@ -325,7 +325,7 @@ sch|report {
     background-color : #F9FFF3
 }
 sch|report[see]:after {
-    content : ' ' url(img/link.png) ' See also ' attr('see');
+    content : ' ' url(img/link.png) ' See also ' attr(see);
     link: attr(see);
     display:inline;
     background-color:inherit;
@@ -343,19 +343,19 @@ sch|diagnostics {
     background-color : #FFFCFC;
 }
 sch|diagnostic:before {
-    content : url(img/info.gif) ' ' attr('id');
+    content : url(img/info.gif) ' ' attr(id);
     color : navy;
     font-weight : bold;
 }
 sch|diagnostic[icon]:before {
-    content : attr(icon, url) ' ' attr('id');
+    content : attr(icon, url) ' ' attr(id);
 }
 sch|diagnostic {
     display : block;
     content : ' - ';
 }
 sch|diagnostic[see]:after {
-    content : '' url(img/link.png) ' See also ' attr('see');
+    content : '' url(img/link.png) ' See also ' attr(see);
     link: attr(see);
     display:block;
     text-decoration:underline;
@@ -366,11 +366,11 @@ sch|diagnostic[see]:after {
 }
 /* key, name and value-of */
 xsl|key:before {
-    content : 'Key ' attr('name') ' ';
+    content : 'Key ' attr(name) ' ';
 }
 xsl|key {
     display : block;
-    content : attr('match') ' → ' attr('use');
+    content : attr(match) ' → ' attr(use);
     margin-left : 8px;
 }
 sch|name {
@@ -391,7 +391,7 @@ sch|title {
 }
 /* paragraphs */
 sch|p[icon]:before {
-    content : attr('icon', url);
+    content : attr(icon, url);
 }
 sch|p {
     border-right :2px solid gray;

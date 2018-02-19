@@ -129,7 +129,9 @@ public interface DefaultExtensions {
       // EXM-36078: Move caret operation
       MoveCaretOperation.class,
       // WA-668: Webapp-only operation to mark a document as saved.
-      WebappMarkAsSavedOperation.class
+      WebappMarkAsSavedOperation.class,
+      // Reloads the content operation
+      ReloadContentOperation.class
   };
   
   

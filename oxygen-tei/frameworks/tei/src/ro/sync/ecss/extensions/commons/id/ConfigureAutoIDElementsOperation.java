@@ -76,10 +76,10 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
     Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
     if(Platform.STANDALONE.equals(platform)) {
       info = new SAIDElementsCustomizer().customizeIDElements(
-          authorAccess, info, getListMessage(), getHelpPageID());
+          authorAccess, info, getListMessage(), getHelpPageID(), isDocBook());
     } else if (Platform.ECLIPSE.equals(platform)) {
       info = new ECIDElementsCustomizer().customizeIDElements(
-          authorAccess, info, getListMessage(), getHelpPageID());
+          authorAccess, info, getListMessage(), getHelpPageID(), isDocBook());
     }
     if(info != null) {
       info.saveToOptions(authorAccess);
@@ -108,6 +108,15 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
    * @return The message used on the list
    */
   protected abstract String getListMessage();
+  
+  /**
+   * Check if DocBook.
+   * 
+   * @return <code>true</code> if we are in DocBook.
+   */
+  protected boolean isDocBook() {
+    return false;
+  }
 
   /**
    * No Arguments

@@ -60,6 +60,16 @@ import ro.sync.annotations.api.SourceType;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface ExtensionTags {
   /**
+   * en: Cannot edit Image Map because it was deleted as a tracked change.
+   */
+  String CANNOT_EDIT_IMAGE_MAP_DELETE_CHANGE = "Cannot_edit_image_map_delete_change";
+  /**
+   * Warning message shown in author page when the referred key is missing.
+   * 
+   * en: Key "{0}" not found.
+   */
+  String KEY_NAME_NOT_FOUND = "Key_name_not_found";
+  /**
    * Error message shown when a user tries to insert a key reference from "DITA Reusable Components" view and the context down not allow an element with keyref.
    * 
    * en: The schema associated to the file does not allow a key reference here.
@@ -88,7 +98,7 @@ public interface ExtensionTags {
    * 
    * en: Read-only content
    */
-  String READONLY_CONTENT = "Read-only_content";
+  String READONLY_CONTENT = "Read_only_content";
   /**
    * The type of an XML content.
    * 
@@ -400,6 +410,13 @@ public interface ExtensionTags {
    * en: Remove ID's when copying content in the same document
    */
   String REMOVE_IDS_ON_COPY_IN_SAME_DOC = "Remove_ids_on_copy_in_same_doc";
+  /**
+   * 
+   * 'Remove ID's when copying content' button text. For DocBook.
+   * 
+   * en: Remove ID's when copying content
+   */
+  String REMOVE_IDS_ON_COPY = "Remove_ids_on_copy";
   /**
    * 
    * 

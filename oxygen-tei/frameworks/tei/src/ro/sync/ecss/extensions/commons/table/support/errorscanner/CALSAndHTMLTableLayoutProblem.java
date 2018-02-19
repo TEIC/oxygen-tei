@@ -156,7 +156,44 @@ public enum CALSAndHTMLTableLayoutProblem implements TableLayoutProblem {
    * 
    * {0} the column name specified in the table 
    */
-  COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT(Severity.ERROR); 
+  COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT(Severity.ERROR),
+  
+  /**
+   *This cell overlaps previous cell. 
+   */
+  CELL_OVERLAPS_PREVIOUS_CELL(Severity.ERROR),
+  
+  /**
+   * en: Duplicate column name {'0'}
+   * 
+   * {0} - the name of the column
+   */
+  DUPLICATE_COLSPEC_NAME(Severity.ERROR), 
+  
+  /**
+   * Column numbering should begin from 1.
+   */
+  COLUMN_NUMBERING_SHOULD_BEGIN_FROM_ONE(Severity.WARN),
+  
+  /**
+   * Table cell overflows the specified columns count
+   */
+  CELL_OVERFLOW_SPECIFIED_COLUMN_COUNT(Severity.ERROR),
+  
+  /**
+   * The columns should be assigned consecutive numbers
+   */
+  COLUMN_NUMBER_IS_INCORRECT(Severity.WARN),
+  
+  /**
+   * Duplicate colspec's colnum.
+   */
+  DUPLICATE_COLSPEC_NUMBER(Severity.ERROR),
+  
+  /**
+   * Cells overlapping error(as generals as it can be)
+   */
+  CELL_OVERLAPS_ONE_OR_MORE_PREVIOUS_CELLS(Severity.ERROR); 
 
   /**
    * Message tag

@@ -25,6 +25,11 @@
         <xsl:call-template name="mergeCourierNewSpansToCodeElements"/>
     </xsl:template>   
     
+    <!-- Remove the unwanted bold elements added by Browsers when text is copied from google docs. -->
+    <xsl:template match="*:p[parent::*:b[contains(@id, 'docs-internal-guid')]]" mode="merge">
+        <xsl:call-template name="mergeCourierNewSpansToCodeElements"/>
+    </xsl:template>
+    
     <!--
         Merge inidividual spans formatted with Courier New font into "code" elements.
     -->

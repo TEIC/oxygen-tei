@@ -53,8 +53,11 @@ package ro.sync.ecss.extensions.commons.table.operations;
 import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.text.BadLocationException;
@@ -74,6 +77,7 @@ import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorTableAccess;
+import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -386,6 +390,50 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
             if (toJoin.size() > 1) {
               // Join
               joinOperation.joinCells(authorAccess, tableElement, new ArrayList<AuthorElement>(toJoin));
+            }
+          }
+        }
+
+        // EXM-38238 Copy the attributes from the source cell to the cells inserted after split 
+        int attributesCount = cell.getAttributesCount();
+        if (attributesCount > 0) {
+          String[] skippedColumnAttributes = getIgnoredAttributesForColumnSplit();
+          String[] skippedRowAttributes = getIgnoredAttributesForRowSplit();
+          List< String> skippedAttributesList = null;
+          if (skippedColumnAttributes != null || skippedRowAttributes != null) {
+            // Collect attributes that must be skipped
+            skippedAttributesList = new ArrayList<String>();
+            if (skippedColumnAttributes != null) {
+              skippedAttributesList.addAll(Arrays.asList(skippedColumnAttributes));
+            }
+            if (skippedRowAttributes != null) {
+              skippedAttributesList.addAll(Arrays.asList(skippedRowAttributes));
+            }
+          }
+          Map<String, String> attrsToBeAdded = new LinkedHashMap<String, String>();
+          for (int i = 0; i < attributesCount; i++) {
+            String attrName = cell.getAttributeAtIndex(i);
+            AttrValue attrValue = cell.getAttribute(attrName);
+            if (attrValue.isSpecified() && 
+                (skippedAttributesList == null || !skippedAttributesList.contains(attrName))) {
+              attrsToBeAdded.put(attrName, attrValue.getValue());
+            }
+          }
+          if (attrsToBeAdded.size() > 0) {
+            for (int i = rowIndex; i <= rowIndex + nrOfRowsForSplit; i++) {
+              for (int j = colIndex; j <= colIndex + nrOfColumnsForSplit; j++) {
+                if (i != rowIndex || j != colIndex) {
+                  // Cell resulted from split
+                  AuthorElement cellFromSplit = tableAccess.getTableCellAt(i, j, tableElement);
+                  // Set attributes 
+                  if (cellFromSplit != null) {
+                    Set<String> keySet = attrsToBeAdded.keySet();
+                    for (String key : keySet) {
+                      controller.setAttribute(key, new AttrValue(attrsToBeAdded.get(key)), cellFromSplit);
+                    }
+                  }
+                }
+              }
             }
           }
         }

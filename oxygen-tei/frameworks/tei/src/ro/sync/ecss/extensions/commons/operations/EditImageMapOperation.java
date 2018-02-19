@@ -56,9 +56,7 @@ import java.util.Map;
 
 import javax.swing.text.BadLocationException;
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.TransformerFactory;
 
-import net.sf.saxon.TransformerFactoryImpl;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -69,9 +67,12 @@ import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight.PersistentHighlightType;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.NamespaceContext;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.imagemap.EditImageMapCore;
 import ro.sync.ecss.imagemap.ImageMapAccess;
 import ro.sync.ecss.imagemap.ImageMapNotSuportedException;
@@ -104,11 +105,6 @@ public abstract class EditImageMapOperation implements AuthorOperation {
   @Override
   public final void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
-    // Get the old transformer property.
-    String oldProp = System.getProperty(TransformerFactory.class.getName());
-    // Set a property that supports the "http://javax.xml.XMLConstants/feature/secure-processing" feature. 
-    System.setProperty(TransformerFactory.class.getName(), TransformerFactoryImpl.class.getName());
-    
     processArgumentsMap(args);
     AuthorDocumentController documentController = authorAccess.getDocumentController();
     try {
@@ -118,85 +114,105 @@ public abstract class EditImageMapOperation implements AuthorOperation {
       if (nodes != null) {
         // Create the fragments.
         AuthorDocumentFragment[] fragments = new AuthorDocumentFragment[nodes.length];
+        
+        // Check if the map should not be rendered.
+        boolean doRenderMap = true;
+        
         // Serialize them.
         String[] asXML = new String[nodes.length];
         for (int i = 0; i < asXML.length; i++) {
+          AuthorPersistentHighlight[] changeHighlights = authorAccess.getReviewController().getChangeHighlights(
+              nodes[i].getStartOffset(),
+              nodes[i].getEndOffset());
+          
+          if (changeHighlights != null) {
+            for (AuthorPersistentHighlight highlight : changeHighlights) {
+              if (highlight.getType().equals(PersistentHighlightType.CHANGE_DELETE)) {
+                doRenderMap = false;
+                break;
+              }
+            }
+          }
+
+          if (!doRenderMap) {
+            break;
+          }
+          
           fragments[i] = documentController.createDocumentFragment(nodes[i], true);
           asXML[i] = documentController.serializeFragmentToXML(fragments[i]);
         }
         
-        // Get the supported framework.
-        SupportedFrameworks framework = imageMapCore.getSupportedFramework(nodes[0].getNamespace());
-        // Get the namespace context.
-        NamespaceContext nsContext = nodes[0].getNamespaceContext();
-        // Build the URI 2 proxies mapping.
-        Map<String, String> uri2ProxyMappings = new HashMap<String, String>();
-        String[] nss = nsContext.getNamespaces();
-        for (int i = 0; i < nss.length; i++) {
-          uri2ProxyMappings.put(nss[i], nsContext.getPrefixForNamespace(nss[i]));
-        }
-        
-        String emptyNS4EmptyPrefix = uri2ProxyMappings.get("");
-        if (emptyNS4EmptyPrefix != null && emptyNS4EmptyPrefix.trim().length() == 0) {
-          uri2ProxyMappings.remove(emptyNS4EmptyPrefix);
-        }
-        
-        // Do the edit.
-        String[] result = ImageMapAccess.getInstance().editMap(
-            authorAccess,
-            framework, 
-            authorAccess.getEditorAccess().getEditorLocation(), 
-            uri2ProxyMappings,
-            ImageMapUtil.getFontOfNodeSize(authorAccess, nodes[0]),
-            asXML);
-        
-        // If some result, put it back into the document.
-        if (result != null) {
-          documentController.beginCompoundEdit();
-          try {
-            for (int i = 0; i < nodes.length; i++) {
-              int startOffset = nodes[i].getStartOffset();
-              documentController.delete(startOffset, nodes[i].getEndOffset());
-              AuthorDocumentFragment toInsertFrag = 
-                  documentController.createNewDocumentFragmentInContext(
-                      result[i],
-                      startOffset);
-              documentController.insertFragment(startOffset, toInsertFrag);
+        if (doRenderMap) {
+          // Get the supported framework.
+          SupportedFrameworks framework = imageMapCore.getSupportedFramework(nodes[0].getNamespace());
+          // Get the namespace context.
+          NamespaceContext nsContext = nodes[0].getNamespaceContext();
+          // Build the URI 2 proxies mapping.
+          Map<String, String> uri2ProxyMappings = new HashMap<String, String>();
+          String[] nss = nsContext.getNamespaces();
+          for (int i = 0; i < nss.length; i++) {
+            uri2ProxyMappings.put(nss[i], nsContext.getPrefixForNamespace(nss[i]));
+          }
+          
+          String emptyNS4EmptyPrefix = uri2ProxyMappings.get("");
+          if (emptyNS4EmptyPrefix != null && emptyNS4EmptyPrefix.trim().length() == 0) {
+            uri2ProxyMappings.remove(emptyNS4EmptyPrefix);
+          }
+          
+          // Do the edit.
+          String[] result = ImageMapAccess.getInstance().editMap(
+              authorAccess,
+              framework, 
+              authorAccess.getEditorAccess().getEditorLocation(), 
+              uri2ProxyMappings,
+              ImageMapUtil.getFontOfNodeSize(authorAccess, nodes[0]),
+              asXML);
+          
+          // If some result, put it back into the document.
+          if (result != null) {
+            documentController.beginCompoundEdit();
+            try {
+              for (int i = 0; i < nodes.length; i++) {
+                int startOffset = nodes[i].getStartOffset();
+                documentController.delete(startOffset, nodes[i].getEndOffset());
+                AuthorDocumentFragment toInsertFrag = 
+                    documentController.createNewDocumentFragmentInContext(
+                        result[i],
+                        startOffset);
+                documentController.insertFragment(startOffset, toInsertFrag);
+              }
+            } finally {
+              documentController.endCompoundEdit();
             }
-          } finally {
-            documentController.endCompoundEdit();
+          } else {
+            documentController.cancelCompoundEdit();
           }
         } else {
-          documentController.cancelCompoundEdit();
+          authorAccess.getWorkspaceAccess().showInformationMessage(
+              authorAccess.getAuthorResourceBundle().getMessage(
+                  ExtensionTags.CANNOT_EDIT_IMAGE_MAP_DELETE_CHANGE));
         }
       }
-    } catch (BadLocationException e) {
-      throw new AuthorOperationException(e.getMessage(), e);
-    } catch (MalformedURLException e) {
+    } catch (BadLocationException|MalformedURLException e) {
       throw new AuthorOperationException(e.getMessage(), e);
     } catch (JAXBException e) {
       StringBuilder message = new StringBuilder();
       String originalMessage = e.getMessage();
-      if (originalMessage.startsWith("unexpected element")) {
-        // Explain a little more why we don't allow this operation.
-        message.append("The image map source contains unsupported elements that would be removed by this operation. Details: ");
-      }
-      
-      // Capitalize the original message.
-      if (originalMessage.length() > 1) {
-        message.append(Character.toUpperCase(originalMessage.charAt(0))).append(originalMessage, 1, originalMessage.length());
+      if (originalMessage != null) {
+        if (originalMessage.startsWith("unexpected element")) {
+          // Explain a little more why we don't allow this operation.
+          message.append("The image map source contains unsupported elements that would be removed by this operation. Details: ");
+        }
+        
+        // Capitalize the original message.
+        if (originalMessage.length() > 1) {
+          message.append(Character.toUpperCase(originalMessage.charAt(0))).append(originalMessage, 1, originalMessage.length());
+        }
       }
       throw new AuthorOperationException(message.toString(), e);
     } catch (ImageMapNotSuportedException e) {
       documentController.cancelCompoundEdit();
       authorAccess.getWorkspaceAccess().showErrorMessage(e.getMessage());
-    } finally {
-      // Set the old property back.
-      if (oldProp == null) {
-        System.clearProperty(TransformerFactory.class.getName());
-      } else {
-        System.setProperty(TransformerFactory.class.getName(), oldProp);
-      }
     }
   }
   

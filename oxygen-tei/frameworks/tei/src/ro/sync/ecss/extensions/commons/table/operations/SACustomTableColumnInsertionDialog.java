@@ -115,6 +115,7 @@ public class SACustomTableColumnInsertionDialog extends OKCancelDialog {
     
     // spinner for providing the number of columns to be inserted
     columnsSpinner = new JSpinner();
+    numberOfColumnsLabel.setLabelFor(columnsSpinner);
     columnsSpinner.setModel(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
     columnsSpinner.setPreferredSize(new Dimension(110, (int) columnsSpinner.getPreferredSize().getHeight()));
     gridBagConstr = new GridBagConstraints();
@@ -147,6 +148,7 @@ public class SACustomTableColumnInsertionDialog extends OKCancelDialog {
     JPanel positionPanel = new JPanel();
     positionPanel.add(beforeRadioButton);
     positionPanel.add(afterRadioButton);
+    positionLabel.setLabelFor(positionPanel);
     
     // add the position panel to the main one
     gridBagConstr = new GridBagConstraints();

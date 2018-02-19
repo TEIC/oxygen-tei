@@ -53,7 +53,10 @@ package ro.sync.ecss.extensions.commons.operations;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
@@ -213,6 +216,33 @@ public abstract class TransformOperation implements AuthorOperation {
   private static final String ARGUMENT_EXPAND_EDITOR_VARIABLES = "expandEditorVariables";
   
   /**
+   * This parameter controls the state of track changes when an operation is applied.
+   * When the values is <code>true</code>, the "Track Changes" action will be disabled, user's action is 
+   * executed and the Track Changes state is restored to it's initial value.
+   */
+  private static final String ARGUMENT_SUSPEND_TRACK_CHANGES = "suspendTrackChanges";
+  
+  /**
+   * External parameters argument. Pairs key=value separated by comma or new line.
+   */
+  public static final String ARGUMENT_SCRIPT_PARAMETERS = "externalParams";
+  
+  /**
+   * Split tokens: comma and end line.
+   */
+  private static final String TOKEN_COMMA_END_LINE = ",\n";
+  
+  /**
+   * Equals token.
+   */
+  private static final String TOKEN_EQUALS = "=";
+  
+  /**
+   * External parameters of the xquery script.
+   */
+   private Map externalArguments = null;
+  
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
@@ -221,7 +251,7 @@ public abstract class TransformOperation implements AuthorOperation {
    * Constructor.
    */
   public TransformOperation() {
-    arguments = new ArgumentDescriptor[6];
+    arguments = new ArgumentDescriptor[8];
     
     // Argument defining the element that will be the source of transformation.
     ArgumentDescriptor argumentDescriptor = 
@@ -309,6 +339,24 @@ public abstract class TransformOperation implements AuthorOperation {
         new String[] { "true", "false" }, 
         "true");
     arguments[5] = argumentDescriptor;
+    
+    // Argument to control the state of track changes during the execution of the action.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_SUSPEND_TRACK_CHANGES, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "Disable Track Changes during the operation's execution.\n" + 
+        "By default the state of track changes is not altered.",
+        new String[]{AuthorConstants.ARG_VALUE_TRUE, AuthorConstants.ARG_VALUE_FALSE},
+        AuthorConstants.ARG_VALUE_FALSE);
+    arguments[6] = argumentDescriptor;
+    
+    // Allow users to provide values for parameters when the transformation is running.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_SCRIPT_PARAMETERS,
+        ArgumentDescriptor.TYPE_STRING,
+        "Provide external parameters to the script.\n"
+        + "Should be inserted as name=value pairs separated by comma or line break.");
+    arguments[7] = argumentDescriptor;
   }
 
   /**
@@ -330,6 +378,10 @@ public abstract class TransformOperation implements AuthorOperation {
     Object action = args.getArgumentValue(ARGUMENT_ACTION);
     // The caret position after the operation.
     Object caretPosition = args.getArgumentValue(ARGUMENT_CARET_POSITION);
+    // The argument responsible for deactivating track changes during operation execution. 
+    Object suspendTrackChangesArgument = args.getArgumentValue(ARGUMENT_SUSPEND_TRACK_CHANGES);
+    // External parameters for script.
+    Object paramsArgument = args.getArgumentValue(ARGUMENT_SCRIPT_PARAMETERS);
     
     if (!(xscript instanceof String)) {
         throw new IllegalArgumentException("The argument \"script\" was not defined as a string object!");
@@ -480,6 +532,27 @@ public abstract class TransformOperation implements AuthorOperation {
       }
     }
     
+    if (paramsArgument instanceof String && 
+        // Default value was changed.
+        !((String) paramsArgument).trim().equals("")) {
+      externalArguments = new HashMap<String, String>();
+      // Tokenize the string and get the parameters and their values;
+      StringTokenizer commaTokenizer = new StringTokenizer((String) paramsArgument, TOKEN_COMMA_END_LINE);
+      while (commaTokenizer.hasMoreElements()) {
+        // key = value pairs.
+        String pair = (String) commaTokenizer.nextElement();
+        int indexOfEqual = pair.indexOf(TOKEN_EQUALS);
+        if (indexOfEqual != -1) {
+          String param = pair.substring(0, indexOfEqual);
+          String value = pair.substring(indexOfEqual + 1, pair.length());
+          externalArguments.put(param.trim(), value);
+        } else {
+          throw new IllegalArgumentException("The arguments should be defined as key=value pairs.");
+        }
+      }
+    }
+    
+    
     Source xslSrc = new SAXSource(is);
   
     // Create the transformer
@@ -495,6 +568,14 @@ public abstract class TransformOperation implements AuthorOperation {
     // Apply the transformation.
     if (t != null) {
       t.setParameter(CURRENT_ELEMENT_LOCATION, currentElementLocation);
+      
+      // EXM-35089 Set the parameters provided by user.  
+      if (externalArguments != null) {
+        for (Object key : externalArguments.keySet()) {
+          t.setParameter((String) key, externalArguments.get(key));
+        }
+      }
+      
       StringWriter sw = new StringWriter();
       org.xml.sax.InputSource id = new org.xml.sax.InputSource(new StringReader(serializedSource));
       id.setSystemId(sourceElement.getXMLBaseURL().toString());
@@ -579,25 +660,41 @@ public abstract class TransformOperation implements AuthorOperation {
         logger.error(e1, e1);
       }
       
-      // Put the result of the XSLT transformation back into the document.
-      if (ACTION_REPLACE.equals(action)) {
-        if (targetNode.getParent().getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
-          AuthorDocumentFragment authorFragment = authorAccess.getDocumentController().createNewDocumentFragmentInContext(
-              result, 
-              targetNode.getStartOffset());
-          // Root replace.
-          authorAccess.getDocumentController().replaceRoot(authorFragment);
+      // EXM-39331 Allow users to deactivate Track Changes when an action is executed.
+      boolean shouldSuspendTC = false;
+      if (authorAccess.getReviewController().isTrackingChanges() &&  
+          Boolean.valueOf(suspendTrackChangesArgument.toString())) {
+        // Deactivate TC
+        authorAccess.getReviewController().toggleTrackChanges();
+        shouldSuspendTC = true;
+      }
+      
+      try{
+        // Put the result of the XSLT transformation back into the document.
+        if (ACTION_REPLACE.equals(action)) {
+          if (targetNode.getParent().getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
+            AuthorDocumentFragment authorFragment = authorAccess.getDocumentController().createNewDocumentFragmentInContext(
+                result, 
+                targetNode.getStartOffset());
+            // Root replace.
+            authorAccess.getDocumentController().replaceRoot(authorFragment);
+          } else {
+            authorAccess.getDocumentController().insertXMLFragment(
+                result, targetNode, ACTION_INSERT_BEFORE);
+            authorAccess.getDocumentController().deleteNode(targetNode);
+          }
+        } else if (ACTION_AT_CARET.equals(action)){
+          authorAccess.getDocumentController().insertXMLFragment(
+              result, authorAccess.getEditorAccess().getCaretOffset());
         } else {
           authorAccess.getDocumentController().insertXMLFragment(
-              result, targetNode, ACTION_INSERT_BEFORE);
-          authorAccess.getDocumentController().deleteNode(targetNode);
+              result, targetNode, (String)action);
         }
-      } else if (ACTION_AT_CARET.equals(action)){
-        authorAccess.getDocumentController().insertXMLFragment(
-            result, authorAccess.getEditorAccess().getCaretOffset());
-      } else {
-        authorAccess.getDocumentController().insertXMLFragment(
-          result, targetNode, (String)action);
+      } finally {
+        // Reactivate TC
+        if (shouldSuspendTC) {
+          authorAccess.getReviewController().toggleTrackChanges();
+        }
       }
       
       // Get additional caret information.

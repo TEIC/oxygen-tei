@@ -7,13 +7,21 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key value="Cannot_edit_image_map_delete_change">
+        <comment>Message when the Image map cannot be edited due to tracked deletion changes.</comment>
+        <val lang="en_US">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
+        <val lang="de_DE">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
+        <val lang="fr_FR">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
+        <val lang="ja_JP">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
+        <val lang="nl_NL">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>        
+    </key>
 <key type="action" value="Remove_ids_on_copy">
         <comment>'Remove IDs when copying content' button text.</comment>
         <val lang="en_US">Remove IDs when copying content</val>
-        <val lang="de_DE">Remove IDs when copying content</val>
-        <val lang="fr_FR">Remove IDs when copying content</val>
-        <val lang="ja_JP">Remove IDs when copying content</val>
-        <val lang="nl_NL">Remove IDs when copying content</val>
+        <val lang="de_DE">Entferne IDs beim Kopieren der Inhalte</val>
+        <val lang="fr_FR">Supprimer les IDs lors de la copie de contenu</val>
+        <val lang="ja_JP">コンテンツをコピーするときに、IDを削除する</val>
+        <val lang="nl_NL">ID's verwijderen bij het kopiëren van inhoud</val>
     </key>
 <key value="delete_empty_li_insert_paragraph">
         <comment>Deletes the current element and creates a new element of another type.</comment>
@@ -774,11 +782,11 @@
         <comment>Content completion action name.
             WARNING: THE FIRST WORD IN THE TRANSLATION MUST BE THE ONE IN THE ENGLISH VERSION BECAUSE IT MATCHES THE XML ELEMENT TAG.
         </comment>
-        <val lang="en_US">row (wizard)</val>
-        <val lang="de_DE">row (Assistent)</val>
-        <val lang="fr_FR">row (assistant)</val>
-        <val lang="ja_JP">row (行ウィザード)</val>
-        <val lang="nl_NL">row (wizard)</val>
+        <val lang="en_US">row</val>
+        <val lang="de_DE">row</val>
+        <val lang="fr_FR">row</val>
+        <val lang="ja_JP">row</val>
+        <val lang="nl_NL">row</val>
     </key>
 <key value="table.wizard">
         <comment>Content completion action name.

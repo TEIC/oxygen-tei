@@ -111,6 +111,7 @@ public class ShowElementDocumentationOperation implements AuthorOperation {
       }
       if (nodeName != null) {
         String elementDocLink = argVal.replace(MACRO, nodeName);
+
         authorAccess.getWorkspaceAccess().openInExternalApplication(new URL(elementDocLink), true);
       }
     } catch (MalformedURLException e) {

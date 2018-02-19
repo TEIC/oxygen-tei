@@ -76,7 +76,7 @@ import ro.sync.ecss.extensions.api.access.AuthorTableAccess;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
-import ro.sync.util.Equaler;
+import ro.sync.basic.util.Equaler;
 
 /**
  * Operation used to delete table rows. If there is a selection in the table all the rows that intersect

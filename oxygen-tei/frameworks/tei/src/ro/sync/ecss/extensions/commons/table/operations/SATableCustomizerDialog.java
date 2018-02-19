@@ -604,6 +604,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       });
 
       titleCheckbox.setBorder(BorderFactory.createEmptyBorder());
+      titleCheckbox.getAccessibleContext().setAccessibleName("Create a title element for the table");
       gridBagConstr.gridy ++;
       gridBagConstr.gridx = 0;
       gridBagConstr.weightx = 0;
@@ -615,6 +616,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       // Title text field
       titleTextField = new JTextField();
       titleTextField.setName("Title text field");
+      titleTextField.getAccessibleContext().setAccessibleName("Table Title");
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
@@ -655,6 +657,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
     // Number of rows text field
     rowsSpinner = new JSpinner();
+    rowsLabel.setLabelFor(rowsSpinner);
     rowsSpinner.setName("Rows spinner");
     rowsSpinner.setModel(new SpinnerNumberModel(2, TableInfo.MIN_ROWS_COUNT, 1000, 1));
     if (predefinedColumnsCount >= 0) {
@@ -689,6 +692,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
     // Number of columns text field
     columnsSpinner = new JSpinner();
+    columnsLabel.setLabelFor(columnsSpinner);
     columnsSpinner.setName("Columns spinner");
     columnsSpinner.setModel(defaultColSpinnerModel);
     if (predefinedColumnsCount >= 0) {
@@ -746,6 +750,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       // Column widths combo box
       colWidthsCombobox = new JComboBox();
+      colWidthsLabel.setLabelFor(colWidthsCombobox);
       colWidthsCombobox.setName("Column Widths combo");
       final ListCellRenderer initRenderer = colWidthsCombobox.getRenderer();
       colWidthsCombobox.setRenderer(new ListCellRenderer() {
@@ -792,6 +797,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       // Frame combo box
       frameCombo = new JComboBox();
+      frameLabel.setLabelFor(frameCombo);
       frameCombo.setName("Frame combo");
       addValuesToFrameCombo(tableModelType);
 
@@ -815,6 +821,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       // Rowsep combo box
       rowsepCombo = new JComboBox();
+      rowsepLabel.setLabelFor(rowsepCombo);
       rowsepCombo.setName("Rowsep combo");
       addValuesToRowsepCombo(tableModelType);
 
@@ -838,6 +845,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       // Column separator combo box
       colsepCombo = new JComboBox();
+      colsepLabel.setLabelFor(colsepCombo);
       colsepCombo.setName("Colsep combo");
       addValuesToColsepCombo(tableModelType);
 
@@ -861,6 +869,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       // Align combo box
       alignCombo = new JComboBox();
+      alignLabel.setLabelFor(alignCombo);
       alignCombo.setName("Align combo");
       addValuesToAlignCombo(tableModelType);
 

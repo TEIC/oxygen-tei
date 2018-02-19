@@ -115,6 +115,7 @@ public class SACustomTableRowInsertionDialog extends OKCancelDialog {
     
     // spinner for providing the number of rows to be inserted
     rowsSpinner = new JSpinner();
+    numberOfRowsLabel.setLabelFor(rowsSpinner);
     rowsSpinner.setModel(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
     rowsSpinner.setPreferredSize(new Dimension(110, (int) rowsSpinner.getPreferredSize().getHeight()));
     gridBagConstr = new GridBagConstraints();
@@ -147,6 +148,7 @@ public class SACustomTableRowInsertionDialog extends OKCancelDialog {
     JPanel positionPanel = new JPanel();
     positionPanel.add(aboveRadioButton);
     positionPanel.add(belowRadioButton);
+    positionLabel.setLabelFor(positionPanel);
     
     // add the position panel to the main one
     gridBagConstr = new GridBagConstraints();

@@ -254,4 +254,12 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
     }
     return toReturn;
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProviderBase#isPreferPercentageColumnWidths(java.lang.String)
+   */
+  @Override
+  public boolean isPreferPercentageColumnWidths(String tableCellsTagName) {
+    return htmlTableCellInfoProvider.isPreferPercentageColumnWidths(tableCellsTagName);
+  }
 }

@@ -51,12 +51,17 @@
 package ro.sync.ecss.extensions.commons;
 
 import java.net.URL;
+import java.util.List;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.dita.DITAAccess;
 import ro.sync.ecss.dita.MediaInfo;
-import ro.sync.util.URLUtil;
+import ro.sync.ecss.dita.reference.keyref.KeyInfo;
+import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.basic.util.Equaler;
+import ro.sync.basic.util.URLUtil;
 
 /**
  * Utility methods for media objects.
@@ -65,6 +70,16 @@ import ro.sync.util.URLUtil;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class MediaObjectsUtil {
+
+  /**
+   * Attribute "data".
+   */
+  public static final String REFERENCE_ATTR_DATA = "data";
+  
+  /**
+   * Attribute "data key reference".
+   */
+  public static final String REFERENCE_ATTR_DATAKEYREF = "datakeyref";
 
   /**
    * Constructor. Private to avoid using.
@@ -130,6 +145,37 @@ public class MediaObjectsUtil {
   }
   
   /**
+   * Get the reference attribute name (<code>data</code> or <code>datakeyref</code>) and value.
+   * 
+   * @param authorAccess  The Author access.
+   * @param base          The base URL.
+   * @param url           The current URL.
+   * 
+   * @return An array of strings, containing the attribute name and the value.
+   */
+  public static String[] getReferenceAttributeNameAndValue(AuthorAccess authorAccess, URL base, URL url){
+    String refAttrName = REFERENCE_ATTR_DATA;
+    String refAttrValue = null;
+    //Maybe we already have a key bound to the href, prefer to insert keyref instead of xref.
+    List<KeyInfo> keys = DITAAccess.getKeysForInsertion(authorAccess.getEditorAccess().getEditorLocation());
+    if(keys != null) {
+      for (int i = 0; i < keys.size(); i++) {
+        KeyInfo keyInfo = keys.get(i);
+        if (Equaler.verifyEquals(keyInfo.getHrefLocation(), url)) { 
+          refAttrName = REFERENCE_ATTR_DATAKEYREF;
+          refAttrValue = keyInfo.getKeyName();
+          break;
+        }
+      }
+    }
+    if(refAttrValue == null) {
+      //Compute relative location
+      refAttrValue = authorAccess.getUtilAccess().makeRelative(base, url);
+    }
+    return new String[]{refAttrName, refAttrValue};
+  }
+  
+  /**
    * Checks if the URL is a media reference. 
    * 
    * @param url Resource's URL.
@@ -143,4 +189,21 @@ public class MediaObjectsUtil {
         url.getHost().toLowerCase().contains("youtube.com");
   }
   
+  /**
+   * Determines if the referred resource is YouTube embedded content.
+   * 
+   * @param url the referred resource.
+   * 
+   * @return <code>true</code> if the referred resource is YouTube embedded video.
+   */
+  public static boolean isEmbeddedContent(String url){
+    boolean toReturn = false;
+    if (url != null) {
+      String lowerCase = url.toLowerCase();
+      if (lowerCase.contains(".youtube.") && lowerCase.contains("embed")) {
+        toReturn = true;
+      }
+    }
+    return toReturn;
+  }
 }

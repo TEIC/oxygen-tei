@@ -215,7 +215,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public void init(AuthorElement tableElement) {
     this.tableElement = tableElement;
-    AuthorElement[] colGroupChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COLGROUP);
+    AuthorElement[] colGroupChildren = getElementsByLocalName(tableElement, ELEMENT_NAME_COLGROUP);
     if (colGroupChildren != null && colGroupChildren.length > 0) {
       for (int i = 0; i < colGroupChildren.length; i++) { 
         // Verify if the current table child is a 'colgroup' element. 
@@ -260,7 +260,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           // Iterate the children 'col' elements of a 'colgroup'.
           if (cgChildNode  instanceof AuthorElement) {
             AuthorElement cgChild = (AuthorElement) cgChildNode;
-            if (ELEMENT_NAME_COL.equals(cgChild.getLocalName())) {
+            if (ELEMENT_NAME_COL.equalsIgnoreCase(cgChild.getLocalName())) {
 
               // Invalidate the 'span' attribute value in the parent colgroup.
               colgroupSpan = -1;
@@ -320,7 +320,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       }
     } else {
       // Maybe the cols are directly children of the 'table' element.
-      AuthorElement[] colChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COL);
+      AuthorElement[] colChildren = getElementsByLocalName(tableElement, ELEMENT_NAME_COL);
       if (colChildren != null && colChildren.length > 0) {
         for (int i = 0; i < colChildren.length; i++) { 
           AuthorElement colChild = colChildren[i];
@@ -367,6 +367,23 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   }
 
   /**
+   * Get elements by local name
+   * @param element The current element.
+   * @param localName The tag local name to search for.
+   * @return The elements by local name or empty or null array.
+   */
+  private AuthorElement[] getElementsByLocalName(AuthorElement element, String localName) {
+    AuthorElement[] elems = null;
+    //Maybe the table has all upper case elements
+    if(element.getLocalName().equals(element.getLocalName().toUpperCase())) {
+      elems = element.getElementsByLocalName(localName.toUpperCase());
+    } else {
+      elems = element.getElementsByLocalName(localName);
+    }
+    return elems;
+  }
+
+  /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
   @Override
@@ -408,7 +425,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
     if (isHTMLTableCellTagName(tableCellsTagName)) {
       // Find the cols start offset and cols end offset 
-      AuthorElement[] colGroupChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COLGROUP);
+      AuthorElement[] colGroupChildren = getElementsByLocalName(tableElement, ELEMENT_NAME_COLGROUP);
       // EXM-28950: Marks the fact that the col element are already present in document and only their attributes were modified.
       boolean colsModifiedInDoc = false;
       if (colGroupChildren != null && colGroupChildren.length > 0) {
@@ -417,7 +434,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         for (int i = 0; i < colGroupChildren.length; i++) { 
           // Verify if the current table child is a 'colgroup' element. 
           AuthorElement child = colGroupChildren[i];
-          AuthorElement[] colChildren = child.getElementsByLocalName(ELEMENT_NAME_COL);
+          AuthorElement[] colChildren = getElementsByLocalName(child, ELEMENT_NAME_COL);
           for (int j = 0; j < colChildren.length; j++) {
         	  // EXM-28950: Modify the width attribute.
             AuthorElement colChild = colChildren[j];
@@ -426,7 +443,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         }
       } else {
         // Maybe the cols are directly children of the 'table' element.
-        AuthorElement[] colChildren = tableElement.getElementsByLocalName(ELEMENT_NAME_COL);
+        AuthorElement[] colChildren = getElementsByLocalName(tableElement, ELEMENT_NAME_COL);
         if (colChildren != null && colChildren.length > 0) {
           colsModifiedInDoc = true;
           for (int i = 0; i < colChildren.length; i++) { 
@@ -454,23 +471,23 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   private int getInsertColsOffset() {
     int toReturn = -1;
-    AuthorElement[] thead = tableElement.getElementsByLocalName(ELEMENT_NAME_THEAD);
+    AuthorElement[] thead = getElementsByLocalName(tableElement, ELEMENT_NAME_THEAD);
     if (thead != null && thead.length > 0) {
       // Insert the cols elements before the 'thead' element  
       toReturn = thead[0].getStartOffset();
     } else {
       // No 'thead' element found. Insert the cols elements before the 'tbody' element.
-      AuthorElement[] tbody = tableElement.getElementsByLocalName(ELEMENT_NAME_TBODY);
+      AuthorElement[] tbody = getElementsByLocalName(tableElement, ELEMENT_NAME_TBODY);
       if (tbody != null && tbody.length > 0) {
         toReturn = tbody[0].getStartOffset();
       } else {
         // No 'tbody' element found. Insert the cols elements before the first 'tr' element.
-        AuthorElement[] tr = tableElement.getElementsByLocalName(HTML_ROW_NAME);
+        AuthorElement[] tr = getElementsByLocalName(tableElement, HTML_ROW_NAME);
         if (tr != null && tr.length > 0) {
           toReturn = tr[0].getStartOffset();
         } else {
           // No 'tr' element found. Insert the cols elements before the 'tfoot' element.
-          AuthorElement[] tfoot = tableElement.getElementsByLocalName(ELEMENT_NAME_TFOOT);
+          AuthorElement[] tfoot = getElementsByLocalName(tableElement, ELEMENT_NAME_TFOOT);
           if (tfoot != null && tfoot.length > 0) {
             toReturn = tfoot[0].getStartOffset();
           }   
@@ -614,8 +631,8 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * name or a HTML header cell name.
    */
   public boolean isHTMLTableCellTagName(String tableCellsTagName) {
-    return HTML_CELL_NAME.equals(tableCellsTagName)
-    || HTML_HEADER_CELL_NAME.equals(tableCellsTagName);
+    return HTML_CELL_NAME.equalsIgnoreCase(tableCellsTagName)
+    || HTML_HEADER_CELL_NAME.equalsIgnoreCase(tableCellsTagName);
   }
 
   /**
@@ -640,5 +657,13 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       return widthRepresentationsToElementsMap.get(colWidthSpecs.get(columnIndex));
     }
     return null;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProviderBase#isPreferPercentageColumnWidths(java.lang.String)
+   */
+  @Override
+  public boolean isPreferPercentageColumnWidths(String tableCellsTagName) {
+    return isHTMLTableCellTagName(tableCellsTagName);
   }
 }

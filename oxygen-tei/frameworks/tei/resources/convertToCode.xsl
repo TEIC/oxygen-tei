@@ -18,7 +18,8 @@
         or codeph elements..
         ===============================
     -->
-    <xsl:template match="xhtml:span[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced'))]"
+    <xsl:template match="xhtml:span[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced')) 
+    	and not(parent::*:td[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced'))])]"
         mode="code">
         
         <xsl:choose>

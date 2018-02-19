@@ -72,6 +72,7 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
+import ro.sync.ecss.extensions.api.webapp.WebappRestSafe;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.ConversionElementHelper;
@@ -88,6 +89,7 @@ import ro.sync.exml.workspace.api.Platform;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
+@WebappRestSafe
 public class InsertTableOperation implements AuthorOperation, InsertTableOperationBase {
 
 	/**

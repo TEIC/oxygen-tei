@@ -8,6 +8,7 @@
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="xsl xhtml e f">
     
+    <xsl:import href="cleanUp.xsl"/>
     <xsl:import href="filterNodes.xsl"/>
     <xsl:import href="convertToCode.xsl"/>
     <xsl:import href="mergeCodeSiblings.xsl"/>
@@ -76,9 +77,14 @@
             <xsl:apply-templates select="$codeWrap" mode="merge"/>
         </xsl:variable>
         
+        <!-- Remove the unwanted bold elements added by Browsers when text is copied from google docs. -->
+        <xsl:variable name="cleanCode">
+            <xsl:apply-templates select="$mergeCodeSiblings" mode="cleanUp"/>
+        </xsl:variable>
+        
         <!-- Filter unused tags, transform MS Word titles to H1 elements. -->
         <xsl:variable name="processedFilterNodes">
-            <xsl:apply-templates select="$mergeCodeSiblings" mode="filterNodes"/>
+            <xsl:apply-templates select="$cleanCode" mode="filterNodes"/>
         </xsl:variable>
         <!--
         <xsl:message>111111111  <xsl:copy-of select="$processedFilterNodes"/></xsl:message>

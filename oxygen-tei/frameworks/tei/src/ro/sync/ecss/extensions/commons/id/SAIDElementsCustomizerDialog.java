@@ -152,6 +152,19 @@ public class SAIDElementsCustomizerDialog extends OKCancelDialog {
    */
   public SAIDElementsCustomizerDialog(
       Frame parentFrame, String listMessage, AuthorResourceBundle authorResourceBundle) {
+    this(parentFrame, listMessage, authorResourceBundle, false);
+  }
+  
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame           The parent frame.
+   * @param listMessage           The message label used on the list.
+   * @param authorResourceBundle  The author resource bundle.
+   * @param isDocBook             <code>true</code> if we are in DocBook.
+   */
+  public SAIDElementsCustomizerDialog(
+      Frame parentFrame, String listMessage, AuthorResourceBundle authorResourceBundle, boolean isDocBook) {
     super(parentFrame, authorResourceBundle.getMessage(ExtensionTags.ID_OPTIONS), true);
     //The message depending on the framework
     this.listMessage = listMessage;
@@ -171,12 +184,14 @@ public class SAIDElementsCustomizerDialog extends OKCancelDialog {
     constr.anchor = GridBagConstraints.WEST;
     constr.insets = new Insets(0, 0, 7, 5);
     //The Pattern customizer
-    mainPanel.add(new JLabel("ID Pattern:"), constr);
+    JLabel patternLabel = new JLabel("ID Pattern:");
+    mainPanel.add(patternLabel, constr);
     
     constr.gridx ++;
     constr.weightx = 1;
     constr.fill = GridBagConstraints.HORIZONTAL;
     constr.insets = new Insets(0, 0, 7, 0);
+    patternLabel.setLabelFor(idGenerationPatternField);
     mainPanel.add(idGenerationPatternField, constr);
     
     constr.gridx = 0;
@@ -200,7 +215,8 @@ public class SAIDElementsCustomizerDialog extends OKCancelDialog {
     listConstr.fill = GridBagConstraints.NONE;
     listConstr.anchor = GridBagConstraints.WEST;
     listConstr.insets = new Insets(0, 0, 5, 0);
-    listPanel.add(new JLabel(listMessage + ":"), listConstr);
+    JLabel patternsListLabel = new JLabel(listMessage + ":");
+    listPanel.add(patternsListLabel, listConstr);
     
     listConstr.gridx = 0;
     listConstr.gridy ++;
@@ -213,6 +229,7 @@ public class SAIDElementsCustomizerDialog extends OKCancelDialog {
     JScrollPane scrollPane = new JScrollPane(listOfElements);
     scrollPane.setPreferredSize(new Dimension(300, 150));
     listPanel.add(scrollPane, listConstr);
+    patternsListLabel.setLabelFor(listOfElements);
     
     //Add an element name
     addButton = new JButton(
@@ -276,8 +293,9 @@ public class SAIDElementsCustomizerDialog extends OKCancelDialog {
     constr.gridy ++;
     
     //Filter IDs on copy
-    filterIDsOnCopy =
-        new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY_IN_SAME_DOC));
+    String message = isDocBook ? authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY) 
+        : authorResourceBundle.getMessage(ExtensionTags.REMOVE_IDS_ON_COPY_IN_SAME_DOC);
+    filterIDsOnCopy = new JCheckBox(message);
     filterIDsOnCopy.setBorder(BorderFactory.createEmptyBorder());
     mainPanel.add(filterIDsOnCopy, constr);
     

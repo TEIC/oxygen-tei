@@ -7,8 +7,8 @@
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="f">
-   
-    <xsl:template match="node() | @*" mode="filterNodes">
+    
+    <xsl:template match="* | processing-instruction() |comment() | @*" mode="filterNodes">
         <xsl:copy>
             <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
         </xsl:copy>
@@ -33,7 +33,7 @@
         'monospaced' : 'Courier New'
         }"/>
     
-<!--  
+    <!--  
         Possibly we could at some point we could set the anchor name to the parent element ID
         <xsl:template match="xhtml:*[xhtml:a[@name != '']][not(@id)]" mode="filterNodes">
         <xsl:copy>
@@ -94,12 +94,37 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="xhtml:td[
+        f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold')) or
+        f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold700')) or
+        f:hasFontStyle(@style, $stylesPropMap('italic'), $stylesValMap('italic')) or
+        f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined'))
+        ]" mode="filterNodes">
+        
+        <xsl:copy>
+            <xsl:for-each select="@*">
+                <xsl:copy select="."/>
+            </xsl:for-each>
+            <xsl:call-template name="styling">
+                <!-- The three props: bold, italic and underline are passed automatically. 
+                    They are used to create an order when parsing the fragment styles. 
+                -->
+                <xsl:with-param name="toConsume" select="('bold', 'italic', 'underline')" tunnel="yes"/>
+                <!-- position in the so-called array = "toConsume" ('bold', 'italic', 'underline');  -->
+                <xsl:with-param name="index" select="xs:integer(1)"/>
+                
+                <xsl:with-param name="copyChildren" select="true()" tunnel="yes"/>
+            </xsl:call-template>
+        </xsl:copy>
+    </xsl:template>
+    
     <!-- 
         Preserve font style at paste from google doc.
     -->
     <xsl:template name="styling">
         <xsl:param name="toConsume" as="xs:string*" tunnel="yes"/>
         <xsl:param name="index" as="xs:integer"/>
+        <xsl:param name="copyChildren" as="xs:boolean" select="false()" tunnel="yes"/>
         
         <xsl:if test="$index &lt;= count($toConsume)">
             <xsl:choose>
@@ -154,7 +179,7 @@
         
         <!-- copy the text -->
         <xsl:if test="$index > count($toConsume)">
-            <xsl:copy-of select="."/>
+            <xsl:copy-of select="if ($copyChildren) then (node()) else (.)"/>
         </xsl:if>
     </xsl:template>
     
@@ -200,16 +225,16 @@
     <xsl:template match="xhtml:head" mode="filterNodes" priority="3"/>
     
     <xsl:template match="*[not(node())]
-            [not(local-name() = 'img' 
-               or local-name() = 'ph' 
-               or local-name() = 'br' 
-               or local-name() = 'col' 
-               or local-name() = 'td'
-               or local-name() = 'colgroup')]" 
-            mode="filterNodes"
-            priority="2"/>
+        [not(local-name() = 'img' 
+        or local-name() = 'ph' 
+        or local-name() = 'br' 
+        or local-name() = 'col' 
+        or local-name() = 'td'
+        or local-name() = 'colgroup')]" 
+        mode="filterNodes"
+        priority="2"/>
     
     <xsl:template match="text()[string-length(normalize-space()) = 0]
-                                             [empty(../preceding-sibling::*)]" 
-                  mode="filterNodes"/>    
+        [empty(../preceding-sibling::*)]" 
+        mode="filterNodes"/>    
 </xsl:stylesheet>
