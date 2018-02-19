@@ -870,7 +870,6 @@ stage {
   }
 }
 table {
-  text-align: center;
   display: table;
   margin: 1em
 }
