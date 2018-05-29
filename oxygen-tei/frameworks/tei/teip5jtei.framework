@@ -17,15 +17,15 @@
 								<Integer>6</Integer>
 							</field>
 							<field name="uri">
-								<String>${framework}/xml/tei/custom/schema/relaxng/tei_jtei.rng</String>
+								<String>${framework(TEI P5)}/xml/tei/custom/schema/relaxng/tei_jtei.rng</String>
 							</field>
 						</docTypeSchema>
 					</field>
 					<field name="classpath">
 						<String-array>
-							<String>${framework}/tei.jar</String>
-							<String>${framework}/resources/</String>
-							<String>${framework}/i18n/</String>
+							<String>${framework(TEI P5)}/tei.jar</String>
+							<String>${framework(TEI P5)}/resources/</String>
+							<String>${framework(TEI P5)}/i18n/</String>
 						</String-array>
 					</field>
 					<field name="parentClassLoaderID">
@@ -37,7 +37,7 @@
 								<cssFile-array>
 									<cssFile>
 										<field name="href">
-											<String>${framework}/xml/tei/css/jtei.css</String>
+											<String>${framework(TEI P5)}/xml/tei/css/jtei.css</String>
 										</field>
 										<field name="title">
 											<String></String>
@@ -67,10 +67,10 @@
 											<String>Generate a review version (in ODT format)</String>
 										</field>
 										<field name="largeIconPath">
-											<String>${framework}/xml/tei/jtei_aux/images/odt_large.png</String>
+											<String>${framework(TEI P5)}/xml/tei/jtei_aux/images/odt_large.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>${framework}/xml/tei/jtei_aux/images/odt_small.png</String>
+											<String>${framework(TEI P5)}/xml/tei/jtei_aux/images/odt_small.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -113,10 +113,10 @@
 											<String>Generate a printer-friendly version (in PDF format)</String>
 										</field>
 										<field name="largeIconPath">
-											<String>${framework}/xml/tei/jtei_aux/images/pdficon_large.png</String>
+											<String>${framework(TEI P5)}/xml/tei/jtei_aux/images/pdficon_large.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>${framework}/xml/tei/jtei_aux/images/pdficon_small.png</String>
+											<String>${framework(TEI P5)}/xml/tei/jtei_aux/images/pdficon_small.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -266,7 +266,7 @@
 					</field>
 					<field name="templatesLocations">
 						<String-array>
-							<String>${frameworkDir}/templates/TEI jTEI</String>
+							<String>${framework(TEI P5)}/templates/TEI jTEI</String>
 						</String-array>
 					</field>
 					<field name="xmlCatalogs">
@@ -341,7 +341,7 @@
 									<String></String>
 								</field>
 								<field name="buildFilePath">
-									<String>${frameworkDir}/xml/tei/stylesheet/odt/build-to.xml</String>
+									<String>${framework(TEI P5)}/xml/tei/stylesheet/odt/build-to.xml</String>
 								</field>
 								<field name="ditaParams">
 									<list>
@@ -568,7 +568,7 @@
 									<String>transform-pdf</String>
 								</field>
 								<field name="buildFilePath">
-									<String>${frameworkDir}/xml/tei/jtei_aux/trans/pdf/jtei-pdf.xml</String>
+									<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/jtei-pdf.xml</String>
 								</field>
 								<field name="ditaParams">
 									<list>
@@ -640,7 +640,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/stylesheet/profiles/jtei</String>
+												<String>${framework(TEI P5)}/xml/tei/stylesheet/profiles/jtei</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -828,7 +828,7 @@
 														<Integer>6</Integer>
 													</field>
 													<field name="uri">
-														<String>${framework}/xml/tei/custom/schema/relaxng/tei_jtei.rng</String>
+														<String>${framework(TEI P5)}/xml/tei/custom/schema/relaxng/tei_jtei.rng</String>
 													</field>
 												</validationUnitSchema>
 											</field>
