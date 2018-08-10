@@ -564,7 +564,8 @@
 										<String>${oxygenHome}/lib/saxon.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
