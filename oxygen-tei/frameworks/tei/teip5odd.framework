@@ -3030,6 +3030,7 @@
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -3301,6 +3302,7 @@
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -3572,6 +3574,7 @@
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -3823,6 +3826,7 @@
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -4074,6 +4078,7 @@
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -4326,6 +4331,7 @@
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
 		    <String>${oxygenHome}/lib/trang.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>
@@ -4578,6 +4584,7 @@
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
 		    <String>${oxygenHome}/lib/trang.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
 	      </antScenario>

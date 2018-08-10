@@ -552,11 +552,17 @@
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
 										<String>${oxygenHome}/lib/resolver.jar</String>
 										<String>${oxygenHome}/lib/xercesImpl.jar</String>
 										<String>${oxygenHome}/lib/saxon9ee.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
