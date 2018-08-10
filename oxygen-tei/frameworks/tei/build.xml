@@ -17,6 +17,7 @@
     <!-- Clean the output folder. -->
     <target name="clean">
         <delete dir="dist"/>
+        <delete dir="classes"/>
     </target>
 
     <!-- Check if oxygen jar is found in the lib folder. -->
@@ -129,7 +130,5 @@ oXygen frameworks folder and the library will be automatically detected.
         </copy>
         <copy file="../../LICENSE.txt" todir="dist/tei"/>
         <zip destfile="dist/tei.zip" basedir="dist" includes="tei/**"/>
-        <delete dir="dist/tei"/>
-        <delete dir="classes"/>
     </target>
 </project>
