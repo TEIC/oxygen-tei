@@ -21,14 +21,14 @@
   
   <xsl:param name="teiVersionNumber"/>
   <xsl:param name="jenkinsJobLocationUVic" select="'http://teijenkins.hcmc.uvic.ca/job/oxygen-tei'"/>
-  <xsl:param name="jenkinsJobLocationOxford" select="'http://bits.nsms.ox.ac.uk:8080/job/oxygen-tei'"/>
+  <xsl:param name="jenkinsJobLocationTEIC" select="'https://jenkins.tei-c.org/job/oxygen-tei'"/>
   <xsl:param name="hostname"/>
   <xsl:param name="jenkinsBuildNumber"/>
   <xsl:param name="newZipFileName"/>
   <xsl:param name="currBuild"/>
   <xsl:param name="jenkinsJobSuffix" select="'bleeding'"/>
   
-  <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'uvic')) then $jenkinsJobLocationUVic else if (matches($hostname, 'bits')) then $jenkinsJobLocationOxford else $jenkinsJobLocationOxford"/>
+  <xsl:variable name="jenkinsJobLocation" select="if (matches($hostname, 'uvic')) then $jenkinsJobLocationUVic else if (matches($hostname, 'jenkins\.tei-c\.org')) then $jenkinsJobLocationTEIC else $jenkinsJobLocationTEIC"/>
   
   <xsl:variable name="newZipFileUrl" select="concat($jenkinsJobLocation, '-', $jenkinsJobSuffix, '/', $jenkinsBuildNumber, '/artifact/oxygen-tei/', $newZipFileName)"/>
   
