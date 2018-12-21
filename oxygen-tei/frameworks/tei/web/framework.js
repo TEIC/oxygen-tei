@@ -42,7 +42,7 @@ sync.tei.TeiExtension.prototype.editorCreated = function(editor) {
          "http://www.tei-c.org/ns/1.0");
       actionsManager.registerAction('insert.table', insertTableAction);
     }
-    addOldStyleTableActions(e.actionsConfiguration, "TEI", actionsManager);
+    addOldStyleTableActions(e.actionsConfiguration, "TEI", editor);
   }, true);
 };
 
@@ -51,9 +51,9 @@ sync.tei.TeiExtension.prototype.editorCreated = function(editor) {
  *
  * @param {object} actionsConfiguration The actions configuration.
  * @param {string} toolbarName name of the toolbar defined in the framework.
- * @param {sync.actions.ActionsManager} actionsManager The actions manager.
+ * @param {sync.api.Editor} editor The current editor.
  */
-function addOldStyleTableActions(actionsConfiguration, toolbarName, actionsManager) {
+function addOldStyleTableActions(actionsConfiguration, toolbarName, editor) {
   if (isFrameworkActions(actionsConfiguration, toolbarName)) {
     var split_join_actions = [
       {"type": "sep"},
@@ -80,7 +80,7 @@ function addOldStyleTableActions(actionsConfiguration, toolbarName, actionsManag
 
     // Make table-related actions context-aware.
     [].concat(split_join_actions, row_actions, column_actions).forEach(function(action) {
-      sync.actions.TableAction.wrapTableAction(actionsManager, action.id);
+      sync.actions.TableAction.wrapTableAction(editor, action.id);
     });
 
     actionsConfiguration.toolbars[0].children.push({
@@ -94,7 +94,7 @@ function addOldStyleTableActions(actionsConfiguration, toolbarName, actionsManag
 
     var contextualItems = actionsConfiguration.contextualItems;
     for (var i = 0; i < contextualItems.length; i++) {
-      if (contextualItems[i].name === "Table") {
+      if (contextualItems[i].name === tr(msgs.TABLE_)) {
         var items = contextualItems[i].children;
         Array.prototype.push.apply(items, split_join_actions);
         var row_actions_index = indexOfId(items, row_actions[2].id);

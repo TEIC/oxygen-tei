@@ -5,6 +5,9 @@
 @import "dark-theme.css";
 @import "page.css";
 
+/* Web Author adjustments */
+@import "webauthor.css";
+
 @namespace xml "http://www.w3.org/XML/1998/namespace";
 @namespace oxy "http://www.oxygenxml.com/extensions/author";
 
@@ -31,6 +34,11 @@ body > div > div > div > div > head{
     background-color:inherit;
     color:#004477;
     border-bottom:1px solid #004477;
+}
+
+front > div > head {
+    font-weight:700;
+    color:#004477;
 }
 
 head {
@@ -64,7 +72,7 @@ body > div > div > div > div{
 cell[role='label'],
 row[role='label']{
    color: inherit;
-   background-color: #CCEEFF;
+   background-color: #f4fbff;
 }
 
 table {

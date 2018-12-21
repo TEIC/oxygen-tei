@@ -2,7 +2,7 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.oxygenxml.com/ns/ccfilter/annotations http://www.oxygenxml.com/ns/ccfilter/annotations/ccAnnotationsSchemaFilter.xsd"
      xmlns="http://www.oxygenxml.com/ns/ccfilter/annotations"
-    redirectURLPrefix="http://www.oxygenxml.com/redirect-url.php?url="
+    redirectURLPrefix="https://www.oxygenxml.com/redirect-url.php?url="
     htmlContentFilterStylesheet="contentFilter.xsl">
     <mappingGroup xml:base="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/">
         <mapping elementName="ab" path="ref-ab.html" type="link" linkText="TEI Guidelines"/>
@@ -489,7 +489,6 @@
         <mapping elementName="origin" path="ref-origin.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="origPlace" path="ref-origPlace.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="orth" path="ref-orth.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="oVar" path="ref-oVar.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="p" path="ref-p.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="particDesc" path="ref-particDesc.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="pause" path="ref-pause.html" type="link" linkText="TEI Guidelines"/>
@@ -524,7 +523,6 @@
         <mapping elementName="publisher" path="ref-publisher.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="pubPlace" path="ref-pubPlace.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="purpose" path="ref-purpose.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="pVar" path="ref-pVar.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="q" path="ref-q.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="quotation" path="ref-quotation.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="quote" path="ref-quote.html" type="link" linkText="TEI Guidelines"/>

@@ -3430,19 +3430,13 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3680,19 +3674,13 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3733,52 +3721,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output ODT file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.odt</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
 												<String>lang</String>
 											</field>
 											<field name="description">
@@ -3802,6 +3744,29 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output ODT file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.odt</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -3809,6 +3774,29 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 											</field>
 											<field name="value">
 												<String>${oxygenInstallDir}/lib</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>profile</String>
+											</field>
+											<field name="description">
+												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+											</field>
+											<field name="value">
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3930,19 +3918,13 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>

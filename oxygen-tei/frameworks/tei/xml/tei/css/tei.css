@@ -12,6 +12,15 @@
 $LastChangedDate$, $LastChangedRevision$, $LastChangedBy$
 ============================================================= */
 /* Use Times New Roman for default font */
+body{
+    color:#2f2f2f;
+}
+
+@media oxygen AND (platform:"webapp") {
+  body  {
+    color:#2f2f2f;    
+  }
+}
 TEI {
 }
 abbr {
@@ -115,7 +124,7 @@ catRef {
 cell {
   display: table-cell;
   border: 1px solid #EEEFEE;
-  padding: 3px;
+  padding: 0.3em;
   color: inherit;
   background-color:inherit;
 }
@@ -123,6 +132,13 @@ cell[role='label'] {
    color: inherit;
    background-color: #BBBBBB;
 }
+
+@media oxygen and (platform:webapp) {
+ table > row > cell {
+   -oxy-show-placeholder:no;
+ }
+}
+
 change {
   display: block;
   margin-bottom: 1em;
@@ -671,8 +687,11 @@ orig {
 }
 p {
   display: block;
-  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;  
+  font-size: 0.9em;
 }
+
 pb {
   display: none;
 }
@@ -827,6 +846,8 @@ sic:after {
 signed {
   display: block;
   text-align: right;
+  font-style: italic;
+  font-size: 0.8em;
 }
 soCalled {
   display: inline;
@@ -871,12 +892,14 @@ stage {
 }
 table {
   display: table;
-  margin: 1em
+  margin: 1em;  
 }
-table > head{
+
+table head{
     display:table-caption;
     font-style: italic;
-    margin-bottom: 6pt;
+    margin-bottom: 0.5em;
+    color:#4d4d4d;
 }
 @media oxygen AND (platform:"eclipse") {
   table > head{
@@ -943,14 +966,15 @@ unclear {
 /* header-related material */
 teiHeader {
   display: block;
-  color: silver;
-  background-color: rgb(251, 242, 234);
-  border: solid black 1pt;
+  color: #2f2f2f;
+  background-color: #e2f5ff;
+  border: 1px solid #cccccc;
   margin-bottom: 2em;
   padding-top: 1em;
   padding-left: 1em;
   padding-right: 1em;
   padding-bottom: 1em;
+  font-size: 0.9em;
 }
 titleStmt > author {
   display: block;

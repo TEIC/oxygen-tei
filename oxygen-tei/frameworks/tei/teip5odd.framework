@@ -2761,6 +2761,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -2768,52 +2791,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output EPUB will be saved</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.epub</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -2853,6 +2830,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output EPUB will be saved</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.epub</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -2876,13 +2876,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>processODD</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>true</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -2899,13 +2899,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>processODD</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+												<String>The profile of the EPUB output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>true</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3027,20 +3027,14 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3057,6 +3051,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -3064,52 +3081,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output DOCX file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.docx</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3149,6 +3120,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output DOCX file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.docx</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -3172,13 +3166,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>processODD</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>true</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3195,13 +3189,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>processODD</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+												<String>The profile of the DOCX output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>true</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3323,20 +3317,14 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3353,6 +3341,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>Tei source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -3360,52 +3371,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output ODT file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.odt</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3445,6 +3410,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output ODT file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.odt</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -3468,13 +3456,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>processODD</String>
 											</field>
 											<field name="description">
-												<String>Tei source file.</String>
+												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>true</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3491,13 +3479,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>processODD</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>Indicates that the source is an ODD file that requires some pre-processing.</String>
+												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>true</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3619,20 +3607,14 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3649,6 +3631,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -3656,52 +3661,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output schema file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.rng</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3741,6 +3700,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.rng</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -3764,13 +3746,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3892,20 +3874,14 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3922,6 +3898,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -3929,52 +3928,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output DTD file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.dtd</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4014,6 +3967,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output DTD file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.dtd</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -4037,13 +4013,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4165,20 +4141,14 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -4195,6 +4165,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -4202,52 +4195,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output schema file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.xsd</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4287,6 +4234,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.xsd</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -4310,13 +4280,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4438,21 +4408,15 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/trang.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										<String>${oxygenHome}/lib/*trang*.jar</String>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -4469,6 +4433,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<list>
 										<antParameter>
 											<field name="name">
+												<String>defaultSource</String>
+											</field>
+											<field name="description">
+												<String>TEI source file.</String>
+											</field>
+											<field name="value">
+												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>inputFile</String>
 											</field>
 											<field name="description">
@@ -4476,52 +4463,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 											</field>
 											<field name="value">
 												<String>${cf}</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>outputFile</String>
-											</field>
-											<field name="description">
-												<String>Path where the output schema file will be saved.</String>
-											</field>
-											<field name="value">
-												<String>${cfd}/out/${cfn}.rnc</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
-												<String>profile</String>
-											</field>
-											<field name="description">
-												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
-											</field>
-											<field name="value">
-												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4561,6 +4502,29 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
+												<String>outputFile</String>
+											</field>
+											<field name="description">
+												<String>Path where the output schema file will be saved.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/out/${cfn}.rnc</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
 												<String>oxygenlib</String>
 											</field>
 											<field name="description">
@@ -4584,13 +4548,13 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>defaultSource</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>TEI source file.</String>
+												<String>The profile of the output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>${framework}/xml/tei/odd/p5subset.xml</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -4712,21 +4676,15 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
-										<!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/resolver.jar</String>
-										<String>${oxygenHome}/lib/xercesImpl.jar</String>
-										<String>${oxygenHome}/lib/saxon9ee.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/trang.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										<String>${oxygenHome}/lib/*trang*.jar</String>
+										</String-array>
 								</field>
 							</antScenario>
 						</scenario-array>

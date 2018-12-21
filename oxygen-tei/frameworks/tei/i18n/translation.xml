@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<translation>
+<?xml version="1.0" encoding="UTF-8"?><!--
+  AUTOMATICALLY GENERATED CONTENT FROM 'src/translation_frameworks.xml'
+--><translation>
 <languageList>
         <language description="English" lang="en_US"/>
         <language description="German" lang="de_DE"/>
@@ -7,13 +8,31 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="required.by.reading.mode.action">
+      <comment>Express the fact that this action is require by the enable reading mode action.</comment>
+      <val lang="en_US">This action is require by the Enable Reading Mode action.</val>
+      <val lang="de_DE">This action is require by the Enable Reading Mode action.</val>
+      <val lang="fr_FR">This action is require by the Enable Reading Mode action.</val>
+      <val lang="ja_JP">This action is require by the Enable Reading Mode action.</val>
+      <val lang="nl_NL">This action is require by the Enable Reading Mode action.</val>
+</key>
+<key type="action" value="enable.reading.mode_description">
+      <comment>The description of a action that will expand topic references within a DIA Map.</comment>
+      <val lang="en_US">Enable Reading Mode that consists of expanding topic references. Note that this mode is not available for documents with more than 50 references.</val>
+      <val lang="de_DE">Enable Reading Mode that consists of expanding topic references. Note that this mode is not available for documents with more than 50 references.</val>
+      <val lang="fr_FR">Enable Reading Mode that consists of expanding topic references. Note that this mode is not available for documents with more than 50 references.</val>
+      <val lang="ja_JP">Enable Reading Mode that consists of expanding topic references. Note that this mode is not available for documents with more than 50 references.</val>
+      <val lang="nl_NL">Enable Reading Mode that consists of expanding topic references. Note that this mode is not available for documents with more than 50 references.</val>
+</key>
 <key value="Cannot_edit_image_map_delete_change">
         <comment>Message when the Image map cannot be edited due to tracked deletion changes.</comment>
         <val lang="en_US">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
-        <val lang="de_DE">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
-        <val lang="fr_FR">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
-        <val lang="ja_JP">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>
-        <val lang="nl_NL">Cannot edit image map because 'deletion' tracked changes cannot be modified.</val>        
+        <val lang="de_DE">Image-Map kann nicht bearbeitet werden, weil Änderungsmarkierungen (Löschungen)
+      nicht bearbeitet werden können.</val>
+        <val lang="fr_FR">Impossible d'éditer l'Image map car les suivis des modifications 'suppression'
+      ne peuvent être modifiées.</val>
+        <val lang="ja_JP">「削除」変更追跡記録は変更できないため、イメージマップを編集できません。</val>
+        <val lang="nl_NL">Kan de afbeeldingenmap niet bewerken omdat bijgehouden 'verwijder'-wijzigingen niet kunnen worden gewijzigd.</val>        
     </key>
 <key type="action" value="Remove_ids_on_copy">
         <comment>'Remove IDs when copying content' button text.</comment>
