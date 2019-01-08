@@ -175,6 +175,9 @@
 											</menuItem>
 										</menuEntry-array>
 									</field>
+									<field name="context">
+										<null/>
+									</field>
 								</menu>
 							</field>
 							<field name="popupMenuDescriptor">
@@ -201,6 +204,9 @@
 												</field>
 											</menuItem>
 										</menuEntry-array>
+									</field>
+									<field name="context">
+										<null/>
 									</field>
 								</menu>
 							</field>
@@ -250,16 +256,28 @@
 							<field name="tableSupportClassName">
 								<null/>
 							</field>
+							<field name="tableCellSeparatorSupportClassName">
+								<null/>
+							</field>
 							<field name="tableColWidthSupportClassName">
 								<null/>
 							</field>
 							<field name="customReferencesResolver">
 								<null/>
 							</field>
+							<field name="editPropertiesHandler">
+								<null/>
+							</field>
 							<field name="authorExtensionStateListener">
 								<null/>
 							</field>
 							<field name="attributesRecognizer">
+								<null/>
+							</field>
+							<field name="authorActionEventHandler">
+								<null/>
+							</field>
+							<field name="authorImageDecorator">
 								<null/>
 							</field>
 						</authorExtension>
@@ -364,6 +382,9 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -382,6 +403,9 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -404,6 +428,9 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -424,6 +451,9 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -442,6 +472,9 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -600,6 +633,9 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -618,6 +654,9 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -640,6 +679,9 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -658,6 +700,9 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -792,12 +837,16 @@
 										<String>${oxygenHome}/lib/avalon-framework-4.2.0.jar</String>
 										<!-- wildcards for future compatibility (supported from Oxygen-18.0) -->
 									  <!-- this way, the framework will find relevant jars if FOP is updated -->
-										<String>${oxygenHome}/lib/batik-all-*.jar</String>
-										<String>${oxygenHome}/lib/commons-logging-*.jar</String>
-										<String>${oxygenHome}/lib/xmlgraphics-commons-*.jar</String>
-										<String>${oxygenHome}/lib/commons-io-*.jar</String>
-										<String>${oxygenHome}/lib/avalon-framework-*.jar</String>
-									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+										<String>${oxygenHome}/lib/*batik*.jar</String>
+										<String>${oxygenHome}/lib/*commons-logging*.jar</String>
+										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
+										<String>${oxygenHome}/lib/*commons-io*.jar</String>
+										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
+										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+										<String>${oxygenHome}/lib/*fop*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -914,6 +963,9 @@
 						<null/>
 					</field>
 					<field name="customAttributeValueEditor">
+						<null/>
+					</field>
+					<field name="textModeExternalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>
