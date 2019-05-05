@@ -5,7 +5,7 @@
     <xt:extension id="tei">
       <xt:location href="http://teijenkins.hcmc.uvic.ca/job/oxygen-tei/lastSuccessfulBuild/artifact/oxygen-tei/oxygen-tei-2.8.1-7.35.0.zip"/>
         <xt:version>2.8.1</xt:version>
-        <xt:oxy_version>15.2+</xt:oxy_version>
+        <xt:oxy_version>18.0+</xt:oxy_version>
         <xt:type>framework</xt:type>
         <xt:author>TEI Technical Council</xt:author>
         <xt:name>TEI P5 (development build)</xt:name>

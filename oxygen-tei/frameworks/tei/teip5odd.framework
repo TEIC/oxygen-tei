@@ -3024,9 +3024,9 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
@@ -3296,9 +3296,9 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
@@ -3568,9 +3568,9 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
@@ -3820,9 +3820,9 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
@@ -4072,9 +4072,9 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
@@ -4324,13 +4324,13 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
-		    <String>${oxygenHome}/lib/trang.jar</String>
+		    <String>${oxygenHome}/lib/*trang*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -4577,13 +4577,13 @@
 		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
 		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-		    <String>${oxygenHome}/lib/resolver.jar</String>
-		    <String>${oxygenHome}/lib/xercesImpl.jar</String>
-		    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/log4j.jar</String>
-		    <String>${oxygenHome}/lib/trang.jar</String>
+		    <String>${oxygenHome}/lib/*trang*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
