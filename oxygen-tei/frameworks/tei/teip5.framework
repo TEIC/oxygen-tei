@@ -3266,7 +3266,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -3498,7 +3498,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -3730,7 +3730,7 @@ ancestor-or-self::node()[self::*:row | self::*:list][1][self::*:row]</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/saxon.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/log4j.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
