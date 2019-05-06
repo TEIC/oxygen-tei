@@ -586,7 +586,6 @@
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*jeuclid*.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -794,8 +793,6 @@
 										<String>${oxygenHome}/lib/log4j.jar</String>
 										<String>${oxygenHome}/lib/*fop*.jar</String>
 									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
-									  <!-- wildcards for future compatibility (supported from Oxygen-18.0) -->
-									  <!-- this way, the framework will find relevant jars if FOP is updated -->
 										<String>${oxygenHome}/lib/*batik*.jar</String>
 										<String>${oxygenHome}/lib/*commons-logging*.jar</String>
 										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
@@ -803,6 +800,7 @@
 										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
 									 	 <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/*jeuclid*.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
