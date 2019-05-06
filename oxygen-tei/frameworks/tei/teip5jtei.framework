@@ -786,23 +786,44 @@
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/*fop*.jar</String>
-									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
-										<String>${oxygenHome}/lib/*batik*.jar</String>
-										<String>${oxygenHome}/lib/*commons-logging*.jar</String>
-										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
-										<String>${oxygenHome}/lib/*commons-io*.jar</String>
-										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
-									 	 <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*jeuclid*.jar</String>
-									</String-array>
-								</field>
+			                                                <String-array>
+			                                                    <String>${oxygenHome}/classes/</String>
+			                                                    <String>${oxygenHome}/lib/oxygen.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+			                                                    <String>${oxygenHome}/lib/resolver.jar</String>
+			                                                    <String>${oxygenHome}/lib/xercesImpl.jar</String>
+			                                                    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+			                                                    <String>${oxygenHome}/lib/log4j.jar</String>
+			                                                    <String>${oxygenHome}/lib/fop.jar</String>
+			                                                    <String>${pdu}/oxygen_aux_files/ant/</String>
+			                                                    <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
+			                                                    <!-- (wildcards in these paths aren't supported before Oxygen-18.0) -->
+			                                                    <String>${oxygenHome}/lib/batik-all-1.7.jar</String>
+			                                                    <String>${oxygenHome}/lib/commons-logging-1.1.3.jar</String>
+			                                                    <String>${oxygenHome}/lib/xmlgraphics-commons-1.5.jar</String>
+			                                                    <String>${oxygenHome}/lib/commons-io-1.3.1.jar</String>
+			                                                    <String>${oxygenHome}/lib/avalon-framework-4.2.0.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygen-patched-jeuclid-core.jar</String>
+			                                                    <!-- wildcards for future compatibility (supported from Oxygen-18.0) -->
+			                                                    <!-- this way, the framework will find relevant jars if FOP is updated -->
+			                                                    <String>${oxygenHome}/lib/*batik*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*commons-logging*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*commons-io*.jar</String>
+			                                                    <String>${oxygenHome}/lib/avalon-framework*.jar</String>
+			                                                    <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*fop*.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*xerces*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*resolver*.jar</String>
+			                                                </String-array>
+			                                            </field>
 							</antScenario>
 						</scenario-array>
 					</field>
