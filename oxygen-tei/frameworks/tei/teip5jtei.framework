@@ -777,14 +777,8 @@
 										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
 										<String>${oxygenHome}/lib/*commons-io*.jar</String>
 										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
-									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
-									  <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
-									  <!-- (wildcards in these paths aren't supported before Oxygen-18.0) -->
-									  <!--<String>${oxygenHome}/lib/*batik*.jar</String>
-										<String>${oxygenHome}/lib/*commons-logging*.jar</String>
-										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
-										<String>${oxygenHome}/lib/*commons-io*.jar</String>
-										<String>${oxygenHome}/lib/avalon-framework*.jar</String>-->
+									 	 <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
