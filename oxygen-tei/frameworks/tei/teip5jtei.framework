@@ -586,6 +586,7 @@
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*jeuclid*.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
