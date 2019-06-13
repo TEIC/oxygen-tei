@@ -18,6 +18,7 @@
   <target name="transform-fo">
     <delete file="${cfd}/${dest.file.basename}.fo"/>
     <java classname="net.sf.saxon.Transform">
+      <arg value="-target:HE"/>
       <arg value="-s:${cfd}/${cfne}"/>
       <arg value="-xsl:${transformations.base}/pdf/to.xsl"/> 
       <arg value="-o:${cfd}/${dest.file.basename}.fo"/>
