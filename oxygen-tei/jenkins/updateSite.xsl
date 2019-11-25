@@ -57,12 +57,12 @@
         <xsl:choose>
           <xsl:when test="$jenkinsJobSuffix = 'bleeding'">
             <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
-            based on the current trunk versions of TEI P5 and the 
+            based on the current dev branch versions of TEI P5 and the 
             TEI Stylesheets.</xsl:text> 
           </xsl:when>
           <xsl:when test="$jenkinsJobSuffix = 'stable'">
             <xsl:text>STABLE BUILD of the Oxygen TEI plugin
-            based on the current trunk versions of TEI P5 and the 
+            based on the current release versions of TEI P5 and the 
             TEI Stylesheets.</xsl:text> 
           </xsl:when>
           <xsl:otherwise>
