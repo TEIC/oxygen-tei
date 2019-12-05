@@ -155,7 +155,7 @@ stable: This is also intended to run on the TEI's Jenkins build
     </copy>
     <mkdir dir="frameworks/tei/templates/TEI ODD"/>
     <copy todir="frameworks/tei/templates/TEI ODD">
-      <fileset dir="frameworks/tei/templates/TEI P5" includes="ODD*customization.* tei_customization.*"/>
+      <fileset dir="frameworks/tei/templates/TEI P5" includes="ODD*customization.* TEI*Customizations.*"/>
     </copy>
     <echo message="${echo.separator}"/>
   </target>
