@@ -42,22 +42,27 @@
     </xsl:call-template>
   </xsl:template>
   
+<!--  Decision by TEI Council 2019-04 to remove support for older versions of Oxygen
+          moving forward, so we switch what used to be 15.2 to 18.0 now. This can be 
+          updated whenever we change the minimum Oxyge version we support. -->
+  <xsl:template match="xt:oxy_version"><xt:oxy_version>18.0+</xt:oxy_version></xsl:template>
+  
   <xsl:template name="createNewExtensionElement">
     <xsl:param name="lastExtension" as="element(xt:extension)"/>
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
       <xsl:sequence select="local:getNextVersionNumber($lastExtension/xt:version[1])"/>
-      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version', 'description', 'licence'))]|following-sibling::text())"/>
+      <xsl:copy-of select="$lastExtension/xt:version/following-sibling::node()[not(local-name() = ('location', 'version', 'description', 'licence'))]"/>
       <xt:description>
         <xsl:choose>
           <xsl:when test="$jenkinsJobSuffix = 'bleeding'">
             <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
-            based on the current trunk versions of TEI P5 and the 
+            based on the current dev branch versions of TEI P5 and the 
             TEI Stylesheets.</xsl:text> 
           </xsl:when>
           <xsl:when test="$jenkinsJobSuffix = 'stable'">
-            <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
-            based on the current trunk versions of TEI P5 and the 
+            <xsl:text>STABLE BUILD of the Oxygen TEI plugin
+            based on the current release versions of TEI P5 and the 
             TEI Stylesheets.</xsl:text> 
           </xsl:when>
           <xsl:otherwise>

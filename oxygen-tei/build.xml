@@ -74,7 +74,7 @@ stable: This is also intended to run on the TEI's Jenkins build
   <target name="getStableVersionNums">
     <echo message="${echo.separator}"/>
     <echo message="Retrieving version numbers of current stable releases..."/>
-    <get src="http://www.tei-c.org/Vault/P5/current/xml/tei/odd/VERSION" 
+    <get src="https://www.tei-c.org/Vault/P5/current/xml/tei/odd/VERSION" 
       dest="p5version" 
       usetimestamp="true"/>
     <loadfile property="tempP5Version" srcFile="p5version"/>
@@ -155,7 +155,7 @@ stable: This is also intended to run on the TEI's Jenkins build
     </copy>
     <mkdir dir="frameworks/tei/templates/TEI ODD"/>
     <copy todir="frameworks/tei/templates/TEI ODD">
-      <fileset dir="frameworks/tei/templates/TEI P5" includes="ODD*customization.* tei_customization.*"/>
+      <fileset dir="frameworks/tei/templates/TEI P5" includes="ODD*customization.* TEI*Customizations.*"/>
     </copy>
     <echo message="${echo.separator}"/>
   </target>
@@ -184,7 +184,7 @@ stable: This is also intended to run on the TEI's Jenkins build
   <target name="createTeiOxygenUpdateFile">
     <echo message="${echo.separator}"/>
     <echo message="Retrieving the current version of the Oxygen update file."/>
-    <get src="http://www.tei-c.org/release/oxygen/updateSite.oxygen" 
+    <get src="https://www.tei-c.org/release/oxygen/updateSite.oxygen" 
       dest="tei-c.org/updateSite.oxygen_OLD" 
       usetimestamp="true"/>
     <echo message="Finding out the last version number..."/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="19.1" xml:space="preserve">
+<serialized version="17.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -3025,16 +3025,22 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3315,16 +3321,22 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3605,16 +3617,22 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3872,16 +3890,22 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <!--<String>${oxygenHome}/lib/oxygen.jar</String>-->
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -4139,16 +4163,22 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -4406,17 +4436,23 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/*trang*.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		    <String>${oxygenHome}/lib/*trang*.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -4674,17 +4710,23 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*6*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
-										<String>${oxygenHome}/lib/*trang*.jar</String>
-										</String-array>
+		  <String-array>
+		    <String>${oxygenHome}/classes/</String>
+		    <String>${oxygenHome}/lib/oxygen.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+		    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+		    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+		    <String>${oxygenHome}/lib/*resolver*.jar</String>
+		    <String>${oxygenHome}/lib/*xerces*.jar</String>
+		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+		    <String>${oxygenHome}/lib/log4j.jar</String>
+		    <String>${oxygenHome}/lib/*trang*.jar</String>
+		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  </String-array>
 								</field>
 							</antScenario>
 						</scenario-array>
