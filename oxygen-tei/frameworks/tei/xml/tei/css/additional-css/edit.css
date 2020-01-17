@@ -1,0 +1,637 @@
+/* Font size controls */
+TEI:before(13) {
+    display:inline;
+    vertical-align:baseline;
+    height:24px;
+    line-height:24px;
+    font-size:12px;
+    content:
+       oxy_button(fontInherit, true, transparent, true, action, oxy_action(
+          name, ' A ', 
+          description, 'Normal', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_done16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-large -oxy-larger'
+          arg-setPseudoClassNames, '-oxy-normal'          
+        ), showIcon, false)
+    ;
+}
+TEI:before(12) {
+    display:inline;
+    vertical-align:baseline;
+    line-height:24px;
+    font-size:16px;
+    content:
+        oxy_button(fontInherit, true, transparent, true, action, oxy_action(
+          name, ' A ', 
+          description, 'Large', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_done16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-normal -oxy-large'
+          arg-setPseudoClassNames, '-oxy-larger'          
+        ), showIcon, false)
+    ;
+}
+TEI:before(11) {
+    display:inline;
+    vertical-align:baseline;
+    line-height:24px;
+    font-size:20px;
+    content:
+        oxy_button(fontInherit, true, transparent, true, action, oxy_action(
+          name, ' A ', 
+          description, 'Large', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_done16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-normal -oxy-larger'
+          arg-setPseudoClassNames, '-oxy-large'          
+        ), showIcon, false)
+    ;
+}
+TEI:before(10) {
+    display:block;
+    content:" ";
+    line-height:1px;   
+}
+
+TEI:-oxy-normal {
+    font-size:1em;
+}
+TEI:-oxy-larger {
+    font-size:1.25em;
+}
+TEI:-oxy-large {
+    font-size:1.5em;
+}
+/* END - Font size controls */
+
+
+:root{
+    padding: 2em;
+    padding-top: 0em;
+    font-family:verdana, arial, helvetica, sans-serif;
+    counter-reset: nCounter pCounter example appendix;
+    width:80%;
+}
+
+
+p {
+    line-height:1.5em;
+}
+body > div > head:before {
+    content : counter(div1) ". " ;
+}
+
+body > div > p {
+    position:relative;
+}
+body > div > p:before(10) {
+    display:block;
+    position:absolute;
+    content:counter(pCounter);
+    counter-increment:pCounter;
+    left:-1.8em;
+    color:gray;
+}
+
+front {
+    display:block;
+    border:1px solid gray;
+}
+front > div[type]:before {
+    color : #1E76B7;
+}
+
+front, TEI:before, text:before {
+    border-radius:5px;
+}
+text {
+    font-size:0.8em;
+    
+}
+
+div > head {
+    color : #1E76B7;
+    font-weight:bold;
+}
+
+note {
+    font-size:12px;
+    font-weight:normal;
+    background-color:white;
+    color:#555555;
+    border-radius:5px;
+    border:1px solid orange;
+    background-color:#FFFFF0;
+}
+
+
+note:before {
+    content: "[" counter(nCounter) "] ";
+    
+}
+note {
+    counter-increment:nCounter;
+}
+
+
+ref:after(8),
+ptr:after(8){
+    content:
+       oxy_button(transparent, true, action, oxy_action(
+          name, 'Edit', 
+          description, 'Edit', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_edit16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-setPseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    ;
+}
+
+ref:-oxy-edit:after(8),
+ptr:-oxy-edit:after(8) {
+    content:
+       oxy_button(transparent, true, action, oxy_action(
+          name, 'Done', 
+          description, 'Done', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_done16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    
+    ;
+}
+
+
+
+
+ref:-oxy-edit:after(10),
+ptr:-oxy-edit:after(10) {
+    
+    content: "\A"
+        oxy_label(
+            text, " Target: ", 
+            width, 25%, 
+            color, inherit
+        )
+        oxy_combobox(
+               edit, '@target', 
+               editable, true,
+               width, 70%
+            )
+    ;
+    text-decoration:none;
+    color:white;
+    background-color:#1A669D;
+}
+ref:-oxy-edit:after(11){
+    
+    content:
+            oxy_label(
+                text, " Type:   ", 
+                width, 25%, 
+                color, inherit
+            ) 
+            oxy_combobox(
+               edit, '@type', 
+               editable, true,
+               width, 70%
+            )
+    ;
+    text-decoration:none;
+    color:white;
+    background-color:#1A669D;
+}
+
+ref[target]:after,
+ptr[target]:after{
+background-color : #F7F0E5!important;
+color : #1E76B7!important;
+margin-left:4px;
+margin-right:1px;
+}
+ 
+
+
+ptr[target]:after {
+    content: oxy_getSomeText(attr(target), 60, true)!important;
+} 
+
+@media (max-width:600px){
+ptr[target]:after {
+    content: oxy_getSomeText(attr(target), 45, true)!important;
+} 
+}
+
+@media (max-width:800px){
+ptr[target]:after {
+    content: oxy_getSomeText(attr(target), 30, true)!important;
+} 
+}
+
+
+/* EXAMPLES */
+eg, egXML {
+    font-size:1em;
+    font-family:Consolas, monospace;
+    display:block;
+    white-space:pre-wrap;
+    background-color:#EEEEEE!important;
+    border:none!important;
+    
+    padding : 0.5em ;
+    margin-left : 2em ;
+    margin-right : 2em ;
+    margin-top : 1em ;
+    
+}
+
+egXML * {
+    font-size:1em;
+    font-family:inherit;
+    -oxy-display-tags:none;
+    display:inline;
+    background-color:inherit;
+    margin:0;
+    padding:0;
+}
+
+egXML *:before{
+    content:
+        oxy_label(text, "<", color, blue, styles, 'font-size:1em;')
+        oxy_label(text, oxy_name(), color, #000096, styles, 'font-size:1em;')
+        oxy_label(text, oxy_attributes(), color, #F5844C, styles, 'font-size:1em;')
+        oxy_label(text, ">", color, blue, styles, 'font-size:1em;')
+    ;
+    
+}
+egXML *:after{
+    content:
+        oxy_label(text, "</", color, blue, styles, 'font-size:1em;')
+        oxy_label(text, oxy_name(), color, #000096, styles, 'font-size:1em;')
+        oxy_label(text, ">", color, blue, styles, 'font-size:1em;')
+    ;
+} 
+  
+  
+/* Quotes */
+cit > quote {
+    display:block;
+    position:relative;
+    background-color:#FFFAF0;
+    margin-top:1em;
+    margin-bottom:1em;
+    margin-left:2em;
+    padding-left:22px;
+    padding-right:22px;
+}
+cit > quote:before(10) {
+    display:block;
+    position:absolute;
+    left:0px;
+    width:21px;
+    top:0px;
+    content:  oxy_url('${currentFileURL}', 'img/openQuotes.png');
+}  
+cit > quote:after(10) {
+    display:block;
+    text-align:right;
+    position:absolute;
+    width:21px;
+    right:0px;
+    bottom:-5px;
+    content:  oxy_url('${currentFileURL}', 'img/closedQuotes.png');
+}  
+/* End Quotes */
+  
+/* Graphics */
+  
+graphic {
+    position:relative;
+    border:none;
+    max-width:90%;
+}
+graphic:after(10) {
+    width:24px;
+    display:block;
+    position:absolute;
+    bottom:0px;
+    text-align:right;
+    right:-24px;
+    content: oxy_button(transparent, true, action, oxy_action(
+          name, 'Edit', 
+          description, 'Edit', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_edit16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-setPseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    ;
+    
+    
+}
+
+graphic:-oxy-edit:after(10) {
+    content: oxy_button(transparent, true, action, oxy_action(
+          name, 'Done', 
+          description, 'done', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_done16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    ;
+}
+
+graphic:-oxy-edit:after(20) {
+    display:block;
+    content:
+        oxy_label(
+            text, " Width: ", 
+            width, 5em, 
+            color, inherit
+        )
+        oxy_combobox(
+               edit, '@width', 
+               editable, true,
+               width, 30em
+            )
+    ;
+    text-decoration:none;
+    color:white;
+    background-color:#1A669D;
+}
+graphic:-oxy-edit:after(21) {
+    display:block;
+    content:
+        oxy_label(
+            text, " Height: ", 
+            width, 5em, 
+            color, inherit
+        )
+        oxy_combobox(
+               edit, '@height', 
+               editable, true,
+               width, 30em
+            )
+    ;
+    text-decoration:none;
+    color:white;
+    background-color:#1A669D;
+}
+
+graphic:-oxy-edit:after(22) {
+    display:block;
+    content:
+        oxy_label(
+            text, " URL: ", 
+            width, 5em, 
+            color, inherit
+        )
+        oxy_combobox(
+               edit, '@url', 
+               editable, true,
+               width, 30em
+            )
+    ;
+    text-decoration:none;
+    color:white;
+    background-color:#1A669D;
+}
+
+
+/* Add structure */
+
+body > div {
+    position:relative;
+}
+body > div:after(100) {
+    display:block;
+    position:absolute;
+    left:-25px;
+    content:
+        oxy_button(
+            action, oxy_action(
+                name, '[+]', 
+                description, 'See actions', 
+                operation, 'ro.sync.ecss.extensions.commons.operations.TogglePseudoClassOperation', 
+                arg-elementLocation, '.',
+                icon, oxy_url('${currentFileURL}', 'img/tei_add16.png'),
+                arg-name, '-oxy-add'
+            ),
+            transparent, true,
+            showIcon, true)
+        ;
+}
+
+body > div:-oxy-add:after(100) {
+    display:block;
+    position:absolute;
+    left:-25px;
+    content:
+        oxy_button(
+            action, oxy_action(
+                name, '[-]', 
+                description, 'Hide actions', 
+                operation, 'ro.sync.ecss.extensions.commons.operations.TogglePseudoClassOperation', 
+                arg-elementLocation, '.',
+                icon, oxy_url('${currentFileURL}', 'img/tei_close16.png'),
+                arg-name, '-oxy-add'
+            ),
+            transparent, true,
+            showIcon, true)
+     ;
+}
+body > div:-oxy-add:after(101) {
+    display:block;
+    position:absolute;
+    content:
+        
+        oxy_button(action, oxy_action(
+          name, '[Paragraph]', 
+          description, 'Insert a new paragraph', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, '<p xmlns="http://www.tei-c.org/ns/1.0"></p>',
+          arg-insertLocation, '.',
+          arg-insertPosition, 'Inside as last child'
+        ), showIcon, false, transparent, true, color, #777777)
+        
+        oxy_button(action, oxy_action(
+          name, '[List]', 
+          description, 'Insert a list', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, '<list xmlns="http://www.tei-c.org/ns/1.0"><item></item></list>',
+          arg-insertLocation, '.',
+          arg-insertPosition, 'Inside as last child'
+        ), showIcon, false, transparent, true, color, #777777)
+
+        oxy_button(action, oxy_action(
+          name, '[Table]', 
+          description, 'Insert a table', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, oxy_concat('<table xmlns="http://www.tei-c.org/ns/1.0"  xml:id="table-', oxy_xpath("generate-id()"), '"><head></head><row role="label"><cell></cell><cell></cell><cell></cell></row><row><cell role="label"></cell><cell></cell><cell></cell></row><row><cell role="label"></cell><cell></cell><cell></cell></row></table>'),
+          arg-insertLocation, '.',
+          arg-insertPosition, 'Inside as last child'
+        ), showIcon, false, transparent, true, color, #777777)
+
+        "|"
+        oxy_button(action, oxy_action(
+          name, '[New section]', 
+          description, 'Insert a new section', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, oxy_concat('<div xmlns="http://www.tei-c.org/ns/1.0"  xml:id="div-', oxy_xpath("generate-id()"), '"><head></head><p></p></div>'),
+          arg-insertLocation, '.',
+          arg-insertPosition, 'After'
+        ), showIcon, false, transparent, true, color, #777777)
+        
+    ;
+}
+
+@media oxygen AND (platform:"standalone") {
+body > div:has(list:last-child):-oxy-add:after(101) {
+    display:block;
+    position:absolute;
+    -oxy-prepend-content:
+        oxy_button(action, oxy_action(
+          name, '[Item]', 
+          description, 'Insert a list item', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, '<item xmlns="http://www.tei-c.org/ns/1.0"></item>',
+          arg-insertLocation, './*:list[last()]',
+          arg-insertPosition, 'Inside as last child'
+        ), showIcon, false, transparent, true, color, #777777)
+    ;
+}
+}
+
+body {
+    margin-top:4em;
+}
+div {
+    margin-bottom:4em;
+}
+
+head, p, div, item {
+    -oxy-show-placeholder:always;
+}
+p {-oxy-placeholder-content:"Enter paragraph content";}
+head {-oxy-placeholder-content:"Enter heading";}
+
+
+
+
+
+/* lists */
+list > item {
+    display:block;
+    position:relative;
+    list-style-type:none;
+}
+list > item:before {
+    display:block;
+    position:absolute;
+    content: "■";
+    left:-1.2em;
+    top:0px;
+    width:1em;
+}
+list > item:before {
+    color:orange;
+}
+
+list > item:last-child:after(10) {
+    display:block;
+    margin-top:0.4em;
+    content:
+        oxy_button(action, oxy_action(
+          name, '[New Item]', 
+          description, 'Insert a new item', 
+          icon, oxy_url('${currentFileURL}', 'insert.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation', 
+          arg-fragment, '<item xmlns="http://www.tei-c.org/ns/1.0"></item>',
+          arg-insertLocation, '.',
+          arg-insertPosition, 'After'
+        ), showIcon, false, transparent, true, color, #777777)
+        
+    
+    
+    ;
+}
+
+
+
+  
+/* WEBAPP specific */
+
+@media oxygen AND (platform:"webapp") {
+    ref:-oxy-edit:after(10),
+    ptr:-oxy-edit:after(10) {
+        
+        content: "\A"
+            oxy_label(
+                text, " Target: ", 
+                width, 33%, 
+                color, inherit
+            )
+            oxy_combobox(
+                   edit, '@target', 
+                   editable, true
+                )
+        ;
+        text-decoration:none;
+        color:white;
+        background-color:#1A669D;
+    }
+    ref:-oxy-edit:after(11){
+        
+        content:"\A"
+                oxy_label(
+                    text, " Type:   ", 
+                    width, 33%, 
+                    color, inherit
+                ) 
+                oxy_combobox(
+                   edit, '@type', 
+                   editable, true
+                )
+        ;
+        text-decoration:none;
+        color:white;
+        background-color:#1A669D;
+    }
+    
+    
+/* Link fixup   */
+    ref:after(2),
+    ptr:after(2){
+    content : "[" attr(target) "]" ;
+    background-color : #F7F0E5 ;
+    text-decoration : underline ;
+    color : #1E76B7 ;
+    font-style : italic ;
+    font-size : 90% ;
+    margin-left:4px;
+    margin-right:1px;
+    
+    }
+    
+    
+    
+    ptr:after,
+    ref:after {
+        display:none;
+    }
+/* End - Link fixup   */    
+    
+    
+        
+
+}
+
+
+
+
+

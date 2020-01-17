@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="17.0" xml:space="preserve">
+<serialized version="21.1" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -278,7 +278,7 @@
 											<String>/images/ListItem24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/ListItem16.gif</String>
+											<String>/images/ListItem16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -378,7 +378,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<null/>
+											<String>M1 M2 7</String>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -419,7 +419,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<null/>
+											<String>M1 M2 8</String>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -2568,9 +2568,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<File>${cfd}/${cfn}.html</File>
-								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.html</String>
 								</field>
@@ -2618,6 +2615,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>${framework}/xml/tei/odd/p5subset.xml</String>
 											</field>
 											<field name="hasXPathValue">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="isStatic">
 												<Boolean>false</Boolean>
 											</field>
 										</transformationParameter>
@@ -2679,9 +2679,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<File>${cfd}/${cfn}.pdf</File>
-								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.pdf</String>
 								</field>
@@ -2729,6 +2726,9 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 												<String>${framework}/xml/tei/odd/p5subset.xml</String>
 											</field>
 											<field name="hasXPathValue">
+												<Boolean>false</Boolean>
+											</field>
+											<field name="isStatic">
 												<Boolean>false</Boolean>
 											</field>
 										</transformationParameter>
@@ -2984,9 +2984,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>
@@ -3281,9 +3278,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<null/>
-								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3577,9 +3571,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<null/>
-								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3849,9 +3840,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="openInBrowser">
 									<Boolean>false</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>
@@ -4123,9 +4111,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								<field name="openInBrowser">
 									<Boolean>false</Boolean>
 								</field>
-								<field name="outputFile">
-									<null/>
-								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -4395,9 +4380,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="openInBrowser">
 									<Boolean>false</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>
@@ -4669,9 +4651,6 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 								</field>
 								<field name="openInBrowser">
 									<Boolean>false</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>

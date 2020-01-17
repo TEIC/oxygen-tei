@@ -1,0 +1,9 @@
+@media oxygen and (platform:webapp) {
+  :root {
+    font-size: 1.2em;
+  }
+
+  gi,tag {
+    font-size: 0.9em;
+  }
+}

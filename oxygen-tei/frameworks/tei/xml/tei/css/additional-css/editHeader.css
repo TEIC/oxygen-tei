@@ -1,0 +1,9 @@
+
+teiHeader {
+    display:block;
+    margin-bottom:1em;
+    border:1px solid orange;
+    border-radius:5px;
+    -oxy-foldable:true;
+    -oxy-placeholder-content:"JTEI article header";
+}

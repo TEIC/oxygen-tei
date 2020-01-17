@@ -23,7 +23,7 @@
             <xsl:copy>
                 <xsl:apply-templates select="@*" mode="nestedLists"/>
                 <xsl:for-each-group 
-                    select="* | text()[string-length(normalize-space()) > 0]" 
+                    select="* | text()[string-length(normalize-space()) > 0] | comment()" 
                     group-adjacent="if (self::xhtml:p[contains(@style, 'level') 
                                       or contains(@class, 'MsoList')]) then 1 else 0">
                     <xsl:choose>

@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>JTEI Hints</title>
+        <link href="hintsStyles.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <h1>Hints for JTEI authors</h1>
+        <div id="hints-bibliography">
+            <p>The bibliography consists of a <code>listBibl</code> element containing a series of <code>bibl</code> elements. Each <code>bibl</code> element should contain a reference formatted as required by the <span
+                    class="titlem"
+                >Chicago Manual of Style</span> (16th edition), including all required punctuation, with a couple of exceptions:</p>
+            <ul>
+                <li class="item"
+                    >Do not provide quotation marks around article titles. Instead, tag them with &lt;title level="a"&gt; (for chapters or contributions in a monograph, or journal articles) or &lt;title level="u"&gt; (for unpublished materials). The rendering tools will then provide the quotation marks.</li>
+                <li class="item"
+                    >Tag titles that would normally be in italics using &lt;title level="j"&gt; (for journal titles) or &lt;title level="m"&gt; (for monographs).</li>
+            </ul>
+            <p>Give each <code>bibl</code> element a unique <span class="att"
+                >xml:id</span> attribute, so that you can link to it from the quotations in the body of your text. In your bibliography entries, put the appropriate tags around the following components:</p>
+            <ul>
+                <li class="item">titles: <code>title</code>, with an appropriate value for <span
+                        class="att">level</span> (see above)</li>
+                <li class="item">editions: <code>edition</code></li>
+                <li class="item">dates: <code>date</code></li>
+                <li class="item">authors: <code>author</code></li>
+                <li class="item">editors: <code>editor</code></li>
+                <li class="item">publishers: <code>publisher</code></li>
+                <li class="item">publication places: <code>pubPlace</code></li>
+                <li class="item">name of series: <code>series</code></li>
+                <li class="item"
+                        >scope of a bibliographic reference: <code>biblScope</code>, with an appropriate value for <span
+                        class="att">unit</span> (<span class="val">volume</span>, <span class="val"
+                        >issue</span>, <span class="val">page</span>, <span class="val"
+                        >chapter</span>, <span class="val">part</span>)</li>
+                <li class="item"
+                        >id numbers such as DOIs: <code>idno</code>, with an appropriate value for <span
+                        class="att">type</span></li>
+                <li class="item">web urls (use <code>ref</code>)</li>
+            </ul>
+            <p>For more details please see <a target="_new"
+                    href="http://www.tei-c.org/release/doc/tei-p5-exemplars/html/tei_jtei.doc.html#back"
+                    > Back Matter: the Bibliography and Appendices </a> on the guidelines for encoding an article for the TEI Journal. </p>
+        </div>
+        <div id="hints-div">
+            <p>Text divisions are encoded in <code>div</code>. 
+                Each division must have a <code>head</code> containing 
+                the heading for this division. Headings should just 
+                contain the ‘bare’ heading, without numbering or other 
+                labels; those are added automatically when the TEI 
+                source file is rendered.</p>
+            <p>For more details please see <a target="_new"
+                    href="http://www.tei-c.org/release/doc/tei-p5-exemplars/html/tei_jtei.doc.html"
+                    >the guidelines for encoding an article for the TEI Journal</a>. </p>
+        </div>
+    </body>
+</html>

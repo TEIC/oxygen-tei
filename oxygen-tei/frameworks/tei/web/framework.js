@@ -1,5 +1,4 @@
-goog.provide('sync.tei.TeiExtension');
-
+sync.tei = sync.tei || {};
 
 /**
  * Constructor for the tei Extension.
@@ -55,17 +54,11 @@ sync.tei.TeiExtension.prototype.editorCreated = function(editor) {
  */
 function addOldStyleTableActions(actionsConfiguration, toolbarName, editor) {
   if (isFrameworkActions(actionsConfiguration, toolbarName)) {
-    var split_join_actions = [
-      {"type": "sep"},
-      {"id": "table.join.row.cells", "type": "action"},
-      {"id": "table.join.cell.above", "type": "action"},
-      {"id": "table.join.cell.below", "type": "action"},
-      {"type": "sep"},
-      {"id": "table.split.left", "type": "action"},
-      {"id": "table.split.right", "type": "action"},
-      {"id": "table.split.above", "type": "action"},
-      {"id": "table.split.below", "type": "action"},
-      {"type": "sep"}
+    var join_action = [
+      {"id": "table.join", "type": "action"}
+    ];
+    var split_action = [
+      {"id": "table.split", "type": "action"}
     ];
     var row_actions = [
       {"id": "insert.table.row.above", "type": "action"},
@@ -79,24 +72,25 @@ function addOldStyleTableActions(actionsConfiguration, toolbarName, editor) {
     ];
 
     // Make table-related actions context-aware.
-    [].concat(split_join_actions, row_actions, column_actions).forEach(function(action) {
+    [].concat(join_action, split_action, row_actions, column_actions).forEach(function(action) {
       sync.actions.TableAction.wrapTableAction(editor, action.id);
     });
 
-    actionsConfiguration.toolbars[0].children.push({
-      "type": "list",
-      "name": "Join or split table cells.",
-      "displayName": tr(msgs.TABLE_JOIN_SPLIT_),
-      "icon16": "/images/TableJoinSplit16.png",
-      "icon20": "/images/TableJoinSplit24.png",
-      "children": split_join_actions
-    });
+    // Wrap the table split action
+    var splitActionId = 'table.split';
+    var originalSplitAction = editor.getActionsManager().getActionById(splitActionId);
+    if (originalSplitAction) {
+      var splitTableAction = new sync.actions.SplitTableCell(
+        originalSplitAction,
+        editor);
+      editor.getActionsManager().registerAction(splitActionId, splitTableAction);
+    }
 
     var contextualItems = actionsConfiguration.contextualItems;
     for (var i = 0; i < contextualItems.length; i++) {
       if (contextualItems[i].name === tr(msgs.TABLE_)) {
         var items = contextualItems[i].children;
-        Array.prototype.push.apply(items, split_join_actions);
+       
         var row_actions_index = indexOfId(items, row_actions[2].id);
         goog.bind(items.splice, items, row_actions_index, 1).apply(items, row_actions);
 

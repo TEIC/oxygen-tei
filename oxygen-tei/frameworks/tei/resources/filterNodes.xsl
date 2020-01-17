@@ -20,6 +20,7 @@
         'bold' : 'font-weight',
         'italic' : 'font-style',
         'underlined' : 'text-decoration',
+        'underlined2' : 'text-decoration-line',
         'monospaced' : 'font-family'
         }"/>
     
@@ -81,7 +82,8 @@
         f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold')) or
         f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold700')) or
         f:hasFontStyle(@style, $stylesPropMap('italic'), $stylesValMap('italic')) or
-        f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined'))
+        f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined')) or
+        f:hasFontStyle(@style, $stylesPropMap('underlined2'), $stylesValMap('underlined'))
         ]" mode="filterNodes">
         
         <xsl:call-template name="styling">
@@ -98,7 +100,8 @@
         f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold')) or
         f:hasFontStyle(@style, $stylesPropMap('bold'), $stylesValMap('bold700')) or
         f:hasFontStyle(@style, $stylesPropMap('italic'), $stylesValMap('italic')) or
-        f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined'))
+        f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined')) or
+        f:hasFontStyle(@style, $stylesPropMap('underlined2'), $stylesValMap('underlined'))
         ]" mode="filterNodes">
         
         <xsl:copy>
@@ -158,7 +161,8 @@
                 </xsl:when>
                 <!-- underline style -->
                 <xsl:when test="$toConsume[$index]='underline' and
-                    xs:boolean(f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined')))">
+                    xs:boolean(f:hasFontStyle(@style, $stylesPropMap('underlined'), $stylesValMap('underlined'))
+                      or f:hasFontStyle(@style, $stylesPropMap('underlined2'), $stylesValMap('underlined')))">
                     <u xmlns="http://www.w3.org/1999/xhtml">
                         <xsl:call-template name="styling">
                             <xsl:with-param name="index" select="$index + 1"/>

@@ -3,14 +3,20 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:o="urn:schemas-microsoft-com:office:office"
-    xmlns:e="http://www.oxygenxml.com/xsl/conversion-elements">
-
+    xmlns:e="http://www.oxygenxml.com/xsl/conversion-elements"
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
+    exclude-result-prefixes="m">
+    
     <xsl:template match="/">
         <xsl:apply-templates mode="setNamespace"/>
     </xsl:template>
     
-    <xsl:template match="@*" mode="setNamespace">
+    <xsl:template match="@* | comment()" mode="setNamespace">
         <xsl:copy/>
+    </xsl:template>
+    
+    <xsl:template match="m:math" mode="setNamespace">
+        <xsl:copy-of select="."/>
     </xsl:template>
     
     <xsl:template match="xhtml:*" mode="setNamespace">

@@ -1,0 +1,17 @@
+<structure-autocorrect>
+  <!-- Unordered lists -->
+  <prefix-replacement prefix="-">
+    <list type="bulleted"><item/></list>
+  </prefix-replacement>
+  <prefix-replacement prefix="*">
+    <list type="bulleted"><item/></list>
+  </prefix-replacement>
+  <prefix-replacement prefix="+">
+    <list type="bulleted"><item/></list>
+  </prefix-replacement>
+  
+  <!-- Ordered lists -->
+  <prefix-replacement prefix="1.">
+    <list type="ordered"><item/></list>
+  </prefix-replacement>
+</structure-autocorrect>

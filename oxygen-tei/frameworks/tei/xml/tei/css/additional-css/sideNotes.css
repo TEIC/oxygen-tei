@@ -1,0 +1,75 @@
+
+TEI > text {
+    width : 75%;
+    position:relative;
+    border-right : 1px solid #F7EFE1;
+    padding-right:6px;
+}
+
+note {z-index:1;}
+note:hover {z-index:10;}
+
+note ptr[target]:after {
+    content: oxy_getSomeText(attr(target), 22, true)!important;
+}
+
+note:before(101) {
+    display:block;
+    border-top:1px solid #F7EFE1;
+    content:" ";
+    line-height:1px;
+    position:absolute;
+    right:100%;
+    width:300%;
+    top:-1px;
+
+}
+note:before(100) {
+    content:
+       oxy_button(transparent, true, action, oxy_action(
+          name, '[+]', 
+          description, 'Edit', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_expand16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-setPseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    ;
+}
+
+note:-oxy-edit:before(100) {
+    content:
+       oxy_button(transparent, true, action, oxy_action(
+          name, '[-]', 
+          description, 'Done', 
+          icon, oxy_url('${currentFileURL}', 'img/tei_collapse16.png'), 
+          operation, 'ro.sync.ecss.extensions.commons.operations.ChangePseudoClassesOperation', 
+          arg-removePseudoClassNames, '-oxy-edit'          
+        ), showIcon, true);
+    ;
+}
+
+note  {
+    margin:2px;
+    padding:2px;
+    visibility:-oxy-collapse-text;
+    border-radius:0 5px 5px 5px;
+    border:1px solid orange;
+    font-size:12px;
+    font-weight:normal;
+    position:absolute;
+    right:-50%;
+    width:45%;
+    background-color:#FFFFF0;
+    color:#555555;
+}
+
+note:-oxy-edit {
+    visibility:visible;
+}
+note > * {
+    display:none;
+}
+
+note:-oxy-edit > * {
+    display:inline;
+}

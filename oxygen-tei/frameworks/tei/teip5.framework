@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="18.0" xml:space="preserve">
+<serialized version="22.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -290,7 +290,7 @@
 											<String>/images/ListItem24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/ListItem16.gif</String>
+											<String>/images/ListItem16.png</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -390,7 +390,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<null/>
+											<String>M1 M2 7</String>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -431,7 +431,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<null/>
+											<String>M1 M2 8</String>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -2903,6 +2903,15 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 												<field name="alias">
 													<String>${i18n(figure.wizard)}</String>
 												</field>
+												<field name="replacementFor">
+													<null/>
+												</field>
+												<field name="displayOnlyWhenElementAllowed">
+													<Boolean>false</Boolean>
+												</field>
+												<field name="useReplaceElementName">
+													<Boolean>false</Boolean>
+												</field>
 											</contextItem>
 											<contextItem>
 												<field name="targets">
@@ -2916,6 +2925,15 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 												<field name="alias">
 													<String>${i18n(table.wizard)}</String>
 												</field>
+												<field name="replacementFor">
+													<null/>
+												</field>
+												<field name="displayOnlyWhenElementAllowed">
+													<Boolean>false</Boolean>
+												</field>
+												<field name="useReplaceElementName">
+													<Boolean>false</Boolean>
+												</field>
 											</contextItem>
 											<contextItem>
 												<field name="targets">
@@ -2927,24 +2945,22 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 													<String>insert.table.row.below</String>
 												</field>
 												<field name="alias">
-													<String>${i18n(row.wizard)}</String>
+													<String></String>
+												</field>
+												<field name="replacementFor">
+													<String>row</String>
+												</field>
+												<field name="displayOnlyWhenElementAllowed">
+													<Boolean>false</Boolean>
+												</field>
+												<field name="useReplaceElementName">
+													<Boolean>true</Boolean>
 												</field>
 											</contextItem>
 										</contextItem-array>
 									</field>
 									<field name="removeItems">
-										<contextRemoveItem-array>
-											<contextRemoveItem>
-												<field name="targets">
-													<list>
-														<Integer>0</Integer>
-													</list>
-												</field>
-												<field name="renderName">
-													<String>row</String>
-												</field>
-											</contextRemoveItem>
-										</contextRemoveItem-array>
+										<null/>
 									</field>
 								</contextProvider>
 							</field>
@@ -3067,9 +3083,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<File>${cfd}/${cfn}.html</File>
-								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.html</String>
 								</field>
@@ -3152,9 +3165,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
-								</field>
-								<field name="outputFile">
-									<File>${cfd}/${cfn}.pdf</File>
 								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.pdf</String>
@@ -3387,9 +3397,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>
@@ -3638,9 +3645,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
-								<field name="outputFile">
-									<null/>
-								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3887,9 +3891,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
-								</field>
-								<field name="outputFile">
-									<null/>
 								</field>
 								<field name="outputResource">
 									<null/>

@@ -4,7 +4,7 @@
      xmlns="http://www.oxygenxml.com/ns/ccfilter/annotations"
     redirectURLPrefix="https://www.oxygenxml.com/redirect-url.php?url="
     htmlContentFilterStylesheet="contentFilter.xsl">
-    <mappingGroup xml:base="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/">
+    <mappingGroup xml:base="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/">
         <mapping elementName="ab" path="ref-ab.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="abbr" path="ref-abbr.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="accMat" path="ref-accMat.html" type="link" linkText="TEI Guidelines"/>
@@ -109,28 +109,6 @@
         <mapping elementName="custodialHist" path="ref-custodialHist.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="damage" path="ref-damage.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="damageSpan" path="ref-damageSpan.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.certainty" path="ref-data.certainty.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.count" path="ref-data.count.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.duration.iso" path="ref-data.duration.iso.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.duration.w3c" path="ref-data.duration.w3c.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.enumerated" path="ref-data.enumerated.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.language" path="ref-data.language.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.name" path="ref-data.name.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.namespace" path="ref-data.namespace.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.numeric" path="ref-data.numeric.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.outputMeasurement" path="ref-data.outputMeasurement.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.pattern" path="ref-data.pattern.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.point" path="ref-data.point.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.pointer" path="ref-data.pointer.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.probability" path="ref-data.probability.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.sex" path="ref-data.sex.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.temporal.iso" path="ref-data.temporal.iso.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.temporal.w3c" path="ref-data.temporal.w3c.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.text" path="ref-data.text.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.truthValue" path="ref-data.truthValue.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.version" path="ref-data.version.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.word" path="ref-data.word.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.xTruthValue" path="ref-data.xTruthValue.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="datatype" path="ref-datatype.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="date" path="ref-date.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="dateline" path="ref-dateline.html" type="link" linkText="TEI Guidelines"/>
@@ -317,14 +295,6 @@
         <mapping elementName="locus" path="ref-locus.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="locusGrp" path="ref-locusGrp.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="m" path="ref-m.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.anyXML" path="ref-macro.anyXML.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.limitedContent" path="ref-macro.limitedContent.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.paraContent" path="ref-macro.paraContent.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.phraseSeq" path="ref-macro.phraseSeq.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.phraseSeq.limited" path="ref-macro.phraseSeq.limited.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.schemaPattern" path="ref-macro.schemaPattern.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.specialPara" path="ref-macro.specialPara.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="macro.xtext" path="ref-macro.xtext.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="macroRef" path="ref-macroRef.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="macroSpec" path="ref-macroSpec.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="mapping" path="ref-mapping.html" type="link" linkText="TEI Guidelines"/>
@@ -340,116 +310,6 @@
         <mapping elementName="metSym" path="ref-metSym.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="milestone" path="ref-milestone.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="mod" path="ref-mod.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.addressLike" path="ref-model.addressLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.addrPart" path="ref-model.addrPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.applicationLike" path="ref-model.applicationLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.availabilityPart" path="ref-model.availabilityPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.biblLike" path="ref-model.biblLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.biblPart" path="ref-model.biblPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.castItemPart" path="ref-model.castItemPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.catDescPart" path="ref-model.catDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.certLike" path="ref-model.certLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.choicePart" path="ref-model.choicePart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.common" path="ref-model.common.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.dateLike" path="ref-model.dateLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.descLike" path="ref-model.descLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.dimLike" path="ref-model.dimLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div1Like" path="ref-model.div1Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div2Like" path="ref-model.div2Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div3Like" path="ref-model.div3Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div4Like" path="ref-model.div4Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div5Like" path="ref-model.div5Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div6Like" path="ref-model.div6Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.div7Like" path="ref-model.div7Like.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divBottom" path="ref-model.divBottom.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divBottomPart" path="ref-model.divBottomPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divGenLike" path="ref-model.divGenLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divLike" path="ref-model.divLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divPart" path="ref-model.divPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divPart.spoken" path="ref-model.divPart.spoken.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divTop" path="ref-model.divTop.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divTopPart" path="ref-model.divTopPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.divWrapper" path="ref-model.divWrapper.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.editorialDeclPart" path="ref-model.editorialDeclPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.egLike" path="ref-model.egLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.emphLike" path="ref-model.emphLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.encodingDescPart" path="ref-model.encodingDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.entryLike" path="ref-model.entryLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.entryPart" path="ref-model.entryPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.entryPart.top" path="ref-model.entryPart.top.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.featureVal.complex" path="ref-model.featureVal.complex.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.featureVal" path="ref-model.featureVal.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.featureVal.single" path="ref-model.featureVal.single.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.formPart" path="ref-model.formPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.frontPart.drama" path="ref-model.frontPart.drama.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.frontPart" path="ref-model.frontPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.gLike" path="ref-model.gLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.global.edit" path="ref-model.global.edit.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.global" path="ref-model.global.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.global.meta" path="ref-model.global.meta.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.global.spoken" path="ref-model.global.spoken.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.glossLike" path="ref-model.glossLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.gramPart" path="ref-model.gramPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.graphicLike" path="ref-model.graphicLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.headLike" path="ref-model.headLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.highlighted" path="ref-model.highlighted.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.hiLike" path="ref-model.hiLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.imprintPart" path="ref-model.imprintPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.inter" path="ref-model.inter.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.labelLike" path="ref-model.labelLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.limitedPhrase" path="ref-model.limitedPhrase.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.linePart" path="ref-model.linePart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.listLike" path="ref-model.listLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.lLike" path="ref-model.lLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.lPart" path="ref-model.lPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.measureLike" path="ref-model.measureLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.milestoneLike" path="ref-model.milestoneLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.morphLike" path="ref-model.morphLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.msItemPart" path="ref-model.msItemPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.msQuoteLike" path="ref-model.msQuoteLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.nameLike.agent" path="ref-model.nameLike.agent.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.nameLike" path="ref-model.nameLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.noteLike" path="ref-model.noteLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.oddDecl" path="ref-model.oddDecl.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.oddRef" path="ref-model.oddRef.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.offsetLike" path="ref-model.offsetLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.orgPart" path="ref-model.orgPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.orgStateLike" path="ref-model.orgStateLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.persNamePart" path="ref-model.persNamePart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.personLike" path="ref-model.personLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.personPart" path="ref-model.personPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.persStateLike" path="ref-model.persStateLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.phrase" path="ref-model.phrase.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.phrase.xml" path="ref-model.phrase.xml.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.physDescPart" path="ref-model.physDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.placeLike" path="ref-model.placeLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.placeNamePart" path="ref-model.placeNamePart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.placeStateLike" path="ref-model.placeStateLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pLike.front" path="ref-model.pLike.front.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pLike" path="ref-model.pLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pPart.data" path="ref-model.pPart.data.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pPart.edit" path="ref-model.pPart.edit.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pPart.editorial" path="ref-model.pPart.editorial.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pPart.msdesc" path="ref-model.pPart.msdesc.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.pPart.transcriptional" path="ref-model.pPart.transcriptional.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.profileDescPart" path="ref-model.profileDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.ptrLike.form" path="ref-model.ptrLike.form.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.ptrLike" path="ref-model.ptrLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.qLike" path="ref-model.qLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.quoteLike" path="ref-model.quoteLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.rdgLike" path="ref-model.rdgLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.rdgPart" path="ref-model.rdgPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.recordingPart" path="ref-model.recordingPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.resourceLike" path="ref-model.resourceLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.respLike" path="ref-model.respLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.segLike" path="ref-model.segLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.settingPart" path="ref-model.settingPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.sourceDescPart" path="ref-model.sourceDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.specDescLike" path="ref-model.specDescLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.stageLike" path="ref-model.stageLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.teiHeaderPart" path="ref-model.teiHeaderPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.textDescPart" path="ref-model.textDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.titlepagePart" path="ref-model.titlepagePart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="moduleRef" path="ref-moduleRef.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="moduleSpec" path="ref-moduleSpec.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="monogr" path="ref-monogr.html" type="link" linkText="TEI Guidelines"/>

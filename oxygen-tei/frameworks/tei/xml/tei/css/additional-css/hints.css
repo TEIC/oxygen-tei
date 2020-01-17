@@ -1,0 +1,73 @@
+back > div[type='bibliography']:before(200),
+body > div:before(200) {
+    display:block;
+    position:absolute;
+    top:1px;
+    text-align:right;
+    right:1px;
+        
+    content:
+        oxy_button(
+            action, oxy_action(
+                name, '[+]', 
+                description, 'See description', 
+                operation, 'ro.sync.ecss.extensions.commons.operations.TogglePseudoClassOperation', 
+                arg-elementLocation, '.',
+                icon, oxy_url('${currentFileURL}', 'img/tei_info16.png'),
+                arg-name, '-oxy-hints'
+            ),
+            transparent, true,
+            showIcon, true)
+        ;
+}
+
+body > div:-oxy-hints:before(300) {
+    font-family:arial, helvetica, sans-serif;
+    border:1px solid gray;
+    border-radius:5px;
+    padding-top:4px;
+    padding-left:4px;
+    padding-bottom:4px;
+    padding-right:4px;
+    background-color:#FFFCCA;
+    width:93%;
+    display:block;
+    content:
+        oxy_htmlContent(
+            href, 'jteiHints.html',
+            id, 'hints-div',
+            width, 100%
+        );        
+}
+
+body > div {
+    position:relative;  
+    padding-top:1em;
+}
+
+back > div[type='bibliography']:-oxy-hints:before(300) {
+    font-family:arial, helvetica, sans-serif;
+    border:1px solid gray;
+    border-radius:5px;
+    padding-top:4px;
+    padding-left:4px;
+    padding-bottom:4px;
+    padding-right:4px;
+    background-color:#FFFCCA;
+    width:93%;
+    display:block;
+    content:
+        oxy_htmlContent(
+            href, 'jteiHints.html',
+            id, 'hints-bibliography',
+            width, 100%
+        );        
+}
+
+back > div[type='bibliography'] {
+    position:relative;   
+}
+
+
+
+
