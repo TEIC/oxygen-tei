@@ -30,6 +30,5 @@ In this guide, we explain how to add and install the oXygen TEI plugin to  keep 
 7. When you restart oXygen, check on your plugin by going to the Help menu and selecting <q>Check for add-ons updates...</q>. There you can select the TEI plugin and click the <q>Update</q> button to update it. If there are any new updates, you will be prompted to quit and restart oXygen to load them. You should plan to do this as soon as you hear an announcement about a new TEI release. To keep up to date on releases, we recommend you [subscribe to the TEI-L e-mail listerv](https://tei-c.org/support/#tei-l).
 
 
-If you really want to get the 
-development version and have that auto-update you could point to the plugin to oxygen-tei-stable or oxygen-tei-bleeding 
-jobs on <http://jenkins.tei-c.org>, e.g. **https://jenkins.tei-c.org/job/oxygen-tei-stable/lastSuccessfulBuild/artifact/oxygen-tei/updateSite.oxygen** but be warned that here be dragons.
+If you want the very latest version of the TEI that TEI Council members are presently working on, you can install the <q>development build</q> version by pointing the plugin to oxygen-tei-stable or oxygen-tei-bleeding 
+jobs on <http://jenkins.tei-c.org>. To point to the latest stable development build, use **https://jenkins.tei-c.org/job/oxygen-tei-stable/lastSuccessfulBuild/artifact/oxygen-tei/updateSite.oxygen**, but be warned that the development build does not reflect the published TEI Guidelines and may change without notice as TEI Council works on updating the Guidelines. 
