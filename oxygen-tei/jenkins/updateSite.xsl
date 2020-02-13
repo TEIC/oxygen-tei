@@ -58,7 +58,8 @@
           <xsl:when test="$jenkinsJobSuffix = 'bleeding'">
             <xsl:text>DEVELOPMENT BUILD of the Oxygen TEI plugin
             based on the current dev branch versions of TEI P5 and the 
-            TEI Stylesheets.</xsl:text> 
+            TEI Stylesheets. Use this only if you are testing the 
+	      plugin.</xsl:text> 
           </xsl:when>
           <xsl:when test="$jenkinsJobSuffix = 'stable'">
             <xsl:text>STABLE BUILD of the Oxygen TEI plugin
@@ -73,8 +74,7 @@
         </xsl:choose>
         <xsl:text>Jenkins build number: </xsl:text>
         <xsl:value-of select="$currBuild"/><xsl:text>.
-          Use this only if you are testing the 
-	      plugin. To avoid conflict with builtin framework, please ensure that
+           To avoid conflict with builtin framework, please ensure that
 	      you have gone to Preferences->Document Type Association in
 	      oXygen and deactivated all the TEI frameworks
 	      that have "External" in the storage columns.
