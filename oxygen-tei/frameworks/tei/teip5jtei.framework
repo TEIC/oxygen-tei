@@ -583,6 +583,7 @@
 										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
 										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
 										<String>${oxygenHome}/lib/*fop*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
