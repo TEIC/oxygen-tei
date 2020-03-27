@@ -104,9 +104,6 @@ mkdir -p "templates/TEI ODD"
 cp "templates/TEI P5/ODD customization".* "templates/TEI ODD"
 
 cd ../..
-#MDH 2015-01-30: Per discussion with TEI Council, we no longer want to include Brown materials.
-#echo add Brown specifics
-#unzip brown
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo do Ant build
 (cd frameworks/tei; ant)

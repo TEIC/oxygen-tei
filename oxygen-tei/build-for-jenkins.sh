@@ -141,11 +141,7 @@ cp "templates/TEI P5/jTEI Article".* "templates/TEI jTEI"
 #RvdB: Copy the ODD template to its other location.
 mkdir -p "templates/TEI ODD"
 cp "templates/TEI P5/ODD customization".* "templates/TEI ODD"
-
 cd ../..
-#We're not doing this any more.
-#echo "Add Brown specifics..."
-#unzip brown
 
 rm -f tei.zip xsl.zip frameworks/tei/dist/tei.zip
 echo "Do Ant build..."
