@@ -117,6 +117,7 @@ stable: This is also intended to run on the TEI's Jenkins build
     <delete dir="frameworks/tei/xml/tei/schema"/>
     <delete dir="frameworks/tei/xml/tei/stylesheet"/>
     <delete dir="frameworks/tei/xml/tei/xquery"/>
+    <delete dir="frameworks/tei/templates"/>
     <echo message="${echo.separator}"/>
   </target>
   
