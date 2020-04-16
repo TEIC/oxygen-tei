@@ -511,7 +511,7 @@
         <val lang="de_DE">Kriterien</val>
         <val lang="fr_FR">Critères</val>
         <val lang="ja_JP">基準</val>
-        <val lang="nl_NL">Criteria</val>
+        <val lang="nl_NL" skipTranslation="true">Criteria</val>
         <val lang="zh_CN">标准</val>
     </key>
 <key value="Before">
@@ -553,8 +553,8 @@
 <key value="Position">
         <comment>"Position" label.</comment>
         <val lang="en_US">Position</val>
-        <val lang="de_DE">Position</val>
-        <val lang="fr_FR">Position</val>
+        <val lang="de_DE" skipTranslation="true">Position</val>
+        <val lang="fr_FR" skipTranslation="true">Position</val>
         <val lang="ja_JP">位置</val>
         <val lang="nl_NL">Positie</val>
         <val lang="zh_CN">职位</val>
@@ -867,7 +867,7 @@
 <key value="Text">
         <comment>Value used to sort elements.</comment>
         <val lang="en_US">Text</val>
-        <val lang="de_DE">Text</val>
+        <val lang="de_DE" skipTranslation="true">Text</val>
         <val lang="fr_FR">Texte</val>
         <val lang="ja_JP">テキスト</val>
         <val lang="nl_NL">Tekst</val>
@@ -886,7 +886,7 @@
         <comment>Value used to sort elements.</comment>
         <val lang="en_US">Date</val>
         <val lang="de_DE">Datum</val>
-        <val lang="fr_FR">Date</val>
+        <val lang="fr_FR" skipTranslation="true">Date</val>
         <val lang="ja_JP">日付</val>
         <val lang="nl_NL">Datum</val>
         <val lang="zh_CN">日期</val>
@@ -913,9 +913,9 @@
         <comment>Options label.</comment>
         <val lang="en_US">Type</val>
         <val lang="de_DE">Typ</val>
-        <val lang="fr_FR">Type</val>
+        <val lang="fr_FR" skipTranslation="true">Type</val>
         <val lang="ja_JP">タイプ</val>
-        <val lang="nl_NL">Type</val>
+        <val lang="nl_NL" skipTranslation="true">Type</val>
         <val lang="zh_CN">类型</val>
     </key>
 <key value="Sort_by">
@@ -1395,7 +1395,7 @@
         <comment>'Simple' button text</comment>
         <val lang="en_US">Simple</val>
         <val lang="de_DE">Einfach</val>
-        <val lang="fr_FR">Simple</val>
+        <val lang="fr_FR" skipTranslation="true">Simple</val>
         <val lang="ja_JP">シンプル</val>
         <val lang="nl_NL">Eenvoudig</val>
         <val lang="zh_CN">简单</val>
@@ -1505,7 +1505,7 @@
         <val lang="de_DE">Modell</val>
         <val lang="fr_FR">Modèle</val>
         <val lang="ja_JP">モデル</val>
-        <val lang="nl_NL">Model</val>
+        <val lang="nl_NL" skipTranslation="true">Model</val>
         <val lang="zh_CN">模型</val>
     </key>
 <key type="action" value="insert">

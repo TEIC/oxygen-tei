@@ -593,6 +593,7 @@
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
@@ -605,7 +606,7 @@
 										<String>${oxygenHome}/lib/saxon9ee.jar</String>
 										<String>${oxygenHome}/lib/saxon.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/fop.jar</String>
 									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
 									  <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
@@ -839,6 +840,7 @@
 								<field name="extensionURLs">
 			                                                <String-array>
 			                                                    <String>${oxygenHome}/classes/</String>
+			                                                    <String>${oxygenHome}/lib/oxygenCommons.jar</String>
 			                                                    <String>${oxygenHome}/lib/oxygen.jar</String>
 			                                                    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 			                                                    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
@@ -849,7 +851,7 @@
 			                                                    <String>${oxygenHome}/lib/resolver.jar</String>
 			                                                    <String>${oxygenHome}/lib/xercesImpl.jar</String>
 			                                                    <String>${oxygenHome}/lib/saxon9ee.jar</String>
-			                                                    <String>${oxygenHome}/lib/log4j.jar</String>
+			                                                    <String>${oxygenHome}/lib/*log4j*.jar</String>
 			                                                    <String>${oxygenHome}/lib/fop.jar</String>
 			                                                    <String>${pdu}/oxygen_aux_files/ant/</String>
 			                                                    <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->

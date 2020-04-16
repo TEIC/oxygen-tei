@@ -2904,7 +2904,10 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 													<String>${i18n(figure.wizard)}</String>
 												</field>
 												<field name="replacementFor">
-													<null/>
+													<String>figure</String>
+												</field>
+												<field name="replacedElementNs">
+													<String>http://www.tei-c.org/ns/1.0</String>
 												</field>
 												<field name="displayOnlyWhenElementAllowed">
 													<Boolean>false</Boolean>
@@ -2926,7 +2929,10 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 													<String>${i18n(table.wizard)}</String>
 												</field>
 												<field name="replacementFor">
-													<null/>
+													<String>table</String>
+												</field>
+												<field name="replacedElementNs">
+													<String>http://www.tei-c.org/ns/1.0</String>
 												</field>
 												<field name="displayOnlyWhenElementAllowed">
 													<Boolean>false</Boolean>
@@ -2945,10 +2951,13 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 													<String>insert.table.row.below</String>
 												</field>
 												<field name="alias">
-													<String></String>
+													<null/>
 												</field>
 												<field name="replacementFor">
 													<String>row</String>
+												</field>
+												<field name="replacedElementNs">
+													<String>http://www.tei-c.org/ns/1.0</String>
 												</field>
 												<field name="displayOnlyWhenElementAllowed">
 													<Boolean>false</Boolean>
@@ -3437,6 +3446,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
@@ -3448,7 +3458,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
@@ -3684,6 +3694,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
@@ -3695,7 +3706,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
@@ -3931,6 +3942,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
@@ -3942,7 +3954,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
