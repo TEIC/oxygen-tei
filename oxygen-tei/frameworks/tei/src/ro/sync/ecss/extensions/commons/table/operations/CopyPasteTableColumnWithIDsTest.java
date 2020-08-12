@@ -138,10 +138,13 @@ public class CopyPasteTableColumnWithIDsTest extends EditorAuthorExtensionTestBa
         "                        <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                        <thead>\n" + 
         "                            <row>\n" + 
-        "                                <entry>Column 1</entry>\n" + 
+        "                                <entry/>\n" + 
         "                            </row>\n" + 
         "                        </thead>\n" + 
         "                        <tbody>\n" + 
+        "                            <row>\n" + 
+        "                                <entry>Column 1</entry>\n" + 
+        "                            </row>\n" + 
         "                            <row>\n" + 
         "                                <entry>1</entry>\n" + 
         "                            </row>\n" + 
@@ -253,10 +256,13 @@ public class CopyPasteTableColumnWithIDsTest extends EditorAuthorExtensionTestBa
         "                        <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                        <thead>\n" + 
         "                            <row>\n" + 
-        "                                <entry id=\"id1\">Column 1</entry>\n" + 
+        "                                <entry/>\n" + 
         "                            </row>\n" + 
         "                        </thead>\n" + 
         "                        <tbody>\n" + 
+        "                            <row>\n" + 
+        "                                <entry id=\"id1\">Column 1</entry>\n" + 
+        "                            </row>\n" + 
         "                            <row>\n" + 
         "                                <entry id=\"id2\">1</entry>\n" + 
         "                            </row>\n" + 
@@ -328,10 +334,13 @@ public class CopyPasteTableColumnWithIDsTest extends EditorAuthorExtensionTestBa
         "                        <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                        <thead>\n" + 
         "                            <row>\n" + 
-        "                                <entry id=\"id1\">Column 1</entry>\n" + 
+        "                                <entry/>\n" + 
         "                            </row>\n" + 
         "                        </thead>\n" + 
         "                        <tbody>\n" + 
+        "                            <row>\n" + 
+        "                                <entry id=\"id1\">Column 1</entry>\n" + 
+        "                            </row>\n" + 
         "                            <row>\n" + 
         "                                <entry id=\"id2\">1</entry>\n" + 
         "                            </row>\n" + 
@@ -349,10 +358,13 @@ public class CopyPasteTableColumnWithIDsTest extends EditorAuthorExtensionTestBa
         "                        <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                        <thead>\n" + 
         "                            <row>\n" + 
-        "                                <entry>Column 1</entry>\n" + 
+        "                                <entry/>\n" + 
         "                            </row>\n" + 
         "                        </thead>\n" + 
         "                        <tbody>\n" + 
+        "                            <row>\n" + 
+        "                                <entry>Column 1</entry>\n" + 
+        "                            </row>\n" + 
         "                            <row>\n" + 
         "                                <entry>1</entry>\n" + 
         "                            </row>\n" + 

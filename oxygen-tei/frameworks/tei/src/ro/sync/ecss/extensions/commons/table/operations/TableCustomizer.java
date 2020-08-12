@@ -50,6 +50,16 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.xml.bind.DatatypeConverter;
+
+import org.apache.log4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -62,6 +72,16 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class TableCustomizer {
+  
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = Logger.getLogger(TableCustomizer.class.getName());
+  
+  /**
+   * The key for storing the table customizer options.
+   */
+  private static final String TABLE_CUSTOMIZER_OPTIONS_KEY = "TABLE_CUSTOMIZER_OPTIONS";
   
   /**
    * The last table info specified by the user. Session level persistence. 
@@ -140,10 +160,17 @@ public abstract class TableCustomizer {
    * @return The table information provided by the user or <code>null</code>
    * if customization operation is canceled.
    */
-  public TableInfo customizeTable(AuthorAccess authorAccess, int predefinedRowsCount, int predefinedColumnsCount, int defaultTableModel) {
-    if (predefinedRowsCount > 1 && (tableInfo == null || tableInfo.isGenerateHeader())) {
-      predefinedRowsCount--;
+  public TableInfo customizeTable(AuthorAccess authorAccess, int predefinedRowsCount, 
+      int predefinedColumnsCount, int defaultTableModel) {
+    if (tableInfo == null) {
+      // The first time the customizer is shown in the current session,
+      // load the options from the previous session, if possible
+      String tableCustomizerOptions = authorAccess.getOptionsStorage().getOption(
+          TABLE_CUSTOMIZER_OPTIONS_KEY,
+          null);
+      tableInfo = getTableInfoObject(tableCustomizerOptions);
     }
+    
     TableInfo newTableInfo = showCustomizeTableDialog(authorAccess, predefinedRowsCount, predefinedColumnsCount, defaultTableModel);
     // Store the new table info only if not cancel pressed.
     if (newTableInfo != null) {
@@ -177,7 +204,77 @@ public abstract class TableCustomizer {
       } else {
         tableInfo = newTableInfo;
       }
+      
+      String serializedTableInfo = serializeTableCustomizerOptions();
+      if (serializedTableInfo != null) {
+        authorAccess.getOptionsStorage().setOption(
+            TABLE_CUSTOMIZER_OPTIONS_KEY,
+            serializedTableInfo);
+      }
     }
     return newTableInfo;
+  }
+
+  /**
+   * Get the table info object corresponding to the given string serialization.
+   * 
+   * @param tableCustomizerOptions the options serialization to be deserialized.
+   */
+  private TableInfo getTableInfoObject(String tableCustomizerOptions) {
+    TableInfo tableInfo = null;
+    
+    if (tableCustomizerOptions != null) {
+      ObjectInputStream objectInputStream = null;
+      try {
+        byte [] data = DatatypeConverter.parseBase64Binary(tableCustomizerOptions);
+        objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data));
+        tableInfo = (TableInfo) objectInputStream.readObject();
+      } catch (IOException e) {
+        logger.error(e.getMessage(), e);
+      } catch (ClassNotFoundException e) {
+        logger.error(e.getMessage(), e);
+      } finally {
+        // Make sure we try to close the stream
+        if (objectInputStream != null) {
+          try {
+            objectInputStream.close();
+          } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+          }
+        }
+      }
+    }
+    
+    return tableInfo;
+  }
+
+  /**
+   * Serialize the table info (the customizer's options).
+   * 
+   * @return the serialized options.
+   * 
+   * @throws IOException 
+   */
+  private String serializeTableCustomizerOptions() {
+    String serializedOptions = null;
+    ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
+    ObjectOutputStream objOutStream = null;
+    try {
+      objOutStream = new ObjectOutputStream(byteArrayOutStream);
+      objOutStream.writeObject(tableInfo);
+      serializedOptions = DatatypeConverter.printBase64Binary(byteArrayOutStream.toByteArray()); 
+    } catch (IOException e) {
+      logger.error(e.getMessage(), e);
+    } finally {
+      // Make sure we try to close the stream
+      if (objOutStream != null) {
+        try {
+          objOutStream.close();
+        } catch (IOException e) {
+          logger.error(e.getMessage(), e);
+        }
+      }
+    }
+    return serializedOptions;
   }
 }

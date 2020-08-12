@@ -7,13 +7,38 @@
         <language description="Japanese" lang="ja_JP"/>
         <language description="Dutch" lang="nl_NL"/>
     </languageList>
+<key type="action" value="itemizedlist_description">
+        <comment>Insert Itemized List action description.</comment>
+        <val lang="en_US">Insert an itemized list</val>
+        <val lang="de_DE">Ungeordnete Liste einfügen</val>
+        <val lang="fr_FR">Insérer une liste détaillée</val>
+        <val lang="ja_JP">項目別リストを挿入</val>
+        <val lang="nl_NL">Een niet-geordende lijst invoegen</val>
+    </key>
+<key value="list.convert.exception">
+        <comment>Exception presented to user when it tries to convert selected content to lists. </comment>
+        <val lang="en_US">Could not convert the selection to list!\nPlease make sure that the selection contains only the following elements: any type of list, paragraphs, or inline content.</val>
+        <val lang="de_DE">Auswahl kann nicht in eine Liste konvertiert werden!\nStellen Sie fest, dass die Auswahl
+      nur die folgenden Elemente enthält: beliebige Listen, Paragraphen oder Inline-Elemente.</val>
+        <val lang="fr_FR">Impossible de convertir la sélection en liste!\nVeuillez vous assurer que la sélection contient uniquement les élément suivants : n'importe quel type de liste, des paragraphes ou du contenu en ligne.</val>
+        <val lang="ja_JP">選択をリストに変換できませんでした！\n選択には、あらゆる種類のリスト、段落、インラインコンテキストの要素のみが含まれていることを確認してください。</val>
+        <val lang="nl_NL">Kon de selectie niet naar een lijst converteren!\nZorg dat de selectie uitsluitend de volgende elementen bevat: een willekeurige soort lijst, paragrafen of inline inhoud.</val>
+    </key>
+<key value="table.convert.exception">
+        <comment>Exception presented to user when it tries to convert selected content to tables. </comment>
+        <val lang="en_US">Only lists, paragraphs or inline content can be converted to tables.</val>
+        <val lang="de_DE">Nur Listen, Paragraphen oder Inline-Elemente können in Tabellen konvertiert werden.</val>
+        <val lang="fr_FR">Uniquement les listes, les paragraphes ou le contenu en ligne peuvent être convertis en tableaux.</val>
+        <val lang="ja_JP">リスト、段落、インラインコンテキストのみがテーブルに変換できます。</val>
+        <val lang="nl_NL">Uitsluitend lijsten, paragrafen of inline inhoud kunnen naar tabellen worden geconverteerd.</val>
+   </key>
 <key value="table.wizard_description">
         <comment>Description for the wizard used to insert a (CALS) table. </comment>
         <val lang="en_US">Insert a new CALS table.</val>
-        <val lang="de_DE">Insert a new CALS table.</val>
+        <val lang="de_DE">Neue CALS-Tabelle einfügen.</val>
         <val lang="fr_FR">Insère un nouveau tableau CALS.</val>
-        <val lang="ja_JP">Insert a new CALS table.</val>
-        <val lang="nl_NL">Insert a new CALS table.</val>
+        <val lang="ja_JP">新しいCALSテーブルを挿入する。</val>
+        <val lang="nl_NL">Voeg een nieuwe CALS-tabel in.</val>
     </key>
 <key value="Properties">
         <comment>Properties.</comment>
@@ -42,10 +67,10 @@
 <key value="Image_map_editor">
         <comment>Image Map Editor</comment>
         <val lang="en_US">Image Map Editor</val>
-        <val lang="de_DE">Image Map Editor</val>
+        <val lang="de_DE">Image-Map-Editor</val>
         <val lang="fr_FR">Éditeur d'Image Map</val>
-        <val lang="ja_JP">Image Map Editor</val>
-        <val lang="nl_NL">Image Map Editor</val>
+        <val lang="ja_JP">イメージマップエディター</val>
+        <val lang="nl_NL">Afbeeldingenmapeditor</val>
     </key>
 <key value="edit_image_map_description">
         <comment>Edit image map action name description.</comment>
@@ -142,6 +167,14 @@
         <val lang="fr_FR">Fractionner la cellule courante en plusieurs cellules.</val>
         <val lang="ja_JP">現在のテーブルセルを複数のセルに分割します。</val>
         <val lang="nl_NL">Splits de huidige tabelcel in meerdere cellen.</val>
+    </key>
+<key type="action" value="orderedList_description">
+        <comment>Insert Ordered List action description.</comment>
+        <val lang="en_US">Insert an ordered list</val>
+        <val lang="de_DE">Geordnete Liste einfügen</val>
+        <val lang="fr_FR">Insérer une liste ordonnée</val>
+        <val lang="ja_JP">ソート済リストを挿入します</val>
+        <val lang="nl_NL">Voeg een geordende lijst in</val>
     </key>
 <key type="action" value="delete.table.row_description">
         <comment>Delete Row action description.</comment>
@@ -897,14 +930,6 @@
         <val lang="ja_JP">順序付けリストの挿入</val>
         <val lang="nl_NL">Voeg geordende lijst in</val>
     </key>
-<key type="action" value="ordered list_description">
-        <comment>Insert Ordered List action description.</comment>
-        <val lang="en_US">Insert an ordered list at the cursor position</val>
-        <val lang="de_DE">Eine geordnete Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérer une liste triée à la position du curseur</val>
-        <val lang="ja_JP">キャレット位置に順序付けリストの挿入</val>
-        <val lang="nl_NL">Voeg een geordende lijst in op de cursorpositie</val>
-    </key>
 <key type="action" value="itemizedlist">
         <comment>Insert Itemized List action name.</comment>
         <val lang="en_US">Insert Itemized List</val>
@@ -912,14 +937,6 @@
         <val lang="fr_FR">Insérer une liste détaillée</val>
         <val lang="ja_JP">箇条書きリストの挿入</val>
         <val lang="nl_NL">Voeg een niet-geordende lijst in</val>
-    </key>
-<key type="action" value="itemizedlist_description">
-        <comment>Insert Itemized List action description.</comment>
-        <val lang="en_US">Insert an itemized list at the cursor position</val>
-        <val lang="de_DE">Eine spezifizierte Liste an der Eingabeposition einfügen</val>
-        <val lang="fr_FR">Insérer une liste détaillée à la position du curseur</val>
-        <val lang="ja_JP">キャレット位置に箇条書きリストの挿入</val>
-        <val lang="nl_NL">Voeg een niet-geordende lijst in op de cursorpositie</val>
     </key>
 <key type="action" value="insert.table.cell">
         <comment>Insert Cell action name.</comment>

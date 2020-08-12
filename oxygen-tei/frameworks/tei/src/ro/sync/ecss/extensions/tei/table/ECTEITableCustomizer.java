@@ -95,7 +95,7 @@ public class ECTEITableCustomizer extends TableCustomizer {
       int predefinedColumnsCount, int defaultTableModel) {
     //Eclipse table customization
     ECTableCustomizerDialog tableCustomizerDialog = new ECTEITableCustomizerDialog(
-        (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
+        authorAccess, (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
     return tableCustomizerDialog.showDialog(tableInfo);
   }

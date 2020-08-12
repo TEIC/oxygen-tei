@@ -54,10 +54,15 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import org.mockito.Mockito;
+
 import ro.sync.ecss.component.AuthorViewport;
 import ro.sync.ecss.dom.AuthorDocumentImpl;
 import ro.sync.ecss.dom.AuthorSentinelNode;
 import ro.sync.ecss.extensions.EditorAuthorExtensionTestBase;
+import ro.sync.ecss.extensions.api.ArgumentsMap;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.layout.AbstractLayoutBox;
 import ro.sync.ecss.layout.BlockElementBox;
@@ -67,6 +72,7 @@ import ro.sync.ecss.layout.DumpConfiguration;
 import ro.sync.ecss.layout.StaticEditBox;
 import ro.sync.exml.editor.xmleditor.pageauthor.AuthorEditorPage;
 import ro.sync.exml.view.graphics.Point;
+import ro.sync.ui.UiUtil;
 import ro.sync.util.URLUtil;
 
 /**
@@ -168,5 +174,47 @@ public class TogglePseudoClassOperationTest extends EditorAuthorExtensionTestBas
         "The colspecs should not be visible by default.",
         "", BoxTestBase.grep(sb.toString(), "<colspec"));
     
+  }
+
+  /**
+   * <p><b>Description:</b> Toggle pseudo class on multiple nodes.</p>
+   * <p><b>Bug ID:</b> EXM-37134</p>
+   *
+   * @author radu_coravu
+   *
+   * @throws Exception
+   */
+  public void testTogglePseudoClassOperationOnMultipleNodes() throws Exception {
+    
+    open(URLUtil.correct(new File("test/EXM-28767/togglePseudoClass.dita")), false, false);
+    flushAWTBetter();    
+    
+    AuthorEditorPage authorEditorPage = (AuthorEditorPage) editor.getCurrentPage();
+    AuthorViewport viewport = authorEditorPage.getViewport();
+    
+     final PseudoClassOperation pco = new TogglePseudoClassOperation();
+
+    final ArgumentsMap args = Mockito.mock(ArgumentsMap.class);
+    Mockito.when(args.getArgumentValue("name")).thenReturn("-oxy-ps-class");
+    Mockito.when(args.getArgumentValue("elementLocation")).thenReturn("//row");
+    
+    UiUtil.invokeSynchronously(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          pco.doOperation(vViewport.getAuthorAccess(), args);
+        } catch (AuthorOperationException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    
+    //Assert classes are set
+    AuthorNode[] rows = viewport.getController().findNodesByXPath("//row", true, true, true);
+    assertEquals(2, rows.length);
+    for (int i = 0; i < rows.length; i++) {
+      AuthorElement elem = (AuthorElement) rows[i];
+      assertTrue(elem.hasPseudoClass("-oxy-ps-class"));
+    }
   }
 }

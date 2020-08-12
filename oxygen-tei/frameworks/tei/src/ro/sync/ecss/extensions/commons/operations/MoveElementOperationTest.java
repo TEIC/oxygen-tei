@@ -912,4 +912,102 @@ public class MoveElementOperationTest extends EditorAuthorExtensionTestBase {
       Options.getInstance().setIntegerProperty(Options.EDITOR_INDENT_SIZE, indentSize);
     }
   }
+  
+  /**
+   * <p><b>Description:</b> Moves topicref elements using DITA Map framework actions.</p>
+   * <p><b>Bug ID:</b> EXM-37081</p>
+   *
+   * @author george
+   *
+   * @throws Exception
+   */
+  public void testMoveElementDITAMapEXM_37081() throws Exception {
+      open(URLUtil.correct(new File("test/EXM-37081/test.ditamap")));
+  
+      moveCaretRelativeTo("Test", 6);
+      
+      invokeAction("Move Down");
+      flushAWTBetter();
+      
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic1.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\"/>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+      
+      invokeAction("Move Down");
+      flushAWTBetter();
+      
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\"/>\n" + 
+          "  <topicref href=\"topic1.dita\"/>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+      
+      invokeAction("Demote");
+      flushAWTBetter();
+      
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\">\n" + 
+          "    <topicref href=\"topic1.dita\"/>\n" + 
+          "  </topicref>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+      
+      invokeAction("Promote");
+      flushAWTBetter();
+      
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\"/>\n" + 
+          "  <topicref href=\"topic1.dita\"/>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+      
+      invokeAction("Move Up");
+      flushAWTBetter();
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic1.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\"/>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+      
+      
+      invokeAction("Move Up");
+      flushAWTBetter();
+      verifyDocument(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE map PUBLIC \"-//OASIS//DTD DITA Map//EN\" \"map.dtd\">\n" + 
+          "<map>\n" + 
+          " <title>Test</title>\n" + 
+          "  <topicref href=\"topic1.dita\"/>\n" + 
+          "  <topicref href=\"topic2.dita\"/>\n" + 
+          "  <topicref href=\"topic3.dita\"/>\n" + 
+          "  <topicref href=\"topic4.dita\"/>\n" + 
+          "</map>\n", true);
+  }
 }

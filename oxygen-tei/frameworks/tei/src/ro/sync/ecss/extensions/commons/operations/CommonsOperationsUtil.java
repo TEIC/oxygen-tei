@@ -56,17 +56,32 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 import javax.xml.namespace.QName;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.css.CSS;
+import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.ContentInterval;
+import ro.sync.ecss.extensions.api.UniqueAttributesProcessor;
+import ro.sync.ecss.extensions.api.content.OffsetInformation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -81,6 +96,149 @@ import ro.sync.util.editorvars.EditorVariables;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class CommonsOperationsUtil {
+  
+  /**
+   * Interface used to check the elements that will be converted in other elements 
+   * (table cells or list entries)
+   */
+  public static abstract class ConversionElementHelper {
+    /**
+     * Check if a block node can be converted in other node (cell or list entry).
+     * If this method returns false, the block node is treated like an inline node.
+     * 
+     * @param node The node to check 
+     * @param authorAccess The author access
+     * @return <code>true</code> if the conversion can not be completed for this node
+     * @throws AuthorOperationException 
+     */
+    public abstract boolean blockContentMustBeConverted(AuthorNode node, AuthorAccess authorAccess) throws AuthorOperationException;
+
+    /**
+     * Create the author document fragment to be inserted in a table cell/list item
+     * 
+     * @param controller The document controller.
+     * @param start The start offset.
+     * @param end The end offset.
+     * @return The fragment. If <code>null</code>, a document fragment from the provided offsets will be created.
+     * 
+     * @throws BadLocationException When the given offset is not in content.
+     * @throws AuthorOperationException When the operation could not be completed.
+     */
+    public AuthorDocumentFragment createAuthorDocumentFragment(AuthorDocumentController controller, int start, int end) throws AuthorOperationException, BadLocationException {
+      return null;
+    }
+  }
+  
+  /**
+   * Class containing the new fragment and info about it.
+   */
+  public static class SelectedFragmentInfo {
+    /**
+     * The current fragment.
+     */
+    private AuthorDocumentFragment selectedFragment;
+    /**
+     * Attributes associated with the current fragment.
+     */
+    private Map<String, String> attributes;
+    
+    /**
+     * Constructor.
+     * 
+     * @param selectedFragment The current fragment.
+     * @param attributes Attributes associated with the current fragment.
+     */
+    public SelectedFragmentInfo(AuthorDocumentFragment selectedFragment,
+        Map<String, String> attributes) {
+      super();
+      this.selectedFragment = selectedFragment;
+      this.attributes = attributes;
+    }
+
+    /**
+     * @return Returns the selected fragment.
+     */
+    public AuthorDocumentFragment getSelectedFragment() {
+      return selectedFragment;
+    }
+
+    /**
+     * @param selectedFragment The selected fragment to set.
+     */
+    public void setSelectedFragment(AuthorDocumentFragment selectedFragment) {
+      this.selectedFragment = selectedFragment;
+    }
+
+    /**
+     * @return Returns the attributes.
+     */
+    public Map<String, String> getAttributes() {
+      return attributes;
+    }
+    /**
+     * @param attributes The attributes to set.
+     */
+    public void setAttributes(Map<String, String> attributes) {
+      this.attributes = attributes;
+    }
+  }
+
+  /**
+   * Get the specified attributes for a specific node.
+   * 
+   * @param node The node.
+   * @param includeID <code>true</code> to also include the id attribute.
+   * @return The attributes.
+   */
+  private static Map<String, String> getAttributes(AuthorNode node, boolean includeID) {
+    Map<String, String> attributes = null;
+    if (node instanceof AuthorElement) {
+      AuthorElement element = (AuthorElement) node;
+      int attributesCount = element.getAttributesCount();
+      for (int i = 0; i < attributesCount; i++) {
+        // Check attributes
+        String attrName = element.getAttributeAtIndex(i);
+        AttrValue attrValue = element.getAttribute(attrName);
+        if (attrValue.isSpecified()) {
+          if (attributes == null) {
+            // Init the map
+            attributes = new LinkedHashMap<String, String>();
+          }
+          if (includeID || (!"id".equals(attrName) && !"xml:id".equals(attrName))) {
+            // Add the attribute
+            attributes.put(attrName, attrValue.getValue());
+          }
+        }
+      }
+    }
+    return attributes;
+  }
+
+  /**
+   * Create fragment.
+   * 
+   * @param controller Author document controller.
+   * @param start Start offset
+   * @param end End offset
+   * @param helper The conversion helper
+   * @return The fragment 
+   * @throws BadLocationException 
+   * @throws AuthorOperationException 
+   */
+  private static AuthorDocumentFragment createAuthorDocumentFragment(AuthorDocumentController controller,
+      int start, int end, ConversionElementHelper helper) throws BadLocationException, AuthorOperationException {
+    AuthorDocumentFragment fragment = helper.createAuthorDocumentFragment(controller, start, end);
+    if (fragment == null) {
+      if (start <= end) {
+        fragment = controller.createDocumentFragment(start, end);
+      } else {
+        // Empty fragment
+        fragment = controller.createNewDocumentFragmentInContext("", start);
+      }
+    }
+    
+    return fragment;
+  }
 
   /**
    * Unwrap node tags.
@@ -510,5 +668,214 @@ public class CommonsOperationsUtil {
       }
     }
     return local;
+  }
+
+  /**
+   * Remove unwanted attributes.
+   * 
+   * @param skippedAttributes The attributes to be deleted.
+   * @param fragment The author document fragment to be cleared.
+   * @param controller The author document controller.
+   */
+  public static void removeUnwantedAttributes(String[] skippedAttributes, AuthorDocumentFragment fragment,
+      AuthorDocumentController controller) {
+    List fragNodes = fragment.getContentNodes();
+    // Remove attributes
+    if (fragNodes != null && fragNodes.size() > 0) {
+      AuthorNode node = (AuthorNode) fragNodes.get(0);
+      if (node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+        AuthorElement clonedElement = (AuthorElement) node;
+        Set<String> skippedAttrsSet = new HashSet<String>();
+        if(skippedAttributes != null) {
+          //Add skipped attributes.
+          skippedAttrsSet.addAll(Arrays.asList(skippedAttributes));
+        }
+        //Also delegate to unique attributes processor.
+        UniqueAttributesProcessor attrsProcessor = controller.getUniqueAttributesProcessor();
+        if(attrsProcessor != null) {
+          int attrsCount = clonedElement.getAttributesCount();
+          for (int i = 0; i < attrsCount; i++) { 
+            String attrQName = clonedElement.getAttributeAtIndex(i);
+            if(! attrsProcessor.copyAttributeOnSplit(attrQName, clonedElement)) {
+              skippedAttrsSet.add(attrQName);
+            }
+          }
+        }
+        //Remove all attributes which should have been skipped,
+        if (! skippedAttrsSet.isEmpty()) {
+          Iterator<String> iter = skippedAttrsSet.iterator();
+          while(iter.hasNext()) {
+            clonedElement.removeAttribute(iter.next());
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Remove current selection from Author.
+   * 
+   * @param authorAccess Author access.
+   * 
+   * @return A list with start positions for empty elements (after remove is done).
+   */
+  public static List<Position> removeCurrentSelection(AuthorAccess authorAccess) {
+    List<Position> positions = new ArrayList<Position>();
+    // Remove selection
+    if (authorAccess.getEditorAccess().hasSelection()) {
+      // Get the selection intervals
+      List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+
+      if (selectionIntervals != null) {
+        if (selectionIntervals.size() > 1) {
+          Collections.sort(selectionIntervals, new Comparator<ContentInterval>() {
+            /**
+             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+             */
+            @Override
+            public int compare(ContentInterval interval1, ContentInterval interval2) {
+              int result = 0;
+              if (interval1 != null && interval2 != null) {
+                return interval1.getStartOffset() > interval2.getStartOffset() ? -1 : 1;
+              }
+              return result;
+            }
+          });
+        }
+
+        // Remove selection
+        try {
+          for (ContentInterval selection : selectionIntervals) {
+            // Delete current selection
+            int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(selection.getStartOffset(), selection.getEndOffset());
+            authorAccess.getDocumentController().delete(balancedSelection[0], balancedSelection[1] - 1);
+            // Check if there is an empty element left here and keep its start position...
+            AuthorNode node = authorAccess.getDocumentController().getNodeAtOffset(balancedSelection[0]);
+            if (node != null && 
+                node != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement() && 
+                node.getStartOffset() + 1 == node.getEndOffset()) {
+              // Empty element, keep position
+              positions.add(authorAccess.getDocumentController().createPositionInContent(node.getStartOffset()));
+            }
+          }
+        } catch (Exception e) {
+          // Nothing to do
+        }
+      }
+    }
+    return positions;
+  }
+
+  /**
+   * Get selected content fragments to be converted to cell or list entries fragments.
+   * 
+   * @param authorAccess The author access.
+   * @param helper Used to check if the elements from selection can be converted 
+   * in other elements (table cells or list entries)
+   * @return The selected content fragments to be converted to cell fragments.
+   * @throws AuthorOperationException 
+   */
+  public static List<SelectedFragmentInfo> getSelectedFragmentsForConversions(
+      AuthorAccess authorAccess, ConversionElementHelper helper) throws AuthorOperationException {
+    List<SelectedFragmentInfo> result = null;
+    if (authorAccess.getEditorAccess().hasSelection()) {
+      // Get the selection intervals
+      List<ContentInterval>  selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+      try {
+        // This is the list containing the content intervals to be added on each row/list entry 
+        result = new ArrayList<CommonsOperationsUtil.SelectedFragmentInfo>();
+  
+        AuthorDocumentController controller = authorAccess.getDocumentController();
+        // Check each selection interval
+        for (ContentInterval contentInterval : selectionIntervals) {
+          // Create the content segment to iterate
+          Segment content = new Segment();
+          int start = contentInterval.getStartOffset();
+          int maxEndOffset = contentInterval.getEndOffset();
+          int len = maxEndOffset - contentInterval.getStartOffset();
+          controller.getChars(start, len, content);
+  
+          char ch = content.first();
+          int currentOffset = start;
+          int startInterval = contentInterval.getStartOffset();
+          while(ch != Segment.DONE) {
+            if (ch == 0) {
+              // Sentinel
+              OffsetInformation info = controller.getContentInformationAtOffset(currentOffset);
+              AuthorNode node = info.getNodeForMarkerOffset();
+              Styles styles = authorAccess.getEditorAccess().getStyles(node);
+              String display = styles.getDisplay();
+              // Check if this is an block element (or a list item)
+              if (CSS.BLOCK.equals(display) || CSS.LIST_ITEM.equals(display)) {
+                if (helper.blockContentMustBeConverted(node, authorAccess)) {
+                  if (startInterval != currentOffset) {
+                    boolean currentNodeFullyIncluded = startInterval <= node.getStartOffset() + 1 && currentOffset >= node.getEndOffset();
+                    // Register interval
+                    AuthorDocumentFragment selectedFragment = 
+                        createAuthorDocumentFragment(controller, startInterval, currentOffset - 1, helper);
+                    Map<String, String> attributes = getAttributes(node, currentNodeFullyIncluded);
+                    result.add(new SelectedFragmentInfo(selectedFragment, attributes));
+                  } else {
+                    if (info.getPositionType() == OffsetInformation.ON_START_MARKER &&
+                        // Check that this is an empty node
+                        node.getStartOffset() + 1 == node.getEndOffset()) {
+                      // Register interval
+                      AuthorDocumentFragment selectedFragment = 
+                          createAuthorDocumentFragment(controller, node.getStartOffset() + 1, node.getEndOffset() - 1, helper);
+                      Map<String, String> attributes = getAttributes(node, true);
+                      result.add(new SelectedFragmentInfo(selectedFragment, attributes));
+                    }
+                  }
+                  // Jump over this interval
+                  startInterval = currentOffset + 1;
+                }
+              }
+            }
+            // Jump to next char
+            ch = content.next();
+            currentOffset++;
+          }
+  
+          // Maybe there is an interval left?
+          if (startInterval < maxEndOffset) {
+            AuthorDocumentFragment selectedFragment = createAuthorDocumentFragment(controller, startInterval, maxEndOffset - 1, helper);
+            result.add(new SelectedFragmentInfo(selectedFragment, null));
+          }
+        }
+  
+      } catch (BadLocationException e) {
+        result = null;
+      }
+    }
+    return result;
+  }
+  
+  
+  /**
+   * Remove empty elements.
+   * 
+   * @param authorAccess The Author access.
+   * @param emptyElementsPositions Positions for empty elements
+   */
+  public static void removeEmptyElements(AuthorAccess authorAccess, List<Position> emptyElementsPositions) {
+    if (!emptyElementsPositions.isEmpty()) {
+      for (Position position : emptyElementsPositions) {
+        try {
+          AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(position.getOffset() + 1);
+          while (nodeAtOffset != null && 
+              nodeAtOffset != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement()) {
+            if (nodeAtOffset.getStartOffset() + 1 == nodeAtOffset.getEndOffset()) {
+              AuthorNode parentNode = nodeAtOffset.getParent();
+              authorAccess.getDocumentController().deleteNode(nodeAtOffset);
+              nodeAtOffset = parentNode;
+            } else {
+              nodeAtOffset = null;
+            }
+          }
+        } catch (BadLocationException e) {
+          // Do nothing
+        }
+      }
+    }
   }
 }

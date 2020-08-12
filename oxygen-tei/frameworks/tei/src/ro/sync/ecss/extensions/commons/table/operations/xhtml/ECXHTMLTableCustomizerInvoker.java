@@ -95,7 +95,7 @@ public class ECXHTMLTableCustomizerInvoker extends TableCustomizer {
       int predefinedColumnsCount, int defaultTableModel) {
     //Eclipse table customization.
     ECTableCustomizerDialog tableCustomizerDialog = new ECXHTMLTableCustomizerDialog(
-        (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
+        authorAccess, (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
     return tableCustomizerDialog.showDialog(tableInfo);
   }

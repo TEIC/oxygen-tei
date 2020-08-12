@@ -812,7 +812,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     if (tblElem != null) {
       // Find the element named "table" if any.
       while(true) {
-        if (ELEMENT_NAME_TABLE.equalsIgnoreCase(tblElem.getName())) {
+        if (ELEMENT_NAME_TABLE.equalsIgnoreCase(tblElem.getLocalName())) {
           break;
         } else {
           AuthorNode parent = tblElem.getParent();

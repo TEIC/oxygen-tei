@@ -103,4 +103,11 @@ public class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
     TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
     return newTableInfo;
   }
+  
+  /**
+   * Clear instance for tests.
+   */
+  public static void clearForTests() {
+    instance = null;
+  }
 }

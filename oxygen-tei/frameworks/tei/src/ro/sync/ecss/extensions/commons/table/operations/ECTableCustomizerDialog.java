@@ -79,6 +79,7 @@ import org.eclipse.swt.widgets.Text;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
@@ -297,23 +298,11 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * <code>true</code> if the table model is simple or HTML, not CALS, nor properties.
    */
   private boolean isSimpleOrHtmlTable;
-  /**
-   * The current number of columns for CALS and simple tables.
-   */
-  private static int columnsCurrentValueForCalsAndSimple = TableInfo.DEFAULT_COLUMNS_COUNT;
-  /**
-   * The current number of columns for properties tables.
-   */
-  private static int columnsCurrentValueForPropertiesTable = TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE;
-  /**
-   * <code>true</code> to inhibit the columns number update when
-   * selecting a different model using the radio buttons.
-   */
-  private boolean inhibitColumnsNumberUpdate = false;
 
   /**
-   * Constructor for TrangDialog.
+   * Constructor.
    * 
+   * @param authorAccess           The Author access.
    * @param parentShell            The parent shell for the dialog.
    * @param hasFooter              <code>true</code> if this table supports a footer.
    * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
@@ -324,6 +313,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
+      AuthorAccess authorAccess,
       Shell parentShell,
       boolean hasFooter,
       boolean hasFrameAttribute,
@@ -331,13 +321,14 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, false, 
+    this(authorAccess, parentShell, hasFooter, hasFrameAttribute, showModelChooser, false, 
         false, false, false, false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
 
   /**
-   * Constructor for TrangDialog.
+   * Constructor.
    * 
+   * @param authorAccess           The Author access.
    * @param parentShell            The parent shell for the dialog.
    * @param hasFooter              <code>true</code> if this table supports a footer.
    * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
@@ -356,6 +347,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
+      AuthorAccess authorAccess,
       Shell parentShell,
       boolean hasFooter,
       boolean hasFrameAttribute,
@@ -368,7 +360,9 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(parentShell, 
+    this(
+        authorAccess,
+        parentShell, 
         hasFooter, 
         hasFrameAttribute, 
         showModelChooser, 
@@ -387,6 +381,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
   /**
    * Constructor for TrangDialog.
    * 
+   * @param authorAccess           The Author access.
    * @param parentShell            The parent shell for the dialog.
    * @param hasFooter              <code>true</code> if this table supports a footer.
    * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
@@ -406,6 +401,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
+      AuthorAccess authorAccess,
       Shell parentShell,
       boolean hasFooter,
       boolean hasFrameAttribute,
@@ -419,12 +415,13 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog, 
+    this(authorAccess, parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog, 
         true, innerCalsTable, hasRowsep, hasColsep, hasAlign, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   /**
-   * Constructor for TrangDialog.
+   * Constructor.
    * 
+   * @param authorAccess           The Author access.
    * @param parentShell            The parent shell for the dialog.
    * @param hasFooter              <code>true</code> if this table supports a footer.
    * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
@@ -445,6 +442,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
+      AuthorAccess authorAccess,
       Shell parentShell,
       boolean hasFooter,
       boolean hasFrameAttribute,
@@ -459,14 +457,15 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog,
+    this(authorAccess, parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog,
         isCalsTable, innerCalsTable, false, false, false, hasRowsep, hasColsep,
         hasAlign, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
-   * Constructor for TrangDialog.
+   * Constructor.
    * 
+   * @param authorAccess                The Author access.
    * @param parentShell                 The parent shell for the dialog.
    * @param hasFooter                   <code>true</code> if this table supports a footer.
    * @param hasFrameAttribute           <code>true</code> if the table has a frame attribute.
@@ -490,6 +489,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param predefinedColumnsCount      The predefined number of columns.
    */
   public ECTableCustomizerDialog(
+      AuthorAccess authorAccess,
       Shell parentShell,
       boolean hasFooter,
       boolean hasFrameAttribute,
@@ -577,12 +577,9 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
           // Set column widths input
           tableModelChanged(TableInfo.TABLE_MODEL_CALS);
           
-          // Set limits and value
-          inhibitColumnsNumberUpdate = true;
+          // Set limits and keep value
           columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
           columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
-          columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
-          inhibitColumnsNumberUpdate = false;
         }
       });
 
@@ -608,12 +605,9 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
               // Set column widths input
               tableModelChanged(TableInfo.TABLE_MODEL_DITA_SIMPLE);
               
-              // Set limits and value
-              inhibitColumnsNumberUpdate = true;
+              // Set limits and keep value
               columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
               columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
-              columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
-              inhibitColumnsNumberUpdate = false;
             }
           });
 
@@ -636,12 +630,9 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
               // Set column widths inputs
               tableModelChanged(TableInfo.TABLE_MODEL_HTML);
               
-              // Set limits and value
-              inhibitColumnsNumberUpdate = true;
+              // Set limits and keep value
               columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
               columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
-              columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
-              inhibitColumnsNumberUpdate = false;
             }
           });
 
@@ -666,11 +657,13 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
               tableModelChanged(TableInfo.TABLE_MODEL_DITA_PROPERTIES);
               
               // Set new limits and value for the columns spinner
-              inhibitColumnsNumberUpdate = true;
               columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE);
               columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE);
-              columnsSpinner.setSelection(columnsCurrentValueForPropertiesTable);
-              inhibitColumnsNumberUpdate = false;
+              if (columns < 2 || columns > 3) {
+                // Force to 3
+                columns = 3;
+              }
+              columnsSpinner.setSelection(columns);
             }
           });
           
@@ -752,14 +745,6 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       @Override
       public void modifyText(ModifyEvent e) {
         columns = columnsSpinner.getSelection();
-        if (!inhibitColumnsNumberUpdate) {
-          if (calsModelRadio != null && calsModelRadio.getSelection() 
-              || simpleOrHtmlModelRadio != null && simpleOrHtmlModelRadio.getSelection()) {
-            columnsCurrentValueForCalsAndSimple = columns;
-          } else if (propertiesModelRadio != null && propertiesModelRadio.getSelection()) {
-            columnsCurrentValueForPropertiesTable = columns;
-          }
-        }
       }
     });
     columnsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
@@ -1144,7 +1129,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
     }
     return null;
   }
-
+  
   /**
    * Initialize controls.
    */
@@ -1161,20 +1146,6 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
     }
     
     if (tableInfo != null) {
-      if(titleTextField != null) {
-        if (tableInfo.getTitle() != null) {
-          title = tableInfo.getTitle();
-          titleTextField.setText(title);
-          createTitle = true;
-          titleCheckbox.setSelection(createTitle);
-          // Request focus in title field
-          titleTextField.setFocus();
-        } else {
-          createTitle = false;
-          titleCheckbox.setSelection(createTitle);
-        }
-      }
-      
       if (showModelChooser) {
         if (isCalsTable 
             || tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
@@ -1217,21 +1188,40 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
           makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES :
           simpleTableModel ? TableInfo.TABLE_MODEL_DITA_SIMPLE : TableInfo.TABLE_MODEL_HTML);
       }
+      
+      // Title check box and text field. It's important to set the "Title" check box selection
+      // after selecting the model radio button, otherwise the listeners added
+      // to the model radio buttons will mess up with the check box.
+      if(titleTextField != null) {
+        if (tableInfo.getTitle() != null) {
+          createTitle = true;
+          titleCheckbox.setSelection(createTitle);
+          // Request focus in title field
+          titleTextField.setFocus();
+        } else {
+          createTitle = false;
+          titleCheckbox.setSelection(createTitle);
+        }
+      }
 
       if (predefinedRowsCount < 0 || predefinedColumnsCount < 0) {
         // Set the default number of rows and columns
         rows = tableInfo.getRowsNumber();
         rowsSpinner.setSelection(rows);
         if (!showChoiceTable) {
+          columns = tableInfo.getColumnsNumber();
           if (makePropertiesTable) {
             columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE);
             columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE);
-            columnsSpinner.setSelection(columnsCurrentValueForPropertiesTable);
+            if (columns < 2 || columns > 3) {
+              // Force to 3
+              columns = 3;
+            }
           } else {
             columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
             columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
-            columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
           }
+          columnsSpinner.setSelection(columns);
         } 
       } else {
         rowsSpinner.setSelection(predefinedRowsCount);

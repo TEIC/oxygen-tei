@@ -224,13 +224,17 @@ public class InplaceEditorUtil {
       @Override
       public void run() {
         if(textField != null){
-          // If the text if longer than the available width we want the last part to be presented.
-          int length = textField.getText().length();
-          textField.setCaretPosition(length);
           try {
+            // If the text if longer than the available width we want the last part to be presented.
+            int length = textField.getText().length();
+            textField.setCaretPosition(length);
             final java.awt.Rectangle modelToView = textField.modelToView(length);
             if (modelToView != null) {
               textField.scrollRectToVisible(modelToView);
+            }
+          } catch (IllegalArgumentException e) {
+            if (logger.isDebugEnabled()) {
+              logger.debug(e, e);
             }
           } catch (BadLocationException e) {
             if (logger.isDebugEnabled()) {

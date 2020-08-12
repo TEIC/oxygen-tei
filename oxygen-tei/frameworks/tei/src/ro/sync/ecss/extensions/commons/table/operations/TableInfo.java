@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import ro.sync.annotations.api.API;
@@ -63,8 +64,11 @@ import ro.sync.util.TypedMaps;
  * (number of rows, columns, table title).
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class TableInfo {
-  
+public class TableInfo implements Serializable {
+  /**
+   * Serialization ID.
+   */
+  private static final long serialVersionUID = 616939850;
   /**
    * The title
    */
@@ -393,6 +397,16 @@ public class TableInfo {
    */
   public ColumnWidthsType getColumnsWidthsType() {
     return columnsWidthsType;
+  }
+  
+  /**
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "title: " + title + ", rows: " + rowsNumber + ", cols: " + columnsNumber + ", generateHeader: "
+        + generateHeader + ", generateFooter: " + generateFooter + ", frame" + frame + ", rowsep: "
+        + rowsep + ", colsep: " + colsep + ", align: " + align + ", tableModel: " + tableModel;
   }
   
 }

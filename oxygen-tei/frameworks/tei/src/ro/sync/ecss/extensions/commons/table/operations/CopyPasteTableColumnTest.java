@@ -1025,9 +1025,13 @@ public class CopyPasteTableColumnTest extends EditorAuthorExtensionTestBase {
         "                <cmd>Task step.</cmd>\n" + 
         "                <choicetable frame=\"all\" relcolwidth=\"1.0* 1.0*\" id=\"#GENERATED_ID\">\n" + 
         "                    <chhead>\n" + 
-        "                        <choptionhd>11</choptionhd>\n" + 
+        "                        <choptionhd/>\n" + 
         "                        <chdeschd/>\n" + 
         "                    </chhead>\n" + 
+        "                    <chrow>\n" + 
+        "                        <choption>11</choption>\n" + 
+        "                        <chdesc/>\n" + 
+        "                    </chrow>\n" + 
         "                    <chrow>\n" + 
         "                        <choption>33</choption>\n" + 
         "                        <chdesc/>\n" + 
@@ -1122,8 +1126,12 @@ public class CopyPasteTableColumnTest extends EditorAuthorExtensionTestBase {
         "                <choicetable frame=\"all\" relcolwidth=\"1.0* 1.0*\" id=\"#GENERATED_ID\">\n" + 
         "                    <chhead>\n" + 
         "                        <choptionhd/>\n" + 
-        "                        <chdeschd>22</chdeschd>\n" + 
+        "                        <chdeschd/>\n" + 
         "                    </chhead>\n" + 
+        "                    <chrow>\n" + 
+        "                        <choption/>\n" + 
+        "                        <chdesc>22</chdesc>\n" + 
+        "                    </chrow>\n" + 
         "                    <chrow>\n" + 
         "                        <choption/>\n" + 
         "                        <chdesc>44</chdesc>\n" + 

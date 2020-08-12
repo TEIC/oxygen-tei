@@ -53,9 +53,12 @@ package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
 import ro.sync.ecss.extensions.EditorAuthorExtensionTestBase;
+import ro.sync.ecss.extensions.commons.table.operations.SATableCustomizerDialog;
+import ro.sync.exml.options.Options;
 import ro.sync.util.URLUtil;
 
 /** 
@@ -64,6 +67,17 @@ import ro.sync.util.URLUtil;
  * @author sorin_carbunaru
  */
 public class XHTMLInsertTableOperationTest extends EditorAuthorExtensionTestBase {
+  
+  /**
+   * @see ro.sync.ecss.extensions.EditorAuthorExtensionTestBase#setUp()
+   */
+  @Override
+  protected void setUp() throws Exception {
+    Options.clearInstanceTest();
+    SAXHTMLTableCustomizerInvoker.clearForTests();
+    super.setUp();
+  }
+  
   /**
    * <p><b>Description:</b> check the default structure of an XHTML table after inserting it.<p>
    * <p><b>Bug ID:</b> EXM-36625</p>
@@ -73,65 +87,148 @@ public class XHTMLInsertTableOperationTest extends EditorAuthorExtensionTestBase
    * @author sorin_carbunaru
    */
   public void testDefaultXHTMLTableStructure() throws Exception {
-    // Open the test file
-    open(URLUtil.correct(new File("test/bug36625/sampleMinimal.xml")), true);
+    JDialog dialog = null;
+    try {
+      // Open the test file
+      open(URLUtil.correct(new File("test/bug36625/sampleMinimal.xml")), true);
 
-    // Move caret
-    moveCaretRelativeTo("HERE", "HERE".length() + 1);
-    
-    // Invoke "Insert Table"
-    new Thread() {
-      @Override
-      public void run() {
-        invokeActionForID(ACTION_ID_INSERT_TABLE);
+      // Move caret
+      moveCaretRelativeTo("HERE", "HERE".length() + 1);
+
+      // Invoke "Insert Table"
+      new Thread() {
+        @Override
+        public void run() {
+          invokeActionForID(ACTION_ID_INSERT_TABLE);
+        }
+      }.start();
+      //Wait
+      flushAWTBetter();
+
+      dialog = findDialog("Insert Table");
+      assertNotNull(dialog);
+
+      sendKey(dialog, KeyEvent.VK_ENTER);
+
+      // Check result
+      verifyDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+          "<!DOCTYPE html>\n" + 
+          "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
+          "    <head xml:lang=\"en\">\n" + 
+          "        <title dir=\"ltr\" lang=\"en\">Table</title>\n" + 
+          "    </head>\n" + 
+          "    <body>\n" + 
+          "        <p>HERE</p>\n" + 
+          "        <table>\n" + 
+          "            <caption></caption>\n" + 
+          "            <colgroup>\n" + 
+          "                <col />\n" + 
+          "                <col />\n" + 
+          "            </colgroup>\n" + 
+          "            <thead>\n" + 
+          "                <tr>\n" + 
+          "                    <th></th>\n" + 
+          "                    <th></th>\n" + 
+          "                </tr>\n" + 
+          "            </thead>\n" + 
+          "            <tbody>\n" + 
+          "                <tr>\n" + 
+          "                    <td></td>\n" + 
+          "                    <td></td>\n" + 
+          "                </tr>\n" + 
+          "                <tr>\n" + 
+          "                    <td></td>\n" + 
+          "                    <td></td>\n" + 
+          "                </tr>\n" + 
+          "                <tr>\n" + 
+          "                    <td></td>\n" + 
+          "                    <td></td>\n" + 
+          "                </tr>\n" + 
+          "            </tbody>\n" + 
+          "        </table>\n" + 
+          "    </body>\n" + 
+          "</html>\n" + 
+          "", false);
+    } finally {
+      if (dialog != null) {
+        dialog.dispose();
       }
-    }.start();
-    //Wait
-    flushAWTBetter();
+    }
+  }
+  
+  /**
+   * <p><b>Description:</b> test the persistence of some dialog components
+   * during the same session.<p>
+   * <p><b>Bug ID:</b> EXM-37027</p>
+   * 
+   * @throws Exception
+   * 
+   * @author sorin_carbunaru
+   */
+  public void testComponentsPersistenceDuringTheSameSession() throws Exception {
+    SATableCustomizerDialog dialog = null;
+    try {
+      // Open the test file
+      open(URLUtil.correct(new File("test/bug36625/sampleMinimal.xml")), true);
+      
+      // Move caret
+      moveCaretRelativeTo("HERE", "HERE".length() + 1);
+
+      // Invoke "Insert Table"
+      new Thread() {
+        @Override
+        public void run() {
+          invokeActionForID(ACTION_ID_INSERT_TABLE);
+        }
+      }.start();
+      //Wait
+      flushAWTBetter();
+
+      dialog = (SATableCustomizerDialog) findDialog("Insert Table");
+      assertNotNull(dialog);
+
+      dialog.getColumnsSpinner().setValue(7);
+      flushAWTBetter();
+
+      JComboBox alignCombo = dialog.getAlignCombo();
+      assertEquals("<unspecified>", alignCombo.getSelectedItem().toString());
+
+      alignCombo.setSelectedItem("justify");
+      flushAWTBetter();
+
+      dialog.getTitleTextField().setText("THE TITLE");
+      flushAWTBetter();
+      
+      sendKey(dialog, KeyEvent.VK_ENTER);
+      flushAWTBetter();
+
+      doUndo();
+      flushAWTBetter();
+
+      // Invoke "Insert Table"
+      new Thread() {
+        @Override
+        public void run() {
+          invokeActionForID(ACTION_ID_INSERT_TABLE);
+        }
+      }.start();
+      //Wait
+      flushAWTBetter();
+
+      dialog = (SATableCustomizerDialog) findDialog("Insert Table");
+      assertNotNull(dialog);
+
+      alignCombo = dialog.getAlignCombo();
+      assertEquals("justify", alignCombo.getSelectedItem().toString());
+
+      assertEquals("", dialog.getTitleTextField().getText());
+
+      assertEquals("7", dialog.getColumnsSpinner().getValue().toString());
+    } finally {
+      if (dialog != null) {
+        dialog.dispose();
+      }
     
-    JDialog dialog = findDialog("Insert Table");
-    assertNotNull(dialog);
-    
-    sendKey(dialog, KeyEvent.VK_ENTER);
-    
-    // Check result
-    verifyDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-        "<!DOCTYPE html>\n" + 
-        "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-        "    <head xml:lang=\"en\">\n" + 
-        "        <title dir=\"ltr\" lang=\"en\">Table</title>\n" + 
-        "    </head>\n" + 
-        "    <body>\n" + 
-        "        <p>HERE</p>\n" + 
-        "        <table>\n" + 
-        "            <caption></caption>\n" + 
-        "            <colgroup>\n" + 
-        "                <col />\n" + 
-        "                <col />\n" + 
-        "            </colgroup>\n" + 
-        "            <thead>\n" + 
-        "                <tr>\n" + 
-        "                    <th></th>\n" + 
-        "                    <th></th>\n" + 
-        "                </tr>\n" + 
-        "            </thead>\n" + 
-        "            <tbody>\n" + 
-        "                <tr>\n" + 
-        "                    <td></td>\n" + 
-        "                    <td></td>\n" + 
-        "                </tr>\n" + 
-        "                <tr>\n" + 
-        "                    <td></td>\n" + 
-        "                    <td></td>\n" + 
-        "                </tr>\n" + 
-        "                <tr>\n" + 
-        "                    <td></td>\n" + 
-        "                    <td></td>\n" + 
-        "                </tr>\n" + 
-        "            </tbody>\n" + 
-        "        </table>\n" + 
-        "    </body>\n" + 
-        "</html>\n" + 
-        "", false);
+    }
   }
 }

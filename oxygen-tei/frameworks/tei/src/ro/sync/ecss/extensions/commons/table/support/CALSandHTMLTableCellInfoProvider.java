@@ -82,6 +82,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getColSpan(AuthorElement)
    */
+  @Override
   public Integer getColSpan(AuthorElement cellElement) {
     Integer toReturn = htmlTableCellInfoProvider.getColSpan(cellElement);
     if (toReturn == null) {
@@ -93,6 +94,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getRowSpan(AuthorElement)
    */
+  @Override
   public Integer getRowSpan(AuthorElement cellElement) {
     Integer toReturn = htmlTableCellInfoProvider.getRowSpan(cellElement);
     if (toReturn == null) {
@@ -104,6 +106,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#init(AuthorElement)
    */
+  @Override
   public void init(AuthorElement tableNode) {
     calsTableCellInfoProvider.init(tableNode);
     htmlTableCellInfoProvider.init(tableNode);
@@ -112,6 +115,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Provides information about cells in CALS and HTML tables";
   }
@@ -137,9 +141,10 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#hasColumnSpecifications(ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public boolean hasColumnSpecifications(AuthorElement tableElement) {
     boolean hasCols = false;
-    if (CALSConstants.ELEMENT_NAME_TGROUP.equals(tableElement.getName())) {
+    if (CALSConstants.ELEMENT_NAME_TGROUP.equals(tableElement.getLocalName())) {
       // This is a CALS table.
       hasCols = calsTableCellInfoProvider.hasColumnSpecifications(tableElement);
     } else {
@@ -151,6 +156,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getCellWidth(ro.sync.ecss.extensions.api.node.AuthorElement, int, int)
    */
+  @Override
   public List<WidthRepresentation> getCellWidth(AuthorElement cellElement, int colNumberStart, int colSpan) {
     List<WidthRepresentation> toReturn = htmlTableCellInfoProvider.getCellWidth(cellElement, colNumberStart, colSpan);
     if (toReturn == null) {
@@ -162,6 +168,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitColumnWidthModifications(AuthorDocumentController, ro.sync.ecss.extensions.api.WidthRepresentation[], java.lang.String)
    */
+  @Override
   public void commitColumnWidthModifications(AuthorDocumentController authorDocumentController,
       WidthRepresentation[] colWidths, String tableCellsTagName) throws AuthorOperationException {
     calsTableCellInfoProvider.commitColumnWidthModifications(authorDocumentController, colWidths, tableCellsTagName);
@@ -171,6 +178,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
    */
+  @Override
   public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
     calsTableCellInfoProvider.commitTableWidthModification(
         authorDocumentController, newTableWidth, tableCellsTagName);
@@ -181,6 +189,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#getTableWidth(java.lang.String)
    */
+  @Override
   public WidthRepresentation getTableWidth(String tableCellsTagName) {
     WidthRepresentation toReturn = calsTableCellInfoProvider.getTableWidth(tableCellsTagName);
     if (toReturn == null) {
@@ -192,6 +201,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAcceptingWidth(java.lang.String)
    */
+  @Override
   public boolean isTableAcceptingWidth(String tableCellsTagName) {
     return calsTableCellInfoProvider.isTableAcceptingWidth(tableCellsTagName)
       || htmlTableCellInfoProvider.isTableAcceptingWidth(tableCellsTagName);
@@ -200,6 +210,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isTableAndColumnsResizable(java.lang.String)
    */
+  @Override
   public boolean isTableAndColumnsResizable(String tableCellsTagName) {
     return calsTableCellInfoProvider.isTableAndColumnsResizable(tableCellsTagName)
       || htmlTableCellInfoProvider.isTableAndColumnsResizable(tableCellsTagName);
@@ -208,6 +219,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingFixedColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
     return calsTableCellInfoProvider.isAcceptingFixedColumnWidths(tableCellsTagName)
     || htmlTableCellInfoProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
@@ -216,6 +228,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingPercentageColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
     return calsTableCellInfoProvider.isAcceptingPercentageColumnWidths(tableCellsTagName)
     || htmlTableCellInfoProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
@@ -224,6 +237,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#isAcceptingProportionalColumnWidths(java.lang.String)
    */
+  @Override
   public boolean isAcceptingProportionalColumnWidths(String tableCellsTagName) {
     return calsTableCellInfoProvider.isAcceptingProportionalColumnWidths(tableCellsTagName)
     || htmlTableCellInfoProvider.isAcceptingProportionalColumnWidths(tableCellsTagName);

@@ -95,7 +95,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.HEAD));
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.HEAD) + ":");
     titleCheckBox.setToolTipText(authorResourceBundle.getMessage(ExtensionTags.TITLE_TABLE));
     titleCheckBox.setName("Head checkbox");
     return titleCheckBox;
@@ -168,6 +168,7 @@ public class SATEITableCustomizerDialog extends SATableCustomizerDialog {
   /**
    * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
    */
+  @Override
   public String getHelpPageID() {
     return "author-teip5-actions";
   }

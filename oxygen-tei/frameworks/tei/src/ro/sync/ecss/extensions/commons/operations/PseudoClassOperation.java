@@ -52,6 +52,8 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
 
+import org.apache.log4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -73,6 +75,10 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class PseudoClassOperation implements AuthorOperation {
+  /**
+   * Logger for logging. 
+   */
+  private static final Logger logger = Logger.getLogger(PseudoClassOperation.class.getName());
   
   /**
    * The pseudo class local name argument. The value is <code>name</code>.
@@ -80,7 +86,7 @@ public abstract class PseudoClassOperation implements AuthorOperation {
   private static final String ARGUMENT_PSEUDOCLASS_NAME = "name";
   
   /**
-   * The XPath location that identifies the element.
+   * The XPath location that identifies the elements on which the pseudo-class will be set/reset.
    * Empty/null for the current element.
    * The value is <code>elementLocation</code>.
    */
@@ -102,16 +108,16 @@ public abstract class PseudoClassOperation implements AuthorOperation {
       new ArgumentDescriptor(
           ARGUMENT_ELEMENT_XPATH_LOCATION, 
           ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
-          "An XPath expression indicating the element whose pseudo-class will be changed.\n"
-          + "Note: If it is not defined then the element at the caret position will be used.");
+          "An XPath expression indicating the element or elements whose pseudo-class will be changed.\n"
+          + "Note: If this is not defined then the element at the caret position will be used.");
     arguments[0] = argumentDescriptor;
     
     
-    // Argument defining the attribute name that will be inserted.
+    // Argument defining pseudo-class name that will be modified.
     argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_PSEUDOCLASS_NAME,
         ArgumentDescriptor.TYPE_STRING,
-        "The pseudo-class local name.");
+        "The pseudo-class name.");
     arguments[1] = argumentDescriptor;    
   }
 
@@ -128,14 +134,23 @@ public abstract class PseudoClassOperation implements AuthorOperation {
     Object name = args.getArgumentValue(ARGUMENT_PSEUDOCLASS_NAME);
       
     if (name instanceof String) {
+      String pseudoClassName = ((String)name).trim();
       AuthorElement targetElement;
       if (xpathLocation instanceof String) {
         AuthorNode[] results =
           authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, null, true, true, true, false, XPathVersion.XPATH_2_0, true);
-        if (results.length > 0 && results[0] instanceof AuthorElement) {
-          targetElement = (AuthorElement) results[0];          
+        if (results.length > 0) {
+          for (int i = 0; i < results.length; i++) {
+            AuthorNode node = results[i];
+            if (node instanceof AuthorElement) {
+              targetElement = (AuthorElement)node;
+              execute(authorAccess, pseudoClassName, targetElement);
+            } else {
+              logger.warn("The XPath location selected a node different from element - " + node.getDisplayName() + ": " + xpathLocation);
+            }
+          }
         } else {
-          throw new AuthorOperationException("The element XPath location does not identify an element: " + xpathLocation);
+          logger.warn("The XPath location returned no results: " + xpathLocation);
         }
       } else {
         AuthorNode node = null;
@@ -153,10 +168,8 @@ public abstract class PseudoClassOperation implements AuthorOperation {
         } else {
           throw new AuthorOperationException("You need to have the carret inside an element.");
         }
+        execute(authorAccess, pseudoClassName, targetElement);      
       }
-      
-      String pseudoClassName = ((String)name).trim();
-      execute(authorAccess, pseudoClassName, targetElement);      
     } else {
       throw new IllegalArgumentException("The argument \"name\" was not defined!");
     }

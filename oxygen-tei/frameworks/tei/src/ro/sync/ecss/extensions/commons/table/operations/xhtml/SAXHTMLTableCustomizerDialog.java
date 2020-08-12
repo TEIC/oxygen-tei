@@ -128,7 +128,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION));
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION) + ":");
     titleCheckBox.setName("Title checkbox");
     return titleCheckBox;
   }

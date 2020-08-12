@@ -52,16 +52,17 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -75,8 +76,6 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -231,15 +230,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * <code>true</code> if the model is for properties table.
    */
   private boolean isPropertiesTable;
-  /**
-   * The current number of columns for CALS and simple tables.
-   */
-  private static int columnsCurrentValueForCalsAndSimple = TableInfo.DEFAULT_COLUMNS_COUNT;
-  /**
-   * The current number of columns for properties tables.
-   */
-  private static int columnsCurrentValueForPropertiesTable = TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE;
-  
+
   /**
    * The model for the properties table column spinner.
    */
@@ -261,7 +252,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * <code>true</code> if the model is for simple or HTML table, not CALS, nor properties.
    */
   private boolean isSimpleOrHtmlTable;
-  
+
   /**
    * Constructor.
    * 
@@ -477,9 +468,10 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     gridBagConstr.weightx = 1;
     gridBagConstr.anchor = GridBagConstraints.WEST;
     gridBagConstr.gridwidth = 2;
+    gridBagConstr.insets = new Insets(0, 0, 0, 0);
 
     // Model chooser panel.
-    JPanel modelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
+    JPanel modelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 2));
     modelPanel.setBorder(
         BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.MODEL)));
 
@@ -563,13 +555,22 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
               addValuesToFrameCombo(TableInfo.TABLE_MODEL_DITA_SIMPLE);
-              columnsSpinner.setModel(propertiesTableColSpinnerModel);
               colWidthsCombobox.setEnabled(false);
               updateTitleState(false);
               updateElementsState(false);
               updateAlignState(false);
+              Integer cols = (Integer) columnsSpinner.getValue();
+              columnsSpinner.setModel(propertiesTableColSpinnerModel);
+              if(cols < 2 || cols > 3) {
+                // Force to 3.
+                cols = 3;
+              }
+              columnsSpinner.setValue(cols);
             } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+              Object value = columnsSpinner.getValue();
               columnsSpinner.setModel(defaultColSpinnerModel);
+              // Keep the value
+              columnsSpinner.setValue(value);
             }
           }
         });
@@ -607,7 +608,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       gridBagConstr.gridx = 0;
       gridBagConstr.weightx = 0;
       gridBagConstr.gridwidth = 1;
-      gridBagConstr.insets = new Insets(5, 0, 5, 5);
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(titleCheckbox, gridBagConstr);
 
@@ -617,33 +618,40 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
-      gridBagConstr.insets = new Insets(5, 0, 5, 0);
+      gridBagConstr.insets = new Insets(7, 5, 0, 0);
       mainPanel.add(titleTextField, gridBagConstr);
     }
 
-    JPanel sizePanel = new JPanel(new GridBagLayout());
+    JPanel sizePanel = new JPanel(new GridLayout(1, 2));
     sizePanel.setBorder(
-        BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE)));
+        BorderFactory.createCompoundBorder(
+            BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE)),
+            BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 
     gridBagConstr.gridy ++;
     gridBagConstr.gridx = 0;
     gridBagConstr.weightx = 1;
     gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
     gridBagConstr.gridwidth = 2;
-    gridBagConstr.insets = new Insets(5, 0, 5, 0);
+    gridBagConstr.insets = new Insets(7, 0, 0, 0);
     mainPanel.add(sizePanel, gridBagConstr);
 
-    GridBagConstraints c = new GridBagConstraints();
+    JPanel rowsPanel = new JPanel(new GridBagLayout());
+    sizePanel.add(rowsPanel);
 
     // 'Rows' label
-    JLabel rowsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROWS));
+    JLabel rowsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROWS) + ":");
+    GridBagConstraints c = new GridBagConstraints();
     c.gridx = 0;
     c.gridy = 0;
-    c.anchor = GridBagConstraints.WEST;
-    c.fill = GridBagConstraints.HORIZONTAL;
+    c.gridwidth = 1;
+    c.gridheight = 1;
     c.weightx = 0;
-    c.insets = new Insets(0, 5, 5, 5);
-    sizePanel.add(rowsLabel, c);
+    c.weighty = 0;
+    c.anchor = GridBagConstraints.WEST;
+    c.fill = GridBagConstraints.NONE;
+    c.insets = new Insets(0, 0, 0, 0);
+    rowsPanel.add(rowsLabel, c);
 
     // Number of rows text field
     rowsSpinner = new JSpinner();
@@ -656,13 +664,28 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     }
     c.gridx++;
     c.weightx = 1;
-    sizePanel.add(rowsSpinner, c);
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.insets.left = 5;
+    // Leave some space to the right of the component. The same will be to the left of the right column component.
+    c.insets.right = 8;
+    rowsPanel.add(rowsSpinner, c);
 
     // 'Columns' label
-    JLabel columnsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMNS));
-    c.gridx++;
+    JPanel columnsPanel = new JPanel(new GridBagLayout());
+    sizePanel.add(columnsPanel);
+
+    JLabel columnsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMNS) + ":");
+    c = new GridBagConstraints();
+    c.gridx= 0;
+    c.gridy = 0;
+    c.gridwidth = 1;
+    c.gridheight = 1;
     c.weightx = 0;
-    sizePanel.add(columnsLabel, c);
+    c.weighty = 0;
+    c.fill = GridBagConstraints.NONE;
+    // Leave some space to the left, the same as in the right side of the component from the left column.
+    c.insets = new Insets(0, 8, 0, 0);
+    columnsPanel.add(columnsLabel, c);
 
     // Number of columns text field
     columnsSpinner = new JSpinner();
@@ -673,24 +696,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     } else {
       columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT);
     }
-    columnsSpinner.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        if (calsModelRadio != null && calsModelRadio.isSelected() 
-            || simpleOrHtmlModelRadio != null && simpleOrHtmlModelRadio.isSelected()) {
-          columnsCurrentValueForCalsAndSimple = (Integer) columnsSpinner.getValue();
-        } else if (propertiesModelRadio != null && propertiesModelRadio.isSelected()) {
-          columnsCurrentValueForPropertiesTable = (Integer) columnsSpinner.getValue();
-        }
-      }
-    });
-    // When setting a different model to the spinner, it's width was changing
-    // Here we avoid that width changing
-    columnsSpinner.setPreferredSize(new Dimension(columnsSpinner.getPreferredSize().width,
-        columnsSpinner.getPreferredSize().height));
     c.gridx++;
     c.weightx = 1;
-    sizePanel.add(columnsSpinner, c);
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.insets.left = 5;
+    columnsPanel.add(columnsSpinner, c);
 
     if (choiceTableModel) {
       columnsSpinner.setEnabled(false);
@@ -701,17 +711,19 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     gridBagConstr.gridx = 0;
     gridBagConstr.gridy ++;
     gridBagConstr.gridwidth = 2;
-    gridBagConstr.insets = new Insets(5, 0, 1, 0);
+    gridBagConstr.weightx = 1;
+    gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
+    gridBagConstr.insets = new Insets(7, 0, 0, 0);
     mainPanel.add(headerFooterPanel, gridBagConstr);
 
     // 'Header' check box
-    headerCheckbox =new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.GENERATE_TABLE_HEADER));
+    headerCheckbox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.GENERATE_TABLE_HEADER));
     headerCheckbox.setName("Header checkbox");
     headerCheckbox.setBorder(BorderFactory.createEmptyBorder());
     headerFooterPanel.add(headerCheckbox);
 
     if (hasFooter) {
-      headerFooterPanel.add(new JLabel("  "));
+      headerFooterPanel.add(Box.createHorizontalStrut(16));
       // 'Footer' check box
       footerCheckbox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.GENERATE_TABLE_FOOTER));
       footerCheckbox.setName("Footer checkbox");
@@ -723,12 +735,13 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     ColumnWidthsType[] columnsWidths = getColumnWidthsSpecifications(tableModelType);
     if (columnsWidths != null) {
       // Column widths label
-      JLabel colWidthsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS) + ": ");
+      JLabel colWidthsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_WIDTHS) + ":");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
       gridBagConstr.fill = GridBagConstraints.NONE;
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       mainPanel.add(colWidthsLabel, gridBagConstr);
 
       // Column widths combo box
@@ -759,7 +772,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
-      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.insets = new Insets(7, 5, 0, 0);
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       // Add column widths combo
       mainPanel.add(colWidthsCombobox, gridBagConstr);
@@ -768,12 +781,12 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
     if (hasFrameAttribute) {
       // 'Frame' label
-      JLabel frameLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.FRAME) + ": ");
+      JLabel frameLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.FRAME) + ":");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
-      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(frameLabel, gridBagConstr);
 
@@ -784,19 +797,19 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
-      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.insets.left = 5;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(frameCombo, gridBagConstr);
     }
 
     if (hasRowsepAttribute) {
       // 'Rowsep' label
-      JLabel rowsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROW_SEPARATOR) + ": ");
+      JLabel rowsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROW_SEPARATOR) + ":");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
-      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(rowsepLabel, gridBagConstr);
 
@@ -807,19 +820,19 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
-      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.insets.left = 5;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(rowsepCombo, gridBagConstr);
     }
 
     if (hasColsepAttribute) {
       // 'Colsep' label
-      JLabel colsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_SEPARATOR) + ": ");
+      JLabel colsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_SEPARATOR) + ":");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
-      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(colsepLabel, gridBagConstr);
 
@@ -830,20 +843,19 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
-      gridBagConstr.insets = new Insets(5, 5, 1, 0);
+      gridBagConstr.insets.left = 5;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(colsepCombo, gridBagConstr);
     }
 
     if (hasAlignAttribute) {
       // 'Align' label
-      JLabel alignLabel = new JLabel(authorResourceBundle.getMessage(
-          ExtensionTags.ALIGNMENT) + ": ");
+      JLabel alignLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ALIGNMENT) + ":");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
       gridBagConstr.weightx = 0;
-      gridBagConstr.insets = new Insets(5, 0, 1, 0);
+      gridBagConstr.insets = new Insets(7, 0, 0, 0);
       gridBagConstr.fill = GridBagConstraints.NONE;
       mainPanel.add(alignLabel, gridBagConstr);
 
@@ -854,12 +866,13 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
       gridBagConstr.gridx ++;
       gridBagConstr.weightx = 1;
-      gridBagConstr.insets = new Insets(5, 5, 5, 0);
+      gridBagConstr.insets.left = 5;
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(alignCombo, gridBagConstr);
     }
 
-    //Add the main panel
+    //Add the main panel - leave some extra space to the bottom
+    mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
     getContentPane().add(mainPanel, BorderLayout.CENTER);
 
     pack();
@@ -1150,7 +1163,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     } else {
       // Cancel was pressed
     }
-    
+
     return tableInfo;
   }
 
@@ -1201,16 +1214,6 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     }
     
     if (previousTableInfo != null) {
-      if(titleCheckbox != null) {
-        if (previousTableInfo.getTitle() != null) {
-          titleTextField.setText(previousTableInfo.getTitle());
-          titleCheckbox.setSelected(true);
-        } else {
-          titleCheckbox.setSelected(false);
-          titleTextField.setEditable(false);
-        }
-      }
-      
       if (showModelChooser) {
         if (isCalsTable 
             || previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
@@ -1236,20 +1239,36 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           calsModelRadio.setSelected(true);
         }
       }
+      
+      // Title check box. It's important to set the "Title" check box selection
+      // after selecting the model radio button, otherwise the listeners added
+      // to the model radio buttons will mess up with the check box.
+      if(titleCheckbox != null) {
+        if (previousTableInfo.getTitle() != null) {
+          titleCheckbox.setSelected(true);
+        } else {
+          titleCheckbox.setSelected(false);
+          titleTextField.setEditable(false);
+        }
+      }
 
       if (predefinedColumnsCount < 0 || predefinedRowsCount < 0) {
         // Set the default number of rows and columns
         rowsSpinner.setValue(previousTableInfo.getRowsNumber());
+        int colsNumber = previousTableInfo.getColumnsNumber();
         if (!choiceTableModel) {
           if (propertiesModelRadio != null 
               && (isPropertiesTable 
                   || previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
                       && !isCalsTable
                       && !isSimpleOrHtmlTable)) {
-            columnsSpinner.setValue(columnsCurrentValueForPropertiesTable);
-          } else {
-            columnsSpinner.setValue(columnsCurrentValueForCalsAndSimple);
+            // Properties table.
+            if(colsNumber < 2 || colsNumber > 3) {
+              // Force to 3.
+              colsNumber = 3;
+            }
           }
+          columnsSpinner.setValue(colsNumber);
         }
       }
 
@@ -1286,6 +1305,15 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           colsepCombo.setSelectedItem(previousTableInfo.getColsep());
         } else {
           colsepCombo.setSelectedItem(UNSPECIFIED);
+        }
+      }
+      
+      // Alignment
+      if (alignCombo != null) {
+        if (previousTableInfo.getAlign() != null) {
+          alignCombo.setSelectedItem(previousTableInfo.getAlign());
+        } else {
+          alignCombo.setSelectedItem(UNSPECIFIED);
         }
       }
     } else {

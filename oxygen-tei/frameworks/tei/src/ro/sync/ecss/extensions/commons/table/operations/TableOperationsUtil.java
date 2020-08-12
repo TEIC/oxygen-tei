@@ -51,8 +51,6 @@
 package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +58,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Segment;
 
 import org.apache.log4j.Logger;
 
@@ -77,11 +74,12 @@ import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
 import ro.sync.ecss.extensions.api.ContentInterval;
-import ro.sync.ecss.extensions.api.content.OffsetInformation;
+import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelper;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
 import ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper;
@@ -835,140 +833,69 @@ public class TableOperationsUtil {
   }
   
   /**
-   * Get selected content fragments to be converted to cell fragments.
-   * 
-   * @param authorAccess The author access.
-   * @return The selected content fragments to be converted to cell fragments.
-   */
-  public static AuthorDocumentFragment[] getSelectedFragmentsToCreateCells(AuthorAccess authorAccess) {
-    AuthorDocumentFragment[] selectedFragments = null;
-    if (authorAccess.getEditorAccess().hasSelection()) {
-      // Get the selection intervals
-      List<ContentInterval>  selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
-      try {
-        // This is the list containing the content intervals to be added on each row 
-        List<int[]> allRows = new ArrayList<int[]>();
-
-        AuthorDocumentController controller = authorAccess.getDocumentController();
-        // Check each selection interval
-        for (ContentInterval contentInterval : selectionIntervals) {
-          // Create the content segment to iterate
-          Segment content = new Segment();
-          int start = contentInterval.getStartOffset();
-          int maxEndOffset = contentInterval.getEndOffset();
-          int len = maxEndOffset - contentInterval.getStartOffset();
-          controller.getChars(start, len, content);
-
-          char ch = content.first();
-          int currentOffset = start;
-          int startRow = contentInterval.getStartOffset();
-          while(ch != Segment.DONE) {
-            if (ch == 0) {
-              // Sentinel
-              OffsetInformation info = controller.getContentInformationAtOffset(currentOffset);
-              AuthorNode node = info.getNodeForMarkerOffset();
-              Styles styles = authorAccess.getEditorAccess().getStyles(node);
-              String display = styles.getDisplay();
-              // Check if this is an block element (or a list item)
-              if (CSS.BLOCK.equals(display) || CSS.LIST_ITEM.equals(display)) {
-                if (startRow != currentOffset) {
-                  // Register interval
-                  allRows.add(new int[] {startRow, currentOffset - 1});
-                } else {
-                  if (info.getPositionType() == OffsetInformation.ON_START_MARKER &&
-                      // Check that this is an empty node
-                      node.getStartOffset() + 1 == node.getEndOffset()) {
-                    // Register interval
-                    allRows.add(new int[] {node.getStartOffset() + 1, node.getEndOffset() - 1});
-                  }
-                }
-                // Jump over this interval
-                startRow = currentOffset + 1;
-              }
-            }
-            // Jump to next char
-            ch = content.next();
-            currentOffset++;
-          }
-
-          // Maybe there is an interval left?
-          if (startRow < maxEndOffset) {
-            allRows.add(new int[] {startRow, maxEndOffset - 1});
-          }
-        }
-
-        int size = allRows.size();
-        selectedFragments = new AuthorDocumentFragment[size];
-        for (int i = 0; i < size; i++) {
-          int[] is = allRows.get(i);
-          if (is[0] <= is[1]) {
-            selectedFragments[i] = controller.createDocumentFragment(is[0], is[1]);
-          } else {
-            // Empty fragment
-            selectedFragments[i] = controller.createNewDocumentFragmentInContext("", is[0]);
-          }
-        }
-
-      } catch (Exception e) {
-        selectedFragments = null;
-      }
-    }
-    return selectedFragments;
-  }
-  
-  /**
-   * Remove current selection from Author.
-   * 
+   * Place the caret in the first cell of a table that was just inserted (a result of this operation
+   * is send as parameter)
+   *  
    * @param authorAccess Author access.
+   * @param tableInfo Table information.
+   * @param controller Controller.
+   * @param result Insert operation result.
    */
-  public static void removeCurrentSelection(AuthorAccess authorAccess) {
-    // Remove selection
-    if (authorAccess.getEditorAccess().hasSelection()) {
-      // Get the selection intervals
-      List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
-      if (selectionIntervals != null) {
-        if (selectionIntervals.size() > 1) {
-          Collections.sort(selectionIntervals, new Comparator<ContentInterval>() {
-            /**
-             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-             */
-            @Override
-            public int compare(ContentInterval interval1, ContentInterval interval2) {
-              int result = 0;
-              if (interval1 != null && interval2 != null) {
-                return interval1.getStartOffset() > interval2.getStartOffset() ? -1 : 1;
-              }
-              return result;
-            }
-          });
-        }
-
-        // Remove selection
+  public static void placeCaretInFirstCell(AuthorAccess authorAccess, TableInfo tableInfo,
+      AuthorDocumentController controller, SchemaAwareHandlerResult result) {
+    if (result != null && tableInfo.getTitle() == null) {
+      Integer offs = (Integer) result.getResult(SchemaAwareHandlerResult.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
+      if (offs != null) {
         try {
-          for (ContentInterval selection : selectionIntervals) {
-            // Delete current selection
-            authorAccess.getDocumentController().delete(selection.getStartOffset(), selection.getEndOffset() - 1);
+          AuthorNode tableNode = controller.getNodeAtOffset(offs + 1);
+          if (tableNode instanceof AuthorElement) {
+            // Find the first cell to place the caret in.
+            AuthorElement firstCell = getFirstCell((AuthorElement) tableNode, authorAccess.getEditorAccess());
 
-            // Check if there is an empty element left here and remove it...
-            AuthorNode node = authorAccess.getDocumentController().getNodeAtOffset(selection.getStartOffset());
-            while (node != null && 
-                node != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement()) {
-              if (node.getStartOffset() + 1 == node.getEndOffset()) {
-                // Empty element, remove it
-                AuthorNode parentNode = node.getParent(); 
-                authorAccess.getDocumentController().deleteNode(node);
-                node = parentNode;
-              } else {
-                node = null;
-              }
+            if (firstCell != null) {
+              // Place the caret in the first cell
+              authorAccess.getEditorAccess().setCaretPosition(firstCell.getStartOffset() + 1);
             }
           }
-        } catch (Exception e) {
-          // Nothing to do
+        } catch (BadLocationException e) {
+          // Nothing to do.
         }
       }
     }
   }
-
-  
+  /**
+   * Get the first cell element encountered, starting from the given parent element.
+   * 
+   * @param parentElement The parent element.
+   * @param authorEditorAccess Author editor access.
+   * @return The first cell element
+   */
+  private static AuthorElement getFirstCell(AuthorElement parentElement, AuthorEditorAccess authorEditorAccess) {
+    // Check the children
+    List<AuthorNode> contentNodes = parentElement.getContentNodes();
+    if (contentNodes != null) {
+      for (int i = 0; i < contentNodes.size(); i++) {
+        AuthorNode child = contentNodes.get(i);
+        // Check only elements
+        if (child.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+          AuthorElement childElement = (AuthorElement) child;
+          // Check if this is a cell
+          Styles styles = authorEditorAccess.getStyles(childElement);
+          if (styles.getDisplay() == CSS.TABLE_CELL) {
+            // Found a cell
+            return childElement;
+          } else {
+            // Check the children
+            AuthorElement firstCell = getFirstCell(childElement, authorEditorAccess);
+            if (firstCell != null) {
+              // Found a cell
+              return firstCell;
+            }
+          }
+        }
+      }
+    }
+    
+    return null;
+  }
 }

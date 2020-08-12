@@ -366,7 +366,7 @@
 		      <String>${i18n(ordered list)}</String>
 		    </field>
 		    <field name="description">
-		      <String>${i18n(ordered list_description)}</String>
+		      <String>${i18n(orderedList_description)}</String>
 		    </field>
 		    <field name="largeIconPath">
 		      <String>/images/OrderedList24.png</String>
@@ -384,41 +384,16 @@
 		      <actionMode-array>
 			<actionMode>
 			  <field name="xpathCondition">
-			    <String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
-			  </field>
-			  <field name="argValues">
-			    <serializableOrderedMap>
-			      <entry>
-				<String>fragment</String>
-				<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="ordered">&lt;item/>&lt;/list>&lt;/item></String>
-			      </entry>
-			      <entry>
-				<String>insertPosition</String>
-				<String>Inside as first child</String>
-			      </entry>
-			    </serializableOrderedMap>
-			  </field>
-			  <field name="operationID">
-			    <String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
-			  </field>
-			</actionMode>
-			<actionMode>
-			  <field name="xpathCondition">
 			    <String></String>
 			  </field>
 			  <field name="argValues">
-			    <serializableOrderedMap>
-			      <entry>
-				<String>fragment</String>
-				<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="ordered">&lt;item/>&lt;/list></String>
-			      </entry>
-			    </serializableOrderedMap>
+			    <serializableOrderedMap/>
 			  </field>
 			  <field name="operationID">
-			    <String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+			    <String>ro.sync.ecss.extensions.tei.TEIInsertListOperation</String>
 			  </field>
 			</actionMode>
-		      </actionMode-array>
+			</actionMode-array>
 		    </field>
 		    <field name="enabledInReadOnlyContext">
 		      <Boolean>false</Boolean>
@@ -450,41 +425,21 @@
 		      <actionMode-array>
 			<actionMode>
 			  <field name="xpathCondition">
-			    <String>self::*:list[namespace-uri() = "http://www.tei-c.org/ns/1.0"]</String>
-			  </field>
-			  <field name="argValues">
-			    <serializableOrderedMap>
-			      <entry>
-				<String>fragment</String>
-				<String>&lt;item xmlns="http://www.tei-c.org/ns/1.0">&lt;list type="bulleted">&lt;item/>&lt;/list>&lt;/item></String>
-			      </entry>
-			      <entry>
-				<String>insertPosition</String>
-				<String>Inside as first child</String>
-			      </entry>
-			    </serializableOrderedMap>
-			  </field>
-			  <field name="operationID">
-			    <String>ro.sync.ecss.extensions.commons.operations.InsertFragmentOperation</String>
-			  </field>
-			</actionMode>
-			<actionMode>
-			  <field name="xpathCondition">
 			    <String></String>
 			  </field>
 			  <field name="argValues">
 			    <serializableOrderedMap>
 			      <entry>
-				<String>fragment</String>
-				<String>&lt;list xmlns="http://www.tei-c.org/ns/1.0" type="bulleted">&lt;item/>&lt;/list></String>
+				<String>listType</String>
+				<String>itemizedlist</String>
 			      </entry>
-			    </serializableOrderedMap>
+			      </serializableOrderedMap>
 			  </field>
 			  <field name="operationID">
-			    <String>ro.sync.ecss.extensions.commons.operations.SurroundWithFragmentOperation</String>
+			    <String>ro.sync.ecss.extensions.tei.TEIInsertListOperation</String>
 			  </field>
 			</actionMode>
-		      </actionMode-array>
+			</actionMode-array>
 		    </field>
 		    <field name="enabledInReadOnlyContext">
 		      <Boolean>false</Boolean>
@@ -2486,6 +2441,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 	      <field name="tableSupportClassName">
 		<null/>
 	      </field>
+	      <field name="tableCellSeparatorSupportClassName">
+		<null/>
+	      </field>
 	      <field name="tableColWidthSupportClassName">
 		<null/>
 	      </field>
@@ -2495,10 +2453,16 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 	      <field name="editPropertiesHandler">
 		<null/>
 	      </field>
-	      <field name="authorExtensionStateListener">
-		<null/>
-	      </field>
-	    <field name="attributesRecognizer">
+	    <field name="authorExtensionStateListener">
+								<null/>
+							</field>
+						<field name="attributesRecognizer">
+								<null/>
+							</field>
+							<field name="authorActionEventHandler">
+								<null/>
+							</field>
+							<field name="authorImageDecorator">
 								<null/>
 							</field>
 						</authorExtension>

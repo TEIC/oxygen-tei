@@ -59,6 +59,8 @@ import javax.swing.JButton;
 import ro.sync.ecss.extensions.EditorAuthorExtensionTestBase;
 import ro.sync.ecss.extensions.commons.table.operations.xhtml.SAXHTMLTableCustomizerDialog;
 import ro.sync.ecss.extensions.dita.topic.table.SADITATableCustomizerDialog;
+import ro.sync.ecss.extensions.docbook.table.SADocbook4TableCustomizerDialog;
+import ro.sync.ecss.extensions.docbook.table.SADocbook5TableCustomizerDialog;
 import ro.sync.ecss.extensions.docbook.table.SADocbookTableCustomizerDialog;
 import ro.sync.ecss.extensions.tei.table.SATEITableCustomizerDialog;
 import ro.sync.ecss.layout.table.selection.TableColumnMouseEventHandler;
@@ -142,10 +144,13 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
         "                        <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                        <thead>\n" + 
         "                            <row>\n" + 
-        "                                <entry>Column 1</entry>\n" + 
+        "                                <entry/>\n" + 
         "                            </row>\n" + 
         "                        </thead>\n" + 
         "                        <tbody>\n" + 
+        "                            <row>\n" + 
+        "                                <entry>Column 1</entry>\n" + 
+        "                            </row>\n" + 
         "                            <row>\n" + 
         "                                <entry>1</entry>\n" + 
         "                            </row>\n" + 
@@ -234,7 +239,7 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
     flushAWTBetter();
     Thread.sleep(200);
     
-    SADocbookTableCustomizerDialog docbookTableCustomizerDialog = (SADocbookTableCustomizerDialog) getWindowOfClass(SADocbookTableCustomizerDialog.class.getName());
+    SADocbookTableCustomizerDialog docbookTableCustomizerDialog = (SADocbookTableCustomizerDialog) getWindowOfClass(SADocbook4TableCustomizerDialog.class.getName());
     assertTrue(docbookTableCustomizerDialog.isShowing());
     docbookTableCustomizerDialog.getOkButton().doClick();
     flushAWTBetter();
@@ -254,10 +259,13 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
         "                    <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                    <thead>\n" + 
         "                        <row>\n" + 
-        "                            <entry>Column 1</entry>\n" + 
+        "                            <entry/>\n" + 
         "                        </row>\n" + 
         "                    </thead>\n" + 
         "                    <tbody>\n" + 
+        "                        <row>\n" + 
+        "                            <entry>Column 1</entry>\n" + 
+        "                        </row>\n" + 
         "                        <row>\n" + 
         "                            <entry>1</entry>\n" + 
         "                        </row>\n" + 
@@ -364,10 +372,13 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
         "            </colgroup>\n" + 
         "            <thead>\n" + 
         "                <tr>\n" + 
-        "                    <th>Column 1</th>\n" + 
+        "                    <th></th>\n" + 
         "                </tr>\n" + 
         "            </thead>\n" + 
         "            <tbody>\n" + 
+        "                <tr>\n" + 
+        "                    <td>Column 1</td>\n" + 
+        "                </tr>\n" + 
         "                <tr>\n" + 
         "                    <td>1</td>\n" + 
         "                </tr>\n" + 
@@ -480,9 +491,12 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
         "  </teiHeader>\n" + 
         "  <text>\n" + 
         "    <body>\n" + 
-        "      <p>Some <table rows=\"3\" cols=\"1\">\n" + 
+        "      <p>Some <table rows=\"4\" cols=\"1\">\n" + 
         "                    <head/>\n" + 
         "                    <row role=\"label\">\n" + 
+        "                        <cell/>\n" + 
+        "                    </row>\n" + 
+        "                    <row>\n" + 
         "                        <cell>Column 1</cell>\n" + 
         "                    </row>\n" + 
         "                    <row>\n" + 
@@ -562,7 +576,7 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
     flushAWTBetter();
     Thread.sleep(200);
     
-    SADocbookTableCustomizerDialog docbookTableCustomizerDialog = (SADocbookTableCustomizerDialog) getWindowOfClass(SADocbookTableCustomizerDialog.class.getName());
+    SADocbookTableCustomizerDialog docbookTableCustomizerDialog = (SADocbookTableCustomizerDialog) getWindowOfClass(SADocbook5TableCustomizerDialog.class.getName());
     assertTrue(docbookTableCustomizerDialog.isShowing());
     docbookTableCustomizerDialog.getOkButton().doClick();
     flushAWTBetter();
@@ -586,10 +600,13 @@ public class CopyPasteTableColumn2Test extends EditorAuthorExtensionTestBase {
         "                    <colspec colname=\"c1\" colnum=\"1\" colwidth=\"1.0*\"/>\n" + 
         "                    <thead>\n" + 
         "                        <row>\n" + 
-        "                            <entry>Column 1</entry>\n" + 
+        "                            <entry/>\n" + 
         "                        </row>\n" + 
         "                    </thead>\n" + 
         "                    <tbody>\n" + 
+        "                        <row>\n" + 
+        "                            <entry>Column 1</entry>\n" + 
+        "                        </row>\n" + 
         "                        <row>\n" + 
         "                            <entry>1</entry>\n" + 
         "                        </row>\n" + 

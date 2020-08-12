@@ -86,3 +86,5 @@ public interface InsertTableOperationBase {
       TableInfo tableInfo)
     throws AuthorOperationException;
 }
+
+
