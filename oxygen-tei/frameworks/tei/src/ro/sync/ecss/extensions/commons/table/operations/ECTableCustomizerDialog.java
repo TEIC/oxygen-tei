@@ -53,7 +53,7 @@ package ro.sync.ecss.extensions.commons.table.operations;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -81,14 +81,14 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
-import ro.sync.xml.XmlUtil;
+import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 
 /**
  * Dialog used to customize the insertion of a generic table (number of rows, columns, table caption).
  * It is used on Eclipse platform implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public abstract class ECTableCustomizerDialog extends Dialog implements TableCustomizerConstants{
+public abstract class ECTableCustomizerDialog extends TrayDialog implements TableCustomizerConstants{
   
   /**
    * If create a title the user can specify the table title.
@@ -122,6 +122,16 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * True to make CALS table.
    */
   private boolean makeCalsTable;
+  
+  /**
+   * True to make properties table.
+   */
+  private boolean makePropertiesTable = false;
+  
+  /**
+   * True to make simple or HTML table.
+   */
+  private boolean makeSimpleOrHtmlTable = false;
   
   /**
    * The selected frame.
@@ -211,7 +221,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   /**
    * Simple or HTML table model.
    */
-  private Button otherModelRadio;
+  private Button simpleOrHtmlModelRadio;
+  /**
+   * Properties model.
+   */
+  private Button propertiesModelRadio;
   /**
    * Row number chooser.
    */
@@ -267,17 +281,46 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    * <code>true</code> if the table allows align attribute.
    */
   private boolean hasAlign;
-  
+  /**
+   * <code>true</code> if the model is for CALS table.
+   */
+  private boolean isCalsTable;
+  /**
+   * <code>true</code> of a properties table is accepted.
+   */
+  private boolean isPropertiesTableAccepted;
+  /**
+   * <code>true</code> if the current table has a properties table model.
+   */
+  private boolean isPropertiesTableModel;
+  /**
+   * <code>true</code> if the table model is simple or HTML, not CALS, nor properties.
+   */
+  private boolean isSimpleOrHtmlTable;
+  /**
+   * The current number of columns for CALS and simple tables.
+   */
+  private static int columnsCurrentValueForCalsAndSimple = TableInfo.DEFAULT_COLUMNS_COUNT;
+  /**
+   * The current number of columns for properties tables.
+   */
+  private static int columnsCurrentValueForPropertiesTable = TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE;
+  /**
+   * <code>true</code> to inhibit the columns number update when
+   * selecting a different model using the radio buttons.
+   */
+  private boolean inhibitColumnsNumberUpdate = false;
+
   /**
    * Constructor for TrangDialog.
    * 
-   * @param parentShell           The parent shell for the dialog.
-   * @param hasFooter             <code>true</code> if this table supports a footer.
-   * @param hasFrameAttribute     <code>true</code> if the table has a frame attribute.
-   * @param showModelChooser      <code>true</code> to show the dialog panel for choosing the table model,
-   *                              one of CALS or HTML.
-   * @param authorResourceBundle  The author resource bundle.
-   * @param predefinedRowsCount The predefined number of rows.
+   * @param parentShell            The parent shell for the dialog.
+   * @param hasFooter              <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser       <code>true</code> to show the dialog panel for choosing the table model,
+   *                                   one of CALS or HTML.
+   * @param authorResourceBundle   The author resource bundle.
+   * @param predefinedRowsCount    The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
@@ -295,18 +338,21 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   /**
    * Constructor for TrangDialog.
    * 
-   * @param parentShell           The parent shell for the dialog.
-   * @param hasFooter             <code>true</code> if this table supports a footer.
-   * @param hasFrameAttribute     <code>true</code> if the table has a frame attribute.
-   * @param showModelChooser      <code>true</code> to show the dialog panel for choosing the table model, 
-   *                              one of CALS or HTML.
-   * @param showSimpleModel       <code>true</code> to show the simple model radio in the model chooser.
-   * @param innerCalsTable        <code>true</code> if this is an inner calls table.
-   * @param hasRowsep             <code>true</code> if the table has rowsep attribute.
-   * @param hasColsep             <code>true</code> if the table has colsep attribute.
-   * @param hasAlign              <code>true</code> if the table has align attribute.
-   * @param authorResourceBundle  The author resource bundle.
-   * @param predefinedRowsCount The predefined number of rows.
+   * @param parentShell            The parent shell for the dialog.
+   * @param hasFooter              <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser       <code>true</code> to show the dialog panel for choosing the table model, 
+   *                                   one of CALS or HTML.
+   * @param showSimpleModelRadio   <code>true</code> to show the simple model radio in the model chooser.
+   * @param innerCalsTable         <code>true</code> if this is an inner calls table.
+   * @param hasRowsep              <code>true</code> if the table has rowsep attribute. 
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsep              <code>true</code> if the table has colsep attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlign               <code>true</code> if the table has align attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle   The author resource bundle.
+   * @param predefinedRowsCount    The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
@@ -314,7 +360,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       boolean hasFooter,
       boolean hasFrameAttribute,
       boolean showModelChooser,
-      boolean showSimpleModel,
+      boolean showSimpleModelRadio,
       boolean innerCalsTable,
       boolean hasRowsep,
       boolean hasColsep,
@@ -326,7 +372,7 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         hasFooter, 
         hasFrameAttribute, 
         showModelChooser, 
-        showSimpleModel, 
+        showSimpleModelRadio, 
         false, 
         innerCalsTable, 
         hasRowsep,
@@ -337,22 +383,26 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         predefinedColumnsCount);
   }
   
+  
   /**
    * Constructor for TrangDialog.
    * 
-   * @param parentShell           The parent shell for the dialog.
-   * @param hasFooter             <code>true</code> if this table supports a footer.
-   * @param hasFrameAttribute     <code>true</code> if the table has a frame attribute.
-   * @param showModelChooser      <code>true</code> to show the dialog panel for choosing the table model, 
-   *                              one of CALS or HTML.
-   * @param showSimpleModel       <code>true</code> to show the simple model radio in the model chooser.
-   * @param showChoiceTable       <code>true</code> to show the dialog for choice table.
-   * @param innerCalsTable        <code>true</code> if this is an inner calls table.
-   * @param hasRowsep             <code>true</code> if the table has rowsep attribute.
-   * @param hasColsep             <code>true</code> if the table has colsep attribute.
-   * @param hasAlign              <code>true</code> if the table has align attribute.
-   * @param authorResourceBundle  The author resource bundle.
-   * @param predefinedRowsCount The predefined number of rows.
+   * @param parentShell            The parent shell for the dialog.
+   * @param hasFooter              <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser       <code>true</code> to show the dialog panel for choosing the table model, 
+   *                                   one of CALS or HTML.
+   * @param showSimpleModelRadio   <code>true</code> to show the simple model radio in the model chooser.
+   * @param showChoiceTableDialog  <code>true</code> to show the dialog for choice table.
+   * @param innerCalsTable         <code>true</code> if this is an inner calls table.
+   * @param hasRowsep              <code>true</code> if the table has rowsep attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsep              <code>true</code> if the table has colsep attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlign               <code>true</code> if the table has align attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle   The author resource bundle.
+   * @param predefinedRowsCount    The predefined number of rows.
    * @param predefinedColumnsCount The predefined number of columns.
    */
   public ECTableCustomizerDialog(
@@ -360,9 +410,97 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       boolean hasFooter,
       boolean hasFrameAttribute,
       boolean showModelChooser,
-      boolean showSimpleModel,
-      boolean showChoiceTable,
+      boolean showSimpleModelRadio,
+      boolean showChoiceTableDialog,
       boolean innerCalsTable,
+      boolean hasRowsep,
+      boolean hasColsep,
+      boolean hasAlign,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount, 
+      int predefinedColumnsCount) {
+    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog, 
+        true, innerCalsTable, hasRowsep, hasColsep, hasAlign, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+  }
+  /**
+   * Constructor for TrangDialog.
+   * 
+   * @param parentShell            The parent shell for the dialog.
+   * @param hasFooter              <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute      <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser       <code>true</code> to show the dialog panel for choosing the table model, 
+   *                                   one of CALS or HTML.
+   * @param showSimpleModelRadio   <code>true</code> to show the simple model radio in the model chooser.
+   * @param showChoiceTableDialog  <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable            <code>true</code> if the table model is CALS.
+   * @param innerCalsTable         <code>true</code> if this is an inner calls table.
+   * @param hasRowsep              <code>true</code> if the table has rowsep attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsep              <code>true</code> if the table has colsep attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlign               <code>true</code> if the table has align attribute.
+   *                                   Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle   The author resource bundle.
+   * @param predefinedRowsCount    The predefined number of rows.
+   * @param predefinedColumnsCount The predefined number of columns.
+   */
+  public ECTableCustomizerDialog(
+      Shell parentShell,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean showSimpleModelRadio,
+      boolean showChoiceTableDialog,
+      boolean isCalsTable,
+      boolean innerCalsTable,
+      boolean hasRowsep,
+      boolean hasColsep,
+      boolean hasAlign,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount, 
+      int predefinedColumnsCount) {
+    this(parentShell, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModelRadio, showChoiceTableDialog,
+        isCalsTable, innerCalsTable, false, false, false, hasRowsep, hasColsep,
+        hasAlign, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+  }
+  
+  /**
+   * Constructor for TrangDialog.
+   * 
+   * @param parentShell                 The parent shell for the dialog.
+   * @param hasFooter                   <code>true</code> if this table supports a footer.
+   * @param hasFrameAttribute           <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser            <code>true</code> to show the dialog panel for choosing the table model, 
+   *                                         one of CALS or HTML.
+   * @param showSimpleModelRadio        <code>true</code> to show the simple model radio in the model chooser.
+   * @param showChoiceTableDialog       <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable                 <code>true</code> if the table model is CALS.
+   * @param isSimpleOrHtmlTable         <code>true</code> if the table model is simple or HTML.
+   * @param innerCalsTable              <code>true</code> if this is an inner calls table.
+   * @param isPropertiesTableAccepted   <code>true</code> of a properties table is accepted.
+   * @param isPropertiesTableModel      <code>true</code> if the current table has a properties table model.
+   * @param hasRowsep                   <code>true</code> if the table has rowsep attribute.
+   *                                        Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsep                   <code>true</code> if the table has colsep attribute.
+   *                                        Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlign                    <code>true</code> if the table has align attribute.
+   *                                        Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle        The author resource bundle.
+   * @param predefinedRowsCount         The predefined number of rows.
+   * @param predefinedColumnsCount      The predefined number of columns.
+   */
+  public ECTableCustomizerDialog(
+      Shell parentShell,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean showSimpleModelRadio,
+      boolean showChoiceTableDialog,
+      boolean isCalsTable,
+      boolean isSimpleOrHtmlTable,
+      boolean innerCalsTable,
+      boolean isPropertiesTableAccepted,
+      boolean isPropertiesTableModel,
       boolean hasRowsep,
       boolean hasColsep,
       boolean hasAlign,
@@ -373,9 +511,13 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     this.hasFooter = hasFooter;
     this.hasFrameAttribute = hasFrameAttribute;
     this.showModelChooser = showModelChooser;
-    this.simpleTableModel = showSimpleModel;
-    this.showChoiceTable = showChoiceTable;
+    this.simpleTableModel = showSimpleModelRadio;
+    this.showChoiceTable = showChoiceTableDialog;
+    this.isCalsTable = isCalsTable;
+    this.isSimpleOrHtmlTable = isSimpleOrHtmlTable;
     this.innerCalsTable = innerCalsTable;
+    this.isPropertiesTableAccepted = isPropertiesTableAccepted;
+    this.isPropertiesTableModel = isPropertiesTableModel;
     this.authorResourceBundle = authorResourceBundle;
     this.predefinedRowsCount = predefinedRowsCount;
     this.predefinedColumnsCount = predefinedColumnsCount;
@@ -392,10 +534,11 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
    */
   @Override
   protected void configureShell(Shell newShell) {
+    super.configureShell(newShell);
+    EclipseHelpUtils.installHelp(newShell, getHelpPageID());
     newShell.setText(
         authorResourceBundle.getMessage(
             showChoiceTable ? ExtensionTags.INSERT_CHOICE_TABLE : ExtensionTags.INSERT_TABLE));
-    super.configureShell(newShell);
   }
 
   /**
@@ -409,13 +552,13 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     Composite composite = (Composite) super.createDialogArea(parent);
     composite.setLayout(new GridLayout(2, false));
     
-    int tableModel = innerCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
+    int tableModel = innerCalsTable && isCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
     if (showModelChooser) {     
       tableModel = TableInfo.TABLE_MODEL_CALS;
       //Allow the user to choose between HTML and CALS
       Group modelChooser = new Group(composite, SWT.SINGLE);
       modelChooser.setText(authorResourceBundle.getMessage(ExtensionTags.MODEL));
-      modelChooser.setLayout(new GridLayout(2, true));
+      modelChooser.setLayout(new GridLayout(3, true));
       GridData data = new GridData(SWT.FILL, SWT.NONE, true, false);
       data.horizontalSpan = 2;
       modelChooser.setLayoutData(data);
@@ -427,46 +570,114 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
         @Override
         public void widgetSelected(SelectionEvent e) {
           makeCalsTable = calsModelRadio.getSelection();
+          makeSimpleOrHtmlTable = simpleOrHtmlModelRadio.getSelection();
+          if (propertiesModelRadio != null) {
+            makePropertiesTable = propertiesModelRadio.getSelection();
+          }
           // Set column widths input
           tableModelChanged(TableInfo.TABLE_MODEL_CALS);
+          
+          // Set limits and value
+          inhibitColumnsNumberUpdate = true;
+          columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
+          columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
+          columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
+          inhibitColumnsNumberUpdate = false;
         }
       });
 
       if (!showChoiceTable) {
+        simpleOrHtmlModelRadio = new Button(modelChooser, SWT.RADIO | SWT.LEFT);
+        if (!isPropertiesTableAccepted) {
+          GridData gridData = new GridData();
+          gridData.horizontalSpan = 2;
+          simpleOrHtmlModelRadio.setLayoutData(gridData);
+        }
+        
         if (simpleTableModel) {
           // Radio button for choosing simple table model
-          otherModelRadio = new Button(modelChooser, SWT.RADIO | SWT.LEFT);
-          otherModelRadio.setText(authorResourceBundle.getMessage(ExtensionTags.SIMPLE));
-          otherModelRadio.addSelectionListener(new SelectionAdapter() {
+          simpleOrHtmlModelRadio.setText(authorResourceBundle.getMessage(ExtensionTags.SIMPLE));
+          simpleOrHtmlModelRadio.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
               makeCalsTable = calsModelRadio.getSelection();
+              makeSimpleOrHtmlTable = simpleOrHtmlModelRadio.getSelection();
+              if (propertiesModelRadio != null) {
+                makePropertiesTable = propertiesModelRadio.getSelection();
+              }
               // Set column widths input
               tableModelChanged(TableInfo.TABLE_MODEL_DITA_SIMPLE);
+              
+              // Set limits and value
+              inhibitColumnsNumberUpdate = true;
+              columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
+              columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
+              columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
+              inhibitColumnsNumberUpdate = false;
             }
           });
 
           //Set some default values.
-          makeCalsTable = true;
-          calsModelRadio.setSelection(makeCalsTable);
-          otherModelRadio.setSelection(! makeCalsTable);
+          updateRadioButtonsSelection();
+          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS :
+            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+          tableModelChanged(tableModel);
         } else {
           // Radio button for choosing HTML table model
-          otherModelRadio = new Button(modelChooser, SWT.RADIO | SWT.LEFT);
-          otherModelRadio.setText("HTML");
-          otherModelRadio.addSelectionListener(new SelectionAdapter() {
+          simpleOrHtmlModelRadio.setText("HTML");
+          simpleOrHtmlModelRadio.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
               makeCalsTable = calsModelRadio.getSelection();
+              makeSimpleOrHtmlTable = simpleOrHtmlModelRadio.getSelection();
+              if (propertiesModelRadio != null) {
+                makePropertiesTable = propertiesModelRadio.getSelection();
+              }
               // Set column widths inputs
               tableModelChanged(TableInfo.TABLE_MODEL_HTML);
+              
+              // Set limits and value
+              inhibitColumnsNumberUpdate = true;
+              columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
+              columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
+              columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
+              inhibitColumnsNumberUpdate = false;
             }
           });
 
           //Set some default values.
-          makeCalsTable = true;
-          calsModelRadio.setSelection(makeCalsTable);
-          otherModelRadio.setSelection(! makeCalsTable);
+          updateRadioButtonsSelection();
+          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS : 
+            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_HTML);
+          tableModelChanged(tableModel);
+        }
+
+        if (isPropertiesTableAccepted) {
+          propertiesModelRadio = new Button(modelChooser, SWT.RADIO | SWT.LEFT);
+          propertiesModelRadio.setText(authorResourceBundle.getMessage(ExtensionTags.PROPERTIES));
+          propertiesModelRadio.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+              makeCalsTable = calsModelRadio.getSelection();
+              makeSimpleOrHtmlTable = simpleOrHtmlModelRadio.getSelection();
+              if (propertiesModelRadio != null) {
+                makePropertiesTable = propertiesModelRadio.getSelection();
+              }
+              tableModelChanged(TableInfo.TABLE_MODEL_DITA_PROPERTIES);
+              
+              // Set new limits and value for the columns spinner
+              inhibitColumnsNumberUpdate = true;
+              columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE);
+              columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE);
+              columnsSpinner.setSelection(columnsCurrentValueForPropertiesTable);
+              inhibitColumnsNumberUpdate = false;
+            }
+          });
+          
+          updateRadioButtonsSelection();
+          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS :
+            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+          tableModelChanged(tableModel);
         }
       }
     } else {
@@ -506,51 +717,57 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     title = "";
 
     GridData data = new GridData(SWT.FILL, SWT.NONE, true, false);
-    if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {
-      //Give the number of rows and cols for the new table.
-      Group sizeGroup = new Group(composite, SWT.SINGLE);
-      sizeGroup.setText(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE));
-      sizeGroup.setLayout(new GridLayout(4, false));
-      data.horizontalSpan = 2;
-      sizeGroup.setLayoutData(data);
+    //Give the number of rows and cols for the new table.
+    Group sizeGroup = new Group(composite, SWT.SINGLE);
+    sizeGroup.setText(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE));
+    sizeGroup.setLayout(new GridLayout(4, false));
+    data.horizontalSpan = 2;
+    sizeGroup.setLayoutData(data);
 
-      // 'Rows' label.
-      Label label = new Label(sizeGroup, SWT.LEFT);
-      label.setText(authorResourceBundle.getMessage(ExtensionTags.ROWS));
-      rowsSpinner = new Spinner(sizeGroup, SWT.BORDER);
-      rowsSpinner.setMinimum(0);
-      rowsSpinner.setMaximum(100);
-      rowsSpinner.setSelection(3);
-      rowsSpinner.addModifyListener(new ModifyListener() {
-        @Override
-        public void modifyText(ModifyEvent e) {
-          rows = rowsSpinner.getSelection();
-        }
-      });
-      rowsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
-      //Set some default values.
-      rows = TableInfo.DEFAULT_ROWS_COUNT;
-
-      // 'Columns' label
-      label = new Label(sizeGroup, SWT.LEFT);
-      label.setText(authorResourceBundle.getMessage(ExtensionTags.COLUMNS));
-      columnsSpinner = new Spinner(sizeGroup, SWT.BORDER);
-      columnsSpinner.setMinimum(0);
-      columnsSpinner.setMaximum(100);
-      columnsSpinner.setSelection(2);
-      columnsSpinner.addModifyListener(new ModifyListener() {
-        @Override
-        public void modifyText(ModifyEvent e) {
-          columns = columnsSpinner.getSelection();
-        }
-      });
-      columnsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
-      //Set some default values.
-      columns = TableInfo.DEFAULT_COLUMNS_COUNT;
-      
-      if (showChoiceTable) {
-        columnsSpinner.setEnabled(false);
+    // 'Rows' label.
+    Label label = new Label(sizeGroup, SWT.LEFT);
+    label.setText(authorResourceBundle.getMessage(ExtensionTags.ROWS));
+    rowsSpinner = new Spinner(sizeGroup, SWT.BORDER);
+    rowsSpinner.setMinimum(0);
+    rowsSpinner.setMaximum(1000);
+    rowsSpinner.setSelection(3);
+    rowsSpinner.addModifyListener(new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        rows = rowsSpinner.getSelection();
       }
+    });
+    rowsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+    //Set some default values.
+    rows = TableInfo.DEFAULT_ROWS_COUNT;
+
+    // 'Columns' label
+    label = new Label(sizeGroup, SWT.LEFT);
+    label.setText(authorResourceBundle.getMessage(ExtensionTags.COLUMNS));
+    columnsSpinner = new Spinner(sizeGroup, SWT.BORDER);
+    columnsSpinner.setMinimum(isPropertiesTableModel ? TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.MIN_COLUMNS_COUNT);
+    columnsSpinner.setMaximum(isPropertiesTableModel ? TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.MAX_COLUMNS_COUNT);
+    columnsSpinner.setSelection(isPropertiesTableModel ? TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.DEFAULT_COLUMNS_COUNT);
+    columnsSpinner.addModifyListener(new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        columns = columnsSpinner.getSelection();
+        if (!inhibitColumnsNumberUpdate) {
+          if (calsModelRadio != null && calsModelRadio.getSelection() 
+              || simpleOrHtmlModelRadio != null && simpleOrHtmlModelRadio.getSelection()) {
+            columnsCurrentValueForCalsAndSimple = columns;
+          } else if (propertiesModelRadio != null && propertiesModelRadio.getSelection()) {
+            columnsCurrentValueForPropertiesTable = columns;
+          }
+        }
+      }
+    });
+    columnsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+    //Set some default values.
+    columns = isPropertiesTableModel ? TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.DEFAULT_COLUMNS_COUNT;
+
+    if (showChoiceTable) {
+      columnsSpinner.setEnabled(false);
     }
 
     //Allow header and/or footer generation.
@@ -709,6 +926,21 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
     
     initialize();
     return composite;
+  }
+
+  /**
+   * Update the selection state of the radio buttons.
+   */
+  private void updateRadioButtonsSelection() {
+    makeCalsTable = isCalsTable && innerCalsTable
+        // This happens when invoking the toolbar Insert Table action,
+        // which doesn't have a default model.
+        || !isCalsTable && !isSimpleOrHtmlTable && !isPropertiesTableModel;
+    calsModelRadio.setSelection(makeCalsTable);
+    simpleOrHtmlModelRadio.setSelection(isSimpleOrHtmlTable);
+    if (propertiesModelRadio != null) {
+      propertiesModelRadio.setSelection(isPropertiesTableModel);
+    }
   }
   
   /**
@@ -889,16 +1121,10 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   public TableInfo showDialog(TableInfo tableInfo) {
     this.tableInfo = tableInfo;
     if (OK == open()) {
-      int rowsNumber = predefinedRowsCount;
-      int columnsNumber = predefinedColumnsCount;
-      if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
-        rowsNumber = rows;
-        columnsNumber = columns;
-      }
+      int rowsNumber = rows;
+      int columnsNumber = columns;
       // Compute the value of the table model
       int tableModel = getTableModel();
-      // EXM-11910 Escape the table title.
-      title = XmlUtil.escape(title);
       return 
       new TableInfo(
           createTitle ? title : null, 
@@ -950,20 +1176,66 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
       
       if (showModelChooser) {
-        makeCalsTable = tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS;
+        if (isCalsTable 
+            || tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
+                && !isPropertiesTableModel 
+                && !isSimpleOrHtmlTable) {
+          makeCalsTable = true; 
+          makeSimpleOrHtmlTable = false;
+          makePropertiesTable = false;
+        } else if (isSimpleOrHtmlTable 
+            || tableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS
+                && tableInfo.getTableModel() != TableInfo.TABLE_MODEL_DITA_PROPERTIES
+                && !isCalsTable 
+                && !isPropertiesTableModel) {
+          makeCalsTable = false; 
+          makeSimpleOrHtmlTable = true;
+          makePropertiesTable = false;
+        } else if (propertiesModelRadio != null 
+            && (isPropertiesTableModel 
+                || tableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
+                    && !isCalsTable
+                    && !isSimpleOrHtmlTable)) {
+          makeCalsTable = false; 
+          makeSimpleOrHtmlTable = false;
+          makePropertiesTable = true;
+        } else {
+          // This may happen when the previous model was "properties", 
+          // but in the meantime we moved to a document that doesn't accept
+          // a properties table. Select CALS by default.
+          makeCalsTable = true; 
+          makeSimpleOrHtmlTable = false;
+          makePropertiesTable = false;
+        }
+        
         calsModelRadio.setSelection(makeCalsTable);
-        otherModelRadio.setSelection(! makeCalsTable);
-        tableModelChanged(tableInfo.getTableModel());
+        simpleOrHtmlModelRadio.setSelection(makeSimpleOrHtmlTable);
+        if (propertiesModelRadio != null) {
+          propertiesModelRadio.setSelection(makePropertiesTable);
+        }
+        tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : 
+          makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES :
+          simpleTableModel ? TableInfo.TABLE_MODEL_DITA_SIMPLE : TableInfo.TABLE_MODEL_HTML);
       }
 
-      if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {
+      if (predefinedRowsCount < 0 || predefinedColumnsCount < 0) {
         // Set the default number of rows and columns
         rows = tableInfo.getRowsNumber();
         rowsSpinner.setSelection(rows);
         if (!showChoiceTable) {
-          columns = tableInfo.getColumnsNumber();
-          columnsSpinner.setSelection(columns);
+          if (makePropertiesTable) {
+            columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE);
+            columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE);
+            columnsSpinner.setSelection(columnsCurrentValueForPropertiesTable);
+          } else {
+            columnsSpinner.setMinimum(TableInfo.MIN_COLUMNS_COUNT);
+            columnsSpinner.setMaximum(TableInfo.MAX_COLUMNS_COUNT);
+            columnsSpinner.setSelection(columnsCurrentValueForCalsAndSimple);
+          }
         } 
+      } else {
+        rowsSpinner.setSelection(predefinedRowsCount);
+        columnsSpinner.setSelection(predefinedColumnsCount);
       }
 
       // Header and footer
@@ -1030,16 +1302,34 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       }
 
       if (showModelChooser) {
-        makeCalsTable = true;
+        makeCalsTable = isCalsTable || !isSimpleOrHtmlTable && !isPropertiesTableModel;
+        makeSimpleOrHtmlTable = isSimpleOrHtmlTable;
+        makePropertiesTable = isPropertiesTableModel;
+        
         calsModelRadio.setSelection(makeCalsTable);
+        simpleOrHtmlModelRadio.setSelection(makeSimpleOrHtmlTable);
+        if (propertiesModelRadio != null) {
+          propertiesModelRadio.setSelection(makePropertiesTable);
+        }
+        
+        if (isPropertiesTableModel) {
+          tableModelChanged(TableInfo.TABLE_MODEL_DITA_PROPERTIES);
+        } else if (simpleTableModel) {
+          tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+        } else {
+          tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_HTML);
+        }
       }
       
-      if (predefinedRowsCount <= 0 || predefinedColumnsCount <= 0) {
+      if (predefinedRowsCount < 0 || predefinedColumnsCount < 0) {
         // Set the default number of rows and columns
-        rows = 3;
+        rows = TableInfo.DEFAULT_ROWS_COUNT;
         rowsSpinner.setSelection(Integer.valueOf(rows));
-        columns = 2;
+        columns = isPropertiesTableModel ? TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.DEFAULT_COLUMNS_COUNT;
         columnsSpinner.setSelection(Integer.valueOf(columns));
+      } else {
+        rowsSpinner.setSelection(predefinedRowsCount);
+        columnsSpinner.setSelection(predefinedColumnsCount);
       }
 
       // Header and footer
@@ -1068,15 +1358,20 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
       if (makeCalsTable) {
         tableModelType = TableInfo.TABLE_MODEL_CALS;
       } else {
-        if (simpleTableModel) {
-          tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+        if (makePropertiesTable) {
+          tableModelType = TableInfo.TABLE_MODEL_DITA_PROPERTIES;
         } else {
-          tableModelType = TableInfo.TABLE_MODEL_HTML;
+          if (simpleTableModel) {
+            tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          } else {
+            tableModelType = TableInfo.TABLE_MODEL_HTML;
+          }
         }
       }
     } else if (showChoiceTable) {
       tableModelType = TableInfo.TABLE_MODEL_DITA_CHOICE;
     }
+    
     return tableModelType;
   }
   
@@ -1088,6 +1383,8 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   private void updateTitleState(boolean enabled) {
     if(titleTextField != null) {
       titleCheckbox.setEnabled(enabled);
+      // EXM-35014 If the title checkbox is disabled, also uncheck it
+      titleCheckbox.setSelection(enabled);
       titleTextField.setEditable(enabled && titleCheckbox.getSelection());
     }
   }
@@ -1120,14 +1417,29 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   }
   
   /**
+   * Update the state of the column widths combo.
+   * 
+   * @param enabled <code>true</code> if the combo should be enabled.
+   */
+  private void updateColWidthsCombo(boolean enabled) {
+    if (colWidthsCombobox != null) {
+      colWidthsCombobox.getCombo().setEnabled(enabled);
+    }
+  }
+  
+  /**
    * Update controls for the given selected table model.
    */
   private void tableModelChanged(int model) {
-    setColWidthsComboInput(getColumnWidthsSpecifications(model));
+    updateColWidthsCombo(!(model == TableInfo.TABLE_MODEL_DITA_PROPERTIES));
+    if (colWidthsCombobox != null && colWidthsCombobox.getCombo().isEnabled()) {
+      setColWidthsComboInput(getColumnWidthsSpecifications(model));
+    }
     setFrameComboInput(getFrameValues(model));
     // TABLE_MODEL_DITA_SIMPLE and TABLE_MODEL_DITA_CHOICE do not support title
     updateTitleState(
-        model != TableInfo.TABLE_MODEL_DITA_SIMPLE && model != TableInfo.TABLE_MODEL_DITA_CHOICE);
+        model != TableInfo.TABLE_MODEL_DITA_SIMPLE && model != TableInfo.TABLE_MODEL_DITA_CHOICE
+        && model != TableInfo.TABLE_MODEL_DITA_PROPERTIES);
     // Update the separators
     updateSeparatorsState(model == TableInfo.TABLE_MODEL_CALS);
     // Update the align combo
@@ -1141,5 +1453,13 @@ public abstract class ECTableCustomizerDialog extends Dialog implements TableCus
   protected void createButtonsForButtonBar(Composite parent) {
     super.createButtonsForButtonBar(parent);
     getButton(OK).setText(authorResourceBundle.getMessage(ExtensionTags.INSERT));
+  }
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return "adding-tables-author";
   }
 }

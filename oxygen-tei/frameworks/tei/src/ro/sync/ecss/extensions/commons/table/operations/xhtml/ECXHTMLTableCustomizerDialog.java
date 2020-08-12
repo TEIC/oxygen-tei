@@ -144,7 +144,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    */
   @Override
   protected String getDefaultFrameValue(int tableModelType) {
-    return FRAME_VOID;
+    return UNSPECIFIED;
   }
 
   /**
@@ -193,5 +193,13 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   @Override
   protected String getDefaultAlignValue(int tableModelType) {
     return UNSPECIFIED;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog#getHelpPageID()
+   */
+  @Override
+  public String getHelpPageID() {
+    return "add-table-xhtml";
   }
 }

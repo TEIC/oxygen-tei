@@ -53,6 +53,7 @@ package ro.sync.ecss.extensions.commons.table.support;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 
 /**
@@ -77,5 +78,18 @@ public class DITACALSTableCellInfoProvider extends CALSTableCellInfoProvider {
     //EXM-29180 DITA table cells might have different names.
     //This callback is only useful for the CALSandHTMLTableCellInfoProvider which is not wrapping a DITACALSTableCellInfoProvider anyway
     return true;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider#isColspec(ro.sync.ecss.extensions.api.node.AuthorElement)
+   */
+  @Override
+  protected boolean isColspec(AuthorElement child) {
+    AttrValue clazz = child.getAttribute("class");
+    if(clazz != null && clazz.getValue() != null) {
+      //This covers all DITA CALS tables
+      return clazz.getValue().contains(" topic/colspec ");
+    }
+    return false;
   }
 }

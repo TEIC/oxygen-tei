@@ -59,6 +59,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableCellsContentConstants;
 
@@ -66,7 +67,7 @@ import ro.sync.ecss.extensions.commons.table.operations.InsertTableCellsContentC
  * Operation used to insert a table row for DocBook v.4 or v.5 and for DITA CALS tables.. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+@WebappCompatible(false)
 public class InsertRowOperation extends InsertRowOperationBase implements CALSConstants,
   InsertTableCellsContentConstants{
   
@@ -83,10 +84,16 @@ public class InsertRowOperation extends InsertRowOperationBase implements CALSCo
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * Constructor.
+   * 
+   * @param helper Table helper 
    */
+  public InsertRowOperation(AuthorTableHelper helper) {
+    super(helper);
+  }
+  
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     Object cellFragmentObj =  args.getArgumentValue(CELL_FRAGMENT_ARGUMENT_NAME);
     if (cellFragmentObj instanceof String) {
@@ -95,7 +102,7 @@ public class InsertRowOperation extends InsertRowOperationBase implements CALSCo
     if ("".equals(cellContent)) {
       cellContent = null;
     }
-    super.doOperation(authorAccess, args);
+    super.doOperationInternal(authorAccess, args);
   }
     
   /**

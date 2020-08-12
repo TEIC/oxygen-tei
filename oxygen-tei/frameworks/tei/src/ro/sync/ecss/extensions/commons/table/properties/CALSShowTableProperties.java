@@ -51,8 +51,6 @@
 package ro.sync.ecss.extensions.commons.table.properties;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +60,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
 
@@ -197,24 +196,6 @@ public abstract class CALSShowTableProperties extends CALSAndHTMLShowTableProper
    */
   @Override
   protected Map<AuthorElement, Set<Integer>> getCellIndexes(List<AuthorElement> cells) {
-    Map<AuthorElement, Set<Integer>> indexes = new HashMap<AuthorElement, Set<Integer>>();
-    for (int i = 0; i < cells.size(); i++) {
-      // For every computed cell, obtain the parent tgroup
-      AuthorElement tgroup = tableHelper.getElementAncestor(cells.get(i), TablePropertiesHelper.TYPE_GROUP);
-      Set<Integer> set = indexes.get(tgroup);
-      if (set == null) {
-        set = new HashSet<Integer>();
-      }
-      // Obtain the column span indices for a cell
-      int[] tableColSpanIndices = authorAccess.getTableAccess().getTableColSpanIndices(cells.get(i));
-      for (int j = 0; tableColSpanIndices != null && j < tableColSpanIndices.length; j++) {
-        // Add all indices
-        set.add(tableColSpanIndices[j] + 1);
-      }
-      
-      indexes.put(tgroup, set);
-    }
-    
-    return indexes;
+    return TableOperationsUtil.getCellIndexes(cells, authorAccess, tableHelper, true);
   }
 }

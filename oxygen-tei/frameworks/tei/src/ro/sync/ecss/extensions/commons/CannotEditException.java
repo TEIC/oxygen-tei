@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,16 +55,17 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 
 /**
- * Exception thrown when an attempt to edit an resource is made with a handler that does not support this,
- * or that gets an error when editing.
+ * Cannot edit exception class, deprecated, base should be used instead...
  * 
- * @author Dan
+ * @author radu_coravu
  */
 @API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
-public class CannotEditException extends Exception{
+@Deprecated
+public class CannotEditException extends ro.sync.exml.workspace.api.images.handlers.CannotEditException {
 
   /**
    * Constructor.
+   * 
    * @param message The message.
    */
   public CannotEditException(String message) {
@@ -75,6 +76,7 @@ public class CannotEditException extends Exception{
    * Constructor.
    *
    * @param message The message.
+   * 
    * @param cause   The cause of this exception.
    */
   public CannotEditException(String message, Throwable cause) {

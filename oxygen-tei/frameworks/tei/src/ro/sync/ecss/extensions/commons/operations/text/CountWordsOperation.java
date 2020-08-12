@@ -126,70 +126,72 @@ public class CountWordsOperation implements AuthorOperation {
     boolean firstIteration = true;
     
     while (contentIterator.hasNext()) {
-      
+
       TextContext textContext = contentIterator.next();
-      int currentEditableState = textContext.getEditableState();
-      if (currentEditableState != TextContext.NOT_EDITABLE_IN_DELETE_CHANGE_TRACKING) {
-        // We are either in readonly reference or in a editable context
-        CharSequence textContent = textContext.getText();
-        int textContentLength = textContent.length();
-        int currentTextCharCount = 0;
-        int currentTextWordCount = 0;
-        boolean startsWithCharacter = false;
-        
-        int currentWordState = WHITESPACE_STATE;
-        for (int i = 0; i < textContentLength; i++) { 
-          char ch = textContent.charAt(i);
-          if (!Character.isWhitespace(ch)) {
-            if (currentWordState == WHITESPACE_STATE) {
-              // We are in a whitespace state and we receive a non whitespace character
-              // We are switching to word state.
-              currentWordState = WORD_STATE;
-              currentTextWordCount++;
+      if(textContext.inVisibleContent()){
+        int currentEditableState = textContext.getEditableState();
+        if (currentEditableState != TextContext.NOT_EDITABLE_IN_DELETE_CHANGE_TRACKING) {
+          // We are either in readonly reference or in a editable context
+          CharSequence textContent = textContext.getText();
+          int textContentLength = textContent.length();
+          int currentTextCharCount = 0;
+          int currentTextWordCount = 0;
+          boolean startsWithCharacter = false;
+
+          int currentWordState = WHITESPACE_STATE;
+          for (int i = 0; i < textContentLength; i++) { 
+            char ch = textContent.charAt(i);
+            if (!Character.isWhitespace(ch)) {
+              if (currentWordState == WHITESPACE_STATE) {
+                // We are in a whitespace state and we receive a non whitespace character
+                // We are switching to word state.
+                currentWordState = WORD_STATE;
+                currentTextWordCount++;
+              } else {
+                // We are in a word state and we receive a non whitespace character
+                // The state is preserved.
+              }
+
+              currentTextCharCount++;
+              if (i == 0) {
+                // The text starts with a non whitespace character
+                startsWithCharacter = true;
+              }
             } else {
-              // We are in a word state and we receive a non whitespace character
-              // The state is preserved.
+              // We found a whitespace and we update the current state
+              if (currentWordState == WORD_STATE) {
+                currentWordState = WHITESPACE_STATE;
+              } else {
+                // The whitespace state is preserved.
+              }
             }
-            
-            currentTextCharCount++;
-            if (i == 0) {
-              // The text starts with a non whitespace character
-              startsWithCharacter = true;
+          }
+          // We must check if the text of the current node is part of a larger word
+          if (startsWithCharacter) {
+            if (!firstIteration) {
+              if (!isWordStart(authorAccess, textContext.getTextStartOffset())) {
+                currentTextWordCount--;
+              }
             }
+          }
+          if (currentEditableState == TextContext.EDITABLE) {
+            charCount += currentTextCharCount;
+            wordCount += currentTextWordCount;
+          } else if (currentEditableState == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING) {
+            // Filtered conditional profiling
+            charCountInFilteredCondProfiling += currentTextCharCount;
+            wordCountInFilteredCondProfiling += currentTextWordCount;
           } else {
-            // We found a whitespace and we update the current state
-            if (currentWordState == WORD_STATE) {
-              currentWordState = WHITESPACE_STATE;
-            } else {
-              // The whitespace state is preserved.
-            }
+            // Read-only reference
+            charCountInReadOnly += currentTextCharCount;
+            wordCountInReadOnly += currentTextWordCount;
           }
+
         }
-        // We must check if the text of the current node is part of a larger word
-        if (startsWithCharacter) {
-          if (!firstIteration) {
-            if (!isWordStart(authorAccess, textContext.getTextStartOffset())) {
-              currentTextWordCount--;
-            }
-          }
-        }
-        if (currentEditableState == TextContext.EDITABLE) {
-          charCount += currentTextCharCount;
-          wordCount += currentTextWordCount;
-        } else if (currentEditableState == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING) {
-          // Filtered conditional profiling
-          charCountInFilteredCondProfiling += currentTextCharCount;
-          wordCountInFilteredCondProfiling += currentTextWordCount;
-        } else {
-          // Read-only reference
-          charCountInReadOnly += currentTextCharCount;
-          wordCountInReadOnly += currentTextWordCount;
-        }
-        
+
+        // This is no longer first iteration
+        firstIteration = false;
       }
-        
-      // This is no longer first iteration
-      firstIteration = false;
     }
     
     // Display the statistics

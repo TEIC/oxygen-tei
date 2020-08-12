@@ -106,7 +106,10 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
     TableInfo tableInfo = tableInfoObj != null ? 
         new TableInfo((Map<String, Object>) tableInfoObj) : null; 
-    insertTable(null, false, authorAccess, namespace, null, tableInfo);
+    insertTable(
+        // The selected content fragments to be converted to cell fragments.
+        TableOperationsUtil.getSelectedFragmentsToCreateCells(authorAccess),
+        false, authorAccess, namespace, null, tableInfo);
   }
 
   /**
@@ -212,8 +215,8 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       TableInfo tableInfo)
       throws AuthorOperationException {
     if (tableInfo == null) {
-      int rowsCount = 0;
-      int columnsCount = 0;
+      int rowsCount = -1;
+      int columnsCount = -1;
       if (fragments != null) {
         rowsCount = fragments.length;
         columnsCount = 1;
@@ -229,6 +232,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       }
     }
     if (tableInfo != null) {
+      TableOperationsUtil.removeCurrentSelection(authorAccess);
       // Create the table XML fragment
       StringBuilder tableXMLFragment = new StringBuilder();
       // Table element
@@ -240,7 +244,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       append(tableInfo.getColumnsNumber()).append("\">");
       if(tableInfo.getTitle() != null) {
         // Title was specified, insert a table with title
-        tableXMLFragment.append("<head>" + tableInfo.getTitle() + "</head>");
+        tableXMLFragment.append("<head>" + authorAccess.getXMLUtilAccess().escapeTextValue(tableInfo.getTitle()) + "</head>");
       }
 
       if (tableInfo.isGenerateHeader()) {

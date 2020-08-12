@@ -66,8 +66,6 @@ import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableOperationBase;
-import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants;
-import ro.sync.ecss.extensions.commons.table.operations.TableCustomizerConstants.ColumnWidthsType;
 import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
 import ro.sync.exml.workspace.api.Platform;
@@ -94,7 +92,10 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
     TableInfo tableInfo = tableInfoObj != null ? 
         new TableInfo((Map<String, Object>) tableInfoObj) : null; 
-    insertTable(null, false, authorAccess, null, null, tableInfo);
+    insertTable(
+        // The selected content fragments to be converted to cell fragments.
+        TableOperationsUtil.getSelectedFragmentsToCreateCells(authorAccess), 
+        false, authorAccess, null, null, tableInfo);
   }
 
   /**
@@ -106,8 +107,8 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       TableInfo tableInfo)
       throws AuthorOperationException {
     if (tableInfo == null) {
-      int rowsCount = 0;
-      int columnsCount = 0;
+      int rowsCount = -1;
+      int columnsCount = -1;
       if (fragments != null) {
         rowsCount = fragments.length;
         columnsCount = 1;
@@ -122,6 +123,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       }
     }
     if (tableInfo != null) {
+      TableOperationsUtil.removeCurrentSelection(authorAccess);
       // Insert the table.
       authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
           getTableXMLFragment(
@@ -149,7 +151,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     for (int i = 0; i < tableInfo.getRowsNumber(); i++) {
       tableXMLFragment.append("<tr>");
       for (int j = 0; j < tableInfo.getColumnsNumber(); j++) {
-        if (fragments != null) {
+        if (j == 0 && fragments != null) {
           int index = i;
           if (tableInfo.isGenerateFooter()) {
             index++;
@@ -183,21 +185,11 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * @param tableInfo         The table info containing informations about the table columns number 
    */
   private static void addTableCols(StringBuilder tableXMLFragment, TableInfo tableInfo) {
-    ColumnWidthsType columnsWidthsType = tableInfo.getColumnsWidthsType();
-    if (columnsWidthsType != ColumnWidthsType.DYNAMIC_COL_WIDTHS) {
-      String colWidth = null;
-      if (columnsWidthsType == ColumnWidthsType.PROPORTIONAL_COL_WIDTHS) {
-        float proportionalWidth = (float)100 / tableInfo.getColumnsNumber();
-        // Proportional widths
-        colWidth = (int)(Math.round(proportionalWidth * 100.0) / 100.0) + "%";
-      } else {
-        // Fixed widths
-        colWidth = TableCustomizerConstants.FIXED_COL_WIDTH_DEFAULT_VALUE;
-      }
-      for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
-        tableXMLFragment.append("<col width=\"" + colWidth + "\"/>");
-      }
+    tableXMLFragment.append("<colgroup>");
+    for (int i = 1; i <= tableInfo.getColumnsNumber(); i++) {
+      tableXMLFragment.append("<col />");
     }
+    tableXMLFragment.append("</colgroup>");
   }
   
   /**
@@ -318,7 +310,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     tableXMLFragment.append(">");
 
     if (tableInfo.getTitle() != null) {
-      tableXMLFragment.append("<caption>").append(tableInfo.getTitle()).append("</caption>");
+      tableXMLFragment.append("<caption>").append(authorAccess.getXMLUtilAccess().escapeTextValue(tableInfo.getTitle())).append("</caption>");
     }
 
     // Add table column specifications.

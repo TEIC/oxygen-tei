@@ -59,13 +59,14 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase;
 
 /**
  * Operation used to insert a table row for XHTML documents. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+@WebappCompatible(false)
 public class InsertRowOperation extends InsertRowOperationBase implements XHTMLConstants {
 
   /**
@@ -101,6 +102,15 @@ public class InsertRowOperation extends InsertRowOperationBase implements XHTMLC
   }
   
   /**
+   * Constructor.
+   * 
+   * @param tableHelper Table helper
+   */
+  public InsertRowOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
+  }
+
+  /**
    * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#getOperationArguments()
    */
   @Override
@@ -122,14 +132,14 @@ public class InsertRowOperation extends InsertRowOperationBase implements XHTMLC
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertRowOperationBase#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     headerRow = 
       ARGUMENT_VALUE_YES.equals(args.getArgumentValue(ARGUMENT_HEADER_ROW));
-    super.doOperation(authorAccess, args);
+    super.doOperationInternal(authorAccess, args);
   }
     
   /**

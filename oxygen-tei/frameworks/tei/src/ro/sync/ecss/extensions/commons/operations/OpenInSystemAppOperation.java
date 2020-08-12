@@ -77,7 +77,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  * and uses it to open the file. 
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible(false)
+@WebappCompatible(true)
 public class OpenInSystemAppOperation implements AuthorOperation {
   
   /**
@@ -89,12 +89,27 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    * An XPath expression that when run returns the path of the resource that must
    * be opened.
    */
-  private static final String ARGUMENT_RESOURCE_PATH = "resourcePath";
+  static final String ARGUMENT_RESOURCE_PATH = "resourcePath";
   /**
    * <code>true</code> if the value of the XPATH represents an uparsed entity name.
    */
   private static final String ARGUMENT_UNPARSED_ENTITY = "isUnparsedEntity";
   
+  private static final String ARGUMENT_MEDIA_TYPE = "mediaType";
+
+  /** Media Type video */
+  public static final String MEDIA_TYPE_VIDEO = "video";
+  /** Media Type audio */
+  public static final String MEDIA_TYPE_AUDIO = "audio";
+  /** Media Type Medial */
+  public static final String MEDIA_TYPE_MEDIA = "media";
+  /** Media Type image */
+  public static final String MEDIA_TYPE_IMAGE = "image";
+  /** Media Type html */
+  public static final String MEDIA_TYPE_HTML = "html";
+  /** Media Type PDF */
+  public static final String MEDIA_TYPE_PDF = "pdf";
+
   /**
    * The arguments of the operation.
    */
@@ -104,7 +119,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    * Constructor.
    */
   public OpenInSystemAppOperation() {
-    arguments = new ArgumentDescriptor[2];
+    arguments = new ArgumentDescriptor[3];
     // Argument defining the XML fragment that will be inserted.
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_RESOURCE_PATH,
@@ -123,6 +138,21 @@ public class OpenInSystemAppOperation implements AuthorOperation {
         },
         AuthorConstants.ARG_VALUE_FALSE);
     arguments[1] = argumentDescriptor;
+    
+    // Pass the MIME type for the file to open in system application.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_MEDIA_TYPE,
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "The media type of the file to be opened. ",
+        new String[] {
+            MEDIA_TYPE_VIDEO, 
+            MEDIA_TYPE_AUDIO,
+            MEDIA_TYPE_MEDIA,
+            MEDIA_TYPE_IMAGE,
+            MEDIA_TYPE_HTML,
+            MEDIA_TYPE_PDF},
+        MEDIA_TYPE_HTML);
+    arguments[2] = argumentDescriptor;
   }
   
   /**
@@ -142,6 +172,10 @@ public class OpenInSystemAppOperation implements AuthorOperation {
     Object resourcePathXPath = args.getArgumentValue(ARGUMENT_RESOURCE_PATH);
 
     if (resourcePathXPath != null && ((String) resourcePathXPath).trim().length() > 0) {
+      // EXM-33238 Expand editor variables.
+      resourcePathXPath = authorAccess.getUtilAccess().expandEditorVariables(
+          (String) resourcePathXPath, 
+          authorAccess.getEditorAccess().getEditorLocation());
       // Execute the XPath that gives the file to open.
       Object[] results =
           authorAccess.getDocumentController().evaluateXPath((String) resourcePathXPath, null, false, true, true, false, 
@@ -169,6 +203,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
           int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
           AuthorNode contextNode = null;
           if (caretOffset > 0) {
+            //Get node at caret...
             try {
               contextNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
             } catch (BadLocationException e) {
@@ -182,7 +217,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
           }
           Object unparsedEntity = args.getArgumentValue(ARGUMENT_UNPARSED_ENTITY);
           if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
-            
+            //Unparsed entity.
             String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
             if (systemID != null) {
               try {
@@ -209,7 +244,9 @@ public class OpenInSystemAppOperation implements AuthorOperation {
               // A local file that doesn't exists.
               throw new AuthorOperationException("Resource does not exists: " + toOpen);
             } else {
-              authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true);
+              //Use media argument...
+              String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
+              authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true, mediaType);
             }
           }
         }

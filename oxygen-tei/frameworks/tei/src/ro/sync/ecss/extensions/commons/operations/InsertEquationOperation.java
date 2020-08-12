@@ -50,14 +50,11 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
-import ro.sync.contentcompletion.xml.NameValue;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -68,15 +65,17 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorWorkspaceAccess;
-import ro.sync.ecss.extensions.commons.CannotEditException;
-import ro.sync.ecss.images.ImageHandlerDispatcher;
-import ro.sync.ecss.images.xmlimages.XMLImageHandler;
+import ro.sync.exml.workspace.api.Platform;
+import ro.sync.exml.workspace.api.images.handlers.CannotEditException;
+import ro.sync.exml.workspace.api.images.handlers.EditImageHandler;
+import ro.sync.exml.workspace.api.images.handlers.ImageHandler;
+import ro.sync.exml.workspace.api.images.handlers.providers.EmbeddedImageContentProvider;
 
 /**
  * Operation used to insert an MathML Equation in any documents.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible(false)
+@WebappCompatible
 public class InsertEquationOperation implements AuthorOperation {
   /**
    * Logger for logging. 
@@ -99,14 +98,24 @@ public class InsertEquationOperation implements AuthorOperation {
    */
   public static final String MATH_ML = 
       "<mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\">" + 
-//      "<mml:mrow>" + 
-//      "<mml:msup><mml:mi>a</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-//      "<mml:mo>=</mml:mo>" +
-//      "<mml:msup><mml:mi>b</mml:mi><mml:mn>2</mml:mn></mml:msup>" +
-//      "<mml:mo>+</mml:mo>" +
-//      "<mml:msup><mml:mi>c</mml:mi><mml:mn>2</mml:mn>" + 
-//      "</mml:msup></mml:mrow>" + 
       "</mml:math>";
+
+  /**
+   * The MathML fragment representing the default equation for webapp.
+   * 
+   * We need some initial equation so that we can render a equation 
+   * for the user to click on.
+   */
+  public static final String WEBAPP_MATH_ML = 
+      "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\">" + 
+      "<m:mrow>" + 
+      "<m:msup><m:mi>a</m:mi><m:mn>2</m:mn></m:msup>" +
+      "<m:mo>=</m:mo>" +
+      "<m:msup><m:mi>b</m:mi><m:mn>2</m:mn></m:msup>" +
+      "<m:mo>+</m:mo>" +
+      "<m:msup><m:mi>c</m:mi><m:mn>2</m:mn>" + 
+      "</m:msup></m:mrow>" + 
+      "</m:math>";
 
   /**
    * Constructor to assign arguments.
@@ -130,9 +139,15 @@ public class InsertEquationOperation implements AuthorOperation {
     try {
       AuthorWorkspaceAccess workspace = authorAccess.getWorkspaceAccess(); 
       //Start editing the sample MML
-      XMLImageHandler handler =
-          ImageHandlerDispatcher.getInstance().getXMLImageHandlerFor("mathml");
-      if(handler != null) {
+      ImageHandler imageHandler = null;
+      boolean shouldInsert;
+      if (workspace.getPlatform() == Platform.WEBAPP) {
+        shouldInsert = true;
+      } else {
+        imageHandler = workspace.getImageUtilities().getImageHandlerFor("mathml");
+        shouldInsert = imageHandler instanceof EditImageHandler; 
+      }
+      if(shouldInsert) {
         String serializedDoctype = null;
 
         AuthorDocumentController controller = authorAccess.getDocumentController();
@@ -144,14 +159,7 @@ public class InsertEquationOperation implements AuthorOperation {
         // Determines the entities that can be used by the mathML editor.
         // If the entities list does not contain MathML entities names,
         // then the MathML editor should use code character entities.
-        List<NameValue> allowedEntities = null;
         AuthorSchemaManager asm = controller.getAuthorSchemaManager();
-        //EXM-29228 If we do not have a document type associated, do not use the entities in the schema manager.
-        if(serializedDoctype != null) {
-          if(asm != null){
-            allowedEntities = asm.getEntities();
-          }         
-        }
         //The default MathML to edit
         String xmlFragment = createDefaultFragmentToEdit(authorAccess, asm);
         Object fragment = args.getArgumentValue(ARGUMENT_FRAGMENT_WITH_MATHML);
@@ -164,12 +172,9 @@ public class InsertEquationOperation implements AuthorOperation {
         String detectedMathMLContent = extractMathMLFragment(xmlFragment);
         String mml = null;
         if (detectedMathMLContent != null) {
-          mml = handler.editImage(
-              detectedMathMLContent,
-              serializedDoctype,
-              authorAccess.getEditorAccess().getEditorLocation().toString(), 
-              allowedEntities);
-
+          EmbeddedImageContentProvider cp = new EmbeddedImageContentProvider(authorAccess.getEditorAccess().getEditorLocation(), 
+              detectedMathMLContent, serializedDoctype);
+          mml = editImage(imageHandler, cp);
         }
         if(mml != null){      
           xmlFragment = xmlFragment.replace(detectedMathMLContent, mml);
@@ -190,6 +195,31 @@ public class InsertEquationOperation implements AuthorOperation {
       }
     } catch (CannotEditException e) {
       throw new AuthorOperationException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Edit the given image with the given handler.
+   * @param handler The image handler
+   * @param cp The image provider
+   * 
+   * @return The edited image string.
+   * 
+   * @throws CannotEditException
+   */
+  private String editImage(ImageHandler handler, EmbeddedImageContentProvider cp)
+      throws CannotEditException {
+    if (handler instanceof EditImageHandler) {
+      return ((EditImageHandler)handler).editImage(cp);
+    } else {
+      String webappContent = WEBAPP_MATH_ML;
+      String imageSerializedContent = cp.getImageSerializedContent();
+      if (imageSerializedContent.contains("mml:")) {
+        webappContent = webappContent.replace("<m:", "<mml:");
+      }
+      // If the image handler is not an editing one, just assume that it did not change 
+      // anything to its content.
+      return webappContent;
     }
   }
 

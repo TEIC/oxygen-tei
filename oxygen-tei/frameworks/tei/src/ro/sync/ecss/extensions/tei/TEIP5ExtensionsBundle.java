@@ -61,6 +61,7 @@ import ro.sync.ecss.extensions.api.link.IDTypeRecognizer;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler;
 import ro.sync.ecss.extensions.tei.id.TEIP5IDTypeRecognizer;
 import ro.sync.ecss.extensions.tei.id.TEIP5UniqueAttributesRecognizer;
+import ro.sync.ui.application.HelpPageProvider;
 
 /**
  * The TEI P5 framework extensions bundle.
@@ -131,7 +132,7 @@ public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
   @Override
   public AuthorExternalObjectInsertionHandler createExternalObjectInsertionHandler() {
     return new TEIP5ExternalObjectInsertionHandler();
-  };
+  }
   
   /**
    * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorTableOperationsHandler()
@@ -152,4 +153,12 @@ public class TEIP5ExtensionsBundle extends TEIExtensionsBundleBase {
     return new TEIP5IDTypeRecognizer();
   }
 
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getHelpPageID(java.lang.String)
+   */
+  @Override
+  public String getHelpPageID(String currentEditorPage) {
+    return HelpPageProvider.AUTHOR_TEIP5_DOC_TYPE;
+  }
 }

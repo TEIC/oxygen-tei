@@ -279,6 +279,14 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
   public void stopEditing() {
     stopEditing(false);
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#commitValue()
+   */
+  @Override
+  public void commitValue() {
+    fireCommitValue(new EditingEvent((String) getValue()));    
+  }
 
   /**
    * @param onEnter <code>true</code> if editing stopped was triggered on Enter key pressed.

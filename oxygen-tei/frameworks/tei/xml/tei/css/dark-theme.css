@@ -1,6 +1,6 @@
 @namespace oxy "http://www.oxygenxml.com/extensions/author";
 
-@media oxygen-high-contrast-black{
+@media oxygen-dark-theme, oxygen-high-contrast-black{
 
     *:before,
     *,
@@ -25,7 +25,7 @@
     body > div > div > head,
     body > div > div > div > head,
     body > div > div > div > div > head{
-        color:#0050F0 !important;
+        color:#3377FF !important;
         border-bottom:1px solid #0050F0 !important;
     }
 
@@ -107,5 +107,15 @@
 
     titlePage{
         border:thin white solid !important;
+    }
+}
+
+@media oxygen-high-contrast-black{
+    div > head,
+    body > div > head,
+    body > div > div > head,
+    body > div > div > div > head,
+    body > div > div > div > div > head{
+        color:#0050F0 !important;
     }
 }

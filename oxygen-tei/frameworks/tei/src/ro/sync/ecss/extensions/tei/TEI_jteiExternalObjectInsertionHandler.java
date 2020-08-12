@@ -92,6 +92,7 @@ public class TEI_jteiExternalObjectInsertionHandler extends AuthorExternalObject
       for (int i = 0; i < urls.size(); i++) {
         URL url = urls.get(i);
         String relativeLocation = authorAccess.getUtilAccess().makeRelative(base, url);
+        relativeLocation = authorAccess.getXMLUtilAccess().escapeAttributeValue(relativeLocation);
         SchemaAwareHandlerResult result = null;
         int cp = authorAccess.getEditorAccess().getCaretOffset();
         AuthorElement elementAtOffset = null;
@@ -140,13 +141,5 @@ public class TEI_jteiExternalObjectInsertionHandler extends AuthorExternalObject
   @Override
   protected String getImporterStylesheetFileName(AuthorAccess authorAccess) {
     return "xhtml2jteiDriver.xsl";
-  }
-
-  /**
-  * @see ro.sync.ecss.extensions.api.AuthorExternalObjectInsertionHandler#checkImportedXHTMLContentIsPreservedEntirely()
-  */
-  @Override
-  protected boolean checkImportedXHTMLContentIsPreservedEntirely() {
-    return true;
   }
 }

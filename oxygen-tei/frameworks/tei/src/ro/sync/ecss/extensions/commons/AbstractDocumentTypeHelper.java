@@ -56,6 +56,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
+import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
 
 /**
  * Abstract implementation of the document type helper.
@@ -79,6 +80,7 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#isTableCell(ro.sync.ecss.extensions.api.node.AuthorNode)
    */
+  @Override
   public boolean isTableCell(AuthorNode node) {
     String[] rowElemNames = getTableCellElementNames();
     for (int i = 0; i < rowElemNames.length; i++) {
@@ -92,6 +94,7 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#isTable(ro.sync.ecss.extensions.api.node.AuthorNode)
    */
+  @Override
   public boolean isTable(AuthorNode node) {
     String[] tableElemNames = getTableElementLocalName();
     for (int i = 0; i < tableElemNames.length; i++) {
@@ -105,6 +108,7 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#isTableRow(ro.sync.ecss.extensions.api.node.AuthorNode)
    */
+  @Override
   public boolean isTableRow(AuthorNode node) {
     String[] rowElemNames = getTableRowElementNames();
     for (int i = 0; i < rowElemNames.length; i++) {
@@ -113,6 +117,25 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
       }
     }
     return false;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getTableElementForDeletion(ro.sync.ecss.extensions.api.node.AuthorNode)
+   */
+  @Override
+  public AuthorNode getTableElementForDeletion(AuthorNode element) {
+    if (isTable(element)) {
+      return element;
+    } else {
+      while (element.getParent() != null) {
+        AuthorNode parentElement = element.getParent();
+        if (isTable(parentElement)) {
+          return parentElement;
+        }
+      }
+    }
+    
+    return null;
   }
   
   /////////////////////////
@@ -141,6 +164,15 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
   protected abstract String[] getTableElementLocalName();
   
   /**
+   * Get a list of allowed cell attributes to copy when creating a new row based on an older one.
+   * @return a list of allowed cell attributes to copy when creating a new row.
+   * If it returns <code>null</code>, the list of ignored attributes will be used by default.
+   */
+  public String[] getAllowedCellAttributesToCopy() {
+      return null;
+  }
+  
+  /**
    * Check if this node references another node which should replace it entirely.
    * This is used in the tables to replace conreffed table rows entirely
    * 
@@ -149,5 +181,15 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
    */
   public boolean isContentReference(AuthorNode node) {
     return false;
+  }
+  
+  /**
+   * Check if a node is a colspec node.
+   * @param node The node.
+   * @return <code>true</code> if a node is a colspec node.
+   */
+  public boolean isColspec(AuthorNode node){
+    return node instanceof AuthorElement && 
+        CALSConstants.ELEMENT_NAME_COLSPEC.equals(((AuthorElement)node).getLocalName());    
   }
 }

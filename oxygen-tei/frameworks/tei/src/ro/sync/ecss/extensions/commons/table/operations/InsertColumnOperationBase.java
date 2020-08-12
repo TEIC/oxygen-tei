@@ -52,6 +52,7 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
@@ -66,6 +67,7 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorOperationStoppedByUserException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.SelectionInterpretationMode;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -121,7 +123,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * document type.
    */
   public InsertColumnOperationBase(AuthorTableHelper documentTypeHelper) {
-    super(documentTypeHelper);
+    super(documentTypeHelper, true);
   }
 
   /**
@@ -131,10 +133,10 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
     new ArgumentDescriptor[] { NAMESPACE_ARGUMENT_DESCRIPTOR, POSITION_ARGUMENT_DESCRIPTOR, INSERT_MULTIPLE_COLUMNS_ARGUMENT_DESCRIPTOR };
   
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
     
     // namespace argument
@@ -225,11 +227,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       InsertRowOperationBase insertRowOperation,
       InsertTableOperationBase insertTableOperation) throws AuthorOperationException {
     try {
-      // Find the index where the new column(s) will be inserted
-      int newColumnIndex = -1;
-      
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-      AuthorNode nodeAtCaret = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
       
       // no. of columns to be inserted
       int noOfColumnsToBeInserted = 1;
@@ -263,69 +261,21 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       
       // Find the table element to create table span support
       AuthorElement tableElement = getElementAncestor(
-          nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
+          authorAccess.getDocumentController().getNodeAtOffset(caretOffset), 
+          AuthorTableHelper.TYPE_TABLE);
+      if(tableElement == null){
+        //EXM-35869 Maybe an entire element is selected.
+        AuthorNode fullySelectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
+        if(fullySelectedNode != null) {
+          tableElement = getElementAncestor(
+              fullySelectedNode, 
+              AuthorTableHelper.TYPE_TABLE);
+        }
+      }
       if (tableElement != null) {
-        // Create the table support
-        AuthorTableCellSpanProvider tableSupport = 
-          tableHelper.getTableCellSpanProvider(tableElement);
-        if (isTableElement(nodeAtCaret, AuthorTableHelper.TYPE_ROW)) {
-          // The caret is inside a table row. 
-          // Try to find the insertion index analyzing the left and right cell column index
-          newColumnIndex = findColumnIndex(authorAccess, caretOffset + 1);
-          if (newColumnIndex == -1) {
-            // No cell after, try to find a cell before
-            newColumnIndex = findColumnIndex(authorAccess, caretOffset - 1);
-            if (newColumnIndex != -1) {
-              // Insert after left column
-              newColumnIndex ++;
-            } else {
-              // There are no neighboring cells, use the first column
-              newColumnIndex = 0;
-            }
-          }
-        } else {
-          // The caret is not inside a table row. Find the nearest table cell that include the caret
-          AuthorElement cell = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_CELL);
-          if (cell != null) {
-            int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex(cell);
-            if (cellIndex != null) {
-              Integer colSpan = tableSupport.getColSpan(cell);
-              newColumnIndex = cellIndex[1] + (AuthorConstants.POSITION_AFTER.equals(insertPosition) ? (colSpan != null ? colSpan.intValue() : 1) : 1);
-            } else {            
-              throw new AuthorOperationException(
-                  "Cannot obtain the index of cell in table. The cell is: " + cell);
-            }
-          } else {
-            throw new AuthorOperationException(
-            "Cannot find a cell in the table at the current caret position.");
-          }
-        }
-        
-        // EXM-23743: The new column can be inserted before or after the current column.
-        if (AuthorConstants.POSITION_BEFORE.equals(insertPosition) && newColumnIndex > 0) {
-          newColumnIndex --;
-        }
-        
-        // The current number of columns 
-        int numberOfColumns = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
-
-        // Update the column specification for the table only if the table is empty or it already 
-        // contains some column specifications.
-        if (authorAccess.getTableAccess().getTableNumberOfColumns(tableElement) == 0 ||
-            tableSupport.hasColumnSpecifications(tableElement)) {
-          updateColumnCellsSpan(
-              authorAccess, tableSupport, tableElement, newColumnIndex, columnSpecification, namespace, noOfColumnsToBeInserted);
-        }
-
-        // Insert the new entries in the rows in the appropriate places
-        insertNewColumnsCells(
-            authorAccess, tableSupport, tableElement, newColumnIndex, namespace,
-            fragments, cellsFragments, insertRowOperation, noOfColumnsToBeInserted);
-
-        tableHelper.updateTableColumnNumber(
-            authorAccess, 
-            tableElement,
-            numberOfColumns + noOfColumnsToBeInserted);
+        insertColumns(authorAccess, namespace, insertPosition, fragments, columnSpecification,
+            cellsFragments, insertRowOperation, caretOffset, 
+            noOfColumnsToBeInserted, tableElement);
       } else {
         Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
         if (Platform.WEBAPP.equals(platform)) {
@@ -334,7 +284,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
               "A column can only be inserted in an existing table.");
           exception.setOperationRejectedOnPurpose(true);
           throw exception;
-        } else {
+        } else if (insertTableOperation != null){
           insertTableOperation.insertTable(
               fragments, cellsFragments, authorAccess, namespace, tableHelper, null);
         }
@@ -345,6 +295,129 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
           "The operation cannot be performed due to: " + e.getMessage(), 
           e);
     }
+  }
+
+  /**
+   * Insert columns in a table
+   * 
+   * @param authorAccess The author access.
+   * @param tableElement The table element.
+   * @param namespace The table elements namespace.
+   * @param insertPosition The insert position. One of {@link AuthorConstants#POSITION_AFTER} or
+   * {@link AuthorConstants#POSITION_BEFORE} constants.  
+   * @param caretOffset The caret offset.
+   * @param noOfColumnsToBeInserted The number of columns to be inserted.
+   * @throws BadLocationException
+   * @throws AuthorOperationException
+   */
+  public void insertColumns(AuthorAccess authorAccess, AuthorElement tableElement, 
+      String namespace, String insertPosition, int caretOffset, 
+      int noOfColumnsToBeInserted) throws BadLocationException, AuthorOperationException {
+    insertColumns(authorAccess, namespace, insertPosition, null, null, false, null, caretOffset, 
+        noOfColumnsToBeInserted, tableElement);
+  }
+  
+  
+  /**
+   * Insert columns in a table
+   * 
+   * @param authorAccess The author access.
+   * @param namespace The table elements namespace.
+   * @param insertPosition The insert position. One of {@link AuthorConstants#POSITION_AFTER} or
+   * {@link AuthorConstants#POSITION_BEFORE} constants.  
+   * @param fragments The fragments to be inserted in cells
+   * @param columnSpecification Column specification information
+   * @param cellsFragments If the value is <code>true</code> then the fragments 
+   * where originally cells. 
+   * @param insertRowOperation Insert row operation.
+   * @param caretOffset The caret offset.
+   * @param noOfColumnsToBeInserted The number of columns to be inserted.
+   * @param tableElement The table element.
+   * @throws BadLocationException
+   * @throws AuthorOperationException
+   */
+  public void insertColumns(AuthorAccess authorAccess, String namespace, String insertPosition,
+      AuthorDocumentFragment[] fragments, TableColumnSpecificationInformation columnSpecification,
+      boolean cellsFragments, InsertRowOperationBase insertRowOperation, 
+      int caretOffset, int noOfColumnsToBeInserted,
+      AuthorElement tableElement) throws BadLocationException, AuthorOperationException {
+    AuthorNode nodeAtCaret = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+    // Find the index where the new column(s) will be inserted
+    int newColumnIndex = -1;
+    // Create the table support
+    AuthorTableCellSpanProvider tableSupport = 
+      tableHelper.getTableCellSpanProvider(tableElement);
+    if (isTableElement(nodeAtCaret, AuthorTableHelper.TYPE_ROW)) {
+      // The caret is inside a table row. 
+      // Try to find the insertion index analyzing the left and right cell column index
+      newColumnIndex = findColumnIndex(authorAccess, caretOffset + 1);
+      if (newColumnIndex == -1) {
+        // No cell after, try to find a cell before
+        newColumnIndex = findColumnIndex(authorAccess, caretOffset - 1);
+        if (newColumnIndex != -1) {
+          // Insert after left column
+          newColumnIndex ++;
+        } else {
+          // There are no neighboring cells, use the first column
+          newColumnIndex = 0;
+        }
+      }
+    } else {
+      // The caret is not inside a table row. Find the nearest table cell that include the caret
+      AuthorElement cell = getElementAncestor(nodeAtCaret, AuthorTableHelper.TYPE_CELL);
+      if(cell == null){
+        //EXM-35869 Take the last cell, we need to take something
+        int noCols = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
+        cell = authorAccess.getTableAccess().getTableCellAt(0, noCols - 1, tableElement);
+      }
+      if (cell != null) {
+        int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex(cell);
+        if (cellIndex != null) {
+          Integer colSpan = tableSupport.getColSpan(cell);
+          newColumnIndex = cellIndex[1] + (AuthorConstants.POSITION_AFTER.equals(insertPosition) ? (colSpan != null ? colSpan.intValue() : 1) : 1);
+        } else {            
+          throw new AuthorOperationException(
+              "Cannot obtain the index of cell in table. The cell is: " + cell);
+        }
+      } else {
+        throw new AuthorOperationException(
+        "Cannot find a cell in the table at the current caret position.");
+      }
+    }
+    
+    // EXM-23743: The new column can be inserted before or after the current column.
+    if (AuthorConstants.POSITION_BEFORE.equals(insertPosition) && newColumnIndex > 0) {
+      newColumnIndex --;
+    }
+    
+    // The current number of columns 
+    int numberOfColumns = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
+
+    // Update the column specification for the table only if the table is empty or it already 
+    // contains some column specifications.
+    try {
+      authorAccess.getDocumentController().disableLayoutUpdate();
+
+      if (authorAccess.getTableAccess().getTableNumberOfColumns(tableElement) == 0 ||
+          tableSupport.hasColumnSpecifications(tableElement)) {
+        updateColumnCellsSpan(
+            authorAccess, tableSupport, tableElement, newColumnIndex, columnSpecification, 
+            namespace, noOfColumnsToBeInserted);
+      }
+
+      // Insert the new entries in the rows in the appropriate places
+      insertNewColumnsCells(
+          authorAccess, tableSupport, tableElement, newColumnIndex, namespace,
+          fragments, cellsFragments, insertRowOperation, noOfColumnsToBeInserted);
+
+    } finally {
+      authorAccess.getDocumentController().enableLayoutUpdate(tableElement);
+    }
+    
+    tableHelper.updateTableColumnNumber(
+        authorAccess, 
+        tableElement,
+        numberOfColumns + noOfColumnsToBeInserted);
   }
 
   /**
@@ -623,16 +696,19 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
           int delta = 0;
           // Set the caret inside the first cell(we know is an empty element).
           authorAccess.getEditorAccess().setCaretPosition(contentInsertOffsets[0] + 1);
+          List<ContentInterval> toSelect = new ArrayList<ContentInterval>();
           // Select cells
           for (int i = 0; i < contentInsertOffsets.length; i++) {
             int currentOffset = contentInsertOffsets[i];
             int length = fragmentsToInsert[i].getLength();
             // Select current cell
-            authorAccess.getEditorAccess().getAuthorSelectionModel().addSelection(
-                currentOffset + delta, currentOffset + delta + length);
+            toSelect.add(new ContentInterval(currentOffset + delta, currentOffset + delta + length));
             // Update offset
             delta += length;
           }
+          
+          // Set them in one batch.
+          authorAccess.getEditorAccess().getAuthorSelectionModel().setSelectionIntervals(toSelect, false);
           
           if (!newRowsInserted) {
             authorAccess.getEditorAccess().getAuthorSelectionModel().setSelectionInterpretationMode(
@@ -756,4 +832,19 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
   protected String getDefaultContentForEmptyCells() {
     return null;
   }
+  
+  /**
+   * Removes the argument descriptor for multiple insertion from an arguments list.
+   *  
+   * @param superArguments The input arguments list.
+   * 
+   * @return The filtered arguments list.
+   */
+  protected static ArgumentDescriptor[] removeMultipleInsertionDescriptor(ArgumentDescriptor[] superArguments) {
+    List<ArgumentDescriptor> arguments = new ArrayList<ArgumentDescriptor>(superArguments.length);
+    Collections.addAll(arguments, superArguments);
+    arguments.remove(INSERT_MULTIPLE_COLUMNS_ARGUMENT_DESCRIPTOR);
+    return arguments.toArray(new ArgumentDescriptor[0]);
+  }
+
 }

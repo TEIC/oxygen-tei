@@ -119,6 +119,11 @@ public class TableInfo {
   private final int tableModel;
   
   /**
+   * Constant for no table model.
+   */
+  public static final int TABLE_MODEL_NONE = -1;
+  
+  /**
    * Constant for HTML table model.
    */
   public static final int TABLE_MODEL_HTML = 0;
@@ -142,6 +147,11 @@ public class TableInfo {
    * The choice table model for DITA.
    */
   public static final int TABLE_MODEL_DITA_CHOICE = 4;
+  
+  /**
+   * The properties table model for DITA.
+   */
+  public static final int TABLE_MODEL_DITA_PROPERTIES = 5;
 
   /**
    * The column widths type.
@@ -164,6 +174,31 @@ public class TableInfo {
   public static final int DEFAULT_COLUMNS_COUNT = 2;
   
   /**
+   * Default number of columns for Properties table
+   */
+  public static final int DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE = 3;
+  
+  /**
+   * Minimum number of columns for CALS and simple tables.
+   */
+  public static final int MIN_COLUMNS_COUNT = 0;
+  
+  /**
+   * Minimum number of columns for CALS and simple tables.
+   */
+  public static final int MIN_COLUMNS_COUNT_PROPERTIES_TABLE = 2;
+  
+  /**
+   * Maximum number of columns for CALS and simple tables.
+   */
+  public static final int MAX_COLUMNS_COUNT = 100;
+  
+  /**
+   * Maximum number of columns for CALS and simple tables.
+   */
+  public static final int MAX_COLUMNS_COUNT_PROPERTIES_TABLE = 3;
+  
+  /**
    * Constructor.
    * 
    * @param title The table title.
@@ -175,7 +210,8 @@ public class TableInfo {
    * @param tableModel The table model type.
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
-   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML},
+   * {@link TableInfo#TABLE_MODEL_DITA_CHOICE}, {@link TableInfo#TABLE_MODEL_DITA_PROPERTIES}.
    */
   public TableInfo(
       String title, 
@@ -201,7 +237,8 @@ public class TableInfo {
    * @param tableModel The table model type.
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
-   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML},
+   * {@link TableInfo#TABLE_MODEL_DITA_CHOICE}, {@link TableInfo#TABLE_MODEL_DITA_PROPERTIES}.
    * @param columnsWidthsType The columns widths type.
    * @param rowsep Specifies the row separator value.
    * @param colsep Specifies the column separator value
@@ -344,7 +381,8 @@ public class TableInfo {
    * @return Returns the table model. 
    * One of the constants: 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
-   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
+   * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML},
+   * {@link TableInfo#TABLE_MODEL_DITA_CHOICE}, {@link TableInfo#TABLE_MODEL_DITA_PROPERTIES}.
    */
   public int getTableModel() {
     return tableModel;

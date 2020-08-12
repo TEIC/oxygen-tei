@@ -88,11 +88,11 @@ public class ECTEITableCustomizer extends TableCustomizer {
   private ECTEITableCustomizer() {}
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int, int)
    */
   @Override
   protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
-      int predefinedColumnsCount) {
+      int predefinedColumnsCount, int defaultTableModel) {
     //Eclipse table customization
     ECTableCustomizerDialog tableCustomizerDialog = new ECTEITableCustomizerDialog(
         (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),

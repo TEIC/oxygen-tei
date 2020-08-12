@@ -50,9 +50,17 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Segment;
 
 import org.apache.log4j.Logger;
 
@@ -62,13 +70,21 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.contentcompletion.xml.CIAttribute;
 import ro.sync.contentcompletion.xml.CIElement;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
+import ro.sync.ecss.css.CSS;
+import ro.sync.ecss.css.Styles;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorSchemaManager;
+import ro.sync.ecss.extensions.api.ContentInterval;
+import ro.sync.ecss.extensions.api.content.OffsetInformation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.properties.TableHelper;
+import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
+import ro.sync.ecss.extensions.commons.table.properties.TablePropertiesHelper;
 
 /**
  * Utility class for table operations.
@@ -91,7 +107,7 @@ public class TableOperationsUtil {
    * @param cellElementName             The cell name.
    * @param currentFragmentIndex        The index of the fragment that must be used for attributes and content.
    * @param namespace                   The cell namespace.
-   * @param tableHelper                 Author table helper.
+   * @param authorTableHelper                 Author table helper.
    * @param imposedAttributesFragments  Imposed attributes for the created cell.
    *                                    Each fragment has the following form: "attribute_name=\"attribute_value\""
    *
@@ -106,7 +122,7 @@ public class TableOperationsUtil {
       String cellElementName, 
       int currentFragmentIndex, 
       String namespace, 
-      AuthorTableHelper tableHelper,
+      AuthorTableHelper authorTableHelper,
       String... imposedAttributesFragments) throws AuthorOperationException {
 
     // Get all attributes/vales pairs from the corrsponding fragment
@@ -133,7 +149,7 @@ public class TableOperationsUtil {
               String attrName = element.getAttributeAtIndex(j);
               if (attrName != null
                   && !attrName.startsWith("xmlns")
-                  && !isIgnoredAttribute(attrName, tableHelper)) {
+                  && !isIgnoredAttribute(attrName, authorTableHelper)) {
                 AttrValue attrValue = element.getAttribute(attrName);
 
                 // Copy only the attributes declared in document
@@ -388,14 +404,13 @@ public class TableOperationsUtil {
       WhatElementsCanGoHereContext context =
           authorSchemaManager.createWhatElementsCanGoHereContext(caretOffset);
 
-      List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
-
-      if (childrenElements != null) {
-        elementsIteration:
-          for (int i = 0; i < childrenElements.size(); i++) {
+      if (context != null) {
+        List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
+        if (childrenElements != null) {
+          elemsIter : for (int i = 0; i < childrenElements.size(); i++) {
             // Iterate through possible elements and obtain the attributes.
             CIElement currentElement = childrenElements.get(i);
-            List<CIAttribute> attributes = currentElement.getAttributes();
+            List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
             if (attributes != null) {
               for (int j = 0; j < attributes.size(); j++) {
                 // Iterate through current element attributes.
@@ -406,11 +421,12 @@ public class TableOperationsUtil {
                     && attrDefaultValue != null
                     && attrDefaultValue.contains(" task/choicetable ")) {
                   canInsertChoiceTable = true;
-                  break elementsIteration;
+                  break elemsIter;
                 }
               }
             }
           }
+        }
       }
 
       if (!canInsertChoiceTable) {
@@ -434,4 +450,525 @@ public class TableOperationsUtil {
     
     return canInsertChoiceTable;
   }
+  
+  /**
+   * Check if a table other than choicetable is allowed here.
+   * 
+   * @param authorAccess The author access.
+   * 
+   * @return <code>true</code> if a choice table can be inserted in the given context.
+   */
+  public static boolean areOtherTablesThanChoicetableAllowed(AuthorAccess authorAccess) {
+    boolean toReturn = false;
+    
+    try {
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+      
+      AuthorSchemaManager authorSchemaManager =
+          authorAccess.getDocumentController().getAuthorSchemaManager();
+      
+      // Create context
+      WhatElementsCanGoHereContext context =
+          authorSchemaManager.createWhatElementsCanGoHereContext(caretOffset);
+      
+      if (context != null) {
+        List<CIElement> childrenElements = authorSchemaManager.whatElementsCanGoHere(context);
+        if (childrenElements != null) {
+          elemsIter : for (int i = 0; i < childrenElements.size(); i++) {
+            // Iterate through possible elements and obtain the attributes.
+            CIElement currentElement = childrenElements.get(i);
+            List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
+            if (attributes != null) {
+              for (int j = 0; j < attributes.size(); j++) {
+                // Iterate through current element attributes.
+                CIAttribute currentAttribute = attributes.get(j);
+                String attrDefaultValue = currentAttribute.getDefaultValue();
+                // Check the class attribute
+                if ("class".equals(currentAttribute.getName())
+                    && attrDefaultValue != null
+                    && (attrDefaultValue.contains(" topic/table ")
+                        || attrDefaultValue.contains(" topic/simpletable ")  
+                           && !attrDefaultValue.contains(" task/choicetable "))) {
+                  toReturn = true;
+                  break elemsIter;
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (BadLocationException e) {
+      logger.warn(e, e);
+    }
+    
+    return toReturn;
+  }
+  
+  /**
+   * Check if a properties table is allowed as a global element.
+   * 
+   * @param authorAccess The author access.
+   * 
+   * @return <code>true</code> if the "properties" table element is a global element of the schema.
+   */
+  public static boolean isPropertiesTableGlobalElement(AuthorAccess authorAccess) {
+    boolean toReturn = false;
+    AuthorSchemaManager authorSchemaManager = authorAccess.getDocumentController().getAuthorSchemaManager();
+    List<CIElement> globalElements = authorSchemaManager.getGlobalElements();
+    if (globalElements != null) {
+      elemsIter : for (int i = 0; i < globalElements.size(); i++) {
+        // Iterate through possible elements and obtain the attributes.
+        CIElement currentElement = globalElements.get(i);
+        List<CIAttribute> attributes = currentElement.getAttributesWithDefaultValues();
+        if (attributes != null) {
+          for (int j = 0; j < attributes.size(); j++) {
+            // Iterate through current element attributes.
+            CIAttribute currentAttribute = attributes.get(j);
+            String attrDefaultValue = currentAttribute.getDefaultValue();
+            // Check the class attribute
+            if ("class".equals(currentAttribute.getName())
+                && attrDefaultValue != null
+                && attrDefaultValue.contains(" reference/properties ")) {
+              toReturn = true;
+              break elemsIter;
+            }
+          }
+        }
+      }
+    }
+
+    return toReturn;
+  }
+  
+  /**
+   * Collects all the table elements having the given type, determined by the selection intervals.
+   * 
+   * @param authorAccess The author access 
+   * @param type       The type of the elements to be collected.
+   * Can be one of TYPE_ prefixed constants from {@link TableHelperConstants}.
+   * @param tableHelper Utility class to determine information about table nodes. 
+   * @param tableElement The table parent elements.
+   * 
+   * @return A list with all the elements used to populate the tabs in 
+   * "Table Properties" dialog.
+   */
+  public static List<AuthorElement> getTableElementsOfTypeFromSelection(AuthorAccess authorAccess,
+      int type, TableHelper tableHelper, AuthorElement tableElement) {
+    // Determine the rows that intersect the selection
+    List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+    // Check the selection first
+    List<Integer[]> selections = new ArrayList<Integer[]>();
+    // Obtain all the selection intervals
+    if (selectionIntervals != null && !selectionIntervals.isEmpty()) {
+      for (int i = 0; i < selectionIntervals.size(); i++) {
+        int startOffset = selectionIntervals.get(i).getStartOffset();
+        int endOffset = selectionIntervals.get(i).getEndOffset();
+        // Check that start selection offset is inside the table 
+        if ((tableElement.getStartOffset() <= startOffset && startOffset <= tableElement.getEndOffset()) ||
+            // Check that end selection offset is inside the table
+            (tableElement.getStartOffset() <= endOffset && endOffset <= tableElement.getEndOffset())) {
+          selections.add(new Integer[] {startOffset, endOffset});
+        }
+      }
+    }
+
+    return  getTableElementsOfType(authorAccess, selections, type, tableHelper);
+  }
+  
+  /**
+   * Collects all the table elements having the given type, determined by the selection intervals.
+   * 
+   * @param authorAccess The author access 
+   * @param selections The currently selected nodes. They can be mixed.
+   * @param type       The type of the elements to be collected.
+   * Can be one of TYPE_ prefixed constants from {@link TableHelperConstants}.
+   * @param tableHelper Utility class to determine information about table nodes. 
+   * 
+   * @return A list with all the elements used to populate the tabs in 
+   * "Table Properties" dialog.
+   */
+  public static List<AuthorElement> getTableElementsOfType(AuthorAccess authorAccess,
+      List<Integer[]> selections, int type, TableHelper tableHelper) {
+    List<AuthorElement> elements = new ArrayList<AuthorElement>();
+    try {
+      // For every selection interval, obtain the elements whose properties will be modified.
+      for (int i = 0; i < selections.size(); i++) {
+        Integer[] sel = selections.get(i);
+        int startOffset = sel[0];
+        int endOffset = sel[1];
+        List<AuthorNode> nodesToSelect = null;
+        if (startOffset != endOffset) {
+          nodesToSelect = authorAccess.getDocumentController().getNodesToSelect(startOffset, endOffset);
+        } else {
+          // Actually there is not selection is just the caret position
+          nodesToSelect = new ArrayList<AuthorNode>();
+          nodesToSelect.add(authorAccess.getDocumentController().getNodeAtOffset(startOffset));
+        }
+        for (int j = 0; j < nodesToSelect.size(); j++) {
+          AuthorNode node = nodesToSelect.get(j);
+          if (node instanceof AuthorElement) {
+            computeElementsList(elements, (AuthorElement) node, startOffset, 
+                endOffset != -1 ? endOffset : startOffset, type, false, tableHelper);
+          }
+        }
+      }
+    } catch (BadLocationException e) {
+      // Do nothing, elements array will be empty
+    }
+
+    return elements;
+  }
+  
+  /**
+   * Computes all the nodes of the given type starting from the given node, which are
+   * in the given selection.
+   * 
+   * @param elementsList    The list which will contain the elements.
+   * @param node            The starting node.
+   * @param startOffset     Selection start.
+   * @param endOffset       Selection end.
+   * @param type            The elements type.
+   * Can be one of TYPE_ prefixed constants from {@link TableHelperConstants}.
+   * @param fullySelected   <code>true</code> if the nodes should be entire contained by the selection. 
+   * @param tableHelper     Utility class to determine information about table nodes. 
+   */
+  public static void computeElementsList(
+      List<AuthorElement> elementsList, 
+      AuthorElement node, 
+      int startOffset, 
+      int endOffset, 
+      int type, 
+      boolean fullySelected, 
+      TableHelper tableHelper) {
+    if (tableHelper.isNodeOfType(node, type) && !elementsList.contains(node)) {
+        elementsList.add(node);
+    } else if (getElementAncestor(node, type, tableHelper) != null) {
+      AuthorElement elementAncestor = getElementAncestor(node, type, tableHelper);
+      if (!elementsList.contains(elementAncestor)) {
+        elementsList.add(elementAncestor);
+      }
+    } else if (type != TableHelperConstants.TYPE_TABLE) {
+      // A parent of element with given type
+      List<AuthorElement> collectedElements = new ArrayList<AuthorElement>();
+      getChildElements(node, type, collectedElements, tableHelper);
+      for (int j = 0; j < collectedElements.size(); j++) {
+        boolean addElement = false;
+        AuthorElement currentElement = collectedElements.get(j);
+        if (
+            // Node is from caret position, so add all its children
+            startOffset == endOffset 
+            // or selection is inside the current element or contains it
+            // Maybe the selection includes the current node
+            || !fullySelected && (startOffset >= currentElement.getStartOffset() && startOffset <= currentElement.getEndOffset() 
+            || endOffset > currentElement.getStartOffset() && endOffset <= currentElement.getEndOffset()
+            || currentElement.getStartOffset() >= startOffset && currentElement.getStartOffset() < endOffset 
+            || currentElement.getEndOffset() >= startOffset && currentElement.getEndOffset() < endOffset)
+            || fullySelected 
+            && currentElement.getStartOffset() >= startOffset 
+            && currentElement.getEndOffset() <= endOffset) {
+          addElement = true;
+        } 
+        if (addElement && !elementsList.contains(currentElement)) {
+          elementsList.add(currentElement);
+        }
+      }
+    }
+    
+    // For cals table tgroup and table elements are considered table elements, 
+    // so add both types of node in the list.
+    // Check the collected nodes parents and children
+    if (type == TableHelperConstants.TYPE_TABLE) {
+      for (int i = 0; i < elementsList.size(); i++) {
+        // Check the parent 
+        AuthorElement authorElement = elementsList.get(i);
+        AuthorNode parent = authorElement.getParent();
+        if (parent instanceof AuthorElement && tableHelper.isTable((AuthorElement) parent)) {
+          if (!elementsList.contains(parent)) {
+            elementsList.add((AuthorElement) parent);
+          }
+        }
+        
+        // Check the children
+        List<AuthorNode> children = node.getContentNodes();
+        for (int j = 0; j < children.size(); j++) {
+          AuthorNode child = children.get(j);
+          if (child instanceof AuthorElement  && tableHelper.isTable((AuthorElement) child)
+              && tableHelper.isTableGroup((AuthorElement) child)) {
+            if (!elementsList.contains(child)) {
+              elementsList.add((AuthorElement) child);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  /**
+   * Search for an ancestor {@link AuthorNode} with the specified type. 
+   * 
+   * @param node The starting node.
+   * @param type The type of the ancestor.
+   * @param tableHelper  Utility class to determine information about table nodes. 
+   * @return     The ancestor node of the given <code>node</code> or the <code>node</code> 
+   * itself if the type matches.
+   */
+  public static AuthorElement getElementAncestor(AuthorNode node, int type, TableHelper tableHelper) {
+    AuthorElement parentCell = null;
+    while (node != null && node instanceof AuthorElement) {
+      // If the current node has the same type as the given type
+      // Return that node
+      if (tableHelper.isNodeOfType((AuthorElement) node, type)) {
+        parentCell = (AuthorElement) node;
+        break;
+      }
+      node = node.getParent();
+    }
+    
+    return parentCell;
+  }
+  
+  /**
+   *    * Obtain a list of children with the given type.
+   * 
+   * @param node The parent node.
+   * @param type The child elements type. 
+   * Can be one of TYPE_ prefixed constants from {@link TableHelperConstants}. 
+   * @param children The list with collected children. Empty when the function is called.
+   * @param tableHelper  Utility class to determine information about table nodes. 
+   */
+  public static void getChildElements(AuthorElement node, int type, List<AuthorElement> children, TableHelper tableHelper) {
+    if (tableHelper.isNodeOfType(node, type)) {
+      children.add(node);
+    } else {
+      // Check the children
+      List<AuthorNode> contentNodes = node.getContentNodes();
+      for (int i = 0; i < contentNodes.size(); i++) {
+        AuthorNode authorNode = contentNodes.get(i);
+        if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+          getChildElements((AuthorElement) authorNode, type, children, tableHelper);
+        }
+      }
+    }
+  }
+  
+  /**
+   * Obtain the indexes for selected cells.
+   * 
+   * @param cells           The selected cells.
+   * @param authorAccess    The author access.
+   * @param tableHelper     Utility class to determine information about table nodes.
+   * @param isCals          <code>true</code> if it is a CALS table
+   * 
+   * @return A map between the table element and a set of the cell's column indexes. 
+   */
+  public static Map<AuthorElement, Set<Integer>> getCellIndexes(
+      List<AuthorElement> cells, 
+      AuthorAccess authorAccess, 
+      TableHelper tableHelper, 
+      boolean isCals) {
+    Map<AuthorElement, Set<Integer>> indexes = new HashMap<AuthorElement, Set<Integer>>();
+    for (int i = 0; i < cells.size(); i++) {
+      // For every computed cell, obtain the parent tgroup
+      AuthorElement tableElement = getElementAncestor(cells.get(i), 
+          isCals ? TablePropertiesHelper.TYPE_GROUP : TablePropertiesHelper.TYPE_TABLE, tableHelper);
+      Set<Integer> set = indexes.get(tableElement);
+      if (set == null) {
+        set = new HashSet<Integer>();
+      }
+      
+      if (isCals) {
+        // Obtain the column span indices for a cell
+        int[] tableColSpanIndices = authorAccess.getTableAccess().getTableColSpanIndices(cells.get(i));
+        for (int j = 0; tableColSpanIndices != null && j < tableColSpanIndices.length; j++) {
+          // Add all indices
+          set.add(tableColSpanIndices[j] + 1);
+        }
+      } else {
+        // Add the index
+        set.add(authorAccess.getTableAccess().getTableCellIndex(cells.get(i))[1]);
+      }
+
+      indexes.put(tableElement, set);
+    }
+
+    return indexes;
+  }
+  
+  /**
+   * Create a {@link TableHelper} starting from an {@link AuthorTableHelper}. 
+   *  
+   * @param authorTableHelper The Author table helper
+   * @return The {@link TableHelper}
+   */
+  public static TableHelper createTableHelper(final AuthorTableHelper authorTableHelper) {
+    return new TableHelper() {
+
+      @Override
+      public boolean isTableGroup(AuthorElement node) {
+        return false;
+      }
+
+      @Override
+      public boolean isTable(AuthorElement node) {
+        return authorTableHelper.isTable(node);
+      }
+
+      @Override
+      public boolean isNodeOfType(AuthorElement node, int type) {
+        boolean toReturn = false;
+        // Check the given type
+        switch (type) {
+          case TableHelperConstants.TYPE_ROW:
+            toReturn = authorTableHelper.isTableRow(node);
+            break;
+          case TableHelperConstants.TYPE_TABLE:
+            toReturn = authorTableHelper.isTable(node);
+            break;
+          case TableHelperConstants.TYPE_CELL: 
+            toReturn = authorTableHelper.isTableCell(node);
+            break;
+        }
+
+        return toReturn;
+      }
+    };
+  }
+  
+  /**
+   * Get selected content fragments to be converted to cell fragments.
+   * 
+   * @param authorAccess The author access.
+   * @return The selected content fragments to be converted to cell fragments.
+   */
+  public static AuthorDocumentFragment[] getSelectedFragmentsToCreateCells(AuthorAccess authorAccess) {
+    AuthorDocumentFragment[] selectedFragments = null;
+    if (authorAccess.getEditorAccess().hasSelection()) {
+      // Get the selection intervals
+      List<ContentInterval>  selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+      try {
+        // This is the list containing the content intervals to be added on each row 
+        List<int[]> allRows = new ArrayList<int[]>();
+
+        AuthorDocumentController controller = authorAccess.getDocumentController();
+        // Check each selection interval
+        for (ContentInterval contentInterval : selectionIntervals) {
+          // Create the content segment to iterate
+          Segment content = new Segment();
+          int start = contentInterval.getStartOffset();
+          int maxEndOffset = contentInterval.getEndOffset();
+          int len = maxEndOffset - contentInterval.getStartOffset();
+          controller.getChars(start, len, content);
+
+          char ch = content.first();
+          int currentOffset = start;
+          int startRow = contentInterval.getStartOffset();
+          while(ch != Segment.DONE) {
+            if (ch == 0) {
+              // Sentinel
+              OffsetInformation info = controller.getContentInformationAtOffset(currentOffset);
+              AuthorNode node = info.getNodeForMarkerOffset();
+              Styles styles = authorAccess.getEditorAccess().getStyles(node);
+              String display = styles.getDisplay();
+              // Check if this is an block element (or a list item)
+              if (CSS.BLOCK.equals(display) || CSS.LIST_ITEM.equals(display)) {
+                if (startRow != currentOffset) {
+                  // Register interval
+                  allRows.add(new int[] {startRow, currentOffset - 1});
+                } else {
+                  if (info.getPositionType() == OffsetInformation.ON_START_MARKER &&
+                      // Check that this is an empty node
+                      node.getStartOffset() + 1 == node.getEndOffset()) {
+                    // Register interval
+                    allRows.add(new int[] {node.getStartOffset() + 1, node.getEndOffset() - 1});
+                  }
+                }
+                // Jump over this interval
+                startRow = currentOffset + 1;
+              }
+            }
+            // Jump to next char
+            ch = content.next();
+            currentOffset++;
+          }
+
+          // Maybe there is an interval left?
+          if (startRow < maxEndOffset) {
+            allRows.add(new int[] {startRow, maxEndOffset - 1});
+          }
+        }
+
+        int size = allRows.size();
+        selectedFragments = new AuthorDocumentFragment[size];
+        for (int i = 0; i < size; i++) {
+          int[] is = allRows.get(i);
+          if (is[0] <= is[1]) {
+            selectedFragments[i] = controller.createDocumentFragment(is[0], is[1]);
+          } else {
+            // Empty fragment
+            selectedFragments[i] = controller.createNewDocumentFragmentInContext("", is[0]);
+          }
+        }
+
+      } catch (Exception e) {
+        selectedFragments = null;
+      }
+    }
+    return selectedFragments;
+  }
+  
+  /**
+   * Remove current selection from Author.
+   * 
+   * @param authorAccess Author access.
+   */
+  public static void removeCurrentSelection(AuthorAccess authorAccess) {
+    // Remove selection
+    if (authorAccess.getEditorAccess().hasSelection()) {
+      // Get the selection intervals
+      List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+      if (selectionIntervals != null) {
+        if (selectionIntervals.size() > 1) {
+          Collections.sort(selectionIntervals, new Comparator<ContentInterval>() {
+            /**
+             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+             */
+            @Override
+            public int compare(ContentInterval interval1, ContentInterval interval2) {
+              int result = 0;
+              if (interval1 != null && interval2 != null) {
+                return interval1.getStartOffset() > interval2.getStartOffset() ? -1 : 1;
+              }
+              return result;
+            }
+          });
+        }
+
+        // Remove selection
+        try {
+          for (ContentInterval selection : selectionIntervals) {
+            // Delete current selection
+            authorAccess.getDocumentController().delete(selection.getStartOffset(), selection.getEndOffset() - 1);
+
+            // Check if there is an empty element left here and remove it...
+            AuthorNode node = authorAccess.getDocumentController().getNodeAtOffset(selection.getStartOffset());
+            while (node != null && 
+                node != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement()) {
+              if (node.getStartOffset() + 1 == node.getEndOffset()) {
+                // Empty element, remove it
+                AuthorNode parentNode = node.getParent(); 
+                authorAccess.getDocumentController().deleteNode(node);
+                node = parentNode;
+              } else {
+                node = null;
+              }
+            }
+          }
+        } catch (Exception e) {
+          // Nothing to do
+        }
+      }
+    }
+  }
+
+  
 }

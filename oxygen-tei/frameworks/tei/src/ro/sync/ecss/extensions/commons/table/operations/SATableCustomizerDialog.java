@@ -52,6 +52,7 @@ package ro.sync.ecss.extensions.commons.table.operations;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -72,7 +73,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -80,7 +84,6 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
-import ro.sync.xml.XmlUtil;
 
 /**
  * Dialog used to customize the insertion of a table (number of rows, columns, table caption).
@@ -89,6 +92,11 @@ import ro.sync.xml.XmlUtil;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class SATableCustomizerDialog extends OKCancelDialog implements TableCustomizerConstants {
   
+  /**
+   * Default number of columns for properties table.
+   */
+  private static final int DEFAULT_NO_OF_COLS_FOR_PROPERTIES_TABLE = 3;
+
   /**
    * If selected the user can specify the table title. 
    */
@@ -181,14 +189,13 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    */
   private JRadioButton calsModelRadio;
   /**
-   * The other model. Either simple or html.
+   * Either simple or HTML.
    */
-  private JRadioButton otherModelRadio;
-
+  private JRadioButton simpleOrHtmlModelRadio;
   /**
-   * <code>true</code> if the table type is simple.
+   * Properties model.
    */
-  private final boolean simpleTableModel;
+  private JRadioButton propertiesModelRadio;
 
   /**
    * Author resource bundle.
@@ -209,7 +216,52 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * <code>true</code> if the model is for choice table.
    */
   private final boolean choiceTableModel;
+  
+  /**
+   * <code>true</code> if the model is for CALS table.
+   */
+  private boolean isCalsTable;
+  
+  /**
+   * <code>true</code> if the table type is simple, not HTML.
+   */
+  private final boolean isSimpleTableNotHtml;
 
+  /**
+   * <code>true</code> if the model is for properties table.
+   */
+  private boolean isPropertiesTable;
+  /**
+   * The current number of columns for CALS and simple tables.
+   */
+  private static int columnsCurrentValueForCalsAndSimple = TableInfo.DEFAULT_COLUMNS_COUNT;
+  /**
+   * The current number of columns for properties tables.
+   */
+  private static int columnsCurrentValueForPropertiesTable = TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE;
+  
+  /**
+   * The model for the properties table column spinner.
+   */
+  private final SpinnerModel propertiesTableColSpinnerModel = new SpinnerNumberModel(
+      TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE,
+      TableInfo.MIN_COLUMNS_COUNT_PROPERTIES_TABLE,
+      TableInfo.MAX_COLUMNS_COUNT_PROPERTIES_TABLE,
+      1);
+  /**
+   * The default table column spinner model.
+   */
+  private final SpinnerModel defaultColSpinnerModel = new SpinnerNumberModel(
+      TableInfo.DEFAULT_COLUMNS_COUNT, 
+      TableInfo.MIN_COLUMNS_COUNT,
+      TableInfo.MAX_COLUMNS_COUNT,
+      1);
+
+  /**
+   * <code>true</code> if the model is for simple or HTML table, not CALS, nor properties.
+   */
+  private boolean isSimpleOrHtmlTable;
+  
   /**
    * Constructor.
    * 
@@ -230,34 +282,36 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount, 
       int predefinedColumnsCount) {
-    this(
-        parentFrame, hasFooter, hasFrameAttribute, showModelChooser, false, false, false, false,
+    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, false, false, false, false,
         false, authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
   
   /**
    * Constructor.
    * 
-   * @param parentFrame       The parent {@link JFrame} of the dialog.  
-   * @param hasFooter         <code>true</code> if this table has a footer.
-   * @param hasFrameAttribute <code>true</code> if the table has a frame attribute.
-   * @param showModelChooser  <code>true</code> to show the dialog panel for choosing the table
-   *                          model, one of CALS or HTML.
-   * @param simpleTableModel  <code>true</code> to use the simple table model instead of the HTML model.
-   * @param innerCallsTable   <code>true</code> if this is an inner CALLS table.
-   * @param hasRowsepAttribute <code>true</code> if the table has a row separator attribute.
-   * @param hasColsepAttribute <code>true</code> if the table has a column separator attribute.
-   * @param hasAlignAttribute <code>true</code> if the table has an align attribute.
-   * @param authorResourceBundle Author resource bundle.
-   * @param predefinedRowsCount The predefined number of rows.
-   * @param predefinedColumnsCount The predefined number of columns.
+   * @param parentFrame             The parent {@link JFrame} of the dialog.  
+   * @param hasFooter               <code>true</code> if this table has a footer.
+   * @param hasFrameAttribute       <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser        <code>true</code> to show the dialog panel for choosing the table
+   *                                    model, one of CALS or HTML.
+   * @param showSimpleModel         <code>true</code> to use the simple table model radio button instead of the HTML model.
+   * @param innerCallsTable         <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute      <code>true</code> if the table has a row separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsepAttribute      <code>true</code> if the table has a column separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlignAttribute       <code>true</code> if the table has an align attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle    Author resource bundle.
+   * @param predefinedRowsCount     The predefined number of rows.
+   * @param predefinedColumnsCount  The predefined number of columns.
    */
   public SATableCustomizerDialog(
       Frame parentFrame,
       boolean hasFooter,
       boolean hasFrameAttribute,
       boolean showModelChooser,
-      boolean simpleTableModel,
+      boolean showSimpleModel,
       boolean innerCallsTable,
       boolean hasRowsepAttribute,
       boolean hasColsepAttribute,
@@ -265,7 +319,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       AuthorResourceBundle authorResourceBundle,
       int predefinedRowsCount,
       int predefinedColumnsCount) { 
-    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, simpleTableModel, false,
+    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModel, false,
          innerCallsTable, hasRowsepAttribute, hasColsepAttribute, hasAlignAttribute, 
          authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
   }
@@ -273,28 +327,120 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   /**
    * Constructor.
    * 
-   * @param parentFrame       The parent {@link JFrame} of the dialog.  
-   * @param hasFooter         <code>true</code> if this table has a footer.
-   * @param hasFrameAttribute <code>true</code> if the table has a frame attribute.
-   * @param showModelChooser  <code>true</code> to show the dialog panel for choosing the table
-   *                          model, one of CALS or HTML.
-   * @param simpleTableModel  <code>true</code> to use the simple table model instead of the HTML model.
-   * @param choiceTableModel 
-   * @param innerCallsTable   <code>true</code> if this is an inner CALLS table.
-   * @param hasRowsepAttribute <code>true</code> if the table has a row separator attribute.
-   * @param hasColsepAttribute <code>true</code> if the table has a column separator attribute.
-   * @param hasAlignAttribute <code>true</code> if the table has an align attribute.
-   * @param authorResourceBundle Author resource bundle.
-   * @param predefinedRowsCount The predefined number of rows.
-   * @param predefinedColumnsCount The predefined number of columns.
+   * @param parentFrame             The parent {@link JFrame} of the dialog.  
+   * @param hasFooter               <code>true</code> if this table has a footer.
+   * @param hasFrameAttribute       <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser        <code>true</code> to show the dialog panel for choosing the table
+   *                                    model, one of CALS or HTML.
+   * @param showSimpleModel         <code>true</code> to use the simple table model radio button instead of the HTML model.
+   * @param choiceTableModel        <code>true</code> to use the choice table model. 
+   * @param innerCallsTable         <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute      <code>true</code> if the table has a row separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsepAttribute      <code>true</code> if the table has a column separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlignAttribute       <code>true</code> if the table has an align attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle    Author resource bundle.
+   * @param predefinedRowsCount     The predefined number of rows.
+   * @param predefinedColumnsCount  The predefined number of columns.
    */
   public SATableCustomizerDialog(
       Frame parentFrame,
       boolean hasFooter,
       boolean hasFrameAttribute,
       boolean showModelChooser,
-      boolean simpleTableModel,
+      boolean showSimpleModel,
       boolean choiceTableModel,
+      boolean innerCallsTable,
+      boolean hasRowsepAttribute,
+      boolean hasColsepAttribute,
+      boolean hasAlignAttribute,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount,
+      int predefinedColumnsCount) {
+    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModel, choiceTableModel, 
+        true, innerCallsTable, hasRowsepAttribute, hasColsepAttribute, hasAlignAttribute, authorResourceBundle, 
+        predefinedRowsCount, predefinedColumnsCount);
+  }
+  
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame             The parent {@link JFrame} of the dialog.  
+   * @param hasFooter               <code>true</code> if this table has a footer.
+   * @param hasFrameAttribute       <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser        <code>true</code> to show the dialog panel for choosing the table
+   *                                    model, one of CALS or HTML.
+   * @param showSimpleModel         <code>true</code> to use the simple table model radio button instead of the HTML model.
+   * @param choiceTableModel        <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable             <code>true</code> if the table model is CALS.
+   * @param innerCallsTable         <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute      <code>true</code> if the table has a row separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsepAttribute      <code>true</code> if the table has a column separator attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlignAttribute       <code>true</code> if the table has an align attribute.
+   *                                    Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle    Author resource bundle.
+   * @param predefinedRowsCount     The predefined number of rows.
+   * @param predefinedColumnsCount  The predefined number of columns.
+   */
+  public SATableCustomizerDialog(
+      Frame parentFrame,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean showSimpleModel,
+      boolean choiceTableModel,
+      boolean isCalsTable,
+      boolean innerCallsTable,
+      boolean hasRowsepAttribute,
+      boolean hasColsepAttribute,
+      boolean hasAlignAttribute,
+      AuthorResourceBundle authorResourceBundle,
+      int predefinedRowsCount,
+      int predefinedColumnsCount) {
+    this(parentFrame, hasFooter, hasFrameAttribute, showModelChooser, showSimpleModel, choiceTableModel,
+        isCalsTable, false, false, false, innerCallsTable, hasRowsepAttribute, hasColsepAttribute, hasAlignAttribute,
+        authorResourceBundle, predefinedRowsCount, predefinedColumnsCount);
+  }
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame               The parent {@link JFrame} of the dialog.  
+   * @param hasFooter                 <code>true</code> if this table has a footer.
+   * @param hasFrameAttribute         <code>true</code> if the table has a frame attribute.
+   * @param showModelChooser          <code>true</code> to show the dialog panel for choosing the table
+   *                                      model, one of CALS or HTML.
+   * @param showSimpleModel           <code>true</code> to use the simple table model radio instead of the HTML model.
+   * @param choiceTableModel          <code>true</code> to show the dialog for choice table.
+   * @param isCalsTable               <code>true</code> if the table model is CALS.
+   * @param isSimpleOrHtmlTable       <code>true</code> if the model is for simple or HTML table, not CALS or properties.
+   * @param isPropertiesTableAccepted <code>true</code> of a properties table is accepted.
+   * @param isPropertiesTable         <code>true</code> if the current table has a properties table model.
+   * @param innerCallsTable           <code>true</code> if this is an inner CALLS table.
+   * @param hasRowsepAttribute        <code>true</code> if the table has a row separator attribute.
+   *                                      Flag used to add a corresponding combo box in the dialog.
+   * @param hasColsepAttribute        <code>true</code> if the table has a column separator attribute.
+   *                                      Flag used to add a corresponding combo box in the dialog.
+   * @param hasAlignAttribute         <code>true</code> if the table has an align attribute. 
+   *                                      Flag used to add a corresponding combo box in the dialog.
+   * @param authorResourceBundle      Author resource bundle.
+   * @param predefinedRowsCount       The predefined number of rows.
+   * @param predefinedColumnsCount    The predefined number of columns.
+   */
+  public SATableCustomizerDialog(
+      Frame parentFrame,
+      boolean hasFooter,
+      boolean hasFrameAttribute,
+      boolean showModelChooser,
+      boolean showSimpleModel,
+      boolean choiceTableModel,
+      boolean isCalsTable,
+      boolean isSimpleOrHtmlTable,
+      boolean isPropertiesTableAccepted,
+      boolean isPropertiesTable,
       boolean innerCallsTable,
       boolean hasRowsepAttribute,
       boolean hasColsepAttribute,
@@ -305,19 +451,22 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     super(
         parentFrame,
         authorResourceBundle.getMessage(choiceTableModel ? ExtensionTags.INSERT_CHOICE_TABLE
-                                                         : ExtensionTags.INSERT_TABLE), true);
+            : ExtensionTags.INSERT_TABLE), true);
     this.hasFooter = hasFooter;
     this.hasFrameAttribute = hasFrameAttribute;
     this.showModelChooser = showModelChooser;
-    this.simpleTableModel = simpleTableModel;
+    this.isSimpleTableNotHtml = showSimpleModel;
     this.choiceTableModel = choiceTableModel;
+    this.isCalsTable = isCalsTable;
+    this.isSimpleOrHtmlTable = isSimpleOrHtmlTable;
+    this.isPropertiesTable = isPropertiesTable;
     this.hasRowsepAttribute = hasRowsepAttribute;
     this.hasColsepAttribute = hasColsepAttribute;
     this.hasAlignAttribute = hasAlignAttribute;
     this.authorResourceBundle = authorResourceBundle;
     this.predefinedRowsCount = predefinedRowsCount;
     this.predefinedColumnsCount = predefinedColumnsCount;
-    
+
     // EXM-25921 Insert dialog, so the text of the ok button should be 'Insert'.
     setOkButtonText(authorResourceBundle.getMessage(ExtensionTags.INSERT));
     JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -329,11 +478,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     gridBagConstr.anchor = GridBagConstraints.WEST;
     gridBagConstr.gridwidth = 2;
 
-		// Model chooser panel.
+    // Model chooser panel.
     JPanel modelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
     modelPanel.setBorder(
         BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.MODEL)));
-    
+
     ButtonGroup buttonGroup = new ButtonGroup();
     // Radio button for choosing CALS table model
     calsModelRadio = new JRadioButton("CALS");
@@ -348,6 +497,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
           addValuesToFrameCombo(TableInfo.TABLE_MODEL_CALS);
           // Update column widths combo
           updateColumnsWidthsCombo(getColumnWidthsSpecifications(TableInfo.TABLE_MODEL_CALS));
+          colWidthsCombobox.setEnabled(true);
           updateTitleState(true);
           updateElementsState(true);
           updateAlignState(true);
@@ -358,11 +508,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     buttonGroup.add(calsModelRadio);
 
     if (!choiceTableModel) {
-      if (simpleTableModel) {
+      if (showSimpleModel) {
         // Radio button for choosing the simple table model
-        otherModelRadio = new JRadioButton(authorResourceBundle.getMessage(ExtensionTags.SIMPLE));
-        otherModelRadio.setName("Simple table model");
-        otherModelRadio.addItemListener(new ItemListener() {
+        simpleOrHtmlModelRadio = new JRadioButton(authorResourceBundle.getMessage(ExtensionTags.SIMPLE));
+        simpleOrHtmlModelRadio.setName("Simple table model");
+        simpleOrHtmlModelRadio.addItemListener(new ItemListener() {
           /**
            * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
            */
@@ -372,19 +522,20 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
               // Update column widths combo
               updateColumnsWidthsCombo(getColumnWidthsSpecifications(TableInfo.TABLE_MODEL_DITA_SIMPLE));
               addValuesToFrameCombo(TableInfo.TABLE_MODEL_DITA_SIMPLE);
+              colWidthsCombobox.setEnabled(true);
               updateTitleState(false);
               updateElementsState(false);
               updateAlignState(false);
             }
           }
         });
-        modelPanel.add(otherModelRadio);
-        buttonGroup.add(otherModelRadio);
+        modelPanel.add(simpleOrHtmlModelRadio);
+        buttonGroup.add(simpleOrHtmlModelRadio);
       } else {
         // Radio button for choosing HTML table model
-        otherModelRadio = new JRadioButton("HTML");
-        otherModelRadio.setName("HTML model");
-        otherModelRadio.addItemListener(new ItemListener() {
+        simpleOrHtmlModelRadio = new JRadioButton("HTML");
+        simpleOrHtmlModelRadio.setName("HTML model");
+        simpleOrHtmlModelRadio.addItemListener(new ItemListener() {
           /**
            * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
            */
@@ -399,22 +550,45 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
             }
           }
         });
-        modelPanel.add(otherModelRadio);
-        buttonGroup.add(otherModelRadio);
+        modelPanel.add(simpleOrHtmlModelRadio);
+        buttonGroup.add(simpleOrHtmlModelRadio);
+      }
+      
+      if (isPropertiesTableAccepted) {
+        // Radio button for choosing properties table model
+        propertiesModelRadio = new JRadioButton(authorResourceBundle.getMessage(ExtensionTags.PROPERTIES));
+        propertiesModelRadio.setName("Properties");
+        propertiesModelRadio.addItemListener(new ItemListener() {
+          @Override
+          public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+              addValuesToFrameCombo(TableInfo.TABLE_MODEL_DITA_SIMPLE);
+              columnsSpinner.setModel(propertiesTableColSpinnerModel);
+              colWidthsCombobox.setEnabled(false);
+              updateTitleState(false);
+              updateElementsState(false);
+              updateAlignState(false);
+            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+              columnsSpinner.setModel(defaultColSpinnerModel);
+            }
+          }
+        });
+        modelPanel.add(propertiesModelRadio);
+        buttonGroup.add(propertiesModelRadio);
       }
     } else {
       // Choice table model
       this.showModelChooser = false;
       modelPanel.setVisible(false);
     }
-    
+
     int tableModelType = innerCallsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
     if (showModelChooser) {
       // Model chooser panel must be visible
       mainPanel.add(modelPanel, gridBagConstr);      
       tableModelType = TableInfo.TABLE_MODEL_CALS;
     }
-    
+
     if(! innerCallsTable && !choiceTableModel) {
       // Title check box
       titleCheckbox = createTitleCheckbox();    
@@ -447,66 +621,89 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       mainPanel.add(titleTextField, gridBagConstr);
     }
 
-    if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
-      JPanel sizePanel = new JPanel(new GridBagLayout());
-      sizePanel.setBorder(
-          BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE)));
+    JPanel sizePanel = new JPanel(new GridBagLayout());
+    sizePanel.setBorder(
+        BorderFactory.createTitledBorder(authorResourceBundle.getMessage(ExtensionTags.TABLE_SIZE)));
 
-      gridBagConstr.gridy ++;
-      gridBagConstr.gridx = 0;
-      gridBagConstr.weightx = 1;
-      gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
-      gridBagConstr.gridwidth = 2;
-      gridBagConstr.insets = new Insets(5, 0, 5, 0);
-      mainPanel.add(sizePanel, gridBagConstr);
+    gridBagConstr.gridy ++;
+    gridBagConstr.gridx = 0;
+    gridBagConstr.weightx = 1;
+    gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
+    gridBagConstr.gridwidth = 2;
+    gridBagConstr.insets = new Insets(5, 0, 5, 0);
+    mainPanel.add(sizePanel, gridBagConstr);
 
-      GridBagConstraints c = new GridBagConstraints();
+    GridBagConstraints c = new GridBagConstraints();
 
-      // 'Rows' label
-      JLabel rowsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROWS));
-      c.gridx = 0;
-      c.gridy = 0;
-      c.anchor = GridBagConstraints.WEST;
-      c.fill = GridBagConstraints.HORIZONTAL;
-      c.weightx = 0;
-      c.insets = new Insets(0, 5, 5, 5);
-      sizePanel.add(rowsLabel, c);
+    // 'Rows' label
+    JLabel rowsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROWS));
+    c.gridx = 0;
+    c.gridy = 0;
+    c.anchor = GridBagConstraints.WEST;
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.weightx = 0;
+    c.insets = new Insets(0, 5, 5, 5);
+    sizePanel.add(rowsLabel, c);
 
-      // Number of rows text field
-      rowsSpinner = new JSpinner();
-      rowsSpinner.setName("Rows spinner");
-      rowsSpinner.setModel(new SpinnerNumberModel(2, 0, 100, 1));
-      c.gridx++;
-      c.weightx = 1;
-      sizePanel.add(rowsSpinner, c);
-
-      // 'Columns' label
-      JLabel columnsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMNS));
-      c.gridx++;
-      c.weightx = 0;
-      sizePanel.add(columnsLabel, c);
-
-      // Number of columns text field
-      columnsSpinner = new JSpinner();
-      columnsSpinner.setName("Columns spinner");
-      columnsSpinner.setModel(new SpinnerNumberModel(2, 0, 100, 1));
-      c.gridx++;
-      c.weightx = 1;
-      sizePanel.add(columnsSpinner, c);
-      
-      if (choiceTableModel) {
-        columnsSpinner.setEnabled(false);
-        columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT_CHOICE_TABLE);
-      }
+    // Number of rows text field
+    rowsSpinner = new JSpinner();
+    rowsSpinner.setName("Rows spinner");
+    rowsSpinner.setModel(new SpinnerNumberModel(2, 0, 1000, 1));
+    if (predefinedColumnsCount >= 0) {
+      rowsSpinner.setValue(predefinedRowsCount);
+    } else {
+      rowsSpinner.setValue(TableInfo.DEFAULT_ROWS_COUNT);
     }
-    
+    c.gridx++;
+    c.weightx = 1;
+    sizePanel.add(rowsSpinner, c);
+
+    // 'Columns' label
+    JLabel columnsLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMNS));
+    c.gridx++;
+    c.weightx = 0;
+    sizePanel.add(columnsLabel, c);
+
+    // Number of columns text field
+    columnsSpinner = new JSpinner();
+    columnsSpinner.setName("Columns spinner");
+    columnsSpinner.setModel(defaultColSpinnerModel);
+    if (predefinedColumnsCount >= 0) {
+      columnsSpinner.setValue(predefinedColumnsCount);
+    } else {
+      columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT);
+    }
+    columnsSpinner.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        if (calsModelRadio != null && calsModelRadio.isSelected() 
+            || simpleOrHtmlModelRadio != null && simpleOrHtmlModelRadio.isSelected()) {
+          columnsCurrentValueForCalsAndSimple = (Integer) columnsSpinner.getValue();
+        } else if (propertiesModelRadio != null && propertiesModelRadio.isSelected()) {
+          columnsCurrentValueForPropertiesTable = (Integer) columnsSpinner.getValue();
+        }
+      }
+    });
+    // When setting a different model to the spinner, it's width was changing
+    // Here we avoid that width changing
+    columnsSpinner.setPreferredSize(new Dimension(columnsSpinner.getPreferredSize().width,
+        columnsSpinner.getPreferredSize().height));
+    c.gridx++;
+    c.weightx = 1;
+    sizePanel.add(columnsSpinner, c);
+
+    if (choiceTableModel) {
+      columnsSpinner.setEnabled(false);
+      columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT_CHOICE_TABLE);
+    }
+
     JPanel headerFooterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
     gridBagConstr.gridx = 0;
     gridBagConstr.gridy ++;
     gridBagConstr.gridwidth = 2;
     gridBagConstr.insets = new Insets(5, 0, 1, 0);
     mainPanel.add(headerFooterPanel, gridBagConstr);
-    
+
     // 'Header' check box
     headerCheckbox =new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.GENERATE_TABLE_HEADER));
     headerCheckbox.setName("Header checkbox");
@@ -521,7 +718,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       footerCheckbox.setBorder(BorderFactory.createEmptyBorder());
       headerFooterPanel.add(footerCheckbox);
     }
-    
+
     // Column widths
     ColumnWidthsType[] columnsWidths = getColumnWidthsSpecifications(tableModelType);
     if (columnsWidths != null) {
@@ -567,8 +764,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       // Add column widths combo
       mainPanel.add(colWidthsCombobox, gridBagConstr);
     }
-    
-    
+
+
     if (hasFrameAttribute) {
       // 'Frame' label
       JLabel frameLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.FRAME) + ": ");
@@ -591,7 +788,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(frameCombo, gridBagConstr);
     }
-    
+
     if (hasRowsepAttribute) {
       // 'Rowsep' label
       JLabel rowsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.ROW_SEPARATOR) + ": ");
@@ -614,7 +811,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(rowsepCombo, gridBagConstr);
     }
-    
+
     if (hasColsepAttribute) {
       // 'Colsep' label
       JLabel colsepLabel = new JLabel(authorResourceBundle.getMessage(ExtensionTags.COLUMN_SEPARATOR) + ": ");
@@ -637,11 +834,11 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       gridBagConstr.fill = GridBagConstraints.HORIZONTAL;
       mainPanel.add(colsepCombo, gridBagConstr);
     }
-    
+
     if (hasAlignAttribute) {
       // 'Align' label
       JLabel alignLabel = new JLabel(authorResourceBundle.getMessage(
-    		  ExtensionTags.ALIGNMENT) + ": ");
+          ExtensionTags.ALIGNMENT) + ": ");
       gridBagConstr.gridx = 0;
       gridBagConstr.gridy ++;
       gridBagConstr.gridwidth = 1;
@@ -664,7 +861,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
 
     //Add the main panel
     getContentPane().add(mainPanel, BorderLayout.CENTER);
-    
+
     pack();
     setSize(340, getSize().height);
     setResizable(false);
@@ -691,6 +888,8 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   private void updateTitleState(boolean enabled) {
     if(titleCheckbox != null) {
       titleCheckbox.setEnabled(enabled);
+      // EXM-35014 If the title checkbox is disabled, also uncheck it
+      titleCheckbox.setSelected(enabled);
       titleTextField.setEditable(enabled && titleCheckbox.isSelected());
     }
   }
@@ -800,7 +999,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * {@link TableInfo#TABLE_MODEL_CALS}, {@link TableInfo#TABLE_MODEL_CUSTOM},
    * {@link TableInfo#TABLE_MODEL_DITA_SIMPLE}, {@link TableInfo#TABLE_MODEL_HTML}.
    * 
-   * @return Thedefault column separator value.
+   * @return The default column separator value.
    */
   protected abstract String getDefaultColsepValue(int tableModelType);
   
@@ -911,15 +1110,9 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       String title = null;
       if(titleCheckbox != null && titleCheckbox.isSelected()) {
         title = titleTextField.getText();
-        // EXM-11910 Escape the table title.
-        title = XmlUtil.escape(title);
       }
-      int rowsNumber = predefinedRowsCount;
-      int columnsNumber = predefinedColumnsCount;
-      if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
-        rowsNumber = ((Integer)rowsSpinner.getValue()).intValue();
-        columnsNumber = ((Integer)columnsSpinner.getValue()).intValue();
-      }
+      int rowsNumber = ((Integer)rowsSpinner.getValue()).intValue();
+      int columnsNumber = ((Integer)columnsSpinner.getValue()).intValue();
       // Compute the value of the table model
       int tableModelType = getTableModelType();
       tableInfo = 
@@ -957,6 +1150,7 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
     } else {
       // Cancel was pressed
     }
+    
     return tableInfo;
   }
 
@@ -971,10 +1165,15 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       if (calsModelRadio.isSelected()) {
         tableModelType = TableInfo.TABLE_MODEL_CALS;
       } else {
-        if (simpleTableModel) {
-          tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+        if (propertiesModelRadio != null && propertiesModelRadio.isSelected()) {
+          tableModelType = TableInfo.TABLE_MODEL_DITA_PROPERTIES;
         } else {
-          tableModelType = TableInfo.TABLE_MODEL_HTML;
+          // Simple or HTML model selected
+          if (isSimpleTableNotHtml) {
+            tableModelType = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          } else {
+            tableModelType = TableInfo.TABLE_MODEL_HTML;
+          }
         }
       }
     } else if (choiceTableModel) {
@@ -1013,15 +1212,44 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       }
       
       if (showModelChooser) {
-        calsModelRadio.setSelected(previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS);
-        otherModelRadio.setSelected(previousTableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS);
+        if (isCalsTable 
+            || previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
+                && !isPropertiesTable 
+                && !isSimpleOrHtmlTable) {
+          calsModelRadio.setSelected(true);
+        } else if (isSimpleOrHtmlTable 
+            || previousTableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS
+                && previousTableInfo.getTableModel() != TableInfo.TABLE_MODEL_DITA_PROPERTIES
+                && !isCalsTable 
+                && !isPropertiesTable) {
+          simpleOrHtmlModelRadio.setSelected(true);
+        } else if (propertiesModelRadio != null 
+            && (isPropertiesTable 
+                || previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
+                    && !isCalsTable
+                    && !isSimpleOrHtmlTable)) {
+          propertiesModelRadio.setSelected(true);
+        } else {
+          // This may happen when the previous model was "properties", 
+          // but in the meantime we moved to a document that doesn't accept
+          // a properties table. Select CALS by default.
+          calsModelRadio.setSelected(true);
+        }
       }
 
-      if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
+      if (predefinedColumnsCount < 0 || predefinedRowsCount < 0) {
         // Set the default number of rows and columns
         rowsSpinner.setValue(previousTableInfo.getRowsNumber());
         if (!choiceTableModel) {
-          columnsSpinner.setValue(previousTableInfo.getColumnsNumber());
+          if (propertiesModelRadio != null 
+              && (isPropertiesTable 
+                  || previousTableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
+                      && !isCalsTable
+                      && !isSimpleOrHtmlTable)) {
+            columnsSpinner.setValue(columnsCurrentValueForPropertiesTable);
+          } else {
+            columnsSpinner.setValue(columnsCurrentValueForCalsAndSimple);
+          }
         }
       }
 
@@ -1066,13 +1294,26 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       }
 
       if (showModelChooser) {
-        calsModelRadio.setSelected(true);
+        if (isCalsTable) {
+          calsModelRadio.setSelected(true);
+        } else if (isSimpleOrHtmlTable) {
+          simpleOrHtmlModelRadio.setSelected(true);
+        } else if (isPropertiesTable) {
+          propertiesModelRadio.setSelected(true);
+        } else {
+          // No default table model. Select CALS by default.
+          calsModelRadio.setSelected(true);
+        }
       }
       
-      if (predefinedColumnsCount <=0 || predefinedRowsCount <= 0) {
+      if (predefinedColumnsCount < 0 || predefinedRowsCount < 0) {
         // Set the default number of rows and columns
         rowsSpinner.setValue(TableInfo.DEFAULT_ROWS_COUNT);
-        columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT);
+        if (isPropertiesTable) {
+          columnsSpinner.setValue(DEFAULT_NO_OF_COLS_FOR_PROPERTIES_TABLE);
+        } else {
+          columnsSpinner.setValue(TableInfo.DEFAULT_COLUMNS_COUNT);
+        }
       }
 
       // Header and footer
@@ -1085,5 +1326,96 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
       // Request focus in title field
       titleTextField.requestFocus();
     }
+  }
+  
+  /**
+   * @return Returns the propertiesModelRadio.
+   */
+  public JRadioButton getPropertiesModelRadio() {
+    return propertiesModelRadio;
+  }
+
+  /**
+   * @return Returns the columnsSpinner.
+   */
+  public JSpinner getColumnsSpinner() {
+    return columnsSpinner;
+  }
+  
+  /**
+   * @return Returns the headerCheckbox.
+   */
+  public JCheckBox getHeaderCheckbox() {
+    return headerCheckbox;
+  }
+  
+  /**
+   * @return Returns the colWidthsCombobox.
+   */
+  public JComboBox getColWidthsCombobox() {
+    return colWidthsCombobox;
+  }
+  
+  /**
+   * @return Returns the frameCombo.
+   */
+  public JComboBox getFrameCombo() {
+    return frameCombo;
+  }
+  
+  /**
+   * @return Returns the colsepCombo.
+   */
+  public JComboBox getColsepCombo() {
+    return colsepCombo;
+  }
+  
+  /**
+   * @return Returns the rowsepCombo.
+   */
+  public JComboBox getRowsepCombo() {
+    return rowsepCombo;
+  }
+  
+  /**
+   * @return Returns the alignCombo.
+   */
+  public JComboBox getAlignCombo() {
+    return alignCombo;
+  }
+  
+  /**
+   * @return Returns the titleCheckbox.
+   */
+  public JCheckBox getTitleCheckbox() {
+    return titleCheckbox;
+  }
+  
+  /**
+   * @return Returns the titleTextField.
+   */
+  public JTextField getTitleTextField() {
+    return titleTextField;
+  }
+  
+  /**
+   * @return Returns the rowsSpinner.
+   */
+  public JSpinner getRowsSpinner() {
+    return rowsSpinner;
+  }
+  
+  /**
+   * @return Returns the calsModelRadio.
+   */
+  public JRadioButton getCalsModelRadio() {
+    return calsModelRadio;
+  }
+  
+  /**
+   * @return Returns the simpleOrHtmlModelRadio.
+   */
+  public JRadioButton getSimpleOrHtmlModelRadio() {
+    return simpleOrHtmlModelRadio;
   }
 }

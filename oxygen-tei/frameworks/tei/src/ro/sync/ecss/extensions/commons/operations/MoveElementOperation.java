@@ -51,6 +51,7 @@
 package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Position;
 
 import org.apache.log4j.Logger;
 
@@ -94,10 +95,11 @@ public class MoveElementOperation implements AuthorOperation {
    */
   private static final String ARGUMENT_DELETE_LOCATION = "deleteLocation";
   /**
-   * A string representation of an XML fragment. The moved node will be wrapped
-   * in this string before moving it in the destination.
+   * A string representation of an XML fragment. 
+   * The moved node will be inserted in the first leaf will be this fragment 
+   * and this fragment containing the moved node will be placed at the destination.
    */
-  private static final String ARGUMENT_SURROUND_FRAGMENT_LOCATION = "surroundFragment";
+  private static final String ARGUMENT_SURROUND_FRAGMENT = "surroundFragment";
   /**
    * An XPath expression that identifies the location where the node must be moved to.
    */
@@ -112,6 +114,11 @@ public class MoveElementOperation implements AuthorOperation {
   private static final String ARGUMENT_MOVE_ONLY_CONTENT = "moveOnlySourceContentNodes";
   
   /**
+   * Controls whether the XPaths should be run as if all track changes have been applied or not.
+   */
+  private static final String ARGUMENT_PROCESS_CHANGE_MARKERS = "processTrackedChangesForXPathLocations";
+  
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
@@ -120,7 +127,7 @@ public class MoveElementOperation implements AuthorOperation {
    * Constructor. 
    */
   public MoveElementOperation() {
-    arguments = new ArgumentDescriptor[6];
+    arguments = new ArgumentDescriptor[7];
     
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SOURCE_LOCATION,
@@ -151,10 +158,10 @@ public class MoveElementOperation implements AuthorOperation {
     arguments[2] = argumentDescriptor;
     
     argumentDescriptor = new ArgumentDescriptor(
-        ARGUMENT_SURROUND_FRAGMENT_LOCATION,
+        ARGUMENT_SURROUND_FRAGMENT,
         ArgumentDescriptor.TYPE_FRAGMENT,
-        "A string representation of an XML fragment. The moved node will be wrapped "
-        + "in this string before moving it in the destination.");
+        "A string representation of an XML fragment. The moved node will be inserted in the first leaf will be this fragment "
+        + "and this fragment containing the moved node will be placed at the destination.");
     arguments[3] = argumentDescriptor;
     
     argumentDescriptor = new ArgumentDescriptor(
@@ -183,6 +190,21 @@ public class MoveElementOperation implements AuthorOperation {
           }, 
           AuthorConstants.POSITION_INSIDE_FIRST);
     arguments[5] = argumentDescriptor;
+    
+    // Process track changes when finding nodes using XPath.
+    argumentDescriptor = new ArgumentDescriptor(
+            ARGUMENT_PROCESS_CHANGE_MARKERS,
+            ArgumentDescriptor.TYPE_CONSTANT_LIST,
+            "When nodes are located via XPath, if you have nodes deleted with change tracking in the document "
+            + "they are considered as being present by default.\n"
+            + "But if you set this argument to 'true', the nodes "
+            + "deleted with track changes will be ignored when the xpath locations are computed. ",
+                new String[] {
+                    AuthorConstants.ARG_VALUE_TRUE,
+                    AuthorConstants.ARG_VALUE_FALSE
+                }, 
+                AuthorConstants.ARG_VALUE_FALSE);
+    arguments[6] = argumentDescriptor;
   }
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
@@ -199,10 +221,15 @@ public class MoveElementOperation implements AuthorOperation {
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
       throws IllegalArgumentException, AuthorOperationException {
+    // True if the moved node should be selected.
+    boolean selectNode = false;
     String sourceLocation = (String) args.getArgumentValue(ARGUMENT_SOURCE_LOCATION);
     AuthorNode toMoveNode = null;
+    boolean processTrackChanges = AuthorConstants.ARG_VALUE_TRUE.equals(
+        args.getArgumentValue(ARGUMENT_PROCESS_CHANGE_MARKERS));
+    
     if (sourceLocation != null && sourceLocation.trim().length() > 0) {
-      toMoveNode = executeLocationXPath(authorAccess, sourceLocation);
+      toMoveNode = executeLocationXPath(authorAccess, sourceLocation, processTrackChanges);
     } else {
       // Defaults to the node at caret.
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
@@ -217,13 +244,17 @@ public class MoveElementOperation implements AuthorOperation {
     if (logger.isDebugEnabled()) {
       logger.debug("To move " + toMoveNode);
     }
-    
+    // If the node to be moved is the selected node, we will try to select it
+    // after the move operation.
+    if (authorAccess.getEditorAccess().getFullySelectedNode() == toMoveNode) {
+      selectNode = true;
+    }
     if (toMoveNode != null) {
       AuthorNode toDeleteNode = toMoveNode;
       String toDeleteLocation = (String) args.getArgumentValue(ARGUMENT_DELETE_LOCATION);
       if (toDeleteLocation != null) {
         // We have an explicit node to delete.
-        toDeleteNode = executeLocationXPath(authorAccess, toDeleteLocation);
+        toDeleteNode = executeLocationXPath(authorAccess, toDeleteLocation, processTrackChanges);
       }
 
       if (logger.isDebugEnabled()) {
@@ -248,6 +279,8 @@ public class MoveElementOperation implements AuthorOperation {
           }
 
           if (AuthorConstants.ARG_VALUE_TRUE.equals(moveOnlyContent)) {
+            // we cannot select the moved node, because we move its content...
+        	selectNode = false;
             if (toMoveNode.getStartOffset() + 1 != toMoveNode.getEndOffset()) {
               // Not an empty node.
               fragmentToMove = ctrl.createDocumentFragment(toMoveNode.getStartOffset() + 1, toMoveNode.getEndOffset() - 1);
@@ -258,7 +291,7 @@ public class MoveElementOperation implements AuthorOperation {
 
           int insertionOffset =
               ctrl.getXPathLocationOffset(
-                  targetLocationXPath, relativePosition);
+                  targetLocationXPath, relativePosition, processTrackChanges);
           if (logger.isDebugEnabled()) {
             logger.debug("Insert location for fragment: " + insertionOffset);
           }
@@ -271,8 +304,10 @@ public class MoveElementOperation implements AuthorOperation {
                   + toDeleteNode + ". Computed insertion offset " + insertionOffset);
             }
 
-            String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT_LOCATION);
+            String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT);
             if (fragment != null) {
+              // We add the node in a fragment, so we will not select it anymore
+              selectNode = false;
               // 1. The fragment is optional. Insert the fragment, if any.
               AuthorDocumentFragment xmlFragment = ctrl.createNewDocumentFragmentInContext(fragment, insertionOffset);
               ctrl.insertFragment(insertionOffset, xmlFragment);
@@ -287,15 +322,26 @@ public class MoveElementOperation implements AuthorOperation {
                 logger.debug("Insert location for moved: " + insertionOffset);
               }
             }
-
+            
             // 2. Move the node inside the given fragment.
             if (fragmentToMove != null) {
               // Can be null if we are moving the content of an empty node.
               ctrl.insertFragment(insertionOffset, fragmentToMove);
             }
-
+            // Keep a position after the insertion offset
+            Position insertPosition = ctrl.createPositionInContent(insertionOffset + 1);            
             // 3. Delete the node.
             ctrl.deleteNode(toDeleteNode);
+            // Select the moved node if that was selected before the move operation 
+            if (selectNode) {
+              AuthorNode toSelectNode = ctrl.getNodeAtOffset(insertPosition.getOffset());
+              if (toSelectNode != null) {
+                authorAccess.getEditorAccess().select(toSelectNode.getStartOffset(), toSelectNode.getEndOffset() + 1);
+              }
+            } else {
+              // Set the caret inside the moved node.
+              authorAccess.getEditorAccess().setCaretPosition(insertPosition.getOffset());
+            }
           } else {
             throw new AuthorOperationException("The XPath expression: " + targetLocationXPath + " - doesn't identify any node");
           }
@@ -313,14 +359,18 @@ public class MoveElementOperation implements AuthorOperation {
   /**
    * Executes the given XPath expression and identifies the corresponding author node.
    * 
+   * @param authorAccess Author Access.
+   * @param xPathExpression Xpath expression.
+   * @param processTrackChanges Process track changes.
+   * 
    * @return The node identified by the XPath expression.
    * 
    * @throws AuthorOperationException If the XPath expression doesn't identify a node. 
    */
-  private AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression) 
+  private AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression, boolean processTrackChanges) 
       throws AuthorOperationException {
     AuthorNode toReturn = null;
-    AuthorNode[] locatedNodes = authorAccess.getDocumentController().findNodesByXPath(xPathExpression, true, true, true);
+    AuthorNode[] locatedNodes = authorAccess.getDocumentController().findNodesByXPath(xPathExpression, true, true, true, processTrackChanges);
     if (locatedNodes.length > 0) {
       if (locatedNodes.length > 1) {
         // Is bad practice to write an XPath expression that identifies multiple nodes.

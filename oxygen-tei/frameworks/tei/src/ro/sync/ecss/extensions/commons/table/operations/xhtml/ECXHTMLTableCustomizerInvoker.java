@@ -88,11 +88,11 @@ public class ECXHTMLTableCustomizerInvoker extends TableCustomizer {
   private ECXHTMLTableCustomizerInvoker() {}
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int, int)
    */
   @Override
   protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
-      int predefinedColumnsCount) {
+      int predefinedColumnsCount, int defaultTableModel) {
     //Eclipse table customization.
     ECTableCustomizerDialog tableCustomizerDialog = new ECXHTMLTableCustomizerDialog(
         (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),

@@ -92,4 +92,12 @@ public class XSLTOperation extends TransformOperation {
   public String getDescription() {
     return "Run an XSLT script on a source element and then replace or insert the result in a target element.";
   }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.operations.TransformOperation#canTreatAsScript(java.lang.String)
+   */
+  @Override
+  protected boolean canTreatAsScript(String script) {
+    return script.contains("<");
+  }
 }

@@ -60,6 +60,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.XPathVersion;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -130,7 +131,7 @@ public abstract class PseudoClassOperation implements AuthorOperation {
       AuthorElement targetElement;
       if (xpathLocation instanceof String) {
         AuthorNode[] results =
-          authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, true, true, true);
+          authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, null, true, true, true, false, XPathVersion.XPATH_2_0, true);
         if (results.length > 0 && results[0] instanceof AuthorElement) {
           targetElement = (AuthorElement) results[0];          
         } else {

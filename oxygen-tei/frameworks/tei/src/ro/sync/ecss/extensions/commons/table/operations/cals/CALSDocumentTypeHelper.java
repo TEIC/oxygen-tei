@@ -59,6 +59,7 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpanSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
@@ -281,6 +282,26 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
 	            ATTRIBUTE_NAME_ID,
 	        };
   }
+
+  /**
+   * Get a list of allowed cell attributes to copy when creating a new row.
+   * @return a list of allowed cell attributes to copy when creating a new row.
+   */
+  public String[] getAllowedCellAttributesToCopy() {
+	  //Return the list from the CALS table specification
+      return new String[] {
+              "namest", 
+              "nameend",
+              "rowsep",
+              "colsep",
+              "colname",
+              "spanname",
+              "align",
+              "valign",
+              "charoff",
+              "rotate",
+          };
+  }
   
   /**
    * @see ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper#getIgnoredColumnAttributes()
@@ -291,5 +312,41 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
         ATTRIBUTE_NAME_NAMEST,
         ATTRIBUTE_NAME_NAMEEND,
     };
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.table.operations.cals.CALSDocumentTypeHelper#getTableElementForDeletion(ro.sync.ecss.extensions.api.node.AuthorNode)
+   */
+  @Override
+  public AuthorNode getTableElementForDeletion(AuthorNode element) {
+    if (isActuallyTableAndNotTgroup(element)) {
+      return element;
+    } else {
+      while (element.getParent() != null) {
+        if (isActuallyTableAndNotTgroup(element.getParent())) {
+          return element.getParent();
+        }
+      }
+    }
+    
+    return null;
+  }
+  
+  /**
+   * Check if the given node is a CALS table (not a tgroup, but actually a table element).
+   * 
+   * @param node the node for which we perform the check.
+   * 
+   * @return <code>true</code> if the given node is a table element.
+   */
+  protected boolean isActuallyTableAndNotTgroup(AuthorNode node) {
+    if(node instanceof AuthorElement) {
+      AuthorElement element = (AuthorElement) node;
+      if (ELEMENT_NAME_TABLE.equals(element.getLocalName())
+          || ELEMENT_NAME_INFORMALTABLE.equals(element.getLocalName())) {
+        return true;
+      } 
+    }
+    return false;
   }
 }

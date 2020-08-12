@@ -69,6 +69,7 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.table.operations.TableColumnSpecificationInformation;
+import ro.sync.ecss.extensions.commons.table.operations.AuthorTableHelper;
 import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.InsertTableCellsContentConstants;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
@@ -78,7 +79,7 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
  * Operation used to insert one or more CALS table columns.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+@WebappCompatible(false)
 public class InsertColumnOperation extends InsertColumnOperationBase implements 
   CALSConstants, InsertTableCellsContentConstants {
   
@@ -96,7 +97,16 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
    * Constructor.
    */
   public InsertColumnOperation() {
-    super(new CALSDocumentTypeHelper());
+    this(new CALSDocumentTypeHelper());
+  }
+  
+  /**
+   * Constructor.
+   * 
+   * @param tableHelper The table helper
+   */
+  public InsertColumnOperation(AuthorTableHelper tableHelper) {
+    super(tableHelper);
     ArgumentDescriptor[] superArgs = super.getArguments();
     if (superArgs != null) {
       this.arguments = new ArgumentDescriptor[superArgs.length + 1];
@@ -112,10 +122,10 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBase#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     Object cellFragmentObj =  args.getArgumentValue(CELL_FRAGMENT_ARGUMENT_NAME);
     if (cellFragmentObj instanceof String) {
@@ -124,7 +134,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     if ("".equals(cellContent)) {
       cellContent = null;
     }
-    super.doOperation(authorAccess, args);
+    super.doOperationInternal(authorAccess, args);
   }
 
   /**
@@ -172,13 +182,15 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     }
     // Determine the index in document where the new 'colspec' will be inserted
     int insertOffset = -1;
+    String preferredColspecElementName = ELEMENT_NAME_COLSPEC;
     if(previousColspecIndex != -1) {
       // Increase the 'colnum' attributes which are <= than the inserted column
       List<AuthorNode> contentNodes = tgroup.getContentNodes();
       // Increase the 'colnum' of the column specification that are after the inserted column  
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode colspecNodeCandidate = iterator.next();
-        if(isElement(colspecNodeCandidate, ELEMENT_NAME_COLSPEC)) {
+        if(tableHelper.isColspec(colspecNodeCandidate)) {
+          preferredColspecElementName = ((AuthorElement)colspecNodeCandidate).getLocalName();
           AttrValue colSpecNumber= ((AuthorElement)colspecNodeCandidate).getAttribute(ATTRIBUTE_NAME_COLNUM);
           if(colSpecNumber != null) {
             try {
@@ -204,7 +216,8 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
       int i = 0;
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode node = iterator.next();
-        if(isElement(node, ELEMENT_NAME_COLSPEC)) {
+        if(tableHelper.isColspec(node)) {
+          preferredColspecElementName = ((AuthorElement)node).getLocalName();
           if(i == previousColspecIndex) {
             // We found the 'colSpec', insert before or after it depending on the flag
             insertOffset = (insertBefore ? node.getStartOffset() : node.getEndOffset() + 1);
@@ -234,7 +247,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     for (int i = 0; i < noOfColumnsToBeInserted; i++) {
       if (insertOffset != -1) {
         
-        newColSpecFragment.append("<").append(ELEMENT_NAME_COLSPEC);
+        newColSpecFragment.append("<").append(preferredColspecElementName);
         if (namespace != null) {
           newColSpecFragment.append(" xmlns=\"").append(namespace).append("\"");
         }

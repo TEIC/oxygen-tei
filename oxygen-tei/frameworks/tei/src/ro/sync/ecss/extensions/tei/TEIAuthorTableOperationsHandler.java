@@ -61,6 +61,7 @@ import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableDeleteColumnArguments;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableDeleteRowArguments;
+import ro.sync.ecss.extensions.api.table.operations.AuthorTableDeleteRowsArguments;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableInsertColumnArguments;
 import ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler;
 import ro.sync.ecss.extensions.commons.table.operations.TableOperationsUtil;
@@ -167,6 +168,7 @@ public class TEIAuthorTableOperationsHandler extends AuthorTableOperationsHandle
   /**
    * @see ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler#handleDeleteRow(ro.sync.ecss.extensions.api.table.operations.AuthorTableDeleteRowArguments)
    */
+  @SuppressWarnings({ "deprecation", "javadoc" })
   @Override
   public boolean handleDeleteRow(AuthorTableDeleteRowArguments arguments)
       throws AuthorOperationException {
@@ -175,6 +177,18 @@ public class TEIAuthorTableOperationsHandler extends AuthorTableOperationsHandle
     }
     ContentInterval rowInterval = arguments.getRowInterval();
     return deleteRowOperation.performDeleteRows(arguments.getAuthorAccess(), rowInterval.getStartOffset(), rowInterval.getEndOffset());
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.table.operations.AuthorTableOperationsHandler#handleDeleteRows(ro.sync.ecss.extensions.api.table.operations.AuthorTableDeleteRowsArguments)
+   */
+  @Override
+  public boolean handleDeleteRows(AuthorTableDeleteRowsArguments arguments)
+      throws AuthorOperationException {
+    if (deleteRowOperation == null) {
+      deleteRowOperation = new DeleteRowOperation();
+    }
+    return deleteRowOperation.performDeleteRows(arguments.getAuthorAccess(), arguments.getContentIntervals());
   }
   
   /**

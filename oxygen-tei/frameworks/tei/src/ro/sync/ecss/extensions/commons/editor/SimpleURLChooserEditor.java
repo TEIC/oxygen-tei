@@ -436,6 +436,14 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
     stopEditing(false);
   }
   
+  /**
+   * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#commitValue()
+   */
+  @Override
+  public void commitValue() {
+    fireCommitValue(new EditingEvent((String) getValue()));    
+  }
+  
   private void stopEditing(boolean onEnter) {
     String text = urlTextField.getText();
     try {

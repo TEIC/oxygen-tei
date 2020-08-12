@@ -69,7 +69,7 @@ import ro.sync.ecss.extensions.commons.table.operations.InsertColumnOperationBas
  * Operation used to insert one or more XHTML table columns.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-@WebappCompatible
+@WebappCompatible(false)
 public class InsertColumnOperation extends InsertColumnOperationBase implements XHTMLConstants {
   
   /**
@@ -166,13 +166,6 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements 
             //Did not encounter any col.
             referenceInsertionOffset = elem.getStartOffset();
             break;
-          } else if (ELEMENT_NAME_COLSPEC.equals(localName)){
-            foundColspecs = true;
-            if(noOfEncounteredCols == newColumnIndex){
-              referenceInsertionOffset = elem.getStartOffset();
-              break loop;
-            }
-            noOfEncounteredCols ++;
           } else if (ELEMENT_NAME_COLGROUP.equals(localName)){
             foundColspecs = true;
             //We have to iterate inside the colgroup.
@@ -192,6 +185,13 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements 
                 }
               }
             }
+            if(noOfEncounteredCols == newColumnIndex){
+              referenceInsertionOffset = elem.getEndOffset();
+              break loop;
+            }
+            noOfEncounteredCols ++;
+          } else if (ELEMENT_NAME_COLSPEC.equals(localName)){
+            foundColspecs = true;
             if(noOfEncounteredCols == newColumnIndex){
               referenceInsertionOffset = elem.getStartOffset();
               break loop;

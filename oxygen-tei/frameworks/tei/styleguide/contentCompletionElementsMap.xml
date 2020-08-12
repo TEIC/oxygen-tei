@@ -85,8 +85,6 @@
         <mapping elementName="att.rdgPart" path="ref-att.rdgPart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att.readFrom" path="ref-att.readFrom.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att.resourced" path="ref-att.resourced.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.responsibility" path="ref-att.responsibility.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="att.scoping" path="ref-att.scoping.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att.segLike" path="ref-att.segLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att.sortable" path="ref-att.sortable.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="att.source" path="ref-att.source.html" type="link" linkText="TEI Guidelines"/>
@@ -175,7 +173,6 @@
         <mapping elementName="damage" path="ref-damage.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="damageSpan" path="ref-damageSpan.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="data.certainty" path="ref-data.certainty.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="data.code" path="ref-data.code.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="data.count" path="ref-data.count.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="data.duration.iso" path="ref-data.duration.iso.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="data.duration.w3c" path="ref-data.duration.w3c.html" type="link" linkText="TEI Guidelines"/>
@@ -481,7 +478,6 @@
         <mapping elementName="model.offsetLike" path="ref-model.offsetLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.orgPart" path="ref-model.orgPart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.orgStateLike" path="ref-model.orgStateLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.persEventLike" path="ref-model.persEventLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.persNamePart" path="ref-model.persNamePart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.personLike" path="ref-model.personLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.personPart" path="ref-model.personPart.html" type="link" linkText="TEI Guidelines"/>
@@ -489,7 +485,6 @@
         <mapping elementName="model.phrase" path="ref-model.phrase.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.phrase.xml" path="ref-model.phrase.xml.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.physDescPart" path="ref-model.physDescPart.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.placeEventLike" path="ref-model.placeEventLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.placeLike" path="ref-model.placeLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.placeNamePart" path="ref-model.placeNamePart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.placeStateLike" path="ref-model.placeStateLike.html" type="link" linkText="TEI Guidelines"/>
@@ -503,7 +498,6 @@
         <mapping elementName="model.profileDescPart" path="ref-model.profileDescPart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.ptrLike.form" path="ref-model.ptrLike.form.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.ptrLike" path="ref-model.ptrLike.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="model.publicationStmtPart" path="ref-model.publicationStmtPart.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.qLike" path="ref-model.qLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.quoteLike" path="ref-model.quoteLike.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="model.rdgLike" path="ref-model.rdgLike.html" type="link" linkText="TEI Guidelines"/>
@@ -611,7 +605,6 @@
         <mapping elementName="region" path="ref-region.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="relatedItem" path="ref-relatedItem.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="relation" path="ref-relation.html" type="link" linkText="TEI Guidelines"/>
-        <mapping elementName="relationGrp" path="ref-relationGrp.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="remarks" path="ref-remarks.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="rendition" path="ref-rendition.html" type="link" linkText="TEI Guidelines"/>
         <mapping elementName="repository" path="ref-repository.html" type="link" linkText="TEI Guidelines"/>

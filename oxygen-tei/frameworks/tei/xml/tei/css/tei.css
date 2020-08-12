@@ -99,6 +99,12 @@ byline {
   font-style: italic;
   margin-bottom: 0.5em;
 }
+@media oxygen AND (platform:"eclipse") {
+  byline {
+    font-style: normal;
+  }
+}
+
 category {
   display: block;
   margin-bottom: 1em;
@@ -328,6 +334,11 @@ formula {
   display: inline;
   font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  formula {
+    font-style: normal;
+  }
+}
 front {
   display: block;
   margin-bottom: 1em;
@@ -347,6 +358,11 @@ gap {
 gap:after {
   content: "[...]";
   font-style: italic;
+}
+@media oxygen AND (platform:"eclipse") {
+  gap:after {
+    font-style: normal;
+  }
 }
 gi,tag {
   display: inline;
@@ -745,6 +761,11 @@ reg {
   display: inline;
   font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  reg {
+    font-style: normal;
+  }
+}
 rendition {
   display: block;
   margin-bottom: 0.5em;
@@ -812,6 +833,11 @@ soCalled {
   font-style: italic;
   quotes: "'" "'";
 }
+@media oxygen AND (platform:"eclipse") {
+  soCalled {
+    font-style: normal;
+  }
+}
     
 soCalled:before {
   content: open-quote;
@@ -838,7 +864,13 @@ stage {
   display: inline;
   font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  stage {
+    font-style: normal;
+  }
+}
 table {
+  text-align: center;
   display: table;
   margin: 1em
 }
@@ -846,6 +878,11 @@ table > head{
     display:table-caption;
     font-style: italic;
     margin-bottom: 6pt;
+}
+@media oxygen AND (platform:"eclipse") {
+  table > head{
+    font-style: normal;
+  }
 }
 
 tagUsage {

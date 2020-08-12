@@ -90,7 +90,7 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
       new ArgumentDescriptor(
           ACTION_IDS, 
           ArgumentDescriptor.TYPE_STRING, 
-          "The action IDs which will be executed in sequence, separated by new lines.");
+          "The IDs of the actions that will be executed in sequence, separated either by new lines or by commas.");
     arguments[0] = argumentDescriptor;
   }
   
@@ -113,11 +113,14 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
     if (actionIDs != null) {
       //Split it.
       String ids = (String) actionIDs;
-      String[] allIds = ids.split("\n");
+      String[] allIds = ids.contains(",") ? ids.split(",") : ids.split("\n");
       Map<String, Object> authorExtensionActions = authorAccess.getEditorAccess().getActionsProvider().getAuthorExtensionActions();
       Map<String, Object> authorCommonActions = authorAccess.getEditorAccess().getActionsProvider().getAuthorCommonActions();
       for (int i = 0; i < allIds.length; i++) {
-        String id = allIds[i];
+        String id = allIds[i].trim();
+        if (id.isEmpty()) {
+          continue;
+        }
         boolean actionFound = false;
 
         if (authorExtensionActions != null) {

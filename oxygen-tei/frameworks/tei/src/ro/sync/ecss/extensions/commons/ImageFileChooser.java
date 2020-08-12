@@ -71,7 +71,7 @@ public class ImageFileChooser {
   /**
    * All the allowed extensions for an image.
    */
-  public static final String[] ALLOWED_IMAGE_EXTENSIONS = new String[] {"gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf"};
+  public static final String[] ALLOWED_IMAGE_EXTENSIONS = new String[] {"gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf", "psd"};
   
   /**
    * Used to test the class from JUnit test cases.
@@ -94,7 +94,7 @@ public class ImageFileChooser {
     //EXM-19644 Use remote image chooser
     String sel = authorAccess.getWorkspaceAccess().chooseURLPath(
         authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CHOOSE_IMAGE), 
-        new String[] { "gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf"},
+        new String[] { "gif", "jpg", "jpeg", "bmp", "png", "svg", "svgz", "wmf", "mathml", "mml", "cgm", "tif", "tiff", "eps", "ai", "pdf", "psd"},
         authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.IMAGE_FILES));
     if (sel != null) {
       imagePath = makeUrlRelative(authorAccess, sel);

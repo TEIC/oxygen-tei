@@ -60,6 +60,12 @@ import ro.sync.annotations.api.SourceType;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface ExtensionTags {
   /**
+   * Message for when a file is not found.
+   * 
+   * en: File not found
+   */
+  String FILE_NOT_FOUND = "File_not_found";
+  /**
    * Name of a section in the Sort dialog.
    * 
    * en: Range
@@ -539,4 +545,20 @@ public interface ExtensionTags {
    * en: After
    */
   String AFTER = "After";
+  /**
+   * en: Split cells
+   */
+  String SPLIT_CELLS = "Split_cells";
+  /**
+   * en: This action will not be marked as a change.
+   */
+  String ACTION_NOT_MARKED_AS_CHANGE = "Action_not_marked_as_change";
+  /**
+   * en: Track changes
+   */
+  String TRACK_CHANGES = "Track_changes";
+  /**
+   * en: Properties
+   */
+  String PROPERTIES = "Properties";
 }
