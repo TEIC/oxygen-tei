@@ -94,6 +94,7 @@ public interface DefaultExtensions {
       XSLTOperation.class,
       // XQuery operation
       XQueryOperation.class,
+      XQueryUpdateOperation.class,
       OpenInSystemAppOperation.class,
       //Run transformation scenario operation.
       ExecuteTransformationScenariosOperation.class,
@@ -117,7 +118,20 @@ public interface DefaultExtensions {
       RenameElementOperation.class,
       // JS operation
       JSOperation.class,
+      //EXM-34226: Added an operation that changes the read-only status of the document.
+      SetReadOnlyStatusOperation.class,
+      // Replaces the content of an XML document.
+      ReplaceContentOperation.class,
+      // EXM-35810: promote demote list items on Web Author
+      PromoteDemoteItemOperation.class,
+      // EXM-29044: Execute command line operations
+      ExecuteCommandLineOperation.class,
+      // EXM-36078: Move caret operation
+      MoveCaretOperation.class,
+      // WA-668: Webapp-only operation to mark a document as saved.
+      WebappMarkAsSavedOperation.class
   };
+  
   
   /**
    * The array with default classes used for table support.

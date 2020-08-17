@@ -51,8 +51,10 @@
 package ro.sync.ecss.extensions.commons.table.support;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -67,6 +69,7 @@ import ro.sync.ecss.extensions.api.WidthRepresentation;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.table.support.errorscanner.CALSAndHTMLTableLayoutProblem;
 
 /**
  * Provides information regarding HTML table cell span and column width.
@@ -106,7 +109,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * Span attribute name.
    * The value is <code>span</code>
    */
-  private static final String ATTR_NAME_SPAN = "span";
+  public static final String ATTR_NAME_SPAN = "span";
   /**
    * Width attribute name.
    * The value is <code>width</code>
@@ -147,6 +150,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   private List<WidthRepresentation> colWidthSpecs = new ArrayList<WidthRepresentation>();
   
   /**
+   * Link width representation to author element.
+   */
+  private Map<WidthRepresentation, AuthorElement> widthRepresentationsToElementsMap = new HashMap<WidthRepresentation, AuthorElement>();
+  
+  /**
    * The table element.
    */
   private AuthorElement tableElement;
@@ -167,6 +175,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         colspan = Integer.valueOf(Math.max(value, 1));
       } catch(NumberFormatException nfe) {
         // Not a number.
+        if (errorsListener != null) {
+          errorsListener.add(cellElement, tableElement, 
+              CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, attrValue.getValue(), "colspan");
+        }
       }
     }
     return colspan;
@@ -188,6 +200,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         rowspan = Integer.valueOf(Math.max(value, 1));     
       } catch(NumberFormatException nfe) {
         // Not a number.
+        if (errorsListener != null) {
+          errorsListener.add(cellElement, tableElement, 
+              CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, attrValue.getValue(), "rowspan");
+        }
       }
     }
     return rowspan;
@@ -216,6 +232,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
             if (logger.isDebugEnabled()) {
               logger.debug(e, e);
             } 
+            if (errorsListener != null) {
+              errorsListener.add(child, tableElement, 
+                  CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                  attrValue.getValue(), ATTR_NAME_SPAN);
+            }
           }
         }
 
@@ -270,6 +291,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
                   if (logger.isDebugEnabled()) {
                     logger.debug(e, e);
                   } 
+                  if (errorsListener != null) {
+                    errorsListener.add(cgChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                        ATTR_NAME_SPAN, colSpanAttribute.getValue());
+                  }
                 }     
               }
               // Add ColWidth objects for the columns this 'col' specification spans over.
@@ -277,6 +302,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
                 WidthRepresentation widthRepresentation = new WidthRepresentation(colWidth, true);
                 widthRepresentation.setAlign(alignValue);
                 colWidthSpecs.add(widthRepresentation);
+                widthRepresentationsToElementsMap.put(widthRepresentation, cgChild);
               }
             }
           }
@@ -321,6 +347,10 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
               if (logger.isDebugEnabled()) {
                 logger.debug(e, e);
               } 
+              if (errorsListener != null) {
+                errorsListener.add(colChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                    ATTR_NAME_SPAN, colSpanAttribute.getValue());
+              }
             }     
           }
           // Add ColWidth objects for the columns this 'col' specification spans over.
@@ -328,6 +358,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
             WidthRepresentation widthRepresentation = new WidthRepresentation(colWidth, true);
             widthRepresentation.setAlign(textAlignValue);
             colWidthSpecs.add(widthRepresentation);
+            widthRepresentationsToElementsMap.put(widthRepresentation, colChild);
           }
         }
       }
@@ -597,5 +628,17 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     } else {
       return null;
     }
+  }
+  
+  /**
+   * Get the column specification for a certain column index.
+   * @param columnIndex The column index
+   * @return the colspec element or <code>null</code>
+   */
+  public AuthorElement getColSpec(int columnIndex){
+    if(colWidthSpecs != null && colWidthSpecs.size() > columnIndex){
+      return widthRepresentationsToElementsMap.get(colWidthSpecs.get(columnIndex));
+    }
+    return null;
   }
 }

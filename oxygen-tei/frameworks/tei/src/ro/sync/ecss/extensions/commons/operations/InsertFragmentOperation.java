@@ -85,20 +85,72 @@ public class InsertFragmentOperation implements AuthorOperation {
    */
   public static final String ARGUMENT_FRAGMENT = "fragment";
   /**
+   * Argument defining the XML fragment that will be inserted.
+   */
+  protected static final ArgumentDescriptor ARGUMENT_DESCRIPTOR_FRAGMENT = new ArgumentDescriptor(
+      ARGUMENT_FRAGMENT,
+      ArgumentDescriptor.TYPE_FRAGMENT,
+      "The fragment to be inserted");
+  /**
    * The insert location argument.
    * The value is <code>insertLocation</code>.
    */
   public static final String ARGUMENT_XPATH_LOCATION = "insertLocation";
   /**
+   * Argument defining the location where the operation will be executed as an XPath expression.
+   */
+  protected static final ArgumentDescriptor ARGUMENT_DESCRIPTOR_XPATH_LOCATION = new ArgumentDescriptor(
+      ARGUMENT_XPATH_LOCATION, 
+      ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
+      "An XPath expression indicating the insert location for the fragment.\n" +
+      "Note: If it is not defined then the insert location will be at the caret.");
+  /**
    * The insert position argument.
    * The value is <code>insertPosition</code>.
    */
   public static final String ARGUMENT_RELATIVE_LOCATION = "insertPosition";
+
+  /**
+   * Argument defining the relative position to the node obtained from the XPath location.
+   */
+  protected static final ArgumentDescriptor ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION = new ArgumentDescriptor(
+      ARGUMENT_RELATIVE_LOCATION, 
+      ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "The insert position relative to the node determined by the XPath expression.\n" +
+      "Can be: " 
+      + AuthorConstants.POSITION_BEFORE + ", " +
+      AuthorConstants.POSITION_INSIDE_FIRST + ", " +
+      AuthorConstants.POSITION_INSIDE_LAST + " or " +
+      AuthorConstants.POSITION_AFTER + ".\n" +
+      "Note: If the XPath expression is not defined this argument is ignored",
+      new String[] {
+          AuthorConstants.POSITION_BEFORE,
+          AuthorConstants.POSITION_INSIDE_FIRST,
+          AuthorConstants.POSITION_INSIDE_LAST,
+          AuthorConstants.POSITION_AFTER,
+      }, 
+      AuthorConstants.POSITION_INSIDE_FIRST);
+  
   /**
    * Detect and position the caret inside the first edit location. It can be either 
    * an offset inside the content or an in-place editor.
    */
   public static final String ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION = "goToNextEditablePosition";
+  /**
+   * Argument defining if the fragment insertion is schema aware.
+   */
+  protected static final ArgumentDescriptor ARGUMENT_DESCRIPTOR_GO_TO_NEXT_EDITABLE_POSITION = new ArgumentDescriptor(
+      ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION, 
+      ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "After inserting the fragment, the first editable position is detected and " +
+      "the caret is placed at that location. It handles any in-place editors used " +
+      "to edit attributes. It will be ignored if the fragment specifies a caret " +
+      "position using the caret editor variable.",
+      new String[] {
+          AuthorConstants.ARG_VALUE_TRUE,
+          AuthorConstants.ARG_VALUE_FALSE,
+      }, 
+      AuthorConstants.ARG_VALUE_TRUE);
   /**
    * The arguments of the operation.
    */
@@ -108,61 +160,18 @@ public class InsertFragmentOperation implements AuthorOperation {
    * Constructor.
    */
   public InsertFragmentOperation() {
-    arguments = new ArgumentDescriptor[5];
-    // Argument defining the XML fragment that will be inserted.
-    ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
-        ARGUMENT_FRAGMENT,
-        ArgumentDescriptor.TYPE_FRAGMENT,
-        "The fragment to be inserted");
-    arguments[0] = argumentDescriptor;
-    
-    // Argument defining the location where the operation will be executed as an XPath expression.
-    argumentDescriptor = 
-      new ArgumentDescriptor(
-          ARGUMENT_XPATH_LOCATION, 
-          ArgumentDescriptor.TYPE_XPATH_EXPRESSION, 
-          "An XPath expression indicating the insert location for the fragment.\n" +
-          "Note: If it is not defined then the insert location will be at the caret.");
-    arguments[1] = argumentDescriptor;
-    
-    // Argument defining the relative position to the node obtained from the XPath location.
-    argumentDescriptor = 
-      new ArgumentDescriptor(
-          ARGUMENT_RELATIVE_LOCATION, 
-          ArgumentDescriptor.TYPE_CONSTANT_LIST,
-          "The insert position relative to the node determined by the XPath expression.\n" +
-          "Can be: " 
-          + AuthorConstants.POSITION_BEFORE + ", " +
-          AuthorConstants.POSITION_INSIDE_FIRST + ", " +
-          AuthorConstants.POSITION_INSIDE_LAST + " or " +
-          AuthorConstants.POSITION_AFTER + ".\n" +
-          "Note: If the XPath expression is not defined this argument is ignored",
-          new String[] {
-              AuthorConstants.POSITION_BEFORE,
-              AuthorConstants.POSITION_INSIDE_FIRST,
-              AuthorConstants.POSITION_INSIDE_LAST,
-              AuthorConstants.POSITION_AFTER,
-          }, 
-          AuthorConstants.POSITION_INSIDE_FIRST);
-    arguments[2] = argumentDescriptor;
-    
-    // Argument defining if the fragment insertion is schema aware.
-    arguments[3] = SCHEMA_AWARE_ARGUMENT_DESCRIPTOR;
-    
-    argumentDescriptor = new ArgumentDescriptor(
-        ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION, 
-        ArgumentDescriptor.TYPE_CONSTANT_LIST,
-        "After inserting the fragment, the first editable position is detected and " +
-        "the caret is placed at that location. It handles any in-place editors used " +
-        "to edit attributes. It will be ignored if the fragment specifies a caret " +
-        "position using the caret editor variable.",
-        new String[] {
-            AuthorConstants.ARG_VALUE_TRUE,
-            AuthorConstants.ARG_VALUE_FALSE,
-        }, 
-        AuthorConstants.ARG_VALUE_TRUE);
-
-    arguments[4] = argumentDescriptor;
+    arguments = new ArgumentDescriptor[] {
+      // Argument defining the XML fragment that will be inserted.
+      ARGUMENT_DESCRIPTOR_FRAGMENT,
+      // Argument defining the location where the operation will be executed as an XPath expression.
+      ARGUMENT_DESCRIPTOR_XPATH_LOCATION,
+      // Argument defining the relative position to the node obtained from the XPath location.
+      ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION,
+      // Argument defining if the fragment insertion is schema aware.
+      SCHEMA_AWARE_ARGUMENT_DESCRIPTOR,
+      // Argument defining if the fragment insertion is schema aware.
+      ARGUMENT_DESCRIPTOR_GO_TO_NEXT_EDITABLE_POSITION,
+    };
   }
 
   /**
@@ -181,7 +190,28 @@ public class InsertFragmentOperation implements AuthorOperation {
     }
     
     boolean goToFirstEditablePosition = AuthorConstants.ARG_VALUE_TRUE.equals(argumentValue);
+    Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
     
+    doOperationInternal(authorAccess, fragment, xpathLocation, relativeLocation, goToFirstEditablePosition,
+        schemaAwareArgumentValue);
+  }
+
+  /**
+   * Performs the insert operation.
+   * 
+   * @param authorAccess The author access used to access the document.
+   * @param fragment The fragment to be inserted.
+   * @param xpathLocation The XPath location where the insertion takes place. If null, insert at caret position.
+   * @param relativeLocation The location of the insertion relative to the node selected by the XPath.
+   * @param goToFirstEditablePosition <code>true</code> if we should go to the first editable 
+   *  position in the fragment after insertion.
+   * @param schemaAwareArgumentValue <code>true</code> if the insertion should be schema aware.
+   * 
+   * @throws AuthorOperationException
+   */
+  protected void doOperationInternal(AuthorAccess authorAccess, Object fragment, Object xpathLocation,
+      Object relativeLocation, boolean goToFirstEditablePosition, Object schemaAwareArgumentValue)
+      throws AuthorOperationException {
     if (fragment instanceof String) {
       String xmlFragment = (String) fragment;
       
@@ -190,7 +220,6 @@ public class InsertFragmentOperation implements AuthorOperation {
         MoveCaretUtil.hasImposedEditorVariableCaretOffset(xmlFragment);
       int insertionOffset = authorAccess.getEditorAccess().getCaretOffset();
       
-      Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
       if (AuthorConstants.ARG_VALUE_FALSE.equals(schemaAwareArgumentValue)) {
         // Insert fragment at specfied position.
         if (moveCaretToSpecifiedPosition || goToFirstEditablePosition) {

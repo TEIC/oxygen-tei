@@ -90,11 +90,11 @@ public class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
   private SAXHTMLTableCustomizerInvoker() {}
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int, int)
    */
   @Override
   protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
-      int predefinedColumnsCount) {
+      int predefinedColumnsCount, int defaultTableModel) {
     SATableCustomizerDialog tableCustomizerDialog = new SAXHTMLTableCustomizerDialog(
         (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
@@ -102,5 +102,12 @@ public class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
     tableCustomizerDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
     TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
     return newTableInfo;
+  }
+  
+  /**
+   * Clear instance for tests.
+   */
+  public static void clearForTests() {
+    instance = null;
   }
 }

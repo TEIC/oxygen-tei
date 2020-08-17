@@ -215,4 +215,24 @@ public interface AuthorTableHelper {
    * @return The ID attributes which should be skipped.
    */
   String[] getIgnoredCellIDAttributes();
+  
+  /**
+   * When we delete all the rows or all the columns of a table, we also want
+   * to delete the entire table element. 
+   * <br><br>
+   * OBS: For CALS tables we don't want to delete
+   * only the "tgroup", but the parent table element itself.
+   * 
+   * @param node the node whose parent table we are looking for.
+   * 
+   * @return the table element to be deleted.
+   */
+  AuthorNode getTableElementForDeletion(AuthorNode node);
+
+  /**
+   * Check if a node is a colspec node.
+   * @param node The node.
+   * @return <code>true</code> if a node is a colspec node.
+   */
+  boolean isColspec(AuthorNode node);
 }

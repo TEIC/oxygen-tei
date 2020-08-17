@@ -51,7 +51,6 @@
 package ro.sync.ecss.extensions.commons.id;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +68,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
@@ -187,8 +187,15 @@ public class GenerateIDElementsInfo {
    */
   private static String[] getIDGenerationElements(AuthorAccess authorAccess,
       GenerateIDElementsInfo defaultOptions) {
-    return splitStrings(authorAccess.getOptionsStorage().getOption(
-    GENERATE_ID_ELEMENTS_KEY, defaultOptions.getElementsAsOptionsString()));
+    String stringOption = defaultOptions.getElementsAsOptionsString();
+    
+    if (authorAccess != null) {
+      stringOption = authorAccess.getOptionsStorage().getOption(
+          GENERATE_ID_ELEMENTS_KEY,
+          stringOption);
+    }
+    
+    return splitStrings(stringOption);
   }
 
   /**
@@ -196,8 +203,15 @@ public class GenerateIDElementsInfo {
    * @return The ID generation pattern
    */
   private static String getIDGenerationPattern(AuthorAccess authorAccess, GenerateIDElementsInfo defaultOptions) {
-    return authorAccess.getOptionsStorage().getOption(
-        GENERATE_ID_PATTERN_KEY, defaultOptions.getIdGenerationPattern());
+    String idGenerationPattern = defaultOptions.getIdGenerationPattern();
+
+    if (authorAccess != null) {
+      idGenerationPattern = authorAccess.getOptionsStorage().getOption(
+          GENERATE_ID_PATTERN_KEY,
+          idGenerationPattern);
+    }
+    
+    return idGenerationPattern;
   }
 
   /**
@@ -207,9 +221,16 @@ public class GenerateIDElementsInfo {
    */
   private static boolean isAutoGenerateIDs(AuthorAccess authorAccess,
       GenerateIDElementsInfo defaultOptions) {
-    Boolean autoGenerate = Boolean.valueOf(authorAccess.getOptionsStorage().getOption(
-        GENERATE_ID_ELEMENTS_ACTIVE_KEY, Boolean.toString(defaultOptions.isAutoGenerateIDs())));
-    return autoGenerate.booleanValue();
+    
+    Boolean autoGenerate = defaultOptions.isAutoGenerateIDs();
+    
+    if (authorAccess != null) {
+      autoGenerate = Boolean.valueOf(authorAccess.getOptionsStorage().getOption(
+          GENERATE_ID_ELEMENTS_ACTIVE_KEY,
+          Boolean.toString(defaultOptions.isAutoGenerateIDs())));
+    }
+    
+    return autoGenerate;
   }
   
   /**
@@ -222,9 +243,16 @@ public class GenerateIDElementsInfo {
    */
   private static boolean isFilterIDs(
       AuthorAccess authorAccess, GenerateIDElementsInfo defaultOptions) {
-    return Boolean.valueOf(
-        authorAccess.getOptionsStorage().getOption(
-            FILTER_IDS_ON_COPY_KEY, Boolean.toString(defaultOptions.isFilterIDsOnCopy())));
+    boolean isFilterIDsOnCopy = defaultOptions.isFilterIDsOnCopy();
+
+    if (authorAccess != null) {
+      isFilterIDsOnCopy = Boolean.valueOf(
+          authorAccess.getOptionsStorage().getOption(
+              FILTER_IDS_ON_COPY_KEY,
+              Boolean.toString(isFilterIDsOnCopy)));
+    }
+    
+    return isFilterIDsOnCopy;
   }
   
   /**
@@ -232,8 +260,8 @@ public class GenerateIDElementsInfo {
    * @return null if string is empty or null or an array of strings
    */
   private static String[] splitStrings(String optionsString) {
-    if(optionsString == null || optionsString.trim().length() == 0) {
-      //Nothing here.
+    if (optionsString == null || optionsString.trim().length() == 0) {
+      // Nothing here.
       return null;
     } else {
       return optionsString.split(",");
@@ -324,8 +352,10 @@ public class GenerateIDElementsInfo {
   
   private String getElementsAsOptionsString() {
     StringBuilder toSave = new StringBuilder();
-    for (int i = 0; i < elementsWithIDGeneration.length; i++) { 
-      toSave.append(elementsWithIDGeneration[i]).append(",");
+    if(elementsWithIDGeneration != null){
+      for (int i = 0; i < elementsWithIDGeneration.length; i++) { 
+        toSave.append(elementsWithIDGeneration[i]).append(",");
+      }
     }
     return toSave.toString();
   }
@@ -338,6 +368,18 @@ public class GenerateIDElementsInfo {
    * @return The generated ID.
    */
   public static String generateID(String idGenerationPattern,  String elementLocalName) {
+    return generateID(idGenerationPattern, elementLocalName, null);
+  }
+  
+  /**
+   * Generate an ID from a pattern for the specified element.
+   * 
+   * @param idGenerationPattern The pattern.
+   * @param elementLocalName The element local name
+   * @param editorLocation Editor location
+   * @return The generated ID.
+   */
+  public static String generateID(String idGenerationPattern,  String elementLocalName, String editorLocation) {
     // Process the pattern, look for macros
     if (idGenerationPattern.indexOf(GenerateIDElementsInfo.LOCAL_NAME_PATTERN_MACRO) != -1) {
       // Found a local name macro
@@ -348,7 +390,7 @@ public class GenerateIDElementsInfo {
             elementLocalName);
     }
     //Expand id and uuid editor variables (and much more).
-    idGenerationPattern = EditorVariables.expandEditorVariables(idGenerationPattern, null);
+    idGenerationPattern = EditorVariables.expandEditorVariables(idGenerationPattern, editorLocation);
     return idGenerationPattern;
   }
   
@@ -430,32 +472,14 @@ public class GenerateIDElementsInfo {
    * @return The information loaded from the configuration.
    */
   public static GenerateIDElementsInfo loadDefaultsFromConfiguration(AuthorAccess authorAccess, String proposedXMLResourceName){
-    if(proposedXMLResourceName == null){
+    if (proposedXMLResourceName == null) {
       proposedXMLResourceName = "idGenerationDefaultOptions.xml";
     }
     final GenerateIDElementsInfo loaded = new GenerateIDElementsInfo(false, DEFAULT_ID_GENERATION_PATTERN, new String[0]);
-    String optionsLoadURL = null;
-    if(authorAccess != null){
+    if (authorAccess != null) {
       //Try to detect them in the classpath resources
-      URL[] resources = authorAccess.getClassPathResourcesAccess().getClassPathResources();
-      if(resources != null) {
-        for (int i = 0; i < resources.length; i++) {
-          URL resource = resources[i];
-          String resourceStr = resource.toExternalForm();
-          //Find the reuse folder
-          if(resourceStr.endsWith("/resources/")
-              || resourceStr.endsWith("/resources")){
-            //Found it.
-            try {
-              optionsLoadURL = new URL(resource, proposedXMLResourceName).toString();
-            } catch (MalformedURLException e) {
-              //Ignore
-            }
-            break;
-          }
-        }
-      }
-      if(optionsLoadURL != null){
+      URL optionsLoadURL = CommonsOperationsUtil.locateResourceInClasspath(authorAccess, proposedXMLResourceName);
+      if (optionsLoadURL != null) {
         XMLReader reader = authorAccess.getXMLUtilAccess().newNonValidatingXMLReader();
         final List<String> elems = new ArrayList<String>();
         //Content handler to gather information
@@ -515,7 +539,7 @@ public class GenerateIDElementsInfo {
           }
         });
         try {
-          reader.parse(optionsLoadURL);
+          reader.parse(optionsLoadURL.toString());
           loaded.elementsWithIDGeneration = elems.toArray(new String[0]);
         } catch (IOException e) {
           logger.error(e, e);

@@ -1,10 +1,12 @@
 @import "tei.css";
 @import "links.css";
 
-/* High contrast */
-@import "high-contrast.css";
+/* Dark theme */
+@import "dark-theme.css";
+@import "page.css";
 
 @namespace xml "http://www.w3.org/XML/1998/namespace";
+@namespace oxy "http://www.oxygenxml.com/extensions/author";
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------
 ----- Oxygen modifications to the TEI css available at  http://tei.svn.sourceforge.net/viewvc/tei/trunk/TEICSS/  ------
@@ -121,8 +123,29 @@ gap {
     content: "[...]";
     font-style: italic;
 }
+@media oxygen AND (platform:"eclipse") {
+  gap {
+    font-style: normal;
+  }
+}
 gap:after {
     content: "";
+}
+/*EXM-34326 Show all elements hidden by the base CSS*/
+anchor, catRef, divGen, index, interp, interpGrp, milestone {
+   display: -oxy-morph;
+}
+
+pb {
+  display: -oxy-morph;
+  font-weight: bold;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  text-align: center;
+}
+    
+pb:after {
+  content: "";
 }
 
 /*EXM-32751 Try to add arabic orientation based on xml:lang*/
@@ -133,3 +156,135 @@ gap:after {
 *[xml|lang^="ota"]{
     direction:rtl;
 }
+
+/* Facsimile with zones*/
+
+surface {
+    counter-reset:areas; 
+}
+
+zone {
+    display: none;
+    width:100%;
+    margin-top : 0.5em ;
+    margin-right : 0 ;
+    margin-left : 0 ;
+    margin-bottom : 0.5em ;
+}
+
+surface:-oxy-visible-imagemap-area zone{
+    display: block;
+}
+
+/*
+ * Support for expanding and collapsing the area elements.
+ */
+@media oxygen and (platform:eclipse),
+       oxygen and (platform:standalone) {
+    surface > graphic:after(1),
+    facsimile > graphic:after(1) {
+        display:inline;
+        content:"\a" oxy_button(actionID, 'edit.image.map');
+        text-align:left;
+    }
+}
+@media oxygen and (platform:webapp) {
+    surface > graphic:after(1),
+    facsimile > graphic:after(1) {
+        display:inline;
+        content:"\a" ;
+        text-align:left;
+    }
+}
+       
+surface > graphic:after(2){ 
+    display:inline;
+        
+    content:oxy_button(
+        actionID, 'imagemap.expand.area',          
+         showText, true, 
+        showIcon, false, 
+        enableInReadOnlyContext, true);
+        
+    text-align:left;
+    font-family: sansserif, verdana, helvetica;
+    font-size: 0.75em;
+    padding-bottom: 0.2em;
+}
+
+surface:-oxy-visible-imagemap-area > graphic:after(2){
+    display:inline;
+    content:oxy_button(
+       actionID, 'imagemap.collapse.area',          
+         showText, true, 
+        showIcon, false, 
+        enableInReadOnlyContext, true);		
+}
+
+zone:before(5){
+    counter-increment:areas;
+    content: " " counter(areas) " ";
+    font-weight:bold;
+    width:5%;
+    border-radius:1em;
+    text-align:center;
+    background-color:blue;
+    color:white;
+    padding:0.1em;
+    margin-left:0.1em;
+    margin-right:0.2em;
+    display:inline-block;
+}
+
+zone[xml|id]:before(3){
+    font-weight:bold;
+    content: oxy_textfield(
+                tooltip, 'The xml:id of the zone',
+                edit, '@xml:id',
+                width, 20%)!important;
+    display:inline-block;
+    margin-left:0.2em;
+    width:20%;
+}
+
+zone[ulx]:before(2){
+    content: oxy_label(text, " Rectangle", width, 15%, color, inherit)
+
+        oxy_textfield(
+                tooltip, 'Upper-left X coordinate',
+                edit, '@ulx',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Upper-left Y coordinate',
+                edit, '@uly',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Lower-right X coordinate',
+                edit, '@lrx',
+                width, 10%)
+                oxy_label(text, ", ", width, 5%, color, inherit)
+        oxy_textfield(
+                tooltip, 'Lower-right Y coordinate',
+                edit, '@lry',
+                width, 10%);
+    width:70%;
+}
+
+zone[points]:before(2){
+    content: oxy_label(text, " Polygon", width, 15%, color, inherit) 
+            oxy_textfield(
+                tooltip, 'Polygon points coordinates, in the format x1,y1 x2,y2, ..., xN,yN',
+                edit, '@points',
+                width, 55%);
+    width:70%;
+}
+
+
+@media oxygen-high-contrast-black, oxygen-dark-theme{
+   zone:before(1){
+       color:inherit;
+   }
+}
+

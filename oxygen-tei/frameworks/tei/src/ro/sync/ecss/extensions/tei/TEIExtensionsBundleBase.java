@@ -50,13 +50,21 @@
  */
 package ro.sync.ecss.extensions.tei;
 
+import org.apache.log4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
-import ro.sync.contentcompletion.xml.SchemaManagerFilter;
+import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorActionEventHandler;
+import ro.sync.ecss.extensions.api.AuthorImageDecorator;
 import ro.sync.ecss.extensions.api.AuthorSchemaAwareEditingHandler;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.EditPropertiesHandler;
 import ro.sync.ecss.extensions.api.ExtensionsBundle;
+import ro.sync.ecss.extensions.api.TEIAuthorActionEventHandler;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.spansupport.TEITableCellSpanProvider;
 import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
 
@@ -65,13 +73,25 @@ import ro.sync.exml.workspace.api.node.customizer.XMLNodeRendererCustomizer;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
-
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = Logger.getLogger(TEIExtensionsBundleBase.class.getName());
+  
   /**
    * The TEI schema aware editing handler.
    */
   private TEISchemaAwareEditingHandler teiSchemaAwareEditingHandler;
   
+  /**
+   * Handles special actions. 
+   */
+  private AuthorActionEventHandler handler;
   
+  /**
+   * Image decorator for TEI.
+   */
+  private TEIAuthorImageDecorator decorator;
 
   /**
    * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createAuthorTableCellSpanProvider()
@@ -103,5 +123,69 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
   @Override
   public XMLNodeRendererCustomizer createXMLNodeCustomizer() {
     return new TEINodeRendererCustomizer();
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorActionEventHandler()
+   */
+  @Override
+  public AuthorActionEventHandler getAuthorActionEventHandler() {
+    if (handler == null) {
+      handler = new TEIAuthorActionEventHandler();
+    }
+    
+    return handler;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#getAuthorImageDecorator()
+   */
+  @Override
+  public AuthorImageDecorator getAuthorImageDecorator() {
+    if (decorator == null) {
+      decorator = new TEIAuthorImageDecorator();
+    }
+    
+    return decorator;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.ExtensionsBundle#createEditPropertiesHandler()
+   */
+  @Override
+  public EditPropertiesHandler createEditPropertiesHandler() {
+    return new EditPropertiesHandler() {
+      
+      @Override
+      public String getDescription() {
+        return "Handles imagemap editing";
+      }
+      
+      @Override
+      public void editProperties(AuthorNode authorNode, AuthorAccess authorAccess) {
+        try {
+          new EditImageMapOperation().doOperation(authorAccess, null);
+        } catch (Exception e) {
+          logger.error(e, e);
+        }
+      }
+      
+      @Override
+      public boolean canEditProperties(AuthorNode authorNode) {
+        boolean isHandled = false;
+        if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+          AuthorElement element = (AuthorElement) authorNode;
+          if (element.getLocalName().equals("surface")) {
+            isHandled = true;
+          } else if (element.getLocalName().equals("graphic")) {
+            AuthorElement parent = (AuthorElement) element.getParentElement();
+            if (parent != null && parent.getLocalName().equals("surface")) {
+              isHandled = true;
+            }
+          }
+        }
+        return isHandled;
+      }
+    };
   }
 }

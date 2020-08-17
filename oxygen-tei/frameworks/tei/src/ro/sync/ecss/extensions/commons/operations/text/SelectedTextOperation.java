@@ -82,8 +82,8 @@ public abstract class SelectedTextOperation implements ro.sync.ecss.extensions.a
 	    while (iterator.hasNext()) {
 	      // Get the current text from the iterator and convert it to upper case letters
 	      TextContext next = iterator.next();
-	      if (next.getEditableState() == TextContext.EDITABLE
-	          || next.getEditableState() == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING) {
+	      if (next.inVisibleContent() && (next.getEditableState() == TextContext.EDITABLE
+	          || next.getEditableState() == TextContext.EDITABLE_IN_FILTERED_CONDITIONAL_PROFILING)) {
 	        String content = next.getText().toString();
 	        content = processText(content);
 	        next.replaceText(content);

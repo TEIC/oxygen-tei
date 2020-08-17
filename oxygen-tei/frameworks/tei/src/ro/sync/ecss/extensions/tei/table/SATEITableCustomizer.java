@@ -89,11 +89,11 @@ public class SATEITableCustomizer extends TableCustomizer {
   private SATEITableCustomizer() {}
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int)
+   * @see ro.sync.ecss.extensions.commons.table.operations.TableCustomizer#showCustomizeTableDialog(ro.sync.ecss.extensions.api.AuthorAccess, int, int, int)
    */
   @Override
   protected TableInfo showCustomizeTableDialog(AuthorAccess authorAccess, int predefinedRowsCount,
-      int predefinedColumnsCount) {
+      int predefinedColumnsCount, int defaultTableModel) {
     SATableCustomizerDialog tableCustomizerDialog = new SATEITableCustomizerDialog(
         (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);

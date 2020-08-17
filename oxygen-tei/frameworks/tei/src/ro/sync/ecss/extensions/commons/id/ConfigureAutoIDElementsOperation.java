@@ -76,10 +76,10 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
     Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
     if(Platform.STANDALONE.equals(platform)) {
       info = new SAIDElementsCustomizer().customizeIDElements(
-          authorAccess, info, getListMessage());
+          authorAccess, info, getListMessage(), getHelpPageID());
     } else if (Platform.ECLIPSE.equals(platform)) {
       info = new ECIDElementsCustomizer().customizeIDElements(
-          authorAccess, info, getListMessage());
+          authorAccess, info, getListMessage(), getHelpPageID());
     }
     if(info != null) {
       info.saveToOptions(authorAccess);
@@ -117,5 +117,13 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
   @Override
   public ArgumentDescriptor[] getArguments() {
     return null;
+  }
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return "generate-ids";
   }
 }

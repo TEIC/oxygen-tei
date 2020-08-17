@@ -52,6 +52,8 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
+import java.util.List;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
@@ -74,6 +76,8 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentType;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight;
+import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight.PersistentHighlightType;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -241,7 +245,12 @@ public abstract class TransformOperation implements AuthorOperation {
     argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SCRIPT,
         ArgumentDescriptor.TYPE_SCRIPT,
-        "The script. The base system ID for this will be the framework file, so any include/import " +
+        "A path to the script or the script itself.\n"
+        + "When using a path the following apply:\n"
+        + "- a relative path is resolved to the framework directory. \n"
+        + "- the ${framework} editor variable can also be used to refer resources from the framework directory. \n"
+        + "- the path is passed through the catalog mappings.\n" + 
+        "If you provide the actual script, the base system ID for this will be the framework file, so any include/import " +
         "reference will be resolved relative to the \".framework\" file that contains this action definition");
     arguments[2] = argumentDescriptor;
     
@@ -366,18 +375,49 @@ public abstract class TransformOperation implements AuthorOperation {
     }
     
     String currentElementLocation ="";
-    
     AuthorNode tmp = currentElement;
     if (tmp.isDescendentOf(sourceElement)) {
       while (tmp != sourceElement) {
         AuthorElement parent = ((AuthorElement)tmp.getParent());
-        int index = parent.getContentNodes().indexOf(tmp) + 1;
+        List<AuthorNode> contentNodes = parent.getContentNodes();
+        int index = 1;
+        for (int i = 0; i < contentNodes.size(); i++) {
+          AuthorNode child = contentNodes.get(i);
+          if(child == tmp){
+            //Xpath indices are 1-based
+            break;
+          } else {
+            boolean ignoreThisNode = false;
+            //EXM-33943 Ignore fully deleted sibling nodes.
+            AuthorPersistentHighlight[] intersectingHighlights = authorAccess.getReviewController().getChangeHighlights(child.getStartOffset(), child.getEndOffset());
+            if(intersectingHighlights != null){
+              for (int j = 0; j < intersectingHighlights.length; j++) {
+                if(intersectingHighlights[j].getType() == PersistentHighlightType.CHANGE_DELETE){
+                  //Find delete marker which engulfs element
+                  if(intersectingHighlights[j].getStartOffset() <= child.getStartOffset() 
+                      && child.getEndOffset() <= intersectingHighlights[j].getEndOffset()){
+                    ignoreThisNode = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if(! ignoreThisNode){
+              //Increment counter
+              index ++;
+            } else {
+              //Ignore it
+            }
+          }
+        }
         currentElementLocation = "/*[" + index + "]" + currentElementLocation;
         tmp = parent;
       }
       currentElementLocation = "/*[1]" + currentElementLocation; 
+    } else if (tmp.equals(sourceElement)) {
+      currentElementLocation = "/*";
     } else {
-      currentElementLocation ="/..";
+      currentElementLocation = "/..";
     }
     
     // The target element is where the result is put, depending on the action it can replace this element
@@ -417,15 +457,28 @@ public abstract class TransformOperation implements AuthorOperation {
         serializedSource = serializedDT + serializedSource;
       }
     }
-    org.xml.sax.InputSource is = new org.xml.sax.InputSource(new StringReader(script));
-    String baseLocation = authorAccess.getUtilAccess().expandEditorVariables(EditorVariables.FRAMEWORK_URL, 
-        authorAccess.getEditorAccess().getEditorLocation());
-    if(baseLocation != null && baseLocation.contains(EditorVariables.FRAMEWORK_URL)) {
-      //This means the framework is internal, we cannot set it as a base system ID to the source.
-      //But let's use instead the place from where the XML was loaded.
-      baseLocation = authorAccess.getEditorAccess().getEditorLocation().toString();
+    
+    org.xml.sax.InputSource is = null;
+    URL url = CommonsOperationsUtil.expandAndResolvePath(authorAccess, script);
+    if (url != null) {
+      // The script is actually a path to a script.
+      is = new org.xml.sax.InputSource(url.toExternalForm());
+    } else {
+      if(canTreatAsScript(script)){
+        //Maybe an XSLT
+        is = new org.xml.sax.InputSource(new StringReader(script));
+        String baseLocation = authorAccess.getUtilAccess().expandEditorVariables(EditorVariables.FRAMEWORK_URL, 
+            authorAccess.getEditorAccess().getEditorLocation());
+        if(baseLocation != null && baseLocation.contains(EditorVariables.FRAMEWORK_URL)) {
+          //This means the framework is internal, we cannot set it as a base system ID to the source.
+          //But let's use instead the place from where the XML was loaded.
+          baseLocation = authorAccess.getEditorAccess().getEditorLocation().toString();
+        }
+        is.setSystemId(baseLocation);
+      } else {
+        throw new AuthorOperationException("Could not find a location on disk corresponding to the 'script' parameter value: " + script);
+      }
     }
-    is.setSystemId(baseLocation);
     
     Source xslSrc = new SAXSource(is);
   
@@ -469,6 +522,26 @@ public abstract class TransformOperation implements AuthorOperation {
       
       //Also expand the editor variables.
       if(expandEditorVariables) {
+        //And expand the selection editor variable as well.
+        int indexOfSelection = result.indexOf(EditorVariables.CT_SELECTION_EDITOR_VARIABLE);
+        if (indexOfSelection != -1) {
+          String selXML = "";
+          try {
+            if (authorAccess.getEditorAccess().hasSelection()) {
+              //Serialize the current selection.
+              AuthorDocumentFragment selFrag =
+                  authorAccess.getDocumentController().createDocumentFragment(
+                      authorAccess.getEditorAccess().getSelectionStart(),
+                      authorAccess.getEditorAccess().getSelectionEnd() - 1);
+              selXML = authorAccess.getDocumentController().serializeFragmentToXML(selFrag);
+            }
+          } catch(BadLocationException ex) {
+            logger.error(ex, ex);
+          }
+          //Expand selection editor variable.
+          result = result.substring(0, indexOfSelection) + selXML + result.substring(
+              indexOfSelection + EditorVariables.CT_SELECTION_EDITOR_VARIABLE.length(), result.length());
+        }
         //Expand all other editor variables which were output by the stylesheet.
         result = authorAccess.getUtilAccess().expandEditorVariables(
             result, authorAccess.getEditorAccess().getEditorLocation());
@@ -483,26 +556,6 @@ public abstract class TransformOperation implements AuthorOperation {
           hasCaretMarker = true;
         }
         
-        //And expand the selection editor variable as well.
-        int indexOfSelection = result.indexOf(EditorVariables.CT_SELECTION_EDITOR_VARIABLE);
-        if (indexOfSelection != -1) {
-          String selXML = "";
-          try {
-            if (authorAccess.getEditorAccess().hasSelection()) {
-              //Serialize the current selection.
-              AuthorDocumentFragment selFrag =
-                authorAccess.getDocumentController().createDocumentFragment(
-                    authorAccess.getEditorAccess().getSelectionStart(),
-                    authorAccess.getEditorAccess().getSelectionEnd() - 1);
-              selXML = authorAccess.getDocumentController().serializeFragmentToXML(selFrag);
-            }
-          } catch(BadLocationException ex) {
-            logger.error(ex, ex);
-          }
-          //Expand selection editor variable.
-          result = result.substring(0, indexOfSelection) + selXML + result.substring(
-              indexOfSelection + EditorVariables.CT_SELECTION_EDITOR_VARIABLE.length(), result.length());
-        }
       }
 
       // Store initial caret information
@@ -579,6 +632,16 @@ public abstract class TransformOperation implements AuthorOperation {
         }
       }        
     }
+  }
+
+  /**
+   * @param script The value of the script parameter.
+   * 
+   * @return <code>true</code> if this is an actual script or <code>false</code> 
+   * if it isn't.
+   */
+  protected boolean canTreatAsScript(String script) {
+    return true;
   }
 
   /**

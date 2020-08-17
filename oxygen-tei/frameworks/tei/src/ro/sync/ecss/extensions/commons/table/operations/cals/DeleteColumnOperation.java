@@ -59,7 +59,6 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
-import ro.sync.ecss.extensions.api.ContentInterval;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -93,77 +92,63 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
   }
   
   /**
-   * @see ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase#performDeleteColumn(ro.sync.ecss.extensions.api.AuthorAccess, java.util.List, boolean)
+   * @see ro.sync.ecss.extensions.commons.table.operations.DeleteColumnOperationBase#updateColspec(AuthorAccess, Integer)
    */
   @Override
-  public boolean performDeleteColumn(AuthorAccess authorAccess,
-      List<ContentInterval> columnIntervals, boolean placeCaretInNextCell)
-      throws AuthorOperationException {
-    boolean handle = false;
-    try {
-      // Do super.
-      handle = super.performDeleteColumn(authorAccess, columnIntervals, placeCaretInNextCell);
-      
-      if (handle) {
-        // Delete the column specification of the deleted column
-        CALSTableCellInfoProvider spanProvider = 
-          (CALSTableCellInfoProvider) tableHelper.getTableCellSpanProvider(tableElem);
-
-        // Get the 'colspec' of the deleted column.
-        CALSColSpec colSpec = spanProvider.getColSpec(deletedColumnIndex + 1);
-        if (colSpec != null) {
-          // Find the 'colspec' element in the children of the 'tgroup' element
-          List contentNodes = tableElem.getContentNodes();
-          // All the column indices of those columns that follows the deleted one, must be decreased.
-          boolean shouldDecreaseColNum = false;
-          // The 'colspec' element of the deleted column must be deleted after the iteration.
-          // EXM-24308 Remove the colspec element even if it has no associated name
-          AuthorElement toRemove = spanProvider.getColSpecElement(colSpec);
-          for (Iterator iterator = contentNodes.iterator(); iterator.hasNext();) {
-            AuthorNode node = (AuthorNode) iterator.next();
-            if (isElement(node, ELEMENT_NAME_COLSPEC)) {
-              // The current node is 'colspec' 
-              AuthorElement colSpecElem = (AuthorElement) node;
-              if (colSpecElem == toRemove) {
-                // This is the one to be removed.
-                // The columns following this one should decrease their indices.
-                shouldDecreaseColNum = true;
-              }
-              if (shouldDecreaseColNum) {
-                AttrValue colNumAttrVal = colSpecElem.getAttribute(ATTRIBUTE_NAME_COLNUM);
-                if (colNumAttrVal != null && colNumAttrVal.getValue() != null) {
-                  try {
-                    int colNum = Integer.parseInt(colNumAttrVal.getValue());
-                    // Decrease the "colnum".
-                    authorAccess.getDocumentController().setAttribute(
-                        ATTRIBUTE_NAME_COLNUM,
-                        new AttrValue("" + (colNum - 1)),
-                        colSpecElem);
-                  } catch (NumberFormatException e) {
-                    // Nothing to do
-                  }
-                }
+  public void updateColspec(AuthorAccess authorAccess, Integer deletedColumnIndex) {
+    
+    CALSTableCellInfoProvider spanProvider = 
+        (CALSTableCellInfoProvider) tableHelper.getTableCellSpanProvider(tableElem);
+    
+    // Get the 'colspec' of the deleted column.
+    CALSColSpec colSpec = spanProvider.getColSpec(deletedColumnIndex + 1);
+    if (colSpec != null) {
+      // Find the 'colspec' element in the children of the 'tgroup' element
+      List contentNodes = tableElem.getContentNodes();
+      // All the column indices of those columns that follows the deleted one, must be decreased.
+      boolean shouldDecreaseColNum = false;
+      // The 'colspec' element of the deleted column must be deleted after the iteration.
+      // EXM-24308 Remove the colspec element even if it has no associated name
+      AuthorElement toRemove = spanProvider.getColSpecElement(colSpec);
+      for (Iterator iterator = contentNodes.iterator(); iterator.hasNext();) {
+        AuthorNode node = (AuthorNode) iterator.next();
+        if (tableHelper.isColspec(node)) {
+          // The current node is 'colspec' 
+          AuthorElement colSpecElem = (AuthorElement) node;
+          if (colSpecElem == toRemove) {
+            // This is the one to be removed.
+            // The columns following this one should decrease their indices.
+            shouldDecreaseColNum = true;
+          }
+          if (shouldDecreaseColNum) {
+            AttrValue colNumAttrVal = colSpecElem.getAttribute(ATTRIBUTE_NAME_COLNUM);
+            if (colNumAttrVal != null && colNumAttrVal.getValue() != null) {
+              try {
+                int colNum = Integer.parseInt(colNumAttrVal.getValue());
+                // Decrease the "colnum".
+                authorAccess.getDocumentController().setAttribute(
+                    ATTRIBUTE_NAME_COLNUM,
+                    new AttrValue("" + (colNum - 1)),
+                    colSpecElem);
+              } catch (NumberFormatException e) {
+                // Nothing to do
               }
             }
           }
-          if (toRemove != null) {
-            // Remember the last caret position but adjust it
-            // after the removal of the column specifications
-            int newCaretOffset = authorAccess.getEditorAccess().getCaretOffset() - 
-            (toRemove.getEndOffset() - toRemove.getStartOffset() + 1);
-            // Remove the 'colspec' of the deleted column.
-            authorAccess.getDocumentController().deleteNode(toRemove);
-
-            // Restore caret position.
-            authorAccess.getEditorAccess().setCaretPosition(newCaretOffset);
-          }
         }
       }
-    } catch (Throwable e) {
-      e.printStackTrace();
+      if (toRemove != null) {
+        // Remember the last caret position but adjust it
+        // after the removal of the column specifications
+        int newCaretOffset = authorAccess.getEditorAccess().getCaretOffset() - 
+            (toRemove.getEndOffset() - toRemove.getStartOffset() + 1);
+        // Remove the 'colspec' of the deleted column.
+        authorAccess.getDocumentController().deleteNode(toRemove);
+
+        // Restore caret position.
+        authorAccess.getEditorAccess().setCaretPosition(newCaretOffset);
+      }
     }
-    
-    return handle;
   }
 
   /**
@@ -174,20 +159,20 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
   protected void updateTableColSpan(AuthorAccess authorAccess,
       AuthorTableCellSpanProvider spanProvider, AuthorElement cell, int colStartIndex,
       int colEndIndex) throws AuthorOperationException {
-    if (deletedColumnIndex + 1 == colStartIndex ) {
+    if (deletedColumnsIndices.get(deletedColumnsIndices.size() - 1) + 1 == colStartIndex ) {
       tableHelper.updateTableColSpan(
           authorAccess, 
           spanProvider, 
           cell, 
           colStartIndex + 1, 
           colEndIndex);
-    } else if (deletedColumnIndex + 1 == colEndIndex) {
+    } else if (deletedColumnsIndices.get(deletedColumnsIndices.size() - 1) + 1 == colEndIndex) {
       tableHelper.updateTableColSpan(
           authorAccess, 
           spanProvider, 
           cell, 
           colStartIndex, 
           colEndIndex - 1);      
-    } 
+    }
   }
 }

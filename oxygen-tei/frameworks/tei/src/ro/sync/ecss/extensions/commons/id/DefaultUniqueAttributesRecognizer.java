@@ -50,6 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -225,7 +226,8 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
    * @return The unique ID
    */
   protected String generateUniqueIDFor(String idGenerationPattern, AuthorElement element) {
-    return GenerateIDElementsInfo.generateID(idGenerationPattern, element.getLocalName());
+    URL edLocation = element.getXMLBaseURL();
+    return GenerateIDElementsInfo.generateID(idGenerationPattern, element.getLocalName(), edLocation != null ? edLocation.toString() : null);
   }
   
   /**
@@ -383,8 +385,12 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
     boolean removeUniqueIDs = false;
     if(fragmentInformation.getFragmentOriginalLocation() != null
         && ! fragmentInformation.getFragmentOriginalLocation().equals(authorAccess.getEditorAccess().getEditorLocation().toString())) {
-      //EXM-21408 Paste from another document. Preserve the IDs
-      removeUniqueIDs = false;
+      if(preserveIDsWhenPastingBetweenResources()){
+        //EXM-21408 Paste from another document. Preserve the IDs
+        removeUniqueIDs = false;
+      } else {
+        removeUniqueIDs = true;
+      }
     } else {
       int purposeID = fragmentInformation.getPurposeID();
       if(purposeID == AuthorSchemaAwareEditingHandler.CREATE_FRAGMENT_PURPOSE_COPY 
@@ -398,6 +404,16 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
     } 
   }
   
+  /**
+   * Check if we should preserve IDs when pasting between resources.
+   * 
+   * @return <code>true</code> if we should preserve IDs when pasting between resources.
+   * By default the base method returns <code>true</code>.
+   */
+  protected boolean preserveIDsWhenPastingBetweenResources() {
+    return true;
+  }
+
   /**
    * Filter all ID attributes from the fragment.
    * 

@@ -245,7 +245,7 @@ public class CALSColSpec {
    * The general format of the generated fragment is:
    * <br><br>
    * <code>
-   * &lt;colspec colnum="integer_value" colname="string_value" colwidth="string_value" xmlns="URI"/>
+   * &lt;colspec colnum="integer_value" colname="string_value" colwidth="string_value" xmlns="URI"/&gt;
    * </code>
    * 
    * 

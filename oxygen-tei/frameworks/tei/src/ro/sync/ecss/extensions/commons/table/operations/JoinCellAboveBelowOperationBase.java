@@ -97,10 +97,10 @@ public abstract class JoinCellAboveBelowOperationBase extends AbstractTableOpera
   }
   
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
   throws IllegalArgumentException, AuthorOperationException {
     try {
       // Find the table cell that contains the caret

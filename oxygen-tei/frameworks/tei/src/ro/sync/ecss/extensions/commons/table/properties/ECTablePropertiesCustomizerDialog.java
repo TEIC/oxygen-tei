@@ -53,7 +53,7 @@ package ro.sync.ecss.extensions.commons.table.properties;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -69,6 +69,7 @@ import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.table.properties.EditedTablePropertiesInfo.TAB_TYPE;
+import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
 
 /**
@@ -77,7 +78,7 @@ import ro.sync.exml.workspace.api.util.ColorThemeUtilities;
  * @author adriana_sbircea
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class ECTablePropertiesCustomizerDialog extends Dialog {
+public class ECTablePropertiesCustomizerDialog extends TrayDialog {
 
   /**
    * The author resource bundle.
@@ -99,7 +100,11 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
    * The color theme.
    */
   private ColorThemeUtilities colorThemeUtilities;
-
+  /**
+   * The help page ID
+   */
+  private String helpPageID;
+  
   /**
    * Constructor.
    * 
@@ -110,9 +115,25 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
    */
   public ECTablePropertiesCustomizerDialog(Shell parentFrame,
       AuthorResourceBundle authorResourceBundle, ColorThemeUtilities colorThemeUtilities) {
+    this(parentFrame, authorResourceBundle, colorThemeUtilities, null);
+  }
+
+  /**
+   * Constructor.
+   * 
+   * @param parentFrame           The parent frame. The dialog will be created over the parent.
+   * @param authorResourceBundle  The author resource bundle. It is used to translate different 
+   *                              information used inside the dialog.
+   * @param colorThemeUtilities   The color theme utilities.
+   * @param helpPageID            The help page ID.
+   */
+  public ECTablePropertiesCustomizerDialog(Shell parentFrame,
+      AuthorResourceBundle authorResourceBundle, ColorThemeUtilities colorThemeUtilities, 
+      String helpPageID) {
     super(parentFrame);
     this.authorResourceBundle = authorResourceBundle;
     this.colorThemeUtilities = colorThemeUtilities;
+    this.helpPageID = helpPageID;
     
     int style = SWT.DIALOG_TRIM;
     style |= SWT.RESIZE;
@@ -126,6 +147,7 @@ public class ECTablePropertiesCustomizerDialog extends Dialog {
   @Override
   protected void configureShell(Shell newShell) {
     super.configureShell(newShell);
+    EclipseHelpUtils.installHelp(newShell, helpPageID);
     newShell.setText(authorResourceBundle.getMessage(ExtensionTags.TABLE_PROPERTIES));
   }
   

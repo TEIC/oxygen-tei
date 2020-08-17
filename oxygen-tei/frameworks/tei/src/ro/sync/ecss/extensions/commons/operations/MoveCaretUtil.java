@@ -62,6 +62,7 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
+import ro.sync.ecss.extensions.api.AuthorReviewController;
 import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AuthorParentNode;
@@ -100,10 +101,26 @@ public class MoveCaretUtil {
    */
   public static void moveCaretToImposedEditorVariableOffset(
       AuthorAccess authorAccess, int insertionOffset) { 
-    AuthorNode caretPI = detectCaretPI(authorAccess.getDocumentController(), insertionOffset);
+    AuthorDocumentController ctrl = authorAccess.getDocumentController();
+    AuthorNode caretPI = detectCaretPI(ctrl, insertionOffset);
     if (caretPI != null) {
       int caretOffset = caretPI.getStartOffset();
-      authorAccess.getDocumentController().deleteNode(caretPI);
+
+      // EXM-36535: when track changes is on, first switch it off, 
+      // then remove the marker, and switch it back to on.
+      AuthorReviewController reviewController = authorAccess.getReviewController();
+      boolean isTrackingChangesOn = reviewController.isTrackingChanges();
+      if (isTrackingChangesOn) {
+        reviewController.toggleTrackChanges();
+      }
+      try {
+        ctrl.deleteNode(caretPI);
+      } finally {
+        if (isTrackingChangesOn) {
+          reviewController.toggleTrackChanges();
+        }
+      }
+      
       AuthorEditorAccess edAccess = authorAccess.getEditorAccess();
       edAccess.setCaretPosition(caretOffset);
       // In WebApp, we cannot scroll the viewport from the server-side.

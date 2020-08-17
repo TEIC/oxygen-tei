@@ -50,11 +50,7 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 
@@ -62,14 +58,17 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
+import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
-import ro.sync.ecss.extensions.api.UniqueAttributesProcessor;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 
 /**
  * Base class for table operations. 
@@ -97,13 +96,29 @@ public abstract class AbstractTableOperation implements AuthorOperation {
    * Table helper, has methods specific to each document type.
    */
   protected AuthorTableHelper tableHelper;
+
+  /**
+   * <code>true</code> if the operation result is marked as a change.
+   */
+  private boolean markAsChange = false;
    /**
    * Constructor.
    * 
    * @param authorTableHelper Table helper, has methods specific to each document type.
    */
   public AbstractTableOperation(AuthorTableHelper authorTableHelper) {
+    this(authorTableHelper, false);
+  }
+  
+  /**
+  * Constructor.
+  * 
+  * @param authorTableHelper Table helper, has methods specific to each document type.
+   * @param markAsChange <code>true</code> if the operation result is marked as a change.
+  */
+  public AbstractTableOperation(AuthorTableHelper authorTableHelper, boolean markAsChange) {
     this.tableHelper = authorTableHelper;
+    this.markAsChange = markAsChange;
   }
 
   /**
@@ -254,38 +269,54 @@ public abstract class AbstractTableOperation implements AuthorOperation {
     // Create an empty fragment
     newCellFragment = controller.createDocumentFragment(cell, false);
 
-    List fragNodes = newCellFragment.getContentNodes();
-    // Remove attributes
-    if (fragNodes != null && fragNodes.size() > 0) {
-      AuthorNode node = (AuthorNode) fragNodes.get(0);
-      if (node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-        AuthorElement clonedElement = (AuthorElement) node;
-        Set<String> skippedAttrsSet = new HashSet<String>();
-        if(skippedAttributes != null) {
-          //Add skipped attributes.
-          skippedAttrsSet.addAll(Arrays.asList(skippedAttributes));
-        }
-        //Also delegate to unique attributes processor.
-        UniqueAttributesProcessor attrsProcessor = controller.getUniqueAttributesProcessor();
-        if(attrsProcessor != null) {
-          int attrsCount = clonedElement.getAttributesCount();
-          for (int i = 0; i < attrsCount; i++) { 
-            String attrQName = clonedElement.getAttributeAtIndex(i);
-            if(! attrsProcessor.copyAttributeOnSplit(attrQName, clonedElement)) {
-              skippedAttrsSet.add(attrQName);
-            }
-          }
-        }
-        //Remove all attributes which should have been skipped,
-        if (! skippedAttrsSet.isEmpty()) {
-          Iterator<String> iter = skippedAttrsSet.iterator();
-          while(iter.hasNext()) {
-            clonedElement.removeAttribute(iter.next());
-          }
-        }
-      }
-    }
+    CommonsOperationsUtil.removeUnwantedAttributes(skippedAttributes, newCellFragment, controller);
 
     return newCellFragment;
   }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   */
+  @Override
+  public final void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+      throws IllegalArgumentException, AuthorOperationException {
+    if (!markAsChange && authorAccess.getReviewController().isTrackingChanges()) {
+      int response =  authorAccess.getWorkspaceAccess().showConfirmDialog(
+          authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.TRACK_CHANGES), 
+          authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.ACTION_NOT_MARKED_AS_CHANGE), 
+          new String[] {
+              "OK",
+              authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CANCEL) },
+          new int[] { 1, 0 });
+      
+      if (response == 1) {
+        // Turn off the track changes
+        authorAccess.getReviewController().toggleTrackChanges();
+        try {
+          doOperationInternal(authorAccess, args);
+        } finally {
+          // Restore track changes state
+          if (!authorAccess.getReviewController().isTrackingChanges()) {
+            authorAccess.getReviewController().toggleTrackChanges();
+          }
+        }
+      }
+    } else {
+      doOperationInternal(authorAccess, args);
+    }
+  }
+  
+  /**
+   * Perform the actual operation.
+   *  
+   * @param authorAccess The author access.
+   * Provides access to specific informations and actions for 
+   * editor, document, workspace, tables, change tracking, utility a.s.o.
+   * @param args The map of arguments. <strong>All the arguments defined by method 
+   * {@link #getArguments()} must be present in the map of arguments.</strong>
+   * @throws IllegalArgumentException Thrown when one or more arguments are illegal.
+   * @throws AuthorOperationException Thrown when the operation fails.
+   */
+  protected abstract void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args) 
+    throws IllegalArgumentException, AuthorOperationException;
 }

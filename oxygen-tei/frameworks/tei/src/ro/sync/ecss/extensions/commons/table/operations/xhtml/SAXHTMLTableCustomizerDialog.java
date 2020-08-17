@@ -128,7 +128,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected JCheckBox createTitleCheckbox() {
-    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION));
+    JCheckBox titleCheckBox = new JCheckBox(authorResourceBundle.getMessage(ExtensionTags.CAPTION) + ":");
     titleCheckBox.setName("Title checkbox");
     return titleCheckBox;
   }
@@ -147,7 +147,7 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
    */
   @Override
   protected String getDefaultFrameValue(int tableModelType) {
-    return FRAME_VOID;
+    return UNSPECIFIED;
   }
 
   /**
@@ -196,5 +196,13 @@ public class SAXHTMLTableCustomizerDialog extends SATableCustomizerDialog {
   @Override
   protected String getDefaultAlignValue(int tableModelType) {
     return UNSPECIFIED;
+  }
+  
+  /**
+   * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
+   */
+  @Override
+  public String getHelpPageID() {
+    return "add-table-xhtml";
   }
 }

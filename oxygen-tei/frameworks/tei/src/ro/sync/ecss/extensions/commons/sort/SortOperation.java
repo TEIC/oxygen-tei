@@ -190,7 +190,14 @@ public abstract class SortOperation implements AuthorOperation {
             SASortCustomizerDialog saSortCustomizerDialog = new SASortCustomizerDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
                 authorAccess.getAuthorResourceBundle(),
                 authorAccess.getAuthorResourceBundle().getMessage(selElementsString), 
-                authorAccess.getAuthorResourceBundle().getMessage(allElementsString));
+                authorAccess.getAuthorResourceBundle().getMessage(allElementsString)){
+              /**
+               * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
+               */
+              public String getHelpPageID() {
+                return SortOperation.this.getHelpPageID();
+              }
+            };
             saSortCustomizerDialog.setLocationRelativeTo(
                 (Component) authorAccess.getWorkspaceAccess().getParentFrame());
 
@@ -201,7 +208,7 @@ public abstract class SortOperation implements AuthorOperation {
           } else if (Platform.ECLIPSE.equals(platform)) {
             sortInformation = new ECSortCustomizerDialog((Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
                 authorAccess.getAuthorResourceBundle(), authorAccess.getAuthorResourceBundle().getMessage(selElementsString), 
-                authorAccess.getAuthorResourceBundle().getMessage(allElementsString)).
+                authorAccess.getAuthorResourceBundle().getMessage(allElementsString), getHelpPageID()).
                 getSortInformation(
                     sortCriteria, 
                     selectedNonIgnoredChildrenInterval != null, 
@@ -718,5 +725,13 @@ public abstract class SortOperation implements AuthorOperation {
         return lang;
       }
     }
+  }
+  
+  /**
+   * Get the ID of the help page which will be called by the end user.
+   * @return the ID of the help page which will be called by the end user or <code>null</code>.
+   */
+  protected String getHelpPageID(){
+    return "sorting-support";
   }
 }

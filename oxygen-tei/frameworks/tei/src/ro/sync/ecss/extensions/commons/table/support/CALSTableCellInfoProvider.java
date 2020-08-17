@@ -74,6 +74,8 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.operations.cals.CALSConstants;
+import ro.sync.ecss.extensions.commons.table.support.errorscanner.CALSAndHTMLTableLayoutProblem;
+import ro.sync.ecss.extensions.commons.table.support.errorscanner.TableLayoutErrorsListener;
 
 /**
  * Provides informations about the cell spanning and column width for Docbook CALS tables. 
@@ -151,7 +153,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * in the table).
    */
   public CALSTableCellInfoProvider(boolean colsepAndRowSepAreVisibleByDefault) {
-    this.colsepAndRowSepAreVisibleByDefault  = colsepAndRowSepAreVisibleByDefault;    
+    this(colsepAndRowSepAreVisibleByDefault, null);    
   }
 
   /**
@@ -160,7 +162,21 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * in the table) is hidden.
    */
   public CALSTableCellInfoProvider() {
-    this(false);    
+    this(false, null);    
+  }
+
+  /**
+   * Constructor.
+   * 
+   * @param colsepAndRowSepAreVisibleByDefault The default visibility for the rowsep and 
+   * colsep. (i.e. if no <code>colsep</code> or <code>rowsep</code> attributes are present 
+   * in the table).
+   * @param errorsListener Table layout errors listener.
+   */
+  public CALSTableCellInfoProvider(boolean colsepAndRowSepAreVisibleByDefault, 
+      TableLayoutErrorsListener errorsListener) {
+    super(errorsListener);
+    this.colsepAndRowSepAreVisibleByDefault  = colsepAndRowSepAreVisibleByDefault;    
   }
 
   /**
@@ -178,7 +194,8 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       // The col span is specified through a spanspec.
       CALSColSpanSpec spanSpec = getSpanSpec(attrValue.getValue());
       if(spanSpec != null) {
-        colspan = getColSpan(spanSpec.getStartColumnName(), spanSpec.getEndColumnName());          
+        colspan = getColSpan(spanSpec.getStartColumnName(), spanSpec.getEndColumnName(), 
+            cellElem);          
       }
     } else {
       AttrValue namestValue = cellElem.getAttribute(ATTRIBUTE_NAME_NAMEST);
@@ -186,7 +203,8 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       if (namestValue != null && nameendValue != null
           && namestValue.getValue() != null && nameendValue.getValue() != null) {
         // The colspan is specified by the name of the 2 columns.
-        colspan = getColSpan(namestValue.getValue(), nameendValue.getValue());
+        colspan = getColSpan(namestValue.getValue(), nameendValue.getValue(), 
+            cellElem);
       }
     }
     return colspan;
@@ -200,7 +218,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * 
    * @return The column span numbver or <code>null</code> if it cannot be computed.
    */
-  private Integer getColSpan(String namest, String nameend) {
+  private Integer getColSpan(String namest, String nameend, AuthorElement cellElement) {
     Integer colspan = null;
     int startIndex = -1;
     int endIndex = -1; 
@@ -214,6 +232,23 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         endIndex = colspec.getColumnNumber();
       }
     }
+    
+    if (errorsListener != null) {
+      if (startIndex == -1 || endIndex == -1) {
+        if (startIndex == -1) { 
+          errorsListener.add(cellElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_NAME_INCORRECT, 
+              namest, ATTRIBUTE_NAME_NAMEST);
+        } 
+        if (endIndex == -1) { 
+          errorsListener.add(cellElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_NAME_INCORRECT, 
+              nameend, ATTRIBUTE_NAME_NAMEEND);
+        } 
+      } else if (endIndex < startIndex) {
+        errorsListener.add(cellElement, tableElement, CALSAndHTMLTableLayoutProblem.NAMEST_LESS_THAN_NAMEEND, 
+            startIndex, endIndex);
+      }
+    }
+    
     if (startIndex != -1 && endIndex != -1) {
       colspan = Integer.valueOf(Math.abs(endIndex - startIndex)  + 1);
     }
@@ -260,7 +295,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
       AuthorNode node = iterator.next();
       if (node instanceof AuthorElement) { 
         AuthorElement child = (AuthorElement) node;
-        if (ELEMENT_NAME_COLSPEC.equals(child.getLocalName())) {
+        if (isColspec(child)) {
           boolean colNumberSpecified = false;
           // "colnum" attribute
           AttrValue attrValue = child.getAttribute(ATTRIBUTE_NAME_COLNUM);
@@ -270,6 +305,10 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
               currentColIndex = Integer.parseInt(attrValue.getValue());
             } catch (NumberFormatException nfe) {
               // Not a number.
+              if (errorsListener != null) {
+                errorsListener.add(child, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
+                    ATTRIBUTE_NAME_COLNUM, attrValue.getValue());
+              }
             }
           }
 
@@ -319,7 +358,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           cs.setAlign(textAlign);
           colspecInfosMap.put(cs, child);
           colspecIndex ++;
-        } else if (ELEMENT_NAME_SPANSPEC.equals(child.getLocalName())) {
+        } else if (ELEMENT_NAME_SPANSPEC.equalsIgnoreCase(child.getLocalName())) {
           String spanName = null;
           String namest = null;
           String nameend = null;
@@ -341,6 +380,16 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         }
       }
     }
+  }
+
+  /**
+   * Check if the child is a column specification.
+   * 
+   * @param child The child
+   * @return <code>true</code> if the child is a column specification.
+   */
+  protected boolean isColspec(AuthorElement child) {
+    return ELEMENT_NAME_COLSPEC.equalsIgnoreCase(child.getLocalName());
   } 
 
   /**
@@ -430,6 +479,12 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AttrValue attrValue = cellElement.getAttribute(ATTRIBUTE_NAME_COLNAME);
     if (attrValue != null) {
       colSpec = getColSpec(attrValue.getValue());
+      if (errorsListener != null) {
+        if (colSpec == null) {
+          errorsListener.add(cellElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_NAME_INCORRECT, 
+              attrValue.getValue(), ATTRIBUTE_NAME_COLNAME);
+        }
+      }
     } else {
       // Compute the index of cell
       int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex(cellElement);
@@ -456,6 +511,12 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AttrValue attrValue = cellElement.getAttribute(ATTRIBUTE_NAME_COLNAME);
     if (attrValue != null) {
       colSpec = getColSpec(attrValue.getValue());
+      if (errorsListener != null) {
+        if (colSpec == null) {
+          errorsListener.add(cellElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_NAME_INCORRECT, 
+              attrValue.getValue(), ATTRIBUTE_NAME_COLNAME);
+        }
+      }
     } else {
       colSpec = getColSpec(columnIndex);
     }
@@ -469,7 +530,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return The column specification or <code>null</code> if no column specification is defined for 
    * the given colspec name.
    */
-  private CALSColSpec getColSpec(String colSpecName) {
+  public CALSColSpec getColSpec(String colSpecName) {
     CALSColSpec colSpec = null;
     Set<CALSColSpec> colspecs = colspecInfosMap.keySet();
     for (Iterator<CALSColSpec> iterator = colspecs.iterator(); iterator.hasNext();) {
@@ -701,7 +762,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return <code>true</code> if the name of an element is a table cell.
    */
   protected boolean isTableCell(String tableCellsTagName) {
-    return CALS_DOCBOOK_CELL_NAME.equals(tableCellsTagName);
+    return CALS_DOCBOOK_CELL_NAME.equalsIgnoreCase(tableCellsTagName);
   }
 
   /**
@@ -751,7 +812,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     if (tblElem != null) {
       // Find the element named "table" if any.
       while(true) {
-        if (ELEMENT_NAME_TABLE.equals(tblElem.getName())) {
+        if (ELEMENT_NAME_TABLE.equalsIgnoreCase(tblElem.getLocalName())) {
           break;
         } else {
           AuthorNode parent = tblElem.getParent();
@@ -1028,7 +1089,7 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   protected boolean isTableElement(AuthorElement element) {
     return element == tableElement.getParent() ||       
-        "table".equals(element.getLocalName());
+        ELEMENT_NAME_TABLE.equalsIgnoreCase(element.getLocalName());
   }
   
   /**
@@ -1038,6 +1099,6 @@ public class CALSTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return <code>true</code> if this element is a CALS <code>tgroup</code> element.
    */
   protected boolean isTgroupElement(AuthorElement element) {
-    return "tgroup".equals(element.getLocalName());
+    return ELEMENT_NAME_TGROUP.equalsIgnoreCase(element.getLocalName());
   }
 }

@@ -60,7 +60,7 @@ import ro.sync.annotations.api.SourceType;
  * @author adriana_sbircea
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public interface TablePropertiesConstants {
+public interface TablePropertiesConstants extends TableHelperConstants {
   /**
    * Name for row type property.
    */
@@ -229,48 +229,4 @@ public interface TablePropertiesConstants {
    * Row type property name.
    */
   String ROW_TYPE_PROPERTY = "rowType";
-  /**
-   * The row element.
-   */
-  int TYPE_ROW = 0;
-  /**
-   * The body element.
-   */
-  int TYPE_BODY = 1;
-  /**
-   * The header element.
-   */
-  int TYPE_HEADER = 2;
-  /**
-   * The footer element.
-   */
-  int TYPE_FOOTER = 3;
-  /**
-   * The group element.
-   */
-  int TYPE_GROUP = 4;
-  /**
-   * The table element.
-   */
-  int TYPE_TABLE = 5;
-  /**
-   * The cell element.
-   */
-  int TYPE_CELL = 6;
-  /**
-   * The cell element.
-   */
-  int TYPE_COLSPEC = 7;
-  /**
-   * The header cell element (used for reltable/choice table).
-   */
-  int TYPE_HEADER_CELL = 8;
-  /**
-   * The header description cell element (used for choicetable).
-   */
-  int TYPE_HEADER_DESC_CELL = 9;
-  /**
-   * The body description cell element (used for choicetable).
-   */
-  int TYPE_BODY_DESC_CELL = 10;
 }
