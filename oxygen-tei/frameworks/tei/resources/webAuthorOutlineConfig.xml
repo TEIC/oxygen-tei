@@ -1,0 +1,8 @@
+<outline> 
+  <structureMode editable="yes" default="no">
+    <preferredAttributes names="id xml:id slidetitle"/> 
+  </structureMode> 
+  <tocMode editable="yes" default="yes">
+    <elements names="TEI div div1 div2 div3 div4 div5 div6 div7 group"/> 
+  </tocMode> 
+</outline>

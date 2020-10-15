@@ -63,7 +63,7 @@
         <val lang="en_US">Deletes the current "{0}" element and creates a new "{1}" element.</val>
         <val lang="de_DE">Löscht das aktuelle "{0}" Element und erzeugt ein neues "{1}"
             Element.</val>
-        <val lang="fr_FR">Supprime l''élément courant "{0}" et créé un nouvel élément "{1}".</val>
+        <val lang="fr_FR">Supprime l''élément actuel "{0}" et créé un nouvel élément "{1}".</val>
         <val lang="ja_JP">現在の"{0}"要素を削除し、新しい"{1}"要素を作成します。</val>
         <val lang="nl_NL">Hiermee wordt het huidige element "{0}" verwijderd en wordt een nieuw
             element "{1}" gemaakt.</val>
@@ -288,7 +288,7 @@
         <comment>Split Cell action description.</comment>
         <val lang="en_US">Split the current table cell into multiple cells.</val>
         <val lang="de_DE">Teile die markierte Tabellenzelle in mehrere Zellen.</val>
-        <val lang="fr_FR">Fractionner la cellule courante en plusieurs cellules.</val>
+        <val lang="fr_FR">Fractionner la cellule actuelle en plusieurs cellules.</val>
         <val lang="ja_JP">現在のテーブルセルを複数のセルに分割します。</val>
         <val lang="nl_NL">Splits de huidige tabelcel in meerdere cellen.</val>
         <val lang="zh_CN">将当前表格单元格拆分为多个单元格。</val>
@@ -306,7 +306,7 @@
         <comment>Delete Row action description.</comment>
         <val lang="en_US">Delete the current table row.</val>
         <val lang="de_DE">Aktuelle Tabellenreihe löschen.</val>
-        <val lang="fr_FR">Supprimer la ligne courante.</val>
+        <val lang="fr_FR">Supprimer la ligne actuelle.</val>
         <val lang="ja_JP">現在のテーブル行を削除します。</val>
         <val lang="nl_NL">Verwijder de huidige rij.</val>
         <val lang="zh_CN">删除当前表行。</val>
@@ -315,7 +315,7 @@
         <comment>Delete Column action description.</comment>
         <val lang="en_US">Delete the current table column.</val>
         <val lang="de_DE">Aktuelle Tabellenspalte löschen.</val>
-        <val lang="fr_FR">Supprimer la colonne courante.</val>
+        <val lang="fr_FR">Supprimer la colonne actuelle.</val>
         <val lang="ja_JP">現在のテーブル列を削除します。</val>
         <val lang="nl_NL">Verwijder de huidige kolom.</val>
         <val lang="zh_CN">删除当前表列。</val>
@@ -326,7 +326,7 @@
             only if it spans over multiple rows.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle vertikal spalten, indem eine neue Zelle darüber
             erstellt wird, wenn sie sich über mehrere Reihen ausbreitet.</val>
-        <val lang="fr_FR">Fractionner verticalement la cellule courante en créant une nouvelle
+        <val lang="fr_FR">Fractionner verticalement la cellule actuelle en créant une nouvelle
             cellule au-dessus, seulement si elle s'étend sur plusieurs lignes.</val>
         <val lang="ja_JP">複数行にまたがる場合のみ、その上に新しいセルを作成することにより、現在のテーブルセルを縦方向に分割します。</val>
         <val lang="nl_NL">Splits de huidige cel verticaal door een nieuwe cel hierboven aan te
@@ -339,7 +339,7 @@
             only if it spans over multiple rows.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle vertikal spalten, indem eine neue Zelle
             darunter erstellt wird, wenn sie sich über mehrere Reihen ausbreitet.</val>
-        <val lang="fr_FR">Fractionner verticalement la cellule courante en créant une nouvelle
+        <val lang="fr_FR">Fractionner verticalement la cellule actuelle en créant une nouvelle
             cellule en-dessous, seulement si elle s'étend sur plusieurs lignes.</val>
         <val lang="ja_JP">複数行にまたがる場合のみ、その下に新しいセルを作成することにより、現在のテーブルセルを縦方向に分割します。</val>
         <val lang="nl_NL">Splits de huidige cel verticaal door een nieuwe cel hieronder aan te
@@ -352,7 +352,7 @@
             the same column span.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle mit der darunter verbinden, wenn beide Zellen
             die gleiche Spaltenausbreitung haben.</val>
-        <val lang="fr_FR">Fusionner la cellule courante avec celle du dessous, seulement si les deux
+        <val lang="fr_FR">Fusionner la cellule actuelle avec celle du dessous, seulement si les deux
             ont la même étendue de colonne.</val>
         <val lang="ja_JP">両方に同じ列スパンがある場合のみ、現在のテーブルセルを下のセルと結合します。</val>
         <val lang="nl_NL">Voeg de huidige cel samen met de ondergelegen cel, alleen als beide cellen
@@ -365,7 +365,7 @@
             the same column span.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle mit der darüber verbinden, wenn beide Zellen
             die gleiche Spaltenausbreitung haben.</val>
-        <val lang="fr_FR">Fusionner la cellule courante avec celle du dessus, seulement si les deux
+        <val lang="fr_FR">Fusionner la cellule actuelle avec celle du dessus, seulement si les deux
             ont la même étendue de colonne.</val>
         <val lang="ja_JP">両方に同じ列スパンがある場合のみ、現在のテーブルセルを上のセルと結合します。</val>
         <val lang="nl_NL">Voeg de huidige cel samen met de bovengelegen cel, alleen als beide cellen
@@ -378,7 +378,7 @@
             right of it, only if it spans over multiple columns.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle horizontal spalten, indem eine neue Zelle
             rechts davon erstellt wird, wenn sie sich über mehrere Spalten ausbreitet.</val>
-        <val lang="fr_FR">Fractionner horizontalement la cellule courante en créant une nouvelle
+        <val lang="fr_FR">Fractionner horizontalement la cellule actuelle en créant une nouvelle
             cellule à droite de celle-ci, seulement si elle s'étend sur plusieurs lignes.</val>
         <val lang="ja_JP">複数列にまたがる場合のみ、その右に新しいセルを作成することにより、現在のテーブルセルを横方向に分割します。</val>
         <val lang="nl_NL">Splits de huidige cel horizontaal door een nieuwe cel hieronder aan te
@@ -391,7 +391,7 @@
             left of it, only if it spans over multiple columns.</val>
         <val lang="de_DE">Nur aktuelle Tabellenzelle horizontal spalten, indem eine neue Zelle links
             davon erstellt wird, wenn sie sich über mehrere Spalten ausbreitet.</val>
-        <val lang="fr_FR">Fractionner horizontalement la cellule courante en créant une nouvelle
+        <val lang="fr_FR">Fractionner horizontalement la cellule actuelle en créant une nouvelle
             cellule à gauche de celle-ci, seulement si elle s'étend sur plusieurs lignes.</val>
         <val lang="ja_JP">複数列にまたがる場合のみ、その左に新しいセルを作成することにより、現在のテーブルセルを横方向に分割します。</val>
         <val lang="nl_NL">Splits de huidige cel horizontaal door een nieuwe cel links hiervan aan te
@@ -460,7 +460,7 @@
         <comment>Insert Column Before action description.</comment>
         <val lang="en_US">Insert a new table column before the current one.</val>
         <val lang="de_DE">Neue Tabellenspalte vor der aktuellen einfügen.</val>
-        <val lang="fr_FR">Insérer une nouvelle colonne avant la colonne courante.</val>
+        <val lang="fr_FR">Insérer une nouvelle colonne avant la colonne actuelle.</val>
         <val lang="ja_JP">新しいテーブル列を現在の列の前に挿入します。</val>
         <val lang="nl_NL">Voeg een nieuwe kolom voor de huidige kolom in.</val>
         <val lang="zh_CN">在当前表列之前插入新表列。</val>
@@ -469,7 +469,7 @@
         <comment>Insert column after action description.</comment>
         <val lang="en_US">Insert a new table column after the current one.</val>
         <val lang="de_DE">Neue Tabellenspalte nach der aktuellen einfügen.</val>
-        <val lang="fr_FR">Insérer une nouvelle colonne après la colonne courante.</val>
+        <val lang="fr_FR">Insérer une nouvelle colonne après la colonne actuelle.</val>
         <val lang="ja_JP">新しいテーブル列を現在の列の後に挿入します。</val>
         <val lang="nl_NL">Voeg een nieuwe kolom na de huidige kolom in.</val>
         <val lang="zh_CN">在当前表列之后插入新表列。</val>
@@ -478,7 +478,7 @@
         <comment>Insert row below action description.</comment>
         <val lang="en_US">Insert a new table row below the current one.</val>
         <val lang="de_DE">Neue Tabellenreihe unter der aktuellen einfügen.</val>
-        <val lang="fr_FR">Insérer une nouvelle ligne sous la ligne courante.</val>
+        <val lang="fr_FR">Insérer une nouvelle ligne sous la ligne actuelle.</val>
         <val lang="ja_JP">新しいテーブル行を現在の行の下に挿入します。</val>
         <val lang="nl_NL">Voeg een nieuwe rij onder de huidige rij in.</val>
         <val lang="zh_CN">在当前行的下面插入一个新表行。</val>
@@ -487,7 +487,7 @@
         <comment>Insert Row above action description.</comment>
         <val lang="en_US">Insert a new table row above the current one.</val>
         <val lang="de_DE">Neue Tabellenreihe über der aktuellen einfügen.</val>
-        <val lang="fr_FR">Insérer une nouvelle ligne au-dessus de la ligne courante.</val>
+        <val lang="fr_FR">Insérer une nouvelle ligne au-dessus de la ligne actuelle.</val>
         <val lang="ja_JP">新しいテーブル行を現在の行の上に挿入します。</val>
         <val lang="nl_NL">Voeg een nieuwe rij boven de huidige rij in.</val>
         <val lang="zh_CN">在当前表格行的上方插入新表格行。</val>
@@ -603,7 +603,7 @@
         <val lang="de_DE">Eine oder mehrere Tabellenreihen unter- oder oberhalb der aktuellen Reihe
             einfügen.</val>
         <val lang="fr_FR">Insérer une ou plusieurs lignes en dessous ou au-dessus de la ligne
-            courante.</val>
+            actuelle.</val>
         <val lang="ja_JP">現在の行の上または下に一つ以上のテーブル行を挿入します。</val>
         <val lang="nl_NL">Voeg één of meer tabelrijen in onder of boven de huidige rij.</val>
         <val lang="zh_CN">在当前行的下方或上方插入一个或多个表行。</val>
@@ -615,7 +615,7 @@
         <val lang="de_DE">Eine oder mehrere Tabellenspalten vor oder nach der aktuellen Spalte
             einfügen.</val>
         <val lang="fr_FR">Insérer une ou plusieurs colonnes avant ou après la colonne
-            courante.</val>
+            actuelle.</val>
         <val lang="ja_JP">現在の列の前または後ろに一つ以上のテーブル列を挿入します。</val>
         <val lang="nl_NL">Voeg één of meer tabelkolommen in voor of na de huidige kolom.</val>
         <val lang="zh_CN">在当前列之前或之后插入一个或多个表列。</val>
@@ -805,7 +805,7 @@
         <comment>Sort table action description.</comment>
         <val lang="en_US">Sort the current table.</val>
         <val lang="de_DE">Aktuelle Tabelle sortieren.</val>
-        <val lang="fr_FR">Trier le tableau courant.</val>
+        <val lang="fr_FR">Trier le tableau actuel.</val>
         <val lang="ja_JP">現在のテーブルをソートします。</val>
         <val lang="nl_NL">Sorteer de huidige tabel.</val>
         <val lang="zh_CN">当前表排序。</val>
@@ -1273,7 +1273,7 @@
         <comment>Generate IDs action description.</comment>
         <val lang="en_US">Generate IDs for the current selection.</val>
         <val lang="de_DE">IDs für die aktuelle Auswahl erzeugen.</val>
-        <val lang="fr_FR">Générer les IDs pour la sélection courante.</val>
+        <val lang="fr_FR">Générer les IDs pour la sélection actuelle.</val>
         <val lang="ja_JP">現在の選択に IDsの生成.</val>
         <val lang="nl_NL">Genereer ID's voor de huidige selectie.</val>
         <val lang="zh_CN">为当前选择生成ID。</val>
@@ -1291,7 +1291,7 @@
         <comment>Browse reference manual... action description.</comment>
         <val lang="en_US">Shows the current element documentation in TEI P5 reference manual</val>
         <val lang="de_DE">Zeigt die aktuelle Elementdokumentation im TEI5-Referenzhandbuch</val>
-        <val lang="fr_FR">Affiche la documentation de l'élément courant dans le manuel de référence
+        <val lang="fr_FR">Affiche la documentation de l'élément actuel dans le manuel de référence
             TEI P5</val>
         <val lang="ja_JP">TEI P5 リファレンスマニュアルで現在の要素のドキュメントを表示</val>
         <val lang="nl_NL">Toont de documentatie voor het huidige element in de TEI
@@ -1311,7 +1311,7 @@
         <comment>Browse reference manual... action description.</comment>
         <val lang="en_US">Shows the current element documentation in TEI P4 reference manual</val>
         <val lang="de_DE">Zeigt die aktuelle Elementdokumentation im TEI P4-Referenzhandbuch</val>
-        <val lang="fr_FR">Affiche la documentation de l'élément courant dans le manuel de référence
+        <val lang="fr_FR">Affiche la documentation de l'élément actuel dans le manuel de référence
             TEI P4</val>
         <val lang="ja_JP">TEI P4 リファレンスマニュアルで現在の要素のドキュメントの表示</val>
         <val lang="nl_NL">Toont de documentatie voor het huidige element in de TEI
