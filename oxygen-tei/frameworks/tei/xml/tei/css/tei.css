@@ -891,6 +891,7 @@ stage {
   }
 }
 table {
+  text-align: center;
   display: table;
   margin: 1em;  
 }
@@ -900,6 +901,11 @@ table head{
     font-style: italic;
     margin-bottom: 0.5em;
     color:#4d4d4d;
+}
+@media oxygen AND (platform:"eclipse") {
+  table > head{
+    font-style: normal;
+  }
 }
 @media oxygen AND (platform:"eclipse") {
   table > head{
