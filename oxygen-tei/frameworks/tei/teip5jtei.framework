@@ -448,7 +448,7 @@
 									</list>
 								</field>
 								<field name="jvmArgs">
-									<String>-Xmx256m</String>
+									<String>-Xmx256m -Dlog4j2.disable.jmx=true</String>
 								</field>
 								<field name="useCustomJavaHome">
 									<Boolean>false</Boolean>
@@ -685,7 +685,7 @@
 									</list>
 								</field>
 								<field name="jvmArgs">
-									<String>-Xmx256m</String>
+									<String>-Xmx256m -Dlog4j2.disable.jmx=true</String>
 								</field>
 								<field name="useCustomJavaHome">
 									<Boolean>false</Boolean>
