@@ -25,7 +25,6 @@
   
   <xsl:param name="proposedVersionNumber"/>
   <xsl:param name="newZipFileName"/>
-  <xsl:param name="detailedZipFileName"/>
   <xsl:param name="sfReleaseLocation"/>
   <xsl:param name="ghReleaseLocation"/>
   
