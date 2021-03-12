@@ -802,6 +802,7 @@
 			                                                    <String>${oxygenHome}/lib/*log4j*.jar</String>
 			                                                    <String>${oxygenHome}/lib/fop.jar</String>
 			                                                    <String>${pdu}/oxygen_aux_files/ant/</String>
+			                                                	<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
 			                                                    <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
 			                                                    <!-- (wildcards in these paths aren't supported before Oxygen-18.0) -->
 			                                                    <String>${oxygenHome}/lib/batik-all-1.7.jar</String>
