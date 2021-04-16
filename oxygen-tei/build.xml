@@ -20,7 +20,7 @@
   <property name="ghReleaseLocation" value="https://github.com/TEIC/oxygen-tei/releases/download/"/>
   
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
-  <property name="p5VaultLocation" value="/data2/Vault/P5/current/oxygen/"/>
+  <property name="p5VaultLocation" value="/data2/Vault/P5"/>
   
 <!-- The base name of the package we create. -->
   <property name="packageFilePrefix" value="oxygen-tei"/>
