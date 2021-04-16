@@ -20,7 +20,7 @@
   <property name="ghReleaseLocation" value="https://github.com/TEIC/oxygen-tei/releases/download/"/>
   
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
-  <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
+  <property name="p5VaultLocation" value="/data2/Vault/P5/current/oxygen/"/>
   
 <!-- The base name of the package we create. -->
   <property name="packageFilePrefix" value="oxygen-tei"/>
@@ -309,7 +309,7 @@ has worked well. You will need shell access to tei-c.org.
       <arg value="-c"/>
 <!--     Commented-out version used for testing locally. -->
       <!--<arg value="rsync -e ssh tei-c.org/updateSite.oxygen mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/updateSite.oxygen"/>-->
-      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@tei-c.org:${p5VaultLocation}/${p5Version}/oxygen/updateSite.oxygen"/>
+      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@ssh tei@cchum-kvm-dockerteic.in2p3.fr:${p5VaultLocation}/${p5Version}/oxygen/updateSite.oxygen"/>
     </exec>
     <echo message="${echo.separator}"/>
   </target>
