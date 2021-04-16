@@ -311,7 +311,7 @@ has worked well. You will need shell access to tei-c.org.
       <arg value="-c"/>
 <!--     Commented-out version used for testing locally. -->
       <!--<arg value="rsync -e ssh tei-c.org/updateSite.oxygen mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/updateSite.oxygen"/>-->
-      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@cchum-kvm-dockerteic.in2p3.fr:${p5VaultLocation}/${p5Version}/oxygen/updateSite.oxygen"/>
+      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@cchum-kvm-dockerteic.in2p3.fr:${p5VaultLocation}/current/oxygen/updateSite.oxygen"/>
     </exec>
     <echo message="${echo.separator}"/>
   </target>
@@ -324,9 +324,10 @@ has worked well. You will need shell access to tei-c.org.
       It offers to upload the package to SF, and the updateSite.oxygen
       file to tei-c.org.
   -->
-  <target name="release" depends="init, getStableVersions, clean, getJars, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge, uploadOxygenUpdateFile">
+  <target name="release" depends="init, getStableVersions, clean, getJars, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
+    <echo message="Now go to GitHub and create a new release on the model of the previous release, and upload the binary zip file you have just created. When you have done that, run 'ant uploadOxygenUpdateFile' to push the release file up to the TEI server."/>
     <echo message="${echo.separator}"/>
   </target>
   
