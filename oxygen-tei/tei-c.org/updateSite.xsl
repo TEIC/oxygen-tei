@@ -30,6 +30,10 @@
   
   <xsl:variable name="newZipFileUrl" select="concat($ghReleaseLocation, $proposedVersionNumber, '/', $newZipFileName)"/>
   
+  <xsl:variable name="zipFilenameBits" select="tokenize(replace($newZipFileName, '.zip$', ''), '-')"/>
+  <xsl:variable name="teiVersion" select="$zipFilenameBits[3]"/>
+  <xsl:variable name="stylesheetsVersion" select="$zipFilenameBits[4]"/>
+  
   <xsl:template match="/">
     <xsl:choose>
       <xsl:when test="string-length($proposedVersionNumber) lt 5">
@@ -57,7 +61,13 @@
     <xt:extension id="{$lastExtension/@id}">
       <xt:location href="{$newZipFileUrl}"/>
       <xt:version><xsl:value-of select="$proposedVersionNumber"/></xt:version>
-      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version'))]|following-sibling::text())"/>
+      <xsl:copy-of select="$lastExtension/xt:version/(following-sibling::xt:*[not(local-name() = ('location', 'version', 'description'))]|following-sibling::text())"/>
+      <xt:description>
+        Oxygen TEI plugin based on the latest stable release of TEI P5 (<xsl:sequence select="$teiVersion"/>) and the
+        latest stable release of the TEI Stylesheets (<xsl:sequence select="$stylesheetsVersion"/>). To avoid conflict with builtin
+        framework, please ensure that you have gone to Preferences-&gt;Document Type Association in
+        oXygen and deactivated all the TEI frameworks that have "External" in the storage columns.
+      </xt:description>
     </xt:extension>
   </xsl:template>
   
