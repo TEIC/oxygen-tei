@@ -28,7 +28,7 @@
   <xsl:param name="sfReleaseLocation"/>
   <xsl:param name="ghReleaseLocation"/>
   
-  <xsl:variable name="newZipFileUrl" select="concat($ghReleaseLocation, $newZipFileName)"/>
+  <xsl:variable name="newZipFileUrl" select="concat($ghReleaseLocation, $proposedVersionNumber, '/', $newZipFileName)"/>
   
   <xsl:template match="/">
     <xsl:choose>
