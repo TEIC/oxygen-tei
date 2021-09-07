@@ -2666,7 +2666,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									</String-array>
 								</field>
 								<field name="xslTransformer">
-									<String>Saxon-PE</String>
+									<String>Saxon-HE</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -2777,7 +2777,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									</String-array>
 								</field>
 								<field name="xslTransformer">
-									<String>Saxon-PE</String>
+									<String>Saxon-HE</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>

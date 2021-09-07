@@ -17,7 +17,6 @@
     <!-- Clean the output folder. -->
     <target name="clean">
         <delete dir="dist"/>
-        <delete dir="classes"/>
     </target>
 
     <!-- Check if oxygen jar is found in the lib folder. -->
@@ -55,7 +54,6 @@ oXygen frameworks folder and the library will be automatically detected.
                             <fileset dir="${eclipseJars}">
                                 <include name="org.eclipse.core.commands_*.jar"/>
                                 <include name="org.eclipse.core.runtime_*.jar"/>
-                                <include name="org.eclipse.equinox.common_*.jar"/>
                                 <include name="org.eclipse.jface.text_*.jar"/>
                                 <include name="org.eclipse.jface_*.jar"/>
                                 <include name="org.eclipse.swt.win32.win32.x86_*.jar"/>
@@ -74,7 +72,7 @@ oXygen frameworks folder and the library will be automatically detected.
     <target name="compile" depends="clean, checkJars">
         <delete dir="classes"/>
         <mkdir dir="classes"/>
-        <javac destdir="classes" includeantruntime="false">
+        <javac destdir="classes" source="1.6" target="1.6" includeantruntime="false" release="8">
             <classpath>
                 <fileset dir="${lib}">
                     <include name="*.jar"/>
@@ -128,5 +126,7 @@ oXygen frameworks folder and the library will be automatically detected.
         </copy>
         <copy file="../../LICENSE.txt" todir="dist/tei"/>
         <zip destfile="dist/tei.zip" basedir="dist" includes="tei/**"/>
+        <delete dir="dist/tei"/>
+        <delete dir="classes"/>
     </target>
 </project>

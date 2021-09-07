@@ -13,11 +13,14 @@
   <!--  Release path is: https://github.com/TEIC/Stylesheets/releases/download/v7.41.0/tei-xsl-7.41.0.zip -->
   <property name="GHXSL" value="https://github.com/TEIC/Stylesheets/releases/download"/>
   
-<!-- Where TEI releases of the plugin are available for download. -->
+<!-- OLD: Where TEI releases of the plugin are available for download. -->
   <property name="sfReleaseLocation" value="http://sourceforge.net/projects/tei/files/oxygen-tei/"/>
   
+  <!-- NEW: Where TEI releases of the plugin are available for download. -->
+  <property name="ghReleaseLocation" value="https://github.com/TEIC/oxygen-tei/releases/download/"/>
+  
 <!--  Where the updateSite.oxygen files live on tei-c.org. -->
-  <property name="p5VaultLocation" value="/var/www/vhosts/tei-c.org/projects/tei/web/Vault/P5/"/>
+  <property name="p5VaultLocation" value="/data2/Vault/P5"/>
   
 <!-- The base name of the package we create. -->
   <property name="packageFilePrefix" value="oxygen-tei"/>
@@ -118,6 +121,8 @@ stable: This is also intended to run on the TEI's Jenkins build
     <delete dir="frameworks/tei/xml/tei/stylesheet"/>
     <delete dir="frameworks/tei/xml/tei/xquery"/>
     <delete dir="frameworks/tei/templates"/>
+    <delete file="tei-c.org/updateSite.oxygen"/>
+    <delete file="tei-c.org/updateSite.oxygen_OLD"/>
     <echo message="${echo.separator}"/>
   </target>
   
@@ -229,7 +234,7 @@ If there are only changes to the plugin code itself,
     <fail message="${newVersion} is not a valid version number." unless="goodVersionNumber"/>
     
     <property name="newZipFileName" value="${packageFilePrefix}-${newVersion}.zip"/>
-    <property name="saxonCommand" value="java -jar lib/saxon9he.jar -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl -o:tei-c.org/updateSite.oxygen proposedVersionNumber=${newVersion} sfReleaseLocation=${sfReleaseLocation} newZipFileName=${newZipFileName}"/>
+    <property name="saxonCommand" value="java -jar lib/saxon9he.jar -s:tei-c.org/updateSite.oxygen_OLD -xsl:tei-c.org/updateSite.xsl -o:tei-c.org/updateSite.oxygen proposedVersionNumber=${newVersion} ghReleaseLocation=${ghReleaseLocation} newZipFileName=${packageFilePrefix}-${p5Version}-${stylesheetsVersion}.zip"/>
     <echo message="Running Saxon to create new updateSite.oxygen file:"/>
     <echo message="${saxonCommand}"/>
     <exec executable="/bin/bash" failonerror="true">
@@ -306,7 +311,7 @@ has worked well. You will need shell access to tei-c.org.
       <arg value="-c"/>
 <!--     Commented-out version used for testing locally. -->
       <!--<arg value="rsync -e ssh tei-c.org/updateSite.oxygen mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/updateSite.oxygen"/>-->
-      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@tei-c.org:${p5VaultLocation}/${p5Version}/oxygen/updateSite.oxygen"/>
+      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@cchum-kvm-dockerteic.in2p3.fr:${p5VaultLocation}/current/oxygen/updateSite.oxygen"/>
     </exec>
     <echo message="${echo.separator}"/>
   </target>
@@ -319,9 +324,10 @@ has worked well. You will need shell access to tei-c.org.
       It offers to upload the package to SF, and the updateSite.oxygen
       file to tei-c.org.
   -->
-  <target name="release" depends="init, getStableVersions, clean, getJars, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge, uploadOxygenUpdateFile">
+  <target name="release" depends="init, getStableVersions, clean, getJars, unpackZips, doBuild, copyDist, createTeiOxygenUpdateFile, uploadToSourceForge">
     <echo message="${echo.separator}"/>
     <echo message="Done!"/>
+    <echo message="Now go to GitHub and create a new release on the model of the previous release, and upload the binary zip file you have just created. When you have done that, run 'ant uploadOxygenUpdateFile' to push the release file up to the TEI server."/>
     <echo message="${echo.separator}"/>
   </target>
   

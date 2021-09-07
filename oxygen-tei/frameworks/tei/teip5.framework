@@ -3126,7 +3126,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Saxon-PE</String>
+									<String>Saxon-HE</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
@@ -3209,7 +3209,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 									<String-array/>
 								</field>
 								<field name="xslTransformer">
-									<String>Saxon-PE</String>
+									<String>Saxon-HE</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array/>
