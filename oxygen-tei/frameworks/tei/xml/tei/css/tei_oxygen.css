@@ -8,6 +8,8 @@
 /* Web Author adjustments */
 @import "webauthor.css";
 
+@import "tei_print.css";
+
 @namespace xml "http://www.w3.org/XML/1998/namespace";
 @namespace oxy "http://www.oxygenxml.com/extensions/author";
 

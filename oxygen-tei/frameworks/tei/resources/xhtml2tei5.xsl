@@ -91,11 +91,8 @@
   <xsl:template match="e:a[contains(@href,'#')]" priority="0.6">
       <xsl:variable name="ptr">
           <ptr xmlns="http://www.tei-c.org/ns/1.0">
-              <xsl:attribute name="target">
-                   <xsl:call-template name="makeID">
-                       <xsl:with-param name="string" select="normalize-space(@href)"/>
-                   </xsl:call-template>
-              </xsl:attribute>
+              <xsl:variable name="targetID" select="f:makeID(normalize-space(@href))"/>
+              <xsl:attribute name="target" select="concat(substring-before($targetID, '#'), '#',  f:correctId(substring-after($targetID, '#')))"/>
           </ptr>
           <xsl:apply-templates/>
       </xsl:variable>
@@ -107,11 +104,7 @@
   <xsl:template match="e:a[@name != '']" priority="0.6">
       <xsl:variable name="hi">
           <hi xmlns="http://www.tei-c.org/ns/1.0">
-              <xsl:attribute name="xml:id">
-                  <xsl:call-template name="makeID">
-                      <xsl:with-param name="string" select="normalize-space(@name)"/>
-                  </xsl:call-template>
-              </xsl:attribute>
+              <xsl:attribute name="xml:id" select="f:correctId(f:makeID(normalize-space(@name)))"/>
               <xsl:apply-templates select="@* | * | text()"/>
           </hi>
       </xsl:variable>
@@ -123,11 +116,7 @@
   <xsl:template match="e:a[@href != '']">
       <xsl:variable name="ptr">
           <ptr xmlns="http://www.tei-c.org/ns/1.0">
-              <xsl:attribute name="target">
-                  <xsl:call-template name="makeID">
-                      <xsl:with-param name="string" select="normalize-space(@href)"/>
-                  </xsl:call-template>
-              </xsl:attribute>
+              <xsl:attribute name="target" select="f:makeID(normalize-space(@href))"/>
           </ptr>
           <xsl:apply-templates/>
       </xsl:variable>
@@ -136,13 +125,12 @@
       </xsl:call-template>
   </xsl:template>
   
-  <xsl:template name="makeID">
-   <xsl:param name="string" select="''"/>
-     <xsl:call-template name="getFilename">
-       <xsl:with-param name="path" select="translate($string,' \()','_/_')"/>
-     </xsl:call-template>
-  </xsl:template>
-  
+    <!-- Function for making an ID using the given text. The parameter can also be a file path.-->
+    <xsl:function name="f:makeID">
+        <xsl:param name="string"/>
+        <xsl:value-of select="f:getFilename(translate($string,' \()','_/_'))"/>
+    </xsl:function>
+    
   <xsl:template name="string.subst">
    <xsl:param name="string" select="''"/>
    <xsl:param name="substitute" select="''"/>
@@ -185,9 +173,7 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:variable>
-                        <xsl:call-template name="getFilename">
-                            <xsl:with-param name="path" select="string($srcFile)"/>
-                        </xsl:call-template>
+                        <xsl:value-of select="f:getFilename(string($srcFile))"/>
                     </xsl:variable>
                     <xsl:variable name="stringImageFilename" select="string($imageFilename)"/>
                     <xsl:variable name="uid" select="UUID:hashCode(UUID:randomUUID())"/>
@@ -233,24 +219,21 @@
         </graphic>
     </xsl:template>
     
-    <xsl:template name="getFilename">
-   <xsl:param name="path"/>
-   <xsl:choose>
-    <xsl:when test="contains($path,'/')">
-     <xsl:call-template name="getFilename">
-      <xsl:with-param name="path" select="substring-after($path,'/')"/>
-     </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="contains($path,'\')">
-       <xsl:call-template name="getFilename">
-         <xsl:with-param name="path" select="substring-after($path,'\')"/>
-       </xsl:call-template>
+   <!-- Function for getting the file name from the given path-->
+   <xsl:function name="f:getFilename">
+    <xsl:param name="path"/>
+    <xsl:choose>
+     <xsl:when test="contains($path,'/')">
+        <xsl:value-of select="f:getFilename(substring-after($path,'/'))"/>
      </xsl:when>
-     <xsl:otherwise>
-     <xsl:value-of select="$path"/>
-    </xsl:otherwise>
-   </xsl:choose>
-  </xsl:template>
+     <xsl:when test="contains($path,'\')">
+        <xsl:value-of select="f:getFilename(substring-after($path,'\'))"/>
+      </xsl:when>
+      <xsl:otherwise>
+      <xsl:value-of select="$path"/>
+     </xsl:otherwise>
+    </xsl:choose>
+   </xsl:function>
   
   <!-- List elements -->
   <xsl:template match="e:ul">

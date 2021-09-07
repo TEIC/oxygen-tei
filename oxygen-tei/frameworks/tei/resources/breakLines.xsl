@@ -42,12 +42,13 @@
     
     <xsl:function name="f:ignorableElement" as="xs:boolean">
         <xsl:param name="element" as="node()"/>
-        <xsl:value-of select="exists(
+        <xsl:sequence select="exists(
               $element/self::xhtml:span[contains(string-join(descendant-or-self::*/@style, ' '), 'mso-list:Ignore')]
             | $element/self::xhtml:span[contains(string-join(descendant-or-self::*/@style, ' '), 'mso-list: Ignore')]
             | $element/self::xhtml:span[contains(string-join(ancestor-or-self::*/@style, ' '), 'mso-list:Ignore')]
             | $element/self::xhtml:span[contains(string-join(ancestor-or-self::*/@style, ' '), 'mso-list: Ignore')]
-            )"></xsl:value-of>
+            | $element/self::xhtml:span[@class = 'indexTerm' or @class = 'indexSee'] 
+            )"></xsl:sequence>
     </xsl:function>
     
     <xsl:template match="node() | @*" mode="breakLines">
@@ -56,7 +57,7 @@
         </xsl:copy>
     </xsl:template>
 
-    <!-- Replace <br/> element with a space. -->
+    <!-- Replace <br/> element with a space -->
     <xsl:template match="xhtml:br[parent::xhtml:code | parent::xhtml:pre | parent::xhtml:blockquote]" 
                   mode="breakLines">
         <xsl:text>&#xA;</xsl:text>

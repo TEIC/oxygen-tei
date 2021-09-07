@@ -1,13 +1,67 @@
+@media print {
+  :root{
+    width:100%;
+  }
+  note {
+    float: footnote;
+    margin: 0;
+    border: 0;
+    background-color: white;
+    color:#555555;
+    font-size: 10px;
+    line-height:15px;
+  }
+  :footnote-marker {
+    list-style-position: inside;
+    content: counter(footnote) '. ';
+  }
+  @page{
+    @footnote {
+      content: leader(solid);
+      color:gray;
+    }
+  }
+ }
 
+
+/**
+ * Needed only for media oxygen but it doesn't support z-index.
+ */
+note {z-index:1;}
+note:hover {z-index:10;}
+
+@media oxygen and (platform:standalone), oxygen and (platform:eclipse), oxygen and (platform:webapp) {
+note {
+  display: block;
+/* Note: Oxygen's renderer does not seem to support 
+   floats, so we can't put the note in the margin. Instead 
+   we simply show it in place. */
+  float: right;
+  font-size: 80%;
+}
+
+note {
+    font-size:12px;
+    font-weight:normal;
+    background-color:#FFFFF0;
+    color:#555555;
+    border-radius:5px;
+    border:1px solid orange;
+    counter-increment: nCounter;
+}
+
+note:before {
+    content: "[" counter(nCounter) "] ";
+}
+:root {
+    width:80%;
+}
 TEI > text {
     width : 75%;
     position:relative;
     border-right : 1px solid #F7EFE1;
     padding-right:6px;
 }
-
-note {z-index:1;}
-note:hover {z-index:10;}
 
 note ptr[target]:after {
     content: oxy_getSomeText(attr(target), 22, true)!important;
@@ -72,4 +126,5 @@ note > * {
 
 note:-oxy-edit > * {
     display:inline;
+}
 }

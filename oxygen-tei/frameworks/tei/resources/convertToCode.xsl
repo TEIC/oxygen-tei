@@ -17,15 +17,17 @@
          Convert "Courier New" fonts into "html:code" elements. Later, the code elements will be converted to codeblocks 
         or codeph elements..
         ===============================
+        jump if the text is empty and there are no silbings of type span @style=font:monospaced
     -->
     <xsl:template match="xhtml:span[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced')) 
-    	and not(parent::*:td[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced'))])]"
+        and not(parent::*:td[f:hasFontStyle(@style, $stylesPropMap('monospaced'), $stylesValMap('monospaced'))])]"
         mode="code">
         
         <xsl:choose>
             <!-- I am a span, my parent is a list and my child is a list bullet...do nothing..let other stylesheet handle it.  -->
             <xsl:when test="(parent::xhtml:p[contains(@class, 'MsoList') or contains(@style, 'level')] and child::xhtml:span[matches(@style, 'mso-list\s*:\s*Ignore')]) or 
-                (node()[matches(@style, 'mso-list\s*:\s*Ignore')] or child::xhtml:span[matches(@style, 'mso-list\s*:\s*Ignore')])">
+                (node()[matches(@style, 'mso-list\s*:\s*Ignore')] or child::xhtml:span[matches(@style, 'mso-list\s*:\s*Ignore')])
+                or (string-length(string-join(text(), '')) = 0 and count(following-sibling::xhtml:span) = 0)">
                 <xsl:copy-of select="."/>
             </xsl:when>
             <xsl:otherwise>

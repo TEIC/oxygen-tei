@@ -8,11 +8,66 @@
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="f">
     
-    <xsl:template match="* | processing-instruction() |comment() | @*" mode="filterNodes">
+    <xsl:template match="*" mode="filterNodes">
+        <xsl:copy>
+            <!-- EXM-45627: Copy the id from the empty child anchor-->
+            <xsl:if test="not(@id) and child::xhtml:a[1][@id][not(node())]">
+                <xsl:attribute name="id">
+                    <xsl:value-of select="f:correctId(child::xhtml:a[1]/@id)"/>
+                </xsl:attribute>
+            </xsl:if>
+            
+            <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="processing-instruction() |comment() | @*" mode="filterNodes">
         <xsl:copy>
             <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
         </xsl:copy>
     </xsl:template>
+    
+    <xsl:template match="xhtml:a/@href[starts-with(.,'#')]" mode="filterNodes">
+        <xsl:attribute name="href">
+            <xsl:variable name="currentId" select="normalize-space(substring(., 2))"/>
+            <xsl:variable name="elementWithId" select="//*[@id = $currentId]"/>
+            
+            <xsl:choose>
+                <xsl:when test="$elementWithId[local-name() = 'a'][not(node())]/preceding-sibling::xhtml:a[@id][not(node())][last()]">
+                    <!-- EXM-45627 The html resulted from a Word conversion contains multiple sibling anchors with id. We want to keep only one.
+                        So we need to rewrite the hrefs to point at first anchor -->
+                    <xsl:variable name="firstAnchorId">
+                        <xsl:value-of select="$elementWithId/preceding-sibling::xhtml:a[@id][not(node())][last()]/@id"/>
+                    </xsl:variable>
+                    <xsl:value-of select="concat('#', f:correctId($firstAnchorId))"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat('#', f:correctId($currentId))"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+    </xsl:template>
+    
+    <xsl:template match="*/@id" mode="filterNodes">
+        <xsl:attribute name="id">
+            <xsl:value-of select="f:correctId(.)"/>
+        </xsl:attribute>
+    </xsl:template>
+    
+    <!--
+        Corrects id of a topic such as it will NCName.
+            Moreover it eliminates "%20".</xd:desc>
+        Para "text": Text to be corrected</xd:param>
+        Return: The corrected text which can be used as id</xd:return>
+    -->
+    <xsl:function name="f:correctId" as="xs:string">
+        <xsl:param name="text" as="xs:string"/>
+        <xsl:variable name="tempId" select="replace(xs:string($text), '%20', '_')"/>
+        <xsl:variable name="tempId2" select="replace($tempId, '[^\c_-]|[+:]', '_')"/>
+        <xsl:variable name="tempId3" select="replace($tempId2,'[_]+', '_')"/>
+        <xsl:variable name="tempId4" select="replace($tempId3,'_$', '')"/>
+        <xsl:value-of select="replace($tempId4, '^[0-9.-/_]+', '')"/>
+    </xsl:function>
     
     <!-- CSS properties of fonts in MSOffice -->
     <xsl:variable name="stylesPropMap" as="map(xs:string, xs:string)" 
@@ -230,11 +285,13 @@
     
     <xsl:template match="*[not(node())]
         [not(local-name() = 'img' 
-        or local-name() = 'ph' 
-        or local-name() = 'br' 
-        or local-name() = 'col' 
-        or local-name() = 'td'
-        or local-name() = 'colgroup')]" 
+        	or local-name() = 'ph' 
+        	or local-name() = 'br'
+        	or local-name() = 'a'  
+        	or local-name() = 'col' 
+        	or local-name() = 'td'
+        	or local-name() = 'colgroup') 
+        or (local-name() = 'a' and not(./@href))]" 
         mode="filterNodes"
         priority="2"/>
     

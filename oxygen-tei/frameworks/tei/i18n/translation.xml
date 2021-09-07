@@ -9,6 +9,24 @@
         <language description="Dutch" lang="nl_NL"/>
         <language description="Chinese" lang="zh_CN"/>
     </languageList>
+<key value="Unindent">
+        <comment>Usually moves a list item to the ancestor list, promoting it.</comment>
+        <val lang="en_US">Unindent {0}</val>
+        <val lang="de_DE">Nicht-eingerückt {0}</val>
+        <val lang="fr_FR">Désindenter {0}</val>
+        <val lang="ja_JP">インデント解除{0}</val>
+        <val lang="nl_NL">Inspringing opheffen voor {0}</val>
+        <val lang="zh_CN">取消缩进 {0}</val>
+    </key>
+<key value="Unindent_current_element">
+        <comment>Unindents the current element and creates a new element of another type.</comment>
+        <val lang="en_US">Unindents the current "{0}" element.</val>
+        <val lang="de_DE">Entfernt Einrückung des aktuellen "{0}" Elements.</val>
+        <val lang="fr_FR">Désindente l''élément "{0}" actuel.</val>
+        <val lang="ja_JP">現在の"{0}"要素のインデントを解除します。</val>
+        <val lang="nl_NL">Hiermee wordt de inspringing voor het huidige element "{0}" opgeheven.</val>
+        <val lang="zh_CN">取消缩进当前的"{0}"元素.</val>
+    </key>
 <key type="action" value="required.by.reading.mode.action">
         <comment>Express the fact that this action is require by the enable reading mode
             action.</comment>

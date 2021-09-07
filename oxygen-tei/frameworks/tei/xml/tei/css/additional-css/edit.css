@@ -71,7 +71,6 @@ TEI:-oxy-large {
     padding-top: 0em;
     font-family:verdana, arial, helvetica, sans-serif;
     counter-reset: nCounter pCounter example appendix;
-    width:80%;
 }
 
 
@@ -113,25 +112,6 @@ text {
 div > head {
     color : #1E76B7;
     font-weight:bold;
-}
-
-note {
-    font-size:12px;
-    font-weight:normal;
-    background-color:white;
-    color:#555555;
-    border-radius:5px;
-    border:1px solid orange;
-    background-color:#FFFFF0;
-}
-
-
-note:before {
-    content: "[" counter(nCounter) "] ";
-    
-}
-note {
-    counter-increment:nCounter;
 }
 
 

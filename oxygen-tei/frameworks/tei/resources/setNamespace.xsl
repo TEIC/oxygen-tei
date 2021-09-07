@@ -37,7 +37,9 @@
     </xsl:template>
     
     <xsl:template match="xhtml:span[ancestor::xhtml:p | ancestor::xhtml:div]
-                                   [not(contains(@style, 'mso-list:'))]" 
+                                   [not(contains(@style, 'mso-list:')
+                                        or contains(@class, 'indexTerm')
+                                        or contains(@class, 'indexSee'))]" 
                   mode="setNamespace">
         <xsl:apply-templates mode="setNamespace"/>
     </xsl:template>

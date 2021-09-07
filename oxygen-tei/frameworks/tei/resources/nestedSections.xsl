@@ -9,6 +9,9 @@
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="xs f">
     
+     <!-- true if we want to wrap element before heading in a section -->
+    <xsl:param name="wrapElementsBeforeHeadingInSection" as="xs:boolean" select="false()"/>
+    
     <xsl:template match="/">
         <xsl:apply-templates mode="nestedSections"/>
     </xsl:template>
@@ -46,10 +49,30 @@
             <xsl:variable name="masterHeadings" select="key('kHeadings', '')"/>
             <xsl:choose>
                 <xsl:when test="empty($masterHeadings)">
-                    <xsl:apply-templates mode="nestedSections"/>
+                    <xsl:choose>
+                        <xsl:when test="$wrapElementsBeforeHeadingInSection">
+                           <xsl:call-template name="wrapWithSection">
+                               <xsl:with-param name="nodes" select="./*"/>
+                           </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates mode="nestedSections"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:apply-templates select="*[. &lt;&lt; $masterHeadings[1]]" mode="nestedSections"/>
+			        <xsl:variable name="beforeFirstMasterHeading" select="*[. &lt;&lt; $masterHeadings[1]]"/>
+                    <xsl:choose>
+                        <xsl:when test="$wrapElementsBeforeHeadingInSection and not(empty($beforeFirstMasterHeading))">
+                            <!--Group the elements before heading in a section-->
+                            <xsl:call-template name="wrapWithSection">
+                                <xsl:with-param name="nodes" select="$beforeFirstMasterHeading"/>
+                            </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="$beforeFirstMasterHeading" mode="nestedSections"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:apply-templates select="$masterHeadings" mode="nestedSections"/>
                 </xsl:otherwise>
             </xsl:choose>
@@ -58,6 +81,30 @@
     
     <xsl:template match="xhtml:body/*[f:isHeading(.)]" mode="nestedSections">
         <e:section level="{substring(name(),2)}" xmlns="http://www.w3.org/1999/xhtml">
+            <xsl:choose>
+                <xsl:when test="@id">
+                    <xsl:copy-of select="@id"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="id">
+                        <xsl:variable name="counter">
+                            <xsl:value-of select="count(preceding::*[f:isHeading(.)]) 
+                                + count(ancestor::*[f:isHeading(.)]) + 1"/>
+                        </xsl:variable>
+                        <xsl:variable name="idValue">
+                            <xsl:choose>
+                                <xsl:when test="exists(//*[@id = concat('id_', $counter)])">
+                                    <xsl:value-of select="concat('id_', generate-id())"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="concat('id_', $counter)"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:variable>
+                        <xsl:value-of select="$idValue"/>
+                    </xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
             <!-- Copies the header content. -->
             <e:title>
                 <xsl:apply-templates mode="nestedSections"/>
@@ -69,15 +116,35 @@
         </e:section>
     </xsl:template>
     
+    <xsl:template name="wrapWithSection">
+        <xsl:param name="nodes"/>
+        <e:section level="1" xmlns="http://www.w3.org/1999/xhtml">
+            <xsl:attribute name="id">
+                <xsl:choose>
+                    <xsl:when test="exists(//*[@id = 'id'])">
+                        <xsl:value-of select="concat('id_', generate-id())"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:sequence>id</xsl:sequence>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <e:title>
+            </e:title>
+            <!-- Copies the nodes. -->
+            <xsl:apply-templates select="$nodes" mode="nestedSections"/>
+        </e:section>
+    </xsl:template>
+    
     <xsl:function name="f:isHeading" as="xs:boolean">
         <xsl:param name="n" as="node()"/>
-        <xsl:value-of select="
+        <xsl:sequence select="xs:boolean(
                     local-name($n) = 'h1' or 
                     local-name($n) = 'h2' or 
                     local-name($n) = 'h3' or 
                     local-name($n) = 'h4' or 
                     local-name($n) = 'h5' or 
-                    local-name($n) = 'h6'
+                    local-name($n) = 'h6')
             "/>
     </xsl:function>
 </xsl:stylesheet>

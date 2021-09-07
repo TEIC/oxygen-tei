@@ -19,13 +19,18 @@
                             mode="nestedLists" 
                             priority="2"/>
     
+    <xsl:param name="inlineElements" select="('a', 'abbr', 'acronym', 'b', 'bdo', 'big', 'br', 'button', 'cite', 'code', 'dfn', 'em', 'i', 'img', 'input', 'kbd', 'label',
+        'map', 'object', 'output', 'u', 'q', 'samp', 'script', 'select', 'small', 'span', 'strong', 'sub', 'sup', 'textarea', 'time', 'tt', 'var')"/>
+    
     <xsl:template match="*" mode="nestedLists" priority="1">
             <xsl:copy>
                 <xsl:apply-templates select="@*" mode="nestedLists"/>
                 <xsl:for-each-group 
-                    select="* | text()[string-length(normalize-space()) > 0] | comment()" 
-                    group-adjacent="if (self::xhtml:p[contains(@style, 'level') 
-                                      or contains(@class, 'MsoList')]) then 1 else 0">
+                    select="* 
+                        | text()[string-length(normalize-space()) > 0 
+                                 or (string-length() > 0 and following-sibling::node()[1][f:isInlineElement(.)] and preceding-sibling::node()[1][f:isInlineElement(.)]) ] 
+                        | comment()" 
+                    group-adjacent="if (self::xhtml:p[f:isListPara(.)]) then 1 else 0">
                     <xsl:choose>
                         <xsl:when test="current-grouping-key() = 1">
                             <xsl:call-template name="createList">
@@ -43,6 +48,15 @@
             </xsl:copy>
     </xsl:template>
     
+    <xsl:function name="f:isInlineElement" as="xs:boolean">
+        <xsl:param name="node" as="node()"/>
+        <xsl:sequence select="local-name($node) = $inlineElements"/>
+    </xsl:function>
+    
+    <xsl:function name="f:isListPara" as="xs:boolean">
+        <xsl:param name="param" as="node()?"/>
+        <xsl:sequence select="contains($param/@style, 'level') or contains($param/@class, 'MsoList')"/>
+    </xsl:function>
     
     <xsl:template match="node() | @*" mode="nestedLists">
         <xsl:copy>

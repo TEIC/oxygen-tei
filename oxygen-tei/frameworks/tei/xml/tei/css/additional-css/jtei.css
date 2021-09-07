@@ -229,22 +229,6 @@ figure > egXML+head:before, figure > eg+head:before {
   content: "Example " counter(example) ": ";
 }
 
-note {
-  display: block;
-/* Note: Oxygen's renderer does not seem to support 
-   floats, so we can't put the note in the margin. Instead 
-   we simply show it in place. */
-  float: right;
-  font-size: 80%;
-  margin: 2em 5em;
-  background-color: #d0d0d0;
-  counter-increment: note;
-}
-
-note:before {
-  content: "[note " counter(note) "] ";
-}
-
 list, listBibl{
   display: block;
   margin-bottom: 1em;

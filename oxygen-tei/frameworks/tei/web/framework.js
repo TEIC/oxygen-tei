@@ -17,32 +17,59 @@ goog.inherits(sync.tei.TeiExtension, sync.ext.Extension);
  */
 sync.tei.TeiExtension.prototype.editorCreated = function(editor) {
   goog.events.listen(editor, sync.api.Editor.EventTypes.ACTIONS_LOADED, function(e) {
-    var actionsManager = editor.getActionsManager();
-    var originalInsertImageAction = actionsManager.getActionById('insert image');
-    if (originalInsertImageAction) {
-      var insertImageAction = new sync.actions.InsertImage(
-        originalInsertImageAction, 
-        "ro.sync.ecss.extensions.tei.InsertImageOperationP5", 
-        editor);
-      actionsManager.registerAction('insert image', insertImageAction);
-    }
-    
-    var originalInsertTableAction = actionsManager.getActionById('insert.table');
-    if (originalInsertTableAction) {
-      var insertTableAction = new sync.actions.InsertTable(
-        originalInsertTableAction, 
-        "ro.sync.ecss.extensions.tei.table.InsertTableOperation", 
-        editor, 
-        [sync.actions.InsertTable.TableTypes.CUSTOM],
-        [sync.actions.InsertTable.ColumnWidthTypes.PROPORTIONAL, 
-         sync.actions.InsertTable.ColumnWidthTypes.DYNAMIC, 
-         sync.actions.InsertTable.ColumnWidthTypes.FIXED],
-         "Head",
-         "http://www.tei-c.org/ns/1.0");
-      actionsManager.registerAction('insert.table', insertTableAction);
-    }
     addOldStyleTableActions(e.actionsConfiguration, "TEI", editor);
   }, true);
+};
+
+/**
+ * Extend the base insert image action.
+ *
+ * @param {goog.structs.Map<String, sync.actions.AbstractAction>} actionsMap The map between actions id and action.
+ * @param {sync.api.EditingSupport} editingSupport The editing support.
+ */
+sync.tei.TeiExtension.prototype.extendInsertImageAction = function(actionsMap, editingSupport) {
+  var originalInsertImageAction = actionsMap.get('insert image');
+  if (originalInsertImageAction) {
+    var insertImageAction = new sync.actions.InsertImage(
+      originalInsertImageAction,
+      "ro.sync.ecss.extensions.tei.InsertImageOperationP5",
+      editingSupport);
+    actionsMap.set('insert image', insertImageAction);
+  }
+};
+
+/**
+ * Extend the base insert table action.
+ *
+ * @param {goog.structs.Map<String, sync.actions.AbstractAction>} actionsMap The map between actions id and action.
+ * @param {sync.api.EditingSupport} editingSupport The editing support.
+ */
+sync.tei.TeiExtension.prototype.extendInsertTableAction = function(actionsMap, editingSupport) {
+  var originalInsertTableAction = actionsMap.get('insert.table');
+  if (originalInsertTableAction) {
+    var insertTableAction = new sync.actions.InsertTable(
+      originalInsertTableAction,
+      "ro.sync.ecss.extensions.tei.table.InsertTableOperation",
+      editingSupport,
+      [sync.actions.InsertTable.TableTypes.CUSTOM],
+      [sync.actions.InsertTable.ColumnWidthTypes.PROPORTIONAL,
+        sync.actions.InsertTable.ColumnWidthTypes.DYNAMIC,
+        sync.actions.InsertTable.ColumnWidthTypes.FIXED],
+      "Head",
+      "http://www.tei-c.org/ns/1.0");
+    actionsMap.set('insert.table', insertTableAction);
+  }
+};
+
+/**
+ * Filter the actions available for the current editing support.
+ *
+ * @param {goog.structs.Map<String, sync.actions.AbstractAction>} actionsMap The map between actions id and action.
+ * @param {sync.api.EditingSupport} editingSupport The actions manager containing all the actions.
+ */
+sync.tei.TeiExtension.prototype.filterActions = function(actionsMap, editingSupport) {
+  this.extendInsertImageAction(actionsMap, editingSupport);
+  this.extendInsertTableAction(actionsMap, editingSupport);
 };
 
 /**
