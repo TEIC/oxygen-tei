@@ -585,6 +585,7 @@
 										<String>${oxygenHome}/lib/*fop*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 									</String-array>
@@ -822,6 +823,7 @@
 			                                                    <String>${oxygenHome}/lib/*fop*.jar</String>
 			                                                    <String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
 			                                                    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										                        <String>${oxygenHome}/lib/*saxon*10*.jar</String>
 			                                                    <String>${oxygenHome}/lib/*xerces*.jar</String>
 			                                                    <String>${oxygenHome}/lib/*resolver*.jar</String>
 			                                                </String-array>
