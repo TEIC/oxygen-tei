@@ -3028,7 +3028,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 			<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -3325,7 +3330,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -3622,7 +3632,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -3896,7 +3911,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -4170,7 +4190,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
 		</field>
@@ -4444,7 +4469,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		    <String>${oxygenHome}/lib/*trang*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
@@ -4719,7 +4749,12 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
 		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-		    <String>${oxygenHome}/lib/*log4j*.jar</String>
+		    <String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+			<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+			<String>${oxygenHome}/lib/logback-core-*.jar</String>
+			<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+            <String>${oxygenHome}/lib/log4j-api-*.jar</String>
 		    <String>${oxygenHome}/lib/*trang*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 		  </String-array>
