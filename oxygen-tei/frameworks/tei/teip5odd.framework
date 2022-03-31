@@ -3026,7 +3026,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 			<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -3323,7 +3323,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -3620,7 +3620,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -4168,7 +4168,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		  	<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
@@ -4442,7 +4442,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		    <String>${oxygenHome}/lib/*trang*.jar</String>
@@ -4717,7 +4717,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		    <String>${oxygenHome}/lib/*xerces*.jar</String>
 		    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
 		  	<String>${oxygenHome}/lib/*saxon*10*.jar</String>
-		    <String>${oxygenHome}/lib/saxon.jar</String>
+		    <String>${oxygenHome}/lib/saxon*6*.jar</String>
 		    <String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 		    <String>${oxygenHome}/lib/*log4j*.jar</String>
 		    <String>${oxygenHome}/lib/*trang*.jar</String>
