@@ -3437,7 +3437,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
@@ -3694,6 +3694,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
@@ -3950,6 +3951,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
