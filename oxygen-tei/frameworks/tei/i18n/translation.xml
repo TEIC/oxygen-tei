@@ -12,11 +12,11 @@
 <key value="xr_processing_instruction_target_name">
     <comment>The description of a parameter which allows setting the target name for a processing instruction.</comment>
     <val lang="en_US">Target Name</val>
-    <val lang="de_DE">Target Name</val>
+    <val lang="de_DE">Zielname</val>
     <val lang="fr_FR">Nom de la cible</val>
-    <val lang="ja_JP">Target Name</val>
-    <val lang="nl_NL">Target Name</val>
-    <val lang="zh_CN">Target Name</val>
+    <val lang="ja_JP">ターゲット名</val>
+    <val lang="nl_NL">Doelnaam</val>
+    <val lang="zh_CN">目标名称</val>
   </key>
 <key value="Unindent">
         <comment>Usually moves a list item to the ancestor list, promoting it.</comment>

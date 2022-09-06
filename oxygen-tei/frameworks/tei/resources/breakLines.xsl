@@ -68,6 +68,14 @@
             <xsl:call-template name="brContent"/>
         </xhtml:li>
     </xsl:template>
+
+    <!--
+        Checks if the sequence of nodes has meaningful conent - either some elements or non-whitespace text.
+    -->
+    <xsl:function name="f:hasMeaningfulContent" as="xs:boolean">
+        <xsl:param name="seq" as="node()*"/>
+        <xsl:sequence select="($seq/*)[1] or string-length(normalize-space(string-join($seq//text(), ''))) > 0"/>
+    </xsl:function>
     
     <!-- 
         Split a sequence of nodes that contains at least one <br/> element
@@ -82,25 +90,25 @@
     
     <xsl:template name="brContent">
         <!--<xsl:param name="content" as="node()*"/>-->
-        <xsl:variable name="preceding-text">
+        <xsl:variable name="preceding-content">
             <xsl:apply-templates 
                 select="node()[not(preceding-sibling::xhtml:br)]
                               [local-name() != 'br']" 
                 mode="breakLines"/>
         </xsl:variable>
-        <xsl:if test="string-length(normalize-space($preceding-text)) > 0">
-            <xhtml:p><xsl:copy-of select="$preceding-text"/></xhtml:p>
+        <xsl:if test="f:hasMeaningfulContent($preceding-content)">
+            <xhtml:p><xsl:copy-of select="$preceding-content"/></xhtml:p>
         </xsl:if>
         <xsl:for-each select="xhtml:br">
-            <xsl:variable name="following-text">
+            <xsl:variable name="following-content">
                 <xsl:apply-templates 
                     select="parent::*[1]/node()
                              [current() is preceding-sibling::xhtml:br[1]]
                              [local-name() != 'br']" 
                     mode="breakLines"/>
             </xsl:variable>
-            <xsl:if test="string-length(normalize-space($following-text)) > 0">
-                <xhtml:p><xsl:copy-of select="$following-text"/></xhtml:p>
+            <xsl:if test="f:hasMeaningfulContent($following-content)">
+                <xhtml:p><xsl:copy-of select="$following-content"/></xhtml:p>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>

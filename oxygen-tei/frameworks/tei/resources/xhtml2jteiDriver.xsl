@@ -8,6 +8,7 @@
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="xsl xhtml e f">
     
+    <xsl:import href="functions.xsl"/>
     <xsl:import href="filterNodes.xsl"/>
     <xsl:import href="breakLines.xsl"/>
     <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>

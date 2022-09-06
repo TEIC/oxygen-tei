@@ -8,14 +8,41 @@
     xmlns:f="http://www.oxygenxml.com/xsl/functions"
     exclude-result-prefixes="f">
     
+    <!-- true if we want to filter all div elements from document
+         false if we want to keep div elements with id or class attributes -->
+    <xsl:param name="filterDivElements" as="xs:boolean" select="true()"/>
+    
+    <xsl:variable name="elementsMayHaveIdsOnSibling" select="('img')"/>
+    
     <xsl:template match="*" mode="filterNodes">
         <xsl:copy>
             <!-- EXM-45627: Copy the id from the empty child anchor-->
-            <xsl:if test="not(@id) and child::xhtml:a[1][@id][not(node())]">
-                <xsl:attribute name="id">
-                    <xsl:value-of select="f:correctId(child::xhtml:a[1]/@id)"/>
-                </xsl:attribute>
+            <xsl:variable name="childAnchor" select="child::xhtml:a[1][@id][not(node())]"/>
+            <xsl:if test="not(@id) and $childAnchor">
+                <xsl:variable name="followingAnchorSibling" select="$childAnchor/following-sibling::*[not(xhtml:a)][1]"/>
+                <xsl:if test="not($followingAnchorSibling) or $followingAnchorSibling/@id or not(local-name($followingAnchorSibling) = $elementsMayHaveIdsOnSibling)">
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="f:correctId($childAnchor/@id)"/>
+                    </xsl:attribute>
+                </xsl:if>
             </xsl:if>
+            
+            <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="*[local-name() = $elementsMayHaveIdsOnSibling][not(@id)][preceding-sibling::xhtml:a[1][@id][not(node())]]" mode="filterNodes">
+        <xsl:copy>
+            <!-- EXM-51091: Copy the id from the preceding empty anchor sibling -->
+            <xsl:variable name="firstNonAnchor" select="./preceding-sibling::*[not (local-name() = 'a')][1]"/>
+            <xsl:choose>
+                <xsl:when test="$firstNonAnchor">
+                    <xsl:attribute name="id" select="f:correctId($firstNonAnchor/following::xhtml:a[@id][not(node())][1]/@id)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="id" select="f:correctId(./preceding-sibling::xhtml:a[@id][not(node())][last()]/@id)"/>
+                </xsl:otherwise>
+            </xsl:choose>
             
             <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
         </xsl:copy>
@@ -53,21 +80,6 @@
             <xsl:value-of select="f:correctId(.)"/>
         </xsl:attribute>
     </xsl:template>
-    
-    <!--
-        Corrects id of a topic such as it will NCName.
-            Moreover it eliminates "%20".</xd:desc>
-        Para "text": Text to be corrected</xd:param>
-        Return: The corrected text which can be used as id</xd:return>
-    -->
-    <xsl:function name="f:correctId" as="xs:string">
-        <xsl:param name="text" as="xs:string"/>
-        <xsl:variable name="tempId" select="replace(xs:string($text), '%20', '_')"/>
-        <xsl:variable name="tempId2" select="replace($tempId, '[^\c_-]|[+:]', '_')"/>
-        <xsl:variable name="tempId3" select="replace($tempId2,'[_]+', '_')"/>
-        <xsl:variable name="tempId4" select="replace($tempId3,'_$', '')"/>
-        <xsl:value-of select="replace($tempId4, '^[0-9.-/_]+', '')"/>
-    </xsl:function>
     
     <!-- CSS properties of fonts in MSOffice -->
     <xsl:variable name="stylesPropMap" as="map(xs:string, xs:string)" 
@@ -125,6 +137,20 @@
         <h1 xmlns="http://www.w3.org/1999/xhtml">
             <xsl:value-of select="xhtml:p[@class = 'MsoTitle']"/>
         </h1>
+    </xsl:template>
+    
+    <!-- Ignore comments from Word documents -->
+    <xsl:template match="xhtml:div[contains(@class, 'msocomtxt')]" mode="filterNodes" priority="2.0">
+        <!-- Ignore comment texts-->
+    </xsl:template>
+    <xsl:template match="xhtml:div[@style = 'mso-element:comment']" mode="filterNodes" priority="2.0">
+        <!-- Ignore comment item -->
+    </xsl:template>
+    <xsl:template match="xhtml:div[@style = 'mso-element:comment-list']" mode="filterNodes" priority="2.0">
+        <!-- Ignore comments list -->
+    </xsl:template>
+    <xsl:template match="xhtml:span[contains(@class, 'MsoCommentReference')]" mode="filterNodes" priority="2.0">
+        <!-- Ignore comment reference-->
     </xsl:template>
     
     <!-- 
@@ -271,13 +297,33 @@
                 </xsl:choose>
             </xsl:for-each>
         </xsl:variable>
-        
         <xsl:value-of select="$toReturn = true()"/>
     </xsl:function>    
     
-    <!-- Unwrap xhtml:div nodes and keep only the child nodes. -->
+    <xsl:template match="xhtml:div[@id or @class]" mode="filterNodes">
+        <xsl:choose>
+            <xsl:when test="$filterDivElements">
+    			<!-- Unwrap xhtml:div nodes and keep only the child nodes. -->
+                <xsl:apply-templates select="node()" mode="filterNodes"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <!-- Unwrap nodes and keep only the child nodes. -->
     <xsl:template match="xhtml:div | xhtml:center | xhtml:font" mode="filterNodes">
         <xsl:apply-templates select="node()" mode="filterNodes"/>
+    </xsl:template>
+    
+    <xsl:template match="xhtml:div[@id = 'oxy_prolog'
+        or @id = 'oxy_prolog_author' or @id = 'oxy_prolog_created']" mode="filterNodes">
+        <xsl:copy>
+            <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
+        </xsl:copy>
     </xsl:template>
     
     <!-- Filter xhtml:head and empty nodes. -->
@@ -290,7 +336,15 @@
         	or local-name() = 'a'  
         	or local-name() = 'col' 
         	or local-name() = 'td'
-        	or local-name() = 'colgroup') 
+        	or local-name() = 'audio'
+        	or local-name() = 'video'
+        	or local-name() = 'source'
+        	or local-name() = 'picture'
+        	or local-name() = 'iframe'
+        	or local-name() = 'object'
+        	or local-name() = 'param'
+        	or local-name() = 'colgroup'
+        	or (local-name() = 'div' and not($filterDivElements and (@id or @class))) ) 
         or (local-name() = 'a' and not(./@href))]" 
         mode="filterNodes"
         priority="2"/>

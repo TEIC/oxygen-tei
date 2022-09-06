@@ -3455,8 +3455,10 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*11*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
@@ -3465,8 +3467,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  								<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3710,8 +3711,10 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*11*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
@@ -3720,8 +3723,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  								<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3965,8 +3967,10 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*11*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
 										<String>${oxygenHome}/lib/saxon*6*.jar</String>
 										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
 										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
@@ -3975,8 +3979,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
                                     	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+		  								<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
