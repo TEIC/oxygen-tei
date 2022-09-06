@@ -78,16 +78,11 @@ stable: This is also intended to run on the TEI's Jenkins build
     <echo message="${echo.separator}"/>
     <echo message="Retrieving version numbers of current stable releases..."/>
     <get src="https://www.tei-c.org/Vault/P5/current/xml/tei/odd/VERSION" 
-      dest="p5version" 
+      dest="p5Version" 
       usetimestamp="true"/>
-    <loadfile property="tempP5Version" srcFile="p5version"/>
 <!--   Trim this version number; the file often has a return or two in it. -->
-    <script language="javascript">
-      <![CDATA[ // 
-        var before = new String(project.getProperty("tempP5Version"));
-        project.setProperty("p5Version", before.replace(/\s/g, ""));
-       ]]>
-    </script>
+    <replaceregexp file="p5Version" match="\s+" replace="" flags="g"/>
+    <loadfile property="p5Version" srcFile="p5Version"/>
     <exec executable="/bin/bash" outputproperty="stylesheetsVersion">
       <arg value="-c"/>
       <arg value='git ls-remote --tags https://github.com/TEIC/Stylesheets.git | egrep -o "([0-9]+\.)+[0-9]+" | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n1'/>
@@ -370,26 +365,21 @@ has worked well. You will need shell access to tei-c.org.
     <echo message="${echo.separator}"/>
     <property name="p5JenkinsBuild" value="../../../TEIP5-dev/lastSuccessful/archive/P5/"/>
     <property name="p5JenkinsVersionFile" value="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION"/>
-    <loadfile property="tempP5JenkinsVersion" srcFile="${p5JenkinsVersionFile}"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
-    <script language="javascript">
-      <![CDATA[ // 
-        var before = new String(project.getProperty("tempP5JenkinsVersion"));
-        project.setProperty("p5JenkinsVersion", before.replace(/\s/g, ""));
-       ]]>
-    </script>
+    <copy file="${p5JenkinsBuild}release/doc/tei-p5-doc/VERSION" tofile="p5JenkinsVersion"/>
+    <replaceregexp file="p5JenkinsVersion" match="\s+" replace="" flags="g"/>
+    <loadfile property="p5JenkinsVersion" srcFile="p5JenkinsVersion"/>
     <echo message="Latest P5 version built on Jenkins is: ${p5JenkinsVersion}"/>
     
     <property name="stylesheetsJenkinsBuild" value="../../../Stylesheets-dev/lastSuccessful/archive/"/>
     <property name="stylesheetsJenkinsVersionFile" value="${stylesheetsJenkinsBuild}dist/doc/tei-xsl/VERSION"/>
-    <loadfile property="tempStylesheetsJenkinsVersion" srcFile="${stylesheetsJenkinsVersionFile}"/>
+    
+    <copy file="${stylesheetsJenkinsBuild}dist/doc/tei-xsl/VERSION" tofile="stylesheetsJenkinsVersion"/>
     <!--   Trim this version number; the file often has a return or two in it. -->
-    <script language="javascript">
-      <![CDATA[ // 
-        var before = new String(project.getProperty("tempStylesheetsJenkinsVersion"));
-        project.setProperty("stylesheetsJenkinsVersion", before.replace(/\s/g, ""));
-       ]]>
-    </script>
+    <replaceregexp file="stylesheetsJenkinsVersion" match="\s+" replace="" flags="g"/>
+    
+    <loadfile property="stylesheetsJenkinsVersion" srcFile="stylesheetsJenkinsVersion"/>
+   
     <echo message="Latest Stylesheets version built on Jenkins is: ${stylesheetsJenkinsVersion}"/>
     <echo message="${echo.separator}"/>
   </target>
