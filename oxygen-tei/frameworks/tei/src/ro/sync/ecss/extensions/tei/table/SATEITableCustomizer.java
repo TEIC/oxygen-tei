@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@
  */
 package ro.sync.ecss.extensions.tei.table;
 
-import java.awt.Component;
 import java.awt.Frame;
 
 import ro.sync.annotations.api.API;
@@ -65,7 +64,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
  * Customize a TEI table. It is used on standalone implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class SATEITableCustomizer extends TableCustomizer {
+public final class SATEITableCustomizer extends TableCustomizer {
 
   /**
    * The singleton instance.
@@ -97,9 +96,6 @@ public class SATEITableCustomizer extends TableCustomizer {
     SATableCustomizerDialog tableCustomizerDialog = new SATEITableCustomizerDialog(
         (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
-    tableCustomizerDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
-    TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
-    
-    return newTableInfo;
+    return tableCustomizerDialog.showDialog(tableInfo);
   }
 }

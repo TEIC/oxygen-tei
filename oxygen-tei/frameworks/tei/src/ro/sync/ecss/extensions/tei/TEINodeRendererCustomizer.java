@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -76,7 +77,7 @@ public class TEINodeRendererCustomizer extends XMLNodeRendererCustomizer {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TEINodeRendererCustomizer.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TEINodeRendererCustomizer.class.getName());
   /**
    * Mapping between name and icon path
    */
@@ -183,33 +184,36 @@ public class TEINodeRendererCustomizer extends XMLNodeRendererCustomizer {
     String nodeName = context.getNodeName();
     if (nodeName != null) {
       String imageKey = nodeName;
-      if ("list".equals(nodeName)) { //list
-        String attrValue = context.getAttributeValue("type");
-        if ("ordered".equals(attrValue)) {
-          // ordered list
-          imageKey += "@ordered";
-        } else {
-          // unordered list
-          imageKey += "@unordered";
-        }
-      } else if ("hi".equals(nodeName)) { // highlight
-        String attrValue = context.getAttributeValue("rend");
-        if ("bold".equals(attrValue)) { 
-          // bold
-          imageKey += "@bold";
-        } else if ("italic".equals(attrValue) || "it".equals(attrValue)) {
-          // italic
-          imageKey += "@italic";
-        } else if ("ul".equals(attrValue) || "underline".equals(attrValue)) {
-          // underline
-          imageKey += "@underline";
-        }
-      } else if ("row".equals(nodeName)) { // table row
-        String attrValue = context.getAttributeValue("role");
-        if ("label".equals(attrValue)) {
-          // header
-          imageKey += "@label";
-        }
+      switch (nodeName) {
+        case "list":
+          if ("ordered".equals(context.getAttributeValue("type"))) {
+            // ordered list
+            imageKey += "@ordered";
+          } else {
+            // unordered list
+            imageKey += "@unordered";
+          }
+          break;
+        case "hi":
+          String rendValue = context.getAttributeValue("rend");
+          if ("bold".equals(rendValue)) { 
+            // bold
+            imageKey += "@bold";
+          } else if ("italic".equals(rendValue) || "it".equals(rendValue)) {
+            // italic
+            imageKey += "@italic";
+          } else if ("ul".equals(rendValue) || "underline".equals(rendValue)) {
+            // underline
+            imageKey += "@underline";
+          }
+          break;
+        case "row":
+          // table row
+          if ("label".equals(context.getAttributeValue("role"))) {
+            // header
+            imageKey += "@label";
+          }
+          break;
       }
       // Get icon path from map
       String iconPath = nameToIconPath.get(imageKey);

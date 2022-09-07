@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -139,16 +139,12 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     Object defaultNamespaceObj =  args.getArgumentValue(ARGUMENT_NAME);
     String namespace = null;
-    if (defaultNamespaceObj != null && defaultNamespaceObj instanceof String) {
+    if (defaultNamespaceObj instanceof String) {
       namespace = (String) defaultNamespaceObj;
     }
-    Object tableInfoObj = args.getArgumentValue(
-        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
-    TableInfo tableInfo = tableInfoObj != null ? 
-    new TableInfo((Map<String, Object>) tableInfoObj) : null; 
     
     AuthorDocumentFragment[] fragments = null;
     List<Map<String, String>> attributes = null;
@@ -166,6 +162,13 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         attributes.add(currentFrag.getAttributes());
       }
     }
+
+    Object tableInfoObj = args.getArgumentValue(
+        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
+    int minRows = fragments != null ? fragments.length : 0;
+    TableInfo tableInfo = tableInfoObj != null ? 
+        new TableInfo((Map<String, Object>) tableInfoObj, minRows) : null; 
+        
     insertTable(fragments, attributes, false, authorAccess, namespace, null, tableInfo);
   }
 
@@ -185,7 +188,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    * 
    * @throws AuthorOperationException 
    */
-  private void addTableBody(StringBuilder tableXMLFragment, TableInfo tableInfo, 
+  private static void addTableBody(StringBuilder tableXMLFragment, TableInfo tableInfo, 
       AuthorDocumentFragment[] fragments, List<Map<String, String>> rowAttributes, boolean cellsFragments, 
       AuthorAccess authorAccess, AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
     int rows = tableInfo.getRowsNumber();
@@ -236,8 +239,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    *
    * @throws AuthorOperationException 
    */
-  private void addTableHeader(StringBuilder tableXMLFragment, TableInfo tableInfo, 
-      AuthorAccess authorAccess, AuthorTableHelper tableHelper, String namespace) throws AuthorOperationException {
+  private static void addTableHeader(StringBuilder tableXMLFragment, TableInfo tableInfo) {
     tableXMLFragment.append("<row role=\"label\">");
 
     int cols = tableInfo.getColumnsNumber();
@@ -306,10 +308,10 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
       }
       // Show the 'Insert table' dialog
       Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-      if(Platform.STANDALONE.equals(platform)) {
+      if(Platform.STANDALONE == platform) {
         tableInfo = SATEITableCustomizer.getInstance().customizeTable(
             authorAccess, rowsCount, columnsCount);
-      } else if (Platform.ECLIPSE.equals(platform)) {
+      } else if (Platform.ECLIPSE == platform) {
         tableInfo = ECTEITableCustomizer.getInstance().customizeTable(
             authorAccess, rowsCount, columnsCount);
       }
@@ -332,7 +334,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
 
       if (tableInfo.isGenerateHeader()) {
         // Add table header
-        addTableHeader(tableXMLFragment, tableInfo, authorAccess, tableHelper, namespace);
+        addTableHeader(tableXMLFragment, tableInfo);
       }
 
       // Add table body

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -51,13 +51,16 @@
 package ro.sync.ecss.extensions.tei;
 
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -71,6 +74,7 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
+import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.ConversionElementHelper;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil.SelectedFragmentInfo;
 import ro.sync.ecss.extensions.commons.operations.InsertListOperation;
@@ -93,7 +97,7 @@ public class TEIInsertListOperation extends InsertListOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TEIInsertListOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TEIInsertListOperation.class.getName());
   
   /**
    * The arguments array.
@@ -109,11 +113,13 @@ public class TEIInsertListOperation extends InsertListOperation {
           ORDERED_LIST, 
           ITEMIZED_LIST
         }, 
-        ORDERED_LIST)
+        ORDERED_LIST),
+    CONVERT_ELEMENT_AT_CARET_ARGUMENT_DESCRIPTOR
   };
 
   @Override
-  protected StringBuilder getListXMLFragment(String listType, int numberOfListItems, AuthorAccess authorAccess) {
+  protected StringBuilder getListXMLFragment(String listType, Map<String, String> attributes, 
+      int numberOfListItems, AuthorAccess authorAccess) {
     // Check if ordered or unordered list.
     boolean orderedList = listType.equals(ORDERED_LIST);
     // Create the list XML fragment.
@@ -132,6 +138,8 @@ public class TEIInsertListOperation extends InsertListOperation {
       // Itemized list
       listXMLFragment.append(" type=\"bulleted\"");
     }
+    HashSet<String> attributesToSkip = new HashSet<>(Arrays.asList("type", "xmlns"));
+    listXMLFragment.append(CommonsOperationsUtil.serializeAttributes(attributes, attributesToSkip));
     listXMLFragment.append(">");
     
     // Append list items
@@ -227,12 +235,10 @@ public class TEIInsertListOperation extends InsertListOperation {
                   }
                 }
               }
-              authorAccess.getDocumentController().insertXMLFragmentSchemaAware(xmlFragment.toString(), 
+              authorAccess.getDocumentController().insertXMLFragmentSchemaAware(xmlFragment, 
                   authorNode.getStartOffset() + 1, AuthorSchemaAwareEditingHandler.ACTION_ID_INSERT_FRAGMENT, false);
-            } catch (BadLocationException e) {
-              logger.error(e, e);
-            } catch (AuthorOperationException e) {
-              logger.error(e, e);
+            } catch (BadLocationException | AuthorOperationException e) {
+              logger.error(e.getMessage(), e);
             }
           }
         }
@@ -305,21 +311,34 @@ public class TEIInsertListOperation extends InsertListOperation {
     }
     return null;
   }
-  
+
   /**
-   * @see ro.sync.ecss.extensions.commons.operations.InsertListOperation#isEmptyListElement(ro.sync.ecss.extensions.api.node.AuthorNode)
+   * @see ro.sync.ecss.extensions.commons.operations.InsertListOperation#isListElement(ro.sync.ecss.extensions.api.node.AuthorNode)
    */
   @Override
-  protected boolean isEmptyListElement(AuthorNode node) {
+  protected boolean isListElement(AuthorNode node) {
     boolean toRet = false;
     if (node instanceof AuthorElement) {
       String localName = ((AuthorElement) node).getLocalName();
       String parentLocalName = ((AuthorElement) node).getParentElement().getLocalName();
       // Check the element
-      toRet = ("list".equals(localName) || "item".equals(localName) || 
-          "list".equals(parentLocalName) || "item".equals(parentLocalName))
-          && node.getStartOffset() + 1 == node.getEndOffset();
+      toRet = "list".equals(localName) || "item".equals(localName) || 
+          "list".equals(parentLocalName) || "item".equals(parentLocalName);
 
+    }
+    return toRet;
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.commons.operations.InsertListOperation#isList(ro.sync.ecss.extensions.api.node.AuthorNode)
+   */
+  @Override
+  protected boolean isList(AuthorNode node) {
+    boolean toRet = false;
+    if (node instanceof AuthorElement) {
+      String localName = ((AuthorElement) node).getLocalName();
+      // Check the element
+      toRet = "list".equals(localName);
     }
     return toRet;
   }

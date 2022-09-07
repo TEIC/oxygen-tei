@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,8 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -76,7 +77,7 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TEIExtensionsBundleBase.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TEIExtensionsBundleBase.class.getName());
   
   /**
    * The TEI schema aware editing handler.
@@ -175,11 +176,11 @@ public abstract class TEIExtensionsBundleBase extends ExtensionsBundle {
         boolean isHandled = false;
         if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
           AuthorElement element = (AuthorElement) authorNode;
-          if (element.getLocalName().equals("surface")) {
+          if ("surface".equals(element.getLocalName())) {
             isHandled = true;
-          } else if (element.getLocalName().equals("graphic")) {
+          } else if ("graphic".equals(element.getLocalName())) {
             AuthorElement parent = (AuthorElement) element.getParentElement();
-            if (parent != null && parent.getLocalName().equals("surface")) {
+            if (parent != null && "surface".equals(parent.getLocalName())) {
               isHandled = true;
             }
           }

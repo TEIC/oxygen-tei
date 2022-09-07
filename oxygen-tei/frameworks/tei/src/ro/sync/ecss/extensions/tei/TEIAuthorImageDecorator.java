@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -77,8 +77,8 @@ public class TEIAuthorImageDecorator extends AuthorImageMapDecorator {
    */
   @Override
   protected boolean isNodeOfInterest(AuthorNode node, SupportedFrameworks framework) {
-    switch (framework) {
-      case TEI_P5:
+    switch (framework) { // NOSONAR squid:SwitchLastCaseIsDefaultCheck
+      case TEI_P5: // NOSONAR squid:S128
         if (!TEIEditImageMapCore.TEI_NS.equals(node.getNamespace())) {
           return false;
         }

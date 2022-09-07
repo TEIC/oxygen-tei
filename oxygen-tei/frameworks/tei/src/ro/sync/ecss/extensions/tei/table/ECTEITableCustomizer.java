@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
  * Customize a TEI table. It is used on Eclipse platform implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class ECTEITableCustomizer extends TableCustomizer {
+public final class ECTEITableCustomizer extends TableCustomizer {
   
   /**
    * The singleton instance.

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class TEITableSortOperation extends SimpleTableSortOperation {
    */
   @Override
   public boolean isTableElement(AuthorElement node) {
-    return node.getLocalName().equals("table");
+    return "table".equals(node.getLocalName());
   }
 
   /**
@@ -85,7 +85,10 @@ public class TEITableSortOperation extends SimpleTableSortOperation {
     AttrValue roleAttribute = node.getAttribute("role");
 
     // TEI table header row are marked with the role='lable' attribute.
-    return ("row".equals(node.getLocalName()) && roleAttribute != null && roleAttribute.getValue().equals("label"));
+    return
+        "row".equals(node.getLocalName())
+        && roleAttribute != null
+        && "label".equals(roleAttribute.getValue());
   }
 
   /**
@@ -93,7 +96,7 @@ public class TEITableSortOperation extends SimpleTableSortOperation {
    */
   @Override
   public boolean isRowElement(AuthorElement node) {
-    return node.getLocalName().equals("row") && !isHeadElement(node);
+    return "row".equals(node.getLocalName()) && !isHeadElement(node);
   }
   
   /**
@@ -103,7 +106,7 @@ public class TEITableSortOperation extends SimpleTableSortOperation {
   public boolean isIgnored(AuthorNode node) {
     boolean isHead = false;
     if (node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-      isHead = ((AuthorElement) node).getLocalName().equals("head");
+      isHead = "head".equals(((AuthorElement) node).getLocalName());
     }
     // Ignore the header row.
     return isHead || super.isIgnored(node);

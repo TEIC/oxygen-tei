@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -75,13 +75,13 @@ public class InsertImageOperationP4 implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     String entityName = null;
     
     Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-    if(Platform.STANDALONE.equals(platform)) {
+    if(Platform.STANDALONE ==  platform) {
       entityName = new SATEIFigureEntityAttributeCustomizer().getAttributeValue(authorAccess);
-    } else if (Platform.ECLIPSE.equals(platform)) {
+    } else if (Platform.ECLIPSE == platform) {
       entityName = new ECTEIFigureEntityAttributeCustomizer().getAttributeValue(authorAccess);
     }
     if(entityName != null) {

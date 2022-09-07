@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,8 @@ package ro.sync.ecss.extensions.tei;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -197,7 +199,7 @@ public class TEIDocumentTypeHelper extends AbstractDocumentTypeHelper implements
     
     if(oldValue != null && oldValue.getValue() != null) {
       try {
-        int oldNumberOfRows = Integer.parseInt(oldValue.getValue());
+        int oldNumberOfRows = NumberParserUtil.parseInt(oldValue.getValue());
         authorAccess.getDocumentController().setAttribute(
             ATTRIBUTE_NAME_ROWS, 
             new AttrValue(String.valueOf(oldNumberOfRows + relativeValue)), 

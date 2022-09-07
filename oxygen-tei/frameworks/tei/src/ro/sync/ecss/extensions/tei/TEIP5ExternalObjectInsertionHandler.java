@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,8 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -80,7 +81,7 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
   /**
    * Logger for logging. 
    */
-  private static Logger logger = Logger.getLogger(TEIP5ExternalObjectInsertionHandler.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TEIP5ExternalObjectInsertionHandler.class.getName());
 
   
   /**
@@ -144,9 +145,9 @@ public class TEIP5ExternalObjectInsertionHandler extends AuthorExternalObjectIns
    * 
    * @return <code>true</code> if the URL is an image reference.
    */
-  private boolean isImageReference(AuthorAccess authorAccess, ReferenceType type, URL url) {
-    return type == ReferenceType.IMAGE_REFERENCE || 
-        type == null && authorAccess.getUtilAccess().isSupportedImageURL(url);
+  private static boolean isImageReference(AuthorAccess authorAccess, ReferenceType type, URL url) {
+    return type == ReferenceType.IMAGE_REFERENCE 
+           || (type == null && authorAccess.getUtilAccess().isSupportedImageURL(url));
   }
   
   /**

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,8 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -81,7 +82,7 @@ public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandle
   /** 
    * Logger for logging. 
    */
-  private static Logger logger = Logger.getLogger(TEISchemaAwareEditingHandler.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TEISchemaAwareEditingHandler.class.getName());
   /**
    * For TEI P5 http://www.tei-c.org/ns/1.0, for TEI P4 an empty string.
    */
@@ -186,9 +187,7 @@ public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandle
           }
         }
       }
-    } catch (BadLocationException e) {
-      throw new InvalidEditException(e.getMessage(), "Invalid typing event: " + e.getMessage(), e, false);
-    } catch (AuthorOperationException e) {
+    } catch (BadLocationException | AuthorOperationException e) {
       throw new InvalidEditException(e.getMessage(), "Invalid typing event: " + e.getMessage(), e, false);
     }
     return handleEvent;
@@ -246,22 +245,25 @@ public class TEISchemaAwareEditingHandler extends AuthorSchemaAwareEditingHandle
               authorSchemaManager);
         }
       } else if (isElementWithNameAndNamespace(nodeAtInsertionOffset, TABLE)) {
-        // Check if the fragment is allowed as it is.
-        boolean canInsertFragments = authorSchemaManager.canInsertDocumentFragments(
-            fragmentsToInsert, 
-            offset, 
-            AuthorSchemaManager.VALIDATION_MODE_STRICT_FIRST_CHILD_LAX_OTHERS);
-        if (!canInsertFragments) {
-          handleEvent = handleInvalidInsertionEventInTable(
-              offset, 
+        if (offset == nodeAtInsertionOffset.getEndOffset()) {
+          // If the caret is after the last row, we want to insert the fragment after the table.
+          // The default strategy does exactly this.
+        } else {
+          // Check if the fragment is allowed as it is.
+          boolean canInsertFragments = authorSchemaManager.canInsertDocumentFragments(
               fragmentsToInsert, 
-              authorAccess,
-              authorSchemaManager);
+              offset, 
+              AuthorSchemaManager.VALIDATION_MODE_STRICT_FIRST_CHILD_LAX_OTHERS);
+          if (!canInsertFragments) {
+            handleEvent = handleInvalidInsertionEventInTable(
+                offset, 
+                fragmentsToInsert, 
+                authorAccess,
+                authorSchemaManager);
+          }
         }
       } 
-    } catch (BadLocationException e) {
-      throw new InvalidEditException(e.getMessage(), "Invalid typing event: " + e.getMessage(), e, false);
-    } catch (AuthorOperationException e) {
+    } catch (BadLocationException | AuthorOperationException e) {
       throw new InvalidEditException(e.getMessage(), "Invalid typing event: " + e.getMessage(), e, false);
     }
     return handleEvent;    

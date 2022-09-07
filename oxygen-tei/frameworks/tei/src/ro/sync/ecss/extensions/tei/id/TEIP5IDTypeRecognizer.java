@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ public class TEIP5IDTypeRecognizer extends IDTypeRecognizer {
       String attrNs, String attributeValue, int offset) throws CannotRecognizeIDException {
     List<IDTypeIdentifier> idTypeIdentifiers = new ArrayList<IDTypeIdentifier>();
     
-    if(attributeValue != null && attributeValue.trim().length() > 0) {
+    if(attributeValue != null && !attributeValue.trim().isEmpty()) {
       if("id".equals(attrName)) {
         // xml:id attribute
         DefaultIDTypeIdentifier idTypeIdentifier = new DefaultIDTypeIdentifier(attributeValue.trim(), true);
@@ -106,9 +106,9 @@ public class TEIP5IDTypeRecognizer extends IDTypeRecognizer {
               break;
             }
 
-            if(idx <= offset && offset <= idx + nextToken.length()) {
+            if(offset <= idx + nextToken.length()) {
               // Current token include the offset
-              if(!nextToken.equals(" ")) {
+              if(!" ".equals(nextToken)) {
                 idValue = nextToken;
               }
               break;

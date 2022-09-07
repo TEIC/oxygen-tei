@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,8 @@
  */
 package ro.sync.ecss.extensions.tei;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -105,7 +106,7 @@ public class TEIAuthorTableOperationsHandler extends AuthorTableOperationsHandle
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TEIAuthorTableOperationsHandler.class
+  private static final Logger logger = LoggerFactory.getLogger(TEIAuthorTableOperationsHandler.class
       .getName());
 
   private final String namespace;

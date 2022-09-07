@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,8 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -77,7 +78,7 @@ public class TEI_jteiExternalObjectInsertionHandler extends AuthorExternalObject
   /**
   * Logger for logging.
   */
-  private static Logger logger = Logger.getLogger(TEI_jteiExternalObjectInsertionHandler.class
+  private static final Logger logger = LoggerFactory.getLogger(TEI_jteiExternalObjectInsertionHandler.class
       .getName());
 
   /**
