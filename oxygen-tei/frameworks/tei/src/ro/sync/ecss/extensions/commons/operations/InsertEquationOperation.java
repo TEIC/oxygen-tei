@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import org.apache.log4j.Logger;
-
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -77,10 +75,6 @@ import ro.sync.exml.workspace.api.images.handlers.providers.EmbeddedImageContent
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
 public class InsertEquationOperation implements AuthorOperation {
-  /**
-   * Logger for logging. 
-   */
-  protected static final Logger logger = Logger.getLogger(InsertEquationOperation.class.getName());
 
   /**
    * The fragment argument.
@@ -94,11 +88,27 @@ public class InsertEquationOperation implements AuthorOperation {
   private ArgumentDescriptor[] arguments = null;
   
   /**
+   * The MathML namespace.
+   */
+  public static final String MATH_ML_NAMESPACE = "\"http://www.w3.org/1998/Math/MathML\"";
+  
+  /**
    * The MathML fragment representing the default equation.
    */
-  public static final String MATH_ML = 
-      "<mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\">" + 
-      "</mml:math>";
+  public static final String MATH_ML = new StringBuilder("<mml:math xmlns:mml=")
+                                              .append(MATH_ML_NAMESPACE)
+                                              .append(">")
+                                              .append("</mml:math>")
+                                              .toString();
+  
+  /**
+   * The MathML fragment representing the default equation for HTML documents.
+   */
+  public static final String MATH_ML_FOR_HTML_DOC_TYPE = new StringBuilder("<math xmlns=")
+                                                                .append(MATH_ML_NAMESPACE)
+                                                                .append(">\n")
+                                                                .append("</math>")
+                                                                .toString();
 
   /**
    * The MathML fragment representing the default equation for webapp.
@@ -106,16 +116,18 @@ public class InsertEquationOperation implements AuthorOperation {
    * We need some initial equation so that we can render a equation 
    * for the user to click on.
    */
-  public static final String WEBAPP_MATH_ML = 
-      "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\">" + 
-      "<m:mrow>" + 
-      "<m:msup><m:mi>a</m:mi><m:mn>2</m:mn></m:msup>" +
-      "<m:mo>=</m:mo>" +
-      "<m:msup><m:mi>b</m:mi><m:mn>2</m:mn></m:msup>" +
-      "<m:mo>+</m:mo>" +
-      "<m:msup><m:mi>c</m:mi><m:mn>2</m:mn>" + 
-      "</m:msup></m:mrow>" + 
-      "</m:math>";
+  public static final String WEBAPP_MATH_ML = new StringBuilder("<m:math xmlns:m=")
+                                                      .append(MATH_ML_NAMESPACE)
+                                                      .append(">")
+                                                      .append("<m:mrow>") 
+                                                      .append("<m:msup><m:mi>a</m:mi><m:mn>2</m:mn></m:msup>")
+                                                      .append("<m:mo>=</m:mo>")
+                                                      .append("<m:msup><m:mi>b</m:mi><m:mn>2</m:mn></m:msup>")
+                                                      .append("<m:mo>+</m:mo>")
+                                                      .append("<m:msup><m:mi>c</m:mi><m:mn>2</m:mn>") 
+                                                      .append("</m:msup></m:mrow>")
+                                                      .append("</m:math>")
+                                                      .toString();
 
   /**
    * Constructor to assign arguments.
@@ -135,7 +147,7 @@ public class InsertEquationOperation implements AuthorOperation {
   */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     try {
       AuthorWorkspaceAccess workspace = authorAccess.getWorkspaceAccess(); 
       //Start editing the sample MML
@@ -207,7 +219,7 @@ public class InsertEquationOperation implements AuthorOperation {
    * 
    * @throws CannotEditException
    */
-  private String editImage(ImageHandler handler, EmbeddedImageContentProvider cp)
+  private static String editImage(ImageHandler handler, EmbeddedImageContentProvider cp)
       throws CannotEditException {
     if (handler instanceof EditImageHandler) {
       return ((EditImageHandler)handler).editImage(cp);
@@ -262,16 +274,16 @@ public class InsertEquationOperation implements AuthorOperation {
    * 
    * @return The MathML fragment.
    */
-  private String extractMathMLFragment(String xmlFragment) {
+  private static String extractMathMLFragment(String xmlFragment) {
 
     //<lcEquation>
     //<math xmlns="http://www.w3.org/1998/Math/MathML"> </math>
     //</lcEquation>
     String mathMLToEdit = null;
-    int namespaceIndex = xmlFragment.indexOf("http://www.w3.org/1998/Math/MathML");
+    int namespaceIndex = xmlFragment.indexOf(MATH_ML_NAMESPACE.substring(1, MATH_ML_NAMESPACE.length() - 1));
     if (namespaceIndex != -1) {
       String stringBeforeNamespace = xmlFragment.substring(0, namespaceIndex);
-      int lastIndexOfLT = stringBeforeNamespace.lastIndexOf("<");
+      int lastIndexOfLT = stringBeforeNamespace.lastIndexOf('<');
       if (lastIndexOfLT != -1) {
         // We found the start of the MathML fragment
         String mathmlElemName = null;

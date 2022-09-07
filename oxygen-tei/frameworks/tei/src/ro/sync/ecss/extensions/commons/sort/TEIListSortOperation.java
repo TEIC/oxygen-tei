@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -85,36 +85,39 @@ public class TEIListSortOperation extends SortOperation {
   @Override
   public AuthorElement getSortParent(int offset, AuthorAccess authorAccess)
       throws AuthorOperationException {
-    
+    AuthorElement sortParent = null;
     // Check if the selected node is a list.
     if (authorAccess.getEditorAccess().hasSelection()) {
       AuthorNode selectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
       if (selectedNode != null && selectedNode.getType() == AuthorElement.NODE_TYPE_ELEMENT && 
           "list".equals(((AuthorElement) selectedNode).getLocalName())) {
-        return (AuthorElement) selectedNode;
+        sortParent = (AuthorElement) selectedNode;
       }
     }
     
-    try {
-      // Check if the node at caret is a list or a list descendant.
-      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
-      AuthorNode parentNode = nodeAtOffset;
-      while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
-        if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          AuthorElement parentElement = (AuthorElement) parentNode;
-          if ("list".equals(parentElement.getLocalName())) {
-            return parentElement;
-          }
-        } 
+    if (sortParent == null) {
+      try {
+        // Check if the node at caret is a list or a list descendant.
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
+        AuthorNode parentNode = nodeAtOffset;
+        while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
+          if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            AuthorElement parentElement = (AuthorElement) parentNode;
+            if ("list".equals(parentElement.getLocalName())) {
+              sortParent = parentElement;
+              break;
+            }
+          } 
+          
+          parentNode = parentNode.getParent();
+        }
         
-        parentNode = parentNode.getParent();
+      } catch (BadLocationException e) {
+        throw new AuthorOperationException(e.getMessage(), e);
       }
-      
-    } catch (BadLocationException e) {
-      throw new AuthorOperationException(e.getMessage(), e);
     }
     
-    return null;
+    return sortParent;
   }
 
   /**
@@ -132,7 +135,7 @@ public class TEIListSortOperation extends SortOperation {
    * @param node The node to check.
    * @throws AuthorOperationException
    */
-  private void checkValidForSorting(AuthorNode node) throws AuthorOperationException {
+  private static void checkValidForSorting(AuthorNode node) throws AuthorOperationException {
     // Only sort lists containing 'item' elements.
     if(!(node instanceof AuthorElement) || !"item".equals(((AuthorElement) node).getLocalName())) {
       throw new AuthorOperationException("The 'Sort' operation is unavailable for lists containing elements which are not 'item'.");
@@ -199,6 +202,7 @@ public class TEIListSortOperation extends SortOperation {
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
    */
+  @Override
   protected String getHelpPageID() {
     return "sort-list-items";
   }

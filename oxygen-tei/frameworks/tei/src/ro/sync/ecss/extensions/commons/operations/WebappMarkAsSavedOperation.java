@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,7 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorOperationWithCustomUndoBehavior;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 
 /**
@@ -67,7 +68,7 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
-public class WebappMarkAsSavedOperation implements AuthorOperation {
+public class WebappMarkAsSavedOperation implements AuthorOperation, AuthorOperationWithCustomUndoBehavior {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
@@ -81,7 +82,7 @@ public class WebappMarkAsSavedOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     authorAccess.getEditorAccess().setModified(false);
   }
 
@@ -92,5 +93,4 @@ public class WebappMarkAsSavedOperation implements AuthorOperation {
   public ArgumentDescriptor[] getArguments() {
     return new ArgumentDescriptor[0];
   }
-
 }

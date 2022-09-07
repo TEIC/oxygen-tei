@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ public class DocbookListSortOperation extends SortOperation {
   @Override
   public AuthorElement getSortParent(int offset, AuthorAccess authorAccess)
       throws AuthorOperationException {
-    
+    AuthorElement sortParent = null;
     // Check if the selected element is a list of some kind.
     if (authorAccess.getEditorAccess().hasSelection()) {
       AuthorNode selectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
@@ -94,32 +94,35 @@ public class DocbookListSortOperation extends SortOperation {
           || "itemizedlist".equals(((AuthorElement) selectedNode).getLocalName())
           || "variablelist".equals(((AuthorElement) selectedNode).getLocalName()))) {
         
-        return (AuthorElement) selectedNode;
+        sortParent = (AuthorElement) selectedNode;
       }
     }
     
     try {
-      // Check if the node at offset s a list or a list descendant. 
-      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
-      AuthorNode parentNode = nodeAtOffset;
-      while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
-        if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          // Check if ul or ol
-          AuthorElement parentElement = (AuthorElement) parentNode;
-          if ("orderedlist".equals(parentElement.getLocalName()) 
-              || "itemizedlist".equals(parentElement.getLocalName())
-              || "variablelist".equals(parentElement.getLocalName())) {
-            return parentElement;
-          }
-        } 
-        parentNode = parentNode.getParent();
+      if(sortParent == null) {
+        // Check if the node at offset s a list or a list descendant. 
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
+        AuthorNode parentNode = nodeAtOffset;
+        while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
+          if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            // Check if ul or ol
+            AuthorElement parentElement = (AuthorElement) parentNode;
+            if ("orderedlist".equals(parentElement.getLocalName()) 
+                || "itemizedlist".equals(parentElement.getLocalName())
+                || "variablelist".equals(parentElement.getLocalName())) {
+              sortParent = parentElement;
+              break;
+            }
+          } 
+          parentNode = parentNode.getParent();
+        }
       }
       
     } catch (BadLocationException e) {
       throw new AuthorOperationException(e.getMessage(), e);
     }
     
-    return null;
+    return sortParent;
   }
 
   /**
@@ -170,7 +173,7 @@ public class DocbookListSortOperation extends SortOperation {
     List<CriterionInformation> criteria = new ArrayList<CriterionInformation>();
     List<AuthorNode> children = getNonIgnoredChildren(parent);
     // For non empty lists only a single criterion is available.
-    if (children.size() > 0) {
+    if (!children.isEmpty()) {
       criteria.add(new CriterionInformation(0, authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.LIST_ITEM)));
     }
     
@@ -180,6 +183,7 @@ public class DocbookListSortOperation extends SortOperation {
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
    */
+  @Override
   protected String getHelpPageID() {
     return "sort-list-items";
   }

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -62,14 +62,6 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class DITACALSTableCellInfoProvider extends CALSTableCellInfoProvider {
   
-  /**
-   * @see ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider#init(ro.sync.ecss.extensions.api.node.AuthorElement)
-   */
-  @Override
-  public void init(AuthorElement tableElement) {
-    super.init(tableElement);
-  }
-
   /**
    * @see ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider#isTableCell(java.lang.String)
    */

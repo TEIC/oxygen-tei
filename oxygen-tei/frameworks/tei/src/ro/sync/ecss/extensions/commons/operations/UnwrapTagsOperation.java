@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -104,13 +104,15 @@ public class UnwrapTagsOperation implements AuthorOperation {
         throw new AuthorOperationException("The XPath expression does not identify an element: " + xpathLocation);
       }
     } else {
-      AuthorNode node = null;
-      try {
-        // Determine the element at caret offset
-        int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-        node = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
-      } catch (BadLocationException e) {
-        throw new AuthorOperationException("Cannot identify the current element", e);
+      AuthorNode node = authorAccess.getEditorAccess().getFullySelectedNode();
+      if (node == null) {
+        try {
+          // Determine the element at caret offset
+          int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+          node = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+        } catch (BadLocationException e) {
+          throw new AuthorOperationException("Cannot identify the current element", e);
+        }
       }
       while (node != null && !(node instanceof AuthorElement)) {
         node = node.getParent();
@@ -130,7 +132,7 @@ public class UnwrapTagsOperation implements AuthorOperation {
     } catch (BadLocationException e) {
       // Cancel compound edit
       authorAccess.getDocumentController().cancelCompoundEdit();
-      throw new AuthorOperationException("The unwrap cannot be performed.");
+      throw new AuthorOperationException("The unwrap cannot be performed.", e);
     }
     // End compound edit
     authorAccess.getDocumentController().endCompoundEdit();

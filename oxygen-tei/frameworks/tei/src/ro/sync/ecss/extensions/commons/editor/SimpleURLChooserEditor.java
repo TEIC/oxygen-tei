@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,8 @@ import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.Locale;
+
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -82,7 +84,9 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -113,18 +117,20 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(SimpleURLChooserEditor.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(SimpleURLChooserEditor.class.getName());
   
   /**
    * <code>true</code> if the platform is Eclipse.
    */
-  private static final Boolean IS_ECLIPSE =
-      Boolean.valueOf(System.getProperty("com.oxygenxml.is.eclipse.plugin"));
+  private static final boolean IS_ECLIPSE =
+      Boolean.getBoolean("com.oxygenxml.is.eclipse.plugin");
 
   /**
    * <code>true</code> if the platform is Windows.
    */
-  private static final boolean IS_WIN32 = System.getProperty("os.name").toUpperCase().startsWith("WIN");
+  // This shouldn't contain International characters
+  @SuppressWarnings("java:S1449") 
+  private static final boolean IS_WIN32 = System.getProperty("os.name").toUpperCase(Locale.ENGLISH).startsWith("WIN");
 
   /**
    * The vertical gap of the panel layout.
@@ -318,7 +324,7 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
     Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
     if (columns != null && columns > 0) {
       FontMetrics fontMetrics = urlTextField.getFontMetrics(urlTextField.getFont());
-      width = columns * fontMetrics.charWidth('w');
+      width = getApproximativeCharsWidth(columns, fontMetrics);
     }
     // Add width for button and gap
     width += HGAP + browseBtn.getPreferredSize().getWidth();
@@ -407,6 +413,20 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
   }
 
   /**
+   * Get the approximative width for a number of chars to fit in.
+   * @param numberOfChars The number of characters.
+   * @param fontMetrics The font metrics
+   * @return The approximative width for a number of chars to fit in.
+   */
+  private static int getApproximativeCharsWidth(int numberOfChars, FontMetrics fontMetrics) {
+    char[] chars = new char[numberOfChars];
+    for (int i = 0; i < chars.length; i++) {
+      chars[i] = 'w';
+    }
+    return fontMetrics.charsWidth(chars, 0, chars.length);
+  }
+
+  /**
    * @see ro.sync.ecss.extensions.api.editor.InplaceEditor#requestFocus()
    */
   @Override
@@ -450,6 +470,7 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
       URL clearedURL = utilAccess.removeUserCredentials(new URL(text));
       text = clearedURL.toExternalForm();
     } catch (MalformedURLException e) {
+    logger.debug(e.getMessage(), e);
     }
     
     if (onEnter) {
@@ -572,13 +593,15 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
                         undoManager.undo();
                     }
                 } catch (CannotUndoException e) {
+                logger.debug(e.getMessage(), e);
                 }
             }
        });
 
+    // This shouldn't contain International characters
     int modifier =
-        System.getProperty("os.name").toUpperCase().startsWith("MAC OS") ? KeyEvent.META_DOWN_MASK
-                                                                         : KeyEvent.CTRL_DOWN_MASK;
+        System.getProperty("os.name").toUpperCase(Locale.ENGLISH).startsWith("MAC OS") ? //NOSONAR java:S1449 
+        KeyEvent.META_DOWN_MASK : KeyEvent.CTRL_DOWN_MASK;
     KeyStroke undoKS = KeyStroke.getKeyStroke(KeyEvent.VK_Z, modifier, false);
     KeyStroke redoKS = KeyStroke.getKeyStroke(KeyEvent.VK_Y, modifier, false);
     textField.getInputMap().put(undoKS, "Undo");
@@ -592,6 +615,7 @@ public class SimpleURLChooserEditor extends AbstractInplaceEditor implements Inp
                         undoManager.redo();
                     }
                 } catch (CannotRedoException e) {
+                logger.debug(e.getMessage(), e);
                 }
             }
         });

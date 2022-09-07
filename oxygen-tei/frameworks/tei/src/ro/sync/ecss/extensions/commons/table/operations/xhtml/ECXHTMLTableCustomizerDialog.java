@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -73,34 +73,6 @@ import ro.sync.ecss.extensions.commons.table.operations.ECTableCustomizerDialog;
 public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
   
   /**
-   * Possible values for 'frame' attribute.
-   */
-  public static final String[] TABLE_FRAME_VALUES =
-  {
-    FRAME_VOID,
-    FRAME_ABOVE,
-    FRAME_BELLOW,
-    FRAME_HSIDES,
-    FRAME_VSIDES,
-    FRAME_LHS,
-    FRAME_RHS,
-    FRAME_BORDER,
-    FRAME_BOX,
-    UNSPECIFIED };
-  
-  /**
-   * Array with common possible values for alignment. 
-   */
-  public static final String[] ALIGN_VALUES = new String[] {
-    LEFT,
-    RIGHT,
-    CENTER,
-    JUSTIFY,
-    CHAR,
-    UNSPECIFIED,
-  };
-  
-  /**
    * Constructor.
    * 
    * @param authorAccess The Author access.
@@ -120,7 +92,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    */
   @Override
   protected String[] getFrameValues(int tableModelType) {
-    return TABLE_FRAME_VALUES;
+    return XHTMLTableCustomizerConstants.TABLE_FRAME_VALUES;
   }
   
   /**
@@ -186,7 +158,7 @@ public class ECXHTMLTableCustomizerDialog extends ECTableCustomizerDialog {
    */
   @Override
   protected String[] getAlignValues(int tableModelType) {
-    return ALIGN_VALUES;
+    return XHTMLTableCustomizerConstants.ALIGN_VALUES;
   }
 
   /**

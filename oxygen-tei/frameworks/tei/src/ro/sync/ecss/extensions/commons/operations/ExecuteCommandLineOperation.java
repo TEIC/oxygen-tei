@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -61,6 +61,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.exml.workspace.api.process.ProcessController;
 
 /**
  * Author operation allowing the execution of command lines.
@@ -71,6 +72,16 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
 @WebappCompatible(false)
 public class ExecuteCommandLineOperation implements AuthorOperation {
   
+  /**
+   * true
+   */
+  private static final String TRUE_STRING = "true";
+  
+  /**
+   * false
+   */
+  private static final String FALSE_STRING = "false";
+
   /**
    * The name of the operation.
    */
@@ -90,6 +101,11 @@ public class ExecuteCommandLineOperation implements AuthorOperation {
    * <code>True</code> to show the console when running the command line.
    */
   private static final String SHOW_CONSOLE = "showConsole";
+
+  /**
+   * <code>True</code> to wait until the command terminates to return.
+   */
+  private static final String WAIT = "wait";
   
   /**
    * The descriptor of the "name" argument.
@@ -129,8 +145,19 @@ public class ExecuteCommandLineOperation implements AuthorOperation {
       SHOW_CONSOLE, 
       ArgumentDescriptor.TYPE_CONSTANT_LIST, 
       "True to show the console when running the command line.", 
-      new String[] {"true", "false"},
-      "false");
+      new String[] {TRUE_STRING, FALSE_STRING},
+      FALSE_STRING);
+
+
+  /**
+   * The descriptor of the "wait" argument.
+   */
+  private static final ArgumentDescriptor WAIT_ARGUMENT_DESCRIPTOR = new ArgumentDescriptor(
+      WAIT,
+      ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "True to wait until the command terminates to return.",
+      new String[] {TRUE_STRING, FALSE_STRING},
+      FALSE_STRING);
 
   /**
    * The arguments of the operation.
@@ -139,7 +166,8 @@ public class ExecuteCommandLineOperation implements AuthorOperation {
     NAME_ARGUMENT_DESCRIPTOR, 
     WORKING_DIRECTORY_ARGUMENT_DESCRIPTOR, 
     CMD_LINE_ARGUMENT_DESCRIPTOR, 
-    SHOW_CONSOLE_ARGUMENT_DESCRIPTOR
+    SHOW_CONSOLE_ARGUMENT_DESCRIPTOR,
+    WAIT_ARGUMENT_DESCRIPTOR
   };
 
   /**
@@ -147,21 +175,34 @@ public class ExecuteCommandLineOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
-    
+      throws AuthorOperationException {
+
     // Get the arguments
     String name = (String) args.getArgumentValue(NAME);
     File workingDir = new File((String) args.getArgumentValue(WORKING_DIRECTORY));
     String cmdLine = (String) args.getArgumentValue(CMD_LINE);
-    boolean showCmd = ((String)args.getArgumentValue(SHOW_CONSOLE)).equals("true");
-    
+    boolean showCmd = TRUE_STRING.equals(args.getArgumentValue(SHOW_CONSOLE));
+    boolean wait = TRUE_STRING.equals(args.getArgumentValue(WAIT));
+
     // Now start the process
-    authorAccess.getWorkspaceAccess().startProcess(
-        name, 
-        workingDir,
-        cmdLine, 
-        showCmd);
-    
+    if (wait) {
+      // Create the process
+      ProcessController processController = authorAccess.getWorkspaceAccess().createProcess(
+          null,
+          name,
+          workingDir,
+          cmdLine,
+          showCmd);
+      // This method blocks until the process ends.
+      processController.start(); 
+    } else {
+      // Start the process (without waiting its end)
+      authorAccess.getWorkspaceAccess().startProcess(
+          name,
+          workingDir,
+          cmdLine,
+          showCmd);
+    }
   }
 
   /**

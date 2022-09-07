@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,8 @@ import java.util.Set;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -115,6 +117,11 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   private CALSTableCellInfoProvider calsProvider;
   
   /**
+   * The simple table cell span provider
+   */
+  private DITASimpleTableCellSpanProvider simpleTableCellSpanProvider;
+  
+  /**
    * A list containing the specified widths for the table columns if the table 
    * is a DITA simpletable. 
    */
@@ -137,12 +144,15 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   public void init(AuthorElement tableElement) {
     this.tableElement = tableElement;
     calsProvider = null;
+    simpleTableCellSpanProvider = null;
     AttrValue classAttrVal = tableElement.getAttribute(ATTRIBUTE_NAME_CLASS);
     if(classAttrVal != null && classAttrVal.getRawValue() != null && classAttrVal.getRawValue().contains(" ut-d/imagemap ")){
       //EXM-32789 Inside an image map, no cals provider.
     } else if (classAttrVal != null 
         && classAttrVal.getRawValue() != null 
         && classAttrVal.getRawValue().contains(SIMPLETABLE_CLASS_VALUE)) {
+      simpleTableCellSpanProvider = new DITASimpleTableCellSpanProvider();
+      simpleTableCellSpanProvider.init(tableElement);
       //Detect simple table cell tag names.
       simpleTableCellTagNames = detectSimpleTableCellTagNames(tableElement);
       
@@ -153,30 +163,35 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         if (value.length() > 0) {
           String[] split = value.split(" ");
           for (String token : split) { 
-            float relativeWidth = 0f;
+            float relativeWidth = 0F;
             if (token.length() > 0) {
               if (token.endsWith("*")) {
                 String proportion = token.substring(0, token.length() - 1);
-                try {
                   // Find the relative width value.
                   if (proportion.length() == 0) {
                     // '*' it means '1*'
                     relativeWidth = 1;
                   } else {
-                    relativeWidth = Float.parseFloat(proportion);
+                    try {
+                      relativeWidth = NumberParserUtil.parseFloat(proportion);
+                    } catch (NumberFormatException e) {
+                      // Nothing to do, the relative width will remain 0.
+                    }
                   }
-                } catch (NumberFormatException e) {
-                  // Nothing to do, the relative width will remain 0.
-                }
-              } else //Maybe it ends with an unit of measure...
+              } else
+                //Maybe it ends with an unit of measure...
                 if(token.endsWith("pt") || token.endsWith("px") || token.endsWith("in")){
                   // Not a number.
                   if (errorsListener != null) {
-                    errorsListener.add(tableElement, tableElement, CALSAndHTMLTableLayoutProblem.COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT, token);
+                    errorsListener.add(
+                        tableElement,
+                        tableElement,
+                        CALSAndHTMLTableLayoutProblem.COLUMN_WIDTH_NO_MEASURING_UNITS_VALUE_INCORRECT,
+                        token);
                   }
                 }
               // Create the corresponding colwidth.
-              WidthRepresentation colWidth = new WidthRepresentation(0f, null, relativeWidth, false);
+              WidthRepresentation colWidth = new WidthRepresentation(0F, null, relativeWidth, false);
               // Add the colwidth to the column widths list.
               columnWidths.add(colWidth);
             }
@@ -245,7 +260,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return <code>true</code> if the given tag name is a cell 
    * tag name for the current table.
    */
-  private boolean isRelTableCell(String cellTagName) {
+  private static boolean isRelTableCell(String cellTagName) {
     return "relcell".equals(cellTagName) || "relcolspec".equals(cellTagName);
   }
 
@@ -257,7 +272,9 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     Integer toReturn = null;
     if (calsProvider != null) {
       toReturn = calsProvider.getColSpan(cellElement);
-    } 
+    } else if(simpleTableCellSpanProvider != null) {
+      toReturn = simpleTableCellSpanProvider.getColSpan(cellElement);
+    }
     return toReturn;
   }
 
@@ -269,7 +286,9 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     Integer toReturn = null;
     if (calsProvider != null) {
       toReturn = calsProvider.getRowSpan(cellElement);
-    } 
+    } else if(simpleTableCellSpanProvider != null) {
+      toReturn = simpleTableCellSpanProvider.getRowSpan(cellElement);
+    }
     return toReturn;
   }
 
@@ -281,7 +300,9 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     boolean toReturn = true;
     if (calsProvider != null) {
       toReturn = calsProvider.hasColumnSpecifications(tableElement);
-    } 
+    } else if(simpleTableCellSpanProvider != null) {
+      toReturn = simpleTableCellSpanProvider.hasColumnSpecifications(tableElement);
+    }
     return toReturn;
   }
 
@@ -293,6 +314,8 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     String toReturn = null;
     if (calsProvider != null) {
       toReturn = calsProvider.getDescription();
+    } else if (simpleTableCellSpanProvider != null) {
+      toReturn = simpleTableCellSpanProvider.getDescription();
     } else {
       toReturn = "Provides information about cells in DITA simple tables";
     }
@@ -346,7 +369,8 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
    */
   @Override
-  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
+  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) 
+      throws AuthorOperationException {
     // Delegate to CALS provider, DITA simpletables don't accept width attribute.
     if (calsProvider != null) {
       calsProvider.commitTableWidthModification(
@@ -382,9 +406,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     boolean toReturn = false;
     if(isSimpleTableCell(tableCellsTagName)){
       toReturn = true;
-    } else if(isRelTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else if (calsProvider != null) {
+    } else if (!isRelTableCell(tableCellsTagName) && calsProvider != null) {
       toReturn = calsProvider.isTableAndColumnsResizable(tableCellsTagName);
     }
     return toReturn;
@@ -396,11 +418,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public boolean isAcceptingFixedColumnWidths(String tableCellsTagName) {
     boolean toReturn = false;
-    if(isSimpleTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else if(isRelTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else if (calsProvider != null) {
+    if (!isSimpleTableCell(tableCellsTagName) && !isRelTableCell(tableCellsTagName) && calsProvider != null) {
       toReturn = calsProvider.isAcceptingFixedColumnWidths(tableCellsTagName);
     } 
     return toReturn;
@@ -412,11 +430,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   @Override
   public boolean isAcceptingPercentageColumnWidths(String tableCellsTagName) {
     boolean toReturn = false;
-    if(isSimpleTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else if(isRelTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else  if (calsProvider != null) {
+    if (!isSimpleTableCell(tableCellsTagName) && !isRelTableCell(tableCellsTagName) && calsProvider != null) {
       toReturn = calsProvider.isAcceptingPercentageColumnWidths(tableCellsTagName);
     } 
     return toReturn;
@@ -430,9 +444,7 @@ public class DITATableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     boolean toReturn = false;
     if(isSimpleTableCell(tableCellsTagName)){
       toReturn = true;
-    } else if(isRelTableCell(tableCellsTagName)){
-      toReturn = false;
-    } else if (calsProvider != null) {
+    } else if (!isRelTableCell(tableCellsTagName) && calsProvider != null) {
       toReturn = calsProvider.isAcceptingProportionalColumnWidths(tableCellsTagName);
     }
     return toReturn;

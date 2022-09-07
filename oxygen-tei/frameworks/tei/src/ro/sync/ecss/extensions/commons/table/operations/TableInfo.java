@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -277,20 +277,25 @@ public class TableInfo implements Serializable {
         this.colsep = colsep;
         this.align = align;
   }
-  
-  
+
   /**
    * Constructs a table info from a map that contains the values of its 
    * fields.
    * 
    * @param fieldValues The map that contains the values for the operation 
    * fields.
+   * @param rows If greater than 0, the enforced number of rows, used when the user converts 
+   * a list with that many items to a table. If 0 or negative, it is ignored.
+   * 
    */
-  public TableInfo(Map<String, Object> fieldValues) {
+  public TableInfo(Map<String, Object> fieldValues, int rows) {
     this.title = 
         TypedMaps.getString(fieldValues, "title", "");
-    this.rowsNumber = 
-        TypedMaps.getInt(fieldValues, "rowsNumber", 3);
+    if (rows > 0) {
+      this.rowsNumber = rows;
+    } else {
+      this.rowsNumber = TypedMaps.getInt(fieldValues, "rowsNumber", 3);
+    }
     this.columnsNumber = 
         TypedMaps.getInt(fieldValues, "columnsNumber", 2);
     this.generateHeader = 
@@ -302,13 +307,30 @@ public class TableInfo implements Serializable {
     this.tableModel = 
         TypedMaps.getInt(fieldValues, "tableModel", TABLE_MODEL_CUSTOM);
     this.columnsWidthsType = ColumnWidthsType.valueOf(
-        TypedMaps.getString(fieldValues, "columnsWidthsType", null));
+        TypedMaps.getString(fieldValues, "columnsWidthsType", 
+            null));
     this.rowsep = 
         TypedMaps.getString(fieldValues, "rowsep", null);
     this.colsep = 
         TypedMaps.getString(fieldValues, "colsep", null);
     this.align = 
         TypedMaps.getString(fieldValues, "align", null);
+  }
+  
+  /**
+   * Constructs a table info from a map that contains the values of its 
+   * fields.
+   * 
+   * @param fieldValues The map that contains the values for the operation 
+   * fields.
+   * 
+   * @deprecated Use {@link TableInfo#TableInfo(Map, int)} instead because the 
+   * table operation can also convert lists to tables and we need to provide a 
+   * minimum number of rows. 
+   */
+  @Deprecated
+  public TableInfo(Map<String, Object> fieldValues) { // NOSONAR - this is API and will not be removed.
+    this(fieldValues, 0);
   }
 
   /**

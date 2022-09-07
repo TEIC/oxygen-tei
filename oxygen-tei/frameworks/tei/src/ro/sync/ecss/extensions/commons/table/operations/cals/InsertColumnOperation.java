@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,8 @@ import java.util.Set;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -126,7 +128,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     Object cellFragmentObj =  args.getArgumentValue(CELL_FRAGMENT_ARGUMENT_NAME);
     if (cellFragmentObj instanceof String) {
       cellContent = (String) cellFragmentObj;
@@ -153,14 +155,15 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
     Set<CALSColSpec> colSpecs = ((CALSTableCellInfoProvider) tableSupport).getColSpecs();
     
     int previousColspecIndex = -1;
+    WidthRepresentation previousColWidth = null;
     // If true insert the new 'colspec' before the determined relative 'colspec'
     boolean insertBefore = false;
     
     //Look at how the colspecs were previously defined.
-    boolean addColwidth = colSpecs.size() == 0;
+    boolean addColwidth = colSpecs.isEmpty();
     //Choose to specify a colname and colnum in the spanspec analysing the existing colspecs
-    boolean specifyColNum = colSpecs.size() == 0;
-    boolean specifyColName = colSpecs.size() == 0 ;
+    boolean specifyColNum = colSpecs.isEmpty();
+    boolean specifyColName = colSpecs.isEmpty();
     for (Iterator iterator = colSpecs.iterator(); iterator.hasNext();) {
       CALSColSpec colSpec = (CALSColSpec) iterator.next();
       if(colSpec.getColumnName() != null && !specifyColName) {
@@ -181,6 +184,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
         insertBefore = true;
         break;
       }
+      previousColWidth = colSpec.getColWidth();
     }
     // Determine the index in document where the new 'colspec' will be inserted
     int insertOffset = -1;
@@ -196,7 +200,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
           AttrValue colSpecNumber= ((AuthorElement)colspecNodeCandidate).getAttribute(ATTRIBUTE_NAME_COLNUM);
           if(colSpecNumber != null) {
             try {
-              int colSpecNr = Integer.parseInt(colSpecNumber.getValue());
+              int colSpecNr = NumberParserUtil.parseInt(colSpecNumber.getValue());
               if (colSpecNr >= newColumnIndex + 1) {
                 // If the col spec num is <= inserted column, increase it.
               	// EXM-31671: Do this for each column to be inserted.
@@ -283,6 +287,10 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
         if (addColwidth) {
           // EXM-23813 Set a default column width to the colspec (1*)
           String colWidth = getDefaultColWidthValue();
+          if(previousColWidth != null && previousColWidth.getWidthRepresentation() != null) {
+            //EXM-50841 Prefer the width representation of the previous column if possible.
+            colWidth = previousColWidth.getWidthRepresentation();
+          }
           if (columnSpecification != null) {
             WidthRepresentation colWidthRepresentation = columnSpecification.getWidthRepresentation();
             if (colWidthRepresentation != null) {
@@ -325,7 +333,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements
    * @param colSpecNames  The set of column specification names.
    * @param colSpecIndex  The index of the column specification, 1 based.
    */
-  private String getUniqueColSpecName(Set<String> colSpecNames, int colSpecIndex) {
+  private static String getUniqueColSpecName(Set<String> colSpecNames, int colSpecIndex) {
     String uniqueColSpecName = "newCol" + colSpecIndex;
     // The number of iteration for find a unique col spec name 
     boolean isUnique = false;

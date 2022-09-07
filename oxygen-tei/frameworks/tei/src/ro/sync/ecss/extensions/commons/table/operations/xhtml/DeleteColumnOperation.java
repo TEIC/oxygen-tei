@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,8 @@ package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -84,7 +86,7 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
     // Delete the column specification of the deleted column
     HTMLTableCellInfoProvider spanProvider = 
         (HTMLTableCellInfoProvider) tableHelper.getTableCellSpanProvider(tableElem);
-    if(deletedColumnIndex >= 0){
+    if (deletedColumnIndex >= 0) {
       // The 'colspec' element of the deleted column must be deleted after the iteration.
       AuthorElement toRemove = spanProvider.getColSpec(deletedColumnIndex);
       if (toRemove != null) {
@@ -96,15 +98,15 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
         AttrValue span = toRemove.getAttribute(HTMLTableCellInfoProvider.ATTR_NAME_SPAN);
         if (span != null && span.getValue() != null) {
           try {
-            int colNum = Integer.parseInt(span.getValue());
-            if(colNum > 2){
+            int colNum = NumberParserUtil.parseInt(span.getValue());
+            if (colNum > 2) {
               // Decrease the "colnum".
               authorAccess.getDocumentController().setAttribute(
                   HTMLTableCellInfoProvider.ATTR_NAME_SPAN,
                   new AttrValue("" + (colNum - 1)),
                   toRemove);
               decreasedSpan = true;
-            } else if(colNum == 2){
+            } else if (colNum == 2) {
               //Remove attribute
               authorAccess.getDocumentController().removeAttribute(
                   HTMLTableCellInfoProvider.ATTR_NAME_SPAN,

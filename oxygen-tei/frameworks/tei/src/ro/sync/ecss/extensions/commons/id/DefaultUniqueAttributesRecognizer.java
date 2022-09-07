@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,9 @@ import java.util.Map;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -96,12 +98,12 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
   /** 
    * Logger for logging. 
    */
-  private static Logger logger = Logger.getLogger(DefaultUniqueAttributesRecognizer.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(DefaultUniqueAttributesRecognizer.class.getName());
   
   /**
    * Information about what attribute to set on what element 
    */
-  private class AttributeSetInfo{
+  private static class AttributeSetInfo{
     /**
      * Element on which to set the attribute 
      */
@@ -237,50 +239,20 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
   public void assignUniqueIDs(int startOffset, int endOffset, boolean forceGeneration) {
     if(authorAccess != null) {
       GenerateIDElementsInfo currentElemsInfo = getGenerateIDElementsInfo();
-      if(forceGeneration || (currentElemsInfo != null 
-          && currentElemsInfo.getElementsWithIDGeneration() != null 
-          && currentElemsInfo.getElementsWithIDGeneration().length > 0)) {
+      if(currentElemsInfo != null 
+          && (forceGeneration 
+             || (currentElemsInfo.getElementsWithIDGeneration() != null 
+          && currentElemsInfo.getElementsWithIDGeneration().length > 0))) {
         try {
           AuthorNode commonParent = 
             authorAccess.getDocumentController().getCommonParentNode(authorAccess.getDocumentController().getAuthorDocumentNode(), startOffset, endOffset);
           authorAccess.getDocumentController().beginCompoundEdit();
-          try {
-            List<AttributeSetInfo> toGenerate = new ArrayList<AttributeSetInfo>();
+          List<AttributeSetInfo> toGenerate = new ArrayList<AttributeSetInfo>();
             generateUniqueIDs(authorAccess, commonParent, startOffset, endOffset,
                 currentElemsInfo.getIdGenerationPattern(),
                 currentElemsInfo.getElementsWithIDGeneration(), forceGeneration, toGenerate);
-            if(toGenerate.size() == 1){
-              //Set it the usual way
-              AttributeSetInfo info = toGenerate.get(0);
-              authorAccess.getDocumentController().setAttribute(info.attrQName, new AttrValue(info.attrValue), info.element);
-            } else {
-              //Set them all at once.
-              int[] elemOffsets = new int[toGenerate.size()];
-              AuthorNode[] nodes = new AuthorNode[toGenerate.size()];
-              List<Map<String, AttrValue>> attrs = new ArrayList<Map<String,AttrValue>>(toGenerate.size());
-              for (int i = 0; i < elemOffsets.length; i++) {
-                AttributeSetInfo attributeSetInfo = toGenerate.get(i);
-                nodes[i] = attributeSetInfo.element;
-                elemOffsets[i] = attributeSetInfo.element.getStartOffset() + 1;
-                Map<String, AttrValue> attrsToGenerate = new HashMap<String, AttrValue>();
-                attrsToGenerate.put(attributeSetInfo.attrQName, new AttrValue(attributeSetInfo.attrValue));
-                attrs.add(attrsToGenerate);
-              }
-              //Find common ancestor.
-              AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(nodes);
-              if (commonAncestor == null) {
-                commonAncestor = authorAccess.getDocumentController().getAuthorDocumentNode();
-              }
-              
-              // Set multiple attributes in one shot.
-              if (!attrs.isEmpty()) {
-                authorAccess.getDocumentController().setMultipleDistinctAttributes(commonAncestor.getStartOffset() + 1, elemOffsets, attrs);
-              }
-            }
-          } finally {
-            authorAccess.getDocumentController().endCompoundEdit();
-          }
-        } catch (BadLocationException e) {
+            setIDs(toGenerate);
+              } catch (BadLocationException e) {
           logger.warn(e, e);
         }
       }
@@ -295,6 +267,9 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
    * @param endSel The end offset limit.
    * @param idGenerationPattern The pattern for id generation .
    * @param elementsToGenerateFor The elements for which IDs must be generated.
+   * @param forceGeneration <code>true</code> to generate ID even if the ID generation pattern list
+   *                        does not match.
+   * @param attrsToGenerate Collector for the generated attributes
    */
   private void generateUniqueIDs(
       AuthorAccess authorAccess, AuthorNode currentNode, int startSel, int endSel,
@@ -318,9 +293,44 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
       //Check intersection with the range.
       if (nodeIntersectsSelection) {
         if(nodeContainsSelection) {
-          // The node intersects the range
-          if(currentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-            AuthorElement element = (AuthorElement) currentNode;
+          AttributeSetInfo
+          generatedId = generateUniqueIdForNode(
+              currentNode, idGenerationPattern, elementsToGenerateFor, forceGeneration);
+          if(generatedId != null) {
+            attrsToGenerate.add(generatedId);
+          }
+        }
+
+        //Recurse into children
+        if(currentNode instanceof AuthorParentNode) {
+          AuthorParentNode sentinelNode = (AuthorParentNode) currentNode;
+          List<AuthorNode> contentNodes = sentinelNode.getContentNodes();
+          for (int i = 0; i < contentNodes.size(); i++) {
+            generateUniqueIDs(
+                authorAccess, contentNodes.get(i), startSel, endSel, idGenerationPattern, elementsToGenerateFor, forceGeneration, attrsToGenerate);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Generate unique ID attribute for given node.
+   * 
+   * @param node
+   * @param idGenerationPattern      The pattern for id generation .
+   * @param elementsToGenerateFor    The elements for which IDs must be generated.
+   * @param forceGeneration          <code>true</code> to generate ID even if the ID generation pattern list
+   *                                 does not match.
+   *                                
+   * @return The generated ID attribute, or <code>null</code> if the attribute mustn't be generated for the node or it's already specified.
+   */
+  private AttributeSetInfo generateUniqueIdForNode(AuthorNode node, String idGenerationPattern,
+      String[] elementsToGenerateFor, boolean forceGeneration) {
+    AttributeSetInfo generatedAttr = null;
+    // The node intersects the range
+    if(node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            AuthorElement element = (AuthorElement) node;
             String generateIdAttrQName = getGenerateIDAttributeQName(element, elementsToGenerateFor, forceGeneration);
             if(generateIdAttrQName != null) {
               AttrValue attr = element.getAttribute(generateIdAttrQName);
@@ -336,22 +346,49 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
                 info.attrQName = generateIdAttrQName;
                 info.attrValue = generateUniqueIDFor(idGenerationPattern, element);
                 info.element = element;
-                attrsToGenerate.add(info);
+                generatedAttr = info;
               }
             }
           }
+        return generatedAttr;
+  }
+
+        /**
+   * Set given IDs in the document.
+   * 
+   * @param idsList The list with ID attributes to be set.
+   */
+        private void setIDs(List<AttributeSetInfo> idsList) {
+    try {
+      int noOfIDs = idsList.size(); if(noOfIDs == 1){
+          //Set it the usual way AttributeSetInfo info = idsList.get(0); authorAccess.getDocumentController().setAttribute(info.attrQName, new AttrValue(info.attrValue), info.element);
+          } else {
+        //Set them all at once.
+        int[] elemOffsets = new int[noOfIDs];
+        AuthorNode[] nodes = new AuthorNode[noOfIDs];
+        List<Map<String, AttrValue>> attrs = new ArrayList<Map<String,AttrValue>>(noOfIDs);
+          for (int i = 0; i < elemOffsets.length; i++) {
+            AttributeSetInfo
+                attributeSetInfo = idsList.get(i); nodes[i] = attributeSetInfo.element;
+          elemOffsets[i] = attributeSetInfo.element.getStartOffset();
+          Map<String, AttrValue> attrsToGenerate = new HashMap<String, AttrValue>();
+          attrsToGenerate.put(attributeSetInfo.attrQName, new AttrValue(attributeSetInfo.attrValue));
+          attrs.add(attrsToGenerate);
+        }
+        //Find common ancestor.
+        AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(nodes);
+        if (commonAncestor == null) {
+          commonAncestor = authorAccess.getDocumentController().getAuthorDocumentNode();
         }
 
-        //Recurse into children
-        if(currentNode instanceof AuthorParentNode) {
-          AuthorParentNode sentinelNode = (AuthorParentNode) currentNode;
-          List<AuthorNode> contentNodes = sentinelNode.getContentNodes();
-          for (int i = 0; i < contentNodes.size(); i++) {
-            generateUniqueIDs(
-                authorAccess, contentNodes.get(i), startSel, endSel, idGenerationPattern, elementsToGenerateFor, forceGeneration, attrsToGenerate);
+        // Set multiple attributes in one shot.
+        if (!attrs.isEmpty()) {
+          authorAccess.getDocumentController().setMultipleDistinctAttributes(commonAncestor.getStartOffset(), elemOffsets, attrs);
           }
         }
       }
+    finally {
+      authorAccess.getDocumentController().endCompoundEdit();
     }
   }
   
@@ -383,8 +420,9 @@ public class DefaultUniqueAttributesRecognizer implements UniqueAttributesRecogn
     }
     //Remove unique IDs when pasting in other documents or when copy/paste in the same document
     boolean removeUniqueIDs = false;
-    if(fragmentInformation.getFragmentOriginalLocation() != null
-        && ! fragmentInformation.getFragmentOriginalLocation().equals(authorAccess.getEditorAccess().getEditorLocation().toString())) {
+    String location = fragmentInformation.getLocationOfLastPaste() != null ? fragmentInformation.getLocationOfLastPaste() : fragmentInformation.getOriginalLocation();
+    if(location != null
+        && ! location.equals(authorAccess.getEditorAccess().getEditorLocation().toString())) {
       removeUniqueIDs = !preserveIDsWhenPastingBetweenResources(fragmentInformation.getPurposeID());
     } else {
       int purposeID = fragmentInformation.getPurposeID();

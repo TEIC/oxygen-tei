@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -193,7 +193,13 @@ public enum CALSAndHTMLTableLayoutProblem implements TableLayoutProblem {
   /**
    * Cells overlapping error(as generals as it can be)
    */
-  CELL_OVERLAPS_ONE_OR_MORE_PREVIOUS_CELLS(Severity.ERROR); 
+  CELL_OVERLAPS_ONE_OR_MORE_PREVIOUS_CELLS(Severity.ERROR), 
+  
+  /**
+   * Column name (colname) attribute must not be present when 
+   * column name start (namest) or column name end (nameend) are specified.
+   */
+  ROW_HAS_COLNAME_AND_NAMEST_OR_NAMEEND(Severity.ERROR); 
 
   /**
    * Message tag

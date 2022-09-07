@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -48,16 +48,76 @@
  *  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-package ro.sync.ecss.extensions.commons;
+package ro.sync.ecss.extensions.commons.table.support;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
+import ro.sync.ecss.extensions.api.node.AttrValue;
+import ro.sync.ecss.extensions.api.node.AuthorElement;
 
 /**
- * Marker for cachable references resolvers. 
+ * This class is responsible for providing information about the DITA simple 
+ * table cell spanning.
  */
-@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
-public interface CachableAuthorReferencesResolver {
-//
+@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+public class DITASimpleTableCellSpanProvider implements AuthorTableCellSpanProvider {
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getColSpan(AuthorElement)
+   */
+  public Integer getColSpan(AuthorElement cellElement) {
+    AttrValue colspanAtt = cellElement.getAttribute("colspan");
+    if(colspanAtt != null) {
+      String value = colspanAtt.getValue();
+      if(value != null) {
+        try {
+          return Integer.parseInt(value.trim());
+        } catch(Exception ex) {
+          //Ignore
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getRowSpan(AuthorElement)
+   */
+  public Integer getRowSpan(AuthorElement cellElement) {
+    AttrValue rowspanAtt = cellElement.getAttribute("rowspan");
+    if(rowspanAtt != null) {
+      String value = rowspanAtt.getValue();
+      if(value != null) {
+        try {
+          return Integer.parseInt(value.trim());
+        } catch(Exception ex) {
+          //Ignore
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#init(AuthorElement)
+   */
+  public void init(AuthorElement tableElement) {
+    // Nothing to do.
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.api.Extension#getDescription()
+   */
+  public String getDescription() {
+    return "Provides information about cell spanning in DITA simple tables";
+  }
+  
+  /**
+   * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#hasColumnSpecifications(ro.sync.ecss.extensions.api.node.AuthorElement)
+   */
+  public boolean hasColumnSpecifications(AuthorElement tableElement) {
+    return true;
+  }
 }

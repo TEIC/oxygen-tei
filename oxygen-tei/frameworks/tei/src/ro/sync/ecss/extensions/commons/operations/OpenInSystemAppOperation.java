@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,12 +56,14 @@ import java.net.URL;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.w3c.dom.Node;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.URLUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -83,7 +85,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(OpenInSystemAppOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(OpenInSystemAppOperation.class.getName());
 
   /**
    * An XPath expression that when run returns the path of the resource that must
@@ -168,7 +170,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     Object resourcePathXPath = args.getArgumentValue(ARGUMENT_RESOURCE_PATH);
 
     if (resourcePathXPath != null && ((String) resourcePathXPath).trim().length() > 0) {
@@ -179,7 +181,7 @@ public class OpenInSystemAppOperation implements AuthorOperation {
       // Execute the XPath that gives the file to open.
       Object[] results =
           authorAccess.getDocumentController().evaluateXPath((String) resourcePathXPath, null, false, true, true, false, 
-        		  //EXM-27096 Use XPath 3.0
+        		  //EXM-27096 Use XPath 3.1
         		  XPathVersion.XPATH_3_0);
       
       if (results != null && results.length > 0) {
@@ -198,73 +200,86 @@ public class OpenInSystemAppOperation implements AuthorOperation {
         }
         
         if (toOpenVal != null) {
-          URL toOpen = null;
-          // We need a context node for resolving an unparsed entity.
-          int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-          AuthorNode contextNode = null;
-          if (caretOffset > 0) {
-            //Get node at caret...
-            try {
-              contextNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
-            } catch (BadLocationException e) {
-              logger.error(e, e);
-            }
-          }
-          
-          if (contextNode == null) {
-            // Shouldn't happen. Just a fallback.
-            contextNode = authorAccess.getDocumentController().getAuthorDocumentNode();
-          }
-          Object unparsedEntity = args.getArgumentValue(ARGUMENT_UNPARSED_ENTITY);
-          if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
-            //Unparsed entity.
-            String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
-            if (systemID != null) {
-              try {
-                toOpen = new URL(systemID);
-              } catch (MalformedURLException e) {
-                logger.error(e, e);
-              }
-            }
-          } else {
-            // A simple resource.
-            toOpen = authorAccess.getXMLUtilAccess().resolvePathThroughCatalogs(
-                contextNode != null ? contextNode.getXMLBaseURL() : authorAccess.getEditorAccess().getEditorLocation(), 
-                toOpenVal, 
-                true, 
-                true);
-          }
-          
-          if (logger.isDebugEnabled()) {
-            logger.debug("Absolute location to open: " + toOpen);
-          }
-          
-          String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
-          if (toOpen != null) {
-            File localFile = authorAccess.getUtilAccess().locateFile(toOpen);
-            if (localFile != null && !localFile.exists()) {
-              // A local file that doesn't exists.
-              throw new AuthorOperationException("Resource does not exists: " + toOpen);
-            } else {
-              //Use media argument...
-              authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true, mediaType);
-            }
-          } else {
-            String toOpenString = toOpenVal;
-            if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
-              //Unparsed entity.
-              String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
-              if (systemID != null) {
-                toOpenString = systemID;
-              }
-            }
-            
-            authorAccess.getWorkspaceAccess().openInExternalApplication(toOpenString, true, mediaType);
-          }
+          open(toOpenVal, authorAccess, args);
         }
       } else {
         throw new AuthorOperationException("The resource path XPath must evaluate to a string or node: " + resourcePathXPath);
       }
+    }
+  }
+
+  /**
+   * Open the given resource.
+   * 
+   * @param toOpenVal The resource to open.
+   * @param authorAccess The author access.
+   * @param args The map of arguments.
+   * 
+   * @throws AuthorOperationException
+   */
+  private static void open(String toOpenVal, AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
+    URL toOpen = null;
+    // We need a context node for resolving an unparsed entity.
+    int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+    AuthorNode contextNode = null;
+    if (caretOffset > 0) {
+      //Get node at caret...
+      try {
+        contextNode = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+      } catch (BadLocationException e) {
+        logger.error(e, e);
+      }
+    }
+    
+    if (contextNode == null) {
+      // Shouldn't happen. Just a fallback.
+      contextNode = authorAccess.getDocumentController().getAuthorDocumentNode();
+    }
+    Object unparsedEntity = args.getArgumentValue(ARGUMENT_UNPARSED_ENTITY);
+    if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
+      //Unparsed entity.
+      String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
+      if (systemID != null) {
+        try {
+          toOpen = new URL(systemID);
+        } catch (MalformedURLException e) {
+          logger.error(e, e);
+        }
+      }
+    } else {
+      // A simple resource.
+      toOpen = authorAccess.getXMLUtilAccess().resolvePathThroughCatalogs(
+          contextNode != null ? contextNode.getXMLBaseURL() : authorAccess.getEditorAccess().getEditorLocation(), 
+          toOpenVal, 
+          true, 
+          true);
+    }
+    
+    if (logger.isDebugEnabled()) {
+      logger.debug("Absolute location to open: " + URLUtil.filterPasswords(String.valueOf(toOpen)));
+    }
+    
+    String mediaType = (String)args.getArgumentValue(ARGUMENT_MEDIA_TYPE);
+    if (toOpen != null) {
+      File localFile = authorAccess.getUtilAccess().locateFile(toOpen);
+      if (localFile != null && !localFile.exists()) {
+        // A local file that doesn't exists.
+        throw new AuthorOperationException("Resource does not exists: " + toOpen);
+      } else {
+        //Use media argument...
+        authorAccess.getWorkspaceAccess().openInExternalApplication(toOpen, true, mediaType);
+      }
+    } else {
+      String toOpenString = toOpenVal;
+      if (AuthorConstants.ARG_VALUE_TRUE.equals(unparsedEntity)) {
+        //Unparsed entity.
+        String systemID = authorAccess.getDocumentController().getUnparsedEntityUri(contextNode, toOpenVal);
+        if (systemID != null) {
+          toOpenString = systemID;
+        }
+      }
+      
+      authorAccess.getWorkspaceAccess().openInExternalApplication(toOpenString, true, mediaType);
     }
   }
 

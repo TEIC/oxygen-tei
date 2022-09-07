@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -64,10 +64,11 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.VerifyKeyListener;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.events.VerifyEvent;
@@ -143,11 +144,6 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
    */
   private org.eclipse.swt.graphics.Color foregroundColor;
   
-  /**
-   * Constructor.
-   */
-  public URLChooserEditorSWT() {
-  }
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
@@ -334,18 +330,18 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
     textViewer.getTextWidget().addVerifyKeyListener(new VerifyKeyListener() {
       @Override
       public void verifyKey(VerifyEvent e) {
-        switch (e.keyCode) {          
-          case SWT.ESC:
-            // On ESC cancel the editing and do not commit the value.
+        if(e.keyCode ==          
+          SWT.ESC)
+            {
+          // On ESC cancel the editing and do not commit the value.
             e.doit = false;
             cancelEditing();
-            break;
-        }
+            }
       }
     });
     
     // Add focus listener
-    FocusListener focusListener = new FocusListener() {
+    FocusListener focusListener = new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent e) {
         Display.getDefault().asyncExec(new Runnable() {
@@ -360,29 +356,21 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
             }
           }
         });
-      }
-      @Override
-      public void focusGained(FocusEvent e) {
-      }
-    };
+      } };
     textViewer.getTextWidget().addFocusListener(focusListener);
     browseButton.addFocusListener(focusListener);
     
     // Add key listener
-    browseButton.addKeyListener(new KeyListener() {
-      @Override
-      public void keyReleased(KeyEvent e) {
-      }
-      
+    browseButton.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
-        switch (e.keyCode) {          
-          case SWT.ESC:
-            // On ESC cancel the editing and do not commit the value.
+        if (e.keyCode ==          
+          SWT.ESC)
+            {
+          // On ESC cancel the editing and do not commit the value.
             e.doit = false;
             cancelEditing();
-            break;
-        }
+            }
       }
     });
     
@@ -427,6 +415,7 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
       try {
         resourceAsStream.close();
       } catch (IOException e1) {
+        //NOSONAR java:S1166 Not interested in preserving the original exception.
         //Ignore
       }
     }
@@ -514,7 +503,7 @@ public class URLChooserEditorSWT extends AbstractInplaceEditor implements ITextO
    */
   @Override
   public boolean canDoOperation(int operation) {
-    return textViewer != null ? textViewer.canDoOperation(operation) : false;
+    return textViewer != null && textViewer.canDoOperation(operation);
   }
   /**
    * @see org.eclipse.jface.text.ITextOperationTarget#doOperation(int)

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -76,21 +76,21 @@ public class ChangeAttributeOperation implements AuthorOperation {
   /**
    * The attribute local name argument. The value is <code>name</code>.
    */
-  private static final String ARGUMENT_ATTRIBUTE_NAME = "name";
+  static final String ARGUMENT_ATTRIBUTE_NAME = "name";
   /**
    * The attribute namespace argument. The value is <code>namespace</code>.
    */
-  private static final String ARGUMENT_ATTRIBUTE_NAMESPACE = "namespace";
+  static final String ARGUMENT_ATTRIBUTE_NAMESPACE = "namespace";
   /**
    * The XPath location that identifies the element.
    * Empty/null for the current element.
    * The value is <code>elementLocation</code>.
    */
-  private static final String ARGUMENT_ELEMENT_XPATH_LOCATION = "elementLocation";
+  static final String ARGUMENT_ELEMENT_XPATH_LOCATION = "elementLocation";
   /**
    * The new value for the attribute - empty/null to remove it. The value is <code>value</code>.
    */
-  private static final String ARGUMENT_VALUE = "value";
+  static final String ARGUMENT_VALUE = "value";
   /**
    * After changing the attribute, automatically enter in editing mode. Only possible
    * if an in-place editor exists for that attribute.
@@ -187,7 +187,7 @@ public class ChangeAttributeOperation implements AuthorOperation {
       
     if (name instanceof String) {
       AuthorElement targetElement;
-      if (xpathLocation instanceof String) {
+      if (xpathLocation instanceof String && !((String) xpathLocation).isEmpty()) {
         AuthorNode[] results =
           authorAccess.getDocumentController().findNodesByXPath((String) xpathLocation, true, true, true);
         if (results.length > 0 && results[0] instanceof AuthorElement) {
@@ -265,6 +265,6 @@ public class ChangeAttributeOperation implements AuthorOperation {
    */
   @Override
   public String getDescription() {
-    return "Add/modify/delete an attribute.";
+    return "Add/change/remove an attribute of an element.";
   }
 }

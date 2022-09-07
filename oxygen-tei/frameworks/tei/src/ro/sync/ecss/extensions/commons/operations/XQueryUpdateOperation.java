@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,17 +56,19 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -80,6 +82,7 @@ import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.exml.workspace.api.util.InternalTransformerAccess;
 
 /**
  * An implementation of an operation that applies an XQuery Update script. 
@@ -148,7 +151,7 @@ public class XQueryUpdateOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(XQueryUpdateOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(XQueryUpdateOperation.class.getName());
   
   /**
    * The script argument.
@@ -178,7 +181,7 @@ public class XQueryUpdateOperation implements AuthorOperation {
  /**
   * External parameters of the xquery script.
   */
-  private Map externalArguments = null;
+  private Map<String, String> externalArguments = null;
   /**
    * Constructor.
    */
@@ -221,16 +224,14 @@ public class XQueryUpdateOperation implements AuthorOperation {
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-    throws AuthorOperationException {
-    Object script = args.getArgumentValue(ARGUMENT_SCRIPT);
+  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     Object paramsArgument = args.getArgumentValue(ARGUMENT_SCRIPT_PARAMETERS);
     
     if (paramsArgument instanceof String && 
         // Default value was changed.
-        !((String) paramsArgument).trim().equals("")) {
-      externalArguments = new HashMap<String, String>();
-      // Tokenize the string and get the parameters and their values;
+        !((String) paramsArgument).trim().isEmpty()) {
+      externalArguments = new HashMap<>();
+      // Tokenize the string and get the parameters and their values
       StringTokenizer commaTokenizer = new StringTokenizer((String) paramsArgument, TOKEN_COMMA_END_LINE);
       while (commaTokenizer.hasMoreElements()) {
         // key = value pairs.
@@ -247,6 +248,7 @@ public class XQueryUpdateOperation implements AuthorOperation {
       
     }
     
+    Object script = args.getArgumentValue(ARGUMENT_SCRIPT);
     if (script instanceof String) {
       Source xQuerySource = null;
       // Try to parse it as an URL.
@@ -266,14 +268,15 @@ public class XQueryUpdateOperation implements AuthorOperation {
       documentController.beginCompoundEdit();
       try {
         // Create an XQuery update enable processor.
-        Transformer queryTransformer  = authorAccess.getXMLUtilAccess().createXQueryUpdateTransformer(
+        Transformer queryTransformer  = ((InternalTransformerAccess)authorAccess.getXMLUtilAccess()).internalCreateXQueryUpdateTransformer(
             xQuerySource, 
             null);
         
-        // Now set the external parameters to transformer;
+        // Now set the external parameters to transformer
         if (externalArguments != null) {
-          for (Object key : externalArguments.keySet()) {
-            queryTransformer.setParameter((String) key, externalArguments.get(key));
+          Set<Entry<String, String>> entrySet = externalArguments.entrySet();
+          for (Entry<String, String> entry : entrySet) {
+            queryTransformer.setParameter(entry.getKey(), entry.getValue());
           }
         }
         
@@ -287,14 +290,8 @@ public class XQueryUpdateOperation implements AuthorOperation {
         Result result = new StreamResult(writer);
         
         queryTransformer.transform(s, result);
-      } catch (IllegalArgumentException e) {
-        e.printStackTrace();
-        throw new AuthorOperationException("Execution failed: " + e.getMessage(), e);
-      } catch (TransformerConfigurationException e) {
-        e.printStackTrace();
-        throw new AuthorOperationException("Execution failed: " + e.getMessage(), e);
-      } catch (TransformerException e) {
-        e.printStackTrace();
+      } catch (IllegalArgumentException | TransformerException e) {
+        logger.error(e, e);
         throw new AuthorOperationException("Execution failed: " + e.getMessage(), e);
       } finally {
         documentController.endCompoundEdit();

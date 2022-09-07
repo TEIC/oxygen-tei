@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,7 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     try {
       // Find the table cell that contains the caret.
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
@@ -133,7 +133,8 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
    * @throws AuthorOperationException 
    * @throws BadLocationException 
    */
-  public void splitCell(AuthorElement cell, AuthorAccess authorAccess, boolean above) throws AuthorOperationException, BadLocationException {
+  public void splitCell(AuthorElement cell, AuthorAccess authorAccess, boolean above)
+      throws AuthorOperationException, BadLocationException {
     // Find the table ancestor element for create the table support 
     AuthorElement tableElem = 
       getElementAncestor(cell, AuthorTableHelper.TYPE_TABLE);
@@ -229,7 +230,7 @@ public abstract class SplitCellAboveBelowOperationBase extends AbstractTableOper
    * @param cellElem      The table cell to remove the specified attributes for.
    * @param removedAttributes The attributes which should be removed.
    */
-  private void clearCell(AuthorAccess authorAccess, 
+  private static void clearCell(AuthorAccess authorAccess, 
       AuthorElement cellElem,
       String[] removedAttributes) {
     AuthorDocumentController controller = authorAccess.getDocumentController();

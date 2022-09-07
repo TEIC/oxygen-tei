@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -93,16 +93,14 @@ public class SurroundWithTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
+  @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     //Header
     Object headerArgVal = args.getArgumentValue(ARGUMENT_HEADER);
     //Footer
     Object footerArgVal = args.getArgumentValue(ARGUMENT_FOOTER);
 
-    if (headerArgVal != null
-        && headerArgVal instanceof String
-        && footerArgVal != null
-        && footerArgVal instanceof String) {
+    if (headerArgVal instanceof String && footerArgVal instanceof String) {
       if (!authorAccess.getEditorAccess().hasSelection()) {
         //Select current word
         authorAccess.getEditorAccess().selectWord();
@@ -122,6 +120,7 @@ public class SurroundWithTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
    */
+  @Override
   public ArgumentDescriptor[] getArguments() {
     return ARGUMENTS;
   }
@@ -129,6 +128,7 @@ public class SurroundWithTextOperation implements AuthorOperation {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Surround a selection with text. Places a header at the start of the selection and a footer at the end." +
     		"If no selection exists, the word at caret will be surrounded.";

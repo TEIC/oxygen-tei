@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -64,6 +64,7 @@ import javax.swing.text.Position;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.Equaler;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -76,7 +77,6 @@ import ro.sync.ecss.extensions.api.access.AuthorTableAccess;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.table.properties.TableHelperConstants;
-import ro.sync.basic.util.Equaler;
 
 /**
  * Operation used to delete table rows. If there is a selection in the table all the rows that intersect
@@ -109,7 +109,6 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
    * Each interval contains two integers, one for start interval offset and one for end interval offset. 
    * @return <code>true</code> if the rows are deleted.
    * 
-   * @throws IllegalArgumentException
    * @throws AuthorOperationException
    */
   public boolean performDeleteRows(AuthorAccess authorAccess, List<ContentInterval> contentIntervals)
@@ -119,7 +118,7 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
       AuthorDocumentController authorDocumentController = authorAccess.getDocumentController();
       AuthorEditorAccess authorEditorAccess = authorAccess.getEditorAccess();
       // The table at caret
-      boolean rowsFromContentIntervals = contentIntervals != null && contentIntervals.size() > 0;
+      boolean rowsFromContentIntervals = contentIntervals != null && !contentIntervals.isEmpty();
       AuthorNode nodeAtCaret = authorDocumentController.getNodeAtOffset(
           rowsFromContentIntervals ? contentIntervals.get(0).getStartOffset() : 
             authorAccess.getEditorAccess().getCaretOffset());
@@ -371,11 +370,11 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
   /**
    * Delete the table rows. For this operation the caret must be inside a table cell.
    * 
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
+   * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
   public final void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     performDeleteRows(authorAccess, -1, -1);
   }
 
@@ -386,7 +385,9 @@ public abstract class DeleteRowOperationBase extends AbstractTableOperation {
    */
   @Override
   public ArgumentDescriptor[] getArguments() {
-    return null;
+    return new ArgumentDescriptor[] {
+        CHANGE_TRACKING_BEHAVIOR_ARGUMENT
+    };
   }
 
   /**

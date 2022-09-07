@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,11 +53,14 @@ package ro.sync.ecss.extensions.commons;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.link.Attr;
 import ro.sync.ecss.extensions.api.link.ElementLocator;
 import ro.sync.ecss.extensions.api.link.ElementLocatorException;
@@ -82,7 +85,7 @@ public class XPointerElementLocator extends ElementLocator {
   /** 
    * Logger for logging. 
    */
-  private static Logger logger = Logger.getLogger(XPointerElementLocator.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(XPointerElementLocator.class.getName());
   
   /**
    * Verifies if a given attribute has the ID type.
@@ -153,7 +156,7 @@ public class XPointerElementLocator extends ElementLocator {
 
         if(i > 0){
           try {
-            Integer.parseInt(xpointerPath[i]);
+            NumberParserUtil.parseInt(xpointerPath[i]);
           } catch (NumberFormatException e) {
             invalidFormat = true;
           }
@@ -233,7 +236,7 @@ public class XPointerElementLocator extends ElementLocator {
         int stackIdx = currentElementIndexStack.size() - 1;
         int stopIdx = startWithElementID ? 1 : 0;
         while (xpointerIdx >= stopIdx && stackIdx >= 0) {
-          int xpointerIndex = Integer.parseInt(xpointerPath[xpointerIdx]);
+          int xpointerIndex = NumberParserUtil.parseInt(xpointerPath[xpointerIdx]);
           int currentElementIndex = ((Integer)currentElementIndexStack.get(stackIdx)).intValue();
           if(xpointerIndex != currentElementIndex) {
             linkLocated = false;

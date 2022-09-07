@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import java.awt.Component;
-
 import javax.swing.JFrame;
 
 import ro.sync.annotations.api.API;
@@ -66,7 +64,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  *
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class SATableColumnInsertionCustomizerInvoker extends TableColumnInsertionCustomizer {
+public final class SATableColumnInsertionCustomizerInvoker extends TableColumnInsertionCustomizer {
 
   /**
    * The singleton instance.
@@ -103,13 +101,8 @@ public class SATableColumnInsertionCustomizerInvoker extends TableColumnInsertio
    */
   @Override
   protected TableColumnsInfo showCustomTableColumnInsertionDialog(AuthorAccess authorAccess) {
-    // dialog instance
     SACustomTableColumnInsertionDialog customColumnInsertionDialog = new SACustomTableColumnInsertionDialog(
         (JFrame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle());
-    // set dialog location
-    customColumnInsertionDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
-    // get info from dialog
-    TableColumnsInfo newTableColumnsInfo = customColumnInsertionDialog.showDialog(tableColumnsInfo);
-    return newTableColumnsInfo;
+    return customColumnInsertionDialog.showDialog(tableColumnsInfo);
   }
 }

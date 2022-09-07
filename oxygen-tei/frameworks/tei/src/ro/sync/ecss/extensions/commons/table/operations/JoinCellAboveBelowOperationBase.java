@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -101,7 +101,7 @@ public abstract class JoinCellAboveBelowOperationBase extends AbstractTableOpera
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     try {
       // Find the table cell that contains the caret
       int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
@@ -126,10 +126,6 @@ public abstract class JoinCellAboveBelowOperationBase extends AbstractTableOpera
         AuthorElement tableElem = getElementAncestor(
             nodeAtCaret, AuthorTableHelper.TYPE_TABLE);
         if(tableElem != null) {
-          // Create table support for get cell horizontal span
-          AuthorTableCellSpanProvider tableSupport = 
-            tableHelper.getTableCellSpanProvider(tableElem);
-
           // Find the cells above and below
           AuthorElement cellAbove = null;
           AuthorElement cellBelow = null;
@@ -154,6 +150,8 @@ public abstract class JoinCellAboveBelowOperationBase extends AbstractTableOpera
             }
           }
           
+          // Create table support for get cell horizontal span
+          AuthorTableCellSpanProvider tableSupport = tableHelper.getTableCellSpanProvider(tableElem);
           Integer colSpanCellAboveInteger = tableSupport.getColSpan(cellAbove);
           Integer colSpanCellBelowInteger = tableSupport.getColSpan(cellBelow);
           int colSpanCellAbove = 

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -127,7 +127,8 @@ public abstract class EditImageMapOperation implements AuthorOperation {
           
           if (changeHighlights != null) {
             for (AuthorPersistentHighlight highlight : changeHighlights) {
-              if (highlight.getType().equals(PersistentHighlightType.CHANGE_DELETE)) {
+              //Avoid rendering the map if we intersect deletion changes
+              if (PersistentHighlightType.CHANGE_DELETE == highlight.getType()) {
                 doRenderMap = false;
                 break;
               }
@@ -135,6 +136,7 @@ public abstract class EditImageMapOperation implements AuthorOperation {
           }
 
           if (!doRenderMap) {
+            //Do not try to edit the map.
             break;
           }
           
@@ -145,13 +147,15 @@ public abstract class EditImageMapOperation implements AuthorOperation {
         if (doRenderMap) {
           // Get the supported framework.
           SupportedFrameworks framework = imageMapCore.getSupportedFramework(nodes[0].getNamespace());
-          // Get the namespace context.
-          NamespaceContext nsContext = nodes[0].getNamespaceContext();
           // Build the URI 2 proxies mapping.
           Map<String, String> uri2ProxyMappings = new HashMap<String, String>();
-          String[] nss = nsContext.getNamespaces();
-          for (int i = 0; i < nss.length; i++) {
-            uri2ProxyMappings.put(nss[i], nsContext.getPrefixForNamespace(nss[i]));
+          // Get the namespace context.
+          NamespaceContext nsContext = nodes[0].getNamespaceContext();
+          if(nsContext != null) {
+            String[] nss = nsContext.getNamespaces();
+            for (int i = 0; i < nss.length; i++) {
+              uri2ProxyMappings.put(nss[i], nsContext.getPrefixForNamespace(nss[i]));
+            }
           }
           
           String emptyNS4EmptyPrefix = uri2ProxyMappings.get("");
@@ -173,6 +177,7 @@ public abstract class EditImageMapOperation implements AuthorOperation {
             documentController.beginCompoundEdit();
             try {
               for (int i = 0; i < nodes.length; i++) {
+                //Delete the old node and insert the new one.
                 int startOffset = nodes[i].getStartOffset();
                 documentController.delete(startOffset, nodes[i].getEndOffset());
                 AuthorDocumentFragment toInsertFrag = 
@@ -207,6 +212,17 @@ public abstract class EditImageMapOperation implements AuthorOperation {
         // Capitalize the original message.
         if (originalMessage.length() > 1) {
           message.append(Character.toUpperCase(originalMessage.charAt(0))).append(originalMessage, 1, originalMessage.length());
+        } 
+      } else {
+    	 //EXM-42956 Avoid presenting exception with no message.
+        Throwable linkedException = e.getLinkedException();
+        if(linkedException != null) {
+          message.append(linkedException.getMessage());
+        } else {
+          Throwable cause = e.getCause();
+          if(cause != null) {
+            message.append(cause.getMessage());
+          }
         }
       }
       throw new AuthorOperationException(message.toString(), e);

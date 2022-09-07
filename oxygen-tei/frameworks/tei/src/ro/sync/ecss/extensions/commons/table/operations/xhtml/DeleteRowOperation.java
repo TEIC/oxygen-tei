@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.webapp.WebappRestSafe;
 import ro.sync.ecss.extensions.commons.table.operations.DeleteRowOperationBase;
 import ro.sync.ecss.extensions.commons.table.operations.SplitCellAboveBelowOperationBase;
 
@@ -62,6 +63,7 @@ import ro.sync.ecss.extensions.commons.table.operations.SplitCellAboveBelowOpera
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
+@WebappRestSafe
 public class DeleteRowOperation extends DeleteRowOperationBase implements XHTMLConstants {
   
   /**

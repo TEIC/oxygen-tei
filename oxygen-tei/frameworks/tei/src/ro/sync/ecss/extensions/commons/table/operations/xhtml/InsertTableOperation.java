@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -131,12 +131,7 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-    throws IllegalArgumentException, AuthorOperationException {
-    Object tableInfoObj = args.getArgumentValue(
-        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
-    TableInfo tableInfo = tableInfoObj != null ? 
-        new TableInfo((Map<String, Object>) tableInfoObj) : null; 
-      
+    throws AuthorOperationException {
     AuthorDocumentFragment[] fragments = null;
     List<Map<String, String>> attributes = null;
     // Check the selected content fragments to be converted to cell fragments.
@@ -153,6 +148,13 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         attributes.add(currentFrag.getAttributes());
       }
     }
+
+    Object tableInfoObj = args.getArgumentValue(
+        AbstractTableOperation.TABLE_INFO_ARGUMENT_NAME);
+    int minRows = fragments != null ? fragments.length : 0;
+    TableInfo tableInfo = tableInfoObj != null ? 
+        new TableInfo((Map<String, Object>) tableInfoObj, minRows) : null; 
+      
     // Insert table
     insertTable(
         fragments, attributes,
@@ -190,10 +192,10 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
         columnsCount = 1;
       }
       Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-      if (Platform.STANDALONE.equals(platform)) {
+      if (Platform.STANDALONE == platform) {
         //SWING
         tableInfo = SAXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
-      } else if (Platform.ECLIPSE.equals(platform)) {
+      } else if (Platform.ECLIPSE == platform) {
         //SWT
         tableInfo = ECXHTMLTableCustomizerInvoker.getInstance().customizeTable(authorAccess, rowsCount, columnsCount);
       }
@@ -392,12 +394,12 @@ public class InsertTableOperation implements AuthorOperation, InsertTableOperati
     // Add table header.
     addTableHeader(tableXMLFragment, tableInfo);
 
-    // Add table footer.
-    addTableFooter(tableXMLFragment, tableInfo);
-
     // Add table body.
     addTableBody(tableXMLFragment, tableInfo, fragments, rowAttributes, cellsFragments, authorAccess, tableHelper, namespace);
 
+    // Add table footer.
+    addTableFooter(tableXMLFragment, tableInfo);
+    
     tableXMLFragment.append("</table>");
     
     return tableXMLFragment;

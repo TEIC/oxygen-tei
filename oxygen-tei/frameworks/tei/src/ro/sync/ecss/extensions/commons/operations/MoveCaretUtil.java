@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,8 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -74,12 +75,22 @@ import ro.sync.util.editorvars.EditorVariables;
  * Utility to detect an editor variable in the Author page and move the caret to that place.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class MoveCaretUtil {
+public final class MoveCaretUtil {
+  
+  /**
+   * Private constructor.
+   * 
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private MoveCaretUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
   
   /**
    * Logger for logging. 
    */
-  private static final Logger logger = Logger.getLogger(MoveCaretUtil.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(MoveCaretUtil.class.getName());
 
   /**
    * Check if the imposed editor variable caret offset can be found in the XML fragment.
@@ -156,23 +167,25 @@ public class MoveCaretUtil {
    * Detects an unique caret marker processing instruction.
    * 
    * @param node The current node.
-   *
+   * 
    * @throws BadLocationException 
    */
   private static AuthorNode detectCaretPI(AuthorNode node) throws BadLocationException {
+    AuthorNode toRet = null;
     if (node.getType() == AuthorNode.NODE_TYPE_PI
         && node.getTextContent().equals(EditorVariables.UNIQUE_CARET_MARKER_PI_NAME_FOR_AUTHOR)) {
-      return node;
+      toRet = node;
     }
     if (node instanceof AuthorParentNode) {
       List<AuthorNode> contentNodes = ((AuthorParentNode)node).getContentNodes();
       for (Iterator<AuthorNode> iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode detectPI = detectCaretPI(iterator.next());
         if (detectPI != null) {
-          return detectPI;
+          toRet = detectPI;
+          break;
         }
       }
     }
-    return null;
+    return toRet;
   }
 }

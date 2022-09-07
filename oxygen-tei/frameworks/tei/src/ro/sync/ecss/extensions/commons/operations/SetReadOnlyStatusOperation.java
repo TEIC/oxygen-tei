@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class SetReadOnlyStatusOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     boolean shouldMakeReadOnly = AuthorConstants.ARG_VALUE_TRUE.equals(
         "" + args.getArgumentValue(ARGUMENT_READ_ONLY));
     String reason = (String) args.getArgumentValue(ARGUMENT_READ_ONLY_REASON);

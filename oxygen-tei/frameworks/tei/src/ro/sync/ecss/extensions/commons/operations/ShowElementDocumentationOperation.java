@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class ShowElementDocumentationOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     String argVal = (String)args.getArgumentValue(ARGUMENT_NAME);
     int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
     try {

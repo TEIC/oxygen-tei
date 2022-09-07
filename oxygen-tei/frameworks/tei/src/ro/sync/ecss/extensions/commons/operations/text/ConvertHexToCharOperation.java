@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -51,11 +51,14 @@
 package ro.sync.ecss.extensions.commons.operations.text;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -83,7 +86,7 @@ public abstract class ConvertHexToCharOperation implements AuthorOperation {
    * Logger for logging. 
    */
   @SuppressWarnings("unused")
-  private static final Logger logger = Logger.getLogger(ConvertHexToCharOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(ConvertHexToCharOperation.class.getName());
   
   /**
    * Max number of hexadecimal digits to convert to a single Unicode character.
@@ -95,7 +98,7 @@ public abstract class ConvertHexToCharOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     // Flag indicating whether the selected sequence of presumed hex characters is valid or not
     boolean validSelection = true;
     // Caret position adjustment in case of a sequence preceded by hexadecimal prefix 
@@ -213,7 +216,7 @@ public abstract class ConvertHexToCharOperation implements AuthorOperation {
             hexToConvert = hexToConvert.substring(length - MAX_NUMBER_OF_HEX_DIGITS_TO_CONVERT);
           }
         }
-        idx = hexToConvert.lastIndexOf("x");
+        idx = hexToConvert.lastIndexOf('x');
         if (idx != -1) {
           hexToConvert = hexToConvert.substring(idx + 1);
           startOffsetAdjustment = 0;
@@ -224,7 +227,7 @@ public abstract class ConvertHexToCharOperation implements AuthorOperation {
       len = hexToConvert.length();
       if (len > 1 && len <= MAX_NUMBER_OF_HEX_DIGITS_TO_CONVERT) {
         try {
-          int value = Integer.parseInt(hexToConvert, 16);
+          int value = NumberParserUtil.parseInt(hexToConvert, 16);
           // Replace the hex sequence of text with the equivalent character
           int startOffset = caretOffset - len - startOffsetAdjustment;
           controller.delete(startOffset, caretOffset - 1);

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -220,7 +220,7 @@ public abstract class JoinRowCellsOperationBase extends AbstractTableOperation {
         throw ex;
       }
     } catch (BadLocationException e) {
-      throw new AuthorOperationException("Operation failed: " + e.getMessage());
+      throw new AuthorOperationException("Operation failed: " + e.getMessage(), e);
     }
   }
   

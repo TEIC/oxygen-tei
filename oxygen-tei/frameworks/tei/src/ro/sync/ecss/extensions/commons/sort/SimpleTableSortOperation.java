@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,12 +55,17 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.common.CommonAccess;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorElementBaseInterface;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.ExtensionsBundle;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
@@ -69,7 +74,11 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 abstract public class SimpleTableSortOperation extends TableSortOperation {
-
+  /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTableSortOperation.class.getName());
+  
   /**
    * Get the table element whose rows will be sorted.
    * 
@@ -78,32 +87,36 @@ abstract public class SimpleTableSortOperation extends TableSortOperation {
    */
   @Override
   public AuthorElement getSortParent(int offset, AuthorAccess authorAccess) throws AuthorOperationException {
+    AuthorElement sortParent = null;
     if (authorAccess.getEditorAccess().hasSelection()) {
       AuthorNode selectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
       if (selectedNode != null && selectedNode.getType() == AuthorNode.NODE_TYPE_ELEMENT 
           && isTableElement((AuthorElement) selectedNode)) {
-        return (AuthorElement) selectedNode;
+        sortParent = (AuthorElement) selectedNode;
       }
     } 
 
-    try {
-      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
-      AuthorNode parentElement = nodeAtOffset;
-      while (parentElement.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
-        if (parentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          if (isTableElement((AuthorElement) parentElement)) {
-            // Found a table element
-            return (AuthorElement) parentElement;
+    if (sortParent == null) {
+      try {
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
+        AuthorNode parentElement = nodeAtOffset;
+        while (parentElement.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
+          if (parentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            if (isTableElement((AuthorElement) parentElement)) {
+              // Found a table element
+              sortParent = (AuthorElement) parentElement;
+              break;
+            }
           }
+          // Next parent 
+          parentElement = parentElement.getParent();
         }
-        // Next parent 
-        parentElement = parentElement.getParent();
+      } catch (BadLocationException e) {
+        throw new AuthorOperationException(e.getMessage(), e);
       }
-    } catch (BadLocationException e) {
-      throw new AuthorOperationException(e.getMessage(), e);
     }
 
-    return null;
+    return sortParent;
   }
 
   /**
@@ -131,6 +144,10 @@ abstract public class SimpleTableSortOperation extends TableSortOperation {
       values = new String[criterionInfo.length];
       // Row element ?
       AuthorElement authorParentNode = (AuthorElement)node;
+      ExtensionsBundle extensionsBundle = authorAccess.getEditorAccess().getExtensionsBundle();
+      if (extensionsBundle != null) {
+        authorParentNode = (AuthorElement) CommonAccess.getContentReferencedNode(extensionsBundle, authorParentNode);
+      }
       if (isRowElement(authorParentNode)) {
         List<AuthorNode> contentNodes = getNonIgnoredChildren(authorParentNode);
         int size = contentNodes.size();
@@ -302,7 +319,8 @@ abstract public class SimpleTableSortOperation extends TableSortOperation {
         }
       }
     } catch (BadLocationException e) {
-      // Do nothing 
+      // Do nothing
+      LOGGER.debug(e.getMessage(), e);
     }
     
     return isCaretInColumn;

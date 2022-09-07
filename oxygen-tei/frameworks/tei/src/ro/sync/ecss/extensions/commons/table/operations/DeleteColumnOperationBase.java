@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -139,7 +139,7 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
       AuthorTableAccess tableAccess = authorAccess.getTableAccess();
       
       AuthorDocumentController documentController = authorAccess.getDocumentController();
-      if (columnIntervals != null && columnIntervals.size() > 0) {
+      if (columnIntervals != null && !columnIntervals.isEmpty()) {
         ContentInterval firstInterval = columnIntervals.get(0);
         tableElem = getElementAncestor(
             documentController.getNodeAtOffset(firstInterval.getStartOffset()),
@@ -153,7 +153,6 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
         if (tableElem != null) {
           AuthorTableCellSpanProvider spanProvider = 
             tableHelper.getTableCellSpanProvider(tableElem);
-          Iterator<ContentInterval> selectionIterator = columnIntervals.iterator();
           int tableRowCount = tableAccess.getTableRowCount(tableElem);
           int tabelColumnCount = tableAccess.getTableNumberOfColumns(tableElem);
           List<AuthorElement> selectedCells = new ArrayList<AuthorElement>();
@@ -162,7 +161,7 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
               AuthorElement currentCell = tableAccess.getTableCellAt(i, j, tableElem);
               if (currentCell != null) {
                 // Iterate through selection intervals to determine if the current cell is selected
-                selectionIterator = columnIntervals.iterator();
+                Iterator<ContentInterval> selectionIterator = columnIntervals.iterator();
                 while (selectionIterator.hasNext()) {
                   ContentInterval selectionInterval = 
                     selectionIterator.next();
@@ -324,7 +323,7 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
             documentController.multipleDelete(tableElem, startOffsets, endOffsets);
           }
           
-          if(deletedColumnsIndices != null && deletedColumnsIndices.size() > 0) {
+          if(deletedColumnsIndices != null && !deletedColumnsIndices.isEmpty()) {
             // Update colspec for the deleted column (do not check if there is at least a cell deleted, because 
             // maybe we have deleted a column having no cell, but only cells that spans over)
             updateColspec(authorAccess, deletedColumnsIndices.get(deletedColumnsIndices.size() - 1));
@@ -401,7 +400,7 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
    * @param commonCols    the common columns computed until now.
    * @param spanIndices   the span indices of the current cell.
    */
-  private List<Integer> computeCommonCols(List<Integer> commonCols, int[] colSpanIndices) {
+  private static List<Integer> computeCommonCols(List<Integer> commonCols, int[] colSpanIndices) {
     List<Integer> aux = new ArrayList<Integer>();
     for (Integer col : commonCols) {
       if (col >= colSpanIndices[0] && col <= colSpanIndices[1]) {
@@ -440,7 +439,7 @@ public abstract class DeleteColumnOperationBase extends AbstractTableOperation {
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     List<ContentInterval> selectionIntervals = null;
     AuthorSelectionModel selectionModel = authorAccess.getEditorAccess().getAuthorSelectionModel();
     SelectionInterpretationMode mode = selectionModel.getSelectionInterpretationMode();

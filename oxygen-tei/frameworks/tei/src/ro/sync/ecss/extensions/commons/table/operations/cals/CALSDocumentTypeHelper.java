@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.cals;
 
+import java.util.List;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -58,8 +60,10 @@ import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
+import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.node.AuthorParentNode;
 import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpanSpec;
 import ro.sync.ecss.extensions.commons.table.support.CALSColSpec;
@@ -139,7 +143,7 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
    * @throws AuthorOperationException When the column span is not defined for the table cell. 
    * 
    */
-  private CALSColSpec getTableColSpec(AuthorTableCellSpanProvider tableSpanSupport, int colIndex)
+  private static CALSColSpec getTableColSpec(AuthorTableCellSpanProvider tableSpanSupport, int colIndex)
       throws AuthorOperationException {
     CALSColSpec colSpec = 
       ((CALSTableCellInfoProvider)tableSpanSupport).getColSpec(colIndex);
@@ -326,17 +330,19 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
    */
   @Override
   public AuthorNode getTableElementForDeletion(AuthorNode element) {
+    AuthorNode tableElement = null;
     if (isActuallyTableAndNotTgroup(element)) {
-      return element;
+      tableElement = element;
     } else {
       while (element.getParent() != null) {
         if (isActuallyTableAndNotTgroup(element.getParent())) {
-          return element.getParent();
+          tableElement = element.getParent();
+          break;
         }
       }
     }
     
-    return null;
+    return tableElement;
   }
   
   /**
@@ -355,5 +361,67 @@ public class CALSDocumentTypeHelper extends AbstractDocumentTypeHelper implement
       } 
     }
     return false;
+  }
+  
+  /**
+   * Limits the value of the "morerows" attribute from the given rows
+   * fragments according to the number of rows. Each fragment has inside it a single table row. 
+   * For example if we have 3 rows and 
+   * the first row contains a cell with 'morerows=5', we'll set 'morerows=2' on the cell. 
+   * 
+   * @param rowFragments The fragments of rows to be limited.
+   */
+  public void limitRowSpan(AuthorDocumentFragment[] rowFragments) {
+    int nuOfRows = rowFragments.length;
+    for (int i = 0; i < nuOfRows; i++) {
+      AuthorDocumentFragment rowFragment = rowFragments[i];
+      int maxRowSpanValue = nuOfRows - (i + 1);
+      limitRowSpanInRowDocumentFragment(rowFragment, maxRowSpanValue);
+   }
+  }
+  
+  /**
+   *  Limits the value of the "morerows" attribute from the given row fragment containg a single table row.
+   *  
+   * @param fragment         Fragment that contains the row to be limited.
+   * @param maxRowSpanValue  The maximum value of the 'morerows' attribute.
+   */
+  private AuthorDocumentFragment limitRowSpanInRowDocumentFragment(
+      AuthorDocumentFragment fragment, int maxRowSpanValue){
+    List<AuthorNode> contentNodes = fragment.getContentNodes();
+    if(contentNodes != null && !contentNodes.isEmpty()) {
+      AuthorNode rowNode = contentNodes.get(0);
+      if(isTableRow(rowNode)) {
+        limitRowSpanInRowCells((AuthorParentNode)rowNode, maxRowSpanValue);
+      }
+    }
+    return fragment;
+  }
+
+  /**
+   *  Limits the value of the "morerows" attribute from the given row node.
+   *  
+   * @param rowNode          The row node to be limited.
+   * @param maxRowSpanValue  The maximum value of the 'morerows' attribute.
+   */
+  private static void limitRowSpanInRowCells(AuthorParentNode rowNode, int maxRowSpanValue) {
+    List<AuthorNode> cells = rowNode.getContentNodes();
+    CALSTableCellInfoProvider provider = new CALSTableCellInfoProvider();
+    for (AuthorNode cell : cells) {
+      if(cell instanceof AuthorElement) {
+        AuthorElement cellElement = (AuthorElement)cell;
+        Integer rowSpan = provider.getRowSpan(cellElement);
+        if(rowSpan != null) {
+          if(rowSpan > maxRowSpanValue) {
+            if(maxRowSpanValue > 0) {
+              cellElement.setAttribute(
+                  ATTRIBUTE_NAME_MOREROWS, new AttrValue(String.valueOf(maxRowSpanValue)));
+            } else {
+              cellElement.removeAttribute(ATTRIBUTE_NAME_MOREROWS);
+            }
+          }
+        }
+      }
+    }
   }
 }

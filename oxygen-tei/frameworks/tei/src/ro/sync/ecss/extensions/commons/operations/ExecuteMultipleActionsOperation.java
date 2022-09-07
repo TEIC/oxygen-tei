@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import ro.sync.annotations.api.API;
@@ -78,7 +80,7 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
   /**
    * Actions IDs argument name.
    */
-  private static final String ACTION_IDS = "actionIDs";
+  public static final String ACTION_IDS = "actionIDs";
 
   /**
    * Constructor.
@@ -107,9 +109,26 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
-    //Get the list of scenario names.
+      throws AuthorOperationException {
     Object actionIDs = args.getArgumentValue(ACTION_IDS);
+    List<Object> actions = getActions(authorAccess, actionIDs);
+    for (Object action : actions) {
+      authorAccess.getEditorAccess().getActionsProvider().invokeAction(action);
+    }
+  }
+
+  /**
+   * Get all the actions from this operation.
+   *
+   * @param authorAccess Author access.
+   * @param actionIDs Action ids.
+   * @return The list with all actions.
+   * 
+   * @throws IllegalArgumentException
+   * @throws AuthorOperationException
+   */
+  public List<Object> getActions(AuthorAccess authorAccess, Object actionIDs) throws AuthorOperationException {
+    List<Object> actions = new ArrayList<Object>();
     if (actionIDs != null) {
       //Split it.
       String ids = (String) actionIDs;
@@ -122,12 +141,11 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
           continue;
         }
         boolean actionFound = false;
-
         if (authorExtensionActions != null) {
           Object action = authorExtensionActions.get(id);
           if (action != null) {
             actionFound = true;
-            authorAccess.getEditorAccess().getActionsProvider().invokeAction(action);
+            actions.add(action);
           }
         }
 
@@ -135,7 +153,7 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
           Object action = authorCommonActions.get(id);
           if (action != null) {
             actionFound = true;
-            authorAccess.getEditorAccess().getActionsProvider().invokeAction(action);
+            actions.add(action);
           }
         }
 
@@ -146,7 +164,10 @@ public class ExecuteMultipleActionsOperation implements AuthorOperation {
     } else {
       throw new AuthorOperationException("The actions IDs were not specified as a parameter.");
     }
+    
+    return actions;
   }
+  
 
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()

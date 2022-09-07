@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -119,14 +119,12 @@ public class RenameElementOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
-    // The new name of the elements which will be renamed
-    Object elementName = args.getArgumentValue(ARGUMENT_ELEMENT_NAME);
     // The XPath location.
     Object xpathLocation = args.getArgumentValue(ARGUMENT_ELEMENT_XPATH_LOCATION);
     
     AuthorNode[] nodesToRename = null;
     // Obtain all the elements which will be renamed
-    if (xpathLocation != null && xpathLocation instanceof String && ((String)xpathLocation).trim().length() > 0) {
+    if (xpathLocation instanceof String && !((String)xpathLocation).trim().isEmpty()) {
       nodesToRename =
         authorAccess.getDocumentController().findNodesByXPath(((String) xpathLocation).trim(), true, true, true);
       if (nodesToRename.length == 0) {
@@ -142,7 +140,8 @@ public class RenameElementOperation implements AuthorOperation {
         throw new AuthorOperationException("Cannot identify the current node", e);
       }
     }
-    
+    // The new name of the elements which will be renamed
+    Object elementName = args.getArgumentValue(ARGUMENT_ELEMENT_NAME);
     // Check if the given name is a string value
     if (elementName instanceof String) {
       // Rename every collected element

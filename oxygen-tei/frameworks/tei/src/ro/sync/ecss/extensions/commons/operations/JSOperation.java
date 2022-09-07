@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.mozilla.javascript.Function;
 
@@ -101,7 +102,7 @@ public class JSOperation implements AuthorOperation {
   /**
    * The JS script. The value is <code>script</code>.
    */
-  private String ARGUMENT_SCRIPT = "script";
+  private static final String ARGUMENT_SCRIPT = "script";
   
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
@@ -116,7 +117,7 @@ public class JSOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     Object scriptValue = args.getArgumentValue(ARGUMENT_SCRIPT);
 
     if (!(scriptValue instanceof String)) {
@@ -140,21 +141,11 @@ public class JSOperation implements AuthorOperation {
       
       //Also evaluate a common script in a common location
       URL commonScriptURL = new URL(new URL(baseLocation), "commons.js");
-      InputStream commonIS = null;
-      try {
-        commonIS = commonScriptURL.openStream();
-        cx.evaluateReader(globalScope, new InputStreamReader(commonIS, "UTF8"), commonScriptURL.toExternalForm(), 1, null);
+      try (InputStream commonIS = commonScriptURL.openStream()) {
+        cx.evaluateReader(globalScope, new InputStreamReader(commonIS, StandardCharsets.UTF_8), commonScriptURL.toExternalForm(), 1, null);
       } catch (IOException e) {
         //Ignore
-      } finally{
-        if(commonIS != null){
-          try {
-            commonIS.close();
-          } catch (IOException e) {
-            //Ignore
-          }
-        }
-      }
+      } 
       //The current script UTL
       URL dummyScriptURL = new URL(new URL(baseLocation), "currentScript.js");
       // Now evaluate the string we've collected. We'll ignore the result.

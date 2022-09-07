@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -52,9 +52,9 @@ package ro.sync.ecss.extensions.commons.operations.text;
 
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Segment;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -86,7 +86,7 @@ public class CountWordsOperation implements AuthorOperation {
   /**
    * Logger for logging. 
    */
-  private static final Logger logger = Logger.getLogger(CountWordsOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(CountWordsOperation.class.getName());
   
   /**
    * Used to compute the number of words in the text.
@@ -102,8 +102,7 @@ public class CountWordsOperation implements AuthorOperation {
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     
     // Load messages.
     AuthorResourceBundle authorResourceBundle = authorAccess.getAuthorResourceBundle();
@@ -197,12 +196,10 @@ public class CountWordsOperation implements AuthorOperation {
             }
           }
           // We must check if the text of the current node is part of a larger word
-          if (startsWithCharacter) {
-            if (!firstIteration) {
-              if (!isWordStart(authorAccess, textContext.getTextStartOffset())) {
-                currentTextWordCount--;
-              }
-            }
+          if (startsWithCharacter 
+              && !firstIteration
+              && !isWordStart(authorAccess, textContext.getTextStartOffset())) {
+            currentTextWordCount--;
           }
           if (currentEditableState == TextContext.EDITABLE) {
             charCount += currentTextCharCount;
@@ -337,18 +334,17 @@ public class CountWordsOperation implements AuthorOperation {
    * @throws BadLocationException
    * @throws AuthorOperationException
    */
-  private boolean isWordStart(AuthorAccess authorAccess, int contentOffset) {
+  private static boolean isWordStart(AuthorAccess authorAccess, int contentOffset) {
     AuthorDocumentController documentController = authorAccess.getDocumentController();
 
     boolean toRet = false;
 
     try {
-      Segment seg = new Segment();
+      CharSequence contentCharSequence = documentController.getContentCharSequence();
       contentOffset --;
       while (contentOffset > 1) {
         // Read one char
-        documentController.getChars(contentOffset, 1, seg);
-        char ch = seg.array[seg.offset];      
+        char ch = contentCharSequence.charAt(contentOffset);
         if (ch == '\0') {
           // Sentinel character
           OffsetInformation contentInformationAtOffset =

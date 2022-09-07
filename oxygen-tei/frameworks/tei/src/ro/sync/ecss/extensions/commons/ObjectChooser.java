@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,9 @@ import java.net.URL;
 
 import javax.swing.text.BadLocationException;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -69,6 +72,11 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class ObjectChooser {
+
+  /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ObjectChooser.class.getName());
 
   /**
    * All the allowed extensions for an image.
@@ -89,16 +97,7 @@ public abstract class ObjectChooser {
     String filePath;
     AuthorUtilAccess util = authorAccess.getUtilAccess();
     try {
-      URL baseURL = authorAccess.getEditorAccess().getEditorLocation();
-      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-      try {
-        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
-        if(nodeAtOffset != null) {
-          //EXM-28217 Prefer to compute relative locations based on the XML base URL.
-          baseURL = nodeAtOffset.getXMLBaseURL();
-        }
-      } catch (BadLocationException e) {
-      }
+      URL baseURL = getBaseURL(authorAccess);
       filePath = authorAccess.getXMLUtilAccess().escapeAttributeValue(
           util.makeRelative(
               baseURL, 
@@ -111,4 +110,24 @@ public abstract class ObjectChooser {
     return filePath;
   }
 
+  /**
+   * Get the base URL
+   * @param authorAccess The author access of the XML document.
+   * 
+   * @return The base URL
+   */
+  private static URL getBaseURL(AuthorAccess authorAccess) {
+    URL baseURL = authorAccess.getEditorAccess().getEditorLocation();
+    int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+    try {
+      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(caretOffset);
+      if(nodeAtOffset != null) {
+        //EXM-28217 Prefer to compute relative locations based on the XML base URL.
+        baseURL = nodeAtOffset.getXMLBaseURL();
+      }
+    } catch (BadLocationException e) {
+      LOGGER.debug(e.getMessage(), e);
+    }
+    return baseURL;
+  }
 }

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,11 +56,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -142,7 +145,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
   /**
   * Logger for logging. 
   */
-  private static Logger logger = Logger.getLogger(HTMLTableCellInfoProvider.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(HTMLTableCellInfoProvider.class.getName());
   
   /**
    * The list with the {@link WidthRepresentation} for the table columns.
@@ -171,7 +174,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AttrValue attrValue = cellElement.getAttribute("colspan");
     if (attrValue != null) {
       try {
-        int value = Integer.parseInt(attrValue.getValue());
+        int value = NumberParserUtil.parseInt(attrValue.getValue());
         colspan = Integer.valueOf(Math.max(value, 1));
       } catch(NumberFormatException nfe) {
         // Not a number.
@@ -196,7 +199,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
     AttrValue attrValue = cellElement.getAttribute("rowspan");
     if (attrValue != null) {
       try {
-        int value = Integer.parseInt(attrValue.getValue());
+        int value = NumberParserUtil.parseInt(attrValue.getValue());
         rowspan = Integer.valueOf(Math.max(value, 1));     
       } catch(NumberFormatException nfe) {
         // Not a number.
@@ -227,11 +230,9 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         int colgroupSpan = 1;
         if (attrValue != null) {
           try {
-            colgroupSpan = Integer.parseInt(attrValue.getValue());
+            colgroupSpan = NumberParserUtil.parseInt(attrValue.getValue());
           } catch (NumberFormatException e) {
-            if (logger.isDebugEnabled()) {
-              logger.debug(e, e);
-            } 
+            logger.debug(e, e);
             if (errorsListener != null) {
               errorsListener.add(child, tableElement, 
                   CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
@@ -286,11 +287,9 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
               int colSpan = 1;
               if (colSpanAttribute != null) {
                 try {
-                  colSpan = Integer.parseInt(colSpanAttribute.getValue());
+                  colSpan = NumberParserUtil.parseInt(colSpanAttribute.getValue());
                 } catch (NumberFormatException e) {
-                  if (logger.isDebugEnabled()) {
-                    logger.debug(e, e);
-                  } 
+                  logger.debug(e, e);
                   if (errorsListener != null) {
                     errorsListener.add(cgChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
                         ATTR_NAME_SPAN, colSpanAttribute.getValue());
@@ -342,11 +341,9 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           int colSpan = 1;
           if (colSpanAttribute != null) {
             try {
-              colSpan = Integer.parseInt(colSpanAttribute.getValue());
+              colSpan = NumberParserUtil.parseInt(colSpanAttribute.getValue());
             } catch (NumberFormatException e) {
-              if (logger.isDebugEnabled()) {
-                logger.debug(e, e);
-              } 
+              logger.debug(e, e);
               if (errorsListener != null) {
                 errorsListener.add(colChild, tableElement, CALSAndHTMLTableLayoutProblem.ATTRIBUTE_VALUE_NOT_INTEGER, 
                     ATTR_NAME_SPAN, colSpanAttribute.getValue());
@@ -372,7 +369,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @param localName The tag local name to search for.
    * @return The elements by local name or empty or null array.
    */
-  private AuthorElement[] getElementsByLocalName(AuthorElement element, String localName) {
+  private static AuthorElement[] getElementsByLocalName(AuthorElement element, String localName) {
     AuthorElement[] elems = null;
     //Maybe the table has all upper case elements
     if(element.getLocalName().equals(element.getLocalName().toUpperCase())) {
@@ -438,7 +435,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
           for (int j = 0; j < colChildren.length; j++) {
         	  // EXM-28950: Modify the width attribute.
             AuthorElement colChild = colChildren[j];
-            authorDocumentController.setAttribute(ATTR_NAME_WIDTH, new AttrValue(colWidths[colWidthsIdx ++].getWidthRepresentation()), colChild);
+            int newColWidthsIdxVal = colWidthsIdx ++;
+            if (newColWidthsIdxVal < colWidths.length) {
+              WidthRepresentation widthRepresentation = colWidths[newColWidthsIdxVal];
+              authorDocumentController.setAttribute(ATTR_NAME_WIDTH, new AttrValue(widthRepresentation.getWidthRepresentation()), colChild);
+            }
           }
         }
       } else {
@@ -454,13 +455,13 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
         }
       }
 
-      if (!colsModifiedInDoc && colWidths != null && authorDocumentController != null && tableElement != null) {
+      if (!colsModifiedInDoc && colWidths != null && authorDocumentController != null) {
         // Fallback creates the XML fragment representing the column specifications. 
-        String xmlFragment = createXMLFragment(colWidths);
         int offset = getInsertColsOffset();
         if (offset == -1) {
           throw new AuthorOperationException("No valid offset to insert the columns width specification.");
         }
+        String xmlFragment = createXMLFragment(colWidths);
         authorDocumentController.insertXMLFragment(xmlFragment, offset);
       }
     }
@@ -501,11 +502,11 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * Creates the XML fragment representing the column specifications.
    * The fragment will contain a list of <code>col</code> elements, one for each 
    * column specification:
-   * <br/>
+* <br>
    * <code>
    * &lt;col with="string_width_specification" xmlns="namespace"/>
    * </code>
-   * <br/>
+* <br>
    * The xmlns attributes will be included in the <code>col</code> elements only
    * if the table has an associated namespace. 
    * 
@@ -514,7 +515,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @return The XML fragment as a string.
    */
   private String createXMLFragment(WidthRepresentation[] widthRepresentations) {
-    StringBuffer fragment = new StringBuffer();
+    StringBuilder fragment = new StringBuilder();
     String ns = tableElement.getNamespace();
     for (int i = 0; i < widthRepresentations.length; i++) {
       WidthRepresentation width = widthRepresentations[i];
@@ -535,7 +536,8 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
    */
   @Override
-  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
+  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) 
+      throws AuthorOperationException {
     if (isHTMLTableCellTagName(tableCellsTagName)) {
       if (newTableWidth > 0 && authorDocumentController != null) {
         if (tableElement != null) {
@@ -640,11 +642,7 @@ public class HTMLTableCellInfoProvider extends AuthorTableColumnWidthProviderBas
    */
   @Override
   public List<WidthRepresentation> getAllColspecWidthRepresentations() {
-    if(colWidthSpecs.size() > 0) {
-      return colWidthSpecs;
-    } else {
-      return null;
-    }
+    return colWidthSpecs.isEmpty() ? null : colWidthSpecs;
   }
   
   /**

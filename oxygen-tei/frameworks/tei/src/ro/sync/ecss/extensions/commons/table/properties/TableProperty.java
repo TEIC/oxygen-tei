@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -149,7 +149,8 @@ public class TableProperty {
    * @param isActive              <code>true</code> if the combobox corresponding to the current property is enabled,
    *                              <code>false</code> otherwise.
    */
-  public TableProperty(String propertyName, String propertyRenderString, List<String> propertyValues, String currentValue, boolean isAttribute, boolean isActive) {
+  public TableProperty(String propertyName, String propertyRenderString, List<String> propertyValues,
+      String currentValue, boolean isAttribute, boolean isActive) {
     this(propertyName, propertyRenderString, propertyValues, currentValue, null, null, null, isAttribute, isActive);
   }
   
@@ -171,7 +172,8 @@ public class TableProperty {
    * @param isActive              <code>true</code> if the combobox corresponding to the current property is enabled,
    *                              <code>false</code> otherwise.
    */
-  public TableProperty(String propertyName, String propertyRenderString, List<String> propertyValues, String currentValue, String parentGroup, GuiElements guiType, Map<String, String> icons, boolean isAttribute, boolean isActive) {
+  public TableProperty(String propertyName, String propertyRenderString, List<String> propertyValues,
+      String currentValue, String parentGroup, GuiElements guiType, Map<String, String> icons, boolean isAttribute, boolean isActive) {
     this.propertyName = propertyName;
     this.propertyRenderString = propertyRenderString;
     values = propertyValues; 
@@ -267,7 +269,7 @@ public class TableProperty {
   public boolean equals(Object obj) {
     boolean equals = false;
 
-    if (obj instanceof TableProperty) {
+    if (obj != null && this.getClass() == obj.getClass()) {
       TableProperty prop = (TableProperty) obj;
 
       // Check the possible values
@@ -283,17 +285,17 @@ public class TableProperty {
 
       // Check the current value
       boolean currentValueEquals =
-          currentValue == null && prop.getCurrentValue() == null || 
-          currentValue != null && currentValue.equals(prop.getCurrentValue());
+          (currentValue == null && prop.getCurrentValue() == null) 
+          || (currentValue != null && currentValue.equals(prop.getCurrentValue()));
       // Check the property name    
       boolean nameEquals = 
-          propertyName == null && prop.getAttributeRenderString() == null ||
-          propertyName != null && propertyName.equals(prop.getAttributeName());
+          (propertyName == null && prop.getAttributeRenderString() == null) 
+          || (propertyName != null && propertyName.equals(prop.getAttributeName()));
 
       // Check the render string
       boolean renderStrEquals = 
-          propertyRenderString == null && prop.getAttributeRenderString() == null ||
-          propertyRenderString != null && propertyRenderString.equals(prop.getAttributeRenderString());
+          (propertyRenderString == null && prop.getAttributeRenderString() == null) 
+          || (propertyRenderString != null && propertyRenderString.equals(prop.getAttributeRenderString()));
 
       equals = 
           nameEquals && 

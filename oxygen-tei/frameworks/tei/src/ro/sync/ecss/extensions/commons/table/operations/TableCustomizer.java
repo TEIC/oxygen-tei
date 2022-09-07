@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,8 @@ import java.io.ObjectOutputStream;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -76,7 +77,7 @@ public abstract class TableCustomizer {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TableCustomizer.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TableCustomizer.class.getName());
   
   /**
    * The key for storing the table customizer options.
@@ -220,18 +221,16 @@ public abstract class TableCustomizer {
    * 
    * @param tableCustomizerOptions the options serialization to be deserialized.
    */
-  private TableInfo getTableInfoObject(String tableCustomizerOptions) {
-    TableInfo tableInfo = null;
+  private static TableInfo getTableInfoObject(String tableCustomizerOptions) {
+    TableInfo tableInfoToRet = null;
     
     if (tableCustomizerOptions != null) {
       ObjectInputStream objectInputStream = null;
       try {
         byte [] data = DatatypeConverter.parseBase64Binary(tableCustomizerOptions);
         objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data));
-        tableInfo = (TableInfo) objectInputStream.readObject();
-      } catch (IOException e) {
-        logger.error(e.getMessage(), e);
-      } catch (ClassNotFoundException e) {
+        tableInfoToRet = (TableInfo) objectInputStream.readObject();
+      } catch (IOException | ClassNotFoundException e) {
         logger.error(e.getMessage(), e);
       } finally {
         // Make sure we try to close the stream
@@ -245,7 +244,7 @@ public abstract class TableCustomizer {
       }
     }
     
-    return tableInfo;
+    return tableInfoToRet;
   }
 
   /**

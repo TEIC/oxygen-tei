@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,11 +61,14 @@ import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -81,6 +83,7 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.webapp.WebappRestSafe;
 import ro.sync.exml.workspace.api.Platform;
 
 /**
@@ -89,12 +92,13 @@ import ro.sync.exml.workspace.api.Platform;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible(false)
+@WebappRestSafe
 public abstract class SplitOperationBase extends AbstractTableOperation {
   
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(SplitOperationBase.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(SplitOperationBase.class.getName());
   /**
    * Constructor.
    * 
@@ -110,7 +114,7 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
    * @see ro.sync.ecss.extensions.commons.table.operations.AbstractTableOperation#doOperationInternal(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args) throws IllegalArgumentException, AuthorOperationException {
+  protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     try {
       AuthorElement cell = null;
       
@@ -130,9 +134,6 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
       }
       
       if (cell != null) {
-        // Get the table parent
-        AuthorElement tableElem = getElementAncestor(cell, AuthorTableHelper.TYPE_TABLE);
-
         // Check row spans and col spans
         AuthorTableAccess tableAccess = authorAccess.getTableAccess();
         int[] tableRowSpanIndices = tableAccess.getTableRowSpanIndices(cell);
@@ -154,28 +155,27 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
         int colSpan = hasInitialSpan ? initialColSpan : 20;
 
         int[] result = null;
-        if ((rowSpan == 2 && colSpan == 1) || (rowSpan == 1 && colSpan == 2)) {
+        int[] imposedSplitInfo = getSplitInfoFromArguments(args);
+        if (imposedSplitInfo != null) {
+          // Check if the rows count and columns count are imposed from arguments
+          result = new int[] {imposedSplitInfo[0], imposedSplitInfo[1]};
+        } else if ((rowSpan == 2 && colSpan == 1) || (rowSpan == 1 && colSpan == 2)) {
           result = new int[] {colSpan, rowSpan};
         } else {
           // Determine the platform
           Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
           // Show the dialog
-          if (Platform.STANDALONE.equals(platform)) {
+          if (Platform.STANDALONE == platform) {
             SATableSplitCustomizerDialog saSplitDialog = new SATableSplitCustomizerDialog(
                 (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
-                authorAccess.getAuthorResourceBundle(), colSpan, rowSpan){
-              /**
-               * @see ro.sync.exml.workspace.api.standalone.ui.OKCancelDialog#getHelpPageID()
-               */
+                authorAccess.getAuthorResourceBundle(), colSpan, rowSpan) {
               @Override
               public String getHelpPageID() {
                 return SplitOperationBase.this.getHelpPageID();
               }
             };
-            saSplitDialog.setLocationRelativeTo(
-                (Component) authorAccess.getWorkspaceAccess().getParentFrame());
             result = saSplitDialog.getSplitInformation();
-          } else if (Platform.ECLIPSE.equals(platform)) {
+          } else if (Platform.ECLIPSE == platform) {
             //Eclipse table customization
             ECTableSplitCustomizerDialog ecTablePropertiesCustomizer = new ECTableSplitCustomizerDialog(
                 authorAccess.getWorkspaceAccess().getParentFrame(), 
@@ -186,6 +186,8 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
 
         // Get the number of cells to insert
         if (result != null) {
+          // Get the table parent
+          AuthorElement tableElem = getElementAncestor(cell, AuthorTableHelper.TYPE_TABLE);
           int nrOfColumnsForSplit = result[0];
           int nrOfRowsForSplit = result[1];
 
@@ -261,6 +263,33 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
       throw new AuthorOperationException(
           "The operation cannot be performed due to: " + e.getMessage(), e);
     }
+  }
+
+  /**
+   * Get the split information imposed from arguments.
+   * 
+   * @param args The map of arguments.  
+   * @return An array containing the split row count and split column count values.
+   */
+  private static int[] getSplitInfoFromArguments(ArgumentsMap args) {
+    int[] imposedSplitInfo = null;
+    Object spltInfo = args.getArgumentValue("split_info");
+    if (spltInfo instanceof String) {
+      String splitInfoString = (String) spltInfo;
+      String[] split = splitInfoString.split(",");
+      if (split.length == 2) {
+        String rows = split[0].trim();
+        String cols = split[1].trim();
+        try {
+          imposedSplitInfo = new int[2];
+          imposedSplitInfo[0] = NumberParserUtil.valueOfInteger(rows);
+          imposedSplitInfo[1] = NumberParserUtil.valueOfInteger(cols);
+        } catch (NumberFormatException e) {
+          logger.error(e);
+        }
+      }
+    }
+    return imposedSplitInfo;
   }
 
   /**
@@ -438,7 +467,7 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
           }
         }
       } catch (AuthorOperationException e) {
-        AuthorOperationException splitEx = new AuthorOperationException("The split operation cannot be completed.");
+        AuthorOperationException splitEx = new AuthorOperationException("The split operation cannot be completed.", e);
         logger.error(e, e);
         splitEx.setOperationRejectedOnPurpose(e.isOperationRejectedOnPurpose());
         throw splitEx;
@@ -484,7 +513,6 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
     // Split cells
     AuthorElement firstSplitCellOnRow = cell;
     for (int i = 1; i <= nrOfRowsForSplit && firstSplitCellOnRow != null; i++) {
-      int currentColSpan = 0;
       int[] location = authorAccess.getTableAccess().getTableCellIndex(firstSplitCellOnRow);
       // i = 1 is current cell, we must not insert other cell
       if (i > 1) {
@@ -514,6 +542,7 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
       tableHelper.updateTableRowSpan(authorAccess, firstSplitCellOnRow, currentRowSpan);
 
       // Split this cell horizontally
+      int currentColSpan = 0;
       AuthorElement currentSplitCellOnColumn = firstSplitCellOnRow;
       for (int j = 1; j <= nrOfColumnsForSplit && currentSplitCellOnColumn != null; j++) {
         if (j > 1) {
@@ -546,7 +575,7 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
    * 
    * @return The new span which will be set to a cell inserted in the document.
    */
-  private int determineCurrentSpan(int currentSpan, int countForSplit, int initialSpan, int i) {
+  private static int determineCurrentSpan(int currentSpan, int countForSplit, int initialSpan, int i) {
     if (i == countForSplit) {
       currentSpan = initialSpan - (currentSpan * (countForSplit - 1)); 
     } else {
@@ -568,11 +597,17 @@ public abstract class SplitOperationBase extends AbstractTableOperation {
   }
 
   /**
-   * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
+   * @see ro.sync.ecss.extensions.commons.table.operations.SplitOperationBase#getArguments()
    */
   @Override
   public ArgumentDescriptor[] getArguments() {
-    return null;
+    return new ArgumentDescriptor[] {
+        new ArgumentDescriptor(
+            "split_info", 
+            ArgumentDescriptor.TYPE_JAVA_OBJECT, 
+            "",
+            "${ask('', generic, '2,2')}")
+    };
   }
   
   /**

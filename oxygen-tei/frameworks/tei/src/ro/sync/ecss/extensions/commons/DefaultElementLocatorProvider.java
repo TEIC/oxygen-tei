@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -76,7 +77,7 @@ public class DefaultElementLocatorProvider implements ElementLocatorProvider {
   /**
    * Logger for logging.
    */
-  private static Logger logger = Logger.getLogger(DefaultElementLocatorProvider.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(DefaultElementLocatorProvider.class.getName());
   
   /**
    * @see ro.sync.ecss.extensions.api.link.ElementLocatorProvider#getElementLocator(ro.sync.ecss.extensions.api.link.IDTypeVerifier, java.lang.String)

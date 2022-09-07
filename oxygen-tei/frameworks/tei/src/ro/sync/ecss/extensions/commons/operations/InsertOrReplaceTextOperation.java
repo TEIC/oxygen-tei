@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class InsertOrReplaceTextOperation implements AuthorOperation {
     try {
       Object argVal = args.getArgumentValue(ARGUMENT_NAME);
       // Test if argument is a String.
-      if (argVal != null && argVal instanceof String) {
+      if (argVal instanceof String) {
         // Replace operation.
         if (authorAccess.getEditorAccess().hasSelection()) {
           // Delete old selection.

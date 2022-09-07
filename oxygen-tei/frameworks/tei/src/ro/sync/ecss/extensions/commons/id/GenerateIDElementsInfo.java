@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -68,6 +69,7 @@ import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 import ro.sync.util.editorvars.EditorVariables;
 
@@ -80,7 +82,7 @@ public class GenerateIDElementsInfo {
   /**
    * The logger.
    */
-  private static final Logger logger = Logger.getLogger(GenerateIDElementsInfo.class);
+  private static final Logger logger = LoggerFactory.getLogger(GenerateIDElementsInfo.class);
   /**
    * The key from options
    */
@@ -129,7 +131,7 @@ public class GenerateIDElementsInfo {
   /**
    * The default pattern tooltip.
    */
-  public static String PATTERN_TOOLTIP = 
+  public static final String PATTERN_TOOLTIP = 
     EditorVariables.ID + " - " + GenerateIDElementsInfo.ID_PATTERN_DESCRIPTION + "; \n" + 
     EditorVariables.UUID + " - " + GenerateIDElementsInfo.UUID_PATTERN_DESCRIPTION + "; \n " +
     GenerateIDElementsInfo.LOCAL_NAME_PATTERN_MACRO + " - " + GenerateIDElementsInfo.LOCAL_NAME_PATTERN_DESCRIPTION;
@@ -173,7 +175,7 @@ public class GenerateIDElementsInfo {
   public GenerateIDElementsInfo(AuthorAccess authorAccess, GenerateIDElementsInfo defaultOptions) {
     //Read the Auto ID Elements Info from options.
     this(isAutoGenerateIDs(authorAccess, defaultOptions),
-        getIDGenerationPattern(authorAccess, defaultOptions),
+        getIdGenerationPattern(authorAccess, defaultOptions),
         getIDGenerationElements(authorAccess, defaultOptions),
         isFilterIDs(authorAccess, defaultOptions));
     
@@ -202,7 +204,7 @@ public class GenerateIDElementsInfo {
    * @param authorAccess The author access
    * @return The ID generation pattern
    */
-  private static String getIDGenerationPattern(AuthorAccess authorAccess, GenerateIDElementsInfo defaultOptions) {
+  private static String getIdGenerationPattern(AuthorAccess authorAccess, GenerateIDElementsInfo defaultOptions) {
     String idGenerationPattern = defaultOptions.getIdGenerationPattern();
 
     if (authorAccess != null) {
@@ -480,8 +482,10 @@ public class GenerateIDElementsInfo {
       //Try to detect them in the classpath resources
       URL optionsLoadURL = CommonsOperationsUtil.locateResourceInClasspath(authorAccess, proposedXMLResourceName);
       if (optionsLoadURL != null) {
-        XMLReader reader = authorAccess.getXMLUtilAccess().newNonValidatingXMLReader();
-        final List<String> elems = new ArrayList<String>();
+        AuthorXMLUtilAccess xmlUtilAccess = authorAccess.getXMLUtilAccess();
+        if (xmlUtilAccess != null) {
+          XMLReader reader = xmlUtilAccess.newNonValidatingXMLReader();
+        final List<String> elems = new ArrayList<>();
         //Content handler to gather information
         reader.setContentHandler(new ContentHandler() {
           private StringBuilder chars = new StringBuilder();
@@ -496,43 +500,53 @@ public class GenerateIDElementsInfo {
           }
           @Override
           public void startDocument() throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void skippedEntity(String name) throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void setDocumentLocator(Locator locator) {
-          }
+          // Do nothing  
+            }
           @Override
           public void processingInstruction(String target, String data) throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void endPrefixMapping(String prefix) throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void endElement(String uri, String localName, String qName) throws SAXException {
             //Gather information from the file.
-            if("autoGenerate".equals(localName)){
-              loaded.autoGenerateIds = "true".equals(chars.toString().trim());
-            } else if("idAttribute".equals(localName)){
+            if (localName != null) {
+                switch (localName) {
+              case "autoGenerate": 
+                    loaded.autoGenerateIds = "true".equals(chars.toString().trim());
+            break; case "idAttribute":
               loaded.attrQname = chars.toString().trim();
-            } else if("idPattern".equals(localName)){
+            break; case "idPattern":
               loaded.idGenerationPattern = chars.toString().trim();
-            } else if("removeIDsOnCopy".equals(localName)){
+            break; case "removeIDsOnCopy":
               loaded.removeIDsOnCopy = "true".equals(chars.toString().trim());
-            } else if("generateForElement".equals(localName)){
-              String elemPattern = chars.toString().trim();
-              elems.add(elemPattern);
+            break; case "generateForElement": 
+                    elems.add(chars.toString().trim());
+              break;
             }
-            //Reset it
+            }
+              //Reset it
             chars.setLength(0);
           }
           @Override
           public void endDocument() throws SAXException {
-          }
+          // Do nothing
+            }
           @Override
           public void characters(char[] ch, int start, int length) throws SAXException {
             chars.append(ch, start, length);
@@ -541,12 +555,11 @@ public class GenerateIDElementsInfo {
         try {
           reader.parse(optionsLoadURL.toString());
           loaded.elementsWithIDGeneration = elems.toArray(new String[0]);
-        } catch (IOException e) {
-          logger.error(e, e);
-        } catch (SAXException e) {
+        } catch (IOException | SAXException e) {
           logger.error(e, e);
         }
       }
+    }
     }
     return loaded;
   }

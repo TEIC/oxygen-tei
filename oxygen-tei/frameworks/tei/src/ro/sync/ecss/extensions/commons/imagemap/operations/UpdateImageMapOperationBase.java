@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,13 +50,19 @@
  */
 package ro.sync.ecss.extensions.commons.imagemap.operations;
 
-import java.io.StringReader;
+import static java.util.stream.Collectors.toList;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import java.util.Objects;
+import java.util.Optional;
 import javax.swing.text.BadLocationException;
-import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -70,18 +76,29 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
-import ro.sync.ecss.imagemap.Areas2SVGUtil;
-import ro.sync.ecss.imagemap.SupportedFrameworks;
-
 /**
  * Updates an image map with shape information from an SVG.
  * 
- * @author cristi_talau
- * @author mircea
+ * @since 25.0
+ * <br>
+ * <br>
+ * *********************************
+ * <br>
+ * EXPERIMENTAL - Subject to change
+ * <br>
+ * ********************************
+ * <br>
+ * <p>Please note that this API is not marked as final and it can change in one of the next versions of the application. If you have suggestions,
+ * comments about it, please let us know.</p>
  */
-@API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
+@API(type=APIType.EXTENDABLE, src=SourceType.PUBLIC)
 @WebappCompatible
 public abstract class UpdateImageMapOperationBase implements AuthorOperation {
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = LoggerFactory.getLogger(UpdateImageMapOperationBase.class.getName());
+  
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
@@ -113,7 +130,7 @@ public abstract class UpdateImageMapOperationBase implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     String svgText = (String) args.getArgumentValue(ARGUMENT_SHAPES);
     
     AuthorDocumentController controller = authorAccess.getDocumentController();
@@ -122,49 +139,131 @@ public abstract class UpdateImageMapOperationBase implements AuthorOperation {
     
     AuthorElement currentImageMap = getNodeToReplace(controller, editorAccess, caretOffset);
     if (currentImageMap != null) {
-      String imageMapXml = Areas2SVGUtil.fromSVG(svgText, getSupportedFramework());
+      List<? extends NewShapeDescriptor> newShapesList = getNewShapesList(svgText); controller.beginCompoundEdit();
+      try {
+        mergeImageMaps(controller, currentImageMap, newShapesList);
       
-      if (imageMapXml != null && !imageMapXml.trim().isEmpty()) {
-        try {
-          Document newMapDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-              new InputSource(new StringReader(imageMapXml)));
-          
-          controller.beginCompoundEdit();
-          try {
-            mergeImageMaps(controller, currentImageMap, newMapDOM);
-          } finally {
-            controller.endCompoundEdit();
-          }
-        } catch (Exception e) {
-          throw new AuthorOperationException("Cannot obtain the image map from internal model!", e);
-        }
-      } else {
-        throw new AuthorOperationException("Cannot obtain the image map from internal model!");
-      }
+      } catch (Exception e) { throw new AuthorOperationException("Cannot obtain the image map from internal model!", e);
+      } finally {
+        controller.endCompoundEdit(); }
     } else {
-      throw new AuthorOperationException("Could not identify Image Map!");
+        throw new AuthorOperationException("Could not identify Image Map!");
     }
   }
   
   /**
+   * Return the image map that contains the current element.
+   * 
+   * @param currentElement The current element.
+   * @return The image map element.
+   */
+  protected abstract AuthorElement getImageMapElement(AuthorElement currentElement);
+
+  
+  /**
+   * Return the list of new shapes descriptors.
+   * 
+   * @param svgText The SVG text.
+   * @return The list.
+   * 
+   * @throws AuthorOperationException If the conversion fails.
+   */
+  protected abstract List<? extends NewShapeDescriptor> getNewShapesList(String svgText) 
+      throws AuthorOperationException;
+  
+  /**
+   * Return the list of existing shapes starting from the existing Image Map.
+   * @param existingImageMap The existing Image Map.
+   * @return The array of elements that correspond to shapes.
+   */
+  protected abstract AuthorElement[] getExistingShapesList(AuthorElement existingImageMap);
+  
+  /**
    * Merge image maps.
    * 
-   * @param controller      The document controller.
-   * @param currentImageMap The original map element.
-   * @param newMapDOM       The new map fragment.
+   * @param controller       The document controller.
+   * @param currentImageMap  The original map element.
+   * @param newShapeElements The list of new shapes.
    * @throws AuthorOperationException
    */
-  protected abstract void mergeImageMaps(AuthorDocumentController controller,
-      AuthorElement currentImageMap, Document newMapDOM) 
-          throws AuthorOperationException;
+  private void mergeImageMaps(AuthorDocumentController controller,
+      AuthorElement currentImageMap, List<? extends NewShapeDescriptor> newShapeElements) throws AuthorOperationException {
+          // Get the shapes from the existing image map.
 
-  /**
-   * Get the supported framework.
+    Map<Integer, AuthorElement> shapeElements = getShapesMap(getExistingShapesList(currentImageMap));
+
+    ///////////
+    // STEP 1. Create the list of new shapes to be inserted in the old image map element.
+    ///////////
+
+    // Create the list of new shapes to be inserted.
+    List<String> newShapes = newShapeElements.stream()
+      .map(newShapeElement -> getXmlForNewShape(controller, shapeElements, newShapeElement))
+      .filter(Objects::nonNull)
+      .collect(toList());
+          
+          ///////////
+    // Step 2. Remove the existing shapes.
+    ///////////
+
+    // Save the insertion point for the new shapes.
+    int insertionPoint = currentImageMap.getEndOffset();
+          for (AuthorElement shapeElement : shapeElements.values()) {
+            // Keep the lowest index.
+      insertionPoint = Math.min(insertionPoint, shapeElement.getStartOffset()); // Delete the old node.
+      controller.deleteNode(shapeElement);
+          } ///////////
+    // Step 3. Add the new shapes.
+    ///////////
+    // Reverse the list.
+    Collections.reverse(newShapes);
+    // Insert the new shapes.
+    for (String xmlShape : newShapes) {
+            controller.insertXMLFragment(xmlShape, insertionPoint);
+          }
+        } /**
+   * Returns the XML serialization for the new shape. 
    * 
-   * @return  The supported framework.
+   * It tries to inherit some XML attributes (for example the links) from the current document.
+   *
+   * @param controller The document controller.
+   * @param shapeElements The shape elements in the current document.
+   * @param newShapeElement The new shape elements.
+   * @return The XML serialization for the new shape or null.
+   */ private String getXmlForNewShape(AuthorDocumentController controller,
+      Map<Integer, AuthorElement> shapeElements, NewShapeDescriptor newShapeElement) {
+          String newShapeXml; Optional<Integer> originalLayer = newShapeElement.getOriginalLayer();
+    if (originalLayer.isPresent()) {
+      try {
+        AuthorElement originalShape = shapeElements.get(originalLayer.get());
+        newShapeElement.mergeIntoOriginalShape(controller, originalShape);
+        
+        newShapeXml = controller.serializeFragmentToXML(controller.createDocumentFragment(originalShape, true));
+      } catch (BadLocationException e) {
+        logger.warn("Unable to merge shapes.", e); newShapeXml = newShapeElement.serializeToXml().orElse(null);
+      }
+    } else {
+      newShapeXml = newShapeElement.serializeToXml().orElse(null);
+    }
+  return newShapeXml;
+  }
+  
+  /**
+   * Get the shapes map.
+   * 
+   * @param imageMapElements The image map elements.
+   * @return  The list of shape elements.
    */
-  protected abstract SupportedFrameworks getSupportedFramework();
+  private static Map<Integer, AuthorElement> getShapesMap(AuthorElement[] imageMapElements) {
+    Map<Integer,
+      AuthorElement> map = new HashMap<>(); 
+          for (int i = 0; i < imageMapElements.length; i++) {
+      map.put(i, imageMapElements[i]);
 
+  }
+    return map;
+  }
+  
   /**
    * Returns the node to be replaced.
    * 
@@ -178,16 +277,16 @@ public abstract class UpdateImageMapOperationBase implements AuthorOperation {
    */
   private AuthorElement getNodeToReplace(AuthorDocumentController controller,
       AuthorEditorAccess editorAccess, int caretOffset) throws AuthorOperationException {
-    AuthorElement imageElement = (AuthorElement) editorAccess.getFullySelectedNode();
-    if (imageElement == null) {
+    AuthorElement currentElement = (AuthorElement) editorAccess.getFullySelectedNode();
+    if (currentElement == null) {
       try {
-        imageElement = (AuthorElement) controller.getNodeAtOffset(caretOffset);
+        currentElement = (AuthorElement) controller.getNodeAtOffset(caretOffset);
       } catch (BadLocationException e) {
         throw new AuthorOperationException(e.getMessage(), e);
       }
     }
     
-    return (AuthorElement) (imageElement == null ? null : imageElement.getParentElement());
+    return getImageMapElement(currentElement);
   }
 
   /**

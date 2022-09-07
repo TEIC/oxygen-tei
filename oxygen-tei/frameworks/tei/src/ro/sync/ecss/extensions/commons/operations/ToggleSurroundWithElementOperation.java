@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 import javax.swing.text.Segment;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -105,8 +106,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger =
-    Logger.getLogger(ToggleSurroundWithElementOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(ToggleSurroundWithElementOperation.class.getName());
   
   /**
    * The element argument.
@@ -225,7 +225,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
       } catch (Exception e) {
         logger.error(e, e);
         authorAccess.getDocumentController().cancelCompoundEdit();
-        throw new AuthorOperationException("The operation could not be executed."); 
+        throw new AuthorOperationException("The operation could not be executed.", e); 
       } finally {
         authorAccess.getDocumentController().endCompoundEdit();
       }
@@ -324,7 +324,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
       try {
         AuthorDocumentController documentController = authorAccess.getDocumentController();
         // If at least one interval must be wrapped we will wrap them all.
-        boolean masterSurround = false;
+        boolean mainSurround = false;
 
         if (logger.isDebugEnabled()) {
           logger.debug("All intervals are fully wrapped: " + allWrapped);
@@ -366,7 +366,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
               // If at least one unwrap call tells us that we should wrap we will wrap
               // all intervals. We either wrap or unwrap all. The ia.entireIntervalWrapped and allWrapped
               // flags should avoid such situation so this is just a precaution.
-              masterSurround = masterSurround || result.performSurround;
+              mainSurround = mainSurround || result.performSurround;
               
               // The interval that was processed by unwrap. It's either the initial interval or 
               // the one returned by unwrap.
@@ -375,7 +375,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
               action = IntervalAndAction.ACTION_SKIP;
             }
           } else {
-            masterSurround = true;
+            mainSurround = true;
           }
           
           toSurround.add(new Position[] {
@@ -402,7 +402,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
         List<ContentInterval> toSelect = null;
         AuthorSelectionModel authorSelectionModel = authorAccess.getEditorAccess().getAuthorSelectionModel();
         
-        if (masterSurround) {
+        if (mainSurround) {
           size = toSurround.size();
           if (size > 1) {
             // If we have just one interval there is no point in doing anything 
@@ -1324,7 +1324,7 @@ public class ToggleSurroundWithElementOperation implements AuthorOperation {
         }
       }
     } catch (BadLocationException e) {
-      throw new AuthorOperationException("The operation could not be executed.");
+      throw new AuthorOperationException("The operation could not be executed.", e);
     }
 
     return new UnwrapResult(unwrappedContent, processedInterval);

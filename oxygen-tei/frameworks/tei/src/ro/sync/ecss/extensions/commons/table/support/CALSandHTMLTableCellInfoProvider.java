@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -144,7 +144,7 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
   @Override
   public boolean hasColumnSpecifications(AuthorElement tableElement) {
     boolean hasCols = false;
-    if (CALSConstants.ELEMENT_NAME_TGROUP.equals(tableElement.getLocalName())) {
+    if (CALSConstants.ELEMENT_NAME_TGROUP.equalsIgnoreCase(tableElement.getLocalName())) {
       // This is a CALS table.
       hasCols = calsTableCellInfoProvider.hasColumnSpecifications(tableElement);
     } else {
@@ -179,7 +179,8 @@ public class CALSandHTMLTableCellInfoProvider extends AuthorTableColumnWidthProv
    * @see ro.sync.ecss.extensions.api.AuthorTableColumnWidthProvider#commitTableWidthModification(AuthorDocumentController, int, java.lang.String)
    */
   @Override
-  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName) throws AuthorOperationException {
+  public void commitTableWidthModification(AuthorDocumentController authorDocumentController, int newTableWidth, String tableCellsTagName)
+      throws AuthorOperationException {
     calsTableCellInfoProvider.commitTableWidthModification(
         authorDocumentController, newTableWidth, tableCellsTagName);
     htmlTableCellInfoProvider.commitTableWidthModification(

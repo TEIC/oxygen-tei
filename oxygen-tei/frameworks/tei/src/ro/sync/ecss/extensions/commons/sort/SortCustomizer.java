@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -72,5 +72,6 @@ public interface SortCustomizer {
    * 
    * @return The sort information, about criteria and the sort scope.
    */
-  SortCriteriaInformation getSortInformation(List<CriterionInformation> criteriaInformation, boolean hasSelectedSortableElements, boolean cannotSortAllElements);
+  SortCriteriaInformation getSortInformation(
+      List<CriterionInformation> criteriaInformation, boolean hasSelectedSortableElements, boolean cannotSortAllElements);
 }

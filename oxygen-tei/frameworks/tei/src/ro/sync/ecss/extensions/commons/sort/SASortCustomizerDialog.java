@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -80,17 +80,6 @@ import ro.sync.ecss.extensions.commons.ui.OKCancelDialog;
 @API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
 @SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class SASortCustomizerDialog extends OKCancelDialog implements SortCustomizer, KeysController {
-
-  /**
-   * Radio button used to enable the sorting of only the selected elements.
-   */
-  private JRadioButton sortSelectedElementsRadio;
-  
-  /**
-   * Radio button used to enable the sorting of all the children from a parent element.
-   */
-  private JRadioButton sortAllElementsRadio;
-  
   /**
    * The panel for the first sorting criterion.
    */
@@ -196,13 +185,13 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
     ButtonGroup radioGroup = new ButtonGroup();
 
     // Sort only the selected elements radio.
-    sortSelectedElementsRadio = new JRadioButton(selElems);
+    JRadioButton sortSelectedElementsRadio = new JRadioButton(selElems);
     radioGroup.add(sortSelectedElementsRadio);
     radioButtonsPanel.add(sortSelectedElementsRadio);
     sortSelectedElementsRadio.setSelected(true);
 
     // Sort all elements radio.
-    sortAllElementsRadio = new JRadioButton(allElems);
+    JRadioButton sortAllElementsRadio = new JRadioButton(allElems);
     radioGroup.add(sortAllElementsRadio);
     radioButtonsPanel.add(sortAllElementsRadio);
 
@@ -248,7 +237,7 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
     getContentPane().add(new JLabel(authorResourceBundle.getMessage(ExtensionTags.SORT_BY) + ":"), constr);
 
     // Determine the initially selected element for the first criterion.
-    CriterionInformation firstSel = criteriaInformation.size() > 0 ? criteriaInformation.get(0) : null;
+    CriterionInformation firstSel = criteriaInformation.isEmpty() ? null : criteriaInformation.get(0);
     for (int i = 0; i < criteriaInformation.size(); i++) {
       CriterionInformation criterionInformation = criteriaInformation.get(i);
       if (criterionInformation.isInitiallySelected()) {
@@ -301,7 +290,7 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
           }
         }
       }
-      if (secondSel == null && secondCriteria.size() > 0) {
+      if (secondSel == null && !secondCriteria.isEmpty()) {
         secondSel = secondCriteria.get(0);
       }
       
@@ -349,7 +338,7 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
         }
       }
       
-      if (thirdSel == null && thirdCriteria.size() > 0) {
+      if (thirdSel == null && !thirdCriteria.isEmpty()) {
         thirdSel = thirdCriteria.get(0);
       }
       
@@ -401,8 +390,8 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
       }
       
       // Create the descriptor for sort operation configuration.
-      sortInformation = new SortCriteriaInformation(info.toArray(new CriterionInformation[0]), 
-          sortSelectedElementsRadio != null && sortSelectedElementsRadio.isSelected());
+      sortInformation = new SortCriteriaInformation(
+          info.toArray(new CriterionInformation[0]), sortSelectedElementsRadio.isSelected());
     }
     
     return sortInformation;
@@ -432,7 +421,7 @@ public class SASortCustomizerDialog extends OKCancelDialog implements SortCustom
 
         secondCriterion.getKeyCombo().setSelectedItem(secondSel);
 
-        if (thirdCriterion != null && secondCriterion != null) {
+        if (thirdCriterion != null) {
           String thirdSel = (String) thirdCriterion.getKeyCombo().getSelectedItem();
           thirdCriterion.getKeyCombo().removeAllItems();
           // Add the other item to the second criterion

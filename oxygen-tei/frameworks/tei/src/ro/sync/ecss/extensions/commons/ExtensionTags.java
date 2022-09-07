@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,38 @@ import ro.sync.annotations.api.SourceType;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public interface ExtensionTags {
   /**
+   * Translated in main Oxygen translation.xml
+   * 
+   * en: Key reference
+   */
+  String KEY_REFERENCE = "Key_reference";
+  /**
+   * Part of message that inform the user that a View Mode cannot be enabled.
+   * 
+   * en: This mode is unavailable for documents with more than {$nr} references due to performance reasons.
+   */
+  String CANNOT_SHOW_VIEW_MODE_MSGA = "CANNOT_SHOW_VIEW_MODE_MSGA";
+  /**
+   * Part of message that inform the user that Reading Mode cannot be enabled.
+   * 
+   * en: The currently opened DITA map leads to {$nr} references
+   */
+  String CANNOT_SHOW_VIEW_MODE_MSGB = "CANNOT_SHOW_VIEW_MODE_MSGB";
+  /**
+   * Error message that appear when user invoke operation on a table when track changes is on. 
+   * 
+   * en: This operation cannot be executed on a table while change tracking is enabled. Deactivate change tracking and try again.
+   */
+  String TABLE_OPERATION_WHEN_TC_ERROR_MESSAGE = "Table_operation_when_tc_error_message";   
+  /**
+   * en: A valid insert position could not be found.
+   */
+  String NO_VALID_INSERT_POSITION_FOR_FRAG = "No_valid_insert_position_for_frag";
+  /**
+   * en: Replace All References with Content
+   */
+  String REPLACE_ALL_REFERENCES = "all.keyref.conref.replace";
+  /**
    * en: Cannot edit Image Map because it was deleted as a tracked change.
    */
   String CANNOT_EDIT_IMAGE_MAP_DELETE_CHANGE = "Cannot_edit_image_map_delete_change";
@@ -70,11 +102,11 @@ public interface ExtensionTags {
    */
   String KEY_NAME_NOT_FOUND = "Key_name_not_found";
   /**
-   * Error message shown when a user tries to insert a key reference from "DITA Reusable Components" view and the context down not allow an element with keyref.
+   * Warning message shown in author page when reference to DITA is invalid resource.
    * 
-   * en: The schema associated to the file does not allow a key reference here.
+   * en: Invalid DITA resource: {0}
    */
-  String SCHEMA_NOT_ALLOWS_KEYREF = "Schema_not_allows_keyref";
+  String INVALID_DITA_RESOURCE = "Invalid_dita_resource";
   /**
    * Memory total in About Dialog
    * 
@@ -669,4 +701,14 @@ public interface ExtensionTags {
    * en: Properties
    */
   String PROPERTIES = "Properties";
+  /**
+   * Unindent completion proposal
+   * 
+   * en: Unindent
+   */
+  String UNINDENT = "Unindent";
+  /**
+   * en: Unindent the current "{0}" element
+   */
+  String UNINDENT_CURRENT_ELEMENT = "Unindent_current_element";
 }

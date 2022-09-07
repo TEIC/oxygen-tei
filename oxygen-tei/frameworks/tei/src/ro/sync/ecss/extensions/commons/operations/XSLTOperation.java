@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,16 +50,20 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
+import java.net.URL;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 
+import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
+import ro.sync.exml.workspace.api.util.InternalTransformerAccess;
 
 /**
  * An implementation of an operation to apply an XSLT stylesheet on a element and replacing it with
@@ -74,15 +78,31 @@ public class XSLTOperation extends TransformOperation {
    * 
    * @param authorAccess The Author Access.
    * @param xslSrc The stylesheet source
+   * @param currentElementLocation The XPath location of the current element. 
+   * 
    * @return The transformer.
    * @throws TransformerConfigurationException
    */
   @Override
-  protected Transformer createTransformer(AuthorAccess authorAccess, Source xslSrc)
+  protected Transformer createTransformer(AuthorAccess authorAccess, Source xslSrc, ElementLocationPath currentElementLocation)
       throws TransformerConfigurationException {
     Transformer t;
-    t = authorAccess.getXMLUtilAccess().createXSLTTransformer(xslSrc, null, AuthorXMLUtilAccess.TRANSFORMER_SAXON_PROFESSIONAL_EDITION);
+    t = authorAccess.getXMLUtilAccess().createSaxon9XSLTTransformerWithExtensions(
+        xslSrc, 
+        new ExtensionFunctionDefinition[] { new GetCurrentElementSaxonExtension(currentElementLocation)}, 
+        InternalTransformerAccess.INTERNAL_TRANSFORMER_SAXON_PROFESSIONAL_EDITION);
     return t;
+  }
+
+  /**
+   * @see ro.sync.ecss.extensions.commons.operations.TransformOperation#createTransformer(ro.sync.ecss.extensions.api.AuthorAccess, javax.xml.transform.Source)
+   */
+  @Override
+  protected Transformer createTransformer(AuthorAccess authorAccess, Source scriptSrc)
+      throws TransformerConfigurationException {
+    // Never called - provided for backwards compatibility.
+    return authorAccess.getXMLUtilAccess().createXSLTTransformer(scriptSrc, new URL[0], 
+        InternalTransformerAccess.INTERNAL_TRANSFORMER_SAXON_PROFESSIONAL_EDITION);
   }
   
   /**

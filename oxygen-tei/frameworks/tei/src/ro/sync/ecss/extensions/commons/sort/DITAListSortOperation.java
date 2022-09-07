@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -85,8 +85,8 @@ public class DITAListSortOperation extends SortOperation {
   @Override
   public AuthorElement getSortParent(int offset, AuthorAccess authorAccess)
       throws AuthorOperationException {
+    AuthorElement sortParent = null;
     try {
-      
       if (authorAccess.getEditorAccess().hasSelection()) {
         // Check if the list is selected entirely.
         AuthorNode selectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
@@ -96,33 +96,36 @@ public class DITAListSortOperation extends SortOperation {
               classAttr.getValue().contains(" topic/ul ") ||
               classAttr.getValue().contains(" topic/sl ") ||
               classAttr.getValue().contains(" topic/dl "))) {
-          return (AuthorElement) selectedNode;
+            sortParent = (AuthorElement) selectedNode;
           }
         }
       }
       
-      // Check the node at offset, maybe it is a list or a child of the list.
-      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
-      AuthorNode parentElement = nodeAtOffset;
-      while (parentElement != null && parentElement.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
-        if (parentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          // Check if ul or ol
-          AttrValue classAttr = ((AuthorElement)parentElement).getAttribute("class");
-          if (classAttr != null && (classAttr.getValue().contains(" topic/ol ") || 
-              classAttr.getValue().contains(" topic/ul ") ||
-              classAttr.getValue().contains(" topic/sl ") ||
-              classAttr.getValue().contains(" topic/dl "))) {
-            return (AuthorElement) parentElement;
-          }
-        } 
-        parentElement = parentElement.getParent();
+      if (sortParent == null) {
+        // Check the node at offset, maybe it is a list or a child of the list.
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
+        AuthorNode parentElement = nodeAtOffset;
+        while (parentElement != null && parentElement.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
+          if (parentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            // Check if ul or ol
+            AttrValue classAttr = ((AuthorElement)parentElement).getAttribute("class");
+            if (classAttr != null && (classAttr.getValue().contains(" topic/ol ") || 
+                classAttr.getValue().contains(" topic/ul ") ||
+                classAttr.getValue().contains(" topic/sl ") ||
+                classAttr.getValue().contains(" topic/dl "))) {
+              sortParent = (AuthorElement) parentElement;
+              break;
+            }
+          } 
+          parentElement = parentElement.getParent();
+        }
       }
       
     } catch (BadLocationException e) {
       throw new AuthorOperationException(e.getMessage(), e);
     }
     
-    return null;
+    return sortParent;
   }
 
   /**
@@ -174,7 +177,7 @@ public class DITAListSortOperation extends SortOperation {
     List<CriterionInformation> criteria = new ArrayList<CriterionInformation>();
     List<AuthorNode> children = getNonIgnoredChildren(parent);
     // For non empty list a single criterion is available.
-    if (children.size() > 0) {
+    if (!children.isEmpty()) {
         criteria.add(new CriterionInformation(0, authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.LIST_ITEM)));
     }
     
@@ -184,6 +187,7 @@ public class DITAListSortOperation extends SortOperation {
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
    */
+  @Override
   protected String getHelpPageID() {
     return "sort-list-items";
   }

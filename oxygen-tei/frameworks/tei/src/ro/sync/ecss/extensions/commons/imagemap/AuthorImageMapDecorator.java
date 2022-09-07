@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,9 @@ import javax.xml.transform.TransformerFactory;
 
 import net.sf.saxon.TransformerFactoryImpl;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -87,7 +89,7 @@ public abstract class AuthorImageMapDecorator extends AuthorImageDecorator {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(AuthorImageMapDecorator.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(AuthorImageMapDecorator.class.getName());
   /**
    * The image map core functionality.
    */

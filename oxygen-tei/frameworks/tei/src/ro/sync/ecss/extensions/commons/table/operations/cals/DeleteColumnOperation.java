@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,8 @@ import java.util.List;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
@@ -124,7 +126,7 @@ public class DeleteColumnOperation extends DeleteColumnOperationBase implements 
             AttrValue colNumAttrVal = colSpecElem.getAttribute(ATTRIBUTE_NAME_COLNUM);
             if (colNumAttrVal != null && colNumAttrVal.getValue() != null) {
               try {
-                int colNum = Integer.parseInt(colNumAttrVal.getValue());
+                int colNum = NumberParserUtil.parseInt(colNumAttrVal.getValue());
                 // Decrease the "colnum".
                 authorAccess.getDocumentController().setAttribute(
                     ATTRIBUTE_NAME_COLNUM,

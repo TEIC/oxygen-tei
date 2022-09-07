@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,8 @@ package ro.sync.ecss.extensions.commons.operations;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -83,7 +84,7 @@ public class MoveElementOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(MoveElementOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(MoveElementOperation.class.getName());
   
   /**
    * An XPath expression that identifies the content to be moved.
@@ -119,6 +120,11 @@ public class MoveElementOperation implements AuthorOperation {
   private static final String ARGUMENT_PROCESS_CHANGE_MARKERS = "processTrackedChangesForXPathLocations";
   
   /**
+   * This parameter controls if the changes must be preserved in the moved content, regardless of the track changes state
+   */
+  private static final String ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_IN_MOVED_CONTENT = "alwaysPreserveTrackedChangesInMovedContent";
+  
+  /**
    * The arguments of the operation.
    */
   private ArgumentDescriptor[] arguments = null;
@@ -127,7 +133,7 @@ public class MoveElementOperation implements AuthorOperation {
    * Constructor. 
    */
   public MoveElementOperation() {
-    arguments = new ArgumentDescriptor[7];
+    arguments = new ArgumentDescriptor[8];
     
     ArgumentDescriptor argumentDescriptor = new ArgumentDescriptor(
         ARGUMENT_SOURCE_LOCATION,
@@ -205,6 +211,18 @@ public class MoveElementOperation implements AuthorOperation {
                 }, 
                 AuthorConstants.ARG_VALUE_FALSE);
     arguments[6] = argumentDescriptor;
+    
+    // Argument to control if the changes must always be preserved before the insert.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_IN_MOVED_CONTENT, 
+        ArgumentDescriptor.TYPE_CONSTANT_LIST,
+        "Always preserve track changes in the moved content, regardless of the track changes state",
+        new String[] {
+            AuthorConstants.ARG_VALUE_TRUE,
+            AuthorConstants.ARG_VALUE_FALSE
+        }, 
+        AuthorConstants.ARG_VALUE_FALSE);
+    arguments[7] = argumentDescriptor;
   }
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
@@ -220,14 +238,14 @@ public class MoveElementOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     // True if the moved node should be selected.
     boolean selectNode = false;
     String sourceLocation = (String) args.getArgumentValue(ARGUMENT_SOURCE_LOCATION);
     AuthorNode toMoveNode = null;
     boolean processTrackChanges = AuthorConstants.ARG_VALUE_TRUE.equals(
         args.getArgumentValue(ARGUMENT_PROCESS_CHANGE_MARKERS));
-    
+
     if (sourceLocation != null && sourceLocation.trim().length() > 0) {
       toMoveNode = executeLocationXPath(authorAccess, sourceLocation, processTrackChanges);
     } else {
@@ -263,99 +281,192 @@ public class MoveElementOperation implements AuthorOperation {
         logger.debug("To delete " + toDeleteNode);
       }
 
-      String targetLocationXPath = (String) args.getArgumentValue(ARGUMENT_TARGET_LOCATION);
-      if (targetLocationXPath != null) {
-        // Evaluate the expression and obtain the offset of the first node from the result
-        String relativePosition = (String) args.getArgumentValue(ARGUMENT_RELATIVE_LOCATION);
-        AuthorDocumentController ctrl = authorAccess.getDocumentController();
-        try {
-          ctrl.beginCompoundEdit();
+      moveNode(toMoveNode, toDeleteNode, selectNode, authorAccess, args);
+    }
+  }
+  
+  /**
+   * Move the element.
+   * 
+   * @param toMoveNode     The node to be moved.
+   * @param toDeleteNode   The node to be deleted
+   * @param selectNode  <code>true</code> if the node should be selected after the move operation
+   * @param authorAccess The author access.
+   * Provides access to specific informations and actions for 
+   * editor, document, workspace, tables, change tracking, utility a.s.o.
+   * @param args The map of arguments.
+   * 
+   * @throws AuthorOperationException
+   */
+  private static void moveNode(AuthorNode toMoveNode, AuthorNode toDeleteNode, boolean selectNode,
+      AuthorAccess authorAccess, ArgumentsMap args)
+      throws AuthorOperationException {
+    String targetLocationXPath = (String) args.getArgumentValue(ARGUMENT_TARGET_LOCATION);
+    if (targetLocationXPath != null) {
+      // Evaluate the expression and obtain the offset of the first node from the result
+      String relativePosition = (String) args.getArgumentValue(ARGUMENT_RELATIVE_LOCATION);
+      AuthorDocumentController ctrl = authorAccess.getDocumentController();
+      try {
+        ctrl.beginCompoundEdit();
 
-          // The fragment to move. Created before doing any document altering.
-          AuthorDocumentFragment fragmentToMove = null;
+        boolean moveOnlyContent = AuthorConstants.ARG_VALUE_TRUE.equals(
+            args.getArgumentValue(ARGUMENT_MOVE_ONLY_CONTENT));
+        boolean alwaysPreserveTrackedChanges = isAlwaysPreserveTrackChangesTrue(args);
+        selectNode = moveOnlyContent ? false : selectNode;
+        
+        // The fragment to move. Created before doing any document altering.
+        AuthorDocumentFragment fragmentToMove = getFragmentToMove(toMoveNode, ctrl, alwaysPreserveTrackedChanges, moveOnlyContent);
 
-          String moveOnlyContent = (String) args.getArgumentValue(ARGUMENT_MOVE_ONLY_CONTENT);
-          if (moveOnlyContent == null) {
-            // By default, we are copying the entire node.
-            moveOnlyContent = AuthorConstants.ARG_VALUE_FALSE;
-          }
-
-          if (AuthorConstants.ARG_VALUE_TRUE.equals(moveOnlyContent)) {
-            // we cannot select the moved node, because we move its content...
-        	selectNode = false;
-            if (toMoveNode.getStartOffset() + 1 != toMoveNode.getEndOffset()) {
-              // Not an empty node.
-              fragmentToMove = ctrl.createDocumentFragment(toMoveNode.getStartOffset() + 1, toMoveNode.getEndOffset() - 1);
-            }
-          } else {
-            fragmentToMove = ctrl.createDocumentFragment(toMoveNode, true);
-          }
-
-          int insertionOffset =
-              ctrl.getXPathLocationOffset(
-                  targetLocationXPath, relativePosition, processTrackChanges);
-          if (logger.isDebugEnabled()) {
-            logger.debug("Insert location for fragment: " + insertionOffset);
-          }
-
-          if (insertionOffset != -1) {
-            if (toDeleteNode.getStartOffset() < insertionOffset 
-                && insertionOffset <= toDeleteNode.getEndOffset()) {
-              // The insertion offset in inside the node to delete.
-              throw new AuthorOperationException("Trying to move inside the node that will be removed. Node to remove: " 
-                  + toDeleteNode + ". Computed insertion offset " + insertionOffset);
-            }
-
-            String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT);
-            if (fragment != null) {
-              // We add the node in a fragment, so we will not select it anymore
-              selectNode = false;
-              // 1. The fragment is optional. Insert the fragment, if any.
-              AuthorDocumentFragment xmlFragment = ctrl.createNewDocumentFragmentInContext(fragment, insertionOffset);
-              ctrl.insertFragment(insertionOffset, xmlFragment);
-
-              // 1.2 Relocated the insertion offset inside the first leaf of the fragment.
-              AuthorNode firstLeaf = AuthorNodeUtil.getFirstLeaf(xmlFragment);
-              if (firstLeaf != null) {
-                insertionOffset += firstLeaf.getStartOffset() + 1;
-              }
-
-              if (logger.isDebugEnabled()) {
-                logger.debug("Insert location for moved: " + insertionOffset);
-              }
-            }
-            
-            // 2. Move the node inside the given fragment.
-            if (fragmentToMove != null) {
-              // Can be null if we are moving the content of an empty node.
-              ctrl.insertFragment(insertionOffset, fragmentToMove);
-            }
-            // Keep a position after the insertion offset
-            Position insertPosition = ctrl.createPositionInContent(insertionOffset + 1);            
-            // 3. Delete the node.
-            ctrl.deleteNode(toDeleteNode);
-            // Select the moved node if that was selected before the move operation 
-            if (selectNode) {
-              AuthorNode toSelectNode = ctrl.getNodeAtOffset(insertPosition.getOffset());
-              if (toSelectNode != null) {
-                authorAccess.getEditorAccess().select(toSelectNode.getStartOffset(), toSelectNode.getEndOffset() + 1);
-              }
-            } else {
-              // Set the caret inside the moved node.
-              authorAccess.getEditorAccess().setCaretPosition(insertPosition.getOffset());
-            }
-          } else {
-            throw new AuthorOperationException("The XPath expression: " + targetLocationXPath + " - doesn't identify any node");
-          }
-        } catch (BadLocationException e) {
-          throw new AuthorOperationException("Unable to move the element because of: ", e);
-        } finally {
-          ctrl.endCompoundEdit();
+        boolean processTrackChanges = AuthorConstants.ARG_VALUE_TRUE.equals(
+            args.getArgumentValue(ARGUMENT_PROCESS_CHANGE_MARKERS));
+        int insertionOffset = ctrl.getXPathLocationOffset(
+                targetLocationXPath, relativePosition, processTrackChanges);
+        if (logger.isDebugEnabled()) {
+          logger.debug("Insert location for fragment: " + insertionOffset);
         }
-      } else {
-        throw new AuthorOperationException("The argument 'targetLocation' was not specified.");
+
+        if (insertionOffset != -1) {
+          if (toDeleteNode.getStartOffset() < insertionOffset 
+              && insertionOffset <= toDeleteNode.getEndOffset()) {
+            // The insertion offset in inside the node to delete.
+            throw new AuthorOperationException("Trying to move inside the node that will be removed. Node to remove: " 
+                + toDeleteNode + ". Computed insertion offset " + insertionOffset);
+          }
+
+          moveFragment(fragmentToMove, insertionOffset, selectNode, toDeleteNode, authorAccess, args);
+        } else {
+          throw new AuthorOperationException("The XPath expression: " + targetLocationXPath + " - doesn't identify any node");
+        }
+      } catch (BadLocationException e) {
+        throw new AuthorOperationException("Unable to move the element because of: ", e);
+      } finally {
+        ctrl.endCompoundEdit();
+      }
+    } else {
+      throw new AuthorOperationException("The argument 'targetLocation' was not specified.");
+    }
+  }
+  
+  /**
+   * Get the fragment to be moved.
+   * 
+   * @param toMoveNode The context node.
+   * @param ctrl Author document controller.
+   * @param alwaysPreserveTrackedChanges <code>true</code> to preserve track changes
+   * @param moveOnlyContent <code>true</code> if only the content of the node is moved.
+   * 
+   * @return The Author document fragment.
+   * @throws BadLocationException
+   */
+  private static AuthorDocumentFragment getFragmentToMove(
+      AuthorNode toMoveNode, 
+      AuthorDocumentController ctrl, 
+      boolean alwaysPreserveTrackedChanges, 
+      boolean moveOnlyContent) throws BadLocationException {
+    AuthorDocumentFragment fragmentToMove = null;
+    int nodeStartOffset = toMoveNode.getStartOffset();
+    int nodeEndOffset = toMoveNode.getEndOffset();
+    
+    if (moveOnlyContent) {
+      // we cannot select the moved node, because we move its content...
+      if (nodeStartOffset + 1 != nodeEndOffset) {
+        // Not an empty node.
+        if (alwaysPreserveTrackedChanges) {
+          fragmentToMove = ctrl.createDocumentFragment(nodeStartOffset + 1, nodeEndOffset - 1, true);
+        } else {
+          fragmentToMove = ctrl.createDocumentFragment(nodeStartOffset + 1, nodeEndOffset - 1);
+        }
+      }
+    } else if (alwaysPreserveTrackedChanges) {
+      fragmentToMove = ctrl.createDocumentFragment(nodeStartOffset, nodeEndOffset, true);
+    } else {
+      fragmentToMove = ctrl.createDocumentFragment(toMoveNode, true);
+    }
+    return fragmentToMove;
+  }
+   
+  /**
+   * Move fragment.
+   * 
+   * @param fragmentToMove The fragment to be moved.
+   * @param insertionOffset The location where the fragement is moved.
+   * @param selectNode  <code>true</code> if the node should be selected after the move operation
+   * @param toDeleteNode   The node to be deleted
+   * @param authorAccess The author access.
+   * Provides access to specific informations and actions for 
+   * editor, document, workspace, tables, change tracking, utility a.s.o.
+   * @param args The map of arguments.
+   * 
+   * @throws AuthorOperationException
+   * @throws BadLocationException
+   */
+  private static void moveFragment(AuthorDocumentFragment fragmentToMove, int insertionOffset,
+      boolean selectNode, AuthorNode toDeleteNode, AuthorAccess authorAccess, ArgumentsMap args)
+      throws AuthorOperationException, BadLocationException {
+    AuthorDocumentController ctrl = authorAccess.getDocumentController();
+    
+    boolean toggleTrackChanges = false;
+    if (isAlwaysPreserveTrackChangesTrue(args) && authorAccess.getReviewController().isTrackingChanges()) {
+      // Deactivate TC
+      authorAccess.getReviewController().toggleTrackChanges();
+      toggleTrackChanges = true;
+    }
+    try {
+      String fragment = (String) args.getArgumentValue(ARGUMENT_SURROUND_FRAGMENT);
+      if (fragment != null) {
+        // We add the node in a fragment, so we will not select it anymore
+        selectNode = false;
+        // 1. The fragment is optional. Insert the fragment, if any.
+        AuthorDocumentFragment xmlFragment = ctrl.createNewDocumentFragmentInContext(fragment, insertionOffset);
+        ctrl.insertFragment(insertionOffset, xmlFragment);
+
+        // 1.2 Relocated the insertion offset inside the first leaf of the fragment.
+        AuthorNode firstLeaf = AuthorNodeUtil.getFirstLeaf(xmlFragment);
+        if (firstLeaf != null) {
+          insertionOffset += firstLeaf.getStartOffset() + 1;
+        }
+
+        if (logger.isDebugEnabled()) {
+          logger.debug("Insert location for moved: " + insertionOffset);
+        }
+      }
+
+      // 2. Move the node inside the given fragment.
+      if (fragmentToMove != null) {
+        // Can be null if we are moving the content of an empty node.
+        ctrl.insertFragment(insertionOffset, fragmentToMove);
+      }
+    } finally {
+      if (toggleTrackChanges) {
+        authorAccess.getReviewController().toggleTrackChanges();
       }
     }
+    // Keep a position after the insertion offset
+    Position insertPosition = ctrl.createPositionInContent(insertionOffset + 1);            
+    // 3. Delete the node.
+    ctrl.deleteNode(toDeleteNode);
+    // Select the moved node if that was selected before the move operation 
+    if (selectNode) {
+      AuthorNode toSelectNode = ctrl.getNodeAtOffset(insertPosition.getOffset());
+      if (toSelectNode != null) {
+        authorAccess.getEditorAccess().select(toSelectNode.getStartOffset(), toSelectNode.getEndOffset() + 1);
+      }
+    } else {
+      // Set the caret inside the moved node.
+      authorAccess.getEditorAccess().setCaretPosition(insertPosition.getOffset());
+    }
+  }
+  
+  /**
+   * Check if {@link #ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_IN_MOVED_CONTENT} argument 
+   * value is <code>true</code>.
+   * 
+   * @param args The arguments.
+   * @return <code>true</code> if the value of the argument is "true".
+   */
+  private static boolean isAlwaysPreserveTrackChangesTrue(ArgumentsMap args) {
+    return AuthorConstants.ARG_VALUE_TRUE.equals(
+        args.getArgumentValue(ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_IN_MOVED_CONTENT));
   }
   
   /**
@@ -369,7 +480,7 @@ public class MoveElementOperation implements AuthorOperation {
    * 
    * @throws AuthorOperationException If the XPath expression doesn't identify a node. 
    */
-  private AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression, boolean processTrackChanges) 
+  private static AuthorNode executeLocationXPath(AuthorAccess authorAccess, String xPathExpression, boolean processTrackChanges) 
       throws AuthorOperationException {
     AuthorNode toReturn = null;
     AuthorNode[] locatedNodes = authorAccess.getDocumentController().findNodesByXPath(xPathExpression, true, true, true, processTrackChanges);

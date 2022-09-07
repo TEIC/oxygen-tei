@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -233,7 +233,7 @@ public class CALSColSpec {
    */
   @Override
   public String toString() {
-    String width = (colWidth != null) ? " width: " + colWidth : "";
+    String width = colWidth != null ? (" width: " + colWidth) : "";
     return getColumnName() + " at index: " + getColumnNumber() + width;
   }
   
@@ -253,21 +253,32 @@ public class CALSColSpec {
    * @return The XML fragment corresponding to the column specification.
    */
   public String createXMLFragment(String ns) {
-    StringBuffer fragment = new StringBuffer();
-    fragment.append("<colspec");
-    fragment.append(colNumber <= 0 ? "" : " colnum=\"" + colNumber + "\"");
-    fragment.append(colName == null ? "" : " colname=\"" + colName + "\"");
+    StringBuilder fragment = new StringBuilder("<colspec");
+    if (colNumber > 0) {
+      fragment.append(" colnum=\"").append(colNumber).append('"');
+    }
+    appendAttrWithValue(fragment, "colname", colName, true);
     if (colWidth != null) {
       String colWidthRepresentation = colWidth.getWidthRepresentation();
-      if (colWidthRepresentation != null) {
-        fragment.append(" colwidth=\"" + colWidthRepresentation + "\"");
-      }
+      appendAttrWithValue(fragment, "colwidth", colWidthRepresentation, true);
     }
-    if (ns != null && ns.length() > 0) {
-      fragment.append(" xmlns=\"" + ns + "\"");
-    }
+    appendAttrWithValue(fragment, "xmlns", ns, false);
     fragment.append("/>");
     return fragment.toString();
+  }
+
+  /**
+   * Appends an attribute with a specified value.
+   *
+   * @param buffer          The buffer where to append the attribute name and its value.
+   * @param attrName        The attribute name.
+   * @param attrValue       The attribute value.
+   * @param allowEmptyValue <code>true</code> to allow empty values, <code>false</code> if checking for <code>null</code> is enough.
+   */
+  private static void appendAttrWithValue(StringBuilder buffer, String attrName, String attrValue, boolean allowEmptyValue) {
+    if (attrValue != null && (allowEmptyValue || !attrValue.isEmpty())) {
+      buffer.append(' ').append(attrName).append("=\"").append(attrValue).append('"');
+    }
   }
   
   /**

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -137,7 +137,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     
     // namespace argument
     String namespace = null;
@@ -227,8 +227,6 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       InsertRowOperationBase insertRowOperation,
       InsertTableOperationBase insertTableOperation) throws AuthorOperationException {
     try {
-      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-      
       // no. of columns to be inserted
       int noOfColumnsToBeInserted = 1;
       
@@ -236,11 +234,11 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
       // Custom column insertion has been requested
       if(customColumnInsertion) {
         Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-        if (Platform.STANDALONE.equals(platform)) {
+        if (Platform.STANDALONE == platform) {
           // SWING
           tableColumnsInfo = SATableColumnInsertionCustomizerInvoker.getInstance()
               .customizeTableColumnInsertion(authorAccess);
-        } else if (Platform.ECLIPSE.equals(platform)) {
+        } else if (Platform.ECLIPSE == platform) {
           // SWT
           tableColumnsInfo = ECTableColumnInsertionCustomizerInvoker.getInstance()
               .customizeTableColumnInsertion(authorAccess);
@@ -259,6 +257,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
         }
       }
       
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
       // Find the table element to create table span support
       AuthorElement tableElement = getElementAncestor(
           authorAccess.getDocumentController().getNodeAtOffset(caretOffset), 
@@ -278,7 +277,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
             noOfColumnsToBeInserted, tableElement);
       } else {
         Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-        if (Platform.WEBAPP.equals(platform)) {
+        if (Platform.WEBAPP == platform) {
           // A column cannot be inserted.
           AuthorOperationException exception = new AuthorOperationException(
               "A column can only be inserted in an existing table.");
@@ -374,7 +373,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
         int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex(cell);
         if (cellIndex != null) {
           Integer colSpan = tableSupport.getColSpan(cell);
-          newColumnIndex = cellIndex[1] + (AuthorConstants.POSITION_AFTER.equals(insertPosition) ? (colSpan != null ? colSpan.intValue() : 1) : 1);
+          newColumnIndex = cellIndex[1] + ((AuthorConstants.POSITION_AFTER.equals(insertPosition) && colSpan != null) ? colSpan.intValue() : 1);
         } else {            
           throw new AuthorOperationException(
               "Cannot obtain the index of cell in table. The cell is: " + cell);
@@ -398,7 +397,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
     try {
       authorAccess.getDocumentController().disableLayoutUpdate();
 
-      if (authorAccess.getTableAccess().getTableNumberOfColumns(tableElement) == 0 ||
+      if (numberOfColumns == 0 ||
           tableSupport.hasColumnSpecifications(tableElement)) {
         updateColumnCellsSpan(
             authorAccess, tableSupport, tableElement, newColumnIndex, columnSpecification, 
@@ -407,8 +406,8 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
 
       // Insert the new entries in the rows in the appropriate places
       insertNewColumnsCells(
-          authorAccess, tableSupport, tableElement, newColumnIndex, namespace,
-          fragments, cellsFragments, insertRowOperation, noOfColumnsToBeInserted);
+          authorAccess, tableElement, newColumnIndex, namespace,
+          fragments, cellsFragments, insertRowOperation, noOfColumnsToBeInserted, numberOfColumns);
 
     } finally {
       authorAccess.getDocumentController().enableLayoutUpdate(tableElement);
@@ -424,7 +423,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * Increments the column span of the cells intersecting the new column.
    * A cell intersects the column to insert if its start column index is less than
    * the new column index and the end column index of the cell is greater or equal
-   * than the new column ((startColSpan < newColumnIndex) && (endColSpan >= newColumnIndex)).
+   * than the new column <code>(startColSpan &lt; newColumnIndex &amp;&amp; endColSpan &gt;= newColumnIndex)</code>.
    * 
    * @param authorAccess The author access.
    * Provides access to specific informations and actions for 
@@ -437,7 +436,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param noOfColumnsToBeInserted The number of columns to be inserted.
    * @throws AuthorOperationException  When the insertion fails.
    */
-  protected void updateColumnCellsSpan(
+  protected void updateColumnCellsSpan( // NOSONAR
       AuthorAccess authorAccess, 
       AuthorTableCellSpanProvider tableSupport,
       AuthorElement tableElem,
@@ -468,8 +467,10 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
                   authorAccess,
                   tableSupport,
                   cell,
-                  colSpanStart + 1, // adjust for 1 base
-                  colSpanEnd + 1 + noOfColumnsToBeInserted); // adjust for 1 base + increment
+                  // adjust for 1 base
+                  colSpanStart + 1,
+                  // adjust for 1 base + increment
+                  colSpanEnd + 1 + noOfColumnsToBeInserted);
             }
           }
         }
@@ -483,7 +484,6 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param authorAccess The author access.
    * Provides access to specific informations and actions for 
    * editor, document, workspace, tables, change tracking, utility a.s.o.
-   * @param tableSupport The table cell span provider.
    * @param tableElement The table element.
    * @param newColumnIndex The column index, 0 based.
    * @param namespace The namespace to be used.
@@ -494,19 +494,19 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    * @param insertRowOperation The insert row operation used to insert new rows when 
    * there are fragments that cannot be inserted in the new column. 
    * @param noOfColumnsToBeInserted The number of rows to be inserted.
+   * @param initialNumberOfColumns The number of columns before insertion.
    * 
    * @throws AuthorOperationException 
    */
   private void insertNewColumnsCells(
       AuthorAccess authorAccess,
-      AuthorTableCellSpanProvider tableSupport,
       AuthorElement tableElement,
       int newColumnIndex,
       String namespace, 
       AuthorDocumentFragment[] fragments, 
       boolean cellsFragment, 
       InsertRowOperationBase insertRowOperation,
-      int noOfColumnsToBeInserted) throws AuthorOperationException {
+      int noOfColumnsToBeInserted, int initialNumberOfColumns) throws AuthorOperationException {
     // Flag to retain if the warning for incompatibility between table structure
     // and new column was shown
     boolean incompatibilityWarnShown = false;
@@ -653,7 +653,6 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
             exception.setOperationRejectedOnPurpose(true);
             throw exception;
           }
-          int insertRowsOffset = lastTableRow.getEndOffset() + 1;
           // Set flag to retain that new rows are inserted (in this case the selection
           // will not be marked as column)
           newRowsInserted = true;
@@ -668,15 +667,17 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
               String cellFragment = TableOperationsUtil.createCellXMLFragment(
                   authorAccess, fragments, cellsFragment, cellName, i, namespace, tableHelper); 
               String rowXMLFragment = insertRowOperation.getRowXMLFragment(
-                  authorAccess, tableElement, namespace, cellFragment, newColumnIndex);
+                  authorAccess, tableElement, namespace, cellFragment, newColumnIndex, 
+                  initialNumberOfColumns);
               if (rowXMLFragment == null) {
                 throw new AuthorOperationException("The column cannot be inserted.");
               }
               rowsFragments.append(rowXMLFragment);
             } catch (BadLocationException e) {
-              throw  new AuthorOperationException("The column cannot be inserted.");
+              throw  new AuthorOperationException("The column cannot be inserted.", e);
             }
           }
+          int insertRowsOffset = lastTableRow.getEndOffset() + 1;
           // Update fragments list
           fragmentsToInsert = Arrays.copyOf(fragmentsToInsert, fragmentsToInsert.length + 1);
           fragmentsToInsert[fragmentsToInsert.length - 1] =
@@ -738,7 +739,7 @@ public abstract class InsertColumnOperationBase extends AbstractTableOperation {
    *
    * @throws AuthorOperationException 
    */
-  private boolean checkForCompatibility(
+  private static boolean checkForCompatibility(
       AuthorAccess authorAccess, AuthorDocumentFragment[] fragments, int rowIndex) throws AuthorOperationException {
     boolean messageShow = false;
     if (fragments != null && rowIndex < fragments.length) {

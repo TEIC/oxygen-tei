@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -295,7 +295,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     attrs.add(new TableProperty(
         TablePropertiesConstants.COLSEP, 
         ExtensionTags.COLUMN_SEPARATOR, 
-        Arrays.asList(new String[] {"0", "1"}), 
+        Arrays.asList("0", "1"), 
         null, 
         ExtensionTags.SEPARATORS, 
         GuiElements.COMBOBOX,
@@ -306,7 +306,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     attrs.add(new TableProperty(
         TablePropertiesConstants.ROWSEP, 
         ExtensionTags.ROW_SEPARATOR, 
-        Arrays.asList(new String[] {"0", "1"}), 
+        Arrays.asList("0", "1"), 
         null, 
         ExtensionTags.SEPARATORS, 
         GuiElements.COMBOBOX,
@@ -663,7 +663,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     attrs.add(new TableProperty(
         TablePropertiesConstants.ROWSEP, 
         ExtensionTags.ROW_SEPARATOR, 
-        Arrays.asList(new String[] {"0", "1"}), 
+        Arrays.asList("0", "1"), 
         null, 
         ExtensionTags.SEPARATORS, 
         GuiElements.COMBOBOX, 
@@ -695,7 +695,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     attrs.add(new TableProperty(
         TablePropertiesConstants.COLSEP, 
         ExtensionTags.COLUMN_SEPARATOR, 
-        Arrays.asList(new String[] {"0", "1"}), 
+        Arrays.asList("0", "1"), 
         null, 
         ExtensionTags.SEPARATORS, 
         GuiElements.COMBOBOX, 
@@ -706,7 +706,7 @@ public abstract class CALSAndHTMLShowTablePropertiesBase extends ShowTableProper
     attrs.add(new TableProperty(
         TablePropertiesConstants.ROWSEP, 
         ExtensionTags.ROW_SEPARATOR, 
-        Arrays.asList(new String[] {"0", "1"}), 
+        Arrays.asList("0", "1"), 
         null, 
         ExtensionTags.SEPARATORS, 
         GuiElements.COMBOBOX, 

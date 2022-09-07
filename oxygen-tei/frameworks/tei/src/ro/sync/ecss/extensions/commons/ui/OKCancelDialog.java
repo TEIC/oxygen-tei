@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2007 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public class OKCancelDialog extends ro.sync.exml.workspace.api.standalone.ui.OKC
   /**
    * Constructor.
    * 
-   * @param parentFrame  The parent frame
+   * @param parentFrame  The parent frame.  Can be <code>null</code> in which case it will be auto detected.
    * @param title The dialog title
    * @param modal  True if modal
    */
@@ -79,7 +79,7 @@ public class OKCancelDialog extends ro.sync.exml.workspace.api.standalone.ui.OKC
   /**
    * Constructor.
    * 
-   * @param parentFrame  The parent frame
+   * @param parentFrame  The parent frame.  Can be <code>null</code> in which case it will be auto detected.
    * @param title The dialog title
    * @param modal  True if modal
    */

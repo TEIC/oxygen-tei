@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations.xhtml;
 
-import java.awt.Component;
 import java.awt.Frame;
 
 import ro.sync.annotations.api.API;
@@ -66,7 +65,7 @@ import ro.sync.ecss.extensions.commons.table.operations.TableInfo;
  * It is used on standalone implementation.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
+public final class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
 
   /**
    * The singleton instance.
@@ -98,10 +97,7 @@ public class SAXHTMLTableCustomizerInvoker extends TableCustomizer {
     SATableCustomizerDialog tableCustomizerDialog = new SAXHTMLTableCustomizerDialog(
         (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle(),
         predefinedRowsCount, predefinedColumnsCount);
-    
-    tableCustomizerDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
-    TableInfo newTableInfo = tableCustomizerDialog.showDialog(tableInfo);
-    return newTableInfo;
+    return tableCustomizerDialog.showDialog(tableInfo);
   }
   
   /**

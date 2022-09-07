@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -96,7 +97,7 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(SATablePropertiesCustomizerDialog.class
+  private static final Logger logger = LoggerFactory.getLogger(SATablePropertiesCustomizerDialog.class
       .getName());
   
   /**
@@ -302,7 +303,8 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
     public void selectionChanged(TableProperty property, String newValue) throws AuthorOperationException {
       StringBuilder iconRelativePath = new StringBuilder();
       String group = property.getParentGroup();
-      if (TablePropertiesConstants.COLSEP.equalsIgnoreCase(property.getAttributeName()) || TablePropertiesConstants.ROWSEP.equalsIgnoreCase(property.getAttributeName())) {
+      if (TablePropertiesConstants.COLSEP.equalsIgnoreCase(property.getAttributeName()) 
+          || TablePropertiesConstants.ROWSEP.equalsIgnoreCase(property.getAttributeName())) {
         // Check all the properties until the rowsep with the same parent group is found
         String colsepVal = TablePropertiesConstants.ATTR_NOT_SET;
         String rowsepVal = TablePropertiesConstants.ATTR_NOT_SET;
@@ -355,8 +357,8 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
         URL imageURL = Resource.getResource(iconRelativePath.toString());
         try {
           bufferedImage = (BufferedImage) colorThemeUtilities.getImageInverter().loadImage(imageURL);
-        } catch (IOException e) {
-          throw new AuthorOperationException(e.getMessage());
+        } catch (IOException e) { // NOSONAR (java:S1166)
+          throw new AuthorOperationException(e.getMessage(), e);
         }
         if (colorThemeUtilities.getColorTheme().isHighContrastTheme() &&
             !colorThemeUtilities.getColorTheme().isHighContrastWhiteTheme()) {
@@ -394,10 +396,6 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
   }
   
   /**
-   * The tabbed pane for the table properties.
-   */
-  private JTabbedPane tabbedPane;
-  /**
    * The author resource bundle.
    */
   private AuthorResourceBundle authorResourceBundle;
@@ -432,7 +430,7 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
 
     // Create the dialog content
     getContentPane().setLayout(new GridBagLayout());
-    tabbedPane = new JTabbedPane();
+    JTabbedPane tabbedPane = new JTabbedPane();
     List<TabInfo> categories = info.getCategories();
     TAB_TYPE selectedTab = info.getSelectedTab();
     int selectedTabIndex = 0;
@@ -442,21 +440,21 @@ public class SATablePropertiesCustomizerDialog extends OKCancelDialog {
       tabbedPane.addTab(authorResourceBundle.getMessage(tabInfo.getTabKey()), panel);
       // Obtain the selected tab
       if (tabInfo.getTabKey().equals(ExtensionTags.TABLE) && selectedTab == TAB_TYPE.TABLE_TAB) {
-       selectedTabIndex = i; 
+        selectedTabIndex = i; 
       } else if ((tabInfo.getTabKey().equals(ExtensionTags.ROW) || tabInfo.getTabKey().equals(ExtensionTags.ROWS))
           && selectedTab == TAB_TYPE.ROW_TAB) {
         selectedTabIndex = i; 
-       } else if ((tabInfo.getTabKey().equals(ExtensionTags.COLUMN) || tabInfo.getTabKey().equals(ExtensionTags.COLUMNS)) 
-           && selectedTab == TAB_TYPE.COLUMN_TAB) {
-         selectedTabIndex = i;
-       } else if ((tabInfo.getTabKey().equals(ExtensionTags.CELL) || tabInfo.getTabKey().equals(ExtensionTags.CELLS)) 
-           && selectedTab == TAB_TYPE.CELL_TAB) {
-         selectedTabIndex = i; 
-       }
+      } else if ((tabInfo.getTabKey().equals(ExtensionTags.COLUMN) || tabInfo.getTabKey().equals(ExtensionTags.COLUMNS)) 
+          && selectedTab == TAB_TYPE.COLUMN_TAB) {
+        selectedTabIndex = i;
+      } else if ((tabInfo.getTabKey().equals(ExtensionTags.CELL) || tabInfo.getTabKey().equals(ExtensionTags.CELLS)) 
+          && selectedTab == TAB_TYPE.CELL_TAB) {
+        selectedTabIndex = i; 
+      }
     }
 
     // Select the index
-    if (categories.size() > 0) {
+    if (!categories.isEmpty()) {
       tabbedPane.setSelectedIndex(selectedTabIndex);
     }
     

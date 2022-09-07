@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -107,7 +107,7 @@ public class ExecuteTransformationScenariosOperation implements AuthorOperation 
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     //Get the list of scenario names.
     Object scenarioNames = args.getArgumentValue(SCENARIO_NAMES);
     if(scenarioNames != null) {
@@ -117,9 +117,9 @@ public class ExecuteTransformationScenariosOperation implements AuthorOperation 
         String[] allNames = names.split("\n");
         //Run the transformation scenarios, do not wait for them.
         authorAccess.getEditorAccess().runTransformationScenarios(allNames, null);
-      } catch (TransformationScenarioNotFoundException e) {
+      } catch (TransformationScenarioNotFoundException e) { //NOSONAR java:S1166 It's trowed another exeption
         //Show the problem.
-        throw new AuthorOperationException(e.getMessage());
+        throw new AuthorOperationException(e.getMessage(), e);
       }
     } else {
       throw new AuthorOperationException("The scenario name was not specified as a parameter.");

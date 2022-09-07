@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ public abstract class TableRowInsertionCustomizer {
   
   /**
    * Customize a table row insertion. 
-   * <br/>
+* <br>
    * A table row insertion customizer dialog is shown, giving the possibility to choose the 
    * properties of the new row(s) to be inserted in the document. An object containing 
    * the new information is returned. 

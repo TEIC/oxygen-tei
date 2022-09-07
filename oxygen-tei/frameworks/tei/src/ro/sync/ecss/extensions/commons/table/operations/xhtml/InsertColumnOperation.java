@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -127,7 +127,7 @@ public class InsertColumnOperation extends InsertColumnOperationBase implements 
    * @param qName The name in a qualified form.
    * @return The local name, or <code>null</code> if the argument is <code>null</code>.
    */
-  private String getLocalName(String qName) {
+  private static String getLocalName(String qName) {
     String local = qName;
     if (qName != null) {
       int idx = qName.lastIndexOf(':');

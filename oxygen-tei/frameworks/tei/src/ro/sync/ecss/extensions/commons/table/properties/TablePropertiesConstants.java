@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -213,6 +213,10 @@ public interface TablePropertiesConstants extends TableHelperConstants {
    * Used only for values that are not in the possible values list and are set explicitly in the document.
    */
   String PRESERVE = "<preserve>";
+  /**
+   * The title element in a rel-table
+   */
+  String TITLE_ELEMENT = "title";
   /**
    * Value for row type property.
    */

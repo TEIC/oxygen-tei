@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -120,9 +120,15 @@ public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
       boolean goToFirstEditablePosition = AuthorConstants.ARG_VALUE_TRUE.equals(argumentValue);
       Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
 
+      Object insertEvenIfInvalid = args.getArgumentValue(ARGUMENT_INSERT_FRAG_EVEN_IF_INVALID);
+      if (insertEvenIfInvalid == null) {
+        insertEvenIfInvalid = AuthorConstants.ARG_VALUE_TRUE;
+      }
+      boolean isInsertEvenIfInvalid = AuthorConstants.ARG_VALUE_TRUE.equals(insertEvenIfInvalid);
+      
       // Insert the fragment.
       doOperationInternal(authorAccess, fragment, xpathLocation, relativeLocation, 
-          goToFirstEditablePosition, schemaAwareArgumentValue);
+          goToFirstEditablePosition, schemaAwareArgumentValue, isInsertEvenIfInvalid);
     } catch (AuthorOperationException e) {
       if(deleteSelection) {
         // Paste was rejected, undo selection removal
@@ -146,7 +152,7 @@ public class InsertOrReplaceFragmentOperation extends InsertFragmentOperation {
   /**
    * The relative location of the deleted node.
    */
-  private static ArgumentDescriptor ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION = new ArgumentDescriptor(
+  private static final ArgumentDescriptor ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION = new ArgumentDescriptor(
       ARGUMENT_RELATIVE_LOCATION, 
       ArgumentDescriptor.TYPE_CONSTANT_LIST,
       "The insert position relative to the node determined by the XPath expression.\n" +

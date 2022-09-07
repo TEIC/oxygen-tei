@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -85,37 +85,40 @@ public class XHTMLListSortOperation extends SortOperation {
   @Override
   public AuthorElement getSortParent(int offset, AuthorAccess authorAccess)
       throws AuthorOperationException {
-    
+    AuthorElement sortParent = null;
     // Check if the selected node is a list of some sort.
     if (authorAccess.getEditorAccess().hasSelection()) {
       AuthorNode selectedNode = authorAccess.getEditorAccess().getFullySelectedNode();
       if (selectedNode != null && selectedNode.getType() == AuthorElement.NODE_TYPE_ELEMENT && 
           ("ol".equals(((AuthorElement) selectedNode).getLocalName()) 
           || "ul".equals(((AuthorElement) selectedNode).getLocalName()))) {
-        return (AuthorElement) selectedNode;
+        sortParent = (AuthorElement) selectedNode;
       }
     }
     
-    try {
-      // Check if the node at caret is a list or list descendant.
-      AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
-      AuthorNode parentNode = nodeAtOffset;
-      while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
-        if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          // Check if ul or ol
-          AuthorElement parentElement = (AuthorElement) parentNode;
-          if ("ol".equals(parentElement.getLocalName()) 
-              || "ul".equals(parentElement.getLocalName())) {
-            return parentElement;
-          }
-        } 
-        parentNode = parentNode.getParent();
+    if (sortParent == null) {
+      try {
+        // Check if the node at caret is a list or list descendant.
+        AuthorNode nodeAtOffset = authorAccess.getDocumentController().getNodeAtOffset(offset);
+        AuthorNode parentNode = nodeAtOffset;
+        while (parentNode != null && parentNode.getType() != AuthorNode.NODE_TYPE_DOCUMENT) {
+          if (parentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+            // Check if ul or ol
+            AuthorElement parentElement = (AuthorElement) parentNode;
+            if ("ol".equals(parentElement.getLocalName()) 
+                || "ul".equals(parentElement.getLocalName())) {
+              sortParent = parentElement;
+              break;
+            }
+          } 
+          parentNode = parentNode.getParent();
+        }
+      } catch (BadLocationException e) {
+        throw new AuthorOperationException(e.getMessage(), e);
       }
-    } catch (BadLocationException e) {
-      throw new AuthorOperationException(e.getMessage(), e);
     }
 
-    return null;
+    return sortParent;
   }
 
   /**
@@ -165,7 +168,7 @@ public class XHTMLListSortOperation extends SortOperation {
     List<CriterionInformation> criteria = new ArrayList<CriterionInformation>();
     List<AuthorNode> children = getNonIgnoredChildren(parent);
     // For non-empty lists only one criterion is available.
-    if (children.size() > 0) {
+    if (!children.isEmpty()) {
         criteria.add(new CriterionInformation(0, authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.LIST_ITEM)));
     }
 
@@ -175,6 +178,7 @@ public class XHTMLListSortOperation extends SortOperation {
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getHelpPageID()
    */
+  @Override
   protected String getHelpPageID() {
     return "sort-list-items";
   }

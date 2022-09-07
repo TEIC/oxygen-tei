@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,13 +56,13 @@ import ro.sync.annotations.api.SourceType;
 
 /**
  * Impose the GUI elements that will be used to present the values for a specific table property.
- * <br/>
- * <br/>
+* <br>
+* <br>
  * The {@link GuiElements#RADIO_BUTTONS} type means that the values will be presented 
  * using radio buttons from the same group.
  * The {@link GuiElements#COMBOBOX} type means that the values will be presented 
  * using a combobox.  
- * <br/>
+* <br>
  */
 @API(type=APIType.NOT_EXTENDABLE, src=SourceType.PUBLIC)
 public enum GuiElements {

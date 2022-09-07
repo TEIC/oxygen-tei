@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -99,58 +99,58 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   /**
    * If selected the user can specify the table title. 
    */
-  private JCheckBox titleCheckbox;
+  protected JCheckBox titleCheckbox;
   
   /**
    * Text field for specify the table title.
    */
-  private JTextField titleTextField;
+  protected JTextField titleTextField;
   
   /**
    * Used to specify the number of rows.
    */
-  private JSpinner rowsSpinner;
+  protected JSpinner rowsSpinner;
   
   /**
    * Used to specify the number of columns.
    */
-  private JSpinner columnsSpinner;
+  protected JSpinner columnsSpinner;
   
   /**
    * Used to specify how the column widths are generated. 
    * The column widths values can be fixed or proportional.
    */
-  private JComboBox colWidthsCombobox;
+  protected JComboBox colWidthsCombobox;
   
   /**
    * If selected an empty table header will be generated.
    */
-  private JCheckBox headerCheckbox;
+  protected JCheckBox headerCheckbox;
   
   /**
    * If selected an empty table footer will be generated.
    */
-  private JCheckBox footerCheckbox;
+  protected JCheckBox footerCheckbox;
   
   /**
    * Combo used to chose the table frame type.
    */
-  private JComboBox frameCombo;
+  protected JComboBox frameCombo;
   
   /**
    * Combo used to chose the table row separator value.
    */
-  private JComboBox rowsepCombo;
+  protected JComboBox rowsepCombo;
   
   /**
    * Combo used to chose the table column separator value.
    */
-  private JComboBox colsepCombo;
+  protected JComboBox colsepCombo;
   
   /**
    * Combo used to chose the table align value.
    */
-  private JComboBox alignCombo;
+  protected JComboBox alignCombo;
   
   /**
    * <code>true</code> if the table that is customized by this dialog has a footer.
@@ -186,15 +186,15 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
   /**
    * Radio button used to choose CALS table model.
    */
-  private JRadioButton calsModelRadio;
+  protected JRadioButton calsModelRadio;
   /**
    * Either simple or HTML.
    */
-  private JRadioButton simpleOrHtmlModelRadio;
+  protected JRadioButton simpleOrHtmlModelRadio;
   /**
    * Properties model.
    */
-  private JRadioButton propertiesModelRadio;
+  protected JRadioButton propertiesModelRadio;
 
   /**
    * Author resource bundle.
@@ -894,10 +894,18 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    */
   protected void updateColumnsWidthsCombo(ColumnWidthsType[] columnsWidthsSpecifications) {
     if (colWidthsCombobox != null) {
+      Object previousSel = colWidthsCombobox.getSelectedItem();
       colWidthsCombobox.removeAllItems();
+      int selIndex = -1;
       for (int i = 0; i < columnsWidthsSpecifications.length; i++) {
         // Add combo item
         colWidthsCombobox.addItem(columnsWidthsSpecifications[i]);
+        if(columnsWidthsSpecifications[i].equals(previousSel)) {
+          selIndex = i;
+        }
+      }
+      if(selIndex != -1) {
+        colWidthsCombobox.setSelectedIndex(selIndex);
       }
     }
   }
@@ -1061,13 +1069,21 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    * @param tableModelType The table model type.
    */
   private void addValuesToFrameCombo(int tableModelType) {
+    Object sel = frameCombo.getSelectedItem();
     String[] frameValues = getFrameValues(tableModelType);
     frameCombo.removeAllItems();
+    int selIndex = -1;
     for (int i = 0; i < frameValues.length; i++) {
       frameCombo.addItem(frameValues[i]);
+      if(frameValues[i] != null && frameValues[i].equals(sel)) {
+        selIndex = i;
+      }
     }
-
-    frameCombo.setSelectedItem(getDefaultFrameValue(tableModelType));
+    if(selIndex != -1) {
+      frameCombo.setSelectedIndex(selIndex);
+    } else {
+      frameCombo.setSelectedItem(getDefaultFrameValue(tableModelType));
+    }
   }
   
   /**
@@ -1454,5 +1470,12 @@ public abstract class SATableCustomizerDialog extends OKCancelDialog implements 
    */
   public JRadioButton getSimpleOrHtmlModelRadio() {
     return simpleOrHtmlModelRadio;
+  }
+  
+  /**
+   * @return Returns the footer Checkbox.
+   */
+  public JCheckBox getFooterCheckbox() {
+    return footerCheckbox;
   }
 }

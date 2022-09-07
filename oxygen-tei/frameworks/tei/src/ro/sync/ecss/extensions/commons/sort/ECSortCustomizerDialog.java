@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -84,17 +84,9 @@ import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 @SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer, KeysController {
   /**
-   * Radio button used to enable the sorting of all the children from a parent element.
-   */
-  private Button sortAllElementsRadio;
-  /**
    * Radio button used to enable the sorting of only the selected elements.
    */
   private Button sortSelectedElementsRadio;
-  /**
-   * The composite for the sorting criteria.
-   */
-  private Composite criterionSection;
   /**
    * Criteria information given to the dialog.
    */
@@ -203,13 +195,13 @@ public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer
     data.horizontalIndent = 5;
     sortSelectedElementsRadio.setLayoutData(data);
     
-    sortAllElementsRadio = new Button(mainComposite, SWT.RADIO | SWT.LEFT);
+    Button sortAllElementsRadio = new Button(mainComposite, SWT.RADIO | SWT.LEFT);
     sortAllElementsRadio.setText(allElementsString);
     data = new GridData(SWT.LEFT, SWT.NONE, true, false, 2, 1);
     sortSelectedElementsRadio.setLayoutData(data);
     
     // Criterion section
-    criterionSection = createSection(mainComposite, authorResourceBundle.getMessage(ExtensionTags.CRITERIA));
+    Composite criterionSection = createSection(mainComposite, authorResourceBundle.getMessage(ExtensionTags.CRITERIA));
     data = new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1);
     criterionSection.setLayoutData(data);
     
@@ -234,7 +226,7 @@ public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer
     
     
     // Determine the selected element
-    CriterionInformation firstSel = criteriaInformation.size() > 0 ? criteriaInformation.get(0) : null;
+    CriterionInformation firstSel = criteriaInformation.isEmpty() ? null : criteriaInformation.get(0);
     for (int i = 0; i < criteriaInformation.size(); i++) {
       CriterionInformation criterionInformation = criteriaInformation.get(i);
       if (criterionInformation.isInitiallySelected()) {
@@ -274,7 +266,7 @@ public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer
           }
         }
       }
-      if (secondSel == null && secondCriteria.size() > 0) {
+      if (secondSel == null && !secondCriteria.isEmpty()) {
         secondSel = secondCriteria.get(0);
       }
       
@@ -304,7 +296,7 @@ public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer
         }
       }
       
-      if (thirdSel == null && thirdCriteria.size() > 0) {
+      if (thirdSel == null && !thirdCriteria.isEmpty()) {
         thirdSel = thirdCriteria.get(0);
       }
       
@@ -379,7 +371,15 @@ public class ECSortCustomizerDialog extends TrayDialog implements SortCustomizer
     super.okPressed();
   }
   
-  private Composite createSection(Composite parent, String text) {
+  /**
+   * Create section
+   * 
+   * @param parent The parent.
+   * @param text   The text of the section.
+   * 
+   * @return The section component
+   */
+  private static Composite createSection(Composite parent, String text) {
     Composite composite = new Composite(parent, SWT.NONE);
 
     GridLayout layout = new GridLayout();

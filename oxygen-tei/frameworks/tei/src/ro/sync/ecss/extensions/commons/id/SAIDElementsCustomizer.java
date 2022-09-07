@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.id;
 
-import java.awt.Component;
 import java.awt.Frame;
 
 import ro.sync.annotations.api.API;
@@ -125,7 +124,6 @@ public class SAIDElementsCustomizer {
       }
     };
 
-    idCustomizeDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
     return idCustomizeDialog.showDialog(autoIDElementsInfo);
   }
 }

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,11 +50,10 @@
  */
 package ro.sync.ecss.extensions.commons.ui;
 
-import org.apache.log4j.Logger;
-import org.eclipse.swt.events.HelpEvent;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.help.IContextComputer;
 import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
 
 import ro.sync.annotations.api.API;
@@ -66,12 +65,23 @@ import ro.sync.annotations.api.SourceType;
  * 
  * @author radu_coravu
  */
+@SuppressWarnings("restriction")
 @API(type=APIType.INTERNAL, src=SourceType.PRIVATE)
-public class EclipseHelpUtils {
+public final class EclipseHelpUtils {
   /**
    * Logger for logging. 
    */
-  private static final Logger logger = Logger.getLogger(EclipseHelpUtils.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(EclipseHelpUtils.class.getName());
+  
+  /**
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private EclipseHelpUtils() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
   
   /**
    * Install the help in a new shell based on a provided help page ID.
@@ -89,17 +99,7 @@ public class EclipseHelpUtils {
             //EXM-18582 Set a context computer so that the help page ID can be computed in the dialog dynamically
             //before the help is invoked
             WorkbenchHelpSystem whs = (WorkbenchHelpSystem) PlatformUI.getWorkbench().getHelpSystem();
-            whs.setHelp(
-                newShell,
-                new IContextComputer() {
-                  public Object[] getLocalContexts(HelpEvent event) {
-                    return null;
-                  }
-                  public Object[] computeContexts(HelpEvent event) {
-                    return new String[] {pluginID[0] + "." + helpPageID};
-                  }
-                }
-                );
+            whs.setHelp(newShell, pluginID[0] + "." + helpPageID);
           } catch(Throwable t) {
             logger.warn(t, t);
             //Fallback

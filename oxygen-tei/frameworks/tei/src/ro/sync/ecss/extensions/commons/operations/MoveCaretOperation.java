@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -130,7 +130,7 @@ public class MoveCaretOperation implements AuthorOperation {
       new ArgumentDescriptor(
           SELECTION, 
           ArgumentDescriptor.TYPE_CONSTANT_LIST, 
-          "This argument specifies if the operation should select the element " + 
+          "This argument specifies if the operation should select the node " + 
           "obtained from the XPath expression, its content or nothing at all.", 
           new String[] {AuthorConstants.SELECT_NONE, 
               AuthorConstants.SELECT_CONTENT,           
@@ -161,14 +161,14 @@ public class MoveCaretOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
 
     String xpath = (String) args.getArgumentValue(XPATH_LOCATION);
     String position = (String) args.getArgumentValue(POSITION);
     String selection = (String) args.getArgumentValue(SELECTION);
     
     AuthorDocumentController ctrl = authorAccess.getDocumentController();
-    AuthorNode[] xpathResult = ctrl.findNodesByXPath(xpath, true, true, true);
+    AuthorNode[] xpathResult = ctrl.findNodesByXPath(xpath, true, true, false);
     
     if (xpathResult.length != 0) {
       // If there are several nodes returned by the XPath expression,

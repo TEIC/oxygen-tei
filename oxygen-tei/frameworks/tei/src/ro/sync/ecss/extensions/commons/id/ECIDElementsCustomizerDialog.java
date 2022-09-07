@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -99,11 +99,6 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
    * The pattern used for id generation.
    */
   private Text idGenerationPatternField;
-
-  /**
-   * The add button.
-   */
-  private Button addButton;
 
   /**
    * The edit button.
@@ -207,7 +202,7 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
     listOfElements.setLayoutData(data);
     
     // The 'Add' button 
-    addButton = new Button(listGroup, SWT.PUSH);
+    Button addButton = new Button(listGroup, SWT.PUSH);
     addButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -273,8 +268,7 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
     filterIDsOnCopy.setLayoutData(data);
     
     // Update the checkbox state from the info
-    if (autoAssignElementIDs != null) {
-      autoAssignElementIDs.setSelection(autoIDElementsInfo.isAutoGenerateIDs());
+    autoAssignElementIDs.setSelection(autoIDElementsInfo.isAutoGenerateIDs());
       
       String idGenerationPattern = autoIDElementsInfo.getIdGenerationPattern();
       idGenerationPatternField.setText(
@@ -288,7 +282,6 @@ public class ECIDElementsCustomizerDialog extends TrayDialog {
       filterIDsOnCopy.setSelection(autoIDElementsInfo.isFilterIDsOnCopy());
       
       idGenerationPatternField.setToolTipText(autoIDElementsInfo.getPatternTooltip());
-    }
     updateButtonState();
     
     return composite;

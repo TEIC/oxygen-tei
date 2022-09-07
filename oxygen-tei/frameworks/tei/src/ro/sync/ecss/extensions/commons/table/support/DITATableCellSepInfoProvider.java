@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -110,7 +110,7 @@ public class DITATableCellSepInfoProvider extends CALSTableCellInfoProvider{
    * @param substring The substring to search for.
    * @return <code>true</code> if the class attribute contains the specified substring. 
    */
-  private boolean containsClass(AuthorElement element, String substring) {
+  private static boolean containsClass(AuthorElement element, String substring) {
     boolean ret = false;
     AttrValue attribute = element.getAttribute("class");
     if (attribute != null) {

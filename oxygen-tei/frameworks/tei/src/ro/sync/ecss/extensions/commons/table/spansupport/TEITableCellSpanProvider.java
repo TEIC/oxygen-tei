@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,8 @@ package ro.sync.ecss.extensions.commons.table.spansupport;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -68,12 +70,13 @@ public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
    *  
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getColSpan(AuthorElement)
    */
+  @Override
   public Integer getColSpan(AuthorElement cellElement) {
     Integer colspan = null;
     AttrValue attrValue = cellElement.getAttribute("cols");
     if (attrValue != null) {
       try {
-        int value = Integer.parseInt(attrValue.getValue());
+        int value = NumberParserUtil.parseInt(attrValue.getValue());
         colspan = Integer.valueOf(Math.max(value, 1));
       } catch(NumberFormatException nfe) {
         // Not a number.
@@ -87,12 +90,13 @@ public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#getRowSpan(AuthorElement)
    */
+  @Override
   public Integer getRowSpan(AuthorElement cellElement) {
     Integer rowspan = null;
     AttrValue attrValue = cellElement.getAttribute("rows");
     if (attrValue != null) {
       try {
-        int value = Integer.parseInt(attrValue.getValue());
+        int value = NumberParserUtil.parseInt(attrValue.getValue());
         rowspan = Integer.valueOf(Math.max(value, 1));     
       } catch(NumberFormatException nfe) {
         // Not a number.
@@ -107,6 +111,7 @@ public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
    * 
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#init(AuthorElement)
    */
+  @Override
   public void init(AuthorElement tableElement) {
     // Nothing to do.
   }
@@ -114,6 +119,7 @@ public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
   /**
    * @see ro.sync.ecss.extensions.api.Extension#getDescription()
    */
+  @Override
   public String getDescription() {
     return "Provides cell spanning information about a TEI table.";
   }
@@ -121,6 +127,7 @@ public class TEITableCellSpanProvider implements AuthorTableCellSpanProvider {
   /**
    * @see ro.sync.ecss.extensions.api.AuthorTableCellSpanProvider#hasColumnSpecifications(ro.sync.ecss.extensions.api.node.AuthorElement)
    */
+  @Override
   public boolean hasColumnSpecifications(AuthorElement tableElement) {
     return true;
   }

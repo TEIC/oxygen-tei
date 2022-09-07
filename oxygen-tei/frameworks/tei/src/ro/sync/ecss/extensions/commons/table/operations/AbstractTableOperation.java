@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.commons.AbstractDocumentTypeHelper;
 import ro.sync.ecss.extensions.commons.ExtensionTags;
 import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
+import ro.sync.exml.workspace.api.Platform;
 
 /**
  * Base class for table operations. 
@@ -77,10 +78,55 @@ import ro.sync.ecss.extensions.commons.operations.CommonsOperationsUtil;
 public abstract class AbstractTableOperation implements AuthorOperation {
   
   /**
+   * Parameter name for change tracking behavior.
+   */
+  static final String CHANGE_TRACKING_BEHAVIOR = "changeTrackingBehavior";
+
+  /**
+   * Operation is not performed when change tracking is activated.
+   */
+  static final String CHANGE_TRACKING_BEHAVIOR_BLOCK = "Block";
+  
+  /**
+   * Operation is performed when change tracking is activated. For complex
+   * table operations, the resulting table layout will be broken.
+   */
+  static final String CHANGE_TRACKING_BEHAVIOR_ALLOW = "Allow";
+  
+  /**
+   * Operation is performed with change tracking disabled.
+   */
+  static final String CHANGE_TRACKING_BEHAVIOR_ALLOW_WITHOUT = "Allow with change tracking disabled";
+
+  /**
+   * Let the editor decide which strategy to use, maybe after asking the end user.
+   */
+  static final String CHANGE_TRACKING_BEHAVIOR_AUTO = "Auto";
+
+  /**
+   * Argument descriptor for change tracking behavior.
+   */
+  public static final ArgumentDescriptor CHANGE_TRACKING_BEHAVIOR_ARGUMENT = new ArgumentDescriptor(
+      CHANGE_TRACKING_BEHAVIOR, 
+      ArgumentDescriptor.TYPE_CONSTANT_LIST,
+      "Configures the operation behavior when change tracking is activated. Can be one of:\n" + 
+      " - Block: The operation is not performed when change tracking is activated.\n" + 
+      " - Allow: The operation is performed when change tracking is activated. If complex\n" + 
+      "     table operations are performed, the resulting table layout may become broken.\n" + 
+      " - Allow with change tracking disabled: The operation is performed with change tracking disabled.\n" + 
+      " - Auto: Let the application decide which strategy to use, possibly by asking the end user.",
+      new String[] {
+          CHANGE_TRACKING_BEHAVIOR_ALLOW, 
+          CHANGE_TRACKING_BEHAVIOR_ALLOW_WITHOUT,
+          CHANGE_TRACKING_BEHAVIOR_BLOCK,
+          CHANGE_TRACKING_BEHAVIOR_AUTO}, 
+      CHANGE_TRACKING_BEHAVIOR_AUTO);
+
+  /**
    * The name of the table info argument.
    */
   public static final String TABLE_INFO_ARGUMENT_NAME = "table_info";
-
+  
   /**
    * Argument descriptor for a table info argument.
    */
@@ -98,9 +144,9 @@ public abstract class AbstractTableOperation implements AuthorOperation {
   protected AuthorTableHelper tableHelper;
 
   /**
-   * <code>true</code> if the operation result is marked as a change.
+   * <code>true</code> if the operation result should always be marked as a tracked change if track changes is enabled.
    */
-  private boolean markAsChange = false;
+  private boolean supportsChangeTracking = false;
    /**
    * Constructor.
    * 
@@ -118,7 +164,7 @@ public abstract class AbstractTableOperation implements AuthorOperation {
   */
   public AbstractTableOperation(AuthorTableHelper authorTableHelper, boolean markAsChange) {
     this.tableHelper = authorTableHelper;
-    this.markAsChange = markAsChange;
+    this.supportsChangeTracking = markAsChange;
   }
 
   /**
@@ -132,7 +178,7 @@ public abstract class AbstractTableOperation implements AuthorOperation {
   protected AuthorElement getElementAncestor(AuthorNode node, int type) {
     AuthorElement parentCell = null;
     
-    while (node != null && node instanceof AuthorElement) {
+    while (node instanceof AuthorElement) {
       if (isTableElement(node, type)) {
         parentCell = (AuthorElement) node;
         break;
@@ -218,21 +264,7 @@ public abstract class AbstractTableOperation implements AuthorOperation {
         // Cell is on the first column
         insertionOffset = insertRow.getStartOffset() + 1;
       } else {
-        // Find the last cell on the row that is located before the given column
-        AuthorElement previousCell = null;
-        for (Iterator iterator = insertRow.getContentNodes().iterator(); iterator.hasNext();) {
-          AuthorNode authorNode = (AuthorNode) iterator.next();
-          if (tableHelper.isTableCell(authorNode)) {
-            int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex((AuthorElement) authorNode);
-            if (cellIndex != null) {
-              if (cellIndex[1] < column) {
-                previousCell = (AuthorElement) authorNode;
-              } else {
-                break;
-              }
-            }
-          }
-        }
+        AuthorElement previousCell = findPreviousCellInRow(authorAccess, column, insertRow);
 
         if (previousCell != null) {
           // A cell was found before the column
@@ -244,6 +276,31 @@ public abstract class AbstractTableOperation implements AuthorOperation {
       } 
     }
     return insertionOffset;
+  }
+
+  /**
+   * Find the last cell on the row that is located before the given column
+   * @param authorAccess The author access.
+   * @param column The column for which to find the previous cell.
+   * @param row The row in which to find the previous cell.
+   * @return The previous cell or <code>null</code>.
+   */
+  private AuthorElement findPreviousCellInRow(AuthorAccess authorAccess, int column, AuthorElement row) {
+    AuthorElement previousCell = null;
+    for (Iterator iterator = row.getContentNodes().iterator(); iterator.hasNext();) {
+      AuthorNode authorNode = (AuthorNode) iterator.next();
+      if (tableHelper.isTableCell(authorNode)) {
+        int[] cellIndex = authorAccess.getTableAccess().getTableCellIndex((AuthorElement) authorNode);
+        if (cellIndex != null) {
+          if (cellIndex[1] < column) {
+            previousCell = (AuthorElement) authorNode;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+    return previousCell;
   }
   
   /**
@@ -279,30 +336,64 @@ public abstract class AbstractTableOperation implements AuthorOperation {
    */
   @Override
   public final void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
-    if (!markAsChange && authorAccess.getReviewController().isTrackingChanges()) {
-      int response =  authorAccess.getWorkspaceAccess().showConfirmDialog(
-          authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.TRACK_CHANGES), 
-          authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.ACTION_NOT_MARKED_AS_CHANGE), 
-          new String[] {
-              "OK",
-              authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CANCEL) },
-          new int[] { 1, 0 });
-      
-      if (response == 1) {
-        // Turn off the track changes
-        authorAccess.getReviewController().toggleTrackChanges();
-        try {
-          doOperationInternal(authorAccess, args);
-        } finally {
-          // Restore track changes state
-          if (!authorAccess.getReviewController().isTrackingChanges()) {
-            authorAccess.getReviewController().toggleTrackChanges();
-          }
-        }
+      throws AuthorOperationException {
+    if (!supportsChangeTracking && authorAccess.getReviewController().isTrackingChanges()) {
+      String behavior = getChangeTrackingBehavior(authorAccess, args);
+      if (CHANGE_TRACKING_BEHAVIOR_ALLOW.equals(behavior)) {
+        doOperationInternal(authorAccess, args);
+      } else if (CHANGE_TRACKING_BEHAVIOR_ALLOW_WITHOUT.equals(behavior)) {
+        doOperationWithoutChangeTracking(authorAccess, args);
+      } else if (CHANGE_TRACKING_BEHAVIOR_BLOCK.equals(behavior)) {
+        authorAccess.getWorkspaceAccess().showErrorMessage(
+            authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.TABLE_OPERATION_WHEN_TC_ERROR_MESSAGE));
       }
     } else {
       doOperationInternal(authorAccess, args);
+    }
+  }
+
+  /**
+   * Get the configured behavior when change tracking is enabled.
+   * 
+   * @param authorAccess The author access object.
+   * @param args The operation arguments.
+   * 
+   * @return The change tracking behavior.
+   */
+  private static String getChangeTrackingBehavior(AuthorAccess authorAccess, ArgumentsMap args) {
+    String behavior = (String) args.getArgumentValue(CHANGE_TRACKING_BEHAVIOR);
+    if (behavior == null) {
+      behavior = CHANGE_TRACKING_BEHAVIOR_AUTO;
+    }
+    if (CHANGE_TRACKING_BEHAVIOR_AUTO.equals(behavior)) {
+      if (authorAccess.getWorkspaceAccess().getPlatform() == Platform.WEBAPP) {
+        behavior = CHANGE_TRACKING_BEHAVIOR_BLOCK;
+      } else {
+        int response =  authorAccess.getWorkspaceAccess().showConfirmDialog(
+            authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.TRACK_CHANGES), 
+            authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.ACTION_NOT_MARKED_AS_CHANGE), 
+            new String[] {
+                "OK",
+                authorAccess.getAuthorResourceBundle().getMessage(ExtensionTags.CANCEL) },
+            new int[] { 1, 0 });
+        behavior = response == 1 ? 
+            CHANGE_TRACKING_BEHAVIOR_ALLOW_WITHOUT : CHANGE_TRACKING_BEHAVIOR_BLOCK;
+      }
+    }
+    return behavior;
+  }
+
+  private void doOperationWithoutChangeTracking(AuthorAccess authorAccess, ArgumentsMap args)
+      throws AuthorOperationException {
+    // Turn off the track changes
+    authorAccess.getReviewController().toggleTrackChanges();
+    try {
+      doOperationInternal(authorAccess, args);
+    } finally {
+      // Restore track changes state
+      if (!authorAccess.getReviewController().isTrackingChanges()) {
+        authorAccess.getReviewController().toggleTrackChanges();
+      }
     }
   }
   
@@ -318,5 +409,5 @@ public abstract class AbstractTableOperation implements AuthorOperation {
    * @throws AuthorOperationException Thrown when the operation fails.
    */
   protected abstract void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args) 
-    throws IllegalArgumentException, AuthorOperationException;
+    throws AuthorOperationException;
 }

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,8 @@ package ro.sync.ecss.extensions.commons.table.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -84,6 +86,10 @@ import ro.sync.ecss.extensions.api.AuthorResourceBundle;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public class ECPropertyComposite {
+  /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ECPropertyComposite.class.getName());
 
   /**
    * The combo for properties that are presented using a combobox.
@@ -122,15 +128,16 @@ public class ECPropertyComposite {
     private Font normalFont = null;
 
     /**
-     * Create fonts.
+     * Constructor
      */
-    {
+    public FontLabelProvider() {
       FontData fd = propertyValuesCombo.getControl().getFont().getFontData()[0];
       fd.setStyle(SWT.ITALIC);
       italicFont = new Font(Display.getDefault(), fd);
       fd.setStyle(SWT.NORMAL);
       normalFont = new Font(Display.getDefault(), fd);
     }
+    
     /**
      * @see org.eclipse.jface.viewers.IFontProvider#getFont(java.lang.Object)
      */
@@ -191,10 +198,11 @@ public class ECPropertyComposite {
       propertyValuesCombo.setContentProvider(new IStructuredContentProvider() {
         @Override
         public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+          //Do nothing
         }
-        
         @Override
         public void dispose() {
+        //Do nothing
         }
         
         @Override
@@ -315,8 +323,8 @@ public class ECPropertyComposite {
 
     // Check if the property was really modified
     if (tableProperty.getCurrentValue() == null
-        || tableProperty.getCurrentValue() != null 
-        && !tableProperty.getCurrentValue().equals(currentSelectedValue)) {
+        || (tableProperty.getCurrentValue() != null  
+            && !tableProperty.getCurrentValue().equals(currentSelectedValue)) ) {
       modifiedProperty = new TableProperty(
           tableProperty.getAttributeName(), 
           tableProperty.getAttributeRenderString(), 
@@ -359,6 +367,7 @@ public class ECPropertyComposite {
             ECPropertyComposite.this.tableProperty, currentlySelectedValue);
       } catch (AuthorOperationException e) {
         // Do nothing
+        LOGGER.debug(e.getMessage() , e);
       }
     }
   }
@@ -372,6 +381,7 @@ public class ECPropertyComposite {
       controller.selectionChanged(ECPropertyComposite.this.tableProperty, currentlySelectedValue);
     } catch (AuthorOperationException e1) {
       // Do nothing
+      LOGGER.debug(e1.getMessage() , e1);
     }
   }
 }

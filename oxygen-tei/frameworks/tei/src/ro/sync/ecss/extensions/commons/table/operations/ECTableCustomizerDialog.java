@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@ import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -91,6 +92,11 @@ import ro.sync.ecss.extensions.commons.ui.EclipseHelpUtils;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class ECTableCustomizerDialog extends TrayDialog implements TableCustomizerConstants{
   
+  /**
+   * The id of the help page
+   */
+  private static final String HELP_PAGE_ID = "adding-tables-author";
+
   /**
    * If create a title the user can specify the table title.
    */
@@ -535,7 +541,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
   @Override
   protected void configureShell(Shell newShell) {
     super.configureShell(newShell);
-    EclipseHelpUtils.installHelp(newShell, getHelpPageID());
+    EclipseHelpUtils.installHelp(newShell, HELP_PAGE_ID);
     newShell.setText(
         authorResourceBundle.getMessage(
             showChoiceTable ? ExtensionTags.INSERT_CHOICE_TABLE : ExtensionTags.INSERT_TABLE));
@@ -552,7 +558,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
     Composite composite = (Composite) super.createDialogArea(parent);
     composite.setLayout(new GridLayout(2, false));
     
-    int tableModel = innerCalsTable && isCalsTable ? TableInfo.TABLE_MODEL_CALS : TableInfo.TABLE_MODEL_CUSTOM;
+    int tableModel;
     if (showModelChooser) {     
       tableModel = TableInfo.TABLE_MODEL_CALS;
       //Allow the user to choose between HTML and CALS
@@ -613,8 +619,11 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
 
           //Set some default values.
           updateRadioButtonsSelection();
-          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS :
-            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+          if(makeCalsTable) {
+            tableModel = TableInfo.TABLE_MODEL_CALS;
+          } else {
+            tableModel = makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          }
           tableModelChanged(tableModel);
         } else {
           // Radio button for choosing HTML table model
@@ -638,8 +647,11 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
 
           //Set some default values.
           updateRadioButtonsSelection();
-          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS : 
-            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_HTML);
+          if (makeCalsTable) {
+            tableModel = TableInfo.TABLE_MODEL_CALS;
+          } else {
+            tableModel = makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_HTML;
+          }
           tableModelChanged(tableModel);
         }
 
@@ -668,8 +680,11 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
           });
           
           updateRadioButtonsSelection();
-          tableModel = makeCalsTable ? TableInfo.TABLE_MODEL_CALS :
-            (makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE);
+          if (makeCalsTable) {
+            tableModel = TableInfo.TABLE_MODEL_CALS;
+          } else {
+            tableModel = makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES : TableInfo.TABLE_MODEL_DITA_SIMPLE;
+          }
           tableModelChanged(tableModel);
         }
       }
@@ -814,7 +829,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
               render = COLS_DYNAMIC; 
             } else if (ColumnWidthsType.PROPORTIONAL_COL_WIDTHS == element) {
               render = COLS_PROPORTIONAL; 
-            } if (ColumnWidthsType.FIXED_COL_WIDTHS == element) {
+            } else if (ColumnWidthsType.FIXED_COL_WIDTHS == element) {
               render = COLS_FIXED; 
             }
           }
@@ -917,10 +932,10 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * Update the selection state of the radio buttons.
    */
   private void updateRadioButtonsSelection() {
-    makeCalsTable = isCalsTable && innerCalsTable
+    makeCalsTable = (isCalsTable && innerCalsTable)
         // This happens when invoking the toolbar Insert Table action,
         // which doesn't have a default model.
-        || !isCalsTable && !isSimpleOrHtmlTable && !isPropertiesTableModel;
+        || (!isCalsTable && !isSimpleOrHtmlTable && !isPropertiesTableModel);
     calsModelRadio.setSelection(makeCalsTable);
     simpleOrHtmlModelRadio.setSelection(isSimpleOrHtmlTable);
     if (propertiesModelRadio != null) {
@@ -933,8 +948,18 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    */
   private void setFrameComboInput(String[] frames) {
     if (framesCombo != null) {
-      framesCombo.setInput(Arrays.asList(frames));
-      framesCombo.setSelection(new StructuredSelection(getDefaultFrameValue(getTableModel())), true);
+      Object lastSelected = null;
+      if(!framesCombo.getSelection().isEmpty()) {
+        lastSelected = ((IStructuredSelection)framesCombo.getSelection()).getFirstElement();
+      }
+      List<String> framesList = Arrays.asList(frames);
+      framesCombo.setInput(framesList);
+      int indexOfSel = framesList.indexOf(lastSelected);
+      if(indexOfSel != -1) {
+        framesCombo.setSelection(new StructuredSelection(framesList.get(indexOfSel)), true);
+      } else {
+        framesCombo.setSelection(new StructuredSelection(getDefaultFrameValue(getTableModel())), true);
+      }
     }
   }
   
@@ -979,9 +1004,19 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @param columnsWidths List of possible column widths
    */
   private void setColWidthsComboInput(List<ColumnWidthsType> columnsWidths) {
+    Object lastSelected = null;
     if (colWidthsCombobox != null && columnsWidths != null) {
+      if(!colWidthsCombobox.getSelection().isEmpty()) {
+        lastSelected = ((IStructuredSelection)colWidthsCombobox.getSelection()).getFirstElement();
+      }
       colWidthsCombobox.setInput(columnsWidths);
-      colWidthsCombobox.setSelection(new StructuredSelection(columnsWidths.get(0)), true);
+      int indexOfSel = columnsWidths.indexOf(lastSelected);
+      if (indexOfSel == -1) {
+        indexOfSel = 0;
+      }
+      if(indexOfSel != -1) {
+        colWidthsCombobox.setSelection(new StructuredSelection(columnsWidths.get(indexOfSel)), true);
+      }
     }
   }
 
@@ -1111,19 +1146,19 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       // Compute the value of the table model
       int tableModel = getTableModel();
       return 
-      new TableInfo(
+      new TableInfo( //NOSONAR java:S1067 exception here
           createTitle ? title : null, 
           rowsNumber, 
           columnsNumber, 
           createHeader, 
-          hasFooter? createFooter : false, 
+          hasFooter && createFooter, 
           // EXM-23110 If the user chose the "<unspecified>" value for frame attribute, don't insert any frame attribute
-          hasFrameAttribute ? (!UNSPECIFIED.equals(selectedFrame) ? selectedFrame : null) : null,
+          hasFrameAttribute && !UNSPECIFIED.equals(selectedFrame) ? selectedFrame : null,
           tableModel, 
           selectedColWidthsType,
-          hasRowSep ? (!UNSPECIFIED.equals(selectedRowsep) ? selectedRowsep : null) : null,
-          hasColsep ? (!UNSPECIFIED.equals(selectedColsep) ? selectedColsep : null) : null,
-          hasAlign ? (!UNSPECIFIED.equals(selectedAlign) ? selectedAlign : null) : null);
+          hasRowSep && !UNSPECIFIED.equals(selectedRowsep) ? selectedRowsep : null,
+          hasColsep && !UNSPECIFIED.equals(selectedColsep) ? selectedColsep : null,
+          hasAlign && !UNSPECIFIED.equals(selectedAlign) ? selectedAlign : null);
     } else {
       // Cancel was pressed
     }
@@ -1148,33 +1183,33 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
     if (tableInfo != null) {
       if (showModelChooser) {
         if (isCalsTable 
-            || tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
+            || (tableInfo.getTableModel() == TableInfo.TABLE_MODEL_CALS 
                 && !isPropertiesTableModel 
-                && !isSimpleOrHtmlTable) {
+                && !isSimpleOrHtmlTable)) {
           makeCalsTable = true; 
           makeSimpleOrHtmlTable = false;
           makePropertiesTable = false;
         } else if (isSimpleOrHtmlTable 
-            || tableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS
-                && tableInfo.getTableModel() != TableInfo.TABLE_MODEL_DITA_PROPERTIES
-                && !isCalsTable 
-                && !isPropertiesTableModel) {
+                  || (tableInfo.getTableModel() != TableInfo.TABLE_MODEL_CALS
+                      && tableInfo.getTableModel() != TableInfo.TABLE_MODEL_DITA_PROPERTIES
+                      && !isCalsTable 
+                      && !isPropertiesTableModel)) {
           makeCalsTable = false; 
           makeSimpleOrHtmlTable = true;
           makePropertiesTable = false;
-        } else if (propertiesModelRadio != null 
-            && (isPropertiesTableModel 
-                || tableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
-                    && !isCalsTable
-                    && !isSimpleOrHtmlTable)) {
+        } else if ( propertiesModelRadio != null 
+                    && (isPropertiesTableModel 
+                        || (tableInfo.getTableModel() == TableInfo.TABLE_MODEL_DITA_PROPERTIES 
+                            && !isCalsTable
+                            && !isSimpleOrHtmlTable))) {
           makeCalsTable = false; 
           makeSimpleOrHtmlTable = false;
           makePropertiesTable = true;
-        } else {
+        } else { //NOSONAR java:S1871: This is the default. It's easier to understand in this way
           // This may happen when the previous model was "properties", 
           // but in the meantime we moved to a document that doesn't accept
           // a properties table. Select CALS by default.
-          makeCalsTable = true; 
+          makeCalsTable = true;
           makeSimpleOrHtmlTable = false;
           makePropertiesTable = false;
         }
@@ -1184,9 +1219,18 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
         if (propertiesModelRadio != null) {
           propertiesModelRadio.setSelection(makePropertiesTable);
         }
-        tableModelChanged(makeCalsTable ? TableInfo.TABLE_MODEL_CALS : 
-          makePropertiesTable ? TableInfo.TABLE_MODEL_DITA_PROPERTIES :
-          simpleTableModel ? TableInfo.TABLE_MODEL_DITA_SIMPLE : TableInfo.TABLE_MODEL_HTML);
+        
+        int tableModel;
+        if (makeCalsTable) {
+          tableModel = TableInfo.TABLE_MODEL_CALS;
+        } else if (makePropertiesTable) {
+          tableModel = TableInfo.TABLE_MODEL_DITA_PROPERTIES;
+        } else if (simpleTableModel){
+          tableModel = TableInfo.TABLE_MODEL_DITA_SIMPLE;
+        } else {
+          tableModel = TableInfo.TABLE_MODEL_HTML;
+        }
+        tableModelChanged(tableModel);
       }
       
       // Title check box and text field. It's important to set the "Title" check box selection
@@ -1292,7 +1336,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       }
 
       if (showModelChooser) {
-        makeCalsTable = isCalsTable || !isSimpleOrHtmlTable && !isPropertiesTableModel;
+        makeCalsTable = isCalsTable || (!isSimpleOrHtmlTable && !isPropertiesTableModel);
         makeSimpleOrHtmlTable = isSimpleOrHtmlTable;
         makePropertiesTable = isPropertiesTableModel;
         
@@ -1314,9 +1358,9 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
       if (predefinedRowsCount < 0 || predefinedColumnsCount < 0) {
         // Set the default number of rows and columns
         rows = TableInfo.DEFAULT_ROWS_COUNT;
-        rowsSpinner.setSelection(Integer.valueOf(rows));
+        rowsSpinner.setSelection(rows);
         columns = isPropertiesTableModel ? TableInfo.DEFAULT_COLUMNS_COUNT_PROPERTIES_TABLE : TableInfo.DEFAULT_COLUMNS_COUNT;
-        columnsSpinner.setSelection(Integer.valueOf(columns));
+        columnsSpinner.setSelection(columns);
       } else {
         rowsSpinner.setSelection(predefinedRowsCount);
         columnsSpinner.setSelection(predefinedColumnsCount);
@@ -1421,7 +1465,7 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * Update controls for the given selected table model.
    */
   private void tableModelChanged(int model) {
-    updateColWidthsCombo(!(model == TableInfo.TABLE_MODEL_DITA_PROPERTIES));
+    updateColWidthsCombo(model != TableInfo.TABLE_MODEL_DITA_PROPERTIES);
     if (colWidthsCombobox != null && colWidthsCombobox.getCombo().isEnabled()) {
       setColWidthsComboInput(getColumnWidthsSpecifications(model));
     }
@@ -1450,6 +1494,6 @@ public abstract class ECTableCustomizerDialog extends TrayDialog implements Tabl
    * @return the ID of the help page which will be called by the end user or <code>null</code>.
    */
   protected String getHelpPageID(){
-    return "adding-tables-author";
+    return HELP_PAGE_ID;
   }
 }

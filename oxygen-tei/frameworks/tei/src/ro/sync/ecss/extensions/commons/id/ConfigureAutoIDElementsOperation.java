@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -67,17 +67,22 @@ import ro.sync.exml.workspace.api.Platform;
 public abstract class ConfigureAutoIDElementsOperation implements AuthorOperation {
   
   /**
+   * The ID of the help page which will be called by the end user
+   */
+  private static final String HELP_PAGE_ID = "generate-ids";
+  
+  /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     GenerateIDElementsInfo info = new GenerateIDElementsInfo(authorAccess, getDefaultOptions(authorAccess));
     Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-    if(Platform.STANDALONE.equals(platform)) {
+    if(Platform.STANDALONE == platform) {
       info = new SAIDElementsCustomizer().customizeIDElements(
           authorAccess, info, getListMessage(), getHelpPageID(), isDocBook());
-    } else if (Platform.ECLIPSE.equals(platform)) {
+    } else if (Platform.ECLIPSE == platform) {
       info = new ECIDElementsCustomizer().customizeIDElements(
           authorAccess, info, getListMessage(), getHelpPageID(), isDocBook());
     }
@@ -133,6 +138,6 @@ public abstract class ConfigureAutoIDElementsOperation implements AuthorOperatio
    * @return the ID of the help page which will be called by the end user or <code>null</code>.
    */
   protected String getHelpPageID(){
-    return "generate-ids";
+    return HELP_PAGE_ID;
   }
 }

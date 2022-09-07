@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,8 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -79,7 +80,7 @@ public class PromoteDemoteItemOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(PromoteDemoteItemOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(PromoteDemoteItemOperation.class.getName());
   
   /**
    * An XPath expression that identifies the content to be moved.
@@ -113,7 +114,7 @@ public class PromoteDemoteItemOperation implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     AuthorActionEventHandler eventHandler = CommonAccess.getAuthorActionEventHandler(authorAccess);
     if (eventHandler != null) {
       boolean promote = AuthorConstants.ARG_VALUE_TRUE.equals(args.getArgumentValue(ARGUMENT_PROMOTE));

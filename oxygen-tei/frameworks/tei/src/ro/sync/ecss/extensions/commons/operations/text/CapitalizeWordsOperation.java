@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -51,8 +51,6 @@
 package ro.sync.ecss.extensions.commons.operations.text;
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Segment;
-
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -85,12 +83,11 @@ public class CapitalizeWordsOperation extends FormSelectedTextOperation {
     
     boolean toRet = false;
 
-    Segment seg = new Segment();
+    CharSequence contentCharSequence = documentController.getContentCharSequence();
     contentOffset--;
     while (contentOffset >= 1) {
       // Read one char
-      documentController.getChars(contentOffset, 1, seg);
-      char ch = seg.array[seg.offset];
+      char ch = contentCharSequence.charAt(contentOffset);
 
       if (ch == '\0') {
         // Sentinel character. Get the corresponding node

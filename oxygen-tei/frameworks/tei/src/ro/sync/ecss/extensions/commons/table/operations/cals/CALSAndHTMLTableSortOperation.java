@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,12 +56,17 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.ecss.common.CommonAccess;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorElementBaseInterface;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.ExtensionsBundle;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AuthorParentNode;
@@ -75,6 +80,11 @@ import ro.sync.ecss.extensions.commons.sort.TableSortUtil;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
+  
+  /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(CALSAndHTMLTableSortOperation.class.getName());
   
   /**
    * @see ro.sync.ecss.extensions.commons.sort.SortOperation#getSortParent(int, ro.sync.ecss.extensions.api.AuthorAccess)
@@ -146,24 +156,21 @@ public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
    * <code>null</code> or is not an element.
    */
   private AuthorElement getBodyElement(AuthorNode currentElement) {
-    if (currentElement == null) {
-      return null;
-    }
-
-    if (currentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+    AuthorElement bodyElement = null;
+    if (currentElement != null && currentElement.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
       List<AuthorNode> contentNodes = ((AuthorElement)currentElement).getContentNodes();
       for (int i = 0; contentNodes != null && i < contentNodes.size(); i++) {
         AuthorNode authorNode = contentNodes.get(i);
         if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
           if (isTableBody((AuthorElement) authorNode)) {
             // Table body is a sortable parent
-            return (AuthorElement) authorNode;
+            bodyElement =  (AuthorElement) authorNode;
+            break;
           }
         }
       }
     }
-
-    return null;
+    return bodyElement;
   }
   
   /**
@@ -185,6 +192,13 @@ public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
       values = new String[criterionInfo.length];
       // Row element ?
       AuthorElement authorParentNode = (AuthorElement)node;
+      
+      // EXM-43064 if the current row is a reference, find the wrapped author node.
+      ExtensionsBundle extensionsBundle = authorAccess.getEditorAccess().getExtensionsBundle();
+      if (extensionsBundle != null) {
+        authorParentNode = (AuthorElement) CommonAccess.getContentReferencedNode(extensionsBundle, authorParentNode);
+      }
+
       if(isTableRow(authorParentNode)) {
         List<AuthorNode> contentNodes = getNonIgnoredChildren(authorParentNode);
         int size = contentNodes.size();
@@ -363,6 +377,7 @@ public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
       }
     } catch (BadLocationException e) {
       // Do nothing 
+      LOGGER.debug(e.getMessage(), e);
     }
     
     return isCaretInColumn;
@@ -381,9 +396,8 @@ public abstract class CALSAndHTMLTableSortOperation extends TableSortOperation {
       for (Iterator iterator = contentNodes.iterator(); iterator.hasNext();) {
         AuthorNode authorNode = (AuthorNode) iterator.next();
         if (authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-          if (isTableHead((AuthorElement) authorNode)) {
-            index ++;
-          } else if (isTableFoot((AuthorElement) authorNode)) {
+          if (isTableHead((AuthorElement) authorNode)
+              || isTableFoot((AuthorElement) authorNode)) {
             index ++;
           }
         }

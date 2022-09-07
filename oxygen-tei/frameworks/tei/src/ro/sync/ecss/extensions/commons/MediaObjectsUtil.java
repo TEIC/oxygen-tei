@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -51,17 +51,13 @@
 package ro.sync.ecss.extensions.commons;
 
 import java.net.URL;
-import java.util.List;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
-import ro.sync.ecss.dita.DITAAccess;
-import ro.sync.ecss.dita.MediaInfo;
-import ro.sync.ecss.dita.reference.keyref.KeyInfo;
-import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.basic.util.Equaler;
+import ro.sync.basic.util.ArraysUtil;
 import ro.sync.basic.util.URLUtil;
+import ro.sync.ecss.dita.MediaInfo;
 
 /**
  * Utility methods for media objects.
@@ -69,7 +65,22 @@ import ro.sync.basic.util.URLUtil;
  * @author adrian_sorop
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class MediaObjectsUtil {
+public final class MediaObjectsUtil {
+
+  /**
+   * Host of vimeo embedded videos.
+   */
+  private static final String VIMEO_EMBEDDED_HOST = "player.vimeo.com";
+
+  /**
+   * The generic Vimeo host.
+   */
+  private static final String VIMEO_HOST = "vimeo.com";
+
+  /**
+   * YouTube host.
+   */
+  private static final String YOUTUBE_HOST = "www.youtube.com";
 
   /**
    * Attribute "data".
@@ -82,9 +93,13 @@ public class MediaObjectsUtil {
   public static final String REFERENCE_ATTR_DATAKEYREF = "datakeyref";
 
   /**
-   * Constructor. Private to avoid using.
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
    */
-  private MediaObjectsUtil(){
+  private MediaObjectsUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
   }
   
   /**
@@ -103,8 +118,15 @@ public class MediaObjectsUtil {
   /**
    * All the allowed extensions for an media file.
    */
-  public static final String[] ALLOWED_MEDIA_EXTENSIONS = new String[] {
-      "mp3", "wav", "pcm", "m4a", "aif", "aiff", "mp4", "flv", "m4v", "avi", "wmv"};
+  public static final String[] ALLOWED_MEDIA_EXTENSIONS = (String[]) ArraysUtil.mergeArrays(
+      MEDIA_AUDIO_EXTENSIONS, MEDIA_VIDEO_EXTENSIONS, ArraysUtil.getArrayLength(MEDIA_AUDIO_EXTENSIONS));
+  
+  /**
+   * All accepted media hosts.
+   */
+  public static final String[] RECOGNIZED_MEDIA_HOSTS = new String[] {
+     YOUTUBE_HOST, VIMEO_HOST, VIMEO_EMBEDDED_HOST
+  };
   
   /**
    * Determine if an extension is found in an extension array.
@@ -131,79 +153,141 @@ public class MediaObjectsUtil {
    * @return Detected output class.
    */
   public static String detectOutputclass(String  href) {
-    String extension = href != null ? URLUtil.getExtension(href) : "";
     String outputclass = MediaInfo.IFRAME_MEDIA_TYPE;
     // Audio files
-    if (containsExtension(extension, MediaObjectsUtil.MEDIA_AUDIO_EXTENSIONS)) {
+    if (isAudioReference(href)) {
       outputclass = MediaInfo.AUDIO_MEDIA_TYPE;
-    }
-    // Video Files
-    if (containsExtension(extension, MediaObjectsUtil.MEDIA_VIDEO_EXTENSIONS)) {
+    } else if (isVideoReference(href)) {
+      // Video Files
       outputclass = MediaInfo.VIDEO_MEDIA_TYPE;
     } 
     return outputclass;
   }
   
   /**
-   * Get the reference attribute name (<code>data</code> or <code>datakeyref</code>) and value.
-   * 
-   * @param authorAccess  The Author access.
-   * @param base          The base URL.
-   * @param url           The current URL.
-   * 
-   * @return An array of strings, containing the attribute name and the value.
-   */
-  public static String[] getReferenceAttributeNameAndValue(AuthorAccess authorAccess, URL base, URL url){
-    String refAttrName = REFERENCE_ATTR_DATA;
-    String refAttrValue = null;
-    //Maybe we already have a key bound to the href, prefer to insert keyref instead of xref.
-    List<KeyInfo> keys = DITAAccess.getKeysForInsertion(authorAccess.getEditorAccess().getEditorLocation());
-    if(keys != null) {
-      for (int i = 0; i < keys.size(); i++) {
-        KeyInfo keyInfo = keys.get(i);
-        if (Equaler.verifyEquals(keyInfo.getHrefLocation(), url)) { 
-          refAttrName = REFERENCE_ATTR_DATAKEYREF;
-          refAttrValue = keyInfo.getKeyName();
-          break;
-        }
-      }
-    }
-    if(refAttrValue == null) {
-      //Compute relative location
-      refAttrValue = authorAccess.getUtilAccess().makeRelative(base, url);
-    }
-    return new String[]{refAttrName, refAttrValue};
-  }
-  
-  /**
-   * Checks if the URL is a media reference. 
+   * Checks if the URL is a media reference and an media object (not xref) should be inserted.
    * 
    * @param url Resource's URL.
-   * @return <code>true</code> if the resource is a media. YouTube links are
+   * @return <code>true</code> if the resource is a media. YouTube and Vimeo links are
    * associated with media files.
    */
   public static boolean isMediaReference(URL url) {
-    String u = url.toExternalForm();
-    String extension = URLUtil.getExtension(u);
-    return containsExtension(extension, ALLOWED_MEDIA_EXTENSIONS) ||
-        url.getHost().toLowerCase().contains("youtube.com");
+    boolean isMediaRef = false;
+    if (url != null) {
+      String u = url.toExternalForm();
+      String extension = URLUtil.getExtension(u);
+      String host = url.getHost().toLowerCase();
+      isMediaRef = containsExtension(extension, ALLOWED_MEDIA_EXTENSIONS) ||
+          isRecognizedAsMedia(host);
+    }
+    return isMediaRef;
   }
   
   /**
-   * Determines if the referred resource is YouTube embedded content.
+   * Determines if the referred resource is YouTube or Vimeo embedded content.
    * 
    * @param url the referred resource.
    * 
-   * @return <code>true</code> if the referred resource is YouTube embedded video.
+   * @return <code>true</code> if the referred resource is YouTube or Vimeo embedded video.
    */
   public static boolean isEmbeddedContent(String url){
     boolean toReturn = false;
     if (url != null) {
       String lowerCase = url.toLowerCase();
-      if (lowerCase.contains(".youtube.") && lowerCase.contains("embed")) {
-        toReturn = true;
-      }
+      boolean youTubeEmbedded = lowerCase.contains(".youtube.") && lowerCase.contains("embed");
+      boolean vimeoEmbedded = lowerCase.contains(VIMEO_EMBEDDED_HOST);
+      // YouTube and Vimeo are recognized as embedded content.
+      toReturn = youTubeEmbedded || vimeoEmbedded;
     }
     return toReturn;
   }
+  
+  /**
+   * Determine if the host of an inserted video should be treated as media object.
+   * 
+   * @param hostURL Video host (like YouTube or Vimeo)   
+   * @return  <code>true</code> if the host is contained.
+   */
+  public static boolean isRecognizedAsMedia(String hostURL) {
+    boolean accepted = false;
+    for (int i = 0; i < RECOGNIZED_MEDIA_HOSTS.length; i++) {
+      if (RECOGNIZED_MEDIA_HOSTS[i].equals(hostURL)) {
+        accepted = true;
+        break;
+      }
+    }
+    return accepted;
+  }
+  
+  /**
+   * Corrects YouTube and Vimeo video references transforming the link into an embedded links.
+   * <pre>
+   * YouTube: From https://www.youtube.com/watch?v=video_id To https://www.youtube.com/embed/video_id
+   * Vimeo  : From https://vimeo.com/video_id To https://player.vimeo.com/video/video_id
+   * </pre>
+   * 
+   * @param url The inserted media reference.
+   * @return    The corrected media reference.
+   */
+  public static String correctMediaEmbeddedReference(String url) {
+    String corrected = url;
+    URL convertToURL = null;
+    try {
+      convertToURL = URLUtil.convertToURL(url);
+    } catch (SecurityException e) { //NOSONAR java:S1166 See the comment from below 
+      // URLUtil.convertToURL tries to read the file system when given a Malformed URL -> security manager exception on WA. 
+      // We don't care if the URL is malformed so ignore this exception.
+    }
+    String host = convertToURL != null ? convertToURL.getHost() : null;
+    if (host != null && isRecognizedAsMedia(host)) {
+      if (YOUTUBE_HOST.equals(host) && corrected.contains("/watch?v=")) {
+        corrected = corrected.replace("/watch?v=", "/embed/");
+      } else if(VIMEO_HOST.equals(host) && corrected.contains("/vimeo.com/")) {
+        corrected = corrected.replace("/vimeo.com/", "/player.vimeo.com/video/");
+      }
+    }
+    
+    return corrected;
+  }
+  
+  /**
+   * Checks if the extension of file name is a reference to supported audio types.
+   * 
+   * @param fileName The name of the file to check. 
+   * @return <code>true</code> if current file name points to an audio file.
+   */
+  public static boolean isAudioReference(String fileName) {
+    String extension = URLUtil.getExtension(fileName);
+    return hasAudioFormat(extension);
+  }
+
+  /**
+   * Checks if the format is a supported audio format.
+   * @param format resource format.
+   * @return <code>true</code> if the format is audio.
+   */
+  public static boolean hasAudioFormat(String format) {
+    return format != null && MediaObjectsUtil.containsExtension(format, MediaObjectsUtil.MEDIA_AUDIO_EXTENSIONS);
+  }
+  
+  /**
+   * Checks if the extension of file name is a reference to supported video types.
+   * 
+   * @param fileName The name of the file to check. 
+   * @return <code>true</code> if current file name points to a video file.
+   */
+  public static boolean isVideoReference(String fileName) {
+    String extension = URLUtil.getExtension(fileName);
+    return hasVideoFormat(extension);
+  }
+
+  /**
+   * Checks if the format is a supported video format.
+   * @param format resource format.
+   * @return <code>true</code> if the format is video.
+   */
+  public static boolean hasVideoFormat(String format) {
+    return format != null && MediaObjectsUtil.containsExtension(format, MediaObjectsUtil.MEDIA_VIDEO_EXTENSIONS);
+  }
+  
 }

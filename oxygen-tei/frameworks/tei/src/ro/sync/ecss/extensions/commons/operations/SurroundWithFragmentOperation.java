@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -80,19 +80,24 @@ public class SurroundWithFragmentOperation implements AuthorOperation {
     new ArgumentDescriptor(
         ARGUMENT_NAME,
         ArgumentDescriptor.TYPE_FRAGMENT,
-    "The fragment to surround with. The first leaf will be the destination of the text to surround."),
+        "The fragment to surround with. The first leaf will be the destination of the text to surround.\n\n" + 
+        "If the first leaf is not the desired location for the surrounded fragment," +
+        " you can use the \"InsertOrReplaceFragmentOperation\" operation and set the folllowing arguments:\n" + 
+        " - fragment: The XML fragment that will surround the selection." +
+        " Use the ${selection} editor variable in the location you want to place the surrounded fragment.\n" +
+        " - schemaAware: Set to false, to avoid moving the fragment if it is not valid at the given location."),
     new ArgumentDescriptor(
         SCHEMA_AWARE_ARGUMENT, 
         ArgumentDescriptor.TYPE_CONSTANT_LIST,
         "Controlling if the insertion is schema aware or not. " +
         "When the schema aware is enabled and the fragments insertion is not allowed a dialog will be shown, proposing solutions, like:\n" +
-        " - insert the fragments inside a new element. The name of the element to wrap the fragments in is computed by analyzing the left or right siblings;\n" + 
+        " - insert the fragments inside a new element. " +
+        "The name of the element to wrap the fragments in is computed by analyzing the left or right siblings;\n" + 
         " - split an ancestor of the node at insertion offset and insert the fragments between the resulted elements;\n" +
         " - insert the fragments somewhere in the proximity of the insertion offset(left or right without skipping content);\n" + 
         "Note: if a selection exists the surround with fragment operation is not schema aware.\n" + 
-        "Can be: " 
-        + AuthorConstants.ARG_VALUE_TRUE + ", " +
-        AuthorConstants.ARG_VALUE_FALSE + ". Default value is " + AuthorConstants.ARG_VALUE_TRUE + ".",
+        "Can be: " + AuthorConstants.ARG_VALUE_TRUE + ", " + AuthorConstants.ARG_VALUE_FALSE +
+        ". Default value is " + AuthorConstants.ARG_VALUE_TRUE + '.',
         new String[] {
             AuthorConstants.ARG_VALUE_TRUE,
             AuthorConstants.ARG_VALUE_FALSE,
@@ -107,9 +112,9 @@ public class SurroundWithFragmentOperation implements AuthorOperation {
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     // Surround in element.
     Object argVal = args.getArgumentValue(ARGUMENT_NAME);
-    if (argVal != null && argVal instanceof String) {
+    if (argVal instanceof String) {
       Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
-      boolean schemaAware = AuthorConstants.ARG_VALUE_FALSE.equals(schemaAwareArgumentValue) ? false : true;
+      boolean schemaAware = !AuthorConstants.ARG_VALUE_FALSE.equals(schemaAwareArgumentValue);
       // If there is a selection, surround the selection with the given fragment else 
       // try to insert the fragment at caret
       CommonsOperationsUtil.surroundWithFragment(authorAccess, schemaAware, (String) argVal);

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2015 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -61,6 +61,8 @@ import javax.swing.text.Position;
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.util.NumberFormatException;
+import ro.sync.basic.util.NumberParserUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -189,7 +191,7 @@ public abstract class JoinOperationBase extends AbstractTableOperation {
         throw ex;
       }
     } catch (BadLocationException e) {
-      AuthorOperationException ex = new AuthorOperationException(CURSOR_OUTSIDE_THE_TABLE_ERROR_MESSAGE);
+      AuthorOperationException ex = new AuthorOperationException(CURSOR_OUTSIDE_THE_TABLE_ERROR_MESSAGE, e);
       ex.setOperationRejectedOnPurpose(true);
       throw ex;
     }
@@ -420,8 +422,8 @@ public abstract class JoinOperationBase extends AbstractTableOperation {
     groupInformation.groupMap.put(cellRepresentation, authorNode);
     int sepIndex = cellRepresentation.indexOf(ROW_COL_SEPARATOR);
     try {
-      int row = Integer.parseInt(cellRepresentation.substring(0, sepIndex));
-      int column = Integer.parseInt(cellRepresentation.substring(sepIndex + 1, cellRepresentation.length()));
+      int row = NumberParserUtil.parseInt(cellRepresentation.substring(0, sepIndex));
+      int column = NumberParserUtil.parseInt(cellRepresentation.substring(sepIndex + 1, cellRepresentation.length()));
       
       // If left cell is selected it means that the group selection is not rectangular, stop.
       if (column > 0) {

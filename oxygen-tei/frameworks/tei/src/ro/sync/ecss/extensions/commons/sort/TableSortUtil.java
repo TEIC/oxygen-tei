@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -65,8 +65,18 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
  * Util class for table sort operations.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class TableSortUtil {
+public final class TableSortUtil {
 
+  /**
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private TableSortUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
+  
   /**
    * Checks if the given element is entirely included in the current selection.
    * 

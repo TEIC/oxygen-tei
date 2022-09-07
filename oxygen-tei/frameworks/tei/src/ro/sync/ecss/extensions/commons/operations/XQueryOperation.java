@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.WebappCompatible;
-import ro.sync.ecss.extensions.api.access.AuthorXMLUtilAccess;
+import ro.sync.exml.workspace.api.util.InternalTransformerAccess;
 
 /**
  * An implementation of an operation to apply an XQuery script on a element and replacing it with
@@ -80,7 +80,8 @@ public class XQueryOperation extends TransformOperation {
   @Override
   protected Transformer createTransformer(AuthorAccess authorAccess, Source xquerySrc)
       throws TransformerConfigurationException {
-    return authorAccess.getXMLUtilAccess().createXQueryTransformer(xquerySrc, null, AuthorXMLUtilAccess.TRANSFORMER_SAXON_PROFESSIONAL_EDITION, false);
+    return authorAccess.getXMLUtilAccess().createXQueryTransformer(
+        xquerySrc, null, InternalTransformerAccess.INTERNAL_TRANSFORMER_SAXON_PROFESSIONAL_EDITION, false);
   }
   
   /**

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -93,7 +94,7 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
   /**
    * Logger for logging.
    */
-  private static Logger logger = Logger.getLogger(ECPropertiesComposite.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(ECPropertiesComposite.class.getName());
   /**
    * Class for preview group. Contains a label which will present the preview image.
    * 
@@ -362,7 +363,8 @@ public class ECPropertiesComposite extends Composite implements PropertySelectio
       throws AuthorOperationException {
     StringBuilder iconRelativePath = new StringBuilder();
     String group = property.getParentGroup();
-    if (TablePropertiesConstants.COLSEP.equalsIgnoreCase(property.getAttributeName()) || TablePropertiesConstants.ROWSEP.equalsIgnoreCase(property.getAttributeName())) {
+    if (TablePropertiesConstants.COLSEP.equalsIgnoreCase(property.getAttributeName()) 
+        || TablePropertiesConstants.ROWSEP.equalsIgnoreCase(property.getAttributeName())) {
       // Check all the properties until the rowsep with the same parent group is found
       String colsepVal = TablePropertiesConstants.ATTR_NOT_SET;
       String rowsepVal = TablePropertiesConstants.ATTR_NOT_SET;

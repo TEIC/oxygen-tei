@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListCellRenderer;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
@@ -87,6 +90,10 @@ import ro.sync.ecss.extensions.api.AuthorResourceBundle;
 @API(type=APIType.NOT_EXTENDABLE, src=SourceType.PRIVATE)
 @SkipObfuscate(classes = SkipLevel.NOT_SPECIFIED, fields = SkipLevel.NOT_SPECIFIED, methods = SkipLevel.PUBLIC)
 public class SAPropertyPanel {
+  /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(SAPropertyPanel.class.getName());
 
   /**
    * The {@link TableProperty} object associated with the current panel.
@@ -198,6 +205,7 @@ public class SAPropertyPanel {
               controller.selectionChanged(SAPropertyPanel.this.tableProperty, currentlySelectedValue);
             } catch (AuthorOperationException e1) {
               // Do nothing
+              LOGGER.debug(e1.getMessage(), e1);
             }
           }
         }
@@ -245,6 +253,7 @@ public class SAPropertyPanel {
                 controller.selectionChanged(SAPropertyPanel.this.tableProperty, currentlySelectedValue);
               } catch (AuthorOperationException e1) {
                 // Do nothing
+                LOGGER.debug(e1.getMessage(), e1);
               }
             }
           }
@@ -297,8 +306,8 @@ public class SAPropertyPanel {
     
     // Check if the property was modified
     if (tableProperty.getCurrentValue() == null
-        || tableProperty.getCurrentValue() != null 
-        && !tableProperty.getCurrentValue().equals(currentSelectedValue)) {
+        || (tableProperty.getCurrentValue() != null 
+            && !tableProperty.getCurrentValue().equals(currentSelectedValue)) ) {
       modifiedProperty = new TableProperty(
           tableProperty.getAttributeName(), 
           tableProperty.getAttributeRenderString(), 

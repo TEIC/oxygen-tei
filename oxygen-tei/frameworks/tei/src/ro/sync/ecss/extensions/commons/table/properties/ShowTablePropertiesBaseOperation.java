@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.table.properties;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +63,8 @@ import java.util.Map;
 import javax.swing.text.Position;
 
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -94,6 +95,11 @@ import ro.sync.exml.workspace.api.Platform;
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 public abstract class ShowTablePropertiesBaseOperation implements AuthorOperation {
   /**
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ShowTablePropertiesBaseOperation.class.getName());
+
+  /**
    * The table properties helper.
    */
   protected TablePropertiesHelper tableHelper;
@@ -116,9 +122,14 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     this.authorAccess = authorAccess;
-    showTableProperties();
+    try {
+      showTableProperties(args);
+    } catch (AuthorOperationException e) {
+      // Show error message
+      authorAccess.getWorkspaceAccess().showErrorMessage(e.getMessage(), e);
+    }
   }
 
   /**
@@ -132,171 +143,290 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
   /**
    * Shows the table properties and process all the modifications.
    * 
+   * @param args the arguments the operation was invoked with.
+   * 
    * @throws AuthorOperationException When the action cannot be performed.
    */
-  public void showTableProperties() throws AuthorOperationException {
-    try {
-      // Check if there is a selection. The selection can be single selection or multiple selection
-      // If no selection, we must use the node at caret position 
-      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
-      List<AuthorElement> nodes = new ArrayList<AuthorElement>();
-      // Check the selection first
-      List<Integer[]> selections = new ArrayList<Integer[]>();
-      if (authorAccess.getEditorAccess().hasSelection()) {
-        List<ContentInterval> selectionIntervals = 
-            authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
-        // Obtain all the selection intervals
-        if (selectionIntervals != null && !selectionIntervals.isEmpty()) {
-          for (int i = 0; i < selectionIntervals.size(); i++) {
-            int startOffset = selectionIntervals.get(i).getStartOffset();
-            int endOffset = selectionIntervals.get(i).getEndOffset();
-            selections.add(new Integer[] {startOffset, endOffset});
-          }
-        }
-      } else {
-        // No selection, use the caret position
-        selections.add(new Integer[] {caretOffset, caretOffset});
-      }
-      
-      // Check if only one table is selected
-      List<AuthorElement> tableElements = 
-          TableOperationsUtil.getTableElementsOfType(authorAccess, selections, 
-              TablePropertiesConstants.TYPE_TABLE, tableHelper);
-      int tableElementsNumber = 0;
-      for (int i = 0; i < tableElements.size() && tableElementsNumber < 2; i++) {
-        if (!tableHelper.isNodeOfType(tableElements.get(i), TablePropertiesConstants.TYPE_GROUP)) {
-          tableElementsNumber++;
-        }
-      }
-      
-      // Cannot modify properties for more than one table 
-      if (tableElementsNumber > 1) {
-        throw new AuthorOperationException(authorAccess.getAuthorResourceBundle().
-            getMessage(ExtensionTags.CANNOT_PERFORM_TABLE_PROPERTIES_OPERATION));
-      }
-      
-      // Show the 'Table properties' dialog
-      EditedTablePropertiesInfo tableInfo = null;
-      List<TabInfo> categoriesAndAttributes = getCategoriesAndProperties(selections);
-      if (!categoriesAndAttributes.isEmpty()) {
-        // We have at least one category, show the dialog
-        EditedTablePropertiesInfo editedTablePropertiesInfo = new EditedTablePropertiesInfo(categoriesAndAttributes, getSelectedTab(selections));
-        Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-        if (Platform.STANDALONE.equals(platform)) {
-          SATablePropertiesCustomizerDialog saTablePropertiesCustomizer = new SATablePropertiesCustomizerDialog(
-              (Frame) authorAccess.getWorkspaceAccess().getParentFrame(), 
-              authorAccess.getAuthorResourceBundle(),
-              authorAccess.getWorkspaceAccess()){
-            /**
-             * @see ro.sync.ecss.extensions.commons.table.properties.SATablePropertiesCustomizerDialog#getHelpPageID()
-             */
-            public String getHelpPageID() {
-              return ShowTablePropertiesBaseOperation.this.getHelpPageID();
-            }
-          };
-          saTablePropertiesCustomizer.setLocationRelativeTo(
-              (Component) authorAccess.getWorkspaceAccess().getParentFrame());
-
-          // Obtain the modified properties for the current table
-          tableInfo = saTablePropertiesCustomizer.getTablePropertiesInformation(
-              editedTablePropertiesInfo);
-        } else if (Platform.ECLIPSE.equals(platform)) {
-          //Eclipse table customization
-          ECTablePropertiesCustomizerDialog ecTablePropertiesCustomizer = new ECTablePropertiesCustomizerDialog(
-              (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
-              authorAccess.getAuthorResourceBundle(),
-              authorAccess.getWorkspaceAccess(), ShowTablePropertiesBaseOperation.this.getHelpPageID());
-
-          // Obtain the modified properties for the current table
-          tableInfo = ecTablePropertiesCustomizer.getTablePropertiesInformation(
-              editedTablePropertiesInfo);
-        }
-      } else {
-        throw new AuthorOperationException(authorAccess.getAuthorResourceBundle().getMessage(
-            ExtensionTags.CANNOT_PERFORM_OPERATION_NO_ELEMENT_TO_EDIT_PROPERTIES_FOR));
-      }
-      if (tableInfo != null) {
-        // First of all, modify the attributes
-        // Obtain the nodes whose attributes will be modified and the corresponding attributes  
-        List<TabInfo> attributesModifications = getElementsWithModifiedAttributes(tableInfo);
-        // For every given node, modify the attributes
-        for (int i = 0; i < attributesModifications.size(); i++) {
-          TabInfo tabInfo = attributesModifications.get(i);
-          List<AuthorElement> authorElements = tabInfo.getNodes();
-          List<TableProperty> attrsToModify = tabInfo.getProperties();
-          AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(authorElements.toArray(new AuthorElement[0]));
-          if (commonAncestor != null) {
-            int[] offsets = new int[authorElements.size()];
-            for (int j = 0; j < authorElements.size(); j++) {
-              AuthorElement authorElement = authorElements.get(j);
-              offsets[j] = authorElement.getStartOffset() + 1;
-            }
-
-            Map<String, AttrValue> attributes = new LinkedHashMap<String, AttrValue>();
-            for (int k = 0; k < attrsToModify.size(); k++) {
-              TableProperty attr = attrsToModify.get(k);
-              attributes.put(attr.getAttributeName(), attr.getCurrentValue() != null ? 
-                  new AttrValue(attr.getCurrentValue()) : null);
-            }
-            authorAccess.getDocumentController().setMultipleAttributes(commonAncestor.getStartOffset() + 1, offsets, attributes);
-          }
-        }
-        
-        // Delete the nodes that are changed and insert the new fragments
-        List<TabInfo> fragmentsAndOffsetsToInsert = getFragmentsAndOffsetsToInsert(tableInfo, nodes);
-        for (int i = 0; i < fragmentsAndOffsetsToInsert.size(); i++) {
-          TabInfo tabInfo = fragmentsAndOffsetsToInsert.get(i);
-          List<AuthorElement> nodesToDelete = tabInfo.getNodes();
-          AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(nodesToDelete.toArray(new AuthorElement[0]));
-          if (commonAncestor instanceof AuthorElement) {
-            for (Iterator iterator = nodesToDelete.iterator(); iterator.hasNext();) {
-              AuthorElement authorElement = (AuthorElement) iterator.next();
-              if (nodesToDelete.contains(authorElement.getParentElement())) {
-                iterator.remove();
-              }
-            }
-
-            // Sort in document order
-            Collections.sort(nodesToDelete, new Comparator<AuthorElement>() {
-              @Override
-              public int compare(AuthorElement o1, AuthorElement o2) {
-                int toRet = 0;
-                if (o1.getStartOffset() < o2.getStartOffset()) {
-                  toRet = - 1;
-                } else {
-                  toRet = 1;
-                }
-                return toRet;
-              }
-            });
-
-            // Compute the start and end offsets arrays
-            int[] startOffsets = new int[nodesToDelete.size()];
-            int[] endOffsets = new int[nodesToDelete.size()];
-            int n = nodesToDelete.size();
-            for (int j = 0; j < n; j++) {
-              startOffsets[j] = nodesToDelete.get(j).getStartOffset();
-              endOffsets[j] = nodesToDelete.get(j).getEndOffset();
-            }
-
-            // Multiple delete
-            authorAccess.getDocumentController().multipleDelete((AuthorElement) commonAncestor, startOffsets, endOffsets);
-            // Insert the new fragments
-            int[] offsets = new int[tabInfo.getFragmentsToInsert().size()];
-            for (int j = 0; j < tabInfo.getFragmentsToInsert().size(); j++) {
-              offsets[j] = tabInfo.getInsertOffsets()[j].getOffset(); 
-            }
-            authorAccess.getDocumentController().insertMultipleFragments(
-                (AuthorElement)commonAncestor, tabInfo.getFragmentsToInsert().toArray(new AuthorDocumentFragment[0]), offsets);
-          }
-        }
-        // Restore the caret position after structure modifications
-        authorAccess.getEditorAccess().setCaretPosition(caretOffset);
-      }
-    } catch (AuthorOperationException e) {
-      // Show error message
-      authorAccess.getWorkspaceAccess().showErrorMessage(e.getMessage());
+  public void showTableProperties(ArgumentsMap args) throws AuthorOperationException {
+    // Keep the old position of the caret to restore it
+    int oldCaretOffset = authorAccess.getEditorAccess().getCaretOffset(); //NOSONAR java:S1941 
+    
+    List<Integer[]> selections = getSelections();
+    List<TabInfo> categoriesAndAttributes = getCategoriesAndProperties(selections);
+    
+    if (categoriesAndAttributes.isEmpty()) {
+      throw new AuthorOperationException(authorAccess.getAuthorResourceBundle().getMessage(
+          ExtensionTags.CANNOT_PERFORM_OPERATION_NO_ELEMENT_TO_EDIT_PROPERTIES_FOR));
     }
+    
+    EditedTablePropertiesInfo tableInfo = null;
+    EditedTablePropertiesInfo editedTablePropertiesInfo = new EditedTablePropertiesInfo(categoriesAndAttributes, getSelectedTab(selections));
+    
+    if(args.getArgumentValue("tableInfo") != null) {
+      tableInfo = getTableInfoFromDescriptor((Map) args.getArgumentValue("tableInfo"), categoriesAndAttributes);
+    } else {
+      // Show the 'Table properties' dialog
+      tableInfo = showDialog(editedTablePropertiesInfo);
+    }
+    if (tableInfo != null) {
+      applyChanges(tableInfo);
+      
+      // Restore the caret position after structure modifications
+      authorAccess.getEditorAccess().setCaretPosition(oldCaretOffset);
+    }
+  }
+  
+  /**
+   * Get the edited table properties info based on a descriptor.
+   * 
+   * @param tableInforDescriptor the table info descriptor.
+   * @param categoriesAndAttributes the table properties categories (tabs) and attributes information.
+   * 
+   * @return the edited table properties info
+   */
+  private static EditedTablePropertiesInfo getTableInfoFromDescriptor(Map<String, List> tableInforDescriptor, List<TabInfo> categoriesAndAttributes) {
+    List<TabInfo> modifications = new ArrayList<TabInfo>();
+    EditedTablePropertiesInfo tableInfo = null;
+    
+    for (TabInfo tabInfo : categoriesAndAttributes) {
+      List<TableProperty> modifiedProperties = new ArrayList<>();
+      
+      List<Map<String, Object>> attributes = tableInforDescriptor.get(tabInfo.getTabKey());
+      if(attributes == null) {
+        continue;
+      }
+      for(Map<String, Object> attribute : attributes) {
+        String attributeName = (String)attribute.get("attributeName");
+        boolean isAttribute = (Boolean)attribute.get("attribute");
+        String value = (String)attribute.get("currentValue");
+        modifiedProperties.add(
+            new TableProperty(attributeName, null, null, value, isAttribute));
+      }
+      if( ! modifiedProperties.isEmpty()) {
+        List<AuthorElement> nodes = tabInfo.getNodes();
+        
+        modifications.add(new TabInfo(tabInfo.getTabKey(), modifiedProperties, nodes));
+      }
+    }
+
+    // There is at least one property modified, so create the table information
+    if (!modifications.isEmpty()) {
+      tableInfo = new EditedTablePropertiesInfo(modifications);
+    }
+    
+    return tableInfo;
+  }
+
+  /**
+   * Apply the user changes.
+   * 
+   * @param caretOffset the caret offset.
+   * @param tableInfo the table changes information.
+   * 
+   * @throws AuthorOperationException
+   */
+  private void applyChanges(EditedTablePropertiesInfo tableInfo)
+      throws AuthorOperationException {
+
+    // First of all, modify the attributes
+    // Obtain the nodes whose attributes will be modified and the corresponding attributes  
+    applyAttributesChanges(tableInfo);
+    
+    List<TabInfo> fragmentsAndOffsetsToInsert = getFragmentsAndOffsetsToInsert(tableInfo);
+    
+    for (int i = 0; i < fragmentsAndOffsetsToInsert.size(); i++) {
+      TabInfo tabInfo = fragmentsAndOffsetsToInsert.get(i);
+      
+      applyTabChanges(tabInfo);
+    }
+  }
+  
+  /**
+   * Apply the changes determined by a dialog tab.
+   * 
+   * @param tabInfo the dialog tab info.
+   */
+  private void applyTabChanges(TabInfo tabInfo) {
+    List<AuthorElement> nodesToDelete = tabInfo.getNodes();
+    AuthorNode commonAncestor = authorAccess.getDocumentController().getStrictCommonAncestor(nodesToDelete.toArray(new AuthorElement[0]));
+    
+    if (! (commonAncestor instanceof AuthorElement)) {
+      return;
+    }
+    
+    for (Iterator iterator = nodesToDelete.iterator(); iterator.hasNext();) {
+      AuthorElement authorElement = (AuthorElement) iterator.next();
+      if (nodesToDelete.contains(authorElement.getParentElement())) {
+        iterator.remove();
+      }
+    }
+
+    sortInDocumentOrder(nodesToDelete);
+
+    // Compute the start and end offsets arrays
+    int[] startOffsets = new int[nodesToDelete.size()];
+    int[] endOffsets = new int[nodesToDelete.size()];
+    
+    for (int j = 0; j < nodesToDelete.size(); j++) {
+      startOffsets[j] = nodesToDelete.get(j).getStartOffset();
+      endOffsets[j] = nodesToDelete.get(j).getEndOffset();
+    }
+
+    // Multiple delete
+    authorAccess.getDocumentController().multipleDelete((AuthorElement) commonAncestor, startOffsets, endOffsets);
+    // Insert the new fragments
+    int[] offsets = new int[tabInfo.getFragmentsToInsert().size()];
+    for (int j = 0; j < tabInfo.getFragmentsToInsert().size(); j++) {
+      offsets[j] = tabInfo.getInsertOffsets()[j].getOffset(); 
+    }
+    authorAccess.getDocumentController().insertMultipleFragments(
+        (AuthorElement)commonAncestor, tabInfo.getFragmentsToInsert().toArray(new AuthorDocumentFragment[0]), offsets);
+  }
+
+  /**
+   * Sort the nodes list based on the document order.
+   * 
+   * @param nodesToDelete the list to sort.
+   */
+  private static void sortInDocumentOrder(List<AuthorElement> nodesToDelete) {
+    // Sort in document order
+    Collections.sort(nodesToDelete, new Comparator<AuthorElement>() {
+      @Override
+      public int compare(AuthorElement o1, AuthorElement o2) {
+        int toRet = 0;
+        if (o1.getStartOffset() < o2.getStartOffset()) {
+          toRet = - 1;
+        } else {
+          toRet = 1;
+        }
+        return toRet;
+      }
+    });
+  }
+
+  /**
+   * Apply the attributes changes.
+   * 
+   * @param tableInfo the changes table info.
+   */
+  private void applyAttributesChanges(EditedTablePropertiesInfo tableInfo) {
+    List<TabInfo> attributesModifications = getElementsWithModifiedAttributes(tableInfo);
+    // For every given node, modify the attributes
+    for (int i = 0; i < attributesModifications.size(); i++) {
+      TabInfo tabInfo = attributesModifications.get(i);
+      List<AuthorElement> authorElements = tabInfo.getNodes();
+      List<TableProperty> attrsToModify = tabInfo.getProperties();
+      AuthorNode commonAncestor = authorAccess.getDocumentController().getCommonAncestor(authorElements.toArray(new AuthorElement[0]));
+      
+      if (commonAncestor == null) {
+        continue;
+      }
+      
+      int[] offsets = new int[authorElements.size()];
+      for (int j = 0; j < authorElements.size(); j++) {
+        AuthorElement authorElement = authorElements.get(j);
+        offsets[j] = authorElement.getStartOffset();
+      }
+
+      Map<String, AttrValue> attributes = new LinkedHashMap<String, AttrValue>();
+      for (int k = 0; k < attrsToModify.size(); k++) {
+        TableProperty attr = attrsToModify.get(k);
+        attributes.put(attr.getAttributeName(), attr.getCurrentValue() != null ? 
+            new AttrValue(attr.getCurrentValue()) : null);
+      }
+      if(!attributes.isEmpty()) {
+        authorAccess.getDocumentController().setMultipleAttributes(commonAncestor.getStartOffset(), offsets, attributes);
+      }
+    }
+  }
+
+  /**
+   * Show the table properties dialog.
+   * 
+   * @param editedTablePropertiesInfo information about the editable table properties.
+   * 
+   * @return the modified table properties.
+   * 
+   * @throws AuthorOperationException
+   */
+  private EditedTablePropertiesInfo showDialog(EditedTablePropertiesInfo editedTablePropertiesInfo) {
+    EditedTablePropertiesInfo tableInfo = null;
+  
+    Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
+    if (platform == Platform.STANDALONE) {
+      Frame parentFrame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
+      SATablePropertiesCustomizerDialog saTablePropertiesCustomizer = new SATablePropertiesCustomizerDialog(
+          parentFrame, 
+          authorAccess.getAuthorResourceBundle(),
+          authorAccess.getWorkspaceAccess()){
+        @Override
+        public String getHelpPageID() {
+          return ShowTablePropertiesBaseOperation.this.getHelpPageID();
+        }
+      };
+      
+      // Obtain the modified properties for the current table
+      tableInfo = saTablePropertiesCustomizer.getTablePropertiesInformation(
+          editedTablePropertiesInfo);
+    } else if (platform == Platform.ECLIPSE) {
+      //Eclipse table customization
+      ECTablePropertiesCustomizerDialog ecTablePropertiesCustomizer = new ECTablePropertiesCustomizerDialog(
+          (Shell) authorAccess.getWorkspaceAccess().getParentFrame(), 
+          authorAccess.getAuthorResourceBundle(),
+          authorAccess.getWorkspaceAccess(), ShowTablePropertiesBaseOperation.this.getHelpPageID());
+
+      // Obtain the modified properties for the current table
+      tableInfo = ecTablePropertiesCustomizer.getTablePropertiesInformation(
+          editedTablePropertiesInfo);
+    }
+    return tableInfo;
+  }
+
+  /**
+   * Check if there is a selection. The selection can be single selection or multiple selection
+   * If no selection, we must use the node at caret position
+   * 
+   * @return the current selections.
+   * 
+   * @throws AuthorOperationExceptio if the action cannot handle the current selection.
+   */
+  private List<Integer[]> getSelections() throws AuthorOperationException {
+    List<Integer[]> selections = new ArrayList<Integer[]>();
+    // Check the selection first
+    if (authorAccess.getEditorAccess().hasSelection()) {
+      List<ContentInterval> selectionIntervals = 
+          authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+      // Obtain all the selection intervals
+      if (selectionIntervals != null && !selectionIntervals.isEmpty()) {
+        for (int i = 0; i < selectionIntervals.size(); i++) {
+          int startOffset = selectionIntervals.get(i).getStartOffset();
+          int endOffset = selectionIntervals.get(i).getEndOffset();
+          selections.add(new Integer[] {startOffset, endOffset});
+        }
+      }
+    } else {
+      // No selection, use the caret position
+      int caretOffset = authorAccess.getEditorAccess().getCaretOffset();
+      selections.add(new Integer[] {caretOffset, caretOffset});
+    }
+    
+    // Check if only one table is selected
+    List<AuthorElement> tableElements = 
+        TableOperationsUtil.getTableElementsOfType(authorAccess, selections, 
+            TablePropertiesConstants.TYPE_TABLE, tableHelper);
+    int tableElementsNumber = 0;
+    for (int i = 0; i < tableElements.size() && tableElementsNumber < 2; i++) {
+      if (!tableHelper.isNodeOfType(tableElements.get(i), TablePropertiesConstants.TYPE_GROUP)) {
+        tableElementsNumber++;
+      }
+    }
+    
+    // Cannot modify properties for more than one table 
+    if (tableElementsNumber > 1) {
+      throw new AuthorOperationException(authorAccess.getAuthorResourceBundle().
+          getMessage(ExtensionTags.CANNOT_PERFORM_TABLE_PROPERTIES_OPERATION));
+    }
+    return selections;
   }
 
   /**
@@ -402,20 +532,19 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
    * corresponding offsets (the offsets where the fragments will be inserted).
    * 
    * @param tableInfo     The obtained table information from the table properties dialog.
-   * @param nodes         The selected nodes.
    * 
    * @return a list tab info objects which contains all the fragments which will be modified and the 
    * corresponding offsets (the offsets where the fragments will be inserted).
    */
   protected List<TabInfo> getFragmentsAndOffsetsToInsert(
-      EditedTablePropertiesInfo tableInfo, List<AuthorElement> nodes) throws AuthorOperationException {
-    List<TabInfo> categories = tableInfo.getCategories();
+      EditedTablePropertiesInfo tableInfo) throws AuthorOperationException {
+    List<TabInfo> tabsInfo = tableInfo.getCategories();
     List<TabInfo> modifications = new ArrayList<TabInfo>();
-    for (int i = 0; i < categories.size(); i++) {
+    for (int i = 0; i < tabsInfo.size(); i++) {
       List<AuthorDocumentFragment> fragments = new ArrayList<AuthorDocumentFragment>();
       List<Position> offsets = new ArrayList<Position>();
       // Obtain the current tab info
-      TabInfo tabInfo = categories.get(i);
+      TabInfo tabInfo = tabsInfo.get(i);
       TabInfo modification = null;
       List<AuthorElement> nodesToModify = new ArrayList<AuthorElement>();
       List<TableProperty> props = tabInfo.getProperties();
@@ -642,16 +771,18 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
         // Compute the common value
         if (TablePropertiesConstants.NOT_COMPUTED.equals(computedValue)) {
           computedValue = currentVal;
-        } else if (computedValue == null && addPreserve 
-            || computedValue != null && !computedValue.equals(currentVal) 
-            && !computedValue.equals(TablePropertiesConstants.ATTR_NOT_SET) 
-            && !computedValue.equals(TablePropertiesConstants.PRESERVE)
-            && addPreserve) {
+        } else if (
+            (computedValue == null && addPreserve) 
+                || (computedValue != null 
+                    && !computedValue.equals(currentVal) 
+                    && !computedValue.equals(TablePropertiesConstants.ATTR_NOT_SET) 
+                    && !computedValue.equals(TablePropertiesConstants.PRESERVE)
+                    && addPreserve)) {
           // Preserve
           computedValue = TablePropertiesConstants.PRESERVE;
         }
-      } else if (!TablePropertiesConstants.NOT_COMPUTED.equals(computedValue) 
-          && computedValue != null 
+      } else if (computedValue != null
+          && !computedValue.equals(TablePropertiesConstants.NOT_COMPUTED) 
           && !computedValue.equals(TablePropertiesConstants.PRESERVE) 
           && addPreserve) {
         // preserve
@@ -798,6 +929,7 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
       }
     } catch (Throwable e) {
       // Nothing to do
+      LOGGER.debug(e.getMessage(), e);
     }
     return tab;
   }
@@ -842,7 +974,7 @@ public abstract class ShowTablePropertiesBaseOperation implements AuthorOperatio
     if (tableHelper.isNodeOfType(element, TablePropertiesConstants.TYPE_CELL)) {
       // Found an isolated cell, so the tab should be "Cell(s)" tab
       tab = TAB_TYPE.CELL_TAB;
-    } if (tableHelper.isNodeOfType(element, TablePropertiesConstants.TYPE_ROW)) {
+    } else if (tableHelper.isNodeOfType(element, TablePropertiesConstants.TYPE_ROW)) {
       // Entire table
       tab = TAB_TYPE.ROW_TAB;
     } else {

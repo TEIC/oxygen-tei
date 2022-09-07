@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,8 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -63,9 +64,11 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.InvalidEditException;
 import ro.sync.ecss.extensions.api.WebappCompatible;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
+import ro.sync.ecss.extensions.commons.ExtensionTags;
 
 /**
  * An implementation of an insert operation for an argument of type fragment.
@@ -77,7 +80,7 @@ public class InsertFragmentOperation implements AuthorOperation {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(InsertFragmentOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(InsertFragmentOperation.class.getName());
   
   /**
    * The fragment argument.
@@ -151,6 +154,21 @@ public class InsertFragmentOperation implements AuthorOperation {
           AuthorConstants.ARG_VALUE_FALSE,
       }, 
       AuthorConstants.ARG_VALUE_TRUE);
+  
+  /**
+   * <code>true</code> to insert the fragment even if invalid.
+   */
+  public static final String ARGUMENT_INSERT_FRAG_EVEN_IF_INVALID = "insertEvenIfInvalid";
+  /**
+   * Argument descriptor.
+   */
+  protected static final ArgumentDescriptor ARGUMENT_DESCR_INSERT_FRAG_EVEN_IF_INVALID = new ArgumentDescriptor(
+      ARGUMENT_INSERT_FRAG_EVEN_IF_INVALID, 
+      ArgumentDescriptor.TYPE_CONSTANT_LIST, 
+      "True to insert the fragment even if invalid, when 'schemaAware' is set to 'true'.", 
+      new String[] {AuthorConstants.ARG_VALUE_TRUE, AuthorConstants.ARG_VALUE_FALSE},
+      AuthorConstants.ARG_VALUE_TRUE);
+  
   /**
    * The arguments of the operation.
    */
@@ -161,16 +179,12 @@ public class InsertFragmentOperation implements AuthorOperation {
    */
   public InsertFragmentOperation() {
     arguments = new ArgumentDescriptor[] {
-      // Argument defining the XML fragment that will be inserted.
       ARGUMENT_DESCRIPTOR_FRAGMENT,
-      // Argument defining the location where the operation will be executed as an XPath expression.
       ARGUMENT_DESCRIPTOR_XPATH_LOCATION,
-      // Argument defining the relative position to the node obtained from the XPath location.
       ARGUMENT_DESCRIPTOR_RELATIVE_LOCATION,
-      // Argument defining if the fragment insertion is schema aware.
       SCHEMA_AWARE_ARGUMENT_DESCRIPTOR,
-      // Argument defining if the fragment insertion is schema aware.
-      ARGUMENT_DESCRIPTOR_GO_TO_NEXT_EDITABLE_POSITION,
+      ARGUMENT_DESCR_INSERT_FRAG_EVEN_IF_INVALID,
+      ARGUMENT_DESCRIPTOR_GO_TO_NEXT_EDITABLE_POSITION
     };
   }
 
@@ -178,24 +192,26 @@ public class InsertFragmentOperation implements AuthorOperation {
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(AuthorAccess, ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-    throws AuthorOperationException {
+  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     Object fragment = args.getArgumentValue(ARGUMENT_FRAGMENT);
     Object xpathLocation = args.getArgumentValue(ARGUMENT_XPATH_LOCATION);
     Object relativeLocation = args.getArgumentValue(ARGUMENT_RELATIVE_LOCATION);
-    
-    Object argumentValue = args.getArgumentValue(ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION);
-    if (argumentValue == null) {
-      argumentValue = AuthorConstants.ARG_VALUE_TRUE;
+    Object goToNextEditablePos = args.getArgumentValue(ARGUMENT_GO_TO_NEXT_EDITABLE_POSITION);
+    if (goToNextEditablePos == null) {
+      goToNextEditablePos = AuthorConstants.ARG_VALUE_TRUE;
     }
-    
-    boolean goToFirstEditablePosition = AuthorConstants.ARG_VALUE_TRUE.equals(argumentValue);
+    boolean goToFirstEditablePosition = AuthorConstants.ARG_VALUE_TRUE.equals(goToNextEditablePos);
     Object schemaAwareArgumentValue = args.getArgumentValue(SCHEMA_AWARE_ARGUMENT);
+    Object insertEvenIfInvalid = args.getArgumentValue(ARGUMENT_INSERT_FRAG_EVEN_IF_INVALID);
+    if (insertEvenIfInvalid == null) {
+      insertEvenIfInvalid = AuthorConstants.ARG_VALUE_TRUE;
+    }
+    boolean isInsertEvenIfInvalid = AuthorConstants.ARG_VALUE_TRUE.equals(insertEvenIfInvalid);
     
     doOperationInternal(authorAccess, fragment, xpathLocation, relativeLocation, goToFirstEditablePosition,
-        schemaAwareArgumentValue);
+        schemaAwareArgumentValue, isInsertEvenIfInvalid);
   }
-
+  
   /**
    * Performs the insert operation.
    * 
@@ -212,6 +228,27 @@ public class InsertFragmentOperation implements AuthorOperation {
   protected void doOperationInternal(AuthorAccess authorAccess, Object fragment, Object xpathLocation,
       Object relativeLocation, boolean goToFirstEditablePosition, Object schemaAwareArgumentValue)
       throws AuthorOperationException {
+    doOperationInternal(authorAccess, fragment, xpathLocation, relativeLocation, goToFirstEditablePosition,
+        schemaAwareArgumentValue, true);
+  }
+
+  /**
+   * Performs the insert operation.
+   * 
+   * @param authorAccess The author access used to access the document.
+   * @param fragment The fragment to be inserted.
+   * @param xpathLocation The XPath location where the insertion takes place. If null, insert at caret position.
+   * @param relativeLocation The location of the insertion relative to the node selected by the XPath.
+   * @param goToFirstEditablePosition <code>true</code> if we should go to the first editable 
+   *  position in the fragment after insertion.
+   * @param schemaAwareArgumentValue <code>true</code> if the insertion should be schema aware.
+   * @param isInsertEvenIfInvalid <code>true</code> to insert the fragment even if it would make the document invalid.
+   * 
+   * @throws AuthorOperationException
+   */
+  protected void doOperationInternal(AuthorAccess authorAccess, Object fragment, Object xpathLocation,
+      Object relativeLocation, boolean goToFirstEditablePosition, Object schemaAwareArgumentValue, boolean isInsertEvenIfInvalid)
+      throws AuthorOperationException {
     if (fragment instanceof String) {
       String xmlFragment = (String) fragment;
       
@@ -221,7 +258,7 @@ public class InsertFragmentOperation implements AuthorOperation {
       int insertionOffset = authorAccess.getEditorAccess().getCaretOffset();
       
       if (AuthorConstants.ARG_VALUE_FALSE.equals(schemaAwareArgumentValue)) {
-        // Insert fragment at specfied position.
+        // Insert fragment at specified position.
         if (moveCaretToSpecifiedPosition || goToFirstEditablePosition) {
           //Compute the offset where the insertion will take place.
           if (xpathLocation != null && ((String)xpathLocation).trim().length() > 0) {
@@ -236,15 +273,26 @@ public class InsertFragmentOperation implements AuthorOperation {
             xmlFragment, (String) xpathLocation, (String) relativeLocation);                
       } else {
         // Insert fragment schema aware.
-        SchemaAwareHandlerResult result =
-          authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
-              xmlFragment, (String) xpathLocation, (String) relativeLocation);
-        //Keep the insertion offset.
-        if (result != null) {
-          Integer off = (Integer) result.getResult(
-              SchemaAwareHandlerResultInsertConstants.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
-          if (off != null) {
-            insertionOffset = off.intValue(); 
+        try {
+          SchemaAwareHandlerResult result =
+              authorAccess.getDocumentController().insertXMLFragmentSchemaAware(
+                  xmlFragment, (String) xpathLocation, (String) relativeLocation, isInsertEvenIfInvalid);
+          //Keep the insertion offset.
+          if (result != null) {
+            Integer off = (Integer) result.getResult(
+                SchemaAwareHandlerResultInsertConstants.RESULT_ID_HANDLE_INSERT_FRAGMENT_OFFSET);
+            if (off != null) {
+              insertionOffset = off.intValue(); 
+            }
+          }
+        } catch (AuthorOperationException e) {
+          Throwable cause = e.getCause();
+          if (!isInsertEvenIfInvalid && cause instanceof InvalidEditException) {
+            throw new AuthorOperationException(
+                authorAccess.getAuthorResourceBundle().getMessage(
+                    ExtensionTags.NO_VALID_INSERT_POSITION_FOR_FRAG));
+          } else {
+            throw e;
           }
         }
       }

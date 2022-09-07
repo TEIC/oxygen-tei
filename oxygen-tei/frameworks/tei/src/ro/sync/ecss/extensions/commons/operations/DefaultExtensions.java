@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public interface DefaultExtensions {
   /**
    * The array with default operations.
    */
-  Class[] DEFAULT_OPERATIONS = new Class[] {
+  static final Class[] DEFAULT_OPERATIONS = new Class[] {
       //Insert fragment.
       InsertFragmentOperation.class,
       DeleteElementOperation.class,
@@ -84,6 +84,8 @@ public interface DefaultExtensions {
       UnwrapTagsOperation.class, 
       // Toggle surround with element
       ToggleSurroundWithElementOperation.class,
+      // Toggle comments
+      ToggleCommentOperation.class,
       // Insert XInclude element
       InsertXIncludeOperation.class,
       // Insert equation
@@ -98,6 +100,8 @@ public interface DefaultExtensions {
       OpenInSystemAppOperation.class,
       //Run transformation scenario operation.
       ExecuteTransformationScenariosOperation.class,
+      // Run validation scenario operation.
+      ExecuteValidationScenariosOperation.class,
       // Set a pseudo-class 
       SetPseudoClassOperation.class,
       // Removes a pseudo-class 
@@ -131,14 +135,22 @@ public interface DefaultExtensions {
       // WA-668: Webapp-only operation to mark a document as saved.
       WebappMarkAsSavedOperation.class,
       // Reloads the content operation
-      ReloadContentOperation.class
+      ReloadContentOperation.class,
+      // EXM-31097
+      ChangeAttributesOperation.class,
+      //WA-3185 Replace element content
+      ReplaceElementContentOperation.class,
+      // EXM-50545 - run a transformation scenario with custom params
+      ExecuteCustomizableTransformationScenarioOperation.class,
+      // EXM-50584 - stop transformation
+      StopCurrentTransformationScenarioOperation.class
   };
   
   
   /**
    * The array with default classes used for table support.
    */
-  Class[] DEFAULT_TABLE_SUPPORT = new Class[] {
+  static final Class[] DEFAULT_TABLE_SUPPORT = new Class[] {
       //DB and DITA table span support.
       CALSTableCellInfoProvider.class,
       //HTML table support.

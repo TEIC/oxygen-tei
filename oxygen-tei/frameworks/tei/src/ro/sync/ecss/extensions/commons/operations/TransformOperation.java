@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,13 +50,14 @@
  */
 package ro.sync.ecss.extensions.commons.operations;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
@@ -67,11 +68,16 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Splitter;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.xml.EscapingReader;
+import ro.sync.basic.xml.UnescapeWriter;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -79,8 +85,6 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentType;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight;
-import ro.sync.ecss.extensions.api.highlights.AuthorPersistentHighlight.PersistentHighlightType;
 import ro.sync.ecss.extensions.api.node.AuthorDocumentFragment;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
@@ -96,7 +100,7 @@ public abstract class TransformOperation implements AuthorOperation {
   /**
    * Logger for logging. 
    */
-  private static final Logger logger = Logger.getLogger(TransformOperation.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TransformOperation.class.getName());
   
   /**
    * The name of a parameter containing the location path of the current element inside the
@@ -223,19 +227,24 @@ public abstract class TransformOperation implements AuthorOperation {
   private static final String ARGUMENT_SUSPEND_TRACK_CHANGES = "suspendTrackChanges";
   
   /**
+   * This parameter controls if the changes must be preserved before the processing
+   */
+  private static final String ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_BEFORE_PROCCESSING = "alwaysPreserveTrackedChangesBeforeProcessing";
+  
+  /**
    * External parameters argument. Pairs key=value separated by comma or new line.
    */
   public static final String ARGUMENT_SCRIPT_PARAMETERS = "externalParams";
   
   /**
-   * Split tokens: comma and end line.
+   * Splits on comma or end line, trim results and omit empty strings
    */
-  private static final String TOKEN_COMMA_END_LINE = ",\n";
+  private static final Splitter SPLITTER_ON_COMMA_OR_END_LINE = Splitter.on(Pattern.compile("[,\n]")).trimResults().omitEmptyStrings();
   
   /**
-   * Equals token.
+   * Splits on "=", trim results and omit empty strings
    */
-  private static final String TOKEN_EQUALS = "=";
+  private static final Splitter SPLITTER_ON_EQUALS = Splitter.on("=").trimResults().omitEmptyStrings();
   
   /**
    * External parameters of the xquery script.
@@ -251,7 +260,7 @@ public abstract class TransformOperation implements AuthorOperation {
    * Constructor.
    */
   public TransformOperation() {
-    arguments = new ArgumentDescriptor[8];
+    arguments = new ArgumentDescriptor[9];
     
     // Argument defining the element that will be the source of transformation.
     ArgumentDescriptor argumentDescriptor = 
@@ -357,6 +366,15 @@ public abstract class TransformOperation implements AuthorOperation {
         "Provide external parameters to the script.\n"
         + "Should be inserted as name=value pairs separated by comma or line break.");
     arguments[7] = argumentDescriptor;
+    
+    // Argument to control if the changes must always be preserved before the processing.
+    argumentDescriptor = new ArgumentDescriptor(
+        ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_BEFORE_PROCCESSING, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "Always preserve tracked changes before processing, regardless of the track changes state.",
+        new String[]{AuthorConstants.ARG_VALUE_TRUE, AuthorConstants.ARG_VALUE_FALSE},
+        AuthorConstants.ARG_VALUE_FALSE);
+    arguments[8] = argumentDescriptor;
   }
 
   /**
@@ -380,6 +398,8 @@ public abstract class TransformOperation implements AuthorOperation {
     Object caretPosition = args.getArgumentValue(ARGUMENT_CARET_POSITION);
     // The argument responsible for deactivating track changes during operation execution. 
     Object suspendTrackChangesArgument = args.getArgumentValue(ARGUMENT_SUSPEND_TRACK_CHANGES);
+    // The argument to control if the changes must always be presenrved before the processing.
+    Object alwaysPreserveTrackedChangesArgument = args.getArgumentValue(ARGUMENT_ALWAYS_PRESERVE_TRACKED_CHANGES_BEFORE_PROCCESSING);
     // External parameters for script.
     Object paramsArgument = args.getArgumentValue(ARGUMENT_SCRIPT_PARAMETERS);
     
@@ -426,51 +446,10 @@ public abstract class TransformOperation implements AuthorOperation {
       sourceElement = currentElement;
     }
     
-    String currentElementLocation ="";
-    AuthorNode tmp = currentElement;
-    if (tmp.isDescendentOf(sourceElement)) {
-      while (tmp != sourceElement) {
-        AuthorElement parent = ((AuthorElement)tmp.getParent());
-        List<AuthorNode> contentNodes = parent.getContentNodes();
-        int index = 1;
-        for (int i = 0; i < contentNodes.size(); i++) {
-          AuthorNode child = contentNodes.get(i);
-          if(child == tmp){
-            //Xpath indices are 1-based
-            break;
-          } else {
-            boolean ignoreThisNode = false;
-            //EXM-33943 Ignore fully deleted sibling nodes.
-            AuthorPersistentHighlight[] intersectingHighlights = authorAccess.getReviewController().getChangeHighlights(child.getStartOffset(), child.getEndOffset());
-            if(intersectingHighlights != null){
-              for (int j = 0; j < intersectingHighlights.length; j++) {
-                if(intersectingHighlights[j].getType() == PersistentHighlightType.CHANGE_DELETE){
-                  //Find delete marker which engulfs element
-                  if(intersectingHighlights[j].getStartOffset() <= child.getStartOffset() 
-                      && child.getEndOffset() <= intersectingHighlights[j].getEndOffset()){
-                    ignoreThisNode = true;
-                    break;
-                  }
-                }
-              }
-            }
-            if(! ignoreThisNode){
-              //Increment counter
-              index ++;
-            } else {
-              //Ignore it
-            }
-          }
-        }
-        currentElementLocation = "/*[" + index + "]" + currentElementLocation;
-        tmp = parent;
-      }
-      currentElementLocation = "/*[1]" + currentElementLocation; 
-    } else if (tmp.equals(sourceElement)) {
-      currentElementLocation = "/*";
-    } else {
-      currentElementLocation = "/..";
-    }
+    ElementLocationPath currentElementLocation = ElementLocationPath.getCurrentElementLocation(
+        authorAccess.getReviewController(), currentElement, sourceElement);
+    
+    String currentElementLocationXPath = currentElementLocation.toXPath();
     
     // The target element is where the result is put, depending on the action it can replace this element
     // or it can be inserted relative to this element.
@@ -489,16 +468,27 @@ public abstract class TransformOperation implements AuthorOperation {
     }
     
     // We serialize the source then give that as input to the XSLT script.
-    String serializedSource = null;
+    String serializedFrag = null;
+    StringBuilder serializedSource = new StringBuilder();
     try {
-      final AuthorDocumentFragment sourceFragment = 
-        authorAccess.getDocumentController().createDocumentFragment(sourceElement, true);
-      serializedSource = authorAccess.getDocumentController().serializeFragmentToXML(sourceFragment);
+      boolean alwaysPreserveTrackedChanges = alwaysPreserveTrackedChangesArgument != null &&
+          "true".equalsIgnoreCase(alwaysPreserveTrackedChangesArgument.toString());
+      
+      final AuthorDocumentFragment sourceFragment;
+      if (alwaysPreserveTrackedChanges) {
+        sourceFragment = authorAccess.getDocumentController().createDocumentFragment(
+            sourceElement.getStartOffset(), sourceElement.getEndOffset(), 
+            true);
+      } else {
+        sourceFragment = authorAccess.getDocumentController().createDocumentFragment(
+            sourceElement, true);
+      }
+      serializedFrag = authorAccess.getDocumentController().serializeFragmentToXML(sourceFragment);
     } catch (BadLocationException e) {
       logger.error(e, e);
       throw new AuthorOperationException("Could not serialize source", e);
     }
-    if (serializedSource == null) {
+    if (serializedFrag == null) {
       throw new AuthorOperationException("Cannot serialize the source element: " + xpathSource);
     }      
     //EXM-25520 Add doctype to correctly resolve default values.
@@ -506,9 +496,30 @@ public abstract class TransformOperation implements AuthorOperation {
     if(doctype != null) {
       String serializedDT = doctype.serializeDoctype();
       if(serializedDT != null) {
-        serializedSource = serializedDT + serializedSource;
+        serializedSource.append(serializedDT);
       }
     }
+    //Now look for xml-model processing instructions
+    List<AuthorNode> contentNodes = authorAccess.getDocumentController().getAuthorDocumentNode().getContentNodes();
+    for (int i = 0; i < contentNodes.size(); i++) {
+      AuthorNode chNode = contentNodes.get(i);
+      if(chNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
+        //Found the root
+        break;
+      } else if(chNode.getType() == AuthorNode.NODE_TYPE_PI){
+        try {
+          String piText = chNode.getTextContent();
+          if(piText != null 
+              && (piText.startsWith("xml-model") || piText.startsWith("oxygen"))) {
+            //Copy these
+            serializedSource.append("<?").append(piText).append("?>\n");
+          }
+        } catch (BadLocationException e) {
+          logger.error(e,  e);
+        }
+      }
+    }
+    serializedSource.append(serializedFrag);
     
     org.xml.sax.InputSource is = null;
     URL url = CommonsOperationsUtil.expandAndResolvePath(authorAccess, script);
@@ -535,20 +546,10 @@ public abstract class TransformOperation implements AuthorOperation {
     if (paramsArgument instanceof String && 
         // Default value was changed.
         !((String) paramsArgument).trim().equals("")) {
-      externalArguments = new HashMap<String, String>();
-      // Tokenize the string and get the parameters and their values;
-      StringTokenizer commaTokenizer = new StringTokenizer((String) paramsArgument, TOKEN_COMMA_END_LINE);
-      while (commaTokenizer.hasMoreElements()) {
-        // key = value pairs.
-        String pair = (String) commaTokenizer.nextElement();
-        int indexOfEqual = pair.indexOf(TOKEN_EQUALS);
-        if (indexOfEqual != -1) {
-          String param = pair.substring(0, indexOfEqual);
-          String value = pair.substring(indexOfEqual + 1, pair.length());
-          externalArguments.put(param.trim(), value);
-        } else {
-          throw new IllegalArgumentException("The arguments should be defined as key=value pairs.");
-        }
+      try {
+        externalArguments = SPLITTER_ON_COMMA_OR_END_LINE.withKeyValueSeparator(SPLITTER_ON_EQUALS).split(String.valueOf(paramsArgument));
+      } catch (IllegalArgumentException e) {
+        throw new AuthorOperationException(e.getMessage());
       }
     }
     
@@ -558,7 +559,7 @@ public abstract class TransformOperation implements AuthorOperation {
     // Create the transformer
     Transformer t = null;
     try {
-      t = createTransformer(authorAccess, xslSrc);
+      t = createTransformer(authorAccess, xslSrc, currentElementLocation);
     } catch (TransformerConfigurationException e) {
       logger.debug(e, e);
       throw new AuthorOperationException("Cannot create a transformer from the provided script:\n" 
@@ -567,7 +568,9 @@ public abstract class TransformOperation implements AuthorOperation {
     
     // Apply the transformation.
     if (t != null) {
-      t.setParameter(CURRENT_ELEMENT_LOCATION, currentElementLocation);
+      //EXM-42004 Avoid indentation made by the XSLT or XQuery transformer
+      t.setOutputProperty("indent", "no");
+      t.setParameter(CURRENT_ELEMENT_LOCATION, currentElementLocationXPath);
       
       // EXM-35089 Set the parameters provided by user.  
       if (externalArguments != null) {
@@ -577,13 +580,22 @@ public abstract class TransformOperation implements AuthorOperation {
       }
       
       StringWriter sw = new StringWriter();
-      org.xml.sax.InputSource id = new org.xml.sax.InputSource(new StringReader(serializedSource));
+      Writer unescapingWriter = new UnescapeWriter(sw);
+      org.xml.sax.InputSource id = new org.xml.sax.InputSource(new EscapingReader(
+          new StringReader(serializedSource.toString())));
       id.setSystemId(sourceElement.getXMLBaseURL().toString());
       Source xmlSrc = new SAXSource(id);
       try {
-        t.transform(xmlSrc, new StreamResult(sw));
+        t.transform(xmlSrc, new StreamResult(unescapingWriter));
       } catch (TransformerException e) {
+        logger.debug(e, e);
         throw new AuthorOperationException("The script cannot be executed: " + e.getMessageAndLocation());
+      } finally {
+        try {
+          unescapingWriter.close();
+        } catch (IOException e) {
+          logger.error(e, e);
+        }
       }
       
       ///true if we want to expand editor variables
@@ -672,10 +684,14 @@ public abstract class TransformOperation implements AuthorOperation {
       try{
         // Put the result of the XSLT transformation back into the document.
         if (ACTION_REPLACE.equals(action)) {
+          if (targetNode.getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
+            targetNode = authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement();
+          }
           if (targetNode.getParent().getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
-            AuthorDocumentFragment authorFragment = authorAccess.getDocumentController().createNewDocumentFragmentInContext(
-                result, 
-                targetNode.getStartOffset());
+            AuthorDocumentFragment authorFragment =
+                authorAccess.getDocumentController().createNewDocumentFragmentInContext(
+                    result,
+                    targetNode.getStartOffset());
             // Root replace.
             authorAccess.getDocumentController().replaceRoot(authorFragment);
           } else {
@@ -751,6 +767,20 @@ public abstract class TransformOperation implements AuthorOperation {
    */
   protected abstract Transformer createTransformer(AuthorAccess authorAccess, Source scriptSrc)
       throws TransformerConfigurationException;
+ 
+  /**
+   * Creates a Transformer from a given script.
+   * 
+   * @param authorAccess Access to different Author resources.
+   * @param scriptSrc The XSLT or XQuery script.
+   * @param location The location of the "current" element.
+   * @return A JAXP Transformer that will perform the transformation defined in the given script. 
+   * @throws TransformerConfigurationException
+   */
+  protected Transformer createTransformer(AuthorAccess authorAccess, Source scriptSrc, ElementLocationPath location)
+      throws TransformerConfigurationException {
+    return createTransformer(authorAccess, scriptSrc);
+  }
  
   /**
    * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()

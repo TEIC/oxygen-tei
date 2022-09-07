@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,6 @@
  */
 package ro.sync.ecss.extensions.commons.table.operations;
 
-import java.awt.Component;
-
 import javax.swing.JFrame;
 
 import ro.sync.annotations.api.API;
@@ -65,7 +63,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
  * @author sorin_carbunaru
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class SATableRowInsertionCustomizerInvoker extends TableRowInsertionCustomizer {
+public final class SATableRowInsertionCustomizerInvoker extends TableRowInsertionCustomizer {
   /**
    * The singleton instance.
    */
@@ -101,13 +99,8 @@ public class SATableRowInsertionCustomizerInvoker extends TableRowInsertionCusto
    */
   @Override
   protected TableRowsInfo showCustomTableRowInsertionDialog(AuthorAccess authorAccess) {
-    // dialog instance
     SACustomTableRowInsertionDialog customRowInsertionDialog = new SACustomTableRowInsertionDialog(
         (JFrame) authorAccess.getWorkspaceAccess().getParentFrame(), authorAccess.getAuthorResourceBundle());
-    // set dialog location
-    customRowInsertionDialog.setLocationRelativeTo((Component) authorAccess.getWorkspaceAccess().getParentFrame());
-    // get info from dialog
-    TableRowsInfo newTableRowInfo = customRowInsertionDialog.showDialog(tableRowsInfo);
-    return newTableRowInfo;
+    return customRowInsertionDialog.showDialog(tableRowsInfo);
   }
 }

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2016 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -52,19 +52,25 @@ package ro.sync.ecss.extensions.commons.operations;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.net.URL;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
 import ro.sync.annotations.api.SourceType;
+import ro.sync.basic.io.IOUtil;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
-import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.ecss.extensions.api.AuthorOperationWithCustomUndoBehavior;
 import ro.sync.ecss.extensions.api.WebappCompatible;
+import ro.sync.ecss.extensions.api.access.AuthorEditorAccess;
 
 /**
  * Reloads the content of the editor by reading again from the URL used to open it.
@@ -75,12 +81,30 @@ import ro.sync.ecss.extensions.api.WebappCompatible;
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
 @WebappCompatible
-public class ReloadContentOperation implements AuthorOperation {
+public class ReloadContentOperation implements AuthorOperation, AuthorOperationWithCustomUndoBehavior {
 
   /**
-   * The name of the arguments that used to controll the modified status after the operation is finished.
+   * Logger for logging.
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(ReloadContentOperation.class.getName());
+
+  /**
+   * The name of the arguments that is used to control the modified status of the editor 
+   * after the operation is finished.
    */
   static final String ARGUMENT_MARK_AS_NOT_MODIFIED = "markAsNotModified";
+  
+  /**
+   * The name of the arguments that is used to control whether we force reloading the document 
+   * even if the content did not change.
+   */
+  static final String ARGUMENT_FORCED = "forced";
+
+  /**
+   * The name of the arguments that is used to control whether we discard all undo-able edits 
+   * after the reload.
+   */
+  static final String ARGUMENT_DISCARD_UNDOABLE_EDITS = "discard_undoable_edits";
   
   /**
    * The arguments of the operation.
@@ -97,7 +121,27 @@ public class ReloadContentOperation implements AuthorOperation {
         AuthorConstants.ARG_VALUE_FALSE,
       }, 
       AuthorConstants.ARG_VALUE_FALSE
-    )
+    ),
+    new ArgumentDescriptor(
+        ARGUMENT_FORCED, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "Control whether we force reloading the document even if the content did not change.",
+        new String[] {
+          AuthorConstants.ARG_VALUE_TRUE,
+          AuthorConstants.ARG_VALUE_FALSE,
+        }, 
+        AuthorConstants.ARG_VALUE_TRUE
+      ),
+    new ArgumentDescriptor(
+        ARGUMENT_DISCARD_UNDOABLE_EDITS, 
+        ArgumentDescriptor.TYPE_STRING, 
+        "Control whether we discard undoable edits.",
+        new String[] {
+          AuthorConstants.ARG_VALUE_TRUE,
+          AuthorConstants.ARG_VALUE_FALSE,
+        }, 
+        AuthorConstants.ARG_VALUE_FALSE
+      )
   };
   
   /**
@@ -112,47 +156,79 @@ public class ReloadContentOperation implements AuthorOperation {
    * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation(ro.sync.ecss.extensions.api.AuthorAccess, ro.sync.ecss.extensions.api.ArgumentsMap)
    */
   @Override
-  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
-    AuthorDocumentController controller = authorAccess.getDocumentController();
-    String docUrl = controller.getAuthorDocumentNode().getSystemID();
+  public void doOperation(AuthorAccess authorAccess, ArgumentsMap args) throws AuthorOperationException {
     // Record the caret position before the reload.
-    int caretBefore = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionInterval().getEndOffset();
+    AuthorEditorAccess editorAccess = authorAccess.getEditorAccess();
+    int caretBefore = editorAccess.getAuthorSelectionModel().getSelectionInterval().getEndOffset(); //NOSONAR java:S1941 this can be modified
     
-    URL systemIdUrl;
-    Reader docReader;
+    URL systemIdUrl = editorAccess.getEditorLocation();
+    Reader contentReader = null;
+    boolean modified = true;
     try {
-      systemIdUrl = new URL(docUrl);
-      docReader = authorAccess.getUtilAccess().createReader(systemIdUrl, "UTF-8");
-      try {
-        authorAccess.getEditorAccess().reloadContent(docReader, false);
-      } finally {
-        try {
-          docReader.close();
-        } catch (IOException e) {
-          // Ignore it.
-        }
+      contentReader = authorAccess.getUtilAccess().createReader(systemIdUrl, "UTF-8");
+      if (isArgumentTrue(args, ARGUMENT_FORCED)) {
+        editorAccess.reloadContent(contentReader, isArgumentTrue(args, ARGUMENT_DISCARD_UNDOABLE_EDITS));
+      } else {
+        modified = reloadFromReaderIfModified(editorAccess, contentReader);
       }
     } catch (IOException e) {
-      throw new AuthorOperationException("Could not read the content of the editor from its URL: " + docUrl, e);
-    }
-    
-    if (Boolean.TRUE.equals(args.getArgumentValue(ARGUMENT_MARK_AS_NOT_MODIFIED))) {
-      controller.endCompoundEdit();
-      try {
-        // The document should be marked as not modified after the compound edit is actually performed.
-        authorAccess.getEditorAccess().setModified(false);
-      } finally {
-        controller.beginCompoundEdit();
+      throw new AuthorOperationException("Could not read the content of the editor from its URL: " + systemIdUrl, e);
+    } finally {
+      if (contentReader != null) {
+        try {
+          contentReader.close();
+        } catch (IOException e) {
+          // Ignore
+          LOGGER.debug("Could not close reader.", e);
+        }
       }
     }
     
-    // Try to maintain the caret around the same position as before the reload.
-    int endOffset = authorAccess.getDocumentController().getAuthorDocumentNode().getEndOffset();
-    if (caretBefore >= endOffset) {
-      caretBefore = endOffset - 1;
+    if (isArgumentTrue(args, ARGUMENT_MARK_AS_NOT_MODIFIED)) {
+      authorAccess.getEditorAccess().setModified(false);
     }
-    authorAccess.getEditorAccess().getAuthorSelectionModel().setSelection(caretBefore, caretBefore);
+    if(modified) {
+      // Try to maintain the caret around the same position as before the reload.
+      int endOffset = authorAccess.getDocumentController().getAuthorDocumentNode().getEndOffset();
+      if (caretBefore >= endOffset) {
+        caretBefore = endOffset - 1;
+      }
+      authorAccess.getEditorAccess().getAuthorSelectionModel().setSelection(caretBefore, caretBefore);
+    }
+  }
+
+  /**
+   * @param args The arguments map.
+   * @param argumentName The argument name.
+   * @return <code>true</code> if the argument is either the "true" string or the boolean <code>true</code>.
+   */
+  private static boolean isArgumentTrue(ArgumentsMap args, String argumentName) {
+    Object argumentValue = args.getArgumentValue(argumentName);
+    return Boolean.TRUE.equals(argumentValue) || 
+        AuthorConstants.ARG_VALUE_TRUE.equals(argumentValue);
+  }
+  
+  /**
+   * Reloads the document from the given reader.
+   * 
+   * @param editorAccess The editor access.
+   * @param contentReader The reader.
+   * 
+   * @throws IOException If reading the content fails.
+   */
+  private static boolean reloadFromReaderIfModified(AuthorEditorAccess editorAccess, Reader contentReader) throws IOException {
+    String contentFromUrl = IOUtil.read(contentReader).toString();
+    String contentFromDoc = IOUtil.read(editorAccess.createContentReader()).toString();
+    boolean modified = true;
+    if (!contentFromUrl.equals(contentFromDoc)) {
+      try (StringReader cachedReader = new StringReader(contentFromUrl)) {
+        editorAccess.reloadContent(cachedReader, false);
+      }
+    } else {
+      modified = false;
+    }
+    
+    return modified;
   }
 
   /**

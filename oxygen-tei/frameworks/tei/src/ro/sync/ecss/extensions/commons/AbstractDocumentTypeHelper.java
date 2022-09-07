@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -124,18 +124,20 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
    */
   @Override
   public AuthorNode getTableElementForDeletion(AuthorNode element) {
+    AuthorNode tableElement = null;
     if (isTable(element)) {
-      return element;
+      tableElement = element;
     } else {
       while (element.getParent() != null) {
         AuthorNode parentElement = element.getParent();
         if (isTable(parentElement)) {
-          return parentElement;
+          tableElement = parentElement;
+          break;
         }
       }
     }
     
-    return null;
+    return tableElement;
   }
   
   /////////////////////////
@@ -188,6 +190,7 @@ public abstract class AbstractDocumentTypeHelper implements AuthorTableHelper {
    * @param node The node.
    * @return <code>true</code> if a node is a colspec node.
    */
+  @Override
   public boolean isColspec(AuthorNode node){
     return node instanceof AuthorElement && 
         CALSConstants.ELEMENT_NAME_COLSPEC.equals(((AuthorElement)node).getLocalName());    

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,8 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
   private static final String XPATH_LOCATION_ARGUMENT = "insertLocation";
   
   /**
-   *  The insert position argument name. The argument defines the relative position to the node obtained from the XPath location where the row(s) will be inserted.
+   *  The insert position argument name. The argument defines the relative position to the node obtained 
+   *  from the XPath location where the row(s) will be inserted.
    *  The value is <code>insertPosition</code>
    */
   private static final String RELATIVE_POSITION_ARGUMENT = "insertPosition";
@@ -188,7 +189,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    */
   @Override
   protected void doOperationInternal(AuthorAccess authorAccess, ArgumentsMap args)
-  throws IllegalArgumentException, AuthorOperationException {
+  throws AuthorOperationException {
     try {
       // The node at caret position
       AuthorNode nodeAtCaret =
@@ -209,11 +210,11 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         // Custom row insertion has been requested
         if(AuthorConstants.ARG_VALUE_TRUE.equals(args.getArgumentValue(CUSTOM_ROW_INSERTION_ARGUMENT))) {
           Platform platform = authorAccess.getWorkspaceAccess().getPlatform();
-          if (Platform.STANDALONE.equals(platform)) {
+          if (Platform.STANDALONE == platform) {
             // SWING
             tableRowInfo = SATableRowInsertionCustomizerInvoker.getInstance()
                 .customizeTableRowInsertion(authorAccess);
-          } else if (Platform.ECLIPSE.equals(platform)) {
+          } else if (Platform.ECLIPSE == platform) {
             // SWT
             tableRowInfo = ECTableRowInsertionCustomizerInvoker.getInstance()
                 .customizeTableRowInsertion(authorAccess);
@@ -230,7 +231,8 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
             // User canceled the operation.
             throw new AuthorOperationStoppedByUserException("Cancelled by user");
           }
-        } else { // default row insertion
+        } else { 
+          // default row insertion
           noOfRowsToBeInserted = 1;
           relativePosition = args.getArgumentValue(RELATIVE_POSITION_ARGUMENT).toString();
         }
@@ -293,14 +295,16 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
     }
 
     // XML code to be inserted
-    String xmlFragment = "";
+    StringBuilder xmlFragmentBuilder = new StringBuilder();
     // Build the XML fragment for as many rows as needed
     for (int i = 0; i < noOfRowsToBeInserted; i++) {
-      xmlFragment += getRowXMLFragment(authorAccess, tableElement, referenceRowElement, useCurrentRowTemplateOnInsert(), namespace, 
-          AuthorConstants.POSITION_BEFORE.equals(relativePosition));
+      xmlFragmentBuilder.append(getRowXMLFragment(
+          authorAccess, tableElement, referenceRowElement, useCurrentRowTemplateOnInsert(),
+          namespace, AuthorConstants.POSITION_BEFORE.equals(relativePosition)));
     }
 
-    if (xmlFragment != "") {
+    String xmlFragment = xmlFragmentBuilder.toString();
+    if (!xmlFragment.isEmpty()) {
       // Insert row fragment
       documentController.insertXMLFragmentSchemaAware(
           xmlFragment, xPathLocation, relativePosition);
@@ -334,6 +338,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @param newCellFragment     The row will contain an additional cell added at the given 
    * column index.
    * @param newCellColumnIndex  The column index of the additional cell 
+   * @param initialNumberOfColumns The initial number of columns. 
    *
    * @return The XML fragment to be inserted.
    *
@@ -344,10 +349,10 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       AuthorElement tableElement, 
       String namespace, 
       String newCellFragment, 
-      int newCellColumnIndex) throws BadLocationException {
-    int colsNumber = authorAccess.getTableAccess().getTableNumberOfColumns(tableElement);
+      int newCellColumnIndex, 
+      int initialNumberOfColumns) throws BadLocationException {
     StringBuilder newRowStructure = null;
-    if (newCellFragment != null && newCellColumnIndex <= colsNumber) {
+    if (newCellFragment != null && newCellColumnIndex <= initialNumberOfColumns) {
 
       // Determine the row name
       String rowName = getRowElementName(tableElement);
@@ -355,7 +360,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         // Start row fragment 
         newRowStructure = new StringBuilder("<").append(rowName);
         if (namespace != null) {
-          int prefixDelimiter = rowName.indexOf(":");
+          int prefixDelimiter = rowName.indexOf(':');
           String prefix = null;
           if (prefixDelimiter > 0) {
             prefix = rowName.substring(0, prefixDelimiter);
@@ -372,7 +377,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
 
 
         // Create a row with maximum number of cells
-        for (int i = 0; i < colsNumber; i++) {
+        for (int i = 0; i < initialNumberOfColumns; i++) {
           String cellName = getCellElementName(tableElement, i);
           
           if (i == newCellColumnIndex) {
@@ -391,7 +396,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           }
         }
         
-        if (newCellColumnIndex == colsNumber) {
+        if (newCellColumnIndex == initialNumberOfColumns) {
           newRowStructure.append(newCellFragment);
         }
         
@@ -440,7 +445,7 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
       // Start row fragment 
       newRowStructure = new StringBuilder("<").append(rowName);
       if (namespace != null) {
-        int prefixDelimiter = rowName.indexOf(":");
+        int prefixDelimiter = rowName.indexOf(':');
         String prefix = null;
         if (prefixDelimiter > 0) {
           prefix = rowName.substring(0, prefixDelimiter);
@@ -471,7 +476,8 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
         String[] ignoredAttributes = mergeArrays(tableHelper.getIgnoredRowAttributes(), tableHelper.getIgnoredCellIDAttributes());
         List<String> allIgnoredAttrs = new ArrayList<String>();
         allIgnoredAttrs.addAll(Arrays.asList(ignoredAttributes));
-        String[] allowedAttributes = tableHelper instanceof AbstractDocumentTypeHelper ? ((AbstractDocumentTypeHelper)tableHelper).getAllowedCellAttributesToCopy() : null;
+        String[] allowedAttributes = tableHelper instanceof AbstractDocumentTypeHelper ?
+            ((AbstractDocumentTypeHelper)tableHelper).getAllowedCellAttributesToCopy() : null;
         for (AuthorNode cellNode : contentNodes) {
           // Create the new cells fragments 
           if (cellNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
@@ -538,16 +544,18 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
    * @return The newly created array.
    */
   private static String[] mergeArrays(String[] array1, String[] array2) {
+    String[] toRet;
     if(array1 == null) {
-      return array2;
+      toRet = array2;
     } else if(array2 == null) {
-      return array1;
+      toRet = array1;
     } else {
       String[] result = new String[array1.length + array2.length];
       System.arraycopy(array1, 0, result, 0, array1.length);
       System.arraycopy(array2, 0, result, array1.length, array2.length);
-      return result;
+      toRet = result;
     }
+    return toRet;
   } 
   
   /**
@@ -649,10 +657,10 @@ public abstract class InsertRowOperationBase extends AbstractTableOperation {
           }
           Integer rowSpan = spanProvider.getRowSpan(cellElement);
           // Check if the current cell has a row span that affects the inserted row
-          if (rowSpan != null && rowSpan > 1 && 
-              (rowSpan >= minRowSpan 
-              //EXM-31665
-              || AuthorConstants.POSITION_BEFORE.equals(relativePosition) && rowSpan + numberOfInsertedRows > minRowSpan)) {
+          if (rowSpan != null && rowSpan > 1 
+              && (rowSpan >= minRowSpan 
+                  //EXM-31665
+                  || (AuthorConstants.POSITION_BEFORE.equals(relativePosition) && rowSpan + numberOfInsertedRows > minRowSpan)) ) {
             tableHelper.updateTableRowSpan(authorAccess, cellElement, rowSpan + numberOfInsertedRows);
           }
         }

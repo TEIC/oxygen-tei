@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,10 @@
  */
 package ro.sync.ecss.extensions.commons.editor;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FontMetrics;
+import java.util.function.Supplier;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -59,7 +62,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -73,11 +77,21 @@ import ro.sync.exml.workspace.api.Platform;
  * Utility methods for preparing the in-place editors for being displayed.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class InplaceEditorUtil {
+public final class InplaceEditorUtil {
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(InplaceEditorUtil.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(InplaceEditorUtil.class.getName());
+  
+  /**
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private InplaceEditorUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
   
   /**
    * Computes the preferred size for the panel.
@@ -88,7 +102,7 @@ public class InplaceEditorUtil {
    * @return The preferred size for the given context. 
    */
   public static Dimension getPreferredSize(JPanel panel, AuthorInplaceContext context) {
-    final java.awt.Dimension preferredSize = panel.getPreferredSize();
+    final java.awt.Dimension preferredSize = getPreferredSize(panel, (Container) context.getParentHost());
 
     int width = preferredSize.width;
     
@@ -103,7 +117,7 @@ public class InplaceEditorUtil {
       Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
       if (columns != null && columns > 0) {
         FontMetrics fontMetrics = panel.getFontMetrics(panel.getFont());
-        width = columns * fontMetrics.charWidth('w');
+        width = getApproximativeCharsWidth(columns, fontMetrics);
       }
     }
     
@@ -119,7 +133,8 @@ public class InplaceEditorUtil {
    * @return The preferred size for the given context. 
    */
   public static Dimension getPreferredSize(JComboBox comboBox, AuthorInplaceContext context) {
-    int width = comboBox.getPreferredSize().width;
+    java.awt.Dimension preferredSize = getPreferredSize(comboBox, (Container) context.getParentHost());
+    int width = preferredSize.width;
     
     // First check the WIDTH property.
     int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
@@ -132,11 +147,11 @@ public class InplaceEditorUtil {
       Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
       if (columns != null && columns > 0) {
         FontMetrics fontMetrics = comboBox.getFontMetrics(comboBox.getFont());
-        width = columns * fontMetrics.charWidth('w');
+        width = getApproximativeCharsWidth(columns, fontMetrics);
       }
     }
     
-    return new Dimension(width, comboBox.getPreferredSize().height);
+    return new Dimension(width, preferredSize.height);
   }
 
   /**
@@ -150,7 +165,8 @@ public class InplaceEditorUtil {
   public static Dimension getPreferredSize(JTextField textField, AuthorInplaceContext context) {
     FontMetrics fontMetrics = textField.getFontMetrics(textField.getFont());
     // EXM-26151 Make the text filed a bit wider when relying on preferred size.
-    int width = textField.getPreferredSize().width + fontMetrics.charWidth('w');
+    java.awt.Dimension preferredSize = getPreferredSize(textField, (Container) context.getParentHost());
+    int width = preferredSize.width + getApproximativeCharsWidth(1, fontMetrics);
     
     // First check the WIDTH property.
     int imposedWidth = context.getPropertyEvaluator().evaluateWidthProperty(
@@ -162,14 +178,14 @@ public class InplaceEditorUtil {
       // If no width is imposed, check the columns property.
       Integer columns = (Integer) context.getArguments().get(InplaceEditorArgumentKeys.PROPERTY_COLUMNS);
       if (columns != null && columns > 0) {
-        width = columns * fontMetrics.charWidth('w');
+        width = getApproximativeCharsWidth(columns, fontMetrics);
       } else if (textField.getText().length() == 0) {
         // A minimum width;
-        width = 2 * fontMetrics.charWidth('w');
+        width = getApproximativeCharsWidth(2, fontMetrics);
       }
     }
     
-    return new Dimension(width, textField.getPreferredSize().height);
+    return new Dimension(width, preferredSize.height);
   }
   
   /**
@@ -216,8 +232,7 @@ public class InplaceEditorUtil {
     boolean isSA = true;
     if (context.getAuthorAccess() != null 
         && context.getAuthorAccess().getWorkspaceAccess() != null) {
-      isSA = Platform.STANDALONE.equals(
-          context.getAuthorAccess().getWorkspaceAccess().getPlatform());
+      isSA = Platform.STANDALONE == context.getAuthorAccess().getWorkspaceAccess().getPlatform();
     }
     // This renderer is sometimes used from SWT.
     Runnable runnable = new Runnable() {
@@ -226,17 +241,13 @@ public class InplaceEditorUtil {
         if(textField != null){
           try {
             // If the text if longer than the available width we want the last part to be presented.
-            int length = textField.getText().length();
+            int length = textField.getText(0, textField.getDocument().getLength()).length();
             textField.setCaretPosition(length);
             final java.awt.Rectangle modelToView = textField.modelToView(length);
             if (modelToView != null) {
               textField.scrollRectToVisible(modelToView);
             }
-          } catch (IllegalArgumentException e) {
-            if (logger.isDebugEnabled()) {
-              logger.debug(e, e);
-            }
-          } catch (BadLocationException e) {
+          } catch (IllegalArgumentException | BadLocationException e) {
             if (logger.isDebugEnabled()) {
               logger.debug(e, e);
             }
@@ -258,5 +269,56 @@ public class InplaceEditorUtil {
         SwingUtilities.invokeLater(runnable);
       }
 
+  }
+  
+  /**
+   * Get the approximative width for a number of chars to fit in.
+   * @param numberOfChars The number of characters.
+   * @param fontMetrics The font metrics
+   * @return The approximative width for a number of chars to fit in.
+   */
+  private static int getApproximativeCharsWidth(int numberOfChars, FontMetrics fontMetrics) {
+    char[] chars = new char[numberOfChars];
+    for (int i = 0; i < chars.length; i++) {
+      chars[i] = 'w';
+    }
+    return fontMetrics.charsWidth(chars, 0, chars.length);
+  }
+  
+  /**
+   * Get the preferred size for the component.
+   * 
+   * @param component The component.
+   * @param parent The parent component, where the component will eventually be added.
+   * 
+   * @return the baseline
+   */
+  public static java.awt.Dimension getPreferredSize(Component component, Container parent) {
+    return addToParent(component, parent, new Supplier<java.awt.Dimension>() {
+      @Override
+      public java.awt.Dimension get() {
+        return component.getPreferredSize();
+      }
+    });
+  }
+  
+  /**
+   * Adds the child inside the parent, calls the given supplier and requests the results from the 
+   * supplier.
+   * 
+   * @param component The component.
+   * @param parent The parent component, where the component will eventually be added.
+   * @param supplier To be invoked.
+   * 
+   * @return The results from the given supplier, after the component is added inside the parent.
+   */
+  public static <T> T addToParent(Component component, Container parent, Supplier<T> supplier) {
+    try{
+//      parent.add(component);
+      
+      return supplier.get();
+    } finally {
+//      parent.remove(component);
+    }
   }
 }

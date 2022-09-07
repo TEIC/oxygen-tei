@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2012 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,8 @@ import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -91,13 +92,23 @@ import ro.sync.ecss.extensions.commons.table.support.CALSTableCellInfoProvider;
  * Utility class for table operations.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class TableOperationsUtil {
+public final class TableOperationsUtil {
   
   /**
    * Logger for logging.
    */
-  private static final Logger logger = Logger.getLogger(TableOperationsUtil.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TableOperationsUtil.class.getName());
 
+  /**
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private TableOperationsUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
+  
   /**
    * Create a cell fragment for a specific offset, having the name of the cell and 
    * a source fragment from which the attributes and content must be copied.
@@ -615,6 +626,7 @@ public class TableOperationsUtil {
       }
     } catch (BadLocationException e) {
       // Do nothing, elements array will be empty
+      logger.debug(e.getMessage(), e);
     }
 
     return elements;
@@ -653,22 +665,21 @@ public class TableOperationsUtil {
       List<AuthorElement> collectedElements = new ArrayList<AuthorElement>();
       getChildElements(node, type, collectedElements, tableHelper);
       for (int j = 0; j < collectedElements.size(); j++) {
-        boolean addElement = false;
         AuthorElement currentElement = collectedElements.get(j);
-        if (
+        int currentElementStartOffset = currentElement.getStartOffset();
+        int currentElementEndOffset = currentElement.getEndOffset();
+        boolean selectionContainsCurrentElement =
+            (startOffset >= currentElementStartOffset && startOffset <= currentElementEndOffset)
+             || (endOffset > currentElementStartOffset && endOffset <= currentElementEndOffset)
+             || (currentElementStartOffset >= startOffset && currentElementStartOffset < endOffset)
+             || (currentElementEndOffset >= startOffset && currentElementEndOffset < endOffset);
+        boolean addElement = 
             // Node is from caret position, so add all its children
             startOffset == endOffset 
             // or selection is inside the current element or contains it
             // Maybe the selection includes the current node
-            || !fullySelected && (startOffset >= currentElement.getStartOffset() && startOffset <= currentElement.getEndOffset() 
-            || endOffset > currentElement.getStartOffset() && endOffset <= currentElement.getEndOffset()
-            || currentElement.getStartOffset() >= startOffset && currentElement.getStartOffset() < endOffset 
-            || currentElement.getEndOffset() >= startOffset && currentElement.getEndOffset() < endOffset)
-            || fullySelected 
-            && currentElement.getStartOffset() >= startOffset 
-            && currentElement.getEndOffset() <= endOffset) {
-          addElement = true;
-        } 
+            || (!fullySelected && selectionContainsCurrentElement)
+            || (fullySelected && currentElementStartOffset >= startOffset && currentElementEndOffset <= endOffset); 
         if (addElement && !elementsList.contains(currentElement)) {
           elementsList.add(currentElement);
         }
@@ -715,7 +726,7 @@ public class TableOperationsUtil {
    */
   public static AuthorElement getElementAncestor(AuthorNode node, int type, TableHelper tableHelper) {
     AuthorElement parentCell = null;
-    while (node != null && node instanceof AuthorElement) {
+    while (node instanceof AuthorElement) {
       // If the current node has the same type as the given type
       // Return that node
       if (tableHelper.isNodeOfType((AuthorElement) node, type)) {
@@ -862,6 +873,7 @@ public class TableOperationsUtil {
           }
         } catch (BadLocationException e) {
           // Nothing to do.
+          logger.debug(e.getMessage(), e);
         }
       }
     }
@@ -874,6 +886,7 @@ public class TableOperationsUtil {
    * @return The first cell element
    */
   private static AuthorElement getFirstCell(AuthorElement parentElement, AuthorEditorAccess authorEditorAccess) {
+    AuthorElement toRet = null;
     // Check the children
     List<AuthorNode> contentNodes = parentElement.getContentNodes();
     if (contentNodes != null) {
@@ -884,22 +897,25 @@ public class TableOperationsUtil {
           AuthorElement childElement = (AuthorElement) child;
           // Check if this is a cell
           Styles styles = authorEditorAccess.getStyles(childElement);
-          if (styles.getDisplay() == CSS.TABLE_CELL) {
+          if (CSS.TABLE_CELL.equals(styles.getDisplay())) {
             // Found a cell
-            return childElement;
+            toRet = childElement;
           } else {
             // Check the children
             AuthorElement firstCell = getFirstCell(childElement, authorEditorAccess);
             if (firstCell != null) {
               // Found a cell
-              return firstCell;
+              toRet = firstCell;
             }
           }
+          if (toRet != null) {
+            break;
+          } 
         }
       }
     }
     
-    return null;
+    return toRet;
   }
 
   

@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2009 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -175,7 +175,7 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
    */
   @Override
   public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
-      throws IllegalArgumentException, AuthorOperationException {
+      throws AuthorOperationException {
     //Set
     setOrRemovePseudoClasses(authorAccess, args, ARGUMENT_ELEMENT_SET_XPATH_LOCATIONS, ARGUMENT_SET_PSEUDOCLASS_NAMES, true);
     //Remove
@@ -192,7 +192,7 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
    * @throws AuthorOperationException
    */
   private static void setOrRemovePseudoClasses(AuthorAccess authorAccess, 
-      ArgumentsMap args, String xpathLocationKey, String pseudoClassNamesKey, boolean setClasses) throws AuthorOperationException{
+      ArgumentsMap args, String xpathLocationKey, String pseudoClassNamesKey, boolean setClasses) throws AuthorOperationException {
     // The Set XPath location.
     Object xpathLocations = args.getArgumentValue(xpathLocationKey);
     // The pseudo class name.
@@ -203,57 +203,23 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
     if (pseudoClassNames instanceof String) {
       String[] splitPseudoClasses = ((String) pseudoClassNames).split(" ");
       if(splitPseudoClasses != null && splitPseudoClasses.length > 0){
-        List<AuthorElement> targetElements = new ArrayList<AuthorElement>();
-        AuthorDocumentController documentController = authorAccess.getDocumentController();
-        if (xpathLocations instanceof String && ((String)xpathLocations).trim().length() > 0) {
-          if (includeAllNodes instanceof String) {
-            boolean includeAll = includeAllNodes.equals(YES); 
-            AuthorNode[] results =
-                documentController.findNodesByXPath((String) xpathLocations, !includeAll, !includeAll, !includeAll);
-            for (int i = 0; i < results.length; i++) {
-              AuthorNode authorNode = results[i];
-              if(authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
-                targetElements.add((AuthorElement) authorNode);
-              }
-            }
-
-            if(targetElements.size() == 0) {
-              throw new AuthorOperationException("The element XPath location does not identify an element: " + xpathLocations);
-            }
-          }
-        } else {
-          AuthorNode node = null;
-          try {
-            node = documentController.getNodeAtOffset(
-                authorAccess.getEditorAccess().getCaretOffset());
-          } catch (BadLocationException e) {
-            throw new AuthorOperationException("Cannot identify the current element", e);
-          }
-          while (node != null && !(node instanceof AuthorElement)) {
-            node = node.getParent();
-          }
-          if (node instanceof AuthorElement) {
-            targetElements.add((AuthorElement) node);
-          } else {
-            throw new AuthorOperationException("You need to have the carret inside an element.");
-          }
-        }
+        List<AuthorElement> targetElements =  getTargetElements(authorAccess, xpathLocations, includeAllNodes);
 
         // Disable the views update for each pseudo class change. Since we don't
         // have a dedicate AuthorUE for this operation we will disable and 
         // enable back the layout update. 
+        AuthorDocumentController documentController = authorAccess.getDocumentController();
         documentController.disableLayoutUpdate();
         try {
           //Iterate the target elements and set the pseudo classes to them.
-          for (int i = 0; i < targetElements.size(); i++) {
-            AuthorElement targetElement = targetElements.get(i);
-            for (int j = 0; j < splitPseudoClasses.length; j++) {
+          for (AuthorElement targetElement : targetElements) {
+            for (String pseudoClass : splitPseudoClasses) {
               if(setClasses){
                 //Set
-                documentController.setPseudoClass(splitPseudoClasses[j], targetElement);
+                documentController.setPseudoClass(pseudoClass, targetElement);
               } else {
                 //Remove
-                documentController.removePseudoClass(splitPseudoClasses[j], targetElement);
+                documentController.removePseudoClass(pseudoClass, targetElement);
               }
             }
           }
@@ -263,6 +229,57 @@ public class ChangePseudoClassesOperation  implements AuthorOperation {
         }
       }
     }
+  }
+
+  /**
+   * Get the target elements
+   * 
+   * @param authorAccess     Access to Author functionality.
+   * @param xpathLocations   The Xpath locations
+   * @param includeAllNodes  {@link ChangePseudoClassesOperation#YES} in order to include comments, text and CDATA nodes,
+   *                         {@link ChangePseudoClassesOperation#NO} to ignore them.
+   * 
+   * @return  The target elements.
+   * @throws AuthorOperationException
+   */
+  private static List<AuthorElement> getTargetElements(AuthorAccess authorAccess, Object xpathLocations,  Object includeAllNodes) 
+      throws AuthorOperationException {
+    List<AuthorElement> targetElements = new ArrayList<AuthorElement>();
+    AuthorDocumentController documentController = authorAccess.getDocumentController();
+    if (xpathLocations instanceof String && ((String)xpathLocations).trim().length() > 0) {
+      if (includeAllNodes instanceof String) {
+        boolean ignoreAllNodes = !includeAllNodes.equals(YES); 
+        AuthorNode[] results =
+            documentController.findNodesByXPath((String) xpathLocations, ignoreAllNodes, ignoreAllNodes, ignoreAllNodes);
+        for (int i = 0; i < results.length; i++) {
+          AuthorNode authorNode = results[i];
+          if(authorNode.getType() == AuthorNode.NODE_TYPE_ELEMENT){
+            targetElements.add((AuthorElement) authorNode);
+          }
+        }
+
+        if(targetElements.isEmpty()) {
+          throw new AuthorOperationException("The element XPath location does not identify an element: " + xpathLocations);
+        }
+      }
+    } else {
+      AuthorNode node = null;
+      try {
+        node = documentController.getNodeAtOffset(
+            authorAccess.getEditorAccess().getCaretOffset());
+      } catch (BadLocationException e) {
+        throw new AuthorOperationException("Cannot identify the current element", e);
+      }
+      while (node != null && !(node instanceof AuthorElement)) {
+        node = node.getParent();
+      }
+      if (node instanceof AuthorElement) {
+        targetElements.add((AuthorElement) node);
+      } else {
+        throw new AuthorOperationException("You need to have the carret inside an element.");
+      }
+    }
+    return targetElements;
   }
 
   /**

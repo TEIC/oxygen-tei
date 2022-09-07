@@ -1,7 +1,7 @@
 /*
  *  The Syncro Soft SRL License
  *
- *  Copyright (c) 1998-2011 Syncro Soft SRL, Romania.  All rights
+ *  Copyright (c) 1998-2022 Syncro Soft SRL, Romania.  All rights
  *  reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -55,8 +55,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -70,6 +72,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import javax.xml.namespace.QName;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import ro.sync.annotations.api.API;
 import ro.sync.annotations.api.APIType;
@@ -93,19 +98,35 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.NamespaceContext;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResult;
 import ro.sync.ecss.extensions.api.schemaaware.SchemaAwareHandlerResultInsertConstants;
+//import ro.sync.ecss.markers.MarkerBase;
 import ro.sync.util.editorvars.EditorVariables;
 
 /**
  * Util methods for common Author operations.
  */
 @API(type=APIType.INTERNAL, src=SourceType.PUBLIC)
-public class CommonsOperationsUtil {
+public final class CommonsOperationsUtil {
+  /**
+   * Logger for logging.
+   */
+  private static final Logger logger = LoggerFactory.getLogger(CommonsOperationsUtil.class.getName());
+  
+  /**
+   * Constructor.
+   *
+   * @throws UnsupportedOperationException when invoked.
+   */
+  private CommonsOperationsUtil() {
+    // Private to avoid instantiations
+    throw new UnsupportedOperationException("Instantiation of this utility class is not allowed!");
+  }
   
   /**
    * Interface used to check the elements that will be converted in other elements 
    * (table cells or list entries)
    */
-  public static abstract class ConversionElementHelper {
+  public abstract static class ConversionElementHelper {
+    
     /**
      * Check if a block node can be converted in other node (cell or list entry).
      * If this method returns false, the block node is treated like an inline node.
@@ -128,7 +149,8 @@ public class CommonsOperationsUtil {
      * @throws BadLocationException When the given offset is not in content.
      * @throws AuthorOperationException When the operation could not be completed.
      */
-    public AuthorDocumentFragment createAuthorDocumentFragment(AuthorDocumentController controller, int start, int end) throws AuthorOperationException, BadLocationException {
+    public AuthorDocumentFragment createAuthorDocumentFragment(AuthorDocumentController controller, int start, int end) 
+        throws AuthorOperationException, BadLocationException {
       return null;
     }
   }
@@ -194,7 +216,7 @@ public class CommonsOperationsUtil {
    * @param includeID <code>true</code> to also include the id attribute.
    * @return The attributes.
    */
-  private static Map<String, String> getAttributes(AuthorNode node, boolean includeID) {
+  static Map<String, String> getAttributes(AuthorNode node, boolean includeID) {
     Map<String, String> attributes = null;
     if (node instanceof AuthorElement) {
       AuthorElement element = (AuthorElement) node;
@@ -216,6 +238,26 @@ public class CommonsOperationsUtil {
       }
     }
     return attributes;
+  }
+  
+  
+  /**
+   * Serialize attributes with a space before.
+   * 
+   * @param attributes The attributes to serialize.
+   * @param attributesToSkip The names of the attributes to skip.
+   * @return The serialization.
+   */
+  public static String serializeAttributes(Map<String, String> attributes, Collection<String> attributesToSkip) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (Map.Entry<String, String> attr : attributes.entrySet()) {
+      String attrName = attr.getKey();
+      if (!attributesToSkip.contains(attrName)) {
+        String attributeValue = attr.getValue();
+        stringBuilder.append(" ").append(attrName).append("=\"").append(attributeValue).append("\"");
+      }
+    }
+    return stringBuilder.toString();
   }
 
   /**
@@ -243,7 +285,7 @@ public class CommonsOperationsUtil {
     
     return fragment;
   }
-
+  
   /**
    * Unwrap node tags.
    * 
@@ -266,7 +308,7 @@ public class CommonsOperationsUtil {
       if (caretOffset <= nodeStartOffset) {
         // The caret offset remains the same
         nextOffset = caretOffset;
-      } else if (caretOffset > nodeStartOffset && caretOffset <= nodeEndOffset){
+      } else if (caretOffset <= nodeEndOffset){
         // The caret offset must be moved to the left 
         nextOffset = caretOffset - 1;
       } else {
@@ -528,13 +570,24 @@ public class CommonsOperationsUtil {
     return prefix;
   }
   
-  /**
+    /**
    * Locate a certain resource in the classpath using its file name.
    * @param authorAccess Author access.
    * @param resourceFileName The resource file name.
    * @return The URL of the resource or <code>null</code>.
    */
   public static URL locateResourceInClasspath(AuthorAccess authorAccess, String resourceFileName){
+    return locateResourceInClasspathFolder(authorAccess, "resources", resourceFileName);
+  }
+  
+  /**
+   * Locate a certain resource in the classpath using its file name.
+   * @param authorAccess Author access.
+   * @param folderName The name of the folder.
+   * @param resourceFileName The resource file name.
+   * @return The URL of the resource or <code>null</code>.
+   */
+  public static URL locateResourceInClasspathFolder(AuthorAccess authorAccess, String folderName, String resourceFileName){
     //Try to detect them in the classpath resources
     URL resourceURL = null;
     ClassPathResourcesAccess classPathResourcesAccess = authorAccess.getClassPathResourcesAccess();
@@ -546,8 +599,8 @@ public class CommonsOperationsUtil {
           URL resource = resources[i];
           String resourceStr = resource.toExternalForm();
           //Find the reuse folder
-          if(resourceStr.endsWith("/resources/")
-              || resourceStr.endsWith("/resources")){
+          if(resourceStr.endsWith("/" + folderName + "/")
+              || resourceStr.endsWith("/" + folderName)){
             //Found it.
             try {
               proposedResourceURLs.add(new URL(resource, resourceFileName));
@@ -563,23 +616,12 @@ public class CommonsOperationsUtil {
             //Find the first one which exists.
             for (int i = 0; i < proposedResourceURLs.size(); i++) {
               URL url = proposedResourceURLs.get(i);
-              InputStream is = null;
-              try {
-                //If we can read from the stream, we can use it.
-                is = url.openStream();
+              try (InputStream is = url.openStream()) {
                 is.read();
                 resourceURL = url;
                 break;
-              } catch (IOException e) {
+              } catch (IOException e) { //NOSONAR java:S1166 Not interested on preserving the original exception.
                 //Ignore
-              } finally{
-                if (is != null){
-                  try {
-                    is.close();
-                  } catch (IOException e) {
-                    //Ignore
-                  }
-                }
               }
             }
           }
@@ -614,6 +656,10 @@ public class CommonsOperationsUtil {
         }
       } catch (MalformedURLException e) {
         // Definitely not an URL.
+      } catch (AccessControlException e) {
+        // This can happen if the provided path cannot be accessed because access is blocked
+        // by the security manager (or the path does not exists)
+        logger.debug("Cannot access the path: " + path, e);
       }
       if (url == null) {
         // Maybe it has provided just a path relative to the framework directory.
@@ -627,10 +673,14 @@ public class CommonsOperationsUtil {
           }
         } catch (MalformedURLException e) {
           // Not an URL. 
+        } catch (AccessControlException e) {
+          // This can happen if the provided path cannot be accessed because access is blocked
+          // by the security manager (or the path does not exists)
+          logger.debug("Cannot access the path: " + path, e);
         }
       }
     }
-    
+
     if (url != null) {
       URL resolved = authorAccess.getXMLUtilAccess().resolvePathThroughCatalogs(null, url.toString(), true, true);
       if (resolved != null) {
@@ -688,7 +738,7 @@ public class CommonsOperationsUtil {
       AuthorDocumentController controller) {
     List fragNodes = fragment.getContentNodes();
     // Remove attributes
-    if (fragNodes != null && fragNodes.size() > 0) {
+    if (fragNodes != null && !fragNodes.isEmpty()) {
       AuthorNode node = (AuthorNode) fragNodes.get(0);
       if (node.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
         AuthorElement clonedElement = (AuthorElement) node;
@@ -727,47 +777,63 @@ public class CommonsOperationsUtil {
    * @return A list with start positions for empty elements (after remove is done).
    */
   public static List<Position> removeCurrentSelection(AuthorAccess authorAccess) {
-    List<Position> positions = new ArrayList<Position>();
+    List<Position> positions = new ArrayList<>();
     // Remove selection
     if (authorAccess.getEditorAccess().hasSelection()) {
       // Get the selection intervals
       List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
 
-      if (selectionIntervals != null) {
-        if (selectionIntervals.size() > 1) {
-          Collections.sort(selectionIntervals, new Comparator<ContentInterval>() {
-            /**
-             * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-             */
-            @Override
-            public int compare(ContentInterval interval1, ContentInterval interval2) {
-              int result = 0;
-              if (interval1 != null && interval2 != null) {
-                return interval1.getStartOffset() > interval2.getStartOffset() ? -1 : 1;
-              }
-              return result;
-            }
-          });
-        }
+      positions = removeIntervals(authorAccess, selectionIntervals);
+    }
+    return positions;
+  }
 
-        // Remove selection
-        try {
-          for (ContentInterval selection : selectionIntervals) {
-            // Delete current selection
-            int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(selection.getStartOffset(), selection.getEndOffset());
-            authorAccess.getDocumentController().delete(balancedSelection[0], balancedSelection[1] - 1);
-            // Check if there is an empty element left here and keep its start position...
-            AuthorNode node = authorAccess.getDocumentController().getNodeAtOffset(balancedSelection[0]);
-            if (node != null && 
-                node != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement() && 
-                node.getStartOffset() + 1 == node.getEndOffset()) {
-              // Empty element, keep position
-              positions.add(authorAccess.getDocumentController().createPositionInContent(node.getStartOffset()));
+  /**
+   * Remove current selection from Author.
+   * 
+   * @param authorAccess Author access.
+   * @param selectionIntervals The intervals.
+   * 
+   * @return A list with start positions for empty elements (after remove is done).
+   */
+  public static List<Position> removeIntervals(AuthorAccess authorAccess,
+      List<ContentInterval> selectionIntervals) {
+    List<Position> positions = new ArrayList<>();
+    if (selectionIntervals != null) {
+      if (selectionIntervals.size() > 1) {
+        Collections.sort(selectionIntervals, new Comparator<ContentInterval>() {
+          /**
+           * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+           */
+          @Override
+          public int compare(ContentInterval interval1, ContentInterval interval2) {
+            int result = 0;
+            if (interval1 != null && interval2 != null) {
+              result = interval1.getStartOffset() > interval2.getStartOffset() ? -1 : 1;
             }
+            return result;
           }
-        } catch (Exception e) {
-          // Nothing to do
+        });
+      }
+
+      // Remove selection
+      try {
+        for (ContentInterval selection : selectionIntervals) {
+          // Delete current selection
+          int[] balancedSelection = authorAccess.getEditorAccess().getBalancedSelection(selection.getStartOffset(), selection.getEndOffset());
+          authorAccess.getDocumentController().delete(balancedSelection[0], balancedSelection[1] - 1);
+          // Check if there is an empty element left here and keep its start position...
+          AuthorNode node = authorAccess.getDocumentController().getNodeAtOffset(balancedSelection[0]);
+          if (node != null && 
+              node != authorAccess.getDocumentController().getAuthorDocumentNode().getRootElement() && 
+              node.getStartOffset() + 1 == node.getEndOffset()) {
+            // Empty element, keep position
+            positions.add(authorAccess.getDocumentController().createPositionInContent(node.getStartOffset()));
+          }
         }
+      } catch (Exception e) {
+        // Nothing to do
+        logger.debug(e.getMessage(), e);
       }
     }
     return positions;
@@ -787,81 +853,174 @@ public class CommonsOperationsUtil {
     List<SelectedFragmentInfo> result = null;
     if (authorAccess.getEditorAccess().hasSelection()) {
       // Get the selection intervals
-      List<ContentInterval>  selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
+      List<ContentInterval> selectionIntervals = authorAccess.getEditorAccess().getAuthorSelectionModel().getSelectionIntervals();
       try {
-        // This is the list containing the content intervals to be added on each row/list entry 
-        result = new ArrayList<CommonsOperationsUtil.SelectedFragmentInfo>();
-  
-        AuthorDocumentController controller = authorAccess.getDocumentController();
-        // Check each selection interval
-        for (ContentInterval contentInterval : selectionIntervals) {
-          // Create the content segment to iterate
-          Segment content = new Segment();
-          int start = contentInterval.getStartOffset();
-          int maxEndOffset = contentInterval.getEndOffset();
-          int len = maxEndOffset - contentInterval.getStartOffset();
-          controller.getChars(start, len, content);
-          AuthorNode lastNode = null;
-          char ch = content.first();
-          int currentOffset = start;
-          int startInterval = contentInterval.getStartOffset();
-          while(ch != Segment.DONE) {
-            if (ch == 0) {
-              // Sentinel
-              OffsetInformation info = controller.getContentInformationAtOffset(currentOffset);
-              AuthorNode node = info.getNodeForMarkerOffset();
-              Styles styles = authorAccess.getEditorAccess().getStyles(node);
-              String display = styles.getDisplay();
-              // Check if this is an block element (or a list item)
-              if (CSS.BLOCK.equals(display) || CSS.LIST_ITEM.equals(display)) {
-                if (helper.blockContentMustBeConverted(node, authorAccess)) {
-                  if (startInterval != currentOffset) {
-                    boolean currentNodeFullyIncluded = startInterval <= node.getStartOffset() + 1 && currentOffset >= node.getEndOffset();
-                    // Register interval
-                    AuthorDocumentFragment selectedFragment = 
-                        createAuthorDocumentFragment(controller, startInterval, currentOffset - 1, helper);
-                    Map<String, String> attributes = getAttributes(node, currentNodeFullyIncluded);
-                    result.add(new SelectedFragmentInfo(selectedFragment, attributes));
-                  } else {
-                    if (// Do not emit fragment twice for the same empty node (if we let to execute 
-                        // the code only on marker start, if the selection does not include the start 
-                        // and includes only the marker end, then no fragment will be emitted for that 
-                        // element, which is not correct)
-                        lastNode != node &&
-                        // Check that this is an empty node
-                        node.getStartOffset() + 1 == node.getEndOffset()) {
-                      // Register interval
-                      lastNode = node;
-                      AuthorDocumentFragment selectedFragment = 
-                          createAuthorDocumentFragment(controller, node.getStartOffset() + 1, node.getEndOffset() - 1, helper);
-                      Map<String, String> attributes = getAttributes(node, true);
-                      result.add(new SelectedFragmentInfo(selectedFragment, attributes));
-                    }
-                  }
-                  // Jump over this interval
-                  startInterval = currentOffset + 1;
-                }
-              }
-            }
-            // Jump to next char
-            ch = content.next();
-            currentOffset++;
-          }
-  
-          // Maybe there is an interval left?
-          if (startInterval < maxEndOffset) {
-            AuthorDocumentFragment selectedFragment = createAuthorDocumentFragment(controller, startInterval, maxEndOffset - 1, helper);
-            result.add(new SelectedFragmentInfo(selectedFragment, null));
-          }
-        }
-  
+        result = getFragmentsForConversions(authorAccess, helper, selectionIntervals);
       } catch (BadLocationException e) {
-        result = null;
+        logger.debug(e, e);
       }
     }
     return result;
   }
-  
+
+  /**
+   * Get selected content fragments to be converted to cell or list entries fragments.
+   * 
+   * @param authorAccess The author access.
+   * @param helper Used to check if the elements from selection can be converted 
+   * in other elements (table cells or list entries)
+   * @param intervals The intervals to convert.
+   * 
+   * @return The selected content fragments to be converted to cell fragments.
+   * 
+   * @throws BadLocationException 
+   * @throws AuthorOperationException 
+   */
+  public static List<SelectedFragmentInfo> getFragmentsForConversions(AuthorAccess authorAccess,
+      ConversionElementHelper helper, List<ContentInterval> intervals)
+      throws BadLocationException, AuthorOperationException {
+    // This is the list containing the content intervals to be added on each row/list entry 
+    List<SelectedFragmentInfo> result = new ArrayList<>();
+    for (ContentInterval contentInterval : intervals) {
+      // Check each selection interval
+      result.addAll(getFragmentsForConversions(authorAccess, helper, contentInterval));
+    }
+    return result;
+  }
+
+  /**
+   * Get selected content fragments to be converted to cell or list entry fragments.
+   * 
+   * @param authorAccess The author access.
+   * @param helper Used to check if the elements from selection can be converted 
+   * in other elements (table cells or list entries)
+   * @param interval The interval to convert.
+   * 
+   * @return The selected content fragments to be converted to cell fragments.
+   * 
+   * @throws BadLocationException 
+   * @throws AuthorOperationException 
+   */
+  private static List<SelectedFragmentInfo> getFragmentsForConversions(AuthorAccess authorAccess, ConversionElementHelper helper,
+      ContentInterval contentInterval) throws BadLocationException, AuthorOperationException {
+    List<SelectedFragmentInfo> result = new ArrayList<>();
+    AuthorDocumentController controller = authorAccess.getDocumentController();
+    // Create the content segment to iterate
+    int start = contentInterval.getStartOffset();
+    int maxEndOffset = contentInterval.getEndOffset();
+    
+    Segment content = new Segment();
+    int len = maxEndOffset - contentInterval.getStartOffset();
+    controller.getChars(start, len, content);
+    
+    AuthorNode lastNode = null;
+    char ch = content.first();
+    int startInterval = contentInterval.getStartOffset();
+    int currentOffset = start;
+    while(ch != Segment.DONE) {
+      boolean intervalEmpty = startInterval == currentOffset;
+      if (ch == 0) {
+        // Sentinel
+        OffsetInformation info = controller.getContentInformationAtOffset(currentOffset);
+        AuthorNode node = info.getNodeForMarkerOffset();
+        
+        Styles styles = authorAccess.getEditorAccess().getStyles(node);
+        String display = styles.getDisplay();
+        
+        // Check if this is an block element (or a list item)
+        if ((CSS.BLOCK.equals(display) || CSS.LIST_ITEM.equals(display)) 
+            && helper.blockContentMustBeConverted(node, authorAccess)) {
+          result.addAll(finishCurrentFragment(startInterval, currentOffset, helper, controller));
+          
+          // If we are on the start tag of a fully contained list item, mark the list item content as 
+          // a fragment to be converted.
+          if (CSS.LIST_ITEM.equals(display) 
+              && node.getStartOffset() == currentOffset
+              && node.getEndOffset() <= contentInterval.getEndOffset()) {
+            result.add(getFragmentForNode(node, helper, controller));
+
+            // Skip the entire element. 
+            content.setIndex(content.getIndex() + node.getEndOffset() - node.getStartOffset());
+            currentOffset = node.getEndOffset();
+          } else if (intervalEmpty
+              // Do not emit fragment twice for the same empty node (if we let to execute 
+              // the code only on marker start, if the selection does not include the start 
+              // and includes only the marker end, then no fragment will be emitted for that 
+              // element, which is not correct)
+              &&  lastNode != node &&
+              // Check that this is an empty node
+              node.getStartOffset() + 1 == node.getEndOffset()) {
+            // Register interval
+            lastNode = node;
+            result.add(getFragmentForNode(node, helper, controller));
+          }
+          // Jump over this interval
+          startInterval = currentOffset + 1;
+        }
+      }
+      // Jump to next char
+      ch = content.next();
+      currentOffset ++;
+    }
+ 
+    // Maybe there is an interval left?
+    if (startInterval < maxEndOffset) {
+      AuthorDocumentFragment selectedFragment = createAuthorDocumentFragment(controller, startInterval, maxEndOffset - 1, helper);
+      result.add(new SelectedFragmentInfo(selectedFragment, null));
+    }
+    
+    return result;
+  }
+
+  /**
+   * Return the fragment for the given node to be converted.
+   * 
+   * @param node The node to be converted.
+   * @param helper Used to check if the elements from selection can be converted 
+   * in other elements (table cells or list entries)
+   * @param controller The document controller.
+   * @return The fragment.
+   * @throws BadLocationException
+   * @throws AuthorOperationException
+   */
+  private static SelectedFragmentInfo getFragmentForNode(AuthorNode node, ConversionElementHelper helper, 
+      AuthorDocumentController controller)
+      throws BadLocationException, AuthorOperationException {
+    AuthorDocumentFragment selectedFragment = 
+        createAuthorDocumentFragment(controller, node.getStartOffset() + 1, node.getEndOffset() - 1, helper);
+    Map<String, String> attributes = getAttributes(node, true);
+    return new SelectedFragmentInfo(selectedFragment, attributes);
+  }
+
+  /**
+   * Return the fragment to be conerted for a given interval.
+   * 
+   * @param startInterval The start of the interval.
+   * @param currentOffset The current offset - the end of the interval.
+   * @param helper Used to check if the elements from selection can be converted 
+   * in other elements (table cells or list entries)
+   * @param controller The document controller.
+   * @return The fragments - empty list if no fragment has to be converted.
+   * 
+   * @throws BadLocationException
+   * @throws AuthorOperationException
+   */
+  private static List<SelectedFragmentInfo> finishCurrentFragment(int startInterval, int currentOffset, ConversionElementHelper helper,
+      AuthorDocumentController controller)
+      throws BadLocationException, AuthorOperationException {
+    if (startInterval == currentOffset) {
+      return Collections.emptyList();
+    } else {
+      AuthorNode node = controller.getNodeAtOffset(currentOffset);
+      boolean currentNodeFullyIncluded = 
+          startInterval <= node.getStartOffset() + 1 && currentOffset >= node.getEndOffset();
+        // Register interval
+        AuthorDocumentFragment selectedFragment = 
+            createAuthorDocumentFragment(controller, startInterval, currentOffset - 1, helper);
+        Map<String, String> attributes = getAttributes(node, currentNodeFullyIncluded);
+        return Collections.singletonList(new SelectedFragmentInfo(selectedFragment, attributes));
+    }
+  }
   
   /**
    * Remove empty elements.
@@ -869,7 +1028,7 @@ public class CommonsOperationsUtil {
    * @param authorAccess The Author access.
    * @param emptyElementsPositions Positions for empty elements
    */
-  public static void removeEmptyElements(AuthorAccess authorAccess, List<Position> emptyElementsPositions) {
+  public static void removeEmptyElements(AuthorAccess authorAccess, Collection<Position> emptyElementsPositions) {
     if (!emptyElementsPositions.isEmpty()) {
       for (Position position : emptyElementsPositions) {
         try {
@@ -886,6 +1045,7 @@ public class CommonsOperationsUtil {
           }
         } catch (BadLocationException e) {
           // Do nothing
+          logger.debug(e.getMessage(), e);
         }
       }
     }
