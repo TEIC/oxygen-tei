@@ -43,9 +43,9 @@
   </xsl:template>
   
 <!--  Decision by TEI Council 2019-04 to remove support for older versions of Oxygen
-          moving forward, so we switch what used to be 15.2 to 18.1 now. This can be 
-          updated whenever we change the minimum Oxyge version we support. -->
-  <xsl:template match="xt:oxy_version"><xt:oxy_version>18.1+</xt:oxy_version></xsl:template>
+          moving forward, so we switch what used to be 15.2 to 18.1. Subsequently, 
+          Oxygen changes made it difficult to support anything before 21.0.. -->
+  <xsl:template match="xt:oxy_version"><xt:oxy_version>21.0+</xt:oxy_version></xsl:template>
   
   <xsl:template name="createNewExtensionElement">
     <xsl:param name="lastExtension" as="element(xt:extension)"/>
