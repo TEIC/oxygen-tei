@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="22.1" xml:space="preserve">
+<serialized version="18.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -40,21 +40,10 @@
 											<String>${framework}/xml/tei/css/jtei.css</String>
 										</field>
 										<field name="title">
-											<String>Main</String>
+											<String></String>
 										</field>
 										<field name="alternate">
 											<Boolean>false</Boolean>
-										</field>
-									</cssFile>
-									<cssFile>
-										<field name="href">
-											<String>${framework}/xml/tei/css/additional-css/all.css</String>
-										</field>
-										<field name="title">
-											<String>Footnotes</String>
-										</field>
-										<field name="alternate">
-											<Boolean>true</Boolean>
 										</field>
 									</cssFile>
 								</cssFile-array>
@@ -186,9 +175,6 @@
 											</menuItem>
 										</menuEntry-array>
 									</field>
-									<field name="context">
-										<null/>
-									</field>
 								</menu>
 							</field>
 							<field name="popupMenuDescriptor">
@@ -215,9 +201,6 @@
 												</field>
 											</menuItem>
 										</menuEntry-array>
-									</field>
-									<field name="context">
-										<null/>
 									</field>
 								</menu>
 							</field>
@@ -267,28 +250,16 @@
 							<field name="tableSupportClassName">
 								<null/>
 							</field>
-							<field name="tableCellSeparatorSupportClassName">
-								<null/>
-							</field>
 							<field name="tableColWidthSupportClassName">
 								<null/>
 							</field>
 							<field name="customReferencesResolver">
 								<null/>
 							</field>
-							<field name="editPropertiesHandler">
-								<null/>
-							</field>
 							<field name="authorExtensionStateListener">
 								<null/>
 							</field>
 							<field name="attributesRecognizer">
-								<null/>
-							</field>
-							<field name="authorActionEventHandler">
-								<null/>
-							</field>
-							<field name="authorImageDecorator">
 								<null/>
 							</field>
 						</authorExtension>
@@ -393,9 +364,6 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -414,9 +382,6 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -439,9 +404,6 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -462,9 +424,6 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -483,9 +442,6 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -554,6 +510,9 @@
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -592,8 +551,50 @@
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
-										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/resolver.jar</String>
+										<String>${oxygenHome}/lib/xercesImpl.jar</String>
+										<String>${oxygenHome}/lib/saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+										<String>${oxygenHome}/lib/logback-core-*.jar</String>
+										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
+										<String>${oxygenHome}/lib/fop.jar</String>
+									  <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+									  <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
+									  <!-- (wildcards in these paths aren't supported before Oxygen-18.0) -->
+									  <String>${oxygenHome}/lib/batik-all-1.7.jar</String>
+										<String>${oxygenHome}/lib/commons-logging-1.1.3.jar</String>
+										<String>${oxygenHome}/lib/xmlgraphics-commons-1.5.jar</String>
+										<String>${oxygenHome}/lib/commons-io-1.3.1.jar</String>
+										<String>${oxygenHome}/lib/avalon-framework-4.2.0.jar</String>
+										<!-- wildcards for future compatibility (supported from Oxygen-18.0) -->
+									  <!-- this way, the framework will find relevant jars if FOP is updated -->
+										<String>${oxygenHome}/lib/*batik*.jar</String>
+										<String>${oxygenHome}/lib/*commons-logging*.jar</String>
+										<String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
+										<String>${oxygenHome}/lib/*commons-io*.jar</String>
+										<String>${oxygenHome}/lib/avalon-framework*.jar</String>
+										<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+										<String>${oxygenHome}/lib/*fop*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -628,9 +629,6 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -651,9 +649,6 @@
 											<field name="possibleValues">
 												<null/>
 											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
 										</antParameter>
 										<antParameter>
 											<field name="name">
@@ -663,7 +658,7 @@
 												<String>base file name of the arcticle (everything before "-source.xml")</String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}</String>
+											  <String>${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -672,9 +667,6 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -695,9 +687,6 @@
 												<Integer>5</Integer>
 											</field>
 											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
 												<null/>
 											</field>
 										</antParameter>
@@ -766,6 +755,9 @@
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -773,7 +765,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}.pdf</String>
+								  <String>${cfd}/${xpath_eval(replace(replace('${cfne}', '(.+)\.[^.]+$', '$1'), '-source(\.|$)', '$1'))}.pdf</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -803,10 +795,53 @@
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
-									</String-array>
-								</field>
+			                                                <String-array>
+			                                                    <String>${oxygenHome}/classes/</String>
+			                                                    <String>${oxygenHome}/lib/oxygen.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+			                                                    <String>${oxygenHome}/lib/resolver.jar</String>
+			                                                    <String>${oxygenHome}/lib/xercesImpl.jar</String>
+			                                                    <String>${oxygenHome}/lib/saxon9ee.jar</String>
+			                                                    				
+			                                                	<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+																<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+																<String>${oxygenHome}/lib/logback-core-*.jar</String>
+																<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+						                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+						                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  														<String>${oxygenHome}/lib/*log4j*.jar</String>
+			                                                    <String>${oxygenHome}/lib/fop.jar</String>
+			                                                    <String>${pdu}/oxygen_aux_files/ant/</String>
+			                                                	<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+			                                                    <!-- explicit filenames for backward compatibility (down to Oxygen-16.0) -->
+			                                                    <!-- (wildcards in these paths aren't supported before Oxygen-18.0) -->
+			                                                    <String>${oxygenHome}/lib/batik-all-1.7.jar</String>
+			                                                    <String>${oxygenHome}/lib/commons-logging-1.1.3.jar</String>
+			                                                    <String>${oxygenHome}/lib/xmlgraphics-commons-1.5.jar</String>
+			                                                    <String>${oxygenHome}/lib/commons-io-1.3.1.jar</String>
+			                                                    <String>${oxygenHome}/lib/avalon-framework-4.2.0.jar</String>
+			                                                    <String>${oxygenHome}/lib/jeuclid-core.jar</String>
+			                                                    <!-- wildcards for future compatibility (supported from Oxygen-18.0) -->
+			                                                    <!-- this way, the framework will find relevant jars if FOP is updated -->
+			                                                    <String>${oxygenHome}/lib/*batik*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*commons-logging*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*xmlgraphics*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*commons-io*.jar</String>
+			                                                    <String>${oxygenHome}/lib/avalon-framework*.jar</String>
+			                                                    <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/pdf/lib/fontbox-*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*fop*.jar</String>
+			                                                    <String>${oxygenHome}/lib/oxygen-patched-*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										                        <String>${oxygenHome}/lib/*saxon*10*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*xerces*.jar</String>
+			                                                    <String>${oxygenHome}/lib/*resolver*.jar</String>
+			                                                </String-array>
+			                                            </field>
 							</antScenario>
 						</scenario-array>
 					</field>
@@ -876,7 +911,10 @@
 						</list>
 					</field>
 					<field name="defaultTransformationScenarios">
-						<null/>
+						<list>
+							<String>jTEI ODT</String>
+							<String>jTEI PDF</String>
+						</list>
 					</field>
 					<field name="extensionsBundleClassName">
 						<String>ro.sync.ecss.extensions.tei.TEI_jteiExtensionsBundle</String>
@@ -918,9 +956,6 @@
 						<null/>
 					</field>
 					<field name="customAttributeValueEditor">
-						<null/>
-					</field>
-					<field name="textModeExternalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>

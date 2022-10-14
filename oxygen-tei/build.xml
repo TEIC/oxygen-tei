@@ -129,8 +129,8 @@ stable: This is also intended to run on the TEI's Jenkins build
   <target name="getJars">
     <echo message="${echo.separator}"/>
     <echo message="Retrieving required jar files..."/>
-    <get src="https://www.oxygenxml.com/maven/com/oxygenxml/oxygen/21.0.0.0/oxygen-21.0.0.0.jar"/>
-    <get src="https://www.oxygenxml.com/maven/com/oxygenxml/oxygen-annotations/21.0.0.0/oxygen-annotations-21.0.0.0.jar" dest="lib/oxygen-annotations.jar"/>
+    <get src="https://www.oxygenxml.com/maven/com/oxygenxml/oxygen/18.1.0.3/oxygen-18.1.0.3.jar" dest="lib/oxygen.jar"/>
+    <get src="https://www.oxygenxml.com/maven/com/oxygenxml/oxygen-annotations/18.1.0.3/oxygen-annotations-18.1.0.3.jar" dest="lib/oxygen-annotations.jar"/>
   </target>
   
   <target name="unpackZips">

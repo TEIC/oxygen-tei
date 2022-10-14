@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="22.0" xml:space="preserve">
+<serialized version="18.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -82,7 +82,7 @@
 											<String>/images/Bold24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Bold16.png</String>
+											<String>/images/Bold16.gif</String>
 										</field>
 										<field name="accessKey">
 											<String>B</String>
@@ -174,7 +174,7 @@
 											<String>/images/Underline24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/Underline16.png</String>
+											<String>/images/Underline16.gif</String>
 										</field>
 										<field name="accessKey">
 											<String>U</String>
@@ -290,7 +290,7 @@
 											<String>/images/ListItem24.png</String>
 										</field>
 										<field name="smallIconPath">
-											<String>/images/ListItem16.png</String>
+											<String>/images/ListItem16.gif</String>
 										</field>
 										<field name="accessKey">
 											<String></String>
@@ -390,7 +390,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<String>M1 M2 7</String>
+											<null/>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -431,7 +431,7 @@
 											<String></String>
 										</field>
 										<field name="accelerator">
-											<String>M1 M2 8</String>
+											<null/>
 										</field>
 										<field name="actionModes">
 											<actionMode-array>
@@ -2903,18 +2903,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 												<field name="alias">
 													<String>${i18n(figure.wizard)}</String>
 												</field>
-												<field name="replacementFor">
-													<String>figure</String>
-												</field>
-												<field name="replacedElementNs">
-													<String>http://www.tei-c.org/ns/1.0</String>
-												</field>
-												<field name="displayOnlyWhenElementAllowed">
-													<Boolean>false</Boolean>
-												</field>
-												<field name="useReplaceElementName">
-													<Boolean>false</Boolean>
-												</field>
 											</contextItem>
 											<contextItem>
 												<field name="targets">
@@ -2928,18 +2916,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 												<field name="alias">
 													<String>${i18n(table.wizard)}</String>
 												</field>
-												<field name="replacementFor">
-													<String>table</String>
-												</field>
-												<field name="replacedElementNs">
-													<String>http://www.tei-c.org/ns/1.0</String>
-												</field>
-												<field name="displayOnlyWhenElementAllowed">
-													<Boolean>false</Boolean>
-												</field>
-												<field name="useReplaceElementName">
-													<Boolean>false</Boolean>
-												</field>
 											</contextItem>
 											<contextItem>
 												<field name="targets">
@@ -2951,19 +2927,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 													<String>insert.table.row.below</String>
 												</field>
 												<field name="alias">
-													<null/>
-												</field>
-												<field name="replacementFor">
-													<String>row</String>
-												</field>
-												<field name="replacedElementNs">
-													<String>http://www.tei-c.org/ns/1.0</String>
-												</field>
-												<field name="displayOnlyWhenElementAllowed">
-													<Boolean>false</Boolean>
-												</field>
-												<field name="useReplaceElementName">
-													<Boolean>true</Boolean>
+													<String>${i18n(row.wizard)}</String>
 												</field>
 											</contextItem>
 										</contextItem-array>
@@ -3092,6 +3056,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<File>${cfd}/${cfn}.html</File>
+								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.html</String>
 								</field>
@@ -3174,6 +3141,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
+								</field>
+								<field name="outputFile">
+									<File>${cfd}/${cfn}.pdf</File>
 								</field>
 								<field name="outputResource">
 									<String>${cfd}/${cfn}.pdf</String>
@@ -3407,6 +3377,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3445,7 +3418,27 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+										<String>${oxygenHome}/lib/logback-core-*.jar</String>
+										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3641,6 +3634,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3679,7 +3675,27 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+										<String>${oxygenHome}/lib/logback-core-*.jar</String>
+										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3720,29 +3736,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>lang</String>
-											</field>
-											<field name="description">
-												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
-											</field>
-											<field name="value">
-												<String>en</String>
-											</field>
-											<field name="defaultValue">
-												<null/>
-											</field>
-											<field name="type">
-												<Integer>5</Integer>
-											</field>
-											<field name="possibleValues">
-												<null/>
-											</field>
-											<field name="possibleValuesDescriptions">
-												<null/>
-											</field>
-										</antParameter>
-										<antParameter>
-											<field name="name">
 												<String>outputFile</String>
 											</field>
 											<field name="description">
@@ -3766,13 +3759,13 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>oxygenlib</String>
+												<String>profile</String>
 											</field>
 											<field name="description">
-												<String>Path to the Oxygen library folder.</String>
+												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
 											</field>
 											<field name="value">
-												<String>${oxygenInstallDir}/lib</String>
+												<String>default</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3789,13 +3782,36 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 										</antParameter>
 										<antParameter>
 											<field name="name">
-												<String>profile</String>
+												<String>lang</String>
 											</field>
 											<field name="description">
-												<String>The profile of the ODT output file, for example "tei", "oucs", "oucscourses", "enrich".</String>
+												<String>The language of the output strings like "Attributes", "Class", "Datatype", "Declaration", "Note", "Optional", "Required", "Recommended", etc.</String>
 											</field>
 											<field name="value">
-												<String>default</String>
+												<String>en</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>oxygenlib</String>
+											</field>
+											<field name="description">
+												<String>Path to the Oxygen library folder.</String>
+											</field>
+											<field name="value">
+												<String>${oxygenInstallDir}/lib</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
@@ -3875,6 +3891,9 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								<field name="openInBrowser">
 									<Boolean>true</Boolean>
 								</field>
+								<field name="outputFile">
+									<null/>
+								</field>
 								<field name="outputResource">
 									<null/>
 								</field>
@@ -3913,7 +3932,27 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
+										<String>${oxygenHome}/classes/</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*10*.jar</String>
+										<String>${oxygenHome}/lib/saxon*6*.jar</String>
+										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
+										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
+										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
+										<String>${oxygenHome}/lib/logback-core-*.jar</String>
+										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
+                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
+		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
 									</String-array>
 								</field>
 							</antScenario>
@@ -3968,9 +4007,6 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 						<null/>
 					</field>
 					<field name="customAttributeValueEditor">
-						<null/>
-					</field>
-					<field name="textModeExternalObjectInsertionHandler">
 						<null/>
 					</field>
 				</documentTypeDescriptor>
