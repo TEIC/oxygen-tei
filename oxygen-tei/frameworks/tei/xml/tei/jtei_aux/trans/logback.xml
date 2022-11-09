@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT-TRACE" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.out</target>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>TRACE</level>
+      <onMatch>NEUTRAL</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>
+        %level - %m%n
+      </pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="STDOUT-DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.out</target>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>DEBUG</level>
+      <onMatch>NEUTRAL</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>
+        %level - %m%n
+      </pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="STDOUT-WARN" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.out</target>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>NEUTRAL</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>
+        %level - %m%n
+      </pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="STDERR-ERROR" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>NEUTRAL</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>
+        %level - %m%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="STDOUT-TRACE" />
+    <appender-ref ref="STDOUT-DEBUG" />
+    <appender-ref ref="STDOUT-WARN" />
+    <appender-ref ref="STDERR-ERROR" />
+  </root>
+</configuration>
