@@ -16,63 +16,53 @@
     
     <xsl:template match="*" mode="filterNodes">
         <xsl:copy>
-            <!-- EXM-45627: Copy the id from the empty child anchor-->
-            <xsl:variable name="childAnchor" select="child::xhtml:a[1][@id][not(node())]"/>
-            <xsl:if test="not(@id) and $childAnchor">
-                <xsl:variable name="followingAnchorSibling" select="$childAnchor/following-sibling::*[not(xhtml:a)][1]"/>
-                <xsl:if test="not($followingAnchorSibling) or $followingAnchorSibling/@id or not(local-name($followingAnchorSibling) = $elementsMayHaveIdsOnSibling)">
-                    <xsl:attribute name="id">
-                        <xsl:value-of select="f:correctId($childAnchor/@id)"/>
-                    </xsl:attribute>
-                </xsl:if>
+            <xsl:if test="local-name() != 'body'">
+               <!-- EXM-45627: Check if the first child is an empty anchor and copy the id from it-->
+               <xsl:variable name="childAnchor" select="child::xhtml:*[1][local-name() = 'a'][@id or @name][not(node())]"/>
+               <xsl:if test="not(@id) and $childAnchor">
+                   <xsl:variable name="followingAnchorSibling" select="$childAnchor/following-sibling::*[not(xhtml:a)][1]"/>
+                   <xsl:if test="not($followingAnchorSibling) or $followingAnchorSibling[@id or @name] or not(local-name($followingAnchorSibling) = $elementsMayHaveIdsOnSibling)">
+                       <xsl:variable name="id" select="f:extractIdFromAnchor($childAnchor)"/>
+                       <xsl:if test="$id and string-length($id) > 0">
+                           <xsl:attribute name="id" select="$id"/>
+                       </xsl:if>
+                   </xsl:if>
+               </xsl:if>
+            </xsl:if>
+            <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="*[local-name() = 'shape' and namespace-uri() = 'urn:schemas-microsoft-com:vml']" mode="filterNodes">
+        <!--EXM-51538: Filter the shape element from Word and extract the image source -->
+        <xsl:if test="./*[local-name() = 'imagedata'][@src]">
+            <xsl:element name="xhtml:img">
+                <xsl:copy-of select="./*[local-name() = 'imagedata'][1]/@src"/>
+            </xsl:element>
+        </xsl:if>
+    </xsl:template>
+    
+    <xsl:template match="*[local-name() = $elementsMayHaveIdsOnSibling][not(@id)][preceding-sibling::*[1][local-name() = 'a'][@id or @name][not(node())]]" mode="filterNodes">
+        <xsl:copy>
+            <!-- EXM-51091: Copy the id from the preceding empty anchor sibling -->
+            <xsl:variable name="id" select="f:extractIdFromAnchor(./preceding-sibling::*[1][local-name() = 'a'][@id or @name][not(node())] )"/>
+            <xsl:if test="$id and string-length($id) > 0">
+                <xsl:attribute name="id" select="$id"/>
             </xsl:if>
             
             <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="*[local-name() = $elementsMayHaveIdsOnSibling][not(@id)][preceding-sibling::xhtml:a[1][@id][not(node())]]" mode="filterNodes">
-        <xsl:copy>
-            <!-- EXM-51091: Copy the id from the preceding empty anchor sibling -->
-            <xsl:variable name="firstNonAnchor" select="./preceding-sibling::*[not (local-name() = 'a')][1]"/>
-            <xsl:choose>
-                <xsl:when test="$firstNonAnchor">
-                    <xsl:attribute name="id" select="f:correctId($firstNonAnchor/following::xhtml:a[@id][not(node())][1]/@id)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="id" select="f:correctId(./preceding-sibling::xhtml:a[@id][not(node())][last()]/@id)"/>
-                </xsl:otherwise>
-            </xsl:choose>
-            
-            <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
-        </xsl:copy>
+    <xsl:template match="xhtml:a[@id or @name][not(node())][(count(preceding-sibling::*) = 0 and not(parent::*[1][local-name() = 'body']) and parent::*[1][not(@id)])
+        or (following-sibling::*[not(xhtml:a)][1][not(@id) and local-name() = $elementsMayHaveIdsOnSibling])]" mode="filterNodes">
+        <!-- The id from this anchor is used on the parent or on the following element into the above templates. We should ignore it because it was already used. --> 
     </xsl:template>
     
     <xsl:template match="processing-instruction() |comment() | @*" mode="filterNodes">
         <xsl:copy>
             <xsl:apply-templates select="node() | @*" mode="filterNodes"/>
         </xsl:copy>
-    </xsl:template>
-    
-    <xsl:template match="xhtml:a/@href[starts-with(.,'#')]" mode="filterNodes">
-        <xsl:attribute name="href">
-            <xsl:variable name="currentId" select="normalize-space(substring(., 2))"/>
-            <xsl:variable name="elementWithId" select="//*[@id = $currentId]"/>
-            
-            <xsl:choose>
-                <xsl:when test="$elementWithId[local-name() = 'a'][not(node())]/preceding-sibling::xhtml:a[@id][not(node())][last()]">
-                    <!-- EXM-45627 The html resulted from a Word conversion contains multiple sibling anchors with id. We want to keep only one.
-                        So we need to rewrite the hrefs to point at first anchor -->
-                    <xsl:variable name="firstAnchorId">
-                        <xsl:value-of select="$elementWithId/preceding-sibling::xhtml:a[@id][not(node())][last()]/@id"/>
-                    </xsl:variable>
-                    <xsl:value-of select="concat('#', f:correctId($firstAnchorId))"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="concat('#', f:correctId($currentId))"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:attribute>
     </xsl:template>
     
     <xsl:template match="*/@id" mode="filterNodes">
@@ -303,7 +293,7 @@
     <xsl:template match="xhtml:div[@id or @class]" mode="filterNodes">
         <xsl:choose>
             <xsl:when test="$filterDivElements">
-    			<!-- Unwrap xhtml:div nodes and keep only the child nodes. -->
+                <!-- Unwrap xhtml:div nodes and keep only the child nodes. -->
                 <xsl:apply-templates select="node()" mode="filterNodes"/>
             </xsl:when>
             <xsl:otherwise>
@@ -331,21 +321,22 @@
     
     <xsl:template match="*[not(node())]
         [not(local-name() = 'img' 
-        	or local-name() = 'ph' 
-        	or local-name() = 'br'
-        	or local-name() = 'a'  
-        	or local-name() = 'col' 
-        	or local-name() = 'td'
-        	or local-name() = 'audio'
-        	or local-name() = 'video'
-        	or local-name() = 'source'
-        	or local-name() = 'picture'
-        	or local-name() = 'iframe'
-        	or local-name() = 'object'
-        	or local-name() = 'param'
-        	or local-name() = 'colgroup'
-        	or (local-name() = 'div' and not($filterDivElements and (@id or @class))) ) 
-        or (local-name() = 'a' and not(./@href))]" 
+            or local-name() = 'ph' 
+            or local-name() = 'br'
+            or local-name() = 'a'  
+            or local-name() = 'col' 
+            or local-name() = 'td'
+            or local-name() = 'audio'
+            or local-name() = 'video'
+            or local-name() = 'source'
+            or local-name() = 'picture'
+            or local-name() = 'iframe'
+            or local-name() = 'object'
+            or local-name() = 'param'
+            or local-name() = 'colgroup'
+            or (local-name() = 'div' and not($filterDivElements and (@id or @class)))
+            or (local-name() = 'p' and ./@id) ) 
+        ]" 
         mode="filterNodes"
         priority="2"/>
     

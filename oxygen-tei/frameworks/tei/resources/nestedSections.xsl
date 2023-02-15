@@ -129,7 +129,15 @@
             </xsl:choose>
         </xsl:variable>   
         
-        <xsl:value-of select="f:correctId($id)"/>
+        <xsl:variable name="correctedId" select="f:correctId($id)"/>
+        <xsl:choose>
+            <xsl:when test="$correctedId and $correctedId != ''">
+                <xsl:value-of select="$correctedId"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat('id-', generate-id($heading))"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
     
     <xd:doc>
@@ -217,13 +225,14 @@
     
     <xsl:function name="f:isHeading" as="xs:boolean">
         <xsl:param name="n" as="node()"/>
-        <xsl:sequence select="xs:boolean(
-                    local-name($n) = 'h1' or 
-                    local-name($n) = 'h2' or 
-                    local-name($n) = 'h3' or 
-                    local-name($n) = 'h4' or 
-                    local-name($n) = 'h5' or 
-                    local-name($n) = 'h6')
-            "/>
+        <xsl:variable name="isHeadingElement" select="xs:boolean(
+            local-name($n) = 'h1' or 
+            local-name($n) = 'h2' or 
+            local-name($n) = 'h3' or 
+            local-name($n) = 'h4' or 
+            local-name($n) = 'h5' or 
+            local-name($n) = 'h6')"/>
+        <xsl:sequence select="xs:boolean($isHeadingElement 
+            and (string-length(translate(normalize-space($n),'&#160;','')) > 0 or $n/descendant::*[@src or @href][1]))"/>
     </xsl:function>
 </xsl:stylesheet>

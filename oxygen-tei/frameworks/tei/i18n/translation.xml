@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="utf-8"?><!--
   AUTOMATICALLY GENERATED CONTENT FROM 'src/translation_frameworks.xml'
 --><translation>
 <languageList>
@@ -9,7 +9,92 @@
         <language description="Dutch" lang="nl_NL"/>
         <language description="Chinese" lang="zh_CN"/>
     </languageList>
-<key value="xr_processing_instruction_target_name">
+<key value="Publish_all_deliverables">
+	    
+      <comment>Publish all deliverables</comment>
+	    
+      <val lang="en_US">Publish all deliverables</val>
+	    
+      <val lang="de_DE">Alle Deliverables publizieren</val>
+        
+      <val lang="fr_FR">Publier tous les livrables</val>
+	    
+      <val lang="ja_JP">すべての成果物を公開する</val>
+	    
+      <val lang="nl_NL">Alle leverbare items publiceren</val>
+	    
+      <val lang="zh_CN">发布所有可交付成果</val>
+  	
+   </key>
+   <key type="action" value="orderedList_description">
+        
+      <comment>Insert Ordered List action description.</comment>
+        
+      <val lang="en_US">Insert/Convert to an ordered list</val>
+        
+      <val lang="de_DE">Geordnete Liste einfügen/konvertieren</val>
+        
+      <val lang="fr_FR">Insère/Converti en liste ordonnée</val>
+        
+      <val lang="ja_JP">ソート済リストを挿入/変換する</val>
+        
+      <val lang="nl_NL">Invoegen/Naar een geordende lijst converteren</val>
+        
+      <val lang="zh_CN">插入/转换为有序列表</val>
+    
+   </key>
+   <key value="Transformation_in_progress">
+	    
+      <comment>Transformation in progress label</comment>
+	    
+      <val lang="en_US">Transformation in progress</val>
+	    
+      <val lang="de_DE">Transformation in Bearbeitung</val>
+        
+      <val lang="fr_FR">Transformation en cours</val>
+	    
+      <val lang="ja_JP">変換中</val>
+	    
+      <val lang="nl_NL">Transformatie wordt uitgevoerd</val>
+	    
+      <val lang="zh_CN">转换进行中</val>
+  	
+   </key>
+   <key value="Publish">
+	    
+      <comment>Publish</comment>
+	    
+      <val lang="en_US">Publish</val>
+	    
+      <val lang="de_DE">Publizieren</val>
+        
+      <val lang="fr_FR">Publier</val>
+	    
+      <val lang="ja_JP">公開する</val>
+	    
+      <val lang="nl_NL">Publiceren</val>
+	    
+      <val lang="zh_CN">发布</val>
+  	
+   </key>
+   <key value="Insert_element_with_dialog">
+        
+      <comment>Tree editor. Inserts a new element.</comment>
+        
+      <val lang="en_US">Insert Element...</val>
+        
+      <val lang="de_DE">Element einfügen...</val>
+        
+      <val lang="fr_FR">Insérer un élément...</val>
+        
+      <val lang="ja_JP">要素を挿入...</val>
+        
+      <val lang="nl_NL">Voeg element in...</val>
+        
+      <val lang="zh_CN">插入元素...</val>
+    
+   </key>
+   <key value="xr_processing_instruction_target_name">
     <comment>The description of a parameter which allows setting the target name for a processing instruction.</comment>
     <val lang="en_US">Target Name</val>
     <val lang="de_DE">Zielname</val>
@@ -319,15 +404,6 @@
         <val lang="ja_JP">現在のテーブルセルを複数のセルに分割します。</val>
         <val lang="nl_NL">Splits de huidige tabelcel in meerdere cellen.</val>
         <val lang="zh_CN">将当前表格单元格拆分为多个单元格。</val>
-    </key>
-<key type="action" value="orderedList_description">
-        <comment>Insert Ordered List action description.</comment>
-        <val lang="en_US">Insert an ordered list</val>
-        <val lang="de_DE">Geordnete Liste einfügen</val>
-        <val lang="fr_FR">Insérer une liste ordonnée</val>
-        <val lang="ja_JP">ソート済リストを挿入します</val>
-        <val lang="nl_NL">Voeg een geordende lijst in</val>
-        <val lang="zh_CN">插入有序列表</val>
     </key>
 <key type="action" value="delete.table.row_description">
         <comment>Delete Row action description.</comment>

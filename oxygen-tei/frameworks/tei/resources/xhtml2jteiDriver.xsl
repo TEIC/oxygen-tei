@@ -9,6 +9,7 @@
     exclude-result-prefixes="xsl xhtml e f">
     
     <xsl:import href="functions.xsl"/>
+    <xsl:import href="filterMultipleAnchors.xsl"/>
     <xsl:import href="filterNodes.xsl"/>
     <xsl:import href="breakLines.xsl"/>
     <xsl:import href="wrapGlobalInlineNodesInPara.xsl"/>
@@ -75,9 +76,22 @@
         </xsl:result-document>
         -->
       
+        <!-- Filter multiple anchors.
+         The html resulted from a Word conversion contains multiple sibling anchors with ids-->
+        <xsl:variable name="processedFilterAnchors">
+            <xsl:apply-templates mode="filterMultipleAnchors"/>
+        </xsl:variable>
+        
+        <!--
+        <xsl:message>0000  <xsl:copy-of select="$processedFilterAnchors"/></xsl:message>
+        <xsl:result-document href="output-filterAnchors-0.xml">
+            <xsl:copy-of select="$processedFilterAnchors"/>
+        </xsl:result-document>
+        -->
+      
       <!-- Filter unused tags, transform MS Word titles to H1 elements. -->
         <xsl:variable name="processedFilterNodes">
-            <xsl:apply-templates mode="filterNodes"/>
+            <xsl:apply-templates select="$processedFilterAnchors" mode="filterNodes"/>
         </xsl:variable>
         <!--
         <xsl:message>111111111  <xsl:copy-of select="$processedFilterNodes"/></xsl:message>

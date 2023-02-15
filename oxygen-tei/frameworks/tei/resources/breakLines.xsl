@@ -65,7 +65,10 @@
     
     <xsl:template match="xhtml:li[xhtml:br]" mode="breakLines">
         <xhtml:li>
-            <xsl:call-template name="brContent"/>
+            <xsl:apply-templates select="@*"  mode="breakLines"/>
+            <xsl:call-template name="brContent">
+                <xsl:with-param name="shouldHandleAttributes" select="false()"/>
+            </xsl:call-template>
         </xhtml:li>
     </xsl:template>
 
@@ -85,10 +88,13 @@
     <xsl:template match="xhtml:div[descendant::xhtml:br] 
                        | xhtml:p[descendant::xhtml:br]" 
                   mode="breakLines">
-        <xsl:call-template name="brContent"/>
+        <xsl:call-template name="brContent">
+            <xsl:with-param name="shouldHandleAttributes" select="true()"/>
+        </xsl:call-template>
     </xsl:template>
     
     <xsl:template name="brContent">
+        <xsl:param name="shouldHandleAttributes" as="xs:boolean" select="false()"></xsl:param>
         <!--<xsl:param name="content" as="node()*"/>-->
         <xsl:variable name="preceding-content">
             <xsl:apply-templates 
@@ -96,8 +102,13 @@
                               [local-name() != 'br']" 
                 mode="breakLines"/>
         </xsl:variable>
+        <xsl:variable name="attributes" select="@*"/>
         <xsl:if test="f:hasMeaningfulContent($preceding-content)">
-            <xhtml:p><xsl:copy-of select="$preceding-content"/></xhtml:p>
+            <xhtml:p>
+                <xsl:if test="$shouldHandleAttributes">
+                    <xsl:apply-templates select="$attributes"  mode="breakLines"/>
+                </xsl:if>
+                <xsl:copy-of select="$preceding-content"/></xhtml:p>
         </xsl:if>
         <xsl:for-each select="xhtml:br">
             <xsl:variable name="following-content">
@@ -108,7 +119,11 @@
                     mode="breakLines"/>
             </xsl:variable>
             <xsl:if test="f:hasMeaningfulContent($following-content)">
-                <xhtml:p><xsl:copy-of select="$following-content"/></xhtml:p>
+                <xhtml:p>
+                    <xsl:if test="$shouldHandleAttributes">
+                        <xsl:apply-templates select="$attributes[not(local-name() = 'id')]"  mode="breakLines"/>
+                    </xsl:if>
+                    <xsl:copy-of select="$following-content"/></xhtml:p>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
