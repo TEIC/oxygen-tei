@@ -3418,27 +3418,8 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
-										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
-										<String>${oxygenHome}/lib/logback-core-*.jar</String>
-										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										<String>${oxygenHome}/lib/*.jar</String>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3674,27 +3655,8 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
-										<String>${oxygenHome}/lib/*saxon*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
-										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
-										<String>${oxygenHome}/lib/logback-core-*.jar</String>
-										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										<String>${oxygenHome}/lib/*.jar</String>
+										</String-array>
 								</field>
 							</antScenario>
 							<antScenario>
@@ -3930,28 +3892,8 @@ oxy:current-selected-element()[ancestor-or-self::*:cell]</String>
 								</field>
 								<field name="extensionURLs">
 									<String-array>
-										<String>${oxygenHome}/classes/</String>
-										<String>${oxygenHome}/lib/oxygen.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthor.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
-										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenAuthorEclipse.jar</String>
-										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
-										<String>${oxygenHome}/lib/*resolver*.jar</String>
-										<String>${oxygenHome}/lib/*xerces*.jar</String>
-										<String>${oxygenHome}/lib/xmlresolver*.jar</String>
-										
-<String>${oxygenHome}/lib/*saxon*.jar</String>
-										<String>${oxygenHome}/lib/xml-apis-ext.jar</String>
-										<String>${oxygenHome}/lib/oxygen-patched-slf4j.jar</String>
-										<String>${oxygenHome}/lib/logback-classic-*.jar</String>
-										<String>${oxygenHome}/lib/logback-core-*.jar</String>
-										<String>${oxygenHome}/lib/log4j-over-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-to-slf4j-*.jar</String>
-                                    	<String>${oxygenHome}/lib/log4j-api-*.jar</String>
-		  								<String>${oxygenHome}/lib/*log4j*.jar</String>
-										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
-									</String-array>
+										<String>${oxygenHome}/lib/*.jar</String>
+										</String-array>
 								</field>
 							</antScenario>
 						</scenario-array>
