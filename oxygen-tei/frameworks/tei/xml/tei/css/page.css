@@ -7,7 +7,9 @@
     /* WA-1336: Avoid scroll on mobile devices when a contiguous line of text of a large image is used in content. */
     oxy|document {
       max-width: 100vw;
-    }
+      /* In Web Author, page background should be white even when document is full-width.*/
+      background-color :white;
+    }  
 }
 
 @media oxygen AND (min-width:25cm) {
@@ -41,5 +43,13 @@
           padding-right:1em;
           padding-left:2em;
           padding-bottom:5em;
+    }
+}
+
+@media oxygen AND (platform:webapp) {
+    /* WA-6443: Avoid scroll when the side views on the right consume the with of the editor view */
+    :root {
+      max-width: 94%;
+      box-sizing:border-box;
     }
 }
