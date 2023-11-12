@@ -3593,7 +3593,7 @@ oxy:current-selected-element()[ancestor-or-self::*:cell[namespace-uri()='http://
 		  <String></String>
 		</field>
 		<field name="buildFilePath">
-		  <String>${frameworkDir}/xml/tei/stylesheet/relaxng/build-to.xml</String>
+		  <String>${frameworkDir}/xml/tei/stylesheet/rng/build-to.xml</String>
 		</field>
 		<field name="ditaParams">
 		  <list>
