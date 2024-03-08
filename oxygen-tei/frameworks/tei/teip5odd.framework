@@ -3631,7 +3631,7 @@ The TEI tagset for markup language documentation (module tagdocs, chapter 22 "Do
 									<String></String>
 								</field>
 								<field name="buildFilePath">
-									<String>${frameworkDir}/xml/tei/stylesheet/relaxng/build-to.xml</String>
+									<String>${frameworkDir}/xml/tei/stylesheet/rng/build-to.xml</String>
 								</field>
 								<field name="ditaParams">
 									<list>
