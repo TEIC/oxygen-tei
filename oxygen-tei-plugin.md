@@ -31,4 +31,4 @@ In this guide, we explain how to add and install the oXygen TEI plugin to  keep 
 
 
 If you want the very latest version of the TEI that TEI Council members are presently working on, you can install the <q>development build</q> version by pointing the plugin to oxygen-tei-stable or oxygen-tei-bleeding 
-jobs on <http://jenkins.tei-c.org>. To point to the latest stable development build, use **https://jenkins.tei-c.org/job/oxygen-tei-stable/lastSuccessfulBuild/artifact/oxygen-tei/updateSite.oxygen**, but be warned that the development build does not reflect the published TEI Guidelines and may change without notice as TEI Council works on updating the Guidelines. 
+jobs on <http://jenkins.tei-c.org>. To point to the latest stable development build, use **https://jenkins.tei-c.org/job/oxygen-tei-stable/lastStableBuild/artifact/oxygen-tei/updateSite.oxygen**, but be warned that the development build does not reflect the published TEI Guidelines and may change without notice as TEI Council works on updating the Guidelines. 
