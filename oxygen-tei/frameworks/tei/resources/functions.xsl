@@ -20,7 +20,7 @@
         <xsl:variable name="tempId2" select="translate($tempId, 'ȘșȚț', 'sstt')"/>
         <xsl:variable name="tempId3" select="replace($tempId2, '[^\c_-]|[+:]', '_')"/>
         <xsl:variable name="tempId4" select="replace($tempId3,'[_]+', '_')"/>
-        <xsl:variable name="tempId5" select="replace($tempId4,'^[.-/_]+|_$', '')"/>
+        <xsl:variable name="tempId5" select="replace($tempId4,'^[.-/_-]+|_$', '')"/>
         <xsl:choose>
             <xsl:when test="matches($tempId5, '^[0-9]+')">
                 <!--EXM-51379: Keep the numeric chars in the ID  -->

@@ -44,6 +44,14 @@
           padding-left:2em;
           padding-bottom:5em;
     }
+    
+    @media (platform:webapp) {
+      oxy|document {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
 }
 
 @media oxygen AND (platform:webapp) {
