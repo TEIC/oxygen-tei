@@ -754,6 +754,8 @@
 								<field name="extensionURLs">
 			                                                <String-array>
 			                                                    <String>${oxygenHome}/lib/*.jar</String>
+<String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>
+			                                                  
 			                                                    </String-array>
 			                                            </field>
 							</antScenario>
