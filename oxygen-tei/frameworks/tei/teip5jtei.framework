@@ -802,10 +802,11 @@
 									<String>ANT</String>
 								</field>
 								<field name="extensionURLs">
-									<String-array>
-										<String>${oxygenHome}/lib/*.jar</String>
-										</String-array>
-								</field>
+                                    <String-array>
+                                        <String>${oxygenHome}/lib/*.jar</String>
+                                        <String>${framework(TEI P5)}/xml/tei/jtei_aux/trans/</String>                      
+                                    </String-array>
+                                </field>
 							</antScenario>
 						</scenario-array>
 					</field>
