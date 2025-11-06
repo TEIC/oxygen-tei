@@ -12,7 +12,7 @@ oxy|document {
       background-color:inherit;
       background-image:none;
       border:none;  
-      width:inherit;
+      width:100%;
       min-height:0;
       
       /* Not the same as in -topic-basic.css */
