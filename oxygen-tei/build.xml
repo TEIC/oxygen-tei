@@ -306,7 +306,7 @@ has worked well. You will need shell access to tei-c.org.
       <arg value="-c"/>
 <!--     Commented-out version used for testing locally. -->
       <!--<arg value="rsync -e ssh tei-c.org/updateSite.oxygen mholmes@spud.hcmc.uvic.ca:/home/mholmes/Desktop/updateSite.oxygen"/>-->
-      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@cchum-kvm-dockerteic.in2p3.fr:${p5VaultLocation}/current/oxygen/updateSite.oxygen"/>
+      <arg value="rsync -e ssh tei-c.org/updateSite.oxygen tei@tei-c.huma-num.fr:${p5VaultLocation}/current/oxygen/updateSite.oxygen"/>
     </exec>
     <echo message="${echo.separator}"/>
   </target>
