@@ -143,6 +143,10 @@ graphic {
     margin-bottom: 0.5em;
 }
 
+lb {
+  -oxy-display-tags: none;
+}
+
 lb:before {
   content: "\A";
   white-space: pre;
