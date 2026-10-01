@@ -579,8 +579,9 @@ langUsage {
   display: block;
   margin-bottom: 1em;
 }
-lb {
-  display: block;
+lb:before {
+  content: "\A";
+  white-space: pre;
 }
 lg {
   display: block;

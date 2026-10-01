@@ -108,11 +108,6 @@ div7 {
 :root {
     -oxy-foldable:false;
 }
-/*Avoids displaying the empty element placeholder.*/
-lb:before{
-    content:"";
-}
-
 titleStmt{
     display:block;
 }
