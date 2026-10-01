@@ -144,7 +144,12 @@ graphic {
 }
 
 lb {
-  content: '\000A';
+  -oxy-display-tags: none;
+}
+
+lb:before {
+  content: "\A";
+  white-space: pre;
 }
 
 cit {

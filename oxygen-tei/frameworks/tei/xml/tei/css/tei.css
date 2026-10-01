@@ -580,7 +580,11 @@ langUsage {
   margin-bottom: 1em;
 }
 lb {
-  display: block;
+  -oxy-display-tags: none;
+}
+lb:before {
+  content: "\A";
+  white-space: pre;
 }
 lg {
   display: block;
